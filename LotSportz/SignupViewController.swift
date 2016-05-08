@@ -27,5 +27,11 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func didClickButton(button: UIButton) {
+        if button == self.buttonFacebook {
+            
+        }
+        else if button == self.buttonSignup {
+            
+        }
     }
 }
