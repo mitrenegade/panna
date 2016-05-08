@@ -35,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.handle = firebaseRef.observeAuthEventWithBlock { (authData) -> Void in
             if authData != nil {
                 // user is logged in
+                print("authdata: \(authData)")
                 self.goToMain()
             }
             else {

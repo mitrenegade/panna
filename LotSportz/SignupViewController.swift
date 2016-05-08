@@ -7,14 +7,12 @@
 //
 
 import UIKit
-import Firebase
 
 class SignupViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var inputEmail: UITextField!
     @IBOutlet weak var inputPassword: UITextField!
     @IBOutlet weak var inputConfirmation: UITextField!
-    @IBOutlet weak var buttonFacebook: UIButton!
     @IBOutlet weak var buttonSignup: UIButton!
     
     override func viewDidLoad() {
@@ -29,10 +27,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func didClickButton(button: UIButton) {
-        if button == self.buttonFacebook {
-            
-        }
-        else if button == self.buttonSignup {
+        if button == self.buttonSignup {
             self.createEmailUser()
         }
     }
@@ -68,7 +63,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
-    
+        
     func loginUser() {
         let email = self.inputEmail.text!
         let password = self.inputPassword.text!
