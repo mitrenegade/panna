@@ -30,6 +30,33 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         if button == self.buttonSignup {
             self.performSegueWithIdentifier("GoToSignup", sender: button)
         }
+        else if button == self.buttonLogin {
+            self.loginUser()
+        }
+    }
+    
+    func loginUser() {
+        let email = self.inputEmail.text!
+        let password = self.inputPassword.text!
+        
+        if email.characters.count == 0 {
+            print("Invalid email")
+            return
+        }
+        
+        if password.characters.count == 0 {
+            print("Invalid password")
+            return
+        }
+        
+        firebaseRef.authUser(email, password: password) { (error, results) in
+            if (error != nil) {
+                print("Error: \(error)")
+            }
+            else {
+                print("results: \(results)")
+            }
+        }
     }
 }
 

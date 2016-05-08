@@ -63,6 +63,31 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             }
             else {
                 print("results: \(results)")
+                self.loginUser()
+            }
+        }
+    }
+    
+    func loginUser() {
+        let email = self.inputEmail.text!
+        let password = self.inputPassword.text!
+        
+        if email.characters.count == 0 {
+            print("Invalid email")
+            return
+        }
+        
+        if password.characters.count == 0 {
+            print("Invalid password")
+            return
+        }
+        
+        firebaseRef.authUser(email, password: password) { (error, results) in
+            if (error != nil) {
+                print("Error: \(error)")
+            }
+            else {
+                print("results: \(results)")
             }
         }
     }

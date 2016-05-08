@@ -15,11 +15,12 @@ var firebaseRef = Firebase(url: "https://lotsportz.firebaseio.com");
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var handle: UInt?
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        firebaseRef.observeAuthEventWithBlock { (authData) -> Void in
+        self.handle = firebaseRef.observeAuthEventWithBlock { (authData) -> Void in
             if authData != nil {
                 // user is logged in
                 self.goToMain()
@@ -27,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             else {
                 self.goToSignupLogin()
             }
+            
         }
         return true
     }
@@ -57,11 +59,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func goToSignupLogin() {
         let nav = UIStoryboard(name: "LoginSignup", bundle: nil).instantiateViewControllerWithIdentifier("LoginSignupNavigationController") as! UINavigationController
         self.window?.rootViewController?.presentViewController(nav, animated: true, completion: nil)
+        firebaseRef.removeObserverWithHandle(self.handle!)
     }
     
     func goToMain() {
         let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("MainViewController") 
         self.window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
+        firebaseRef.removeObserverWithHandle(self.handle!)
     }
 }
 
