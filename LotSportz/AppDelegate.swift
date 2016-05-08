@@ -7,15 +7,38 @@
 //
 
 import UIKit
+import Firebase
+
+var firebaseRef = Firebase(url: "https://lotsportz.firebaseio.com");
+
+// Selector Syntatic sugar: https://medium.com/swift-programming/swift-selector-syntax-sugar-81c8a8b10df3#.a6ml91o38
+private extension Selector {
+    // private to only this swift file
+    static let didLogin =
+        #selector(AppDelegate.didLogin)
+    static let didLogout =
+        #selector(AppDelegate.didLogout)
+}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    var handle: UInt?
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        self.handle = firebaseRef.observeAuthEventWithBlock { (authData) -> Void in
+            if authData != nil {
+                // user is logged in
+                self.goToMain()
+            }
+            else {
+                self.goToSignupLogin()
+            }
+            
+        }
         return true
     }
 
@@ -41,6 +64,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    // MARK: - Navigation
+    func goToSignupLogin() {
+        let nav = UIStoryboard(name: "LoginSignup", bundle: nil).instantiateViewControllerWithIdentifier("LoginSignupNavigationController") as! UINavigationController
+        self.window?.rootViewController?.presentViewController(nav, animated: true, completion: nil)
+        firebaseRef.removeObserverWithHandle(self.handle!)
+        
+        self.listenFor("login:success", action: .didLogin, object: nil)
+    }
+    
+    func didLogin() {
+        print("logged in")
+        self.stopListeningFor("login:success")
 
+        // first dismiss login/signup flow
+        self.window?.rootViewController?.dismissViewControllerAnimated(true, completion: {
+            // load main flow
+            self.goToMain()
+        })
+    }
+    
+    func goToMain() {
+        let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("MainViewController") 
+        self.window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
+        firebaseRef.removeObserverWithHandle(self.handle!)
+        
+        self.listenFor("logout:success", action: .didLogout, object: nil)
+    }
+    
+    func didLogout() {
+        print("logged out")
+        self.stopListeningFor("logout:Success")
+        
+        // first dismiss main app
+        self.window?.rootViewController?.dismissViewControllerAnimated(true, completion: {
+            // load main flow
+            self.goToSignupLogin()
+        })
+    }
 }
 
