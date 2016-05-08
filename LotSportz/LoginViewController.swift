@@ -8,6 +8,7 @@
 
 import UIKit
 import FBSDKLoginKit
+import Firebase
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
@@ -56,26 +57,29 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        firebaseRef.authUser(email, password: password) { (error, results) in
+        firebaseRef.authUser(email, password: password) { (error, authData) in
             if (error != nil) {
                 print("Error: \(error)")
                 self.simpleAlert("Could not log in", defaultMessage: nil,  error: error)
             }
             else {
-                print("results: \(results)")
+                print("results: \(authData)")
+                self.storeUserInfo(authData)
+
                 self.notify("login:success", object: nil, userInfo: nil)
             }
         }
     }
     
     func handleFacebookUser() {
-        let permissions = ["email"]
+        let permissions = ["email", "public_profile", "user_about_me"]
         facebookLogin.logInWithReadPermissions(permissions, fromViewController: self) { (result, error) in
             if error != nil {
                 print("Facebook login failed. Error \(error)")
             } else if result.isCancelled {
                 print("Facebook login was cancelled.")
             } else {
+                print("Facebook login success: \(result)")
                 let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                 firebaseRef.authWithOAuthProvider("facebook", token: accessToken,
                                                   withCompletionBlock: { error, authData in
@@ -83,10 +87,34 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                                                         print("Login failed. \(error)")
                                                     } else {
                                                         print("Logged in! \(authData)")
+                                                        
+                                                        // store user data
+                                                        self.storeUserInfo(authData)
+
+                                                        self.notify("login:success", object: nil, userInfo: nil)
                                                     }
                 })
             }
         }
+    }
+    
+    func storeUserInfo(authData: FAuthData) {
+        var userInfo = [
+            "uid": authData.uid,
+            "provider": authData.provider,
+        ]
+        if let displayName = authData.providerData["displayName"] as? String {
+            userInfo["displayName"] = displayName
+        }
+        if let email = authData.providerData["email"] as? String {
+            userInfo["email"] = email
+        }
+
+        // Create a child path with a key set to the uid underneath the "users" node
+        // This creates a URL path like the following:
+        //  - https://<YOUR-FIREBASE-APP>.firebaseio.com/users/<uid>
+        firebaseRef.childByAppendingPath("userInfo")
+            .childByAppendingPath(authData.uid).setValue(userInfo)
     }
 }
 
