@@ -7,14 +7,17 @@
 //
 
 import UIKit
+import Firebase
 
 class SignupViewController: UIViewController, UITextFieldDelegate {
+    var ref = Firebase(url: "https://lotsportz.firebaseio.com");
+
     @IBOutlet weak var inputEmail: UITextField!
     @IBOutlet weak var inputPassword: UITextField!
     @IBOutlet weak var inputConfirmation: UITextField!
     @IBOutlet weak var buttonFacebook: UIButton!
     @IBOutlet weak var buttonSignup: UIButton!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,7 +34,37 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             
         }
         else if button == self.buttonSignup {
-            
+            self.createEmailUser()
+        }
+    }
+    
+    func createEmailUser() {
+        let email = self.inputEmail.text!
+        let password = self.inputPassword.text!
+        let confirmation = self.inputConfirmation.text!
+        
+        if email.characters.count == 0 {
+            print("Invalid email")
+            return
+        }
+        
+        if password.characters.count == 0 {
+            print("Invalid password")
+            return
+        }
+        
+        if confirmation.characters.count == 0 {
+            print("Password and confirmation do not match")
+            return
+        }
+        
+        ref.createUser(email, password: password) { (error, results) in
+            if (error != nil) {
+                print("Error: \(error)")
+            }
+            else {
+                print("results: \(results)")
+            }
         }
     }
 }
