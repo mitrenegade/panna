@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     
     @IBAction func didClickButton(button: UIButton) {
         firebaseRef.unauth()
+        self.notify("logout:success", object: nil, userInfo: nil)
     }
     /*
     // MARK: - Navigation

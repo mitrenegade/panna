@@ -52,9 +52,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         firebaseRef.authUser(email, password: password) { (error, results) in
             if (error != nil) {
                 print("Error: \(error)")
+                self.simpleAlert("Could not log in", defaultMessage: nil,  error: error)
             }
             else {
                 print("results: \(results)")
+                self.notify("login:success", object: nil, userInfo: nil)
             }
         }
     }
