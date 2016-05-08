@@ -61,19 +61,31 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hJT-1u-kd9">
                                 <rect key="frame" x="0.0" y="268" width="600" height="30"/>
-                                <color key="backgroundColor" red="0.098039215686274508" green="0.27058823529411763" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.098039215690000001" green="0.27058823529999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="LPq-1C-5R9"/>
                                 </constraints>
-                                <state key="normal" title="Login">
+                                <state key="normal" title="Login with email">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="didClickButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5oC-OB-Jm1"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DTn-gK-jXE">
+                                <rect key="frame" x="0.0" y="314" width="600" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <inset key="imageEdgeInsets" minX="-20" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="Login with Facebook" image="facebookIcon">
+                                    <color key="titleColor" red="0.098039215690000001" green="0.27058823529999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="didClickButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8as-4L-VUz"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W6N-eV-qRC">
-                                <rect key="frame" x="0.0" y="338" width="600" height="30"/>
+                                <rect key="frame" x="0.0" y="396" width="600" height="30"/>
                                 <color key="backgroundColor" red="0.30588235294117649" green="0.83921568627450982" blue="0.63137254901960782" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="pJX-Bw-f5U"/>
@@ -92,11 +104,13 @@
                             <constraint firstAttribute="trailing" secondItem="Xjs-HQ-mjv" secondAttribute="trailing" constant="20" id="5Kb-aR-gW2"/>
                             <constraint firstItem="Xjs-HQ-mjv" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="7Ix-sY-3x3"/>
                             <constraint firstAttribute="trailing" secondItem="hJT-1u-kd9" secondAttribute="trailing" id="9Hq-Nc-bHk"/>
-                            <constraint firstItem="W6N-eV-qRC" firstAttribute="top" secondItem="hJT-1u-kd9" secondAttribute="bottom" constant="40" id="Dg4-Vi-htJ"/>
+                            <constraint firstItem="W6N-eV-qRC" firstAttribute="top" secondItem="DTn-gK-jXE" secondAttribute="bottom" constant="52" id="Ce0-6D-ibi"/>
                             <constraint firstItem="Xjs-HQ-mjv" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="Dum-ZU-4hL"/>
                             <constraint firstItem="kjr-9d-vwD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="HAB-Ge-Tm6"/>
                             <constraint firstItem="hJT-1u-kd9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Kb5-X4-8ZJ"/>
+                            <constraint firstItem="DTn-gK-jXE" firstAttribute="top" secondItem="hJT-1u-kd9" secondAttribute="bottom" constant="16" id="Nb0-7d-lww"/>
                             <constraint firstItem="bqA-M3-Fan" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="ZIz-o8-Oat"/>
+                            <constraint firstItem="DTn-gK-jXE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="fFh-eo-rPc"/>
                             <constraint firstItem="W6N-eV-qRC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="hKs-Dv-bQG"/>
                             <constraint firstAttribute="trailing" secondItem="W6N-eV-qRC" secondAttribute="trailing" id="hQX-oF-Z3f"/>
                             <constraint firstAttribute="trailing" secondItem="bqA-M3-Fan" secondAttribute="trailing" constant="20" id="lHj-2P-3Gp"/>
@@ -104,10 +118,12 @@
                             <constraint firstItem="Xjs-HQ-mjv" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="1:5" id="ltS-t4-RBM"/>
                             <constraint firstItem="hJT-1u-kd9" firstAttribute="top" secondItem="kjr-9d-vwD" secondAttribute="bottom" constant="8" id="pxd-IN-yoU"/>
                             <constraint firstItem="bqA-M3-Fan" firstAttribute="top" secondItem="Xjs-HQ-mjv" secondAttribute="bottom" constant="8" id="uw0-Ts-V5s"/>
+                            <constraint firstAttribute="trailing" secondItem="DTn-gK-jXE" secondAttribute="trailing" id="yBg-xg-88u"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="MSI-Oj-YkG"/>
                     <connections>
+                        <outlet property="buttonFacebook" destination="DTn-gK-jXE" id="MZh-yb-a8j"/>
                         <outlet property="buttonLogin" destination="hJT-1u-kd9" id="4kR-sv-fOX"/>
                         <outlet property="buttonSignup" destination="W6N-eV-qRC" id="sdN-G6-DIw"/>
                         <outlet property="inputEmail" destination="bqA-M3-Fan" id="VQq-FF-Nue"/>
@@ -229,4 +245,7 @@
             <point key="canvasLocation" x="906" y="339"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="facebookIcon" width="30" height="30"/>
+    </resources>
 </document>

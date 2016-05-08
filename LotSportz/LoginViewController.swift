@@ -14,6 +14,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var inputEmail: UITextField!
     @IBOutlet weak var inputPassword: UITextField!
     @IBOutlet weak var buttonLogin: UIButton!
+    @IBOutlet weak var buttonFacebook: UIButton!
     @IBOutlet weak var buttonSignup: UIButton!
 
     override func viewDidLoad() {
@@ -27,7 +28,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func didClickButton(button: UIButton) {
-        if button == self.buttonSignup {
+        if button == self.buttonFacebook {
+            
+        }
+        else if button == self.buttonSignup {
             self.performSegueWithIdentifier("GoToSignup", sender: button)
         }
         else if button == self.buttonLogin {
