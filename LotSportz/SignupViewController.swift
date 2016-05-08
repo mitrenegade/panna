@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 
 class SignupViewController: UIViewController, UITextFieldDelegate {
-    var ref = Firebase(url: "https://lotsportz.firebaseio.com");
 
     @IBOutlet weak var inputEmail: UITextField!
     @IBOutlet weak var inputPassword: UITextField!
@@ -58,7 +57,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        ref.createUser(email, password: password) { (error, results) in
+        firebaseRef.createUser(email, password: password) { (error, results) in
             if (error != nil) {
                 print("Error: \(error)")
             }

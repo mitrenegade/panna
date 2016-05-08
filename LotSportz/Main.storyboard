@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="K2Y-zC-zf6">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="LN4-pT-5AG">
+            <objects>
+                <viewController id="K2Y-zC-zf6" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mDP-8l-KLH"/>
+                        <viewControllerLayoutGuide type="bottom" id="9at-Gf-b6P"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hyk-yI-PnZ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LotSportz" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fN5-0J-tAo">
+                                <rect key="frame" x="20" y="200" width="560" height="200"/>
+                                <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="80"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fN5-0J-tAo" firstAttribute="centerY" secondItem="hyk-yI-PnZ" secondAttribute="centerY" id="HRM-h4-l3A"/>
+                            <constraint firstItem="fN5-0J-tAo" firstAttribute="centerX" secondItem="hyk-yI-PnZ" secondAttribute="centerX" id="PfL-c6-Z6T"/>
+                            <constraint firstItem="fN5-0J-tAo" firstAttribute="height" secondItem="hyk-yI-PnZ" secondAttribute="height" multiplier="1:3" id="WX1-sA-uXZ"/>
+                            <constraint firstItem="fN5-0J-tAo" firstAttribute="leading" secondItem="hyk-yI-PnZ" secondAttribute="leading" constant="20" id="dG5-4q-RVo"/>
+                            <constraint firstAttribute="trailing" secondItem="fN5-0J-tAo" secondAttribute="trailing" constant="20" id="fmc-YX-Qun"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <segue destination="vCH-56-pZV" kind="show" id="Lfo-bs-2bE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k8d-9h-eN3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="530" y="-12"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="H8G-eh-XAI">
+            <objects>
+                <viewController storyboardIdentifier="MainViewController" id="vCH-56-pZV" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="pZk-lM-OQL"/>
+                        <viewControllerLayoutGuide type="bottom" id="Lu8-IL-zwX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1qU-VY-Ewl">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vLJ-Ka-tXy">
+                                <rect key="frame" x="20" y="20" width="181" height="44"/>
+                                <state key="normal" title="Logout"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GBN-Zf-MYb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1212" y="-12"/>
+        </scene>
+    </scenes>
+</document>

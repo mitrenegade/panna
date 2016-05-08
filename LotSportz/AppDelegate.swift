@@ -7,15 +7,27 @@
 //
 
 import UIKit
+import Firebase
+
+var firebaseRef = Firebase(url: "https://lotsportz.firebaseio.com");
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        firebaseRef.observeAuthEventWithBlock { (authData) -> Void in
+            if authData != nil {
+                // user is logged in
+                self.goToMain()
+            }
+            else {
+                self.goToSignupLogin()
+            }
+        }
         return true
     }
 
@@ -41,6 +53,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    // MARK: - Navigation
+    func goToSignupLogin() {
+        let nav = UIStoryboard(name: "LoginSignup", bundle: nil).instantiateViewControllerWithIdentifier("LoginSignupNavigationController") as! UINavigationController
+        self.window?.rootViewController?.presentViewController(nav, animated: true, completion: nil)
+    }
+    
+    func goToMain() {
+        let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("MainViewController") 
+        self.window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
+    }
 }
 
