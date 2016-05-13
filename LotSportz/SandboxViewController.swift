@@ -26,7 +26,9 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @IBAction func didClickRefresh() {
+        // TODO: refresh button isn't needed - just needs to observe
         service.getEvents(type: nil) { (result) in
+            // completion function will get called once for each event
             if let event: Event = result {
                 let id = event.id()
                 self.events[id] = event
@@ -46,6 +48,12 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath)
+        let sortedEvents = events.values.sort { (event1, event2) -> Bool in
+            return event1.id() > event2.id()
+        }
+        let event = sortedEvents[indexPath.row]
+        cell.textLabel!.text = event.id()
+        
         return cell
     }
 }
