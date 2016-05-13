@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Sandbox View Controller-->
+        <scene sceneID="xmB-qa-DbS">
+            <objects>
+                <viewController storyboardIdentifier="SandboxViewController" id="8v7-rX-XJM" customClass="SandboxViewController" customModule="LotSportz" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vOd-jy-U81"/>
+                        <viewControllerLayoutGuide type="bottom" id="OFh-GH-gu5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Z6X-ei-ipp">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HBb-hI-RQ6">
+                                <rect key="frame" x="20" y="20" width="276" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Vb9-Ww-WS8"/>
+                                </constraints>
+                                <state key="normal" title="Create"/>
+                                <connections>
+                                    <action selector="didClickCreate" destination="8v7-rX-XJM" eventType="touchUpInside" id="RpE-SP-82Y"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mhu-ng-5RQ">
+                                <rect key="frame" x="20" y="58" width="560" height="522"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EventCell" id="c3h-nT-g3F">
+                                        <rect key="frame" x="0.0" y="28" width="560" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="c3h-nT-g3F" id="agP-yz-FQv">
+                                            <rect key="frame" x="0.0" y="0.0" width="560" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="8v7-rX-XJM" id="pOK-ne-ZgD"/>
+                                    <outlet property="delegate" destination="8v7-rX-XJM" id="ozC-pn-9CB"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nL-DP-2YV">
+                                <rect key="frame" x="304" y="20" width="276" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="OXO-Ny-7gP"/>
+                                </constraints>
+                                <state key="normal" title="Refresh"/>
+                                <connections>
+                                    <action selector="didClickRefresh" destination="8v7-rX-XJM" eventType="touchUpInside" id="JOo-MH-CDt"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8nL-DP-2YV" firstAttribute="leading" secondItem="HBb-hI-RQ6" secondAttribute="trailing" constant="8" id="1gf-lR-Gox"/>
+                            <constraint firstItem="mhu-ng-5RQ" firstAttribute="trailing" secondItem="Z6X-ei-ipp" secondAttribute="trailingMargin" id="3YE-cW-Woj"/>
+                            <constraint firstItem="mhu-ng-5RQ" firstAttribute="leading" secondItem="Z6X-ei-ipp" secondAttribute="leadingMargin" id="4eh-gg-2kf"/>
+                            <constraint firstItem="mhu-ng-5RQ" firstAttribute="top" secondItem="HBb-hI-RQ6" secondAttribute="bottom" constant="8" id="Ivw-in-7jo"/>
+                            <constraint firstItem="HBb-hI-RQ6" firstAttribute="width" secondItem="8nL-DP-2YV" secondAttribute="width" id="J5K-kP-hMi"/>
+                            <constraint firstItem="OFh-GH-gu5" firstAttribute="top" secondItem="mhu-ng-5RQ" secondAttribute="bottom" constant="20" id="Ndh-di-K6V"/>
+                            <constraint firstItem="HBb-hI-RQ6" firstAttribute="top" secondItem="vOd-jy-U81" secondAttribute="bottom" id="UaL-ME-Bax"/>
+                            <constraint firstItem="8nL-DP-2YV" firstAttribute="top" secondItem="vOd-jy-U81" secondAttribute="bottom" id="WYR-18-Rpl"/>
+                            <constraint firstItem="HBb-hI-RQ6" firstAttribute="leading" secondItem="Z6X-ei-ipp" secondAttribute="leadingMargin" id="X01-Y0-44q"/>
+                            <constraint firstItem="8nL-DP-2YV" firstAttribute="trailing" secondItem="Z6X-ei-ipp" secondAttribute="trailingMargin" id="qRZ-tv-E9M"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="mhu-ng-5RQ" id="Exa-iI-tJG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3jq-mK-es4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="491" y="193"/>
+        </scene>
+    </scenes>
+</document>
