@@ -18,16 +18,7 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-    }
-
-    // MARK: - Button actions
-    @IBAction func didClickCreate() {
-        service.createEvent(eventDict: nil)
-    }
-    
-    @IBAction func didClickRefresh() {
-        // TODO: refresh button isn't needed - just needs to observe
-        service.getEvents(type: nil) { (result) in
+        service.listenForEvents(type: nil) { (result) in
             // completion function will get called once for each event
             if let event: Event = result {
                 let id = event.id()
@@ -35,6 +26,13 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.tableView.reloadData()
             }
         }
+        
+        // TODO: Create two listeners with an actual query filter and see if it works
+    }
+
+    // MARK: - Button actions
+    @IBAction func didClickCreate() {
+        service.createEvent(eventDict: nil)
     }
     
     // MARK: - UITableViewDataSource

@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HBb-hI-RQ6">
-                                <rect key="frame" x="20" y="20" width="276" height="30"/>
+                                <rect key="frame" x="20" y="20" width="560" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Vb9-Ww-WS8"/>
                                 </constraints>
@@ -46,29 +46,16 @@
                                     <outlet property="delegate" destination="8v7-rX-XJM" id="ozC-pn-9CB"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nL-DP-2YV">
-                                <rect key="frame" x="304" y="20" width="276" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="OXO-Ny-7gP"/>
-                                </constraints>
-                                <state key="normal" title="Refresh"/>
-                                <connections>
-                                    <action selector="didClickRefresh" destination="8v7-rX-XJM" eventType="touchUpInside" id="JOo-MH-CDt"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="8nL-DP-2YV" firstAttribute="leading" secondItem="HBb-hI-RQ6" secondAttribute="trailing" constant="8" id="1gf-lR-Gox"/>
                             <constraint firstItem="mhu-ng-5RQ" firstAttribute="trailing" secondItem="Z6X-ei-ipp" secondAttribute="trailingMargin" id="3YE-cW-Woj"/>
                             <constraint firstItem="mhu-ng-5RQ" firstAttribute="leading" secondItem="Z6X-ei-ipp" secondAttribute="leadingMargin" id="4eh-gg-2kf"/>
                             <constraint firstItem="mhu-ng-5RQ" firstAttribute="top" secondItem="HBb-hI-RQ6" secondAttribute="bottom" constant="8" id="Ivw-in-7jo"/>
-                            <constraint firstItem="HBb-hI-RQ6" firstAttribute="width" secondItem="8nL-DP-2YV" secondAttribute="width" id="J5K-kP-hMi"/>
                             <constraint firstItem="OFh-GH-gu5" firstAttribute="top" secondItem="mhu-ng-5RQ" secondAttribute="bottom" constant="20" id="Ndh-di-K6V"/>
                             <constraint firstItem="HBb-hI-RQ6" firstAttribute="top" secondItem="vOd-jy-U81" secondAttribute="bottom" id="UaL-ME-Bax"/>
-                            <constraint firstItem="8nL-DP-2YV" firstAttribute="top" secondItem="vOd-jy-U81" secondAttribute="bottom" id="WYR-18-Rpl"/>
                             <constraint firstItem="HBb-hI-RQ6" firstAttribute="leading" secondItem="Z6X-ei-ipp" secondAttribute="leadingMargin" id="X01-Y0-44q"/>
-                            <constraint firstItem="8nL-DP-2YV" firstAttribute="trailing" secondItem="Z6X-ei-ipp" secondAttribute="trailingMargin" id="qRZ-tv-E9M"/>
+                            <constraint firstItem="HBb-hI-RQ6" firstAttribute="trailing" secondItem="Z6X-ei-ipp" secondAttribute="trailingMargin" id="btA-Cx-0U8"/>
                         </constraints>
                     </view>
                     <connections>

@@ -25,7 +25,7 @@ class EventService: NSObject {
         return eventServiceSingleton!
     }
     
-    func getEvents(type type: String?, completion: (event: Event?) -> Void) {
+    func listenForEvents(type type: String?, completion: (event: Event?) -> Void) {
         // returns all current events of a certain type. Returns as snapshot
         print("Get events")
         
