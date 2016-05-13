@@ -97,8 +97,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func goToMain() {
+        /*
         let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("MainViewController") 
         self.window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
+        */
+        let controller = UIStoryboard(name: "BobbySandbox", bundle: nil).instantiateViewControllerWithIdentifier("SandboxViewController")
+        self.window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
+        
         firebaseRef.removeObserverWithHandle(self.handle!)
         
         self.listenFor("logout:success", action: .didLogout, object: nil)

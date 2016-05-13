@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E379F011CE57E8600C91A12 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F001CE57E8600C91A12 /* EventService.swift */; };
+		8E379F031CE5805F00C91A12 /* BobbySandbox.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E379F021CE5805F00C91A12 /* BobbySandbox.storyboard */; };
+		8E379F051CE580B500C91A12 /* SandboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F041CE580B500C91A12 /* SandboxViewController.swift */; };
+		8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */; };
+		8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F091CE58CEE00C91A12 /* Event.swift */; };
 		8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256991CDF793200C9E054 /* AppDelegate.swift */; };
 		8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E72569B1CDF793200C9E054 /* LoginViewController.swift */; };
 		8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */; };
@@ -22,6 +27,11 @@
 
 /* Begin PBXFileReference section */
 		75AF04F244D31D4B039DF4B6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E379F001CE57E8600C91A12 /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
+		8E379F021CE5805F00C91A12 /* BobbySandbox.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BobbySandbox.storyboard; sourceTree = "<group>"; };
+		8E379F041CE580B500C91A12 /* SandboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SandboxViewController.swift; sourceTree = "<group>"; };
+		8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBaseModel.swift; sourceTree = "<group>"; };
+		8E379F091CE58CEE00C91A12 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		8E7256961CDF793100C9E054 /* LotSportz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LotSportz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7256991CDF793200C9E054 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E72569B1CDF793200C9E054 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +77,41 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		8E379F061CE58AFB00C91A12 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */,
+				8E379F091CE58CEE00C91A12 /* Event.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		8E379F0B1CE58F9400C91A12 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8E379F001CE57E8600C91A12 /* EventService.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		8E379F0C1CE593B500C91A12 /* Sandbox */ = {
+			isa = PBXGroup;
+			children = (
+				8E379F021CE5805F00C91A12 /* BobbySandbox.storyboard */,
+				8E379F041CE580B500C91A12 /* SandboxViewController.swift */,
+			);
+			name = Sandbox;
+			sourceTree = "<group>";
+		};
+		8E379F0D1CE593C300C91A12 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				8ECD58E01CDF853500AD2B13 /* Main.storyboard */,
+				8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
 		8E72568D1CDF793100C9E054 = {
 			isa = PBXGroup;
 			children = (
@@ -88,12 +133,14 @@
 		8E7256981CDF793200C9E054 /* LotSportz */ = {
 			isa = PBXGroup;
 			children = (
+				8E379F061CE58AFB00C91A12 /* Models */,
+				8E379F0B1CE58F9400C91A12 /* Services */,
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
 				8E72569B1CDF793200C9E054 /* LoginViewController.swift */,
 				8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */,
-				8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */,
-				8ECD58E01CDF853500AD2B13 /* Main.storyboard */,
 				8ECD58E21CDF878600AD2B13 /* ViewController.swift */,
+				8E379F0D1CE593C300C91A12 /* Storyboards */,
+				8E379F0C1CE593B500C91A12 /* Sandbox */,
 				8E7256A01CDF793200C9E054 /* Assets.xcassets */,
 				8E7256A21CDF793200C9E054 /* LaunchScreen.storyboard */,
 				8E7256A51CDF793200C9E054 /* Info.plist */,
@@ -168,6 +215,7 @@
 				8E7256A41CDF793200C9E054 /* LaunchScreen.storyboard in Resources */,
 				8E7256A11CDF793200C9E054 /* Assets.xcassets in Resources */,
 				8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */,
+				8E379F031CE5805F00C91A12 /* BobbySandbox.storyboard in Resources */,
 				8ECD58E11CDF853500AD2B13 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -231,8 +279,12 @@
 				8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */,
 				8ECD58E31CDF878600AD2B13 /* ViewController.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
+				8E379F051CE580B500C91A12 /* SandboxViewController.swift in Sources */,
 				8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */,
 				8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */,
+				8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */,
+				8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */,
+				8E379F011CE57E8600C91A12 /* EventService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
