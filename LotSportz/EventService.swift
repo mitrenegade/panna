@@ -34,6 +34,16 @@ class EventService: NSObject {
         // returns all current events of a certain type
         print("Get events")
         
+        let eventQueryRef = firebaseRef.childByAppendingPath("events") // this creates a query on the endpoint lotsports.firebase.com/events/
+        
+        // sort by time
+        eventQueryRef.queryOrderedByChild("time")
+        
+        // do query
+        eventQueryRef.observeEventType(.ChildAdded) { (snapshot: FDataSnapshot!) in
+            let results = snapshot
+            print("query results \(results)")
+        }
     }
     
     func createEvent(eventDict eventDict: [NSObject: AnyObject]?) {
