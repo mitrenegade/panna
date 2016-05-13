@@ -13,11 +13,6 @@ import UIKit
 import Firebase
 
 private var eventServiceSingleton: EventService?
-enum EventType: String {
-    case Soccer
-    case Basketball
-    case FlagFootball = "Flag Football"
-}
 
 class EventService: NSObject {
     
@@ -30,8 +25,8 @@ class EventService: NSObject {
         return eventServiceSingleton!
     }
     
-    func getEvents(type type: String?) {
-        // returns all current events of a certain type
+    func getEvents(type type: String?, completion: (event: Event?) -> Void) {
+        // returns all current events of a certain type. Returns as snapshot
         print("Get events")
         
         let eventQueryRef = firebaseRef.childByAppendingPath("events") // this creates a query on the endpoint lotsports.firebase.com/events/
@@ -41,8 +36,9 @@ class EventService: NSObject {
         
         // do query
         eventQueryRef.observeEventType(.ChildAdded) { (snapshot: FDataSnapshot!) in
-            let results = snapshot
-            print("query results \(results)")
+            // this block is called for every result returned
+            let event = Event(snapshot: snapshot)
+            completion(event: event)
         }
     }
     

@@ -12,7 +12,7 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
 
     @IBOutlet weak var tableView: UITableView!
     var service = EventService.sharedInstance()
-    var events: [AnyObject]?
+    var events: [NSObject: Event] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,13 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @IBAction func didClickRefresh() {
-        service.getEvents(type: nil)
+        service.getEvents(type: nil) { (result) in
+            if let event: Event = result {
+                let id = event.id()
+                self.events[id] = event
+                self.tableView.reloadData()
+            }
+        }
     }
     
     // MARK: - UITableViewDataSource
@@ -35,10 +41,7 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if events != nil {
-            return events!.count
-        }
-        return 0
+        return events.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
