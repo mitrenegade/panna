@@ -10,6 +10,7 @@
 // service.getEvents()
 
 import UIKit
+import Firebase
 
 private var eventServiceSingleton: EventService?
 enum EventType: String {
@@ -29,12 +30,23 @@ class EventService: NSObject {
         return eventServiceSingleton!
     }
     
-    func getEvents(type: String?) {
+    func getEvents(type type: String?) {
         // returns all current events of a certain type
         print("Get events")
+        
     }
     
-    func createEvent() {
+    func createEvent(eventDict eventDict: [NSObject: AnyObject]?) {
         print ("Create events")
+        let eventRef = firebaseRef.childByAppendingPath("events") // this references the endpoint lotsports.firebase.com/events/
+        let newEventRef: Firebase = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
+        
+        if eventDict == nil {
+            // TEST: Demo on how to use event. eventDict should not be nil in production
+            newEventRef.setValue(["type": "soccer", "place": "Boston Commons, Boston MA", "time": NSDate().dateByAddingTimeInterval(3600*24*2).timeIntervalSince1970, "max_players": 20, "info": "This is a friendly pickup game"])
+        }
+        else {
+            newEventRef.setValue(eventDict)
+        }
     }
 }
