@@ -18,9 +18,9 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        service.listenForEvents(type: nil) { (result) in
-            // completion function will get called once for each event
-            if let event: Event = result {
+        service.listenForEvents(type: nil) { (results) in
+            // completion function will get called once at the start, and each time events change
+            for event: Event in results {
                 let id = event.id()
                 self.events[id] = event
                 self.tableView.reloadData()

@@ -25,7 +25,7 @@ class EventService: NSObject {
         return eventServiceSingleton!
     }
     
-    func listenForEvents(type type: String?, completion: (event: Event?) -> Void) {
+    func listenForEvents(type type: String?, completion: (results: [Event]) -> Void) {
         // returns all current events of a certain type. Returns as snapshot
         print("Get events")
         
@@ -35,10 +35,16 @@ class EventService: NSObject {
         eventQueryRef.queryOrderedByChild("time")
         
         // do query
-        eventQueryRef.observeEventType(.ChildAdded) { (snapshot: FDataSnapshot!) in
-            // this block is called for every result returned
-            let event = Event(snapshot: snapshot)
-            completion(event: event)
+        eventQueryRef.observeEventType(.Value) { (snapshot: FDataSnapshot!) in
+            // this block is called for every result returnedd
+            var results: [Event] = []
+            if let allObjects =  snapshot.children.allObjects as? [FDataSnapshot] {
+                for eventDict: FDataSnapshot in allObjects {
+                    let event = Event(snapshot: eventDict)
+                    results.append(event)
+                }
+            }
+            completion(results: results)
         }
     }
     
