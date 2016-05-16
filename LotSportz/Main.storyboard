@@ -18,19 +18,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LotSportz" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fN5-0J-tAo">
-                                <rect key="frame" x="20" y="200" width="560" height="200"/>
-                                <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="80"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="soccer_field_background" translatesAutoresizingMaskIntoConstraints="NO" id="Wlg-Dz-Xgb">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="lotsports_logo_green" translatesAutoresizingMaskIntoConstraints="NO" id="JJK-EB-zuO">
+                                <rect key="frame" x="100" y="240" width="400" height="120"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="fN5-0J-tAo" firstAttribute="centerY" secondItem="hyk-yI-PnZ" secondAttribute="centerY" id="HRM-h4-l3A"/>
-                            <constraint firstItem="fN5-0J-tAo" firstAttribute="centerX" secondItem="hyk-yI-PnZ" secondAttribute="centerX" id="PfL-c6-Z6T"/>
-                            <constraint firstItem="fN5-0J-tAo" firstAttribute="height" secondItem="hyk-yI-PnZ" secondAttribute="height" multiplier="1:3" id="WX1-sA-uXZ"/>
-                            <constraint firstItem="fN5-0J-tAo" firstAttribute="leading" secondItem="hyk-yI-PnZ" secondAttribute="leading" constant="20" id="dG5-4q-RVo"/>
-                            <constraint firstAttribute="trailing" secondItem="fN5-0J-tAo" secondAttribute="trailing" constant="20" id="fmc-YX-Qun"/>
+                            <constraint firstItem="JJK-EB-zuO" firstAttribute="height" secondItem="Wlg-Dz-Xgb" secondAttribute="height" multiplier="1:5" id="6nD-wz-HWn"/>
+                            <constraint firstAttribute="trailing" secondItem="Wlg-Dz-Xgb" secondAttribute="trailing" id="GpI-Jr-R9f"/>
+                            <constraint firstItem="Wlg-Dz-Xgb" firstAttribute="top" secondItem="hyk-yI-PnZ" secondAttribute="top" id="JDb-Vo-i6U"/>
+                            <constraint firstItem="Wlg-Dz-Xgb" firstAttribute="leading" secondItem="hyk-yI-PnZ" secondAttribute="leading" id="L0u-jn-09L"/>
+                            <constraint firstItem="9at-Gf-b6P" firstAttribute="top" secondItem="Wlg-Dz-Xgb" secondAttribute="bottom" id="LHZ-dW-nqI"/>
+                            <constraint firstItem="JJK-EB-zuO" firstAttribute="width" secondItem="Wlg-Dz-Xgb" secondAttribute="width" multiplier="2:3" id="PUV-nZ-9Cb"/>
+                            <constraint firstItem="JJK-EB-zuO" firstAttribute="centerY" secondItem="hyk-yI-PnZ" secondAttribute="centerY" id="jIY-fY-L5F"/>
+                            <constraint firstItem="JJK-EB-zuO" firstAttribute="centerX" secondItem="hyk-yI-PnZ" secondAttribute="centerX" id="p1T-F9-rc5"/>
                         </constraints>
                     </view>
                     <connections>
@@ -69,4 +73,8 @@
             <point key="canvasLocation" x="1212" y="-12"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="lotsports_logo_green" width="389" height="129"/>
+        <image name="soccer_field_background" width="375" height="554"/>
+    </resources>
 </document>
