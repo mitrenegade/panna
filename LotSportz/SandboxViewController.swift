@@ -18,13 +18,14 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        service.listenForEvents(type: nil) { (result) in
-            // completion function will get called once for each event
-            if let event: Event = result {
+        service.listenForEvents(type: nil) { (results) in
+            // completion function will get called once at the start, and each time events change
+            for event: Event in results {
+                // make sure events is unique and don't add duplicates
                 let id = event.id()
                 self.events[id] = event
-                self.tableView.reloadData()
             }
+            self.tableView.reloadData()
         }
         
         // TODO: Create two listeners with an actual query filter and see if it works
@@ -50,7 +51,11 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
             return event1.id() > event2.id()
         }
         let event = sortedEvents[indexPath.row]
-        cell.textLabel!.text = event.id()
+        let type = event.type()
+        let place = event.place()
+        let time = event.timeString()
+        cell.textLabel!.text = "\(type) at \(place)"
+        cell.detailTextLabel?.text = time
         
         return cell
     }
