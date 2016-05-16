@@ -38,6 +38,14 @@ class Event: FirebaseBaseModel {
         return NSDate() // what is a valid date equivalent of TBD?
     }
     
+    func timeString() -> String {
+        let date = self.time()
+        let formatter = NSDateFormatter()
+        formatter.timeStyle = .ShortStyle
+        let time = formatter.stringFromDate(date)
+        return "\(date.month())-\(date.day())-\(date.year()), \(time)"
+    }
+    
     func maxPlayers() -> Int {
         if let val = self.dict["max_players"] as? Int {
             return val
