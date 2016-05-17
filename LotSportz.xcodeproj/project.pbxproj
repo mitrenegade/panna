@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B2B1870D241ADBC5DA67FB8 /* Pods_LotSportz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2393261844733F0603E5A8AF /* Pods_LotSportz.framework */; };
 		8E379F011CE57E8600C91A12 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F001CE57E8600C91A12 /* EventService.swift */; };
 		8E379F031CE5805F00C91A12 /* BobbySandbox.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E379F021CE5805F00C91A12 /* BobbySandbox.storyboard */; };
 		8E379F051CE580B500C91A12 /* SandboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F041CE580B500C91A12 /* SandboxViewController.swift */; };
@@ -22,10 +23,14 @@
 		8ECD58E31CDF878600AD2B13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E21CDF878600AD2B13 /* ViewController.swift */; };
 		8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */; };
 		8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
-		900A3038B410FA94D0708611 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75AF04F244D31D4B039DF4B6 /* Pods.framework */; };
+		F238AA261CEBA33500B5D37E /* Menu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F238AA251CEBA33500B5D37E /* Menu.storyboard */; };
+		F238AA281CEBA38700B5D37E /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F238AA271CEBA38700B5D37E /* MenuTableViewController.swift */; };
+		F2E897A51CEBB0DE0065A4CE /* FrontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E897A41CEBB0DE0065A4CE /* FrontViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2393261844733F0603E5A8AF /* Pods_LotSportz.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LotSportz.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		72850730339D7BDEAC192B33 /* Pods-LotSportz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotSportz.release.xcconfig"; path = "Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz.release.xcconfig"; sourceTree = "<group>"; };
 		75AF04F244D31D4B039DF4B6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E379F001CE57E8600C91A12 /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		8E379F021CE5805F00C91A12 /* BobbySandbox.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BobbySandbox.storyboard; sourceTree = "<group>"; };
@@ -45,8 +50,10 @@
 		8ECD58E21CDF878600AD2B13 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
 		8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		D5D432FE5DC6FE18EEFCB65E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		F80AC83486EE074521A91ACE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		F238AA251CEBA33500B5D37E /* Menu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Menu.storyboard; sourceTree = "<group>"; };
+		F238AA271CEBA38700B5D37E /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
+		F2E897A41CEBB0DE0065A4CE /* FrontViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrontViewController.swift; sourceTree = "<group>"; };
+		F3ECC67839D6AA22A6465193 /* Pods-LotSportz.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotSportz.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				900A3038B410FA94D0708611 /* Pods.framework in Frameworks */,
+				3B2B1870D241ADBC5DA67FB8 /* Pods_LotSportz.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,15 +72,16 @@
 			isa = PBXGroup;
 			children = (
 				75AF04F244D31D4B039DF4B6 /* Pods.framework */,
+				2393261844733F0603E5A8AF /* Pods_LotSportz.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		42CA84F1CB79D2941029E677 /* Pods */ = {
+		878F3F8CB0175474EC745B40 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D5D432FE5DC6FE18EEFCB65E /* Pods.debug.xcconfig */,
-				F80AC83486EE074521A91ACE /* Pods.release.xcconfig */,
+				F3ECC67839D6AA22A6465193 /* Pods-LotSportz.debug.xcconfig */,
+				72850730339D7BDEAC192B33 /* Pods-LotSportz.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -109,6 +117,9 @@
 			children = (
 				8ECD58E01CDF853500AD2B13 /* Main.storyboard */,
 				8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */,
+				F238AA251CEBA33500B5D37E /* Menu.storyboard */,
+				F2E897A41CEBB0DE0065A4CE /* FrontViewController.swift */,
+				F238AA271CEBA38700B5D37E /* MenuTableViewController.swift */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -118,8 +129,8 @@
 			children = (
 				8E7256981CDF793200C9E054 /* LotSportz */,
 				8E7256971CDF793100C9E054 /* Products */,
-				42CA84F1CB79D2941029E677 /* Pods */,
 				1A53F01B36D3404A3B964FE7 /* Frameworks */,
+				878F3F8CB0175474EC745B40 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -159,12 +170,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8E7256A81CDF793200C9E054 /* Build configuration list for PBXNativeTarget "LotSportz" */;
 			buildPhases = (
-				386B6DD0AD0F2E154A1ADDCD /* Check Pods Manifest.lock */,
+				BD4034CDECCE5F82AD70949C /* 📦 Check Pods Manifest.lock */,
 				8E7256921CDF793100C9E054 /* Sources */,
 				8E7256931CDF793100C9E054 /* Frameworks */,
 				8E7256941CDF793100C9E054 /* Resources */,
-				4624D374451B000ABB923599 /* Embed Pods Frameworks */,
-				B0BCF6FE5682CAD722419BA3 /* Copy Pods Resources */,
+				0BFD9CCDEA2CF4A562C89699 /* 📦 Embed Pods Frameworks */,
+				9B74713E0CD8AFA78A38224E /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -217,6 +228,7 @@
 				8E7256A41CDF793200C9E054 /* LaunchScreen.storyboard in Resources */,
 				8E7256A11CDF793200C9E054 /* Assets.xcassets in Resources */,
 				8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */,
+				F238AA261CEBA33500B5D37E /* Menu.storyboard in Resources */,
 				8E379F031CE5805F00C91A12 /* BobbySandbox.storyboard in Resources */,
 				8ECD58E11CDF853500AD2B13 /* Main.storyboard in Resources */,
 			);
@@ -225,49 +237,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		386B6DD0AD0F2E154A1ADDCD /* Check Pods Manifest.lock */ = {
+		0BFD9CCDEA2CF4A562C89699 /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9B74713E0CD8AFA78A38224E /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BD4034CDECCE5F82AD70949C /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		4624D374451B000ABB923599 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B0BCF6FE5682CAD722419BA3 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -277,8 +289,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2E897A51CEBB0DE0065A4CE /* FrontViewController.swift in Sources */,
 				8E7256AD1CDF7DB600C9E054 /* SignupViewController.swift in Sources */,
 				8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */,
+				F238AA281CEBA38700B5D37E /* MenuTableViewController.swift in Sources */,
 				8ECD58E31CDF878600AD2B13 /* ViewController.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				8E379F051CE580B500C91A12 /* SandboxViewController.swift in Sources */,
@@ -399,7 +413,7 @@
 		};
 		8E7256A91CDF793200C9E054 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D5D432FE5DC6FE18EEFCB65E /* Pods.debug.xcconfig */;
+			baseConfigurationReference = F3ECC67839D6AA22A6465193 /* Pods-LotSportz.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -417,7 +431,7 @@
 		};
 		8E7256AA1CDF793200C9E054 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F80AC83486EE074521A91ACE /* Pods.release.xcconfig */;
+			baseConfigurationReference = 72850730339D7BDEAC192B33 /* Pods-LotSportz.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
