@@ -1,25 +1,47 @@
 //
-//  MenuTableViewController.swift
+//  MyEventsTableViewController.swift
 //  LotSportz
 //
-//  Created by Tom Strissel on 5/17/16.
+//  Created by Tom Strissel on 5/18/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.
 //
 
 import UIKit
+import SWRevealViewController
 
-class MenuTableViewController: UITableViewController {
-
-    var MENU_LIST : [String] = ["My Events","Join events", "Create event", "Settings", "Logout"]
+class MyEventsTableViewController: UITableViewController {
+    
+    var service = EventService.sharedInstance()
+    var events: [NSObject: Event] = [:]
+    var sortedEvents: [Event] = []
+    @IBOutlet var menuButton: UIBarButtonItem!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if self.revealViewController() != nil {
+            menuButton.target = self.revealViewController()
+            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+        }
+        
+        print(sortedEvents)
+        print(events)
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        service.listenForEvents(type: nil) { (results) in
+            // completion function will get called once at the start, and each time events change
+            for event: Event in results {
+                print("Found an event")
+                // make sure events is unique and don't add duplicates
+                let id = event.id()
+                self.events[id] = event
+            }
+        }
+        
+        self.tableView.reloadData()
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,70 +56,60 @@ class MenuTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section{
+        switch section {
         case 0:
-            return 1
+            events.count
         case 1:
-            return MENU_LIST.count
+            return 0
         default:
             break
         }
-        return 0 //Never reached
+        return 0
+    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return "Upcoming events"
+        case 1:
+            return "Past events"
+        default:
+            break
+        }
+        
+        return nil
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
-
+        let cell : EventCell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! EventCell
         // Configure the cell...
-        let row = indexPath.row
-        let section = indexPath.section
+        sortedEvents = events.values.sort { (event1, event2) -> Bool in
+            return event1.id() > event2.id()
+        }
         
-        switch section
-        {
+        let event = sortedEvents[indexPath.row]
+        let place = event.place()
+        let time = event.timeString()
+        cell.labelLocation.text = place
+        cell.labelTime.text = time
+        cell.eventLogo.hidden = true
+        cell.labelAttendance.text = "\(event.maxPlayers())"
+        
+        switch indexPath.section {
         case 0:
-            break
-            //TODO: segue to home
-            cell.textLabel?.text = "Home Logo"
+            cell.btnAction.hidden = false
         case 1:
-            switch row
-            {
-            case 0...4: //My Events
-                cell.textLabel?.text = MENU_LIST[row]
-            default:
-                break
-            }
+            cell.btnAction.hidden = true
         default:
             break
+            
         }
+        
+
+        
+
         return cell
-    }
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
-        // Configure the cell...
-        let row = indexPath.row
-        let section = indexPath.section
-        
-        switch section
-        {
-        case 0:
-            break
-            //TODO: segue to home
-        case 1:
-            switch row
-            {
-            case 0: //My Events
-                self.performSegueWithIdentifier("toMyEvents", sender: self)
-            case 4:
-                firebaseRef.unauth()
-                appDelegate().goToSignupLogin()
-            default:
-                break
-            }
-        default:
-            break
-        }
     }
     
 

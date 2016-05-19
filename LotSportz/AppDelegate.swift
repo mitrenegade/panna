@@ -93,7 +93,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // first dismiss login/signup flow
         self.window?.rootViewController?.dismissViewControllerAnimated(true, completion: {
             // load main flow
-            self.goToMain()
+            //self.goToMain()
+            self.goToMenu()
         })
     }
     

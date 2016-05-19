@@ -23,6 +23,8 @@
 		8ECD58E31CDF878600AD2B13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E21CDF878600AD2B13 /* ViewController.swift */; };
 		8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */; };
 		8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
+		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
+		F2048F7E1CED59A50039F7BB /* MyEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7D1CED59A50039F7BB /* MyEventsTableViewController.swift */; };
 		F238AA261CEBA33500B5D37E /* Menu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F238AA251CEBA33500B5D37E /* Menu.storyboard */; };
 		F238AA281CEBA38700B5D37E /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F238AA271CEBA38700B5D37E /* MenuTableViewController.swift */; };
 		F2E897A51CEBB0DE0065A4CE /* FrontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E897A41CEBB0DE0065A4CE /* FrontViewController.swift */; };
@@ -50,6 +52,8 @@
 		8ECD58E21CDF878600AD2B13 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
 		8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F2048F7B1CED57170039F7BB /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
+		F2048F7D1CED59A50039F7BB /* MyEventsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyEventsTableViewController.swift; sourceTree = "<group>"; };
 		F238AA251CEBA33500B5D37E /* Menu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Menu.storyboard; sourceTree = "<group>"; };
 		F238AA271CEBA38700B5D37E /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		F2E897A41CEBB0DE0065A4CE /* FrontViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrontViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 				8ECD58E01CDF853500AD2B13 /* Main.storyboard */,
 				8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */,
 				F238AA251CEBA33500B5D37E /* Menu.storyboard */,
+				F2048F7D1CED59A50039F7BB /* MyEventsTableViewController.swift */,
 				F2E897A41CEBB0DE0065A4CE /* FrontViewController.swift */,
 				F238AA271CEBA38700B5D37E /* MenuTableViewController.swift */,
 			);
@@ -145,6 +150,7 @@
 		8E7256981CDF793200C9E054 /* LotSportz */ = {
 			isa = PBXGroup;
 			children = (
+				F2048F7B1CED57170039F7BB /* EventCell.swift */,
 				8E379F061CE58AFB00C91A12 /* Models */,
 				8E379F0B1CE58F9400C91A12 /* Services */,
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
@@ -295,7 +301,9 @@
 				F238AA281CEBA38700B5D37E /* MenuTableViewController.swift in Sources */,
 				8ECD58E31CDF878600AD2B13 /* ViewController.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
+				F2048F7E1CED59A50039F7BB /* MyEventsTableViewController.swift in Sources */,
 				8E379F051CE580B500C91A12 /* SandboxViewController.swift in Sources */,
+				F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */,
 				8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */,
 				8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */,
 				8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */,
