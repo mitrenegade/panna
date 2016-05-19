@@ -1,21 +1,21 @@
 //
-//  MyEventsTableViewController.swift
+//  CreateEventTableViewController.swift
 //  LotSportz
 //
-//  Created by Tom Strissel on 5/18/16.
+//  Created by Tom Strissel on 5/19/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.
 //
 
 import UIKit
 import SWRevealViewController
 
-class MyEventsTableViewController: UITableViewController {
+class CreateEventTableViewController: UITableViewController {
     
-    var service = EventService.sharedInstance()
-    var events: [NSObject: Event] = [:]
-    var sortedEvents: [Event] = []
+    let options = ["Sport Type", "City", "Location", "Day", "Start Time", "End Time", "Max Players"]
+    
     @IBOutlet var menuButton: UIBarButtonItem!
-
+    @IBOutlet var saveButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,20 +24,8 @@ class MyEventsTableViewController: UITableViewController {
             menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
         }
         
-        service.listenForEvents(type: nil) { (results) in
-            // completion function will get called once at the start, and each time events change
-            for event: Event in results {
-                print("Found an event")
-                // make sure events is unique and don't add duplicates
-                let id = event.id()
-                self.events[id] = event
-            }
-            self.tableView.reloadData()
-
-        }
-        
-        print(sortedEvents)
-        print(events)
+        self.navigationItem.title = "Create Event"
+        self.tableView.tableFooterView = UIView()
 
     }
 
@@ -49,63 +37,71 @@ class MyEventsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
         return 2
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return events.count
+            return options.count
         case 1:
-            return 0
+            return 1
         default:
-            break
+            return 0
         }
-        return 0
+    }
+
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        switch indexPath.section {
+        case 0:
+            let cell : DetailCell = tableView.dequeueReusableCellWithIdentifier("detailCell", forIndexPath: indexPath) as! DetailCell
+            
+            cell.labelAttribute.text = options[indexPath.row]
+            cell.labelValue.text = ""
+            
+            return cell
+
+        case 1:
+            let cell : DescriptionCell = tableView.dequeueReusableCellWithIdentifier("descriptionCell", forIndexPath: indexPath) as! DescriptionCell
+
+            return cell
+        default:
+            let cell = tableView.dequeueReusableCellWithIdentifier("detailCell", forIndexPath: indexPath)
+            return cell
+            
+        }
+
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return "Upcoming events"
+            return "Details"
         case 1:
-            return "Past events"
+            return "Description"
         default:
-            break
+            return "Noice"
         }
-        
-        return nil
     }
-
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : EventCell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! EventCell
-        // Configure the cell...
-        sortedEvents = events.values.sort { (event1, event2) -> Bool in
-            return event1.id() > event2.id()
-        }
-        
-        let event = sortedEvents[indexPath.row]
-        let place = event.place()
-        let time = event.timeString()
-        cell.labelLocation.text = place
-        cell.labelTime.text = time
-        cell.eventLogo.hidden = true
-        cell.labelAttendance.text = "\(event.maxPlayers())"
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         switch indexPath.section {
-        case 0:
-            cell.btnAction.hidden = false
         case 1:
-            cell.btnAction.hidden = true
+            return 140.0
         default:
-            break
-            
+            return 44.0
         }
-        
-        return cell
-    }
     
+    }
+
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        //TODO
+    }
+
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -126,20 +122,7 @@ class MyEventsTableViewController: UITableViewController {
     }
     */
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
 
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     /*
     // MARK: - Navigation

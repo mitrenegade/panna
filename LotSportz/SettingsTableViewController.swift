@@ -1,25 +1,27 @@
 //
-//  MenuTableViewController.swift
+//  SettingsTableViewController.swift
 //  LotSportz
 //
-//  Created by Tom Strissel on 5/17/16.
+//  Created by Tom Strissel on 5/19/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.
 //
 
 import UIKit
+import SWRevealViewController
 
-class MenuTableViewController: UITableViewController {
+class SettingsTableViewController: UITableViewController {
 
-    var MENU_LIST : [String] = ["My Events","Join events", "Create event", "Settings"]
-
+    @IBOutlet var menuButton: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if self.revealViewController() != nil {
+            menuButton.target = self.revealViewController()
+            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+        }
+        
+        self.tableView.tableFooterView = UIView()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,77 +32,46 @@ class MenuTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        // #warning Incomplete implementation, return the number of sections
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section{
-        case 0:
-            return 1
-        case 1:
-            return MENU_LIST.count
-        default:
-            break
-        }
-        return 0 //Never reached
+        return 2
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
 
-        // Configure the cell...
-        let row = indexPath.row
-        let section = indexPath.section
-        
-        switch section
-        {
+        switch indexPath.row {
+            
         case 0:
-            break
-            //TODO: segue to home
-            cell.textLabel?.text = "Home Logo"
+            let cell : PushTableViewCell = tableView.dequeueReusableCellWithIdentifier("push", forIndexPath: indexPath) as! PushTableViewCell
+            cell.labelPush.text = "Push Notifications"
+            return cell
         case 1:
-            switch row
-            {
-            case 0...4: //My Events
-                cell.textLabel?.text = MENU_LIST[row]
-            default:
-                break
-            }
+            let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+            cell.textLabel?.text = "Logout"
+            return cell
         default:
-            break
+            let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+            return cell
         }
-        return cell
+
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
-        // Configure the cell...
-        let row = indexPath.row
-        let section = indexPath.section
-        
-        switch section
-        {
+        switch indexPath.row {
         case 0:
             break
-            //TODO: segue to home
         case 1:
-            switch row
-            {
-            case 0: //My Events
-                self.performSegueWithIdentifier("toMyEvents", sender: self)
-            case 2:
-                self.performSegueWithIdentifier("toCreateEvent", sender: self)
-            case 3:
-                self.performSegueWithIdentifier("toSettings", sender: self)
-            default:
-                break
-            }
+            firebaseRef.unauth()
+            appDelegate().goToSignupLogin()
         default:
             break
         }
     }
-    
+ 
 
     /*
     // Override to support conditional editing of the table view.
