@@ -29,17 +29,17 @@ class EventService: NSObject {
         // returns all current events of a certain type. Returns as snapshot
         print("Get events")
         
-        let eventQueryRef = firebaseRef.childByAppendingPath("events") // this creates a query on the endpoint lotsports.firebase.com/events/
+        let eventQueryRef = firRef.child("events")//childByAppendingPath("events") // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // sort by time
         eventQueryRef.queryOrderedByChild("time")
         
         // do query
-        eventQueryRef.observeEventType(.Value) { (snapshot: FDataSnapshot!) in
+        eventQueryRef.observeEventType(.Value) { (snapshot: FIRDataSnapshot!) in
             // this block is called for every result returnedd
             var results: [Event] = []
-            if let allObjects =  snapshot.children.allObjects as? [FDataSnapshot] {
-                for eventDict: FDataSnapshot in allObjects {
+            if let allObjects =  snapshot.children.allObjects as? [FIRDataSnapshot] {
+                for eventDict: FIRDataSnapshot in allObjects {
                     let event = Event(snapshot: eventDict)
                     results.append(event)
                 }
@@ -50,8 +50,8 @@ class EventService: NSObject {
     
     func createEvent(eventDict eventDict: [NSObject: AnyObject]?) {
         print ("Create events")
-        let eventRef = firebaseRef.childByAppendingPath("events") // this references the endpoint lotsports.firebase.com/events/
-        let newEventRef: Firebase = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
+        let eventRef = firRef.child("events") //firebaseRef.childByAppendingPath("events") // this references the endpoint lotsports.firebase.com/events/
+        let newEventRef = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
         
         if eventDict == nil {
             // TEST: Demo on how to use event. eventDict should not be nil in production

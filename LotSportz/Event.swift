@@ -31,13 +31,6 @@ class Event: FirebaseBaseModel {
         return ""
     }
     
-    func city() -> String {
-        if let val = self.dict["city"] as? String {
-            return val
-        }
-        return ""
-    }
-
     func time() -> NSDate {
         if let val = self.dict["time"] as? NSTimeInterval {
             return NSDate(timeIntervalSince1970: val)

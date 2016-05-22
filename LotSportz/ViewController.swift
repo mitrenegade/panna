@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func didClickButton(button: UIButton) {
-        firebaseRef.unauth()
+        try! firAuth?.signOut()
         self.notify("logout:success", object: nil, userInfo: nil)
     }
     /*

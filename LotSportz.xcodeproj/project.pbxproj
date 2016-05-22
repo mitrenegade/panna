@@ -13,6 +13,7 @@
 		8E379F051CE580B500C91A12 /* SandboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F041CE580B500C91A12 /* SandboxViewController.swift */; };
 		8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */; };
 		8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F091CE58CEE00C91A12 /* Event.swift */; };
+		8E55FF941CF2066600A0BDB8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E55FF931CF2066600A0BDB8 /* GoogleService-Info.plist */; };
 		8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256991CDF793200C9E054 /* AppDelegate.swift */; };
 		8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E72569B1CDF793200C9E054 /* LoginViewController.swift */; };
 		8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */; };
@@ -44,6 +45,7 @@
 		8E379F041CE580B500C91A12 /* SandboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SandboxViewController.swift; sourceTree = "<group>"; };
 		8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBaseModel.swift; sourceTree = "<group>"; };
 		8E379F091CE58CEE00C91A12 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		8E55FF931CF2066600A0BDB8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E7256961CDF793100C9E054 /* LotSportz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LotSportz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7256991CDF793200C9E054 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E72569B1CDF793200C9E054 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				8E7256A01CDF793200C9E054 /* Assets.xcassets */,
 				8E7256A21CDF793200C9E054 /* LaunchScreen.storyboard */,
 				8E7256A51CDF793200C9E054 /* Info.plist */,
+				8E55FF931CF2066600A0BDB8 /* GoogleService-Info.plist */,
 				8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */,
 				8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */,
 			);
@@ -268,6 +271,7 @@
 				F238AA261CEBA33500B5D37E /* Menu.storyboard in Resources */,
 				8E379F031CE5805F00C91A12 /* BobbySandbox.storyboard in Resources */,
 				8ECD58E11CDF853500AD2B13 /* Main.storyboard in Resources */,
+				8E55FF941CF2066600A0BDB8 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

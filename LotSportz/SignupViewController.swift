@@ -52,16 +52,16 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        firebaseRef.createUser(email, password: password) { (error, results) in
+        firAuth?.createUserWithEmail(email, password: password, completion: { (user, error) in
             if (error != nil) {
                 print("Error: \(error)")
                 self.simpleAlert("Could not sign up", defaultMessage: nil, error: error)
             }
             else {
-                print("results: \(results)")
+                print("results: \(user)")
                 self.loginUser()
             }
-        }
+        })
     }
         
     func loginUser() {
@@ -78,15 +78,15 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        firebaseRef.authUser(email, password: password) { (error, results) in
+        firAuth?.signInWithEmail(email, password: password, completion: { (user, error) in
             if (error != nil) {
                 print("Error: \(error)")
                 self.simpleAlert("Could not log in", defaultMessage: nil, error: error)
             }
             else {
-                print("results: \(results)")
+                print("results: \(user)")
                 self.notify("login:success", object: nil, userInfo: nil)
             }
-        }
+        })
     }
 }
