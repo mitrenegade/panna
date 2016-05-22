@@ -36,7 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if authData != nil {
                 // user is logged in
                 print("authdata: \(authData)")
-                self.goToMain()
+                //self.goToMain()
+                self.goToMenu()
             }
             else {
                 self.goToSignupLogin()
@@ -92,7 +93,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // first dismiss login/signup flow
         self.window?.rootViewController?.dismissViewControllerAnimated(true, completion: {
             // load main flow
-            self.goToMain()
+            //self.goToMain()
+            self.goToMenu()
         })
     }
     
@@ -101,12 +103,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("MainViewController") 
         self.window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
         */
+        print("Already logged in at startup")
         let controller = UIStoryboard(name: "BobbySandbox", bundle: nil).instantiateViewControllerWithIdentifier("SandboxViewController")
         self.window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
         
         firebaseRef.removeObserverWithHandle(self.handle!)
         
         self.listenFor("logout:success", action: .didLogout, object: nil)
+    }
+    
+    func goToMenu() {
+        let controller = UIStoryboard(name: "Menu", bundle: nil).instantiateViewControllerWithIdentifier("RevealViewController")
+        self.window?.rootViewController? = controller
+        
     }
     
     func didLogout() {

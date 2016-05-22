@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import SWRevealViewController
 
 class SandboxViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var menuButton: UIBarButtonItem!
+
     var service = EventService.sharedInstance()
     var events: [NSObject: Event] = [:]
     
@@ -26,6 +29,12 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.events[id] = event
             }
             self.tableView.reloadData()
+        }
+        
+        // Do any additional setup after loading the view.
+        if self.revealViewController() != nil {
+            menuButton.target = self.revealViewController()
+            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
         }
         
         // TODO: Create two listeners with an actual query filter and see if it works
