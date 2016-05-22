@@ -39,7 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let user = user {
                 // user is logged in
                 print("user: \(user)")
-                //self.goToMain()
                 self.goToMenu()
 
             }
@@ -103,26 +102,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
     
-    func goToMain() {
-        /*
-        let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("MainViewController") 
-        self.window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
-        */
-        print("Already logged in at startup")
-        let controller = UIStoryboard(name: "BobbySandbox", bundle: nil).instantiateViewControllerWithIdentifier("SandboxViewController")
-        self.window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
-        if self.handle != nil {
-            firAuth?.removeAuthStateDidChangeListener(self.handle!)
-            self.handle = nil
-        }
-        
-        self.listenFor("logout:success", action: .didLogout, object: nil)
-    }
-    
     func goToMenu() {
         let controller = UIStoryboard(name: "Menu", bundle: nil).instantiateViewControllerWithIdentifier("RevealViewController")
         self.window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
-        
+        self.listenFor("logout:success", action: .didLogout, object: nil)
     }
     
     func didLogout() {
