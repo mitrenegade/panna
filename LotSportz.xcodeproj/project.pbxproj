@@ -21,7 +21,6 @@
 		8E7256A41CDF793200C9E054 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E7256A21CDF793200C9E054 /* LaunchScreen.storyboard */; };
 		8E7256AD1CDF7DB600C9E054 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */; };
 		8ECD58E11CDF853500AD2B13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ECD58E01CDF853500AD2B13 /* Main.storyboard */; };
-		8ECD58E31CDF878600AD2B13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E21CDF878600AD2B13 /* ViewController.swift */; };
 		8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */; };
 		8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
 		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
@@ -56,7 +55,6 @@
 		8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		8E99730A1CE9FA2A00054664 /* LotSportz-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LotSportz-Bridging-Header.h"; sourceTree = "<group>"; };
 		8ECD58E01CDF853500AD2B13 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		8ECD58E21CDF878600AD2B13 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
 		8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F2048F7B1CED57170039F7BB /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
@@ -166,7 +164,6 @@
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
 				8E72569B1CDF793200C9E054 /* LoginViewController.swift */,
 				8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */,
-				8ECD58E21CDF878600AD2B13 /* ViewController.swift */,
 				8E379F0D1CE593C300C91A12 /* Storyboards */,
 				8E379F0C1CE593B500C91A12 /* Sandbox */,
 				8E99730A1CE9FA2A00054664 /* LotSportz-Bridging-Header.h */,
@@ -336,7 +333,6 @@
 				8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */,
 				F238AA281CEBA38700B5D37E /* MenuTableViewController.swift in Sources */,
 				F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */,
-				8ECD58E31CDF878600AD2B13 /* ViewController.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				F2F7C3C01CEE296A00350115 /* SettingsTableViewController.swift in Sources */,
