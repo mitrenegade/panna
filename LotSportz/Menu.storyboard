@@ -155,7 +155,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="Asg-2D-BfA">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="Vyf-yr-CoL"/>
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="CDt-eC-875"/>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="CDt-eC-875">
+                            <connections>
+                                <action selector="didClickSave:" destination="mOZ-8z-9wp" id="71q-mr-d0T"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="menuButton" destination="Vyf-yr-CoL" id="snM-lb-cRv"/>
@@ -395,19 +399,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gBX-eD-QTP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2693" y="130"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="7Ul-Yy-hJX">
-            <objects>
-                <navigationController id="IX4-of-Hks" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="72g-p1-hPw">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ec0-5r-Z0J" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-307" y="914"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
