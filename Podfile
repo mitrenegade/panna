@@ -5,6 +5,7 @@ use_frameworks!
 target 'LotSportz' do
     pod 'Firebase'
     pod 'Firebase/Auth'
+    pod 'Firebase/Database'
 
 	pod 'AFNetworking'
 	pod 'AsyncImageView'

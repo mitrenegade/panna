@@ -83,7 +83,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                 
                 let credential = FIRFacebookAuthProvider.credentialWithAccessToken(accessToken)
-                self.firAuth?.signInWithCredential(credential, completion: { (user, error) in
+                firAuth!.signInWithCredential(credential, completion: { (user, error) in
                     if error != nil {
                         print("Login failed. \(error)")
                     } else {

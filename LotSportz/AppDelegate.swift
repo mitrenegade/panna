@@ -11,7 +11,7 @@ import Firebase
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-//var firebaseRef = Firebase(url: "https://lotsportz.firebaseio.com");
+var firRef = FIRDatabase.database().reference() // Firebase(url: "https://lotsportz.firebaseio.com");
 let firAuth = FIRAuth.auth()
 
 // Selector Syntatic sugar: https://medium.com/swift-programming/swift-selector-syntax-sugar-81c8a8b10df3#.a6ml91o38
