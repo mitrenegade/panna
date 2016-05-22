@@ -65,8 +65,8 @@ class SettingsTableViewController: UITableViewController {
         case 0:
             break
         case 1:
-            firebaseRef.unauth()
-            appDelegate().goToSignupLogin()
+            try! firAuth?.signOut()
+            self.notify("logout:success", object: nil, userInfo: nil)
         default:
             break
         }

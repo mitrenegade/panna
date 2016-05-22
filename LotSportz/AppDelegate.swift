@@ -11,7 +11,8 @@ import Firebase
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-var firebaseRef = Firebase(url: "https://lotsportz.firebaseio.com");
+//var firebaseRef = Firebase(url: "https://lotsportz.firebaseio.com");
+let firAuth = FIRAuth.auth()
 
 // Selector Syntatic sugar: https://medium.com/swift-programming/swift-selector-syntax-sugar-81c8a8b10df3#.a6ml91o38
 private extension Selector {
@@ -26,24 +27,26 @@ private extension Selector {
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var handle: UInt?
+    var handle: FIRAuthStateDidChangeListenerHandle?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
         // Firebase
-        self.handle = firebaseRef.observeAuthEventWithBlock { (authData) -> Void in
-            if authData != nil {
+        FIRApp.configure()
+        
+        self.handle = firAuth?.addAuthStateDidChangeListener({ (auth, user) in
+            if let user = user {
                 // user is logged in
-                print("authdata: \(authData)")
+                print("user: \(user)")
                 //self.goToMain()
                 self.goToMenu()
+
             }
             else {
                 self.goToSignupLogin()
             }
-            
-        }
+        })
         
         // Facebook
         FBSDKAppEvents.activateApp()
@@ -81,7 +84,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func goToSignupLogin() {
         let nav = UIStoryboard(name: "LoginSignup", bundle: nil).instantiateViewControllerWithIdentifier("LoginSignupNavigationController") as! UINavigationController
         self.window?.rootViewController?.presentViewController(nav, animated: true, completion: nil)
-        firebaseRef.removeObserverWithHandle(self.handle!)
+        if self.handle != nil {
+            firAuth?.removeAuthStateDidChangeListener(self.handle!)
+            self.handle = nil
+        }
         
         self.listenFor("login:success", action: .didLogin, object: nil)
     }
@@ -106,8 +112,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("Already logged in at startup")
         let controller = UIStoryboard(name: "BobbySandbox", bundle: nil).instantiateViewControllerWithIdentifier("SandboxViewController")
         self.window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
-        
-        firebaseRef.removeObserverWithHandle(self.handle!)
+        if self.handle != nil {
+            firAuth?.removeAuthStateDidChangeListener(self.handle!)
+            self.handle = nil
+        }
         
         self.listenFor("logout:success", action: .didLogout, object: nil)
     }

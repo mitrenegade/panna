@@ -57,18 +57,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        firebaseRef.authUser(email, password: password) { (error, authData) in
+        firAuth?.signInWithEmail(email, password: password, completion: { (user, error) in
             if (error != nil) {
                 print("Error: \(error)")
                 self.simpleAlert("Could not log in", defaultMessage: nil,  error: error)
             }
             else {
-                print("results: \(authData)")
-                self.storeUserInfo(authData)
-
+                print("results: \(user)")
+                self.storeUserInfo(user!)
+                
                 self.notify("login:success", object: nil, userInfo: nil)
             }
-        }
+        })
     }
     
     func handleFacebookUser() {
@@ -81,24 +81,26 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             } else {
                 print("Facebook login success: \(result)")
                 let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
-                firebaseRef.authWithOAuthProvider("facebook", token: accessToken,
-                                                  withCompletionBlock: { error, authData in
-                                                    if error != nil {
-                                                        print("Login failed. \(error)")
-                                                    } else {
-                                                        print("Logged in! \(authData)")
-                                                        
-                                                        // store user data
-                                                        self.storeUserInfo(authData)
-
-                                                        self.notify("login:success", object: nil, userInfo: nil)
-                                                    }
+                
+                let credential = FIRFacebookAuthProvider.credentialWithAccessToken(accessToken)
+                self.firAuth?.signInWithCredential(credential, completion: { (user, error) in
+                    if error != nil {
+                        print("Login failed. \(error)")
+                    } else {
+                        print("Logged in! \(user)")
+                        
+                        // store user data
+                        self.storeUserInfo(user!)
+                        
+                        self.notify("login:success", object: nil, userInfo: nil)
+                    }
                 })
             }
         }
     }
     
-    func storeUserInfo(authData: FAuthData) {
+    func storeUserInfo(user: FIRUser) {
+        /*
         var userInfo = [
             "uid": authData.uid,
             "provider": authData.provider,
@@ -115,6 +117,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         //  - https://<YOUR-FIREBASE-APP>.firebaseio.com/users/<uid>
         firebaseRef.childByAppendingPath("userInfo")
             .childByAppendingPath(authData.uid).setValue(userInfo)
+         */
     }
 }
 

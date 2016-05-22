@@ -3,7 +3,9 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'LotSportz' do
-    pod 'Firebase', '>= 2.5.1'
+    pod 'Firebase'
+    pod 'Firebase/Auth'
+
 	pod 'AFNetworking'
 	pod 'AsyncImageView'
 	pod 'FBSDKCoreKit'
