@@ -99,7 +99,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // first dismiss login/signup flow
         self.window?.rootViewController?.dismissViewControllerAnimated(true, completion: {
             // load main flow
-            //self.goToMain()
             self.goToMenu()
         })
     }
@@ -122,7 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func goToMenu() {
         let controller = UIStoryboard(name: "Menu", bundle: nil).instantiateViewControllerWithIdentifier("RevealViewController")
-        self.window?.rootViewController? = controller
+        self.window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
         
     }
     
