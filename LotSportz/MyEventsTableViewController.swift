@@ -32,6 +32,11 @@ class MyEventsTableViewController: UITableViewController {
                 let id = event.id()
                 self.events[id] = event
             }
+            // Configure the cell...
+            self.sortedEvents = self.events.values.sort { (event1, event2) -> Bool in
+                return event1.id() > event2.id()
+            }
+            
             self.tableView.reloadData()
 
         }
@@ -80,10 +85,7 @@ class MyEventsTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : EventCell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! EventCell
-        // Configure the cell...
-        sortedEvents = events.values.sort { (event1, event2) -> Bool in
-            return event1.id() > event2.id()
-        }
+ 
         
         let event = sortedEvents[indexPath.row]
         let place = event.place()

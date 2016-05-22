@@ -43,7 +43,7 @@ class Event: FirebaseBaseModel {
             return NSDate(timeIntervalSince1970: val)
         }
         return NSDate() // what is a valid date equivalent of TBD?
-    }
+    } //To-Do: Add begin/end time
     
     func timeString() -> String {
         let date = self.time()
@@ -66,4 +66,6 @@ class Event: FirebaseBaseModel {
         }
         return ""
     }
+    
+    //To-Do: Add
 }
