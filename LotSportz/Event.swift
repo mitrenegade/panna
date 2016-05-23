@@ -16,7 +16,6 @@ enum EventType: String {
 }
 
 class Event: FirebaseBaseModel {
-
     func type() -> String {
         if let val = self.dict["type"] as? String {
             return val
@@ -59,6 +58,4 @@ class Event: FirebaseBaseModel {
         }
         return ""
     }
-    
-    //To-Do: Add
 }
