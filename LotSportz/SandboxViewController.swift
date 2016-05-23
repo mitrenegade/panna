@@ -42,7 +42,7 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
 
     // MARK: - Button actions
     @IBAction func didClickCreate() {
-        service.createEvent(eventDict: nil)
+//        service.createEvent(eventDict: nil)
     }
     
     // MARK: - UITableViewDataSource

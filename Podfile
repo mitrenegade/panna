@@ -14,4 +14,6 @@ target 'LotSportz' do
 	pod 'FBSDKShareKit'
 	pod 'DateTools'
 	pod 'SWRevealViewController'
+
+	pod 'RandomKit'
 end

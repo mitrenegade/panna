@@ -21,10 +21,12 @@ class FirebaseBaseModel: NSObject {
     var firRef: FIRDatabaseReference? // url like lotsportz.firebase.com/model/id
     var dict: [String: AnyObject]! // {key1: val1, key2: val2 ...}
     
-    init(snapshot: FIRDataSnapshot) {
-        self.firebaseKey = snapshot.key
-        self.firRef = snapshot.ref
-        self.dict = snapshot.value as? [String: AnyObject]
+    init(snapshot: FIRDataSnapshot?) {
+        if snapshot != nil {
+            self.firebaseKey = snapshot!.key
+            self.firRef = snapshot!.ref
+            self.dict = snapshot!.value as? [String: AnyObject]
+        }
     }
 
     // returns dict, or the value/contents of this object

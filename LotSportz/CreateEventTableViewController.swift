@@ -33,6 +33,13 @@ class CreateEventTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    @IBAction func didClickSave(sender: AnyObject) {
+        // create a generic event
+        let displayName = firAuth?.currentUser!.email
+        let info = "created by \(displayName!)"
+        EventService.sharedInstance().createEvent("basketball", place: "philadelphia", time: NSDate(), max_players: 10, info: info)
+    }
 
     // MARK: - Table view data source
 
