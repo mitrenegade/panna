@@ -49,7 +49,8 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         // create a generic event
         let displayName = firAuth?.currentUser!.email
         let info = "created by \(displayName!)"
-        EventService.sharedInstance().createEvent("basketball", place: "philadelphia", time: NSDate(), max_players: 10, info: info)
+        EventService.sharedInstance().createEvent("Basketball", place: "Braden Field", time: NSDate(), max_players: 10, info: info)
+        //To-Do: Add Start/End times for createEvent call
     }
 
     // MARK: - Table view data source
