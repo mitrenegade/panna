@@ -30,7 +30,7 @@
 		F2E897A51CEBB0DE0065A4CE /* FrontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E897A41CEBB0DE0065A4CE /* FrontViewController.swift */; };
 		F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3B71CEE109000350115 /* DetailCell.swift */; };
 		F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3B91CEE10E800350115 /* DescriptionCell.swift */; };
-		F2F7C3BD1CEE11B300350115 /* CreateEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3BC1CEE11B300350115 /* CreateEventTableViewController.swift */; };
+		F2F7C3BD1CEE11B300350115 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3BC1CEE11B300350115 /* CreateEventViewController.swift */; };
 		F2F7C3C01CEE296A00350115 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3BF1CEE296A00350115 /* SettingsTableViewController.swift */; };
 		F2F7C3C21CEE2CDD00350115 /* PushTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3C11CEE2CDD00350115 /* PushTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -64,7 +64,7 @@
 		F2E897A41CEBB0DE0065A4CE /* FrontViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrontViewController.swift; sourceTree = "<group>"; };
 		F2F7C3B71CEE109000350115 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
 		F2F7C3B91CEE10E800350115 /* DescriptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
-		F2F7C3BC1CEE11B300350115 /* CreateEventTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventTableViewController.swift; sourceTree = "<group>"; };
+		F2F7C3BC1CEE11B300350115 /* CreateEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
 		F2F7C3BF1CEE296A00350115 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		F2F7C3C11CEE2CDD00350115 /* PushTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushTableViewCell.swift; sourceTree = "<group>"; };
 		F3ECC67839D6AA22A6465193 /* Pods-LotSportz.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotSportz.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz.debug.xcconfig"; sourceTree = "<group>"; };
@@ -193,7 +193,7 @@
 			children = (
 				F2F7C3BF1CEE296A00350115 /* SettingsTableViewController.swift */,
 				F238AA271CEBA38700B5D37E /* MenuTableViewController.swift */,
-				F2F7C3BC1CEE11B300350115 /* CreateEventTableViewController.swift */,
+				F2F7C3BC1CEE11B300350115 /* CreateEventViewController.swift */,
 				F2048F7D1CED59A50039F7BB /* MyEventsTableViewController.swift */,
 				F2E897A41CEBB0DE0065A4CE /* FrontViewController.swift */,
 			);
@@ -337,7 +337,7 @@
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				F2F7C3C01CEE296A00350115 /* SettingsTableViewController.swift in Sources */,
 				F2048F7E1CED59A50039F7BB /* MyEventsTableViewController.swift in Sources */,
-				F2F7C3BD1CEE11B300350115 /* CreateEventTableViewController.swift in Sources */,
+				F2F7C3BD1CEE11B300350115 /* CreateEventViewController.swift in Sources */,
 				8E379F051CE580B500C91A12 /* SandboxViewController.swift in Sources */,
 				F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */,
 				8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */,
