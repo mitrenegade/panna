@@ -15,6 +15,7 @@ class PushTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        pushSwitch.on = false //To-Do: Get user settings for push notifications
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

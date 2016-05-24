@@ -20,7 +20,7 @@ class SettingsTableViewController: UITableViewController {
             menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
         }
         
-        self.tableView.tableFooterView = UIView()
+        self.navigationItem.title = "Settings"
 
     }
 
