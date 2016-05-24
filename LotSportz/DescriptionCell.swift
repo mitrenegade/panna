@@ -14,6 +14,8 @@ class DescriptionCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        DescriptionTextView.layer.borderWidth = 1.0
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

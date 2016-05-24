@@ -97,21 +97,44 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
         switch section {
         case 0:
             return "Details"
         case 1:
-            return "Description"
+            return  "Description"
         default:
             return "Noice"
         }
     }
     
+    /* - CUSTOM HEADER VIEW IMPLEMENTATION (WIP)
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView(frame: CGRectMake(0, 0, tableView.bounds.size.width, 30))
+        headerView.backgroundColor = UIColor(red: 183.0/255.0, green: 238.0/255.0, blue: 213.0/255.0, alpha: 1.0)
+        let label = UILabel(frame: CGRectMake(10, 5, tableView.bounds.size.width, 20))
+        label.font = UIFont.boldSystemFontOfSize(12)
+        
+        switch section {
+        case 0:
+            label.text = "Details"
+        case 1:
+            label.text =  "Description"
+        default:
+            label.text = "Noice"
+        }
+        
+        headerView.addSubview(label)
+        
+        return headerView
+    }
+    */
+    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         switch indexPath.section {
         case 1:
-            return 140.0
+            return 160.0
         default:
             return 44.0
         }
