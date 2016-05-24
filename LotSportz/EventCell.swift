@@ -35,6 +35,6 @@ class EventCell: UITableViewCell {
     }
 
     @IBAction func didTapCancel(sender: AnyObject) {
-        print("Tapped Cancel")
+        print("Tapped Cancel/Join")
     }
 }
