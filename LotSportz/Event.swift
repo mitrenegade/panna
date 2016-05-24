@@ -37,6 +37,20 @@ class Event: FirebaseBaseModel {
         return NSDate() // what is a valid date equivalent of TBD?
     } //To-Do: Add begin/end time
     
+    func startTime() -> String {
+        if let val = self.dict["startTime"] as? String {
+            return val
+        }
+        return ""
+    }
+    
+    func endTime() -> String {
+        if let val = self.dict["endTime"] as? String {
+            return val
+        }
+        return ""
+    }
+    
     func timeString() -> String {
         let date = self.time()
         let formatter = NSDateFormatter()

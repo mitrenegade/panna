@@ -21,6 +21,11 @@ class EventCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.eventLogo.layer.cornerRadius = self.eventLogo.frame.size.height / 2
+        self.eventLogo.layer.borderWidth = 1.0
+        self.eventLogo.layer.masksToBounds = true
+        
+        self.btnAction.layer.cornerRadius = self.btnAction.frame.size.height / 5
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -29,4 +34,7 @@ class EventCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBAction func didTapCancel(sender: AnyObject) {
+        print("Tapped Cancel/Join")
+    }
 }

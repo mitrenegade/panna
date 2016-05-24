@@ -89,6 +89,8 @@ class MenuTableViewController: UITableViewController {
             {
             case 0: //My Events
                 self.performSegueWithIdentifier("toMyEvents", sender: self)
+            case 1: //Join Events
+                self.performSegueWithIdentifier("toJoinEvents", sender: self)
             case 2:
                 self.performSegueWithIdentifier("toCreateEvent", sender: self)
             case 3:
