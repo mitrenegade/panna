@@ -25,7 +25,7 @@ class MyEventsTableViewController: UITableViewController {
             menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
         }
         
-        service.listenForEvents(type: nil) { (results) in
+        service.getEvents(type: nil) { (results) in
             // completion function will get called once at the start, and each time events change
             for event: Event in results {
                 print("Found an event")
@@ -39,7 +39,6 @@ class MyEventsTableViewController: UITableViewController {
             }
             
             self.tableView.reloadData()
-
         }
         
         self.navigationItem.title = "My Events"

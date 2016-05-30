@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -205,7 +205,11 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="Fnj-et-dI1">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="jNQ-Hm-W2u"/>
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="5kD-Ni-ZLj"/>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="5kD-Ni-ZLj">
+                            <connections>
+                                <action selector="didClickSave:" destination="pY7-gS-Lty" id="fFq-Kf-BrX"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="menuButton" destination="jNQ-Hm-W2u" id="X9f-r9-hEo"/>
