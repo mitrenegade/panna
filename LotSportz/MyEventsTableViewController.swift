@@ -12,7 +12,6 @@ import SWRevealViewController
 class MyEventsTableViewController: UITableViewController {
     
     var service = EventService.sharedInstance()
-    var events: [NSObject: Event] = [:]
     var sortedEvents: [Event] = []
     @IBOutlet var menuButton: UIBarButtonItem!
 
@@ -27,18 +26,32 @@ class MyEventsTableViewController: UITableViewController {
         
         service.getEvents(type: nil) { (results) in
             // completion function will get called once at the start, and each time events change
+            var events: [NSObject: Event] = [:]
             for event: Event in results {
                 print("Found an event")
                 // make sure events is unique and don't add duplicates
                 let id = event.id()
-                self.events[id] = event
+                events[id] = event
             }
             // Configure the cell...
-            self.sortedEvents = self.events.values.sort { (event1, event2) -> Bool in
+            self.sortedEvents = events.values.sort { (event1, event2) -> Bool in
                 return event1.id() > event2.id()
             }
-            
-            self.tableView.reloadData()
+            var participatingEvents: [Event] = []
+            self.service.getEventsForUser(firAuth!.currentUser!, completion: { (eventIds) in
+                print("done")
+                for event: Event in self.sortedEvents {
+                    if eventIds.contains(event.id()) {
+                        print("event exists: \(event.id())")
+                        participatingEvents.append(event)
+                    }
+                    else {
+                        print("not in")
+                    }
+                }
+                self.sortedEvents = participatingEvents
+                self.tableView.reloadData()
+            })
         }
         
         self.navigationItem.title = "My Events"
@@ -61,7 +74,7 @@ class MyEventsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return events.count
+            return self.sortedEvents.count
         case 1:
             return 0
         default:
@@ -88,7 +101,7 @@ class MyEventsTableViewController: UITableViewController {
         let cell : EventCell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! EventCell
  
         
-        let event = sortedEvents[indexPath.row]
+        let event = self.sortedEvents[indexPath.row]
         let place = event.place()
         //let time = event.timeString()
         cell.labelLocation.text = place

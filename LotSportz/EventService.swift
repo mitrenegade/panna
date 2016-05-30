@@ -129,6 +129,33 @@ class EventService: NSObject {
         }
     }
     
+    func getEventsForUser(user: FIRUser, completion: (eventIds: [String]) -> Void) {
+        // returns all current events for a user. Returns as snapshot
+        // only gets events once, and removes observer afterwards
+        print("Get events for user \(user.uid)")
+        
+        let eventQueryRef = firRef.child("userEvents").child(user.uid) // this creates a query on the endpoint lotsports.firebase.com/events/
+        
+        // do query
+        var handle: UInt = 0
+        handle = eventQueryRef.observeEventType(.Value) { (snapshot: FIRDataSnapshot!) in
+            // this block is called for every result returned
+            var results: [String] = []
+            if let allObjects =  snapshot.children.allObjects as? [FIRDataSnapshot] {
+                for snapshot: FIRDataSnapshot in allObjects {
+                    let eventId = snapshot.key
+                    if let val = snapshot.value as? Bool {
+                        if val == true {
+                            results.append(eventId)
+                        }
+                    }
+                }
+            }
+            completion(eventIds: results)
+            eventQueryRef.removeObserverWithHandle(handle)
+        }
+    }
+    
     func addUser(user: FIRUser, toEvent event: Event, join: Bool) {
         // adds eventId to user's events list
         // use transactions: https://firebase.google.com/docs/database/ios/save-data#save_data_as_transactions
@@ -166,6 +193,34 @@ class EventService: NSObject {
             }
         }
     }
+    
+    func getUsersForEvent(event: Event, completion: (userIds: [String]) -> Void) {
+        // returns all current events for a user. Returns as snapshot
+        // only gets events once, and removes observer afterwards
+        print("Get users for event \(event.id())")
+        
+        let queryRef = firRef.child("eventUsers").child(event.id()) // this creates a query on the endpoint lotsports.firebase.com/events/
+        
+        // do query
+        var handle: UInt = 0
+        handle = queryRef.observeEventType(.Value) { (snapshot: FIRDataSnapshot!) in
+            // this block is called for every result returned
+            var results: [String] = []
+            if let allObjects =  snapshot.children.allObjects as? [FIRDataSnapshot] {
+                for snapshot: FIRDataSnapshot in allObjects {
+                    let userId = snapshot.key
+                    if let val = snapshot.value as? Bool {
+                        if val == true {
+                            results.append(userId)
+                        }
+                    }
+                }
+            }
+            completion(userIds: results)
+            queryRef.removeObserverWithHandle(handle)
+        }
+    }
+
 }
 
 extension Event {
