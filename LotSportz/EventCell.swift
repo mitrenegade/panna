@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol EventCellDelegate {
+    func joinOrLeaveEvent(event: Event, join: Bool)
+}
+
 class EventCell: UITableViewCell {
 
     @IBOutlet var btnAction: UIButton!
@@ -19,6 +23,7 @@ class EventCell: UITableViewCell {
     @IBOutlet var eventLogo: UIImageView!
     
     var event: Event?
+    var delegate: EventCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -71,7 +76,9 @@ class EventCell: UITableViewCell {
         }
     }
 
-    @IBAction func didTapCancel(sender: AnyObject) {
+    @IBAction func didTapButton(sender: AnyObject) {
         print("Tapped Cancel/Join")
+
+        self.delegate?.joinOrLeaveEvent(self.event!, join: !self.event!.containsUser(firAuth!.currentUser!))
     }
 }

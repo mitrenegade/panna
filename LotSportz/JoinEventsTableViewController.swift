@@ -9,7 +9,7 @@
 import UIKit
 import SWRevealViewController
 
-class JoinEventsTableViewController: UITableViewController {
+class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
 
     var service = EventService.sharedInstance()
     var sortedEvents: [Event] = []
@@ -104,7 +104,8 @@ class JoinEventsTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : EventCell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! EventCell
-                
+        cell.delegate = self
+        
         let event = sortedEvents[indexPath.row]
         cell.setupWithEvent(event)
         
@@ -118,6 +119,12 @@ class JoinEventsTableViewController: UITableViewController {
      //To-Do: Don't think we need this, as long as we can read in taps from join/cancel buttons
      }
      */
-     
     
+    // MARK: EventCellDelegate
+    func joinOrLeaveEvent(event: Event, join: Bool) {
+        self.service.addEvent(event: event, toUser: firAuth!.currentUser!, join: join)
+        self.service.addUser(firAuth!.currentUser!, toEvent: event, join: join)
+        
+        self.tableView.reloadData()
+    }
 }

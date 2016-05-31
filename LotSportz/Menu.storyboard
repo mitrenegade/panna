@@ -428,7 +428,7 @@
                                                 </mask>
                                             </variation>
                                             <connections>
-                                                <action selector="didTapCancel:" destination="ZLb-3O-Uge" eventType="touchUpInside" id="6e8-CJ-Bk5"/>
+                                                <action selector="didTapButton:" destination="ZLb-3O-Uge" eventType="touchUpInside" id="xkf-sU-kYu"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -553,7 +553,7 @@
                                                 </mask>
                                             </variation>
                                             <connections>
-                                                <action selector="didTapCancel:" destination="idL-jc-sLt" eventType="touchUpInside" id="kyi-dw-dTb"/>
+                                                <action selector="didTapButton:" destination="idL-jc-sLt" eventType="touchUpInside" id="b06-4l-zWt"/>
                                             </connections>
                                         </button>
                                     </subviews>
