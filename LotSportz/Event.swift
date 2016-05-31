@@ -16,6 +16,8 @@ enum EventType: String {
     case Other
 }
 
+var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
 class Event: FirebaseBaseModel {
     var service = EventService.sharedInstance()
     
@@ -54,12 +56,19 @@ class Event: FirebaseBaseModel {
         return ""
     }
     
+    func dateString() -> String {
+        let date = self.time()
+        let formatter = NSDateFormatter()
+        formatter.timeStyle = .ShortStyle
+        return "\(date.day()) \(months[date.month()]) \(date.year())"
+    }
+
     func timeString() -> String {
         let date = self.time()
         let formatter = NSDateFormatter()
         formatter.timeStyle = .ShortStyle
         let time = formatter.stringFromDate(date)
-        return "\(date.month())-\(date.day())-\(date.year()), \(time)"
+        return "\(time)"
     }
     
     func maxPlayers() -> Int {
@@ -94,5 +103,13 @@ class Event: FirebaseBaseModel {
             return userIds
         }
         return []
+    }
+    
+    func containsUser(user: FIRUser) -> Bool {
+        return self.users().contains(user.uid)
+    }
+    
+    func isFull() -> Bool {
+        return self.maxPlayers() == self.numPlayers()
     }
 }

@@ -33,18 +33,35 @@ class EventCell: UITableViewCell {
     func setupWithEvent(event: Event) {
         self.event = event
         let place = event.place()
-        //let time = event.timeString()
         self.labelLocation.text = place
-        self.labelDate.text = "Thurs May 5" //To-Do: Sanitize Date info from event.time
-        self.labelTime.text = "12pm - 3pm" //To-Do: Add start/end time attributes for events
-        self.labelFull.text = "You're going!" //To-Do: Add functionality whether or not event is full
+        self.labelDate.text = self.event?.dateString() //To-Do: Sanitize Date info from event.time
+        self.labelTime.text = self.event?.timeString() //To-Do: Add start/end time attributes for events
         
-        self.labelAttendance.text = "\(self.event!.numPlayers()) Attending" //To-Do: "\(event.maxPlayers()) Attending"
-//        self.btnAction.tag = indexPath.row //tag uniquely identifies cell, and therefore, the event
+        // Button display and action
+        if self.event!.containsUser(firAuth!.currentUser!) {
+            self.labelFull.text = "You're going!" //To-Do: Add functionality whether or not event is full
+            self.btnAction.setTitle("Leave", forState: .Normal)
+            self.btnAction.enabled = true
+        }
+        else {
+            self.btnAction.setTitle("Join", forState: .Normal)
+            if self.event!.isFull() {
+                self.labelFull.text = "Event full"
+                self.btnAction.enabled = false
+            }
+            else {
+                self.labelFull.text = "Available"
+                self.btnAction.enabled = true
+            }
+        }
+        // self.btnAction.tag = indexPath.row //tag uniquely identifies cell, and therefore, the event
+        // TODO: hook up cancel or join behavior
+        
+        self.labelAttendance.text = "\(self.event!.numPlayers()) Attending"
         
         switch event.type() {
         case "Basketball":
-            self.eventLogo.image = UIImage(named: "backetball")
+            self.eventLogo.image = UIImage(named: "basketball")
         case "Soccer":
             self.eventLogo.image = UIImage(named: "soccer")
         case "Flag Football":
@@ -52,18 +69,6 @@ class EventCell: UITableViewCell {
         default:
             self.eventLogo.hidden = true
         }
-        /*
-        switch indexPath.section {
-        case 0:
-            cell.btnAction.hidden = false
-        case 1:
-            cell.btnAction.hidden = true
-        default:
-            break
-            
-        }
-         */
-
     }
 
     @IBAction func didTapCancel(sender: AnyObject) {
