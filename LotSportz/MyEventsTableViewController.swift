@@ -24,6 +24,20 @@ class MyEventsTableViewController: UITableViewController {
             menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
         }
         
+        self.refreshEvents()
+        
+        self.navigationItem.title = "My Events"
+        //print(sortedEvents)
+        //print(events)
+
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    func refreshEvents() {
         service.getEvents(type: nil) { (results) in
             // completion function will get called once at the start, and each time events change
             var events: [NSObject: Event] = [:]
@@ -53,18 +67,8 @@ class MyEventsTableViewController: UITableViewController {
                 self.tableView.reloadData()
             })
         }
-        
-        self.navigationItem.title = "My Events"
-        //print(sortedEvents)
-        //print(events)
-
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

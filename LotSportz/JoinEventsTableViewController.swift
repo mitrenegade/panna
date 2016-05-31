@@ -12,7 +12,6 @@ import SWRevealViewController
 class JoinEventsTableViewController: UITableViewController {
 
     var service = EventService.sharedInstance()
-    var events: [NSObject: Event] = [:]
     var sortedEvents: [Event] = []
     
     @IBOutlet var menuButton: UIBarButtonItem!
@@ -25,22 +24,7 @@ class JoinEventsTableViewController: UITableViewController {
             menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
         }
         
-        service.getEvents(type: nil) { (results) in
-            // completion function will get called once at the start, and each time events change
-            for event: Event in results {
-                print("Found an event")
-                // make sure events is unique and don't add duplicates
-                let id = event.id()
-                self.events[id] = event
-            }
-            // Configure the cell...
-            self.sortedEvents = self.events.values.sort { (event1, event2) -> Bool in
-                return event1.id() > event2.id()
-            }
-            
-            self.tableView.reloadData()
-            
-        }
+        self.refreshEvents()
         
         self.navigationItem.title = "Join Events"
         //print(sortedEvents)
@@ -53,6 +37,39 @@ class JoinEventsTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func refreshEvents() {
+        service.getEvents(type: nil) { (results) in
+            // completion function will get called once at the start, and each time events change
+            var events: [NSObject: Event] = [:]
+            for event: Event in results {
+                print("Found an event")
+                // make sure events is unique and don't add duplicates
+                let id = event.id()
+                events[id] = event
+            }
+            // Configure the cell...
+            self.sortedEvents = events.values.sort { (event1, event2) -> Bool in
+                return event1.id() > event2.id()
+            }
+            
+            var newEvents: [Event] = []
+            self.service.getEventsForUser(firAuth!.currentUser!, completion: { (eventIds) in
+                print("done")
+                for event: Event in self.sortedEvents {
+                    if eventIds.contains(event.id()) {
+                        print("event exists: \(event.id())")
+                    }
+                    else {
+                        print("not in")
+                        newEvents.append(event)
+                    }
+                }
+                self.sortedEvents = newEvents
+                self.tableView.reloadData()
+            })
+        }
+    }
+    
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -62,7 +79,7 @@ class JoinEventsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return events.count
+            return self.sortedEvents.count
         case 1:
             return 0
         default:
