@@ -39,7 +39,7 @@ class EventCell: UITableViewCell {
         self.labelTime.text = "12pm - 3pm" //To-Do: Add start/end time attributes for events
         self.labelFull.text = "You're going!" //To-Do: Add functionality whether or not event is full
         
-        self.labelAttendance.text = "10 Attending" //To-Do: "\(event.maxPlayers()) Attending"
+        self.labelAttendance.text = "\(self.event!.numPlayers()) Attending" //To-Do: "\(event.maxPlayers()) Attending"
 //        self.btnAction.tag = indexPath.row //tag uniquely identifies cell, and therefore, the event
         
         switch event.type() {

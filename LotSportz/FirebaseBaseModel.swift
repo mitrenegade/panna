@@ -18,13 +18,13 @@ class FirebaseBaseModel: NSObject {
     // }
 
     var firebaseKey: String! // store id
-    var firRef: FIRDatabaseReference? // url like lotsportz.firebase.com/model/id
+    var firebaseRef: FIRDatabaseReference? // url like lotsportz.firebase.com/model/id
     var dict: [String: AnyObject]! // {key1: val1, key2: val2 ...}
     
     init(snapshot: FIRDataSnapshot?) {
         if snapshot != nil {
             self.firebaseKey = snapshot!.key
-            self.firRef = snapshot!.ref
+            self.firebaseRef = snapshot!.ref
             self.dict = snapshot!.value as? [String: AnyObject]
         }
     }
@@ -32,7 +32,7 @@ class FirebaseBaseModel: NSObject {
     init(ref: FIRDatabaseReference?) {
         if ref != nil {
             self.firebaseKey = ref!.key
-            self.firRef = ref
+            self.firebaseRef = ref
             self.dict = ref?.valueForKey(self.firebaseKey) as? [String: AnyObject]
         }
     }
@@ -46,5 +46,4 @@ class FirebaseBaseModel: NSObject {
     func id() -> String {
         return self.firebaseKey
     }
-    
 }

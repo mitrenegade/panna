@@ -30,6 +30,7 @@ class MyEventsTableViewController: UITableViewController {
         //print(sortedEvents)
         //print(events)
 
+        self.service.listenForEventUsers()
     }
 
     override func didReceiveMemoryWarning() {

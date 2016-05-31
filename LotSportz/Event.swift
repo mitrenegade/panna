@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 enum EventType: String {
     case Soccer
@@ -16,6 +17,8 @@ enum EventType: String {
 }
 
 class Event: FirebaseBaseModel {
+    var service = EventService.sharedInstance()
+    
     func type() -> String {
         if let val = self.dict["type"] as? String {
             return val
@@ -66,10 +69,30 @@ class Event: FirebaseBaseModel {
         return 0
     }
     
+    func numPlayers() -> Int {
+        let users = self.users()
+        print("users: \(users.count)")
+        return users.count
+    }
+    
     func info() -> String {
         if let val = self.dict["info"] as? String {
             return val
         }
         return ""
+    }
+    
+    func users() -> [String] {
+        print("usersForEvents: \(self.service.usersForEvents!)")
+        if let results = self.service.usersForEvents![self.id()] as? [String: AnyObject] {
+            let filtered = results.filter({ (key, val) -> Bool in
+                return val as! Bool
+            })
+            let userIds = filtered.map({ (key, val) -> String in
+                return key
+            })
+            return userIds
+        }
+        return []
     }
 }

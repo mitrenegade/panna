@@ -14,7 +14,6 @@ import Firebase
 import RandomKit
 
 private var eventServiceSingleton: EventService?
-
 private var TESTING = false
 
 class EventService: NSObject {
@@ -27,6 +26,22 @@ class EventService: NSObject {
         
         return eventServiceSingleton!
     }
+    
+    // MARK: - Global/constant listeners
+    var usersForEvents: [String: AnyObject]?
+    func listenForEventUsers() {
+        var onceToken: dispatch_once_t = 0
+        dispatch_once(&onceToken) {
+            // firRef is the global firebase ref
+            let queryRef = firRef.child("eventUsers") // this creates a query on the endpoint lotsports.firebase.com/events/
+            queryRef.observeEventType(.Value) { (snapshot: FIRDataSnapshot!) in
+                // this block is called for every result returned
+                self.usersForEvents = snapshot.value as? [String: AnyObject]
+            }
+        }
+    }
+    
+    // MARK: - Single call listeners
     
     func getEvents(type type: String?, completion: (results: [Event]) -> Void) {
         // returns all current events of a certain type. Returns as snapshot
@@ -220,7 +235,6 @@ class EventService: NSObject {
             queryRef.removeObserverWithHandle(handle)
         }
     }
-
 }
 
 extension Event {
