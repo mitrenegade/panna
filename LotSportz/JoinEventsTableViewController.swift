@@ -104,38 +104,9 @@ class JoinEventsTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : EventCell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! EventCell
-        
-        
+                
         let event = sortedEvents[indexPath.row]
-        let place = event.place()
-        //let time = event.timeString()
-        cell.labelLocation.text = place
-        cell.labelDate.text = "Thurs May 5" //To-Do: Sanitize Date info from event.time
-        cell.labelTime.text = "12pm - 3pm" //To-Do: Add start/end time attributes for events
-        cell.labelFull.text = "You're going!" //To-Do: Add functionality whether or not event is full
-        
-        cell.labelAttendance.text = "10 Attending" //To-Do: "\(event.maxPlayers()) Attending"
-        cell.btnAction.tag = indexPath.row //tag uniquely identifies cell, and therefore, the event
-        
-        switch event.type() {
-        case "Basketball":
-            cell.eventLogo.image = UIImage(named: "backetball")
-        case "Soccer":
-            cell.eventLogo.image = UIImage(named: "soccer")
-        case "Flag Football":
-            cell.eventLogo.image = UIImage(named: "football")
-        default:
-            cell.eventLogo.hidden = true
-        }
-        switch indexPath.section {
-        case 0:
-            cell.btnAction.hidden = false
-        case 1:
-            cell.btnAction.hidden = true
-        default:
-            break
-            
-        }
+        cell.setupWithEvent(event)
         
         return cell
     }
