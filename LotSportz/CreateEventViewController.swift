@@ -12,14 +12,17 @@ import SWRevealViewController
 class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
     let options = ["Sport Type", "City", "Location", "Day", "Start Time", "End Time", "Max Players"]
-    var sportTypes = ["Soccer", "Basketball", "Flag Football"]
-    let maxPlayers = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    var sportTypes = ["Select Type", "Soccer", "Basketball", "Flag Football"]
+    let maxPlayers = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"]
+    
+    var currentCell : DetailCell!
     var pickerData = []
 
     @IBOutlet var pickerView: UIPickerView!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var menuButton: UIBarButtonItem!
     @IBOutlet var saveButton: UIBarButtonItem!
+    @IBOutlet var datePickerView: UIDatePicker!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,11 +36,16 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         pickerView = UIPickerView(frame: CGRectMake(0, 200, view.frame.width, 300))
         pickerView.backgroundColor = .whiteColor()
         
-        pickerView.showsSelectionIndicator = true
+        datePickerView = UIDatePicker(frame: CGRectMake(0, 200, view.frame.width, 300))
+        datePickerView.backgroundColor = .whiteColor()
+
+        // pickerView.showsSelectionIndicator = true
         pickerView.delegate = self
         pickerView.dataSource = self
         tableView.delegate = self
         tableView.dataSource = self
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -80,7 +88,20 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             let cell : DetailCell = tableView.dequeueReusableCellWithIdentifier("detailCell", forIndexPath: indexPath) as! DetailCell
             
             cell.labelAttribute.text = options[indexPath.row]
-            cell.labelValue.text = ""
+            cell.valueTextField.userInteractionEnabled = false;
+
+            switch indexPath.row {
+            case 0,6:
+                cell.valueTextField.inputView = self.pickerView
+            case 1,2:
+                break
+            case 3...5:
+                cell.valueTextField.inputView = self.datePickerView
+
+            default:
+                break
+            }
+           
             
             return cell
 
@@ -142,20 +163,43 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        print("Tapped Cell")
         if indexPath.section == 0 {
+            if currentCell != nil{
+                currentCell.valueTextField.resignFirstResponder()
+            }
+
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as! DetailCell
+            cell.valueTextField.userInteractionEnabled = true
             switch indexPath.row {
             case 0:
                 print("Tapped sport types")
-                //Display sport types
                 pickerData = sportTypes
-                pickerView.hidden = false
                 pickerView.reloadAllComponents()
-                view.bringSubviewToFront(pickerView)
-    
+            case 3:
+                self.datePickerView.datePickerMode = UIDatePickerMode.Date
+                datePickerView.addTarget(self, action: #selector(datePickerValueChanged), forControlEvents: UIControlEvents.ValueChanged)
+
+            case 4,5:
+                self.datePickerView.datePickerMode = UIDatePickerMode.Time
+                datePickerView.addTarget(self, action: #selector(timePickerValueChanged), forControlEvents: UIControlEvents.ValueChanged)
+            case 6:
+                print("Tapped number of players")
+                pickerData = maxPlayers
+                pickerView.reloadAllComponents()
             default:
                 break
             }
+            
+            currentCell = cell
+            cell.valueTextField.becomeFirstResponder()
+
+           
         }
+    }
+    
+    func updateLabel(){
+        currentCell.valueTextField.placeholder = pickerData[pickerView.selectedRowInComponent(0)] as? String
     }
 
     //MARK: - Delegates and data sources
@@ -172,6 +216,30 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         print("Reloaded components")
         return pickerData[row] as? String
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if row > 0 {
+            updateLabel()
+            //self.pickerView.hidden = true
+            currentCell.valueTextField.userInteractionEnabled = false
+            currentCell.resignFirstResponder()
+            pickerData = []
+        }
+    }
+    
+    func datePickerValueChanged(sender:UIDatePicker) {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+        dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+        currentCell.valueTextField.placeholder = dateFormatter.stringFromDate(sender.date)
+    }
+    
+    func timePickerValueChanged(sender:UIDatePicker) {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = NSDateFormatterStyle.NoStyle
+        dateFormatter.timeStyle = NSDateFormatterStyle.MediumStyle
+        currentCell.valueTextField.placeholder = dateFormatter.stringFromDate(sender.date)
     }
 
 }
