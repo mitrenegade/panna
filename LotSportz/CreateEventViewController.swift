@@ -17,7 +17,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     
     var currentCell : DetailCell!
     var pickerData = []
-
+    
     @IBOutlet var pickerView: UIPickerView!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var menuButton: UIBarButtonItem!
@@ -44,6 +44,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         pickerView.dataSource = self
         tableView.delegate = self
         tableView.dataSource = self
+        
         
         
     }
@@ -179,10 +180,10 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             case 3:
                 self.datePickerView.datePickerMode = UIDatePickerMode.Date
                 datePickerView.addTarget(self, action: #selector(datePickerValueChanged), forControlEvents: UIControlEvents.ValueChanged)
-
             case 4,5:
                 self.datePickerView.datePickerMode = UIDatePickerMode.Time
                 datePickerView.addTarget(self, action: #selector(timePickerValueChanged), forControlEvents: UIControlEvents.ValueChanged)
+
             case 6:
                 print("Tapped number of players")
                 pickerData = maxPlayers
@@ -238,7 +239,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     func timePickerValueChanged(sender:UIDatePicker) {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.NoStyle
-        dateFormatter.timeStyle = NSDateFormatterStyle.MediumStyle
+        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
         currentCell.valueTextField.placeholder = dateFormatter.stringFromDate(sender.date)
     }
 
