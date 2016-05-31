@@ -106,6 +106,17 @@ class EventService: NSObject {
         }
     }
     
+    func joinEvent(event: Event, user: FIRUser) {
+        self.addEvent(event: event, toUser: user, join: true)
+        self.addUser(user, toEvent: event, join: true)
+    }
+    
+    func leaveEvent(event: Event, user: FIRUser) {
+        self.addEvent(event: event, toUser: user, join: false)
+        self.addUser(user, toEvent: event, join: false)
+    }
+    
+    // MARK: User's events helper
     func addEvent(event event: Event, toUser user: FIRUser, join: Bool) {
         // adds eventId to user's events list
         // use transactions: https://firebase.google.com/docs/database/ios/save-data#save_data_as_transactions
@@ -171,6 +182,7 @@ class EventService: NSObject {
         }
     }
     
+    // MARK: - Event's users helper
     func addUser(user: FIRUser, toEvent event: Event, join: Bool) {
         // adds eventId to user's events list
         // use transactions: https://firebase.google.com/docs/database/ios/save-data#save_data_as_transactions

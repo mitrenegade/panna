@@ -122,8 +122,13 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
     
     // MARK: EventCellDelegate
     func joinOrLeaveEvent(event: Event, join: Bool) {
-        self.service.addEvent(event: event, toUser: firAuth!.currentUser!, join: join)
-        self.service.addUser(firAuth!.currentUser!, toEvent: event, join: join)
+        let user = firAuth!.currentUser!
+        if join {
+            self.service.joinEvent(event, user: user)
+        }
+        else {
+            self.service.leaveEvent(event, user: user)
+        }
  
         self.refreshEvents()
     }
