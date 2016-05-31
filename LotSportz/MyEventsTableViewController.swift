@@ -9,10 +9,9 @@
 import UIKit
 import SWRevealViewController
 
-class MyEventsTableViewController: UITableViewController {
+class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     
     var service = EventService.sharedInstance()
-    var events: [NSObject: Event] = [:]
     var sortedEvents: [Event] = []
     @IBOutlet var menuButton: UIBarButtonItem!
 
@@ -25,27 +24,13 @@ class MyEventsTableViewController: UITableViewController {
             menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
         }
         
-        service.listenForEvents(type: nil) { (results) in
-            // completion function will get called once at the start, and each time events change
-            for event: Event in results {
-                print("Found an event")
-                // make sure events is unique and don't add duplicates
-                let id = event.id()
-                self.events[id] = event
-            }
-            // Configure the cell...
-            self.sortedEvents = self.events.values.sort { (event1, event2) -> Bool in
-                return event1.id() > event2.id()
-            }
-            
-            self.tableView.reloadData()
-
-        }
+        self.refreshEvents()
         
         self.navigationItem.title = "My Events"
         //print(sortedEvents)
         //print(events)
 
+        self.service.listenForEventUsers()
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,6 +38,38 @@ class MyEventsTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    func refreshEvents() {
+        service.getEvents(type: nil) { (results) in
+            // completion function will get called once at the start, and each time events change
+            var events: [NSObject: Event] = [:]
+            for event: Event in results {
+                print("Found an event")
+                // make sure events is unique and don't add duplicates
+                let id = event.id()
+                events[id] = event
+            }
+            // Configure the cell...
+            self.sortedEvents = events.values.sort { (event1, event2) -> Bool in
+                return event1.id() > event2.id()
+            }
+            var participatingEvents: [Event] = []
+            self.service.getEventsForUser(firAuth!.currentUser!, completion: { (eventIds) in
+                print("done")
+                for event: Event in self.sortedEvents {
+                    if eventIds.contains(event.id()) {
+                        print("event exists: \(event.id())")
+                        participatingEvents.append(event)
+                    }
+                    else {
+                        print("not in")
+                    }
+                }
+                self.sortedEvents = participatingEvents
+                self.tableView.reloadData()
+            })
+        }
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -62,7 +79,7 @@ class MyEventsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return events.count
+            return self.sortedEvents.count
         case 1:
             return 0
         default:
@@ -87,91 +104,22 @@ class MyEventsTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : EventCell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! EventCell
- 
-        
-        let event = sortedEvents[indexPath.row]
-        let place = event.place()
-        //let time = event.timeString()
-        cell.labelLocation.text = place
-        cell.labelDate.text = "Thurs May 5" //To-Do: Sanitize Date info from event.time
-        cell.labelTime.text = "12pm - 3pm" //To-Do: Add start/end time attributes for events
-        cell.labelFull.text = "Event full" //To-Do: Add functionality whether or not event is full
-        
-        cell.labelAttendance.text = "10 Attending" //To-Do: "\(event.maxPlayers()) Attending"
-        cell.btnAction.tag = indexPath.row
-        
-        switch event.type() {
-        case "Basketball":
-            cell.eventLogo.image = UIImage(named: "backetball")
-        case "Soccer":
-            cell.eventLogo.image = UIImage(named: "soccer")
-        case "Flag Football":
-            cell.eventLogo.image = UIImage(named: "football")
-        default:
-            cell.eventLogo.hidden = true
-        }
-        switch indexPath.section {
-        case 0:
-            cell.btnAction.hidden = false
-        case 1:
-            cell.btnAction.hidden = true
-        default:
-            break
-            
-        }
-        
+        cell.delegate = self
+        let event = self.sortedEvents[indexPath.row]
+        cell.setupWithEvent(event)
         return cell
     }
 
-    /*
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let event = sortedEvents[indexPath.row]
+    // MARK: EventCellDelegate
+    func joinOrLeaveEvent(event: Event, join: Bool) {
+        let user = firAuth!.currentUser!
+        if join {
+            self.service.joinEvent(event, user: user)
+        }
+        else {
+            self.service.leaveEvent(event, user: user)
+        }
         
+        self.refreshEvents()
     }
-    
-    
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
