@@ -115,6 +115,6 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         self.service.addEvent(event: event, toUser: firAuth!.currentUser!, join: join)
         self.service.addUser(firAuth!.currentUser!, toEvent: event, join: join)
         
-        self.tableView.reloadData()
+        self.refreshEvents()
     }
 }
