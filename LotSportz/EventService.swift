@@ -59,6 +59,11 @@ class EventService: NSObject {
         // sort by time
         eventQueryRef.queryOrderedByChild("time")
         
+        // filter for type
+        if let _ = type {
+            eventQueryRef.queryEqualToValue(type!, childKey: "type")
+        }
+        
         // do query
         var handle: UInt = 0
         handle = eventQueryRef.observeEventType(.Value) { (snapshot: FIRDataSnapshot!) in
