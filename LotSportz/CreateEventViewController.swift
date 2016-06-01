@@ -9,7 +9,7 @@
 import UIKit
 import SWRevealViewController
 
-class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, SWRevealViewControllerDelegate {
     
     let options = ["Sport Type", "City", "Location", "Day", "Start Time", "End Time", "Max Players"]
     var sportTypes = ["Select Type", "Soccer", "Basketball", "Flag Football"]
@@ -34,6 +34,8 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     @IBOutlet var saveButton: UIBarButtonItem!
     @IBOutlet var datePickerView: UIDatePicker!
     
+    var menuController: MenuTableViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,6 +57,14 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         tableView.delegate = self
         tableView.dataSource = self
         pickingStartTime = false
+
+        if self.revealViewController() != nil {
+            self.revealViewController().delegate = self
+            
+            // TODO: custom hamburger back button
+            //self.setHamburgerBackButtonWithTarget(self.revealViewController(), action: "revealToggle:")
+        }
+    
     }
 
     override func didReceiveMemoryWarning() {
@@ -80,13 +90,10 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         /* !!!EVENT SERVICE: Create event call should include parameters in commented call below !!! */
         EventService.sharedInstance().createEvent(self.type, place: "Braden Field", time: NSDate(), max_players: 10, info: info)
         //EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, time: self.date, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info)
-        
-        let storyboard = UIStoryboard(name: "Menu", bundle: nil)
-        let controller = storyboard.instantiateViewControllerWithIdentifier("MyEventsTableViewController") as UIViewController
 
-        
-        self.revealViewController().pushFrontViewController(controller, animated: true)
-       
+        // TODO: create some sort of activity indicator
+        self.revealViewController().revealToggle(nil)
+        self.menuController!.goToMyEvents()
     }
 
     // MARK: - Table view data source

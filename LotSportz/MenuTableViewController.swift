@@ -27,6 +27,33 @@ class MenuTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - Navigation helpers
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "toCreateEvent" {
+            // add a reference to menuTableViewController to navigate back
+            let nav: UINavigationController = segue.destinationViewController as! UINavigationController
+            let controller: CreateEventViewController = nav.viewControllers[0] as! CreateEventViewController
+            controller.menuController = self
+        }
+    }
+    
+    func goToMyEvents() {
+        self.performSegueWithIdentifier("toMyEvents", sender: self)
+    }
+
+    func goToJoinEvents() {
+        self.performSegueWithIdentifier("toJoinEvents", sender: self)
+    }
+
+    func goToCreateEvent() {
+        self.performSegueWithIdentifier("toCreateEvent", sender: self)
+    }
+
+    func goToSettings() {
+        self.performSegueWithIdentifier("toSettings", sender: self)
+    }
+
+    
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -124,5 +151,6 @@ class MenuTableViewController: UITableViewController {
             return 60.0
         }
     }
+    
     
 }
