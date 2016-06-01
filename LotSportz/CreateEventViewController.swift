@@ -235,7 +235,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     
     
     func updateLabel(){
-        currentCell.valueTextField.placeholder = pickerData[pickerView.selectedRowInComponent(0)] as? String
+        currentCell.valueTextField.text = pickerData[pickerView.selectedRowInComponent(0)] as? String
         if (pickerData == sportTypes) { //selected a sport type
             self.type = pickerData[pickerView.selectedRowInComponent(0)] as? String
         } else if (pickerData == maxPlayers) { //selected max players
@@ -274,7 +274,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
-        currentCell.valueTextField.placeholder = dateFormatter.stringFromDate(sender.date)
+        currentCell.valueTextField.text = dateFormatter.stringFromDate(sender.date)
         
         date = sender.date
     }
@@ -283,7 +283,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.NoStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-        currentCell.valueTextField.placeholder = dateFormatter.stringFromDate(sender.date)
+        currentCell.valueTextField.text = dateFormatter.stringFromDate(sender.date)
         if (pickingStartTime != nil) {
             self.startTime = dateFormatter.stringFromDate(sender.date)
         } else {

@@ -130,7 +130,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="grq-VB-LBT">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="grq-VB-LBT" customClass="transparentTextField" customModule="LotSportz" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="8" width="551" height="28"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -383,7 +383,7 @@
         <!--My Events Table View Controller-->
         <scene sceneID="S4Q-1u-Tbr">
             <objects>
-                <tableViewController restorationIdentifier="MyEventsTableViewController" storyboardIdentifier="MyEventsTableViewController" id="Iv4-uQ-ng6" customClass="MyEventsTableViewController" customModule="LotSportz" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Iv4-uQ-ng6" customClass="MyEventsTableViewController" customModule="LotSportz" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="101" sectionHeaderHeight="28" sectionFooterHeight="28" id="Tc4-fz-NqF">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

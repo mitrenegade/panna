@@ -13,6 +13,7 @@ class DetailCell: UITableViewCell {
     @IBOutlet var labelAttribute: UILabel!
     
     @IBOutlet var valueTextField: UITextField!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
