@@ -17,6 +17,16 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     
     var currentCell : DetailCell!
     var pickerData = []
+    var pickingStartTime : Bool!
+    
+    var type : String!
+    var city : String!
+    var location : String!
+    var date : NSDate!
+    var startTime : String!
+    var endTime : String!
+    var numPlayers : Int!
+    var info : String!
     
     @IBOutlet var pickerView: UIPickerView!
     @IBOutlet var tableView: UITableView!
@@ -44,9 +54,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         pickerView.dataSource = self
         tableView.delegate = self
         tableView.dataSource = self
-        
-        
-        
+        pickingStartTime = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,12 +62,31 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         // Dispose of any resources that can be recreated.
     }
     
+    
     @IBAction func didClickSave(sender: AnyObject) {
         // create a generic event
-        let displayName = firAuth?.currentUser!.email
-        let info = "created by \(displayName!)"
-        EventService.sharedInstance().createEvent("Basketball", place: "Braden Field", time: NSDate(), max_players: 10, info: info)
-        //To-Do: Add Start/End times for createEvent call
+        let displayName = firAuth?.currentUser!.email //what is the purpose of this?
+        
+        //get city
+        
+        let cityCell : DetailCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as! DetailCell
+        self.city = cityCell.valueTextField.text
+        let descriptionCell : DescriptionCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1)) as! DescriptionCell
+        self.info = descriptionCell.DescriptionTextView.text
+        
+        
+        
+        
+        /* !!!EVENT SERVICE: Create event call should include parameters in commented call below !!! */
+        EventService.sharedInstance().createEvent(self.type, place: "Braden Field", time: NSDate(), max_players: 10, info: info)
+        //EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, time: self.date, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info)
+        
+        let storyboard = UIStoryboard(name: "Menu", bundle: nil)
+        let controller = storyboard.instantiateViewControllerWithIdentifier("MyEventsTableViewController") as UIViewController
+
+        
+        self.revealViewController().pushFrontViewController(controller, animated: true)
+       
     }
 
     // MARK: - Table view data source
@@ -179,11 +206,17 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
                 pickerView.reloadAllComponents()
             case 3:
                 self.datePickerView.datePickerMode = UIDatePickerMode.Date
+                
                 datePickerView.addTarget(self, action: #selector(datePickerValueChanged), forControlEvents: UIControlEvents.ValueChanged)
-            case 4,5:
+                
+            case 4:
                 self.datePickerView.datePickerMode = UIDatePickerMode.Time
                 datePickerView.addTarget(self, action: #selector(timePickerValueChanged), forControlEvents: UIControlEvents.ValueChanged)
-
+                pickingStartTime = true
+            case 5:
+                self.datePickerView.datePickerMode = UIDatePickerMode.Time
+                datePickerView.addTarget(self, action: #selector(timePickerValueChanged), forControlEvents: UIControlEvents.ValueChanged)
+                pickingStartTime = false
             case 6:
                 print("Tapped number of players")
                 pickerData = maxPlayers
@@ -199,8 +232,15 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         }
     }
     
+    
+    
     func updateLabel(){
         currentCell.valueTextField.placeholder = pickerData[pickerView.selectedRowInComponent(0)] as? String
+        if (pickerData == sportTypes) { //selected a sport type
+            self.type = pickerData[pickerView.selectedRowInComponent(0)] as? String
+        } else if (pickerData == maxPlayers) { //selected max players
+            self.numPlayers = pickerData[pickerView.selectedRowInComponent(0)] as? Int
+        }
     }
 
     //MARK: - Delegates and data sources
@@ -227,6 +267,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             currentCell.resignFirstResponder()
             pickerData = []
         }
+        
     }
     
     func datePickerValueChanged(sender:UIDatePicker) {
@@ -234,6 +275,8 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
         currentCell.valueTextField.placeholder = dateFormatter.stringFromDate(sender.date)
+        
+        date = sender.date
     }
     
     func timePickerValueChanged(sender:UIDatePicker) {
@@ -241,6 +284,12 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         dateFormatter.dateStyle = NSDateFormatterStyle.NoStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
         currentCell.valueTextField.placeholder = dateFormatter.stringFromDate(sender.date)
+        if (pickingStartTime != nil) {
+            self.startTime = dateFormatter.stringFromDate(sender.date)
+        } else {
+            self.endTime = dateFormatter.stringFromDate(sender.date)
+        }
+        
     }
 
 }
