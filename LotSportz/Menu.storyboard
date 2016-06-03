@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -117,7 +117,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" red="0.71764705882352942" green="0.93333333333333335" blue="0.83529411764705885" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="detailCell" id="vI7-Lf-em6" customClass="DetailCell" customModule="LotSportz" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cityCell" id="vI7-Lf-em6" customClass="DetailCell" customModule="LotSportz" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="49.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vI7-Lf-em6" id="Kh4-ot-1Fi">
@@ -130,7 +130,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="grq-VB-LBT" customClass="transparentTextField" customModule="LotSportz" customModuleProvider="target">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="grq-VB-LBT">
                                                     <rect key="frame" x="8" y="8" width="551" height="28"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -158,8 +158,49 @@
                                             <outlet property="valueTextField" destination="grq-VB-LBT" id="zYO-gx-m79"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="detailCell" id="rBQ-ZU-Bgh" customClass="DetailCell" customModule="LotSportz" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="93.5" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rBQ-ZU-Bgh" id="6SQ-F7-gk1">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wh7-78-iIV">
+                                                    <rect key="frame" x="16" y="11" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eBH-Kv-eih" customClass="transparentTextField" customModule="LotSportz" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="8" width="551" height="28"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="eBH-Kv-eih" firstAttribute="top" secondItem="6SQ-F7-gk1" secondAttribute="topMargin" id="5oQ-hB-U3n"/>
+                                                <constraint firstItem="Wh7-78-iIV" firstAttribute="centerY" secondItem="6SQ-F7-gk1" secondAttribute="centerY" id="AlH-J1-z1K"/>
+                                                <constraint firstItem="eBH-Kv-eih" firstAttribute="leading" secondItem="6SQ-F7-gk1" secondAttribute="leadingMargin" id="M1E-p9-WfR"/>
+                                                <constraint firstItem="eBH-Kv-eih" firstAttribute="trailing" secondItem="6SQ-F7-gk1" secondAttribute="trailingMargin" id="cY7-ke-Uoy"/>
+                                                <constraint firstItem="eBH-Kv-eih" firstAttribute="trailing" secondItem="6SQ-F7-gk1" secondAttribute="trailingMargin" id="eWb-EE-2AT"/>
+                                                <constraint firstItem="Wh7-78-iIV" firstAttribute="leading" secondItem="6SQ-F7-gk1" secondAttribute="leadingMargin" constant="8" id="i0I-W5-eeD"/>
+                                                <constraint firstItem="eBH-Kv-eih" firstAttribute="centerY" secondItem="6SQ-F7-gk1" secondAttribute="centerY" id="mRP-On-Esz"/>
+                                                <constraint firstItem="eBH-Kv-eih" firstAttribute="leading" secondItem="Wh7-78-iIV" secondAttribute="trailing" constant="8" id="y98-8X-mRU"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="y98-8X-mRU"/>
+                                                    <exclude reference="cY7-ke-Uoy"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="labelAttribute" destination="Wh7-78-iIV" id="TES-Oj-zj7"/>
+                                            <outlet property="valueTextField" destination="eBH-Kv-eih" id="erg-O7-c7K"/>
+                                        </connections>
+                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="descriptionCell" rowHeight="141" id="QSs-iy-MeV" customClass="DescriptionCell" customModule="LotSportz" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="93.5" width="600" height="141"/>
+                                        <rect key="frame" x="0.0" y="137.5" width="600" height="141"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QSs-iy-MeV" id="Ytd-2T-psc">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="140.5"/>
