@@ -28,6 +28,13 @@ class Event: FirebaseBaseModel {
         return EventType.Other.rawValue
     }
     
+    func city() -> String {
+        if let val = self.dict["place"] as? String {
+            return val
+        }
+        return ""
+    }
+    
     func place() -> String {
         if let val = self.dict["place"] as? String {
             return val
