@@ -80,7 +80,7 @@ class EventService: NSObject {
         }
     }
     
-    func createEvent(type: String = "soccer", place: String = "Boston Commons, Boston", time: NSDate = NSDate(), max_players: UInt = 1, info: String?) {
+    func createEvent(type: String = "soccer", city: String, place: String = "Boston Commons, Boston", startTime: NSDate = NSDate(), endTime: NSDate, max_players: UInt = 1, info: String?) {
         print ("Create events")
         
         if TESTING {
@@ -91,7 +91,7 @@ class EventService: NSObject {
         let newEventRef = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
         
             // TEST: Demo on how to use event. eventDict should not be nil in production
-        var params: [String: AnyObject] = ["type": type, "place": place, "time": time.dateByAddingTimeInterval(3600*24*2).timeIntervalSince1970, "max_players": max_players]
+        var params: [String: AnyObject] = ["type": type, "city": city, "place": place, "time": startTime.dateByAddingTimeInterval(3600*24*2).timeIntervalSince1970, "max_players": max_players]
         if info == nil {
             params["info"] = info!
         }

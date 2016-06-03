@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -117,11 +117,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" red="0.71764705882352942" green="0.93333333333333335" blue="0.83529411764705885" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cityCell" id="vI7-Lf-em6" customClass="DetailCell" customModule="LotSportz" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cityCell" id="vI7-Lf-em6" customClass="DetailCell" customModule="LotSportz" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="49.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vI7-Lf-em6" id="Kh4-ot-1Fi">
-                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eu2-rE-kpn">
@@ -131,7 +131,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="grq-VB-LBT">
-                                                    <rect key="frame" x="8" y="8" width="551" height="28"/>
+                                                    <rect key="frame" x="8" y="8" width="573" height="28"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
@@ -140,7 +140,7 @@
                                                 <constraint firstItem="grq-VB-LBT" firstAttribute="centerY" secondItem="Kh4-ot-1Fi" secondAttribute="centerY" id="9Zs-4l-L2I"/>
                                                 <constraint firstItem="grq-VB-LBT" firstAttribute="top" secondItem="Kh4-ot-1Fi" secondAttribute="topMargin" id="Be3-iJ-MDg"/>
                                                 <constraint firstItem="grq-VB-LBT" firstAttribute="leading" secondItem="Kh4-ot-1Fi" secondAttribute="leadingMargin" id="QHs-YQ-HKT"/>
-                                                <constraint firstItem="grq-VB-LBT" firstAttribute="trailing" secondItem="Kh4-ot-1Fi" secondAttribute="trailingMargin" id="TfH-rf-XRC"/>
+                                                <constraint firstItem="grq-VB-LBT" firstAttribute="trailing" secondItem="Kh4-ot-1Fi" secondAttribute="trailingMargin" constant="-11" id="TfH-rf-XRC"/>
                                                 <constraint firstItem="Eu2-rE-kpn" firstAttribute="leading" secondItem="Kh4-ot-1Fi" secondAttribute="leadingMargin" constant="8" id="dY4-NO-2QA"/>
                                                 <constraint firstItem="Eu2-rE-kpn" firstAttribute="centerY" secondItem="Kh4-ot-1Fi" secondAttribute="centerY" id="h0p-dS-Xh9"/>
                                                 <constraint firstItem="grq-VB-LBT" firstAttribute="leading" secondItem="Eu2-rE-kpn" secondAttribute="trailing" constant="8" id="wzt-uA-KYg"/>
@@ -189,8 +189,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="y98-8X-mRU"/>
                                                     <exclude reference="cY7-ke-Uoy"/>
+                                                    <exclude reference="y98-8X-mRU"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -237,6 +237,10 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="pY7-gS-Lty" id="auS-gh-mMP"/>
+                                    <outlet property="delegate" destination="pY7-gS-Lty" id="5Mk-W9-LVb"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -264,7 +268,11 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="Fnj-et-dI1">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="jNQ-Hm-W2u"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="jNQ-Hm-W2u">
+                            <connections>
+                                <action selector="didClickMenu:" destination="pY7-gS-Lty" id="gT3-ot-W3T"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Save" id="5kD-Ni-ZLj">
                             <connections>
                                 <action selector="didClickSave:" destination="pY7-gS-Lty" id="fFq-Kf-BrX"/>
@@ -272,9 +280,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="datePickerView" destination="hWY-V9-gE3" id="uYt-jz-HEx"/>
-                        <outlet property="menuButton" destination="jNQ-Hm-W2u" id="X9f-r9-hEo"/>
-                        <outlet property="pickerView" destination="uRL-F8-YOt" id="Gv1-bK-nNm"/>
+                        <outlet property="menuButton" destination="jNQ-Hm-W2u" id="DkO-4m-Pjn"/>
                         <outlet property="saveButton" destination="5kD-Ni-ZLj" id="jnZ-61-r8M"/>
                         <outlet property="tableView" destination="gdd-Vj-hIu" id="WIW-Mi-N0w"/>
                     </connections>

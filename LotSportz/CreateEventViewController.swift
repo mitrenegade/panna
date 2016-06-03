@@ -9,9 +9,9 @@
 import UIKit
 import SWRevealViewController
 
-class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, SWRevealViewControllerDelegate {
+class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, SWRevealViewControllerDelegate, UITextFieldDelegate {
     
-    let options = ["Sport Type", "City", "Location", "Day", "Start Time", "End Time", "Max Players"]
+    let options = ["Sport Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
     var sportTypes = ["Select Type", "Soccer", "Basketball", "Flag Football"]
     let maxPlayers = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     
@@ -23,10 +23,15 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     var city : String!
     var location : String!
     var date : NSDate!
-    var startTime : String!
-    var endTime : String!
-    var numPlayers : Int!
+    var startTimeString : String!
+    var endTimeString : String!
+    var startTime: NSDate!
+    var endTime: NSDate!
+    var numPlayers : UInt!
     var info : String!
+   
+    var cityField: UITextField?
+    var locationField: UITextField?
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var menuButton: UIBarButtonItem!
@@ -39,11 +44,6 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if self.revealViewController() != nil {
-            menuButton.target = self.revealViewController()
-            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-        }
-        
         self.navigationItem.title = "Create Event"
         pickerView = UIPickerView(frame: CGRectMake(0, 200, view.frame.width, 300))
         pickerView.backgroundColor = .whiteColor()
@@ -55,8 +55,6 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         // pickerView.showsSelectionIndicator = true
         pickerView.delegate = self
         pickerView.dataSource = self
-        tableView.delegate = self
-        tableView.dataSource = self
         pickingStartTime = false
 
         if self.revealViewController() != nil {
@@ -71,25 +69,25 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func didClickMenu(sender: AnyObject) {
+        if self.revealViewController() != nil {
+            self.revealViewController().revealToggle(self)
+        }
+    }
     
     @IBAction func didClickSave(sender: AnyObject) {
         // create a generic event
         let displayName = firAuth?.currentUser!.email //what is the purpose of this?
         
         //get city
-        
         let cityCell : DetailCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as! DetailCell
         self.city = cityCell.valueTextField.text
         let descriptionCell : DescriptionCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1)) as! DescriptionCell
         self.info = descriptionCell.DescriptionTextView.text
         
-        
-        
-        
         /* !!!EVENT SERVICE: Create event call should include parameters in commented call below !!! */
         if type != nil && city != nil && location != nil && date != nil && startTime != nil && endTime != nil && numPlayers != nil && info != nil  {
-            EventService.sharedInstance().createEvent(self.type, place: "Braden Field", time: NSDate(), max_players: 10, info: info)
-            //EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, time: self.date, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info)
+            EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info)
             
             // TODO: create some sort of activity indicator
             self.revealViewController().revealToggle(nil)
@@ -101,8 +99,6 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             
             self.presentViewController(alert, animated: true, completion: nil)
         }
-        
-     
     }
 
     // MARK: - Table view data source
@@ -129,33 +125,39 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         print("Reloaded rows of table")
         switch indexPath.section {
         case 0:
-            let cell : DetailCell = tableView.dequeueReusableCellWithIdentifier("detailCell", forIndexPath: indexPath) as! DetailCell
-            
-            cell.labelAttribute.text = options[indexPath.row]
-            cell.valueTextField.userInteractionEnabled = false;
-
-            switch indexPath.row {
-            case 0,6:
-                cell.valueTextField.inputView = self.pickerView
-            case 1,2:
-                let cell : DetailCell = tableView.dequeueReusableCellWithIdentifier("cityCell", forIndexPath: indexPath) as! DetailCell
-                cell.labelAttribute.text = options[indexPath.row]
+            let cell : DetailCell
+            if indexPath.row == 1 || indexPath.row == 2 {
+                cell = tableView.dequeueReusableCellWithIdentifier("cityCell", forIndexPath: indexPath) as! DetailCell
                 
-                if indexPath.row == 1{
+                if indexPath.row == 2 {
                     cell.valueTextField.placeholder = "Boston"
+                    self.cityField = cell.valueTextField
                 } else{
                     cell.valueTextField.placeholder = "Braden Field"
+                    self.locationField = cell.valueTextField
+                }
+                cell.valueTextField.delegate = self
+            }
+            else {
+                cell = tableView.dequeueReusableCellWithIdentifier("detailCell", forIndexPath: indexPath) as! DetailCell
+                
+                switch indexPath.row {
+                case 0,6:
+                    cell.valueTextField.inputView = self.pickerView
+                case 1,2:
+                    cell.valueTextField.inputView = nil
+                    break
+                case 3...5:
+                    cell.valueTextField.inputView = self.datePickerView
+                    
+                default:
+                    break
                 }
                 
-                break
-            case 3...5:
-                cell.valueTextField.inputView = self.datePickerView
-
-            default:
-                break
+                cell.valueTextField.userInteractionEnabled = false;
             }
-           
-            
+            cell.labelAttribute.text = options[indexPath.row]
+
             return cell
 
         case 1:
@@ -181,28 +183,6 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             return "Noice"
         }
     }
-    
-    /* - CUSTOM HEADER VIEW IMPLEMENTATION (WIP)
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView(frame: CGRectMake(0, 0, tableView.bounds.size.width, 30))
-        headerView.backgroundColor = UIColor(red: 183.0/255.0, green: 238.0/255.0, blue: 213.0/255.0, alpha: 1.0)
-        let label = UILabel(frame: CGRectMake(10, 5, tableView.bounds.size.width, 20))
-        label.font = UIFont.boldSystemFontOfSize(12)
-        
-        switch section {
-        case 0:
-            label.text = "Details"
-        case 1:
-            label.text =  "Description"
-        default:
-            label.text = "Noice"
-        }
-        
-        headerView.addSubview(label)
-        
-        return headerView
-    }
-    */
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
@@ -255,19 +235,15 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             
             currentCell = cell
             cell.valueTextField.becomeFirstResponder()
-
-           
         }
     }
-    
-    
     
     func updateLabel(){
         currentCell.valueTextField.text = pickerData[pickerView.selectedRowInComponent(0)] as? String
         if (pickerData == sportTypes) { //selected a sport type
             self.type = pickerData[pickerView.selectedRowInComponent(0)] as? String
         } else if (pickerData == maxPlayers) { //selected max players
-            self.numPlayers = pickerData[pickerView.selectedRowInComponent(0)] as? Int
+            self.numPlayers = pickerData[pickerView.selectedRowInComponent(0)] as? UInt
         }
     }
 
@@ -313,11 +289,22 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
         currentCell.valueTextField.text = dateFormatter.stringFromDate(sender.date)
         if (pickingStartTime != nil) {
-            self.startTime = dateFormatter.stringFromDate(sender.date)
+            self.startTime = sender.date
+            self.startTimeString = dateFormatter.stringFromDate(sender.date)
         } else {
-            self.endTime = dateFormatter.stringFromDate(sender.date)
+            self.endTime = sender.date
+            self.endTimeString = dateFormatter.stringFromDate(sender.date)
         }
-        
+    }
+    
+    // MARK: - UITextFieldDelegate
+    func textFieldDidEndEditing(textField: UITextField) {
+        if textField == self.cityField {
+            self.city = textField.text
+        }
+        else if textField == self.locationField {
+            self.location = textField.text
+        }
     }
 
 }
