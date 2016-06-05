@@ -9,13 +9,14 @@
 import UIKit
 import SWRevealViewController
 
-class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, SWRevealViewControllerDelegate, UITextFieldDelegate {
+class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, SWRevealViewControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     let options = ["Sport Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
     var sportTypes = ["Select Type", "Soccer", "Basketball", "Flag Football"]
     let maxPlayers = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     
     var currentField : UITextField?
+    var currentTextView : UITextView?
     var pickerData = []
     var pickingStartTime : Bool!
     
@@ -37,7 +38,9 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     var startField: UITextField?
     var endField: UITextField?
     var maxPlayersField: UITextField?
+    var descriptionTextView : UITextView?
     var keyboardDoneButtonView: UIToolbar!
+    var keyboardHeight : CGFloat!
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var menuButton: UIBarButtonItem!
@@ -51,10 +54,12 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         super.viewDidLoad()
         
         self.navigationItem.title = "Create Event"
-        pickerView = UIPickerView(frame: CGRectMake(0, 200, view.frame.width, 300))
+        pickerView = UIPickerView()
+        pickerView.sizeToFit()
         pickerView.backgroundColor = .whiteColor()
         
-        datePickerView = UIDatePicker(frame: CGRectMake(0, 200, view.frame.width, 300))
+        datePickerView = UIDatePicker()
+        datePickerView.sizeToFit()
         datePickerView.backgroundColor = .whiteColor()
         datePickerView.minimumDate = NSDate()
         
@@ -65,21 +70,31 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
 
         if self.revealViewController() != nil {
             self.revealViewController().delegate = self
-            
         }
 
         self.keyboardDoneButtonView = UIToolbar()
         keyboardDoneButtonView.sizeToFit()
-        keyboardDoneButtonView.barStyle = UIBarStyle.Black
+        keyboardDoneButtonView.barStyle = UIBarStyle.Default
         keyboardDoneButtonView.tintColor = UIColor.whiteColor()
         let save: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self.view, action: #selector(UIView.endEditing(_:)))
+        save.tintColor = self.view.tintColor
+        
         let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        
         keyboardDoneButtonView.setItems([flex, save], animated: true)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     @IBAction func didClickMenu(sender: AnyObject) {
@@ -94,9 +109,9 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         
         //get city
         self.city = self.cityField!.text
-        let descriptionCell : DescriptionCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1)) as! DescriptionCell
-        self.info = descriptionCell.DescriptionTextView.text
+        self.info = self.descriptionTextView!.text
         
+        print(info)
         /* !!!EVENT SERVICE: Create event call should include parameters in commented call below !!! */
         if type != nil && city != nil && location != nil && date != nil && startTime != nil && endTime != nil && numPlayers != nil && info != nil  {
             EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info)
@@ -174,6 +189,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
                 default:
                     break
                 }
+
             }
             cell.labelAttribute.text = options[indexPath.row]
             cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
@@ -182,6 +198,10 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
 
         case 1:
             let cell : DescriptionCell = tableView.dequeueReusableCellWithIdentifier("descriptionCell", forIndexPath: indexPath) as! DescriptionCell
+            self.descriptionTextView = cell.descriptionTextView
+            cell.descriptionTextView.delegate = self
+            
+            cell.descriptionTextView.inputAccessoryView = self.keyboardDoneButtonView
 
             return cell
         default:
@@ -216,7 +236,8 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         print("Tapped Cell \(indexPath)")
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case 0:
             if currentField != nil{
                 currentField!.resignFirstResponder()
             }
@@ -252,7 +273,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
                 textField = self.maxPlayersField!
                 print("Tapped number of players")
                 pickerData = maxPlayers.map
-                {
+                    {
                         String($0)
                 }
                 pickerView.reloadAllComponents()
@@ -262,7 +283,14 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             currentField = textField
             textField.userInteractionEnabled = true
             textField.becomeFirstResponder()
+        
+        case 1:
+            
+            break
+        default:
+            break
         }
+        
     }
     
     func updateLabel(){
@@ -332,6 +360,29 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         else if textField == self.locationField {
             self.location = textField.text
         }
+    }
+    
+    // MARK: -UITextViewDelegate
+    func textViewDidBeginEditing(textView: UITextView) {
+       self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.keyboardHeight, right: 0)
+        
+        let indexPath = NSIndexPath(forRow: 0, inSection: 1)
+        self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        self.tableView.contentInset = UIEdgeInsetsZero
+        
+    }
+    
+    // MARK - Keyboard
+    func keyboardWillShow(notification: NSNotification) {
+        let userInfo:NSDictionary = notification.userInfo!
+        let keyboardFrame:NSValue = userInfo.valueForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.CGRectValue()
+        let keyboardHeight = keyboardRectangle.height
+        
+        self.keyboardHeight = keyboardHeight
     }
 
 }
