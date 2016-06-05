@@ -101,11 +101,13 @@ class EventService: NSObject {
                 print(error)
                 completion(nil, error)
             } else {
-                let event = Event(ref: newEventRef)
-                // TODO: completion blocks for these too
-                self.addEvent(event: event, toUser: firAuth!.currentUser!, join: true)
-                self.addUser(firAuth!.currentUser!, toEvent: event, join: true)
-                completion(event, nil)
+                ref.observeEventType(.Value, withBlock: { (snapshot) in
+                    let event = Event(snapshot: snapshot)
+                    // TODO: completion blocks for these too
+                    self.addEvent(event: event, toUser: firAuth!.currentUser!, join: true)
+                    self.addUser(firAuth!.currentUser!, toEvent: event, join: true)
+                    completion(event, nil)
+                })
             }
         }
         

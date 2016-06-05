@@ -29,14 +29,6 @@ class FirebaseBaseModel: NSObject {
         }
     }
 
-    init(ref: FIRDatabaseReference?) {
-        if ref != nil {
-            self.firebaseKey = ref!.key
-            self.firebaseRef = ref
-            self.dict = ref?.valueForKey(self.firebaseKey) as? [String: AnyObject]
-        }
-    }
-
     // returns dict, or the value/contents of this object
     func toAnyObject() -> AnyObject {
         return self.dict

@@ -9,6 +9,8 @@
 import UIKit
 import SWRevealViewController
 
+private var TESTING = true
+
 class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, SWRevealViewControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     let options = ["Sport Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
@@ -133,6 +135,17 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     @IBAction func didClickSave(sender: AnyObject) {
         // in case user clicks save without clicking done first
         self.info = self.descriptionTextView!.text
+        
+        if TESTING {
+            type = "Basketball"
+            city = "Philly"
+            location = "A field"
+            date = NSDate()
+            startTime = NSDate()
+            endTime = NSDate()
+            numPlayers = 2
+            info = "test"
+        }
 
         if type != nil && city != nil && location != nil && date != nil && startTime != nil && endTime != nil && numPlayers != nil && info != nil  {
             EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info, completion: { (event, error) in
