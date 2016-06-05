@@ -13,11 +13,9 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     
     let options = ["Sport Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
     var sportTypes = ["Select Type", "Soccer", "Basketball", "Flag Football"]
-    let maxPlayers = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     
     var currentField : UITextField?
     var currentTextView : UITextView?
-    var pickerData = []
     
     var type : String!
     var city : String!
@@ -46,10 +44,11 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     @IBOutlet var tableView: UITableView!
     @IBOutlet var menuButton: UIBarButtonItem!
     @IBOutlet var saveButton: UIBarButtonItem!
+    var typePickerView: UIPickerView = UIPickerView()
+    var numberPickerView: UIPickerView = UIPickerView()
     var datePickerView: UIDatePicker = UIDatePicker()
     var startTimePickerView: UIDatePicker = UIDatePicker()
     var endTimePickerView: UIDatePicker = UIDatePicker()
-    var pickerView: UIPickerView = UIPickerView()
 
     var menuController: MenuTableViewController?
     
@@ -102,10 +101,12 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     
     func setupPickers() {
         
-        pickerView.sizeToFit()
-        pickerView.backgroundColor = .whiteColor()
-        pickerView.delegate = self
-        pickerView.dataSource = self
+        for picker in [typePickerView, numberPickerView] {
+            picker.sizeToFit()
+            picker.backgroundColor = .whiteColor()
+            picker.delegate = self
+            picker.dataSource = self
+        }
         
         for picker in [startTimePickerView, endTimePickerView, datePickerView] {
             picker.sizeToFit()
@@ -194,7 +195,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
                 switch indexPath.row {
                 case 0:
                     self.typeField = cell.valueTextField
-                    self.typeField?.inputView = self.pickerView
+                    self.typeField?.inputView = self.typePickerView
                     cell.valueTextField.inputAccessoryView = nil
                 case 3:
                     self.dayField = cell.valueTextField
@@ -210,7 +211,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
                 case 6:
                     self.maxPlayersField = cell.valueTextField
-                    self.maxPlayersField?.inputView = self.pickerView
+                    self.maxPlayersField?.inputView = self.numberPickerView
                     cell.valueTextField.inputAccessoryView = nil
                 default:
                     break
@@ -272,8 +273,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             case 0:
                 print("Tapped sport types")
                 textField = self.typeField!
-                pickerData = sportTypes
-                pickerView.reloadAllComponents()
+                typePickerView.reloadAllComponents()
             case 1:
                 textField = self.locationField!
             case 2:
@@ -287,11 +287,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             case 6:
                 textField = self.maxPlayersField!
                 print("Tapped number of players")
-                pickerData = maxPlayers.map
-                    {
-                        String($0)
-                }
-                pickerView.reloadAllComponents()
+                numberPickerView.reloadAllComponents()
             default:
                 break
             }
@@ -315,13 +311,12 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func updateLabel(){
-        if currentField == self.typeField || currentField == self.maxPlayersField {
-            currentField!.text = pickerData[pickerView.selectedRowInComponent(0)] as? String
-            if (pickerData == sportTypes) { //selected a sport type
-                self.type = pickerData[pickerView.selectedRowInComponent(0)] as? String
-            } else if (pickerData == maxPlayers) { //selected max players
-                self.numPlayers = pickerData[pickerView.selectedRowInComponent(0)] as? UInt
-            }
+        if (currentField == self.typeField) {
+            self.type = sportTypes[self.typePickerView.selectedRowInComponent(0)]
+            currentField!.text = self.type
+        } else if (currentField == self.maxPlayersField) { //selected max players
+            self.numPlayers = UInt(self.pickerView(self.numberPickerView, titleForRow: self.numberPickerView.selectedRowInComponent(0), forComponent: 0)!)
+            currentField!.text = "\(self.numPlayers)"
         }
         // comes from clicking on done button. may not have the text yet
         else if currentField == self.dayField {
@@ -342,22 +337,30 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     }
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         print("Reloaded number of rows")
-        return pickerData.count
+        if pickerView == self.typePickerView {
+            return sportTypes.count
+        }
+        return 30
     }
     
     // The data to return for the row and component (column) that's being passed in
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         print("Reloaded components")
-        return pickerData[row] as? String
+        
+        if pickerView == self.typePickerView {
+            return sportTypes[row] as? String
+        }
+        if row == 0 {
+            return "Select a number"
+        }
+        return "\(row + 1)"
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if row > 0 {
             updateLabel()
-            //self.pickerView.hidden = true
             currentField!.userInteractionEnabled = false
             currentField!.resignFirstResponder()
-            pickerData = []
         }
         
     }
