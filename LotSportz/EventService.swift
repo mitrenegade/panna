@@ -80,7 +80,8 @@ class EventService: NSObject {
         }
     }
     
-    func createEvent(type: String = "soccer", city: String, place: String = "Boston Commons, Boston", startTime: NSDate = NSDate(), endTime: NSDate, max_players: UInt = 1, info: String?) {
+    func createEvent(type: String = "soccer", city: String, place: String = "Boston Commons, Boston", startTime: NSDate = NSDate(), endTime: NSDate, max_players: UInt = 1, info: String?, completion:(Event) -> Void) {
+        
         print ("Create events")
         
         if TESTING {
@@ -90,25 +91,24 @@ class EventService: NSObject {
         let eventRef = firRef.child("events") //firebaseRef.childByAppendingPath("events") // this references the endpoint lotsports.firebase.com/events/
         let newEventRef = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
         
-            // TEST: Demo on how to use event. eventDict should not be nil in production
+        // TEST: Demo on how to use event. eventDict should not be nil in production
         var params: [String: AnyObject] = ["type": type, "city": city, "place": place, "time": startTime.dateByAddingTimeInterval(3600*24*2).timeIntervalSince1970, "max_players": max_players]
         if info == nil {
             params["info"] = info!
         }
-        newEventRef.setValue(params)
-  
-        // create entry in userEvents
-        self.getEvents(type: type) { (results) in
-            print("results: \(results)")
-            for event in results {
-                if event.id() == newEventRef.key {
-                    self.addEvent(event: event, toUser: firAuth!.currentUser!, join: true)
-                    
-                    // create entry in eventUsers
-                    self.addUser(firAuth!.currentUser!, toEvent: event, join: true)
-                }
+        
+        newEventRef.setValue(params) { (error, ref) in
+            
+            if error != nil {
+                print(error)
+            } else {
+                let event = Event(ref: newEventRef)
+                self.addEvent(event: event, toUser: firAuth!.currentUser!, join: true)
+                self.addUser(firAuth!.currentUser!, toEvent: event, join: true)
+                completion(event)
             }
         }
+        
     }
     
     func joinEvent(event: Event, user: FIRUser) {
