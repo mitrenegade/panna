@@ -80,7 +80,7 @@ class EventService: NSObject {
         }
     }
     
-    func createEvent(type: String = "soccer", city: String, place: String = "Boston Commons, Boston", startTime: NSDate = NSDate(), endTime: NSDate, max_players: UInt = 1, info: String?, completion:(Event) -> Void) {
+    func createEvent(type: String, city: String, place: String, startTime: NSDate, endTime: NSDate, max_players: UInt, info: String?, completion:(Event?, NSError?) -> Void) {
         
         print ("Create events")
         
@@ -88,24 +88,24 @@ class EventService: NSObject {
             return
         }
         
-        let eventRef = firRef.child("events") //firebaseRef.childByAppendingPath("events") // this references the endpoint lotsports.firebase.com/events/
+        let eventRef = firRef.child("events") // this references the endpoint lotsports.firebase.com/events/
         let newEventRef = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
         
-        // TEST: Demo on how to use event. eventDict should not be nil in production
         var params: [String: AnyObject] = ["type": type, "city": city, "place": place, "time": startTime.dateByAddingTimeInterval(3600*24*2).timeIntervalSince1970, "max_players": max_players]
         if info == nil {
             params["info"] = info!
         }
         
         newEventRef.setValue(params) { (error, ref) in
-            
             if error != nil {
                 print(error)
+                completion(nil, error)
             } else {
                 let event = Event(ref: newEventRef)
+                // TODO: completion blocks for these too
                 self.addEvent(event: event, toUser: firAuth!.currentUser!, join: true)
                 self.addUser(firAuth!.currentUser!, toEvent: event, join: true)
-                completion(event)
+                completion(event, nil)
             }
         }
         

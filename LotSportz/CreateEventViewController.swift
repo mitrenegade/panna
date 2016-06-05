@@ -110,8 +110,8 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         for picker in [startTimePickerView, endTimePickerView, datePickerView] {
             picker.sizeToFit()
             picker.backgroundColor = .whiteColor()
-            picker.minimumDate = NSDate()
         }
+        datePickerView.minimumDate = NSDate()
         
         self.datePickerView.datePickerMode = UIDatePickerMode.Date
         self.datePickerView.addTarget(self, action: #selector(datePickerValueChanged), forControlEvents: UIControlEvents.ValueChanged)
@@ -130,22 +130,15 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     @IBAction func didClickSave(sender: AnyObject) {
-        // create a generic event
-        let displayName = firAuth?.currentUser!.email //what is the purpose of this?
-        
-        //get city
-        self.city = self.cityField!.text
+        // in case user clicks save without clicking done first
         self.info = self.descriptionTextView!.text
-        
-        print(info)
-        /* !!!EVENT SERVICE: Create event call should include parameters in commented call below !!! */
-        if type != nil && city != nil && location != nil && date != nil && startTime != nil && endTime != nil && numPlayers != nil && info != nil  {
-            EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info)
-            
-            // TODO: create some sort of activity indicator
-            self.revealViewController().revealToggle(nil)
-            self.menuController!.goToMyEvents()
 
+        if type != nil && city != nil && location != nil && date != nil && startTime != nil && endTime != nil && numPlayers != nil && info != nil  {
+            EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info, completion: { (event, error) in
+                // TODO: create some sort of activity indicator
+                self.revealViewController().revealToggle(nil)
+                self.menuController!.goToMyEvents()
+            })
         } else {
             let alert = UIAlertController(title: "Alert", message: "Pleae enter all required fields.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
@@ -419,7 +412,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     
     func textViewDidEndEditing(textView: UITextView) {
         self.tableView.contentInset = UIEdgeInsetsZero
-        
+        self.info = self.descriptionTextView!.text
     }
     
     // MARK - Keyboard
