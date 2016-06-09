@@ -10,8 +10,8 @@ import UIKit
 import Firebase
 
 enum EventType: String {
-    case Soccer
-    case Basketball
+    case Soccer = "Soccer"
+    case Basketball = "Basketball"
     case FlagFootball = "Flag Football"
     case Other
 }
