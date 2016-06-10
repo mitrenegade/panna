@@ -115,4 +115,10 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
         self.refreshEvents()
     }
     
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        let list = sortedEvents[eventTypes[section]]
+        return list!.count == 0 ? 0 : UITableViewAutomaticDimension
+    }
+    
 }

@@ -666,30 +666,6 @@
                                     <outlet property="labelTime" destination="Toi-tB-Rh5" id="13N-7K-yGH"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NoEventsCell" rowHeight="100" id="Wxw-pP-uH8" customClass="NoEventsCell" customModule="LotSportz" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="192" width="600" height="100"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Wxw-pP-uH8" id="Pn6-5c-3yO">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="99.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z2Z-02-mx3">
-                                            <rect key="frame" x="279" y="40" width="42" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="z2Z-02-mx3" firstAttribute="centerX" secondItem="Pn6-5c-3yO" secondAttribute="centerX" id="8I7-t9-cv4"/>
-                                        <constraint firstItem="z2Z-02-mx3" firstAttribute="centerY" secondItem="Pn6-5c-3yO" secondAttribute="centerY" id="SPV-QF-sZO"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="statusLabel" destination="z2Z-02-mx3" id="jDO-y3-63b"/>
-                                </connections>
-                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="Xnz-nR-yBQ" id="lyV-4V-tNU"/>

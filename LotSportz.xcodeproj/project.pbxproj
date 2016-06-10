@@ -28,7 +28,6 @@
 		F238AA261CEBA33500B5D37E /* Menu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F238AA251CEBA33500B5D37E /* Menu.storyboard */; };
 		F238AA281CEBA38700B5D37E /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F238AA271CEBA38700B5D37E /* MenuTableViewController.swift */; };
 		F250A7FC1CFF1588003A7DEA /* transparentTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F250A7FB1CFF1588003A7DEA /* transparentTextField.swift */; };
-		F271B8101D0A664E00FE587F /* NoEventsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F271B80F1D0A664E00FE587F /* NoEventsCell.swift */; };
 		F2C0F1201CF3E8BB00CB98F1 /* JoinEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C0F11F1CF3E8BB00CB98F1 /* JoinEventsTableViewController.swift */; };
 		F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3B71CEE109000350115 /* DetailCell.swift */; };
 		F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3B91CEE10E800350115 /* DescriptionCell.swift */; };
@@ -64,7 +63,6 @@
 		F238AA251CEBA33500B5D37E /* Menu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Menu.storyboard; sourceTree = "<group>"; };
 		F238AA271CEBA38700B5D37E /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		F250A7FB1CFF1588003A7DEA /* transparentTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = transparentTextField.swift; sourceTree = "<group>"; };
-		F271B80F1D0A664E00FE587F /* NoEventsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoEventsCell.swift; sourceTree = "<group>"; };
 		F2C0F11F1CF3E8BB00CB98F1 /* JoinEventsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinEventsTableViewController.swift; sourceTree = "<group>"; };
 		F2F7C3B71CEE109000350115 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
 		F2F7C3B91CEE10E800350115 /* DescriptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
@@ -184,7 +182,6 @@
 		F2F7C3BB1CEE10F700350115 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				F271B80F1D0A664E00FE587F /* NoEventsCell.swift */,
 				F250A7FB1CFF1588003A7DEA /* transparentTextField.swift */,
 				F2F7C3C11CEE2CDD00350115 /* PushTableViewCell.swift */,
 				F2048F7B1CED57170039F7BB /* EventCell.swift */,
@@ -336,7 +333,6 @@
 				8E7256AD1CDF7DB600C9E054 /* SignupViewController.swift in Sources */,
 				F2F7C3C21CEE2CDD00350115 /* PushTableViewCell.swift in Sources */,
 				8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */,
-				F271B8101D0A664E00FE587F /* NoEventsCell.swift in Sources */,
 				F238AA281CEBA38700B5D37E /* MenuTableViewController.swift in Sources */,
 				F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,

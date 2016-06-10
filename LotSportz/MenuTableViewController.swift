@@ -71,9 +71,8 @@ class MenuTableViewController: UITableViewController {
         case 1:
             return MENU_LIST.count
         default:
-            break
+            return 0
         }
-        return 0 //Never reached
     }
     
     
@@ -109,7 +108,6 @@ class MenuTableViewController: UITableViewController {
             break
         }
         let cell = tableView.dequeueReusableCellWithIdentifier("option", forIndexPath: indexPath)
-        
         return cell
     }
     
@@ -119,11 +117,7 @@ class MenuTableViewController: UITableViewController {
         let row = indexPath.row
         let section = indexPath.section
         
-        switch section
-        {
-        case 0:
-            break
-        //TODO: segue to home
+        switch section{
         case 1:
             switch row
             {
