@@ -12,7 +12,8 @@ import SWRevealViewController
 class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     
     var service = EventService.sharedInstance()
-    var sortedEvents: [Event] = []
+    var sortedUpcomingEvents: [Event] = []
+    var sortedPastEvents: [Event] = []
     @IBOutlet var menuButton: UIBarButtonItem!
 
     
@@ -27,7 +28,7 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         self.refreshEvents()
         
         self.navigationItem.title = "My Events"
-        //print(sortedEvents)
+        //print(sortedUpcomingEvents)
         //print(events)
 
         self.service.listenForEventUsers()
@@ -44,18 +45,25 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
             // completion function will get called once at the start, and each time events change
             
             // 1: sort all events by time
-            self.sortedEvents = results.sort { (event1, event2) -> Bool in
-                return event1.id() > event2.id()
+            self.sortedUpcomingEvents = results.sort { (event1, event2) -> Bool in
+                return event1.id() < event2.id()
             }
             
             // 2: Remove events the user has joined
             self.service.getEventsForUser(firAuth!.currentUser!, completion: { (eventIds) in
-                let filteredList = self.sortedEvents.filter({ (event) -> Bool in
+                self.sortedUpcomingEvents = self.sortedUpcomingEvents.filter({ (event) -> Bool in
                     eventIds.contains(event.id())
                 })
-                self.sortedEvents = filteredList
+                
+                let original = self.sortedUpcomingEvents
+                self.sortedPastEvents = original.filter({ (event) -> Bool in
+                    event.isPast()
+                })
+                
+                self.sortedUpcomingEvents = original.filter({ (event) -> Bool in
+                    !event.isPast()
+                })
                 self.tableView.reloadData()
-
             })
         }
         
@@ -70,9 +78,9 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return self.sortedEvents.count
+            return self.sortedUpcomingEvents.count
         case 1:
-            return 0
+            return self.sortedPastEvents.count
         default:
             break
         }
@@ -96,8 +104,15 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : EventCell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! EventCell
         cell.delegate = self
-        let event = self.sortedEvents[indexPath.row]
-        cell.setupWithEvent(event)
+        
+        switch indexPath.section {
+        case 0:
+            let event = self.sortedUpcomingEvents[indexPath.row]
+            cell.setupWithEvent(event)
+        default:
+            let event = self.sortedPastEvents[indexPath.row]
+            cell.setupWithEvent(event)
+        }
         return cell
     }
 

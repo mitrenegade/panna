@@ -42,28 +42,6 @@ class EventCell: UITableViewCell {
         self.labelDate.text = self.event?.dateString() //To-Do: Sanitize Date info from event.time
         self.labelTime.text = self.event?.timeString() //To-Do: Add start/end time attributes for events
         
-        // Button display and action
-        if self.event!.containsUser(firAuth!.currentUser!) {
-            self.labelFull.text = "You're going!" //To-Do: Add functionality whether or not event is full
-            self.btnAction.setTitle("Leave", forState: .Normal)
-            self.btnAction.enabled = true
-        }
-        else {
-            self.btnAction.setTitle("Join", forState: .Normal)
-            if self.event!.isFull() {
-                self.labelFull.text = "Event full"
-                self.btnAction.enabled = false
-            }
-            else {
-                self.labelFull.text = "Available"
-                self.btnAction.enabled = true
-            }
-        }
-        // self.btnAction.tag = indexPath.row //tag uniquely identifies cell, and therefore, the event
-        // TODO: hook up cancel or join behavior
-        
-        self.labelAttendance.text = "\(self.event!.numPlayers()) Attending"
-        
         switch event.type() {
         case "Basketball":
             self.eventLogo.image = UIImage(named: "basketball")
@@ -73,6 +51,34 @@ class EventCell: UITableViewCell {
             self.eventLogo.image = UIImage(named: "football")
         default:
             self.eventLogo.hidden = true
+        }
+        
+        if !event.isPast() {
+            // Button display and action
+            if self.event!.containsUser(firAuth!.currentUser!) {
+                self.labelFull.text = "You're going!" //To-Do: Add functionality whether or not event is full
+                self.btnAction.setTitle("Leave", forState: .Normal)
+                self.btnAction.enabled = true
+            }
+            else {
+                self.btnAction.setTitle("Join", forState: .Normal)
+                if self.event!.isFull() {
+                    self.labelFull.text = "Event full"
+                    self.btnAction.enabled = false
+                }
+                else {
+                    self.labelFull.text = "Available"
+                    self.btnAction.enabled = true
+                }
+            }
+            // self.btnAction.tag = indexPath.row //tag uniquely identifies cell, and therefore, the event
+            // TODO: hook up cancel or join behavior
+            
+            self.labelAttendance.text = "\(self.event!.numPlayers()) Attending"
+        } else {
+            self.labelFull.hidden = true
+            self.btnAction.hidden = true
+            self.labelAttendance.text = "\(self.event!.numPlayers()) Attended"
         }
     }
 

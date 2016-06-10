@@ -67,7 +67,7 @@ class Event: FirebaseBaseModel {
         let date = self.time()
         let formatter = NSDateFormatter()
         formatter.timeStyle = .ShortStyle
-        return "\(date.day()) \(months[date.month()]) \(date.year())"
+        return "\(date.day()) \(months[date.month() - 1]) \(date.year())"
     }
 
     func timeString() -> String {
@@ -118,5 +118,9 @@ class Event: FirebaseBaseModel {
     
     func isFull() -> Bool {
         return self.maxPlayers() == self.numPlayers()
+    }
+    
+    func isPast() -> Bool { //TODO: - Will need to compare self.endDate() instead of self.time(), once EventDate branch is merged
+        return (NSComparisonResult.OrderedAscending == self.time().compare(NSDate())) //event time happened before current time
     }
 }

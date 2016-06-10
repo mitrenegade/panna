@@ -49,10 +49,9 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
             
             // 2: Remove events the user has joined
             self.service.getEventsForUser(firAuth!.currentUser!, completion: { (eventIds) in
-                let filteredList = self.allEvents.filter({ (event) -> Bool in
-                    !eventIds.contains(event.id())
+                self.allEvents = self.allEvents.filter({ (event) -> Bool in
+                    (!eventIds.contains(event.id()) && !event.isPast())
                 })
-                self.allEvents = filteredList
                 
                 // 3: Organize events by type
                 self.sortedEvents = ["Soccer": [], "Basketball": [], "Flag Football": []]
@@ -93,7 +92,6 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
         return eventTypes[section]
     }
     
-    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : EventCell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! EventCell
         cell.delegate = self
@@ -116,4 +114,5 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
  
         self.refreshEvents()
     }
+    
 }
