@@ -54,10 +54,11 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
                     eventIds.contains(event.id())
                 })
                 self.sortedEvents = filteredList
-                
                 self.tableView.reloadData()
+
             })
         }
+        
     }
     
     // MARK: - Table view data source
