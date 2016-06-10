@@ -9,7 +9,7 @@
 import UIKit
 import SWRevealViewController
 
-private var TESTING = true
+private var TESTING = false
 
 class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, SWRevealViewControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
