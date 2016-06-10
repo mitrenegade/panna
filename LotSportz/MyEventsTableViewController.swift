@@ -39,32 +39,22 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     }
 
     func refreshEvents() {
+        
         service.getEvents(type: nil) { (results) in
             // completion function will get called once at the start, and each time events change
-            var events: [NSObject: Event] = [:]
-            for event: Event in results {
-                print("Found an event")
-                // make sure events is unique and don't add duplicates
-                let id = event.id()
-                events[id] = event
-            }
-            // Configure the cell...
-            self.sortedEvents = events.values.sort { (event1, event2) -> Bool in
+            
+            // 1: sort all events by time
+            self.sortedEvents = results.sort { (event1, event2) -> Bool in
                 return event1.id() > event2.id()
             }
-            var participatingEvents: [Event] = []
+            
+            // 2: Remove events the user has joined
             self.service.getEventsForUser(firAuth!.currentUser!, completion: { (eventIds) in
-                print("done")
-                for event: Event in self.sortedEvents {
-                    if eventIds.contains(event.id()) {
-                        print("event exists: \(event.id())")
-                        participatingEvents.append(event)
-                    }
-                    else {
-                        print("not in")
-                    }
-                }
-                self.sortedEvents = participatingEvents
+                let filteredList = self.sortedEvents.filter({ (event) -> Bool in
+                    eventIds.contains(event.id())
+                })
+                self.sortedEvents = filteredList
+                
                 self.tableView.reloadData()
             })
         }

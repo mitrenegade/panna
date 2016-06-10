@@ -55,6 +55,8 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
                 self.allEvents = filteredList
                 
                 // 3: Organize events by type
+                self.sortedEvents = ["Soccer": [], "Basketball": [], "Flag Football": []]
+
                 for event in self.allEvents{
                     var oldValue = self.sortedEvents[event.type()]
                     print(event.type())
