@@ -12,7 +12,8 @@ import SWRevealViewController
 class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     
     var service = EventService.sharedInstance()
-    var sortedEvents: [Event] = []
+    var sortedUpcomingEvents: [Event] = []
+    var sortedPastEvents: [Event] = []
     @IBOutlet var menuButton: UIBarButtonItem!
 
     
@@ -27,7 +28,7 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         self.refreshEvents()
         
         self.navigationItem.title = "My Events"
-        //print(sortedEvents)
+        //print(sortedUpcomingEvents)
         //print(events)
 
         self.service.listenForEventUsers()
@@ -39,35 +40,33 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     }
 
     func refreshEvents() {
+        
         service.getEvents(type: nil) { (results) in
             // completion function will get called once at the start, and each time events change
-            var events: [NSObject: Event] = [:]
-            for event: Event in results {
-                print("Found an event")
-                // make sure events is unique and don't add duplicates
-                let id = event.id()
-                events[id] = event
+            
+            // 1: sort all events by time
+            self.sortedUpcomingEvents = results.sort { (event1, event2) -> Bool in
+                return event1.id() < event2.id()
             }
-            // Configure the cell...
-            self.sortedEvents = events.values.sort { (event1, event2) -> Bool in
-                return event1.id() > event2.id()
-            }
-            var participatingEvents: [Event] = []
+            
+            // 2: Remove events the user has joined
             self.service.getEventsForUser(firAuth!.currentUser!, completion: { (eventIds) in
-                print("done")
-                for event: Event in self.sortedEvents {
-                    if eventIds.contains(event.id()) {
-                        print("event exists: \(event.id())")
-                        participatingEvents.append(event)
-                    }
-                    else {
-                        print("not in")
-                    }
-                }
-                self.sortedEvents = participatingEvents
+                self.sortedUpcomingEvents = self.sortedUpcomingEvents.filter({ (event) -> Bool in
+                    eventIds.contains(event.id())
+                })
+                
+                let original = self.sortedUpcomingEvents
+                self.sortedPastEvents = original.filter({ (event) -> Bool in
+                    event.isPast()
+                })
+                
+                self.sortedUpcomingEvents = original.filter({ (event) -> Bool in
+                    !event.isPast()
+                })
                 self.tableView.reloadData()
             })
         }
+        
     }
     
     // MARK: - Table view data source
@@ -79,9 +78,9 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return self.sortedEvents.count
+            return self.sortedUpcomingEvents.count
         case 1:
-            return 0
+            return self.sortedPastEvents.count
         default:
             break
         }
@@ -105,8 +104,15 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : EventCell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! EventCell
         cell.delegate = self
-        let event = self.sortedEvents[indexPath.row]
-        cell.setupWithEvent(event)
+        
+        switch indexPath.section {
+        case 0:
+            let event = self.sortedUpcomingEvents[indexPath.row]
+            cell.setupWithEvent(event)
+        default:
+            let event = self.sortedPastEvents[indexPath.row]
+            cell.setupWithEvent(event)
+        }
         return cell
     }
 

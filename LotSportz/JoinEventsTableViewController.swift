@@ -12,10 +12,15 @@ import SWRevealViewController
 class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
 
     var service = EventService.sharedInstance()
-    var sortedEvents: [Event] = []
+    var allEvents : [Event] = []
+    var sortedEvents: [String: [Event]] = ["Soccer": [], "Basketball": [], "Flag Football": []]
+    let eventTypes = ["Soccer", "Basketball", "Flag Football"]
     
     @IBOutlet var menuButton: UIBarButtonItem!
     
+    override func viewWillAppear(animated: Bool) {
+        self.refreshEvents()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,12 +29,7 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
             menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
         }
         
-        self.refreshEvents()
-        
         self.navigationItem.title = "Join Events"
-        //print(sortedEvents)
-        //print(events)
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -38,33 +38,31 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
     }
     
     func refreshEvents() {
+        
         service.getEvents(type: nil) { (results) in
             // completion function will get called once at the start, and each time events change
-            var events: [NSObject: Event] = [:]
-            for event: Event in results {
-                print("Found an event")
-                // make sure events is unique and don't add duplicates
-                let id = event.id()
-                events[id] = event
-            }
-            // Configure the cell...
-            self.sortedEvents = events.values.sort { (event1, event2) -> Bool in
+            
+            // 1: sort all events by time
+            self.allEvents = results.sort { (event1, event2) -> Bool in
                 return event1.id() > event2.id()
             }
             
-            var newEvents: [Event] = []
+            // 2: Remove events the user has joined
             self.service.getEventsForUser(firAuth!.currentUser!, completion: { (eventIds) in
-                print("done")
-                for event: Event in self.sortedEvents {
-                    if eventIds.contains(event.id()) {
-                        print("event exists: \(event.id())")
-                    }
-                    else {
-                        print("not in")
-                        newEvents.append(event)
-                    }
+                self.allEvents = self.allEvents.filter({ (event) -> Bool in
+                    (!eventIds.contains(event.id()) && !event.isPast())
+                })
+                
+                // 3: Organize events by type
+                self.sortedEvents = ["Soccer": [], "Basketball": [], "Flag Football": []]
+
+                for event in self.allEvents{
+                    var oldValue = self.sortedEvents[event.type()]
+                    print(event.type())
+                    oldValue?.append(event)
+                    self.sortedEvents.updateValue(oldValue!, forKey: event.type())
                 }
-                self.sortedEvents = newEvents
+                
                 self.tableView.reloadData()
             })
         }
@@ -73,52 +71,36 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return self.sortedEvents.keys.count
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return self.sortedEvents.count
+            let soccerEvents = self.sortedEvents["Soccer"]
+            return (soccerEvents?.count)!
         case 1:
-            return 0
+            let basketballEvents = self.sortedEvents["Basketball"]
+            return (basketballEvents?.count)!
         default:
-            break
+            let flagFootballEvents = self.sortedEvents["Flag Football"]
+            return (flagFootballEvents?.count)!
         }
-        return 0
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section { //To-Do: Organize events by type
-        case 0:
-            return "Soccer"
-        case 1:
-            return "Basketball"
-        default:
-            break
-        }
-        
-        return nil
+        return eventTypes[section]
     }
-    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : EventCell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! EventCell
         cell.delegate = self
         
-        let event = sortedEvents[indexPath.row]
+        let event = sortedEvents[eventTypes[indexPath.section]]![indexPath.row]
         cell.setupWithEvent(event)
         
         return cell
     }
-    
-    /*
-     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-     let event = sortedEvents[indexPath.row]
-     
-     //To-Do: Don't think we need this, as long as we can read in taps from join/cancel buttons
-     }
-     */
     
     // MARK: EventCellDelegate
     func joinOrLeaveEvent(event: Event, join: Bool) {
@@ -132,4 +114,11 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
  
         self.refreshEvents()
     }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        let list = sortedEvents[eventTypes[section]]
+        return list!.count == 0 ? 0 : UITableViewAutomaticDimension
+    }
+    
 }

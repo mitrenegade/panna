@@ -9,8 +9,6 @@
 import UIKit
 import SWRevealViewController
 
-private var TESTING = true
-
 class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, SWRevealViewControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     let options = ["Sport Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
@@ -39,6 +37,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     var endField: UITextField?
     var maxPlayersField: UITextField?
     var descriptionTextView : UITextView?
+    
     var keyboardDoneButtonView: UIToolbar!
     var keyboardDoneButtonView2: UIToolbar!
     var keyboardHeight : CGFloat!
@@ -60,31 +59,13 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         self.navigationItem.title = "Create Event"
         
         self.setupPickers()
-
+        self.setupTextFields()
+        
         if self.revealViewController() != nil {
-            self.revealViewController().delegate = self
+            menuButton.target = self.revealViewController()
+            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+
         }
-
-        // textfield keyboard
-        self.keyboardDoneButtonView = UIToolbar()
-        keyboardDoneButtonView.sizeToFit()
-        keyboardDoneButtonView.barStyle = UIBarStyle.Default
-        keyboardDoneButtonView.tintColor = UIColor.whiteColor()
-        let save: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self, action: #selector(CreateEventViewController.done))
-        save.tintColor = self.view.tintColor
-        
-        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
-        
-        keyboardDoneButtonView.setItems([flex, save], animated: true)
-
-        // textview keyboard
-        self.keyboardDoneButtonView2 = UIToolbar()
-        keyboardDoneButtonView2.sizeToFit()
-        keyboardDoneButtonView2.barStyle = UIBarStyle.Default
-        keyboardDoneButtonView2.tintColor = UIColor.whiteColor()
-        let save2: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self.view, action: #selector(UIView.endEditing(_:)))
-        save2.tintColor = self.view.tintColor
-        keyboardDoneButtonView2.setItems([flex, save2], animated: true)
     
     }
 
@@ -94,7 +75,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     override func viewWillAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CreateEventViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -126,29 +107,36 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         self.endTimePickerView.addTarget(self, action: #selector(timePickerValueChanged), forControlEvents: UIControlEvents.ValueChanged)
     }
     
-    @IBAction func didClickMenu(sender: AnyObject) {
-        if self.revealViewController() != nil {
-            self.revealViewController().revealToggle(self)
-        }
+    func setupTextFields() {
+        // textfield keyboard
+        self.keyboardDoneButtonView = UIToolbar()
+        keyboardDoneButtonView.sizeToFit()
+        keyboardDoneButtonView.barStyle = UIBarStyle.Default
+        keyboardDoneButtonView.tintColor = UIColor.whiteColor()
+        let save: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self, action: #selector(CreateEventViewController.done))
+        save.tintColor = self.view.tintColor
+        
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        
+        keyboardDoneButtonView.setItems([flex, save], animated: true)
+        
+        // textview keyboard
+        self.keyboardDoneButtonView2 = UIToolbar()
+        keyboardDoneButtonView2.sizeToFit()
+        keyboardDoneButtonView2.barStyle = UIBarStyle.Default
+        keyboardDoneButtonView2.tintColor = UIColor.whiteColor()
+        let save2: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self.view, action: #selector(UIView.endEditing(_:)))
+        save2.tintColor = self.view.tintColor
+        keyboardDoneButtonView2.setItems([flex, save2], animated: true)
     }
     
     @IBAction func didClickSave(sender: AnyObject) {
         // in case user clicks save without clicking done first
         self.info = self.descriptionTextView!.text
-        
-        if TESTING {
-            type = "Basketball"
-            city = "Philly"
-            location = "A field"
-            date = NSDate()
-            startTime = NSDate()
-            endTime = NSDate()
-            numPlayers = 2
-            info = "test"
-        }
 
         if type != nil && city != nil && location != nil && date != nil && startTime != nil && endTime != nil && numPlayers != nil && info != nil  {
             EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info, completion: { (event, error) in
+                
                 // TODO: create some sort of activity indicator
                 self.revealViewController().revealToggle(nil)
                 self.menuController!.goToMyEvents()
@@ -164,7 +152,6 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     // MARK: - Table view data source
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        
         return 2
     }
 
@@ -182,7 +169,6 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        print("Reloaded rows of table")
         switch indexPath.section {
         case 0:
             let cell : DetailCell
@@ -256,10 +242,8 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         switch section {
         case 0:
             return "Details"
-        case 1:
-            return  "Description"
         default:
-            return "Noice"
+            return  "Description"
         }
     }
     
@@ -307,10 +291,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             currentField = textField
             textField.userInteractionEnabled = true
             textField.becomeFirstResponder()
-        
-        case 1:
             
-            break
         default:
             break
         }
@@ -349,7 +330,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         return 1
     }
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        print("Reloaded number of rows")
+        //print("Reloaded number of rows")
         if pickerView == self.typePickerView {
             return sportTypes.count
         }
@@ -358,10 +339,10 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     
     // The data to return for the row and component (column) that's being passed in
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        print("Reloaded components")
+        //print("Reloaded components")
         
         if pickerView == self.typePickerView {
-            return sportTypes[row] as? String
+            return sportTypes[row]
         }
         if row == 0 {
             return "Select a number"
