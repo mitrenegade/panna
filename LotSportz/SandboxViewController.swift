@@ -62,7 +62,7 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
         let event = sortedEvents[indexPath.row]
         let type = event.type()
         let place = event.place()
-        let time = event.timeString()
+        let time = event.timeString(event.startTime())
         cell.textLabel!.text = "\(type) at \(place)"
         cell.detailTextLabel?.text = time
         
