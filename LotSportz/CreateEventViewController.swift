@@ -135,6 +135,9 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         self.info = self.descriptionTextView!.text
 
         if type != nil && city != nil && location != nil && date != nil && startTime != nil && endTime != nil && numPlayers != nil && info != nil  {
+            self.startTime = self.combineDateAndTime(date, time: startTime)
+            self.endTime = self.combineDateAndTime(date, time: endTime)
+            
             EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info, completion: { (event, error) in
                 
                 // TODO: create some sort of activity indicator
@@ -378,10 +381,10 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         currentField!.text = dateFormatter.stringFromDate(sender.date)
         if (sender == startTimePickerView) {
             self.startTime = sender.date
-            self.startTimeString = dateFormatter.stringFromDate(sender.date)
+            //self.startTimeString = dateFormatter.stringFromDate(sender.date)
         } else {
             self.endTime = sender.date
-            self.endTimeString = dateFormatter.stringFromDate(sender.date)
+            //self.endTimeString = dateFormatter.stringFromDate(sender.date)
         }
     }
     
@@ -420,6 +423,25 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         let keyboardHeight = keyboardRectangle.height
         
         self.keyboardHeight = keyboardHeight
+    }
+    
+    // MARK - Date concatenation
+    func combineDateAndTime(day: NSDate, time: NSDate) -> NSDate {
+        
+        let calendar = NSCalendar.currentCalendar()
+        let dateComponents = calendar.components([.Year, .Month, .Day], fromDate: day)
+        let timeComponents = calendar.components([.Hour, .Minute, .Second], fromDate: time)
+        
+        let components = NSDateComponents()
+        components.year = dateComponents.year
+        components.month = dateComponents.month
+        components.day = dateComponents.day
+        components.hour = timeComponents.hour
+        components.minute = timeComponents.minute
+        components.second = timeComponents.second
+        
+        let newDate = calendar.dateFromComponents(components)!
+        return newDate
     }
 
 }

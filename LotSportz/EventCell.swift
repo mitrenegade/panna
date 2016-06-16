@@ -39,8 +39,8 @@ class EventCell: UITableViewCell {
         self.event = event
         let place = event.place()
         self.labelLocation.text = place
-        self.labelDate.text = self.event?.dateString() //To-Do: Sanitize Date info from event.time
-        self.labelTime.text = self.event?.timeString() //To-Do: Add start/end time attributes for events
+        self.labelDate.text = self.event?.dateString(event.startTime()) //To-Do: Sanitize Date info from event.time
+        self.labelTime.text = self.event?.timeString(event.startTime()) //To-Do: Add start/end time attributes for events
         
         switch event.type() {
         case "Basketball":
@@ -84,7 +84,6 @@ class EventCell: UITableViewCell {
 
     @IBAction func didTapButton(sender: AnyObject) {
         print("Tapped Cancel/Join")
-
         self.delegate?.joinOrLeaveEvent(self.event!, join: !self.event!.containsUser(firAuth!.currentUser!))
     }
 }
