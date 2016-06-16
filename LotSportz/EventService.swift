@@ -57,7 +57,7 @@ class EventService: NSObject {
         let eventQueryRef = firRef.child("events")//childByAppendingPath("events") // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // sort by time
-        eventQueryRef.queryOrderedByChild("time")
+        eventQueryRef.queryOrderedByChild("startTime")
         
         // filter for type
         if let _ = type {

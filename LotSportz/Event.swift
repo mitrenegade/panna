@@ -43,12 +43,14 @@ class Event: FirebaseBaseModel {
         return ""
     }
     
+    /* Old model
     func time() -> NSDate {
         if let val = self.dict["time"] as? NSTimeInterval {
             return NSDate(timeIntervalSince1970: val)
         }
         return NSDate() // what is a valid date equivalent of TBD?
     } //To-Do: Add begin/end time
+    */
     
     func startTime() -> NSDate {
         if let val = self.dict["startTime"] as? NSTimeInterval {
@@ -67,15 +69,14 @@ class Event: FirebaseBaseModel {
 
     
     func dateString(date: NSDate) -> String {
-        formatter.dateStyle = .ShortStyle
-        formatter.timeStyle = .NoStyle
-        return formatter.stringFromDate(date) as String!
+        return "\(date.day()) \(months[date.month() - 1]) \(date.year())"
     }
 
     func timeString(date: NSDate) -> String {
-        formatter.dateStyle = .ShortStyle
-        formatter.timeStyle = .NoStyle
-        return formatter.stringFromDate(date)
+        formatter.dateStyle = .NoStyle
+        formatter.timeStyle = .ShortStyle
+        let time = formatter.stringFromDate(date)
+        return "\(time)"
         
     }
     

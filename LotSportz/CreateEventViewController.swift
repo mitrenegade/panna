@@ -22,8 +22,6 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     var location : String!
     var date : NSDate!
     var dateString: String!
-    var startTimeString : String!
-    var endTimeString : String!
     var startTime: NSDate!
     var endTime: NSDate!
     var numPlayers : UInt!
@@ -381,10 +379,8 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         currentField!.text = dateFormatter.stringFromDate(sender.date)
         if (sender == startTimePickerView) {
             self.startTime = sender.date
-            //self.startTimeString = dateFormatter.stringFromDate(sender.date)
         } else {
             self.endTime = sender.date
-            //self.endTimeString = dateFormatter.stringFromDate(sender.date)
         }
     }
     
