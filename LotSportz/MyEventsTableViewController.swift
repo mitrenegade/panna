@@ -27,10 +27,8 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         
         self.refreshEvents()
         
+        
         self.navigationItem.title = "My Events"
-        //print(sortedUpcomingEvents)
-        //print(events)
-
         self.service.listenForEventUsers()
     }
 
@@ -63,6 +61,7 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
                 self.sortedUpcomingEvents = original.filter({ (event) -> Bool in
                     !event.isPast()
                 })
+                self.refreshNotifications()
                 self.tableView.reloadData()
             })
         }
@@ -127,5 +126,18 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         }
         
         self.refreshEvents()
+    }
+    
+    //MARK: Notifications
+    func refreshNotifications() {
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        for event in self.sortedUpcomingEvents {
+            //create local notification
+            let notification = UILocalNotification()
+            notification.fireDate = NSDate(year: event.startTime().year(), month: event.startTime().month(), day: event.startTime().day(), hour: event.startTime().hour() - 1, minute: event.startTime().minute(), second: event.startTime().second())
+            
+            notification.alertBody = "You have an event in 1 hour!"
+            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        }
     }
 }

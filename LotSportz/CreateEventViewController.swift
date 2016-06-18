@@ -137,7 +137,6 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             self.endTime = self.combineDateAndTime(date, time: endTime)
             
             EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info, completion: { (event, error) in
-                
                 // TODO: create some sort of activity indicator
                 self.revealViewController().revealToggle(nil)
                 self.menuController!.goToMyEvents()
