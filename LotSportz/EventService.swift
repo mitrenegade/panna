@@ -93,7 +93,9 @@ class EventService: NSObject {
         
         var params: [String: AnyObject] = ["type": type, "city": city, "place": place, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "max_players": max_players]
         if info == nil {
-            params["info"] = info!
+            params["info"] = "No description available"
+        } else {
+            params["info"] = info
         }
         
         newEventRef.setValue(params) { (error, ref) in

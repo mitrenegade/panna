@@ -30,7 +30,7 @@ class Event: FirebaseBaseModel {
     }
     
     func city() -> String {
-        if let val = self.dict["place"] as? String {
+        if let val = self.dict["city"] as? String {
             return val
         }
         return ""

@@ -127,11 +127,12 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
     }
     
     
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     // MARK: - Navigation     
      override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let detailsController = segue.destinationViewController as! EventDisplayViewController
+        detailsController.alreadyJoined = false
+        detailsController.delegate = self
+        
         let indexPath = self.tableView.indexPathForSelectedRow
         detailsController.event = sortedEvents[eventTypes[indexPath!.section]]![indexPath!.row]
         

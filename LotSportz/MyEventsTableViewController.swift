@@ -127,4 +127,36 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         
         self.refreshEvents()
     }
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        guard indexPath.section == 0 else { return }
+
+        self.performSegueWithIdentifier("toMyEventDetails", sender: self)
+    }
+    
+    //MARK: Notifications
+    func refreshNotifications() {
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        for event in self.sortedUpcomingEvents {
+            //create local notification
+            let notification = UILocalNotification()
+            notification.fireDate = NSDate(year: event.startTime().year(), month: event.startTime().month(), day: event.startTime().day(), hour: event.startTime().hour() - 1, minute: event.startTime().minute(), second: event.startTime().second())
+            
+            notification.alertBody = "You have an event in 1 hour!"
+            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        }
+    }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let detailsController = segue.destinationViewController as! EventDisplayViewController
+        detailsController.alreadyJoined = true
+        detailsController.delegate = self
+        
+        let indexPath = self.tableView.indexPathForSelectedRow
+        detailsController.event = sortedUpcomingEvents[indexPath!.row]
+        
+    }
+    
 }
