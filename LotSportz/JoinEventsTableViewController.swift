@@ -106,6 +106,11 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
         return list!.count == 0 ? 0 : UITableViewAutomaticDimension
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        performSegueWithIdentifier("toEventDetails", sender: self)
+        
+    }
+    
     // MARK: EventCellDelegate
     func joinOrLeaveEvent(event: Event, join: Bool) {
         let user = firAuth!.currentUser!
@@ -120,5 +125,18 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
  
         self.refreshEvents()
     }
+    
+    
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let detailsController = segue.destinationViewController as! EventDisplayViewController
+        let indexPath = self.tableView.indexPathForSelectedRow
+        detailsController.event = sortedEvents[eventTypes[indexPath!.section]]![indexPath!.row]
+        
+     // Pass the selected object to the new view controller.
+     }
+    
 
 }
