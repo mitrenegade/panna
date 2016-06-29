@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FBSDKCoreKit
 import FBSDKLoginKit
+import SWRevealViewController
 
 var firRef = FIRDatabase.database().reference() // Firebase(url: "https://lotsportz.firebaseio.com");
 let firAuth = FIRAuth.auth()
@@ -28,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var handle: FIRAuthStateDidChangeListenerHandle?
+    var revealController: SWRevealViewController?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -41,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.handle = firAuth?.addAuthStateDidChangeListener({ (auth, user) in
             if let user = user {
                 // user is logged in
-                print("user: \(user)")
+                print("auth: \(auth) user: \(user)")
                 self.goToMenu()
 
             }
@@ -58,14 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         print("local notification received: \(notification)")
-        /*
         let alert = UIAlertController(title: "Alert", message: "You have an event in one hour!", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
         
-        
-        self.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
-         */
-    
+ //       self.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+        self.revealController?.presentViewController(alert, animated: true, completion: nil)
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
@@ -96,8 +95,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func goToMenu() {
-        let controller = UIStoryboard(name: "Menu", bundle: nil).instantiateViewControllerWithIdentifier("RevealViewController")
+        if self.revealController != nil {
+            return
+        }
+        
+        let controller = UIStoryboard(name: "Menu", bundle: nil).instantiateViewControllerWithIdentifier("RevealViewController") as! SWRevealViewController
         self.window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
+        self.revealController = controller
         self.listenFor("logout:success", action: .didLogout, object: nil)
     }
     
@@ -108,6 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // first dismiss main app
         self.window?.rootViewController?.dismissViewControllerAnimated(true, completion: {
             // load main flow
+            self.revealController = nil
             self.goToSignupLogin()
         })
     }

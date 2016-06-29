@@ -134,7 +134,7 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         for event in self.sortedUpcomingEvents {
             //create local notification
             let notification = UILocalNotification()
-            notification.fireDate = NSDate(year: event.startTime().year(), month: event.startTime().month(), day: event.startTime().day(), hour: event.startTime().hour() - 1, minute: event.startTime().minute(), second: event.startTime().second())
+            notification.fireDate = NSDate().dateByAddingTimeInterval(20)
             
             notification.alertBody = "You have an event in 1 hour!"
             UIApplication.sharedApplication().scheduleLocalNotification(notification)
