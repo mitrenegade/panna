@@ -127,4 +127,27 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         
         self.refreshEvents()
     }
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        guard indexPath.section == 0 else {
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            return
+        }
+
+        self.performSegueWithIdentifier("toMyEventDetails", sender: self)
+        
+    }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let detailsController = segue.destinationViewController as! EventDisplayViewController
+        detailsController.alreadyJoined = true
+        detailsController.delegate = self
+        
+        let indexPath = self.tableView.indexPathForSelectedRow
+        detailsController.event = sortedUpcomingEvents[indexPath!.row]
+        
+    }
+    
 }
