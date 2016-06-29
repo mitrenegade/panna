@@ -13,6 +13,7 @@
 		8E379F051CE580B500C91A12 /* SandboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F041CE580B500C91A12 /* SandboxViewController.swift */; };
 		8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */; };
 		8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F091CE58CEE00C91A12 /* Event.swift */; };
+		8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E39FE8D1D237C710030CB96 /* NotificationService.swift */; };
 		8E55FF941CF2066600A0BDB8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E55FF931CF2066600A0BDB8 /* GoogleService-Info.plist */; };
 		8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256991CDF793200C9E054 /* AppDelegate.swift */; };
 		8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E72569B1CDF793200C9E054 /* LoginViewController.swift */; };
@@ -45,6 +46,7 @@
 		8E379F041CE580B500C91A12 /* SandboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SandboxViewController.swift; sourceTree = "<group>"; };
 		8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBaseModel.swift; sourceTree = "<group>"; };
 		8E379F091CE58CEE00C91A12 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		8E39FE8D1D237C710030CB96 /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		8E55FF931CF2066600A0BDB8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E7256961CDF793100C9E054 /* LotSportz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LotSportz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7256991CDF793200C9E054 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				8E379F001CE57E8600C91A12 /* EventService.swift */,
+				8E39FE8D1D237C710030CB96 /* NotificationService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				F2C0F1201CF3E8BB00CB98F1 /* JoinEventsTableViewController.swift in Sources */,
+				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,
 				F2F7C3C01CEE296A00350115 /* SettingsTableViewController.swift in Sources */,
 				F2048F7E1CED59A50039F7BB /* MyEventsTableViewController.swift in Sources */,
 				F250A7FC1CFF1588003A7DEA /* TransparentTextField.swift in Sources */,
