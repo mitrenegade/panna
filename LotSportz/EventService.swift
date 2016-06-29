@@ -110,7 +110,6 @@ class EventService: NSObject {
                 })
             }
         }
-        
     }
     
     func joinEvent(event: Event, user: FIRUser) {

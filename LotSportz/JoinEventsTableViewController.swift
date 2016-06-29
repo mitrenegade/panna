@@ -55,21 +55,19 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
                 
                 // 3: Organize events by type
                 self.sortedEvents = ["Soccer": [], "Basketball": [], "Flag Football": []]
-
+                
                 for event in self.allEvents{
                     var oldValue = self.sortedEvents[event.type()]
                     print(event.type())
                     oldValue?.append(event)
                     self.sortedEvents.updateValue(oldValue!, forKey: event.type())
                 }
-                
                 self.tableView.reloadData()
             })
         }
     }
     
     // MARK: - Table view data source
-    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return self.sortedEvents.keys.count
     }
@@ -102,11 +100,19 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
         return cell
     }
     
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        let list = sortedEvents[eventTypes[section]]
+        return list!.count == 0 ? 0 : UITableViewAutomaticDimension
+    }
+    
     // MARK: EventCellDelegate
     func joinOrLeaveEvent(event: Event, join: Bool) {
         let user = firAuth!.currentUser!
         if join {
+            //add notification in case user doesn't return to MyEvents
             self.service.joinEvent(event, user: user)
+            NotificationService.scheduleNotificationForEvent(event)
         }
         else {
             self.service.leaveEvent(event, user: user)
@@ -114,11 +120,5 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
  
         self.refreshEvents()
     }
-    
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        let list = sortedEvents[eventTypes[section]]
-        return list!.count == 0 ? 0 : UITableViewAutomaticDimension
-    }
-    
+
 }

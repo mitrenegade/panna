@@ -8,7 +8,7 @@
 
 import UIKit
 
-class transparentTextField: UITextField {
+class TransparentTextField: UITextField {
 
     var isCityLocationCell : Bool!
     /*

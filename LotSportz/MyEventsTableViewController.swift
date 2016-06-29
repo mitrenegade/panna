@@ -27,10 +27,8 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         
         self.refreshEvents()
         
+        
         self.navigationItem.title = "My Events"
-        //print(sortedUpcomingEvents)
-        //print(events)
-
         self.service.listenForEventUsers()
     }
 
@@ -63,6 +61,7 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
                 self.sortedUpcomingEvents = original.filter({ (event) -> Bool in
                     !event.isPast()
                 })
+                NotificationService.refreshNotifications(self.sortedUpcomingEvents)
                 self.tableView.reloadData()
             })
         }

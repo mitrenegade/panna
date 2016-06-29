@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -171,7 +171,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eBH-Kv-eih" customClass="transparentTextField" customModule="LotSportz" customModuleProvider="target">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eBH-Kv-eih" customClass="TransparentTextField" customModule="LotSportz" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="8" width="551" height="28"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -323,25 +323,25 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <switch opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cbh-h0-W0W">
-                                            <rect key="frame" x="543" y="7" width="51" height="31"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="49" id="XgF-fI-gqy"/>
-                                            </constraints>
+                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P3F-cV-lFT">
+                                            <rect key="frame" x="543" y="6" width="51" height="31"/>
+                                            <connections>
+                                                <action selector="switchState:" destination="sTR-e1-7Tr" eventType="valueChanged" id="fq5-Wy-i4H"/>
+                                            </connections>
                                         </switch>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="P3F-cV-lFT" firstAttribute="trailing" secondItem="Z8J-9s-a6F" secondAttribute="trailingMargin" id="0Ym-PF-UtU"/>
                                         <constraint firstItem="i3v-ob-PoV" firstAttribute="centerY" secondItem="Z8J-9s-a6F" secondAttribute="centerY" id="5OC-Av-lAo"/>
                                         <constraint firstItem="HI9-cw-cGH" firstAttribute="leading" secondItem="Z8J-9s-a6F" secondAttribute="leadingMargin" constant="8" id="8VF-zY-X8Q"/>
-                                        <constraint firstItem="cbh-h0-W0W" firstAttribute="trailing" secondItem="Z8J-9s-a6F" secondAttribute="trailingMargin" id="AIs-6F-lqZ"/>
                                         <constraint firstItem="i3v-ob-PoV" firstAttribute="leading" secondItem="Z8J-9s-a6F" secondAttribute="leadingMargin" constant="8" id="CBI-YC-QSj"/>
                                         <constraint firstItem="HI9-cw-cGH" firstAttribute="centerY" secondItem="Z8J-9s-a6F" secondAttribute="centerY" id="mUx-XO-OhL"/>
-                                        <constraint firstItem="cbh-h0-W0W" firstAttribute="centerY" secondItem="Z8J-9s-a6F" secondAttribute="centerY" id="oq6-aG-rEh"/>
+                                        <constraint firstItem="P3F-cV-lFT" firstAttribute="centerY" secondItem="Z8J-9s-a6F" secondAttribute="centerY" id="xIT-i7-2wg"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="labelPush" destination="i3v-ob-PoV" id="srd-cf-EdQ"/>
-                                    <outlet property="pushSwitch" destination="cbh-h0-W0W" id="ea2-ZI-D72"/>
+                                    <outlet property="pushSwitch" destination="P3F-cV-lFT" id="o6T-IC-ZO5"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="nXd-qp-GLn">
@@ -434,7 +434,6 @@
         <!--My Events Table View Controller-->
         <scene sceneID="S4Q-1u-Tbr">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gBX-eD-QTP" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController storyboardIdentifier="MyEventsTableViewController" id="Iv4-uQ-ng6" customClass="MyEventsTableViewController" customModule="LotSportz" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="101" sectionHeaderHeight="28" sectionFooterHeight="28" id="Tc4-fz-NqF">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
@@ -555,6 +554,7 @@
                         <outlet property="menuButton" destination="qGE-am-uTW" id="PZW-vQ-L3k"/>
                     </connections>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gBX-eD-QTP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2693" y="130"/>
         </scene>
