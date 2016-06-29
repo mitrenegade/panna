@@ -24,6 +24,9 @@ private extension Selector {
         #selector(AppDelegate.didLogout)
 }
 
+let kEventNotificationIntervalSeconds: NSTimeInterval = -3600
+let kEventNotificationMessage: String = "You have an event in 1 hour!"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

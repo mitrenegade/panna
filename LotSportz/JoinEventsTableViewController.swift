@@ -113,8 +113,8 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
             //add notification in case user doesn't return to MyEvents
             self.service.joinEvent(event, user: user)
             let notification = UILocalNotification()
-            notification.fireDate = NSDate().dateByAddingTimeInterval(20)
-            notification.alertBody = "You have an event in 1 hour!"
+            notification.fireDate = event.startTime().dateByAddingTimeInterval(kEventNotificationIntervalSeconds)
+            notification.alertBody = kEventNotificationMessage
             UIApplication.sharedApplication().scheduleLocalNotification(notification)
 
         }
