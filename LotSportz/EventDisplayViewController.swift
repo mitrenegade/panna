@@ -36,8 +36,13 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         self.labelDate.text = self.event.dateString(self.event.startTime())
         self.labelField.text = self.event.place()
         self.labelCity.text = self.event.city()
+        self.navigationItem.title = self.event.type()
         
-        self.labelDescription.text = "Description: \(self.event.info())"
+        if self.event.info() == ""{
+            self.labelDescription.text = "No further event information at this time."
+        }else {
+            self.labelDescription.text = "Description: \(self.event.info())"
+        }
         self.labelNumAttending.text = "\(self.event.numPlayers()) attending"
         
         if self.event.isFull(){
@@ -71,6 +76,10 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
             self.sportImageView.image = UIImage(named: "football")
         case "Basketball":
             self.sportImageView.image = UIImage(named: "basketball")
+            self.labelType.textColor = UIColor.grayColor()
+            self.labelField.textColor = UIColor.grayColor()
+            self.labelCity.textColor = UIColor.grayColor()
+            self.labelDate.textColor = UIColor.grayColor()
         default:
             print("No image for this sport: using soccer image by default")
         }

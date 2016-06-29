@@ -108,7 +108,6 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         performSegueWithIdentifier("toEventDetails", sender: self)
-        
     }
     
     // MARK: EventCellDelegate
