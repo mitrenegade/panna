@@ -63,7 +63,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let alert = UIAlertController(title: "Alert", message: "You have an event in one hour!", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
         
- //       self.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
         self.revealController?.presentViewController(alert, animated: true, completion: nil)
     }
     
