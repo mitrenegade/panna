@@ -43,11 +43,11 @@ class EventCell: UITableViewCell {
         self.labelTime.text = self.event?.timeString(event.startTime()) //To-Do: Add start/end time attributes for events
         
         switch event.type() {
-        case "Basketball":
+        case .Basketball:
             self.eventLogo.image = UIImage(named: "basketball")
-        case "Soccer":
+        case .Soccer:
             self.eventLogo.image = UIImage(named: "soccer")
-        case "Flag Football":
+        case .FlagFootball:
             self.eventLogo.image = UIImage(named: "football")
         default:
             self.eventLogo.hidden = true

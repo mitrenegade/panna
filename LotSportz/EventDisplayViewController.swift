@@ -25,18 +25,18 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
     @IBOutlet var sportImageView: UIImageView!
     var event : Event!
     var delegate : AnyObject!
-    var alreadyJoined : Bool!
+    var alreadyJoined : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Setup event details
         self.view.bringSubviewToFront(labelType.superview!)
-        self.labelType.text = self.event.type()
+        self.labelType.text = self.event.type().rawValue
         self.labelDate.text = self.event.dateString(self.event.startTime())
         self.labelField.text = self.event.place()
         self.labelCity.text = self.event.city()
-        self.navigationItem.title = self.event.type()
+        self.navigationItem.title = self.event.type().rawValue
         
         if self.event.info() == ""{
             self.labelDescription.text = "No further event information at this time."
@@ -59,27 +59,28 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         //Setup buttons
         self.btnShare.layer.cornerRadius = 4
         self.btnJoin.layer.cornerRadius = 4
-        if self.event.isFull(){
-            self.btnJoin.enabled = false
-        }
         
-        if (alreadyJoined != nil) && alreadyJoined{
+        if alreadyJoined {
             self.btnJoin.setTitle("Leave", forState: UIControlState.Normal)
             self.btnJoin.backgroundColor = leaveColor
         }
-        
+        else if self.event.isFull(){
+            self.btnJoin.enabled = false
+        }
+
+        self.labelType.textColor = UIColor.grayColor()
+        self.labelField.textColor = UIColor.grayColor()
+        self.labelCity.textColor = UIColor.grayColor()
+        self.labelDate.textColor = UIColor.grayColor()
+
         //Sport image
         switch event.type() {
-        case "Soccer":
+        case .Soccer:
             self.sportImageView.image = UIImage(named: "soccer")
-        case "Flag Football":
+        case .FlagFootball:
             self.sportImageView.image = UIImage(named: "football")
-        case "Basketball":
+        case .Basketball:
             self.sportImageView.image = UIImage(named: "basketball")
-            self.labelType.textColor = UIColor.grayColor()
-            self.labelField.textColor = UIColor.grayColor()
-            self.labelCity.textColor = UIColor.grayColor()
-            self.labelDate.textColor = UIColor.grayColor()
         default:
             print("No image for this sport: using soccer image by default")
         }
@@ -94,7 +95,7 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
     
     @IBAction func didTapButton(sender: UIButton) {
         if sender == btnJoin {
-            if (alreadyJoined != nil) && alreadyJoined{
+            if alreadyJoined {
                 let delegate = self.delegate as! MyEventsTableViewController
                 delegate.joinOrLeaveEvent(self.event, join: false)
             } else  {
@@ -111,10 +112,23 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
     // MARK: - FBShare
     func shareEvent(event: Event) {
         let content: FBSDKShareLinkContent = FBSDKShareLinkContent()
-        content.contentURL = NSURL(string: "https://renderapps.io")
-        content.imageURL = NSURL(string: "http://static1.squarespace.com/static/5688d7fe5a56682e0b85541a/t/574c51e2b09f953f297d2c56/1464619638609/Man_Sitting.jpg?format=1200w")
+        switch event.type() {
+        case .Soccer:
+            content.imageURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/soccer%403x.png")
+        case .FlagFootball:
+            content.imageURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/football%403x.png")
+        case .Basketball:
+            content.imageURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/basketball%403x.png")
+        default:
+            content.imageURL = nil
+        }
+        
         content.contentTitle = "My event on LotSportz"
-        content.contentDescription = "I'm attending an event on LotSportz: \(event.type()) at \(event.city()) on \(event.dateString(event.startTime()))"
+        content.contentDescription = "I'm playing \(event.type().rawValue) at \(event.city()) on \(event.dateString(event.startTime()))"
+        
+        // TODO: need to link to a lotsportz landing page. If itunes is linked, the content is replaced: http://stackoverflow.com/questions/30742645/facebook-sdk-share-link-content-gets-replaced-by-meta-data-from-content-url
+        //content.contentURL = NSURL(string: "https://itunes.apple.com/us/app/lotsportz/id1123209345?ls=1&mt=8")
+
         /*
          This does not use contentTitle and contentDescription if the native app share dialog is used. It only works via web/safari facebook sharing.
          See: http://stackoverflow.com/questions/29916591/fbsdksharelinkcontent-is-not-setting-the-contentdescription-and-contenttitle

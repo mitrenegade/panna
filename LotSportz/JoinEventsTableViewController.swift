@@ -13,8 +13,8 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
 
     var service = EventService.sharedInstance()
     var allEvents : [Event] = []
-    var sortedEvents: [String: [Event]] = ["Soccer": [], "Basketball": [], "Flag Football": []]
-    let eventTypes = ["Soccer", "Basketball", "Flag Football"]
+    var sortedEvents: [EventType: [Event]] = [.Soccer: [], .Basketball: [], .FlagFootball: []]
+    let eventTypes = [EventType.Soccer, EventType.Basketball, EventType.FlagFootball]
     
     @IBOutlet var menuButton: UIBarButtonItem!
     
@@ -54,7 +54,7 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
                 })
                 
                 // 3: Organize events by type
-                self.sortedEvents = ["Soccer": [], "Basketball": [], "Flag Football": []]
+                self.sortedEvents = [.Soccer: [], .Basketball: [], .FlagFootball: []]
                 
                 for event in self.allEvents{
                     var oldValue = self.sortedEvents[event.type()]
@@ -75,19 +75,19 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            let soccerEvents = self.sortedEvents["Soccer"]
+            let soccerEvents = self.sortedEvents[.Soccer]
             return (soccerEvents?.count)!
         case 1:
-            let basketballEvents = self.sortedEvents["Basketball"]
+            let basketballEvents = self.sortedEvents[.Basketball]
             return (basketballEvents?.count)!
         default:
-            let flagFootballEvents = self.sortedEvents["Flag Football"]
+            let flagFootballEvents = self.sortedEvents[.FlagFootball]
             return (flagFootballEvents?.count)!
         }
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return eventTypes[section]
+        return eventTypes[section].rawValue
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
