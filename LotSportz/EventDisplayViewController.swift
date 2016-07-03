@@ -111,11 +111,23 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
     // MARK: - FBShare
     func shareEvent(event: Event) {
         let content: FBSDKShareLinkContent = FBSDKShareLinkContent()
-        content.contentURL = NSURL(string: "https://renderapps.io")
+        switch event.type() {
+        case .Soccer:
+            content.imageURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/soccer%403x.png")
+        case .FlagFootball:
+            content.imageURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/football%403x.png")
+        case .Basketball:
+            content.imageURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/basketball%403x.png")
+        default:
+            content.imageURL = nil
+        }
         
-        content.imageURL = NSURL(string: "http://static1.squarespace.com/static/5688d7fe5a56682e0b85541a/t/574c51e2b09f953f297d2c56/1464619638609/Man_Sitting.jpg?format=1200w")
         content.contentTitle = "My event on LotSportz"
-        content.contentDescription = "I'm attending an event on LotSportz: \(event.type().rawValue) at \(event.city()) on \(event.dateString(event.startTime()))"
+        content.contentDescription = "I'm playing \(event.type().rawValue) at \(event.city()) on \(event.dateString(event.startTime()))"
+
+        // TODO: when app is in app store, add the correct url
+        content.contentURL = NSURL(string: "https://renderapps.io")
+
         /*
          This does not use contentTitle and contentDescription if the native app share dialog is used. It only works via web/safari facebook sharing.
          See: http://stackoverflow.com/questions/29916591/fbsdksharelinkcontent-is-not-setting-the-contentdescription-and-contenttitle
