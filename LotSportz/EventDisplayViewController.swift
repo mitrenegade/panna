@@ -124,9 +124,9 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         
         content.contentTitle = "My event on LotSportz"
         content.contentDescription = "I'm playing \(event.type().rawValue) at \(event.city()) on \(event.dateString(event.startTime()))"
-
-        // TODO: when app is in app store, add the correct url
-        content.contentURL = NSURL(string: "https://renderapps.io")
+        
+        // TODO: need to link to a lotsportz landing page. If itunes is linked, the content is replaced: http://stackoverflow.com/questions/30742645/facebook-sdk-share-link-content-gets-replaced-by-meta-data-from-content-url
+        //content.contentURL = NSURL(string: "https://itunes.apple.com/us/app/lotsportz/id1123209345?ls=1&mt=8")
 
         /*
          This does not use contentTitle and contentDescription if the native app share dialog is used. It only works via web/safari facebook sharing.
