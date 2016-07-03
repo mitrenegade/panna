@@ -32,11 +32,11 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         
         // Setup event details
         self.view.bringSubviewToFront(labelType.superview!)
-        self.labelType.text = self.event.type()
+        self.labelType.text = self.event.type().rawValue
         self.labelDate.text = self.event.dateString(self.event.startTime())
         self.labelField.text = self.event.place()
         self.labelCity.text = self.event.city()
-        self.navigationItem.title = self.event.type()
+        self.navigationItem.title = self.event.type().rawValue
         
         if self.event.info() == ""{
             self.labelDescription.text = "No further event information at this time."
@@ -70,11 +70,11 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         
         //Sport image
         switch event.type() {
-        case "Soccer":
+        case .Soccer:
             self.sportImageView.image = UIImage(named: "soccer")
-        case "Flag Football":
+        case .FlagFootball:
             self.sportImageView.image = UIImage(named: "football")
-        case "Basketball":
+        case .Basketball:
             self.sportImageView.image = UIImage(named: "basketball")
             self.labelType.textColor = UIColor.grayColor()
             self.labelField.textColor = UIColor.grayColor()
@@ -112,9 +112,10 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
     func shareEvent(event: Event) {
         let content: FBSDKShareLinkContent = FBSDKShareLinkContent()
         content.contentURL = NSURL(string: "https://renderapps.io")
+        
         content.imageURL = NSURL(string: "http://static1.squarespace.com/static/5688d7fe5a56682e0b85541a/t/574c51e2b09f953f297d2c56/1464619638609/Man_Sitting.jpg?format=1200w")
         content.contentTitle = "My event on LotSportz"
-        content.contentDescription = "I'm attending an event on LotSportz: \(event.type()) at \(event.city()) on \(event.dateString(event.startTime()))"
+        content.contentDescription = "I'm attending an event on LotSportz: \(event.type().rawValue) at \(event.city()) on \(event.dateString(event.startTime()))"
         /*
          This does not use contentTitle and contentDescription if the native app share dialog is used. It only works via web/safari facebook sharing.
          See: http://stackoverflow.com/questions/29916591/fbsdksharelinkcontent-is-not-setting-the-contentdescription-and-contenttitle

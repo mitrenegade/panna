@@ -22,11 +22,13 @@ let formatter = NSDateFormatter()
 class Event: FirebaseBaseModel {
     var service = EventService.sharedInstance()
     
-    func type() -> String {
-        if let val = self.dict["type"] as? String {
-            return val
+    func type() -> EventType {
+        for type: EventType in [EventType.Soccer, EventType.Basketball, EventType.FlagFootball] {
+            if type.rawValue == self.dict["type"] as? String {
+                return type
+            }
         }
-        return EventType.Other.rawValue
+        return EventType.Other
     }
     
     func city() -> String {
