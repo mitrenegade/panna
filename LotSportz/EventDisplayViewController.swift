@@ -25,7 +25,7 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
     @IBOutlet var sportImageView: UIImageView!
     var event : Event!
     var delegate : AnyObject!
-    var alreadyJoined : Bool!
+    var alreadyJoined : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,15 +59,20 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         //Setup buttons
         self.btnShare.layer.cornerRadius = 4
         self.btnJoin.layer.cornerRadius = 4
-        if self.event.isFull(){
-            self.btnJoin.enabled = false
-        }
         
-        if (alreadyJoined != nil) && alreadyJoined{
+        if alreadyJoined {
             self.btnJoin.setTitle("Leave", forState: UIControlState.Normal)
             self.btnJoin.backgroundColor = leaveColor
         }
-        
+        else if self.event.isFull(){
+            self.btnJoin.enabled = false
+        }
+
+        self.labelType.textColor = UIColor.grayColor()
+        self.labelField.textColor = UIColor.grayColor()
+        self.labelCity.textColor = UIColor.grayColor()
+        self.labelDate.textColor = UIColor.grayColor()
+
         //Sport image
         switch event.type() {
         case .Soccer:
@@ -76,10 +81,6 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
             self.sportImageView.image = UIImage(named: "football")
         case .Basketball:
             self.sportImageView.image = UIImage(named: "basketball")
-            self.labelType.textColor = UIColor.grayColor()
-            self.labelField.textColor = UIColor.grayColor()
-            self.labelCity.textColor = UIColor.grayColor()
-            self.labelDate.textColor = UIColor.grayColor()
         default:
             print("No image for this sport: using soccer image by default")
         }
@@ -94,7 +95,7 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
     
     @IBAction func didTapButton(sender: UIButton) {
         if sender == btnJoin {
-            if (alreadyJoined != nil) && alreadyJoined{
+            if alreadyJoined {
                 let delegate = self.delegate as! MyEventsTableViewController
                 delegate.joinOrLeaveEvent(self.event, join: false)
             } else  {
