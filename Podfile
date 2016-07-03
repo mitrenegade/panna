@@ -16,4 +16,5 @@ target 'LotSportz' do
 	pod 'SWRevealViewController'
 
 	pod 'RandomKit'
+	pod 'Batch'
 end

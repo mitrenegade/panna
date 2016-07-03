@@ -11,6 +11,7 @@ import Firebase
 import FBSDKCoreKit
 import FBSDKLoginKit
 import SWRevealViewController
+import Batch
 
 var firRef = FIRDatabase.database().reference() // Firebase(url: "https://lotsportz.firebaseio.com");
 let firAuth = FIRAuth.auth()
@@ -39,6 +40,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Firebase
         FIRApp.configure()
+        
+        // Batch push notifications
+        Batch.startWithAPIKey("DEV57787F487ED56959A66E067D67B") // dev
+        // Batch.startWithAPIKey("57787F487C80C8CC374BD0E81060D9") // live
+        // Register for push notifications
+        BatchPush.registerForRemoteNotifications()
         
         self.handle = firAuth?.addAuthStateDidChangeListener({ (auth, user) in
             if let user = user {
