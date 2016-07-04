@@ -13,6 +13,7 @@
 		8E379F051CE580B500C91A12 /* SandboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F041CE580B500C91A12 /* SandboxViewController.swift */; };
 		8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */; };
 		8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F091CE58CEE00C91A12 /* Event.swift */; };
+		8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E39FE8D1D237C710030CB96 /* NotificationService.swift */; };
 		8E55FF941CF2066600A0BDB8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E55FF931CF2066600A0BDB8 /* GoogleService-Info.plist */; };
 		8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256991CDF793200C9E054 /* AppDelegate.swift */; };
 		8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E72569B1CDF793200C9E054 /* LoginViewController.swift */; };
@@ -25,9 +26,10 @@
 		8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
 		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
 		F2048F7E1CED59A50039F7BB /* MyEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7D1CED59A50039F7BB /* MyEventsTableViewController.swift */; };
+		F21571F51D200B7C00D2F59A /* EventDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */; };
 		F238AA261CEBA33500B5D37E /* Menu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F238AA251CEBA33500B5D37E /* Menu.storyboard */; };
 		F238AA281CEBA38700B5D37E /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F238AA271CEBA38700B5D37E /* MenuTableViewController.swift */; };
-		F250A7FC1CFF1588003A7DEA /* transparentTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F250A7FB1CFF1588003A7DEA /* transparentTextField.swift */; };
+		F250A7FC1CFF1588003A7DEA /* TransparentTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */; };
 		F2C0F1201CF3E8BB00CB98F1 /* JoinEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C0F11F1CF3E8BB00CB98F1 /* JoinEventsTableViewController.swift */; };
 		F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3B71CEE109000350115 /* DetailCell.swift */; };
 		F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3B91CEE10E800350115 /* DescriptionCell.swift */; };
@@ -45,6 +47,7 @@
 		8E379F041CE580B500C91A12 /* SandboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SandboxViewController.swift; sourceTree = "<group>"; };
 		8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBaseModel.swift; sourceTree = "<group>"; };
 		8E379F091CE58CEE00C91A12 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		8E39FE8D1D237C710030CB96 /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		8E55FF931CF2066600A0BDB8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E7256961CDF793100C9E054 /* LotSportz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LotSportz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7256991CDF793200C9E054 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -60,9 +63,10 @@
 		8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F2048F7B1CED57170039F7BB /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		F2048F7D1CED59A50039F7BB /* MyEventsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyEventsTableViewController.swift; sourceTree = "<group>"; };
+		F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDisplayViewController.swift; sourceTree = "<group>"; };
 		F238AA251CEBA33500B5D37E /* Menu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Menu.storyboard; sourceTree = "<group>"; };
 		F238AA271CEBA38700B5D37E /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
-		F250A7FB1CFF1588003A7DEA /* transparentTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = transparentTextField.swift; sourceTree = "<group>"; };
+		F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransparentTextField.swift; sourceTree = "<group>"; };
 		F2C0F11F1CF3E8BB00CB98F1 /* JoinEventsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinEventsTableViewController.swift; sourceTree = "<group>"; };
 		F2F7C3B71CEE109000350115 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
 		F2F7C3B91CEE10E800350115 /* DescriptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
@@ -115,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				8E379F001CE57E8600C91A12 /* EventService.swift */,
+				8E39FE8D1D237C710030CB96 /* NotificationService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -134,6 +139,7 @@
 				8ECD58E01CDF853500AD2B13 /* Main.storyboard */,
 				8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */,
 				F238AA251CEBA33500B5D37E /* Menu.storyboard */,
+				8E7256A21CDF793200C9E054 /* LaunchScreen.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -159,30 +165,45 @@
 		8E7256981CDF793200C9E054 /* LotSportz */ = {
 			isa = PBXGroup;
 			children = (
-				F2F7C3BE1CEE11BE00350115 /* Menu */,
+				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
+				F20AD03C1D26C10000969990 /* Login/Signup */,
+				F2F7C3BE1CEE11BE00350115 /* Main Menu */,
 				F2F7C3BB1CEE10F700350115 /* Cells */,
 				8E379F061CE58AFB00C91A12 /* Models */,
 				8E379F0B1CE58F9400C91A12 /* Services */,
-				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
-				8E72569B1CDF793200C9E054 /* LoginViewController.swift */,
-				8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */,
 				8E379F0D1CE593C300C91A12 /* Storyboards */,
 				8E379F0C1CE593B500C91A12 /* Sandbox */,
+				F20AD03B1D26C0F500969990 /* Utils */,
+			);
+			path = LotSportz;
+			sourceTree = "<group>";
+		};
+		F20AD03B1D26C0F500969990 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
 				8E99730A1CE9FA2A00054664 /* LotSportz-Bridging-Header.h */,
 				8E7256A01CDF793200C9E054 /* Assets.xcassets */,
-				8E7256A21CDF793200C9E054 /* LaunchScreen.storyboard */,
 				8E7256A51CDF793200C9E054 /* Info.plist */,
 				8E55FF931CF2066600A0BDB8 /* GoogleService-Info.plist */,
 				8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */,
 				8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */,
 			);
-			path = LotSportz;
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		F20AD03C1D26C10000969990 /* Login/Signup */ = {
+			isa = PBXGroup;
+			children = (
+				8E72569B1CDF793200C9E054 /* LoginViewController.swift */,
+				8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */,
+			);
+			name = Login/Signup;
 			sourceTree = "<group>";
 		};
 		F2F7C3BB1CEE10F700350115 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				F250A7FB1CFF1588003A7DEA /* transparentTextField.swift */,
+				F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */,
 				F2F7C3C11CEE2CDD00350115 /* PushTableViewCell.swift */,
 				F2048F7B1CED57170039F7BB /* EventCell.swift */,
 				F2F7C3B71CEE109000350115 /* DetailCell.swift */,
@@ -191,16 +212,17 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
-		F2F7C3BE1CEE11BE00350115 /* Menu */ = {
+		F2F7C3BE1CEE11BE00350115 /* Main Menu */ = {
 			isa = PBXGroup;
 			children = (
+				F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */,
 				F2F7C3BF1CEE296A00350115 /* SettingsTableViewController.swift */,
 				F238AA271CEBA38700B5D37E /* MenuTableViewController.swift */,
 				F2F7C3BC1CEE11B300350115 /* CreateEventViewController.swift */,
 				F2C0F11F1CF3E8BB00CB98F1 /* JoinEventsTableViewController.swift */,
 				F2048F7D1CED59A50039F7BB /* MyEventsTableViewController.swift */,
 			);
-			name = Menu;
+			name = "Main Menu";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,6 +261,11 @@
 					8E7256951CDF793100C9E054 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = H799H8B8DD;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -334,13 +361,15 @@
 				F2F7C3C21CEE2CDD00350115 /* PushTableViewCell.swift in Sources */,
 				8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */,
 				F238AA281CEBA38700B5D37E /* MenuTableViewController.swift in Sources */,
+				F21571F51D200B7C00D2F59A /* EventDisplayViewController.swift in Sources */,
 				F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				F2C0F1201CF3E8BB00CB98F1 /* JoinEventsTableViewController.swift in Sources */,
+				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,
 				F2F7C3C01CEE296A00350115 /* SettingsTableViewController.swift in Sources */,
 				F2048F7E1CED59A50039F7BB /* MyEventsTableViewController.swift in Sources */,
-				F250A7FC1CFF1588003A7DEA /* transparentTextField.swift in Sources */,
+				F250A7FC1CFF1588003A7DEA /* TransparentTextField.swift in Sources */,
 				F2F7C3BD1CEE11B300350115 /* CreateEventViewController.swift in Sources */,
 				8E379F051CE580B500C91A12 /* SandboxViewController.swift in Sources */,
 				F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */,

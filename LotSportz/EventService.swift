@@ -57,7 +57,7 @@ class EventService: NSObject {
         let eventQueryRef = firRef.child("events")//childByAppendingPath("events") // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // sort by time
-        eventQueryRef.queryOrderedByChild("time")
+        eventQueryRef.queryOrderedByChild("startTime")
         
         // filter for type
         if let _ = type {
@@ -91,9 +91,11 @@ class EventService: NSObject {
         let eventRef = firRef.child("events") // this references the endpoint lotsports.firebase.com/events/
         let newEventRef = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
         
-        var params: [String: AnyObject] = ["type": type, "city": city, "place": place, "time": startTime.dateByAddingTimeInterval(3600*24*2).timeIntervalSince1970, "max_players": max_players]
+        var params: [String: AnyObject] = ["type": type, "city": city, "place": place, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "max_players": max_players]
         if info == nil {
-            params["info"] = info!
+            params["info"] = "No description available"
+        } else {
+            params["info"] = info
         }
         
         newEventRef.setValue(params) { (error, ref) in
@@ -110,7 +112,6 @@ class EventService: NSObject {
                 })
             }
         }
-        
     }
     
     func joinEvent(event: Event, user: FIRUser) {

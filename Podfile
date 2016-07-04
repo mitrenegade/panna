@@ -7,6 +7,8 @@ target 'LotSportz' do
     pod 'Firebase/Auth'
     pod 'Firebase/Database'
 
+    pod 'Parse'
+
 	pod 'AFNetworking'
 	pod 'AsyncImageView'
 	pod 'FBSDKCoreKit'
@@ -16,4 +18,5 @@ target 'LotSportz' do
 	pod 'SWRevealViewController'
 
 	pod 'RandomKit'
+	pod 'Batch'
 end

@@ -15,7 +15,6 @@ class PushTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        pushSwitch.on = false //To-Do: Get user settings for push notifications
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -24,4 +23,7 @@ class PushTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBAction func switchState(sender: AnyObject) {
+        print("Switch changed")
+    }
 }

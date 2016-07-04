@@ -12,6 +12,7 @@ import SWRevealViewController
 class SettingsTableViewController: UITableViewController {
     
     let menuOptions = ["Push Notifications", "Logout"]
+    var service = EventService.sharedInstance()
 
     @IBOutlet var menuButton: UIBarButtonItem!
     override func viewDidLoad() {
@@ -48,11 +49,22 @@ class SettingsTableViewController: UITableViewController {
         case 0:
             let cell : PushTableViewCell = tableView.dequeueReusableCellWithIdentifier("push", forIndexPath: indexPath) as! PushTableViewCell
             cell.labelPush.text = menuOptions[indexPath.row]
+            cell.selectionStyle = .None
+            
+            let notificationSwitch = UISwitch()
+            if UIApplication.sharedApplication().currentUserNotificationSettings()?.hashValue == 0 {
+                notificationSwitch.setOn(true, animated: true)
+            } else {
+                notificationSwitch.setOn(false, animated: true)
+            }
+            cell.pushSwitch = notificationSwitch
             return cell
+            
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
             cell.textLabel?.text = menuOptions[indexPath.row]
             return cell
+            
         default:
             let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
             return cell
@@ -63,7 +75,7 @@ class SettingsTableViewController: UITableViewController {
        
         switch indexPath.row {
         case 0:
-            //TODO: - Implement yes/no to push notifications
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
             break
         case 1:
             try! firAuth?.signOut()

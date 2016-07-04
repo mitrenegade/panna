@@ -8,6 +8,7 @@
 
 import UIKit
 import SWRevealViewController
+import Parse
 
 class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, SWRevealViewControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
@@ -22,8 +23,6 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     var location : String!
     var date : NSDate!
     var dateString: String!
-    var startTimeString : String!
-    var endTimeString : String!
     var startTime: NSDate!
     var endTime: NSDate!
     var numPlayers : UInt!
@@ -135,11 +134,22 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         self.info = self.descriptionTextView!.text
 
         if type != nil && city != nil && location != nil && date != nil && startTime != nil && endTime != nil && numPlayers != nil && info != nil  {
+            self.startTime = self.combineDateAndTime(date, time: startTime)
+            self.endTime = self.combineDateAndTime(date, time: endTime)
+            
             EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info, completion: { (event, error) in
                 
-                // TODO: create some sort of activity indicator
-                self.revealViewController().revealToggle(nil)
-                self.menuController!.goToMyEvents()
+                if let event = event {
+                    // TODO: create some sort of activity indicator
+                    self.revealViewController().revealToggle(nil)
+                    self.menuController!.goToMyEvents()
+                    self.sendPushForCreatedEvent(event)
+                }
+                else {
+                    if let error = error {
+                        self.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
+                    }
+                }
             })
         } else {
             let alert = UIAlertController(title: "Alert", message: "Pleae enter all required fields.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -378,10 +388,8 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         currentField!.text = dateFormatter.stringFromDate(sender.date)
         if (sender == startTimePickerView) {
             self.startTime = sender.date
-            self.startTimeString = dateFormatter.stringFromDate(sender.date)
         } else {
             self.endTime = sender.date
-            self.endTimeString = dateFormatter.stringFromDate(sender.date)
         }
     }
     
@@ -421,5 +429,34 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         
         self.keyboardHeight = keyboardHeight
     }
+    
+    // MARK - Date concatenation
+    func combineDateAndTime(day: NSDate, time: NSDate) -> NSDate {
+        
+        let calendar = NSCalendar.currentCalendar()
+        let dateComponents = calendar.components([.Year, .Month, .Day], fromDate: day)
+        let timeComponents = calendar.components([.Hour, .Minute, .Second], fromDate: time)
+        
+        let components = NSDateComponents()
+        components.year = dateComponents.year
+        components.month = dateComponents.month
+        components.day = dateComponents.day
+        components.hour = timeComponents.hour
+        components.minute = timeComponents.minute
+        components.second = timeComponents.second
+        
+        let newDate = calendar.dateFromComponents(components)!
+        return newDate
+    }
 
+    // MARK: Push notifications
+    func sendPushForCreatedEvent(event: Event) {
+        let userId = firAuth!.currentUser!.uid
+        let title = "New event created"
+        let message = "A game of \(event.type().rawValue) now available in \(event.place()), \(event.city()) on \(event.timeString(event.startTime()))"
+        let params = ["channel": "eventsGlobal", "message": message, "title": title, "sender": userId]
+        PFCloud.callFunctionInBackground("sendPushFromDevice", withParameters: params) { (results, error) in
+            print("results \(results) error \(error)")
+        }
+    }
 }

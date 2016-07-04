@@ -17,19 +17,22 @@ enum EventType: String {
 }
 
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+let formatter = NSDateFormatter()
 
 class Event: FirebaseBaseModel {
     var service = EventService.sharedInstance()
     
-    func type() -> String {
-        if let val = self.dict["type"] as? String {
-            return val
+    func type() -> EventType {
+        for type: EventType in [EventType.Soccer, EventType.Basketball, EventType.FlagFootball] {
+            if type.rawValue == self.dict["type"] as? String {
+                return type
+            }
         }
-        return EventType.Other.rawValue
+        return EventType.Other
     }
     
     func city() -> String {
-        if let val = self.dict["place"] as? String {
+        if let val = self.dict["city"] as? String {
             return val
         }
         return ""
@@ -42,40 +45,41 @@ class Event: FirebaseBaseModel {
         return ""
     }
     
+    /* Old model
     func time() -> NSDate {
         if let val = self.dict["time"] as? NSTimeInterval {
             return NSDate(timeIntervalSince1970: val)
         }
         return NSDate() // what is a valid date equivalent of TBD?
     } //To-Do: Add begin/end time
+    */
     
-    func startTime() -> String {
-        if let val = self.dict["startTime"] as? String {
-            return val
+    func startTime() -> NSDate {
+        if let val = self.dict["startTime"] as? NSTimeInterval {
+            return NSDate(timeIntervalSince1970: val)
         }
-        return ""
-    }
+        return NSDate() // what is a valid date equivalent of TBD?
+    } //To-Do: Add begin/end time
+
     
-    func endTime() -> String {
-        if let val = self.dict["endTime"] as? String {
-            return val
+    func endTime() -> NSDate {
+        if let val = self.dict["endTime"] as? NSTimeInterval {
+            return NSDate(timeIntervalSince1970: val)
         }
-        return ""
-    }
+        return NSDate() // what is a valid date equivalent of TBD?
+    } //To-Do: Add begin/end time
+
     
-    func dateString() -> String {
-        let date = self.time()
-        let formatter = NSDateFormatter()
-        formatter.timeStyle = .ShortStyle
+    func dateString(date: NSDate) -> String {
         return "\(date.day()) \(months[date.month() - 1]) \(date.year())"
     }
 
-    func timeString() -> String {
-        let date = self.time()
-        let formatter = NSDateFormatter()
+    func timeString(date: NSDate) -> String {
+        formatter.dateStyle = .NoStyle
         formatter.timeStyle = .ShortStyle
         let time = formatter.stringFromDate(date)
         return "\(time)"
+        
     }
     
     func maxPlayers() -> Int {
@@ -120,7 +124,7 @@ class Event: FirebaseBaseModel {
         return self.maxPlayers() == self.numPlayers()
     }
     
-    func isPast() -> Bool { //TODO: - Will need to compare self.endDate() instead of self.time(), once EventDate branch is merged
-        return (NSComparisonResult.OrderedAscending == self.time().compare(NSDate())) //event time happened before current time
+    func isPast() -> Bool {
+        return (NSComparisonResult.OrderedAscending == self.startTime().compare(NSDate())) //event time happened before current time
     }
 }
