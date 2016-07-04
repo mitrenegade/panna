@@ -8,6 +8,7 @@
 
 import UIKit
 import SWRevealViewController
+import Parse
 
 class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     
@@ -134,7 +135,6 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         }
 
         self.performSegueWithIdentifier("toMyEventDetails", sender: self)
-        
     }
     
     // MARK: - Navigation

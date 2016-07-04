@@ -11,9 +11,15 @@ import Firebase
 import FBSDKCoreKit
 import FBSDKLoginKit
 import SWRevealViewController
+import Batch
+
+import Parse
 
 var firRef = FIRDatabase.database().reference() // Firebase(url: "https://lotsportz.firebaseio.com");
 let firAuth = FIRAuth.auth()
+
+let PARSE_APP_ID: String = "Y1kUP1Nwz77UlFW5wIGvK4ptgvCwKQjDejrXbMi7"
+let PARSE_CLIENT_KEY: String = "NOTUSED-O7G1syjw0PXZTOmV0FTvsH9TSTvk7e7Ll6qpDWfW"
 
 // Selector Syntatic sugar: https://medium.com/swift-programming/swift-selector-syntax-sugar-81c8a8b10df3#.a6ml91o38
 private extension Selector {
@@ -39,7 +45,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Firebase
         FIRApp.configure()
-        
         self.handle = firAuth?.addAuthStateDidChangeListener({ (auth, user) in
             if let user = user {
                 // user is logged in
@@ -55,6 +60,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Facebook
         FBSDKAppEvents.activateApp()
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        // Parse
+        let configuration = ParseClientConfiguration {
+            $0.applicationId = PARSE_APP_ID
+            $0.clientKey = PARSE_CLIENT_KEY
+            $0.server = "https://lotsportz.herokuapp.com/parse"
+        }
+        Parse.initializeWithConfiguration(configuration)
+
         return true
     }
     
@@ -116,5 +130,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.goToSignupLogin()
         })
     }
+    
+    // Push
+    // MARK: - Push
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        // Store the deviceToken in the current Installation and save it to Parse
+        
+        let installation = PFInstallation.currentInstallation()
+        installation.setDeviceTokenFromData(deviceToken)
+        let channel: String = "eventsGlobal"
+        installation.addUniqueObject(channel, forKey: "channels") // subscribe to global channel
+        installation.saveInBackground()
+        
+        let channels = installation.objectForKey("channels")
+        print("installation registered for remote notifications: token \(deviceToken) channel \(channels)")
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        print("failed: error \(error)")
+        NSNotificationCenter.defaultCenter().postNotificationName("push:enable:failed", object: nil)
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        print("notification received: \(userInfo)")
+        /* format:
+         [aps: {
+         alert = "test push 2";
+         sound = default;
+         }]
+         
+         ]
+         */
+        guard let title = userInfo["title"] as? String else { return }
+        guard let message = userInfo["message"] as? String else { return }
+        guard let sender = userInfo["sender"] as? String where sender != firAuth?.currentUser!.uid else {
+            print("Own message, ignoring")
+            return
+        }
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+        
+        self.revealController?.presentViewController(alert, animated: true, completion: nil)
+    }
+
 }
 

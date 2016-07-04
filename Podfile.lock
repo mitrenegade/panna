@@ -15,6 +15,7 @@ PODS:
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - AsyncImageView (1.5.1)
+  - Batch (1.5.3)
   - Bolts (1.7.0):
     - Bolts/AppLinks (= 1.7.0)
     - Bolts/Tasks (= 1.7.0)
@@ -59,12 +60,15 @@ PODS:
   - GoogleSymbolUtilities (1.1.1)
   - GoogleUtilities (1.3.1):
     - GoogleSymbolUtilities (~> 1.0)
+  - Parse (1.13.0):
+    - Bolts/Tasks (~> 1.6)
   - RandomKit (1.6.0)
   - SWRevealViewController (2.3.0)
 
 DEPENDENCIES:
   - AFNetworking
   - AsyncImageView
+  - Batch
   - DateTools
   - FBSDKCoreKit
   - FBSDKLoginKit
@@ -72,12 +76,14 @@ DEPENDENCIES:
   - Firebase
   - Firebase/Auth
   - Firebase/Database
+  - Parse
   - RandomKit
   - SWRevealViewController
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   AsyncImageView: db9433939160710b34a5c249479e03af2a2121b0
+  Batch: e8b878faad90083e572812d725da0e6e536490a7
   Bolts: a0058fa3b331c5a1e4402d534f2dae36dbff31e4
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   FBSDKCoreKit: 686ac982723a14ec9ddb85e2f81235d7706c891b
@@ -92,9 +98,10 @@ SPEC CHECKSUMS:
   GoogleNetworkingUtilities: 3e83269048cfb498dc7ec83ab36813360965c74f
   GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
   GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
+  Parse: f51c24d2feb412e4b2d6cc73d37cb24e8d0089bc
   RandomKit: 9b33ce5fc448056e8ddaaef655da315b26f23e32
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
 
-PODFILE CHECKSUM: e72bc43578e042a0353bca40763fa0157023eac8
+PODFILE CHECKSUM: 5346c5de4cd396500e780dd9b75b78593583ae07
 
 COCOAPODS: 1.0.0
