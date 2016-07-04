@@ -7,6 +7,8 @@ target 'LotSportz' do
     pod 'Firebase/Auth'
     pod 'Firebase/Database'
 
+    pod 'Parse'
+
 	pod 'AFNetworking'
 	pod 'AsyncImageView'
 	pod 'FBSDKCoreKit'

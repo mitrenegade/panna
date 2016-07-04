@@ -8,6 +8,7 @@
 
 import UIKit
 import SWRevealViewController
+import Parse
 
 class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     
@@ -133,8 +134,13 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
             return
         }
 
-        self.performSegueWithIdentifier("toMyEventDetails", sender: self)
-        
+        //self.performSegueWithIdentifier("toMyEventDetails", sender: self)
+
+        // TEST: push
+        let params = ["channel": "eventsGlobal", "message": "test message"]
+        PFCloud.callFunctionInBackground("sendPushFromDevice", withParameters: params) { (results, error) in
+            print("results \(results) error \(error)")
+        }
     }
     
     // MARK: - Navigation
