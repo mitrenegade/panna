@@ -8,6 +8,7 @@
 
 import UIKit
 import SWRevealViewController
+import Parse
 
 class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, SWRevealViewControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
@@ -137,9 +138,18 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             self.endTime = self.combineDateAndTime(date, time: endTime)
             
             EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info, completion: { (event, error) in
-                // TODO: create some sort of activity indicator
-                self.revealViewController().revealToggle(nil)
-                self.menuController!.goToMyEvents()
+                
+                if let event = event {
+                    // TODO: create some sort of activity indicator
+                    self.revealViewController().revealToggle(nil)
+                    self.menuController!.goToMyEvents()
+                    self.sendPushForCreatedEvent(event)
+                }
+                else {
+                    if let error = error {
+                        self.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
+                    }
+                }
             })
         } else {
             let alert = UIAlertController(title: "Alert", message: "Pleae enter all required fields.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -439,4 +449,14 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         return newDate
     }
 
+    // MARK: Push notifications
+    func sendPushForCreatedEvent(event: Event) {
+        let userId = firAuth!.currentUser!.uid
+        let title = "New event created"
+        let message = "A game of \(event.type().rawValue) now available in \(event.place()), \(event.city()) on \(event.timeString(event.startTime()))"
+        let params = ["channel": "eventsGlobal", "message": message, "title": title, "sender": userId]
+        PFCloud.callFunctionInBackground("sendPushFromDevice", withParameters: params) { (results, error) in
+            print("results \(results) error \(error)")
+        }
+    }
 }
