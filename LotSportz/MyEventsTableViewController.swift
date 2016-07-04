@@ -137,7 +137,8 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         //self.performSegueWithIdentifier("toMyEventDetails", sender: self)
 
         // TEST: push
-        let params = ["channel": "eventsGlobal", "message": "test message"]
+        let userId = firAuth!.currentUser!.uid
+        let params = ["channel": "eventsGlobal", "message": "test message", "title": "event joined", "sender": userId]
         PFCloud.callFunctionInBackground("sendPushFromDevice", withParameters: params) { (results, error) in
             print("results \(results) error \(error)")
         }

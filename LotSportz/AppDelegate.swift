@@ -161,6 +161,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          
          ]
          */
+        guard let title = userInfo["title"] as? String else { return }
+        guard let message = userInfo["message"] as? String else { return }
+        guard let sender = userInfo["sender"] as? String where sender != firAuth?.currentUser!.uid else {
+            print("Own message, ignoring")
+            return
+        }
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+        
+        self.revealController?.presentViewController(alert, animated: true, completion: nil)
     }
 
 }
