@@ -238,6 +238,7 @@
 				8E7256941CDF793100C9E054 /* Resources */,
 				0BFD9CCDEA2CF4A562C89699 /* 📦 Embed Pods Frameworks */,
 				9B74713E0CD8AFA78A38224E /* 📦 Copy Pods Resources */,
+				8E5CE7981D2CAE75001ADBA3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -319,6 +320,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		8E5CE7981D2CAE75001ADBA3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" b721eacab2230f0d8a20ca887d75b31784b433c4 5d2754ef6dbcdc967b222d434090ab04723a33fb94bfcf518a802dc0e4345c8a";
 		};
 		9B74713E0CD8AFA78A38224E /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -520,7 +534,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.lotsportz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "49cb349a-4900-4304-a35e-3b974178dffa";
+				PROVISIONING_PROFILE = "dba1abbb-c527-4c50-8062-6cfd20e6e77c";
 				SWIFT_OBJC_BRIDGING_HEADER = "LotSportz/LotSportz-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

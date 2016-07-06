@@ -12,8 +12,9 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import SWRevealViewController
 import Batch
-
 import Parse
+import Fabric
+import Crashlytics
 
 var firRef = FIRDatabase.database().reference() // Firebase(url: "https://lotsportz.firebaseio.com");
 let firAuth = FIRAuth.auth()
@@ -68,6 +69,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             $0.server = "https://lotsportz.herokuapp.com/parse"
         }
         Parse.initializeWithConfiguration(configuration)
+        
+        // Crashlytics
+        Fabric.with([Crashlytics.self])
 
         return true
     }
