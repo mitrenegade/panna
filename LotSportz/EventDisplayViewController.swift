@@ -115,12 +115,16 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         switch event.type() {
         case .Soccer:
             content.imageURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/soccer%403x.png")
+            content.contentURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/soccer%403x.png")
         case .FlagFootball:
             content.imageURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/football%403x.png")
+            content.contentURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/football%403x.png")
         case .Basketball:
             content.imageURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/basketball%403x.png")
+            content.contentURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/basketball%403x.png")
         default:
             content.imageURL = nil
+            content.contentURL = nil
         }
         
         content.contentTitle = "My event on LotSportz"
@@ -138,9 +142,11 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         let dialog = FBSDKShareDialog()
         dialog.shareContent = content
         dialog.fromViewController = self
-        dialog.mode = FBSDKShareDialogMode.Native
+        dialog.mode = FBSDKShareDialogMode.FeedBrowser
         if dialog.canShow() {
-            // FB app exists - this share works no matter what
+            // FB app exists - this share works if your contentURL is not an app store url.
+            // if contentURL is nil, there is no content in the share dialog
+            // TODO: contentURL may have to be a small webpage generated so FB can scrape the title. the contentTitle will not show up
             dialog.show()
         }
         else {
