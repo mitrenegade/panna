@@ -9,6 +9,9 @@ target 'LotSportz' do
 
     pod 'Parse'
 
+    pod 'Crashlytics'
+    pod 'Fabric'
+
 	pod 'AFNetworking'
 	pod 'AsyncImageView'
 	pod 'FBSDKCoreKit'

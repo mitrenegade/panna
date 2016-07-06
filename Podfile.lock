@@ -22,7 +22,10 @@ PODS:
   - Bolts/AppLinks (1.7.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.7.0)
+  - Crashlytics (3.7.0):
+    - Fabric (~> 1.6.3)
   - DateTools (1.7.0)
+  - Fabric (1.6.7)
   - FBSDKCoreKit (4.11.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.11.0):
@@ -69,7 +72,9 @@ DEPENDENCIES:
   - AFNetworking
   - AsyncImageView
   - Batch
+  - Crashlytics
   - DateTools
+  - Fabric
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
@@ -85,7 +90,9 @@ SPEC CHECKSUMS:
   AsyncImageView: db9433939160710b34a5c249479e03af2a2121b0
   Batch: e8b878faad90083e572812d725da0e6e536490a7
   Bolts: a0058fa3b331c5a1e4402d534f2dae36dbff31e4
+  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
+  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FBSDKCoreKit: 686ac982723a14ec9ddb85e2f81235d7706c891b
   FBSDKLoginKit: bade9fc78277764149ccc5bfaadbf13c83175c6a
   FBSDKShareKit: 2d1746144cfc8a9dbbd24997c34ee0471be51b6a
@@ -102,6 +109,6 @@ SPEC CHECKSUMS:
   RandomKit: 9b33ce5fc448056e8ddaaef655da315b26f23e32
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
 
-PODFILE CHECKSUM: 5346c5de4cd396500e780dd9b75b78593583ae07
+PODFILE CHECKSUM: e1eab9891af8d0dae56400c8ca037d3b141048db
 
 COCOAPODS: 1.0.0
