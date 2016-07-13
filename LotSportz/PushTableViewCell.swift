@@ -22,8 +22,17 @@ class PushTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func refresh() {
+        if NotificationService.userReceivesNotifications() {
+            self.pushSwitch.setOn(true, animated: true)
+        } else {
+            self.pushSwitch.setOn(false, animated: true)
+        }
+    }
 
     @IBAction func switchState(sender: AnyObject) {
-        print("Switch changed")
+        print("Switch changed to \(self.pushSwitch.on)")
+        NotificationService.toggleUserReceivesNotifications(self.pushSwitch.on)
     }
 }

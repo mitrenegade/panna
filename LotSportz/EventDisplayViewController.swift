@@ -52,7 +52,7 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
             if spots == 1{
                 self.labelSpotsAvailable.text = "\(spots) spot available"
             } else {
-                self.labelSpotsAvailable.text = "\(spots) spots svailable"
+                self.labelSpotsAvailable.text = "\(spots) spots available"
             }
         }
         

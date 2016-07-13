@@ -50,14 +50,7 @@ class SettingsTableViewController: UITableViewController {
             let cell : PushTableViewCell = tableView.dequeueReusableCellWithIdentifier("push", forIndexPath: indexPath) as! PushTableViewCell
             cell.labelPush.text = menuOptions[indexPath.row]
             cell.selectionStyle = .None
-            
-            let notificationSwitch = UISwitch()
-            if UIApplication.sharedApplication().currentUserNotificationSettings()?.hashValue == 0 {
-                notificationSwitch.setOn(true, animated: true)
-            } else {
-                notificationSwitch.setOn(false, animated: true)
-            }
-            cell.pushSwitch = notificationSwitch
+            cell.refresh()
             return cell
             
         case 1:

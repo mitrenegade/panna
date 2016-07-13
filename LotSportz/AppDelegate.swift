@@ -140,14 +140,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         // Store the deviceToken in the current Installation and save it to Parse
         
-        let installation = PFInstallation.currentInstallation()
-        installation.setDeviceTokenFromData(deviceToken)
-        let channel: String = "eventsGlobal"
-        installation.addUniqueObject(channel, forKey: "channels") // subscribe to global channel
-        installation.saveInBackground()
-        
-        let channels = installation.objectForKey("channels")
-        print("installation registered for remote notifications: token \(deviceToken) channel \(channels)")
+        NotificationService.registerForPushNotifications(deviceToken, enabled:true)
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
