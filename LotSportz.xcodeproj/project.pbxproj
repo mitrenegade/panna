@@ -232,12 +232,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8E7256A81CDF793200C9E054 /* Build configuration list for PBXNativeTarget "LotSportz" */;
 			buildPhases = (
-				BD4034CDECCE5F82AD70949C /* 📦 Check Pods Manifest.lock */,
+				BD4034CDECCE5F82AD70949C /* [CP] Check Pods Manifest.lock */,
 				8E7256921CDF793100C9E054 /* Sources */,
 				8E7256931CDF793100C9E054 /* Frameworks */,
 				8E7256941CDF793100C9E054 /* Resources */,
-				0BFD9CCDEA2CF4A562C89699 /* 📦 Embed Pods Frameworks */,
-				9B74713E0CD8AFA78A38224E /* 📦 Copy Pods Resources */,
+				0BFD9CCDEA2CF4A562C89699 /* [CP] Embed Pods Frameworks */,
+				9B74713E0CD8AFA78A38224E /* [CP] Copy Pods Resources */,
 				8E5CE7981D2CAE75001ADBA3 /* ShellScript */,
 			);
 			buildRules = (
@@ -306,14 +306,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0BFD9CCDEA2CF4A562C89699 /* 📦 Embed Pods Frameworks */ = {
+		0BFD9CCDEA2CF4A562C89699 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -334,14 +334,14 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" b721eacab2230f0d8a20ca887d75b31784b433c4 5d2754ef6dbcdc967b222d434090ab04723a33fb94bfcf518a802dc0e4345c8a";
 		};
-		9B74713E0CD8AFA78A38224E /* 📦 Copy Pods Resources */ = {
+		9B74713E0CD8AFA78A38224E /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,14 +349,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BD4034CDECCE5F82AD70949C /* 📦 Check Pods Manifest.lock */ = {
+		BD4034CDECCE5F82AD70949C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -510,6 +510,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				INFOPLIST_FILE = LotSportz/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -528,7 +529,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Bobby Ren (H799H8B8DD)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = LotSportz/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

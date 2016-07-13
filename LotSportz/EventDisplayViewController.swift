@@ -104,21 +104,23 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
             }
             self.navigationController?.popViewControllerAnimated(true)
         } else if sender == btnShare {
-            self.shareEvent(self.event)
+            self.shareEvent2(self.event)
         }
     }
     
-
     // MARK: - FBShare
-    func shareEvent(event: Event) {
+    func shareEvent2(event: Event) {
         let content: FBSDKShareLinkContent = FBSDKShareLinkContent()
         switch event.type() {
         case .Soccer:
             content.imageURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/soccer%403x.png")
+            content.contentURL = NSURL(string: "http://lotsportz.herokuapp.com/soccer")
         case .FlagFootball:
             content.imageURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/football%403x.png")
+            content.contentURL = NSURL(string: "http://lotsportz.herokuapp.com/football")
         case .Basketball:
             content.imageURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/basketball%403x.png")
+            content.contentURL = NSURL(string: "http://lotsportz.herokuapp.com/basketball")
         default:
             content.imageURL = nil
         }
@@ -126,9 +128,6 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         content.contentTitle = "My event on LotSportz"
         content.contentDescription = "I'm playing \(event.type().rawValue) at \(event.city()) on \(event.dateString(event.startTime()))"
         
-        // TODO: need to link to a lotsportz landing page. If itunes is linked, the content is replaced: http://stackoverflow.com/questions/30742645/facebook-sdk-share-link-content-gets-replaced-by-meta-data-from-content-url
-        //content.contentURL = NSURL(string: "https://itunes.apple.com/us/app/lotsportz/id1123209345?ls=1&mt=8")
-
         /*
          This does not use contentTitle and contentDescription if the native app share dialog is used. It only works via web/safari facebook sharing.
          See: http://stackoverflow.com/questions/29916591/fbsdksharelinkcontent-is-not-setting-the-contentdescription-and-contenttitle
@@ -150,6 +149,7 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
             dialog.show()
         }
     }
+
     
     // MARK: - FBSDKSharingDelegate
     func sharerDidCancel(sharer: FBSDKSharing!) {
