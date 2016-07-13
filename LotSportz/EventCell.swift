@@ -31,6 +31,7 @@ class EventCell: UITableViewCell {
         self.eventLogo.layer.cornerRadius = self.eventLogo.frame.size.height / 2
         self.eventLogo.layer.borderWidth = 1.0
         self.eventLogo.layer.masksToBounds = true
+        self.eventLogo.contentMode = .ScaleAspectFill
         
         self.btnAction.layer.cornerRadius = self.btnAction.frame.size.height / 5
     }
