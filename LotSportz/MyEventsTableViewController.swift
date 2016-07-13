@@ -28,7 +28,6 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         
         self.refreshEvents()
         
-        
         self.navigationItem.title = "My Events"
         self.service.listenForEventUsers()
     }
