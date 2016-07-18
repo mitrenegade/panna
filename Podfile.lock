@@ -14,57 +14,61 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - AsyncImageView (1.5.1)
-  - Batch (1.5.3)
-  - Bolts (1.7.0):
-    - Bolts/AppLinks (= 1.7.0)
-    - Bolts/Tasks (= 1.7.0)
-  - Bolts/AppLinks (1.7.0):
+  - AsyncImageView (1.6)
+  - Batch (1.5.4)
+  - Bolts (1.8.4):
+    - Bolts/AppLinks (= 1.8.4)
+    - Bolts/Tasks (= 1.8.4)
+  - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
-  - Bolts/Tasks (1.7.0)
-  - Crashlytics (3.7.0):
+  - Bolts/Tasks (1.8.4)
+  - Crashlytics (3.7.2):
     - Fabric (~> 1.6.3)
   - DateTools (1.7.0)
   - Fabric (1.6.7)
-  - FBSDKCoreKit (4.11.0):
+  - FBSDKCoreKit (4.14.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.11.0):
+  - FBSDKLoginKit (4.14.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.11.0):
+  - FBSDKShareKit (4.14.0):
     - FBSDKCoreKit
-  - Firebase (3.2.0):
-    - Firebase/Core (= 3.2.0)
-  - Firebase/Analytics (3.2.0):
-    - FirebaseAnalytics (= 3.2.0)
-  - Firebase/Auth (3.2.0):
-    - Firebase/Analytics (= 3.2.0)
-    - FirebaseAuth (= 3.0.2)
-  - Firebase/Core (3.2.0):
-    - Firebase/Analytics (= 3.2.0)
-  - Firebase/Database (3.2.0):
-    - Firebase/Analytics (= 3.2.0)
-    - FirebaseDatabase (= 3.0.1)
-  - FirebaseAnalytics (3.2.0):
+  - Firebase (3.3.0):
+    - Firebase/Core (= 3.3.0)
+  - Firebase/Analytics (3.3.0):
+    - FirebaseAnalytics (= 3.2.1)
+  - Firebase/Auth (3.3.0):
+    - Firebase/Analytics (= 3.3.0)
+    - FirebaseAuth (= 3.0.3)
+  - Firebase/Core (3.3.0):
+    - Firebase/Analytics (= 3.3.0)
+  - Firebase/Database (3.3.0):
+    - Firebase/Analytics (= 3.3.0)
+    - FirebaseDatabase (= 3.0.2)
+  - FirebaseAnalytics (3.2.1):
     - FirebaseInstanceID (~> 1.0)
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
     - GoogleUtilities (~> 1.3)
-  - FirebaseAuth (3.0.2):
+  - FirebaseAuth (3.0.3):
     - FirebaseAnalytics (~> 3.2)
     - GoogleNetworkingUtilities (~> 1.2)
+    - GoogleParsingUtilities (~> 1.1)
     - GoogleUtilities (~> 1.3)
-  - FirebaseDatabase (3.0.1):
+  - FirebaseDatabase (3.0.2):
     - FirebaseAnalytics (~> 3.2)
-  - FirebaseInstanceID (1.0.6)
+  - FirebaseInstanceID (1.0.7)
   - GoogleInterchangeUtilities (1.2.1):
     - GoogleSymbolUtilities (~> 1.0)
   - GoogleNetworkingUtilities (1.2.1):
     - GoogleSymbolUtilities (~> 1.0)
+  - GoogleParsingUtilities (1.1.1):
+    - GoogleNetworkingUtilities (~> 1.0)
+    - GoogleSymbolUtilities (~> 1.0)
   - GoogleSymbolUtilities (1.1.1)
   - GoogleUtilities (1.3.1):
     - GoogleSymbolUtilities (~> 1.0)
-  - Parse (1.13.0):
-    - Bolts/Tasks (~> 1.6)
+  - Parse (1.14.1):
+    - Bolts/Tasks (~> 1.8)
   - RandomKit (1.6.0)
   - SWRevealViewController (2.3.0)
 
@@ -87,25 +91,26 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  AsyncImageView: db9433939160710b34a5c249479e03af2a2121b0
-  Batch: e8b878faad90083e572812d725da0e6e536490a7
-  Bolts: a0058fa3b331c5a1e4402d534f2dae36dbff31e4
-  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
+  AsyncImageView: 416e99402e5b1f20571de70ad619ced90f56a7d9
+  Batch: 13083f81837fe1da9ea84b0533a2965c73ff74c6
+  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  Crashlytics: 130ab943f8c78cda7a814b434f270b2e2c8a3cba
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
-  FBSDKCoreKit: 686ac982723a14ec9ddb85e2f81235d7706c891b
-  FBSDKLoginKit: bade9fc78277764149ccc5bfaadbf13c83175c6a
-  FBSDKShareKit: 2d1746144cfc8a9dbbd24997c34ee0471be51b6a
-  Firebase: 6d4012da1598732a2b43f16d8355eca90f94ed59
-  FirebaseAnalytics: 6f75b04e6bfb8e0b6e9ef298e04c24eea3b13863
-  FirebaseAuth: 94b851fc345ce98036dfedfdc2eddeaef8fa3b4c
-  FirebaseDatabase: 34301d11621a83546f39f670d256477ba6f7fcea
-  FirebaseInstanceID: d014d574053a2fe84478f12f7bae96979e7051bb
+  FBSDKCoreKit: 6e020b5db0b5bd1e01f5fb0902131befd129a502
+  FBSDKLoginKit: da563567a108050ef83739c8c8c001ee9e25fa13
+  FBSDKShareKit: e8e5d4ccef69b41132fe33acda26db1e33143e33
+  Firebase: 6250071f0e2440a5c4c67b8cb6b868f868237ac3
+  FirebaseAnalytics: 0fd6532cb2c3d03cd5cf26ad295ccb091efd3104
+  FirebaseAuth: 5efddc3fae47042b73585f083f956462be4f5b8e
+  FirebaseDatabase: 59bea2e7dfd81b3b8b2f8e396caf1a52c2ced6f7
+  FirebaseInstanceID: a9d923f3d0b6fbf9fac89310860357aaadc34be5
   GoogleInterchangeUtilities: def8415a862effc67d549d5b5b0b9c7a2f97d4de
   GoogleNetworkingUtilities: 3e83269048cfb498dc7ec83ab36813360965c74f
+  GoogleParsingUtilities: 30b3896f9ee167dc78747f013d3de157ced1cadf
   GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
   GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
-  Parse: f51c24d2feb412e4b2d6cc73d37cb24e8d0089bc
+  Parse: 4f72b1c01b3fc9038bea045681b6cc1b070c081e
   RandomKit: 9b33ce5fc448056e8ddaaef655da315b26f23e32
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
 

@@ -63,17 +63,17 @@ class NotificationService: NSObject {
     // PUSH NOTIFICATIONS
     class func registerForPushNotifications(deviceToken: NSData, enabled: Bool) {
         let installation = PFInstallation.currentInstallation()
-        installation.setDeviceTokenFromData(deviceToken)
+        installation!.setDeviceTokenFromData(deviceToken)
         let channel: String = "eventsGlobal"
         if enabled {
-            installation.addUniqueObject(channel, forKey: "channels") // subscribe to global channel
+            installation!.addUniqueObject(channel, forKey: "channels") // subscribe to global channel
         }
         else {
-            installation.removeObject(channel, forKey: "channels")
+            installation!.removeObject(channel, forKey: "channels")
         }
-        installation.saveInBackground()
+        installation!.saveInBackground()
         
-        let channels = installation.objectForKey("channels")
+        let channels = installation!.objectForKey("channels")
         print("installation registered for remote notifications: token \(deviceToken) channel \(channels)")
         
         self.sharedInstance().pushDeviceToken = deviceToken
