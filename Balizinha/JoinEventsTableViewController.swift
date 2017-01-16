@@ -44,23 +44,31 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
             
             // 1: sort all events by time
             self.allEvents = results.sorted { (event1, event2) -> Bool in
-                return event1.id() > event2.id()
+                return event1.id > event2.id
             }
             
             // 2: Remove events the user has joined
             self.service.getEventsForUser(firAuth!.currentUser!, completion: { (eventIds) in
+                
+                print("eventsForUser \(firAuth!.currentUser!): \(eventIds)")
+
+                for event in self.allEvents {
+                    print("event id \(event.id) date \(event.dateString(event.endTime)) past \(event.isPast)")
+                }
+                print("all events count \(self.allEvents.count)")
+                
                 self.allEvents = self.allEvents.filter({ (event) -> Bool in
-                    (!eventIds.contains(event.id()) && !event.isPast())
+                    (!eventIds.contains(event.id) && !event.isPast)
                 })
                 
                 // 3: Organize events by type
                 self.sortedEvents = [.Soccer: [], .Basketball: [], .FlagFootball: []]
                 
                 for event in self.allEvents{
-                    var oldValue = self.sortedEvents[event.type()]
-                    print(event.type())
+                    var oldValue = self.sortedEvents[event.type]
+                    print(event.type)
                     oldValue?.append(event)
-                    self.sortedEvents.updateValue(oldValue!, forKey: event.type())
+                    self.sortedEvents.updateValue(oldValue!, forKey: event.type)
                 }
                 self.tableView.reloadData()
             })

@@ -25,11 +25,11 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
             // completion function will get called once at the start, and each time events change
             for event: Event in results {
                 // make sure events is unique and don't add duplicates
-                if let id = event.id() as? String {
+                if let id = event.id as? String {
                     self.events[id] = event
                 }
                 else {
-                    print("what is id? \(event.id())")
+                    print("what is id? \(event.id)")
                 }
             }
             self.tableView.reloadData()
@@ -61,12 +61,12 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath)
         let sortedEvents = events.values.sorted { (event1, event2) -> Bool in
-            return event1.id() > event2.id()
+            return event1.id > event2.id
         }
         let event = sortedEvents[indexPath.row]
-        let type = event.type()
-        let place = event.place()
-        let time = event.timeString(event.startTime())
+        let type = event.type
+        let place = event.place
+        let time = event.timeString(event.startTime)
         cell.textLabel!.text = "\(type) at \(place)"
         cell.detailTextLabel?.text = time
         

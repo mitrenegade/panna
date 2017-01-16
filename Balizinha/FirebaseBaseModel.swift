@@ -35,7 +35,7 @@ class FirebaseBaseModel: NSObject {
     }
 
     // returns unique id for this firebase object
-    func id() -> String {
+    var id: String {
         return self.firebaseKey
     }
 }

@@ -453,7 +453,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     func sendPushForCreatedEvent(_ event: Event) {
         let userId = firAuth!.currentUser!.uid
         let title = "New event created"
-        let message = "A game of \(event.type().rawValue) now available in \(event.place()), \(event.city()) on \(event.timeString(event.startTime()))"
+        let message = "A game of \(event.type.rawValue) now available in \(event.place), \(event.city) on \(event.timeString(event.startTime))"
         let params = ["channel": "eventsGlobal", "message": message, "title": title, "sender": userId]
         PFCloud.callFunction(inBackground: "sendPushFromDevice", withParameters: params) { (results, error) in
             print("results \(results) error \(error)")

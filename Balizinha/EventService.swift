@@ -80,6 +80,7 @@ class EventService: NSObject {
                     results.append(event)
                 }
             }
+            print("getEvents results count: \(results.count)")
             completion(results)
             eventQueryRef.removeObserver(withHandle: handle)
         }
@@ -137,7 +138,7 @@ class EventService: NSObject {
 
         let usersRef = firRef.child("userEvents")
         let userId = user.uid
-        let eventId = event.id()
+        let eventId = event.id
         usersRef.runTransactionBlock({ (currentData: FIRMutableData) -> FIRTransactionResult in
             var allUserEvents: [String: AnyObject] = [:]
             if currentData.hasChildren() {
@@ -190,6 +191,7 @@ class EventService: NSObject {
                     }
                 }
             }
+            print("getEventsForUser \(user.uid) results count: \(results.count)")
             completion(results)
             eventQueryRef.removeObserver(withHandle: handle)
         }
@@ -203,7 +205,7 @@ class EventService: NSObject {
         
         let eventsRef = firRef.child("eventUsers")
         let userId = user.uid
-        let eventId = event.id()
+        let eventId = event.id
         eventsRef.runTransactionBlock({ (currentData: FIRMutableData) -> FIRTransactionResult in
             var allEventUsers: [String: AnyObject] = [:]
             if currentData.hasChildren() {
@@ -237,9 +239,9 @@ class EventService: NSObject {
     func getUsersForEvent(_ event: Event, completion: @escaping (_ userIds: [String]) -> Void) {
         // returns all current events for a user. Returns as snapshot
         // only gets events once, and removes observer afterwards
-        print("Get users for event \(event.id())")
+        print("Get users for event \(event.id)")
         
-        let queryRef = firRef.child("eventUsers").child(event.id()) // this creates a query on the endpoint lotsports.firebase.com/events/
+        let queryRef = firRef.child("eventUsers").child(event.id) // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // do query
         var handle: UInt = 0
@@ -256,6 +258,7 @@ class EventService: NSObject {
                     }
                 }
             }
+            print("getUsersForEvent \(event.id) results count: \(results.count)")
             completion(results)
             queryRef.removeObserver(withHandle: handle)
         }

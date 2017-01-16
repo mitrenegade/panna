@@ -120,6 +120,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController?.present(controller, animated: true, completion: nil)
         self.revealController = controller
         self.listenFor("logout:success", action: .didLogout, object: nil)
+        
+        EventService.sharedInstance().listenForEventUsers()
     }
     
     func didLogout() {
