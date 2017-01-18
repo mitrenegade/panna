@@ -15,7 +15,7 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet var menuButton: UIBarButtonItem!
 
     var service = EventService.sharedInstance()
-    var events: [NSObject: Event] = [:]
+    var events: [String: Event] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,8 +25,12 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
             // completion function will get called once at the start, and each time events change
             for event: Event in results {
                 // make sure events is unique and don't add duplicates
-                let id = event.id()
-                self.events[id] = event
+                if let id = event.id() as? String {
+                    self.events[id] = event
+                }
+                else {
+                    print("what is id? \(event.id())")
+                }
             }
             self.tableView.reloadData()
         }
@@ -46,17 +50,17 @@ class SandboxViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     // MARK: - UITableViewDataSource
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return events.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath)
-        let sortedEvents = events.values.sort { (event1, event2) -> Bool in
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath)
+        let sortedEvents = events.values.sorted { (event1, event2) -> Bool in
             return event1.id() > event2.id()
         }
         let event = sortedEvents[indexPath.row]

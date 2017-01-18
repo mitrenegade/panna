@@ -38,15 +38,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var handle: FIRAuthStateDidChangeListenerHandle?
     var revealController: SWRevealViewController?
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         //enable local notifications
-        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
+        application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil))
 
         // Firebase
         FIRApp.configure()
-        self.handle = firAuth?.addAuthStateDidChangeListener({ (auth, user) in
+        self.handle = firAuth?.addStateDidChangeListener({ (auth, user) in
             if let user = user {
                 // user is logged in
                 print("auth: \(auth) user: \(user)")
@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             $0.clientKey = PARSE_CLIENT_KEY
             $0.server = "https://lotsportz.herokuapp.com/parse"
         }
-        Parse.initializeWithConfiguration(configuration)
+        Parse.initialize(with: configuration)
         
         // Crashlytics
         Fabric.with([Crashlytics.self])
@@ -76,24 +76,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         print("local notification received: \(notification)")
-        let alert = UIAlertController(title: "Alert", message: "You have an event in one hour!", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+        let alert = UIAlertController(title: "Alert", message: "You have an event in one hour!", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         
-        self.revealController?.presentViewController(alert, animated: true, completion: nil)
+        self.revealController?.present(alert, animated: true, completion: nil)
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
     // MARK: - Navigation
     func goToSignupLogin() {
-        let nav = UIStoryboard(name: "LoginSignup", bundle: nil).instantiateViewControllerWithIdentifier("LoginSignupNavigationController") as! UINavigationController
-        self.window?.rootViewController?.presentViewController(nav, animated: true, completion: nil)
+        let nav = UIStoryboard(name: "LoginSignup", bundle: nil).instantiateViewController(withIdentifier: "LoginSignupNavigationController") as! UINavigationController
+        self.window?.rootViewController?.present(nav, animated: true, completion: nil)
         if self.handle != nil {
-            firAuth?.removeAuthStateDidChangeListener(self.handle!)
+            firAuth?.removeStateDidChangeListener(self.handle!)
             self.handle = nil
         }
         
@@ -105,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.stopListeningFor("login:success")
 
         // first dismiss login/signup flow
-        self.window?.rootViewController?.dismissViewControllerAnimated(true, completion: {
+        self.window?.rootViewController?.dismiss(animated: true, completion: {
             // load main flow
             self.goToMenu()
         })
@@ -116,8 +116,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
         
-        let controller = UIStoryboard(name: "Menu", bundle: nil).instantiateViewControllerWithIdentifier("RevealViewController") as! SWRevealViewController
-        self.window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
+        let controller = UIStoryboard(name: "Menu", bundle: nil).instantiateViewController(withIdentifier: "RevealViewController") as! SWRevealViewController
+        self.window?.rootViewController?.present(controller, animated: true, completion: nil)
         self.revealController = controller
         self.listenFor("logout:success", action: .didLogout, object: nil)
     }
@@ -128,7 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationService.clearAllNotifications()
         
         // first dismiss main app
-        self.window?.rootViewController?.dismissViewControllerAnimated(true, completion: {
+        self.window?.rootViewController?.dismiss(animated: true, completion: {
             // load main flow
             self.revealController = nil
             self.goToSignupLogin()
@@ -137,18 +137,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // Push
     // MARK: - Push
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         // Store the deviceToken in the current Installation and save it to Parse
         
         NotificationService.registerForPushNotifications(deviceToken, enabled:true)
     }
     
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("failed: error \(error)")
-        NSNotificationCenter.defaultCenter().postNotificationName("push:enable:failed", object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "push:enable:failed"), object: nil)
     }
     
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         print("notification received: \(userInfo)")
         /* format:
          [aps: {
@@ -160,15 +160,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          */
         guard let title = userInfo["title"] as? String else { return }
         guard let message = userInfo["message"] as? String else { return }
-        guard let sender = userInfo["sender"] as? String where sender != firAuth?.currentUser!.uid else {
+        guard let sender = userInfo["sender"] as? String, sender != firAuth?.currentUser!.uid else {
             print("Own message, ignoring")
             return
         }
         
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         
-        self.revealController?.presentViewController(alert, animated: true, completion: nil)
+        self.revealController?.present(alert, animated: true, completion: nil)
     }
 
 }

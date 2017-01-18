@@ -9,14 +9,14 @@
 import UIKit
 import Parse
 
-let kEventNotificationIntervalSeconds: NSTimeInterval = -3600
+let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"
 let kNotificationsDefaultsKey = "NotificationsDefaultsKey"
 
 var notificationServiceSingleton: NotificationService?
 
 class NotificationService: NSObject {
-    var pushDeviceToken: NSData?
+    var pushDeviceToken: Data?
     var scheduledEvents: [Event]?
 
     class func sharedInstance() -> NotificationService {
@@ -28,7 +28,7 @@ class NotificationService: NSObject {
     }
     
     // LOCAL NOTIFICAITONS
-    class func refreshNotifications(events: [Event]?) {
+    class func refreshNotifications(_ events: [Event]?) {
         // store reference to events in case notifications are toggled
         self.sharedInstance().scheduledEvents = events
         
@@ -41,39 +41,39 @@ class NotificationService: NSObject {
         for event in events {
             //create local notification
             let notification = UILocalNotification()
-            notification.fireDate = event.startTime().dateByAddingTimeInterval(kEventNotificationIntervalSeconds)
+            notification.fireDate = event.startTime().addingTimeInterval(kEventNotificationIntervalSeconds) as Date
             
             notification.alertBody = kEventNotificationMessage
-            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+            UIApplication.shared.scheduleLocalNotification(notification)
         }
         
     }
     
-    class func scheduleNotificationForEvent(event: Event) {
+    class func scheduleNotificationForEvent(_ event: Event) {
         let notification = UILocalNotification()
-        notification.fireDate = event.startTime().dateByAddingTimeInterval(kEventNotificationIntervalSeconds)
+        notification.fireDate = event.startTime().addingTimeInterval(kEventNotificationIntervalSeconds) as Date
         notification.alertBody = kEventNotificationMessage
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        UIApplication.shared.scheduleLocalNotification(notification)
     }
     
     class func clearAllNotifications() {
-        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        UIApplication.shared.cancelAllLocalNotifications()
     }
     
     // PUSH NOTIFICATIONS
-    class func registerForPushNotifications(deviceToken: NSData, enabled: Bool) {
-        let installation = PFInstallation.currentInstallation()
-        installation!.setDeviceTokenFromData(deviceToken)
+    class func registerForPushNotifications(_ deviceToken: Data, enabled: Bool) {
+        let installation = PFInstallation.current()
+        installation!.setDeviceTokenFrom(deviceToken)
         let channel: String = "eventsGlobal"
         if enabled {
             installation!.addUniqueObject(channel, forKey: "channels") // subscribe to global channel
         }
         else {
-            installation!.removeObject(channel, forKey: "channels")
+            installation!.remove(channel, forKey: "channels")
         }
         installation!.saveInBackground()
         
-        let channels = installation!.objectForKey("channels")
+        let channels = installation!.object(forKey: "channels")
         print("installation registered for remote notifications: token \(deviceToken) channel \(channels)")
         
         self.sharedInstance().pushDeviceToken = deviceToken
@@ -81,14 +81,14 @@ class NotificationService: NSObject {
     
     // User notification preference
     class func userReceivesNotifications() -> Bool {
-        guard let notificationsDefaultValue = NSUserDefaults.standardUserDefaults().objectForKey(kNotificationsDefaultsKey) else { return true }
-        return notificationsDefaultValue.boolValue
+        guard let notificationsDefaultValue = UserDefaults.standard.object(forKey: kNotificationsDefaultsKey) else { return true }
+        return (notificationsDefaultValue as AnyObject).boolValue
     }
     
-    class func toggleUserReceivesNotifications(enabled: Bool) {
+    class func toggleUserReceivesNotifications(_ enabled: Bool) {
         // set and store user preference in NSUserDefaults
-        NSUserDefaults.standardUserDefaults().setObject(enabled, forKey: kNotificationsDefaultsKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(enabled, forKey: kNotificationsDefaultsKey)
+        UserDefaults.standard.synchronize()
         
         // toggle push notifications
         if let deviceToken = self.sharedInstance().pushDeviceToken {
@@ -96,7 +96,7 @@ class NotificationService: NSObject {
         }
         else {
             // reregister
-            UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
+            UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil))
         }
         
         // toggle/reschedule events

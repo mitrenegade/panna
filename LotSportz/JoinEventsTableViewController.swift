@@ -18,7 +18,7 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
     
     @IBOutlet var menuButton: UIBarButtonItem!
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.refreshEvents()
     }
     override func viewDidLoad() {
@@ -43,7 +43,7 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
             // completion function will get called once at the start, and each time events change
             
             // 1: sort all events by time
-            self.allEvents = results.sort { (event1, event2) -> Bool in
+            self.allEvents = results.sorted { (event1, event2) -> Bool in
                 return event1.id() > event2.id()
             }
             
@@ -68,11 +68,11 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
     }
     
     // MARK: - Table view data source
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return self.sortedEvents.keys.count
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             let soccerEvents = self.sortedEvents[.Soccer]
@@ -86,12 +86,12 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
         }
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return eventTypes[section].rawValue
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : EventCell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! EventCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
         cell.delegate = self
         
         let event = sortedEvents[eventTypes[indexPath.section]]![indexPath.row]
@@ -100,18 +100,18 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
         return cell
     }
     
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         let list = sortedEvents[eventTypes[section]]
         return list!.count == 0 ? 0 : UITableViewAutomaticDimension
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegueWithIdentifier("toEventDetails", sender: self)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "toEventDetails", sender: self)
     }
     
     // MARK: EventCellDelegate
-    func joinOrLeaveEvent(event: Event, join: Bool) {
+    func joinOrLeaveEvent(_ event: Event, join: Bool) {
         let user = firAuth!.currentUser!
         if join {
             //add notification in case user doesn't return to MyEvents
@@ -127,8 +127,8 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
     
     
      // MARK: - Navigation     
-     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let detailsController = segue.destinationViewController as! EventDisplayViewController
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let detailsController = segue.destination as! EventDisplayViewController
         detailsController.alreadyJoined = false
         detailsController.delegate = self
         

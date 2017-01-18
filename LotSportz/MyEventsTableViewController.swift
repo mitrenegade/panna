@@ -43,7 +43,7 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
             // completion function will get called once at the start, and each time events change
             
             // 1: sort all events by time
-            self.sortedUpcomingEvents = results.sort { (event1, event2) -> Bool in
+            self.sortedUpcomingEvents = results.sorted { (event1, event2) -> Bool in
                 return event1.id() < event2.id()
             }
             
@@ -70,11 +70,11 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return self.sortedUpcomingEvents.count
@@ -86,7 +86,7 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         return 0
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
             return "Upcoming events"
@@ -100,8 +100,8 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : EventCell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! EventCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
         cell.delegate = self
         
         switch indexPath.section {
@@ -116,7 +116,7 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     }
 
     // MARK: EventCellDelegate
-    func joinOrLeaveEvent(event: Event, join: Bool) {
+    func joinOrLeaveEvent(_ event: Event, join: Bool) {
         let user = firAuth!.currentUser!
         if join {
             self.service.joinEvent(event, user: user)
@@ -127,20 +127,20 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         
         self.refreshEvents()
     }
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.section == 0 else {
-            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            self.tableView.deselectRow(at: indexPath, animated: true)
             return
         }
 
-        self.performSegueWithIdentifier("toMyEventDetails", sender: self)
+        self.performSegue(withIdentifier: "toMyEventDetails", sender: self)
     }
     
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let detailsController = segue.destinationViewController as! EventDisplayViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let detailsController = segue.destination as! EventDisplayViewController
         detailsController.alreadyJoined = true
         detailsController.delegate = self
         

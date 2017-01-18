@@ -17,7 +17,7 @@ enum EventType: String {
 }
 
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-let formatter = NSDateFormatter()
+let formatter = DateFormatter()
 
 class Event: FirebaseBaseModel {
     var service = EventService.sharedInstance()
@@ -54,30 +54,30 @@ class Event: FirebaseBaseModel {
     } //To-Do: Add begin/end time
     */
     
-    func startTime() -> NSDate {
-        if let val = self.dict["startTime"] as? NSTimeInterval {
-            return NSDate(timeIntervalSince1970: val)
+    func startTime() -> Date {
+        if let val = self.dict["startTime"] as? TimeInterval {
+            return Date(timeIntervalSince1970: val)
         }
-        return NSDate() // what is a valid date equivalent of TBD?
+        return Date() // what is a valid date equivalent of TBD?
     } //To-Do: Add begin/end time
 
     
-    func endTime() -> NSDate {
-        if let val = self.dict["endTime"] as? NSTimeInterval {
-            return NSDate(timeIntervalSince1970: val)
+    func endTime() -> Date {
+        if let val = self.dict["endTime"] as? TimeInterval {
+            return Date(timeIntervalSince1970: val)
         }
-        return NSDate() // what is a valid date equivalent of TBD?
+        return Date() // what is a valid date equivalent of TBD?
     } //To-Do: Add begin/end time
 
     
-    func dateString(date: NSDate) -> String {
-        return "\(date.day()) \(months[date.month() - 1]) \(date.year())"
+    func dateString(_ date: Date) -> String {
+        return "\((date as NSDate).day()) \(months[(date as NSDate).month() - 1]) \((date as NSDate).year())"
     }
 
-    func timeString(date: NSDate) -> String {
-        formatter.dateStyle = .NoStyle
-        formatter.timeStyle = .ShortStyle
-        let time = formatter.stringFromDate(date)
+    func timeString(_ date: Date) -> String {
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        let time = formatter.string(from: date)
         return "\(time)"
         
     }
@@ -116,7 +116,7 @@ class Event: FirebaseBaseModel {
         return []
     }
     
-    func containsUser(user: FIRUser) -> Bool {
+    func containsUser(_ user: FIRUser) -> Bool {
         return self.users().contains(user.uid)
     }
     
@@ -125,6 +125,6 @@ class Event: FirebaseBaseModel {
     }
     
     func isPast() -> Bool {
-        return (NSComparisonResult.OrderedAscending == self.startTime().compare(NSDate())) //event time happened before current time
+        return (ComparisonResult.orderedAscending == self.startTime().compare(Date())) //event time happened before current time
     }
 }

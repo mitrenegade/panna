@@ -21,10 +21,10 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     var type : String!
     var city : String!
     var location : String!
-    var date : NSDate!
+    var date : Date!
     var dateString: String!
-    var startTime: NSDate!
-    var endTime: NSDate!
+    var startTime: Date!
+    var endTime: Date!
     var numPlayers : UInt!
     var info : String!
    
@@ -73,63 +73,63 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CreateEventViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(CreateEventViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func setupPickers() {
         
         for picker in [typePickerView, numberPickerView] {
             picker.sizeToFit()
-            picker.backgroundColor = .whiteColor()
+            picker.backgroundColor = .white
             picker.delegate = self
             picker.dataSource = self
         }
         
         for picker in [startTimePickerView, endTimePickerView, datePickerView] {
             picker.sizeToFit()
-            picker.backgroundColor = .whiteColor()
+            picker.backgroundColor = .white
         }
-        datePickerView.minimumDate = NSDate()
+        datePickerView.minimumDate = Date()
         
-        self.datePickerView.datePickerMode = UIDatePickerMode.Date
-        self.datePickerView.addTarget(self, action: #selector(datePickerValueChanged), forControlEvents: UIControlEvents.ValueChanged)
+        self.datePickerView.datePickerMode = UIDatePickerMode.date
+        self.datePickerView.addTarget(self, action: #selector(datePickerValueChanged), for: UIControlEvents.valueChanged)
         
-        self.startTimePickerView.datePickerMode = UIDatePickerMode.Time
-        self.startTimePickerView.addTarget(self, action: #selector(timePickerValueChanged), forControlEvents: UIControlEvents.ValueChanged)
+        self.startTimePickerView.datePickerMode = UIDatePickerMode.time
+        self.startTimePickerView.addTarget(self, action: #selector(timePickerValueChanged), for: UIControlEvents.valueChanged)
         
-        self.endTimePickerView.datePickerMode = UIDatePickerMode.Time
-        self.endTimePickerView.addTarget(self, action: #selector(timePickerValueChanged), forControlEvents: UIControlEvents.ValueChanged)
+        self.endTimePickerView.datePickerMode = UIDatePickerMode.time
+        self.endTimePickerView.addTarget(self, action: #selector(timePickerValueChanged), for: UIControlEvents.valueChanged)
     }
     
     func setupTextFields() {
         // textfield keyboard
         self.keyboardDoneButtonView = UIToolbar()
         keyboardDoneButtonView.sizeToFit()
-        keyboardDoneButtonView.barStyle = UIBarStyle.Default
-        keyboardDoneButtonView.tintColor = UIColor.whiteColor()
-        let save: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self, action: #selector(CreateEventViewController.done))
+        keyboardDoneButtonView.barStyle = UIBarStyle.default
+        keyboardDoneButtonView.tintColor = UIColor.white
+        let save: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(CreateEventViewController.done))
         save.tintColor = self.view.tintColor
         
-        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         
         keyboardDoneButtonView.setItems([flex, save], animated: true)
         
         // textview keyboard
         self.keyboardDoneButtonView2 = UIToolbar()
         keyboardDoneButtonView2.sizeToFit()
-        keyboardDoneButtonView2.barStyle = UIBarStyle.Default
-        keyboardDoneButtonView2.tintColor = UIColor.whiteColor()
-        let save2: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self.view, action: #selector(UIView.endEditing(_:)))
+        keyboardDoneButtonView2.barStyle = UIBarStyle.default
+        keyboardDoneButtonView2.tintColor = UIColor.white
+        let save2: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self.view, action: #selector(UIView.endEditing(_:)))
         save2.tintColor = self.view.tintColor
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
     }
     
-    @IBAction func didClickSave(sender: AnyObject) {
+    @IBAction func didClickSave(_ sender: AnyObject) {
         // in case user clicks save without clicking done first
         self.info = self.descriptionTextView!.text
 
@@ -152,20 +152,20 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
                 }
             })
         } else {
-            let alert = UIAlertController(title: "Alert", message: "Pleae enter all required fields.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+            let alert = UIAlertController(title: "Alert", message: "Pleae enter all required fields.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
             
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
     }
 
     // MARK: - Table view data source
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return options.count
@@ -177,13 +177,13 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     }
 
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.section {
         case 0:
             let cell : DetailCell
             if indexPath.row == 1 || indexPath.row == 2 {
-                cell = tableView.dequeueReusableCellWithIdentifier("cityCell", forIndexPath: indexPath) as! DetailCell
+                cell = tableView.dequeueReusableCell(withIdentifier: "cityCell", for: indexPath) as! DetailCell
                 cell.valueTextField.delegate = self
                 cell.valueTextField.inputAccessoryView = nil
                 
@@ -196,9 +196,9 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
                 }
             }
             else {
-                cell = tableView.dequeueReusableCellWithIdentifier("detailCell", forIndexPath: indexPath) as! DetailCell
+                cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
                 
-                cell.valueTextField.userInteractionEnabled = false;
+                cell.valueTextField.isUserInteractionEnabled = false;
                 cell.valueTextField.delegate = self
                 
                 switch indexPath.row {
@@ -232,7 +232,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             return cell
 
         case 1:
-            let cell : DescriptionCell = tableView.dequeueReusableCellWithIdentifier("descriptionCell", forIndexPath: indexPath) as! DescriptionCell
+            let cell : DescriptionCell = tableView.dequeueReusableCell(withIdentifier: "descriptionCell", for: indexPath) as! DescriptionCell
             self.descriptionTextView = cell.descriptionTextView
             cell.descriptionTextView.delegate = self
             
@@ -240,14 +240,14 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
 
             return cell
         default:
-            let cell = tableView.dequeueReusableCellWithIdentifier("detailCell", forIndexPath: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath)
             return cell
             
         }
 
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         switch section {
         case 0:
@@ -257,7 +257,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         switch indexPath.section {
         case 1:
@@ -267,7 +267,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         }
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Tapped Cell \(indexPath)")
         switch indexPath.section {
         case 0:
@@ -299,7 +299,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
                 break
             }
             currentField = textField
-            textField.userInteractionEnabled = true
+            textField.isUserInteractionEnabled = true
             textField.becomeFirstResponder()
             
         default:
@@ -316,10 +316,10 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     
     func updateLabel(){
         if (currentField == self.typeField) {
-            self.type = sportTypes[self.typePickerView.selectedRowInComponent(0)]
+            self.type = sportTypes[self.typePickerView.selectedRow(inComponent: 0)]
             currentField!.text = self.type
         } else if (currentField == self.maxPlayersField) { //selected max players
-            self.numPlayers = UInt(self.pickerView(self.numberPickerView, titleForRow: self.numberPickerView.selectedRowInComponent(0), forComponent: 0)!)
+            self.numPlayers = UInt(self.pickerView(self.numberPickerView, titleForRow: self.numberPickerView.selectedRow(inComponent: 0), forComponent: 0)!)
             currentField!.text = "\(self.numPlayers)"
         }
         // comes from clicking on done button. may not have the text yet
@@ -336,10 +336,10 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
 
     //MARK: - Delegates and data sources
     //MARK: Data Sources
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         //print("Reloaded number of rows")
         if pickerView == self.typePickerView {
             return sportTypes.count
@@ -348,7 +348,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     // The data to return for the row and component (column) that's being passed in
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         //print("Reloaded components")
         
         if pickerView == self.typePickerView {
@@ -360,32 +360,32 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         return "\(row + 1)"
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if row > 0 {
             updateLabel()
-            currentField!.userInteractionEnabled = false
+            currentField!.isUserInteractionEnabled = false
             currentField!.resignFirstResponder()
         }
         
     }
     
     // date picker
-    func datePickerValueChanged(sender:UIDatePicker) {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+    func datePickerValueChanged(_ sender:UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.medium
+        dateFormatter.timeStyle = DateFormatter.Style.none
 
         date = sender.date
-        dateString = dateFormatter.stringFromDate(sender.date)
+        dateString = dateFormatter.string(from: sender.date)
         currentField!.text = dateString
     }
     
     // start and end time picker
-    func timePickerValueChanged(sender:UIDatePicker) {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.NoStyle
-        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-        currentField!.text = dateFormatter.stringFromDate(sender.date)
+    func timePickerValueChanged(_ sender:UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.none
+        dateFormatter.timeStyle = DateFormatter.Style.short
+        currentField!.text = dateFormatter.string(from: sender.date)
         if (sender == startTimePickerView) {
             self.startTime = sender.date
         } else {
@@ -394,11 +394,11 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     // MARK: - UITextFieldDelegate
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         currentField = textField
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == self.cityField {
             self.city = textField.text
         }
@@ -408,36 +408,36 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     // MARK: -UITextViewDelegate
-    func textViewDidBeginEditing(textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.keyboardHeight, right: 0)
         
-        let indexPath = NSIndexPath(forRow: 0, inSection: 1)
-        self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+        let indexPath = IndexPath(row: 0, section: 1)
+        self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
-        self.tableView.contentInset = UIEdgeInsetsZero
+    func textViewDidEndEditing(_ textView: UITextView) {
+        self.tableView.contentInset = UIEdgeInsets.zero
         self.info = self.descriptionTextView!.text
     }
     
     // MARK - Keyboard
-    func keyboardWillShow(notification: NSNotification) {
-        let userInfo:NSDictionary = notification.userInfo!
-        let keyboardFrame:NSValue = userInfo.valueForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
-        let keyboardRectangle = keyboardFrame.CGRectValue()
+    func keyboardWillShow(_ notification: Notification) {
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height
         
         self.keyboardHeight = keyboardHeight
     }
     
     // MARK - Date concatenation
-    func combineDateAndTime(day: NSDate, time: NSDate) -> NSDate {
+    func combineDateAndTime(_ day: Date, time: Date) -> Date {
         
-        let calendar = NSCalendar.currentCalendar()
-        let dateComponents = calendar.components([.Year, .Month, .Day], fromDate: day)
-        let timeComponents = calendar.components([.Hour, .Minute, .Second], fromDate: time)
+        let calendar = Calendar.current
+        let dateComponents = (calendar as NSCalendar).components([.year, .month, .day], from: day)
+        let timeComponents = (calendar as NSCalendar).components([.hour, .minute, .second], from: time)
         
-        let components = NSDateComponents()
+        var components = DateComponents()
         components.year = dateComponents.year
         components.month = dateComponents.month
         components.day = dateComponents.day
@@ -445,17 +445,17 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         components.minute = timeComponents.minute
         components.second = timeComponents.second
         
-        let newDate = calendar.dateFromComponents(components)!
+        let newDate = calendar.date(from: components)!
         return newDate
     }
 
     // MARK: Push notifications
-    func sendPushForCreatedEvent(event: Event) {
+    func sendPushForCreatedEvent(_ event: Event) {
         let userId = firAuth!.currentUser!.uid
         let title = "New event created"
         let message = "A game of \(event.type().rawValue) now available in \(event.place()), \(event.city()) on \(event.timeString(event.startTime()))"
         let params = ["channel": "eventsGlobal", "message": message, "title": title, "sender": userId]
-        PFCloud.callFunctionInBackground("sendPushFromDevice", withParameters: params) { (results, error) in
+        PFCloud.callFunction(inBackground: "sendPushFromDevice", withParameters: params) { (results, error) in
             print("results \(results) error \(error)")
         }
     }

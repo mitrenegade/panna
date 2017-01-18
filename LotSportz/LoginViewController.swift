@@ -24,7 +24,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,12 +32,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func didClickButton(button: UIButton) {
+    @IBAction func didClickButton(_ button: UIButton) {
         if button == self.buttonFacebook {
             self.handleFacebookUser()
         }
         else if button == self.buttonSignup {
-            self.performSegueWithIdentifier("GoToSignup", sender: button)
+            self.performSegue(withIdentifier: "GoToSignup", sender: button)
         }
         else if button == self.buttonLogin {
             self.loginUser()
@@ -58,10 +58,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        firAuth?.signInWithEmail(email, password: password, completion: { (user, error) in
+        firAuth?.signIn(withEmail: email, password: password, completion: { (user, error) in
             if (error != nil) {
                 print("Error: \(error)")
-                self.simpleAlert("Could not log in", defaultMessage: nil,  error: error)
+                self.simpleAlert("Could not log in", defaultMessage: nil,  error: error as? NSError)
             }
             else {
                 print("results: \(user)")
@@ -74,17 +74,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func handleFacebookUser() {
         let permissions = ["email", "public_profile", "user_about_me"]
-        facebookLogin.logInWithReadPermissions(permissions, fromViewController: self) { (result, error) in
+        facebookLogin.logIn(withReadPermissions: permissions, from: self) { (result, error) in
             if error != nil {
                 print("Facebook login failed. Error \(error)")
-            } else if result.isCancelled {
+            } else if (result?.isCancelled)! {
                 print("Facebook login was cancelled.")
             } else {
                 print("Facebook login success: \(result)")
-                let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+                let accessToken = FBSDKAccessToken.current().tokenString
                 
-                let credential = FIRFacebookAuthProvider.credentialWithAccessToken(accessToken)
-                firAuth!.signInWithCredential(credential, completion: { (user, error) in
+                let credential = FIRFacebookAuthProvider.credential(withAccessToken: accessToken!)
+                firAuth!.signIn(with: credential, completion: { (user, error) in
                     if error != nil {
                         print("Login failed. \(error)")
                     } else {
@@ -100,7 +100,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func storeUserInfo(user: FIRUser) {
+    func storeUserInfo(_ user: FIRUser) {
         /*
         var userInfo = [
             "uid": authData.uid,

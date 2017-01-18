@@ -31,7 +31,7 @@ class FirebaseBaseModel: NSObject {
 
     // returns dict, or the value/contents of this object
     func toAnyObject() -> AnyObject {
-        return self.dict
+        return self.dict as AnyObject
     }
 
     // returns unique id for this firebase object

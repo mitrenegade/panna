@@ -22,43 +22,43 @@ class MenuTableViewController: UITableViewController {
     }
     
     // MARK: - Navigation helpers
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toCreateEvent" {
             // add a reference to menuTableViewController to navigate back
-            let nav: UINavigationController = segue.destinationViewController as! UINavigationController
+            let nav: UINavigationController = segue.destination as! UINavigationController
             let controller: CreateEventViewController = nav.viewControllers[0] as! CreateEventViewController
             controller.menuController = self
         }
     }
     
     func goToMyEvents() {
-        self.performSegueWithIdentifier("toMyEvents", sender: self)
+        self.performSegue(withIdentifier: "toMyEvents", sender: self)
     }
 
     func goToJoinEvents() {
-        self.performSegueWithIdentifier("toJoinEvents", sender: self)
+        self.performSegue(withIdentifier: "toJoinEvents", sender: self)
     }
 
     func goToCreateEvent() {
-        self.performSegueWithIdentifier("toCreateEvent", sender: self)
+        self.performSegue(withIdentifier: "toCreateEvent", sender: self)
     }
 
     func goToSettings() {
-        self.performSegueWithIdentifier("toSettings", sender: self)
+        self.performSegue(withIdentifier: "toSettings", sender: self)
     }
 
     
     // MARK: - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.tableView.reloadData()
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section{
         case 0:
             return 1
@@ -70,7 +70,7 @@ class MenuTableViewController: UITableViewController {
     }
     
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Configure the cell...
         let row = indexPath.row
@@ -79,17 +79,17 @@ class MenuTableViewController: UITableViewController {
         switch section
         {
         case 0:
-            let cell = tableView.dequeueReusableCellWithIdentifier("option", forIndexPath: indexPath)
-            cell.selectionStyle = UITableViewCellSelectionStyle.None
+            let cell = tableView.dequeueReusableCell(withIdentifier: "option", for: indexPath)
+            cell.selectionStyle = UITableViewCellSelectionStyle.none
             
             let logo : UIImageView = UIImageView(image: UIImage(named: "lotsports_logo_white"))
-            logo.frame = CGRectMake(cell.contentView.bounds.size.width/5.5, cell.contentView.bounds.size.height/4, 150, 70)
+            logo.frame = CGRect(x: cell.contentView.bounds.size.width/5.5, y: cell.contentView.bounds.size.height/4, width: 150, height: 70)
             
             cell.addSubview(logo)
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCellWithIdentifier("option", forIndexPath: indexPath)
-            cell.textLabel?.textColor = UIColor.whiteColor()
+            let cell = tableView.dequeueReusableCell(withIdentifier: "option", for: indexPath)
+            cell.textLabel?.textColor = UIColor.white
             switch row
             {
             case 0...4: //My Events
@@ -101,11 +101,11 @@ class MenuTableViewController: UITableViewController {
         default:
             break
         }
-        let cell = tableView.dequeueReusableCellWithIdentifier("option", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "option", for: indexPath)
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         // Configure the cell...
         let row = indexPath.row
@@ -116,13 +116,13 @@ class MenuTableViewController: UITableViewController {
             switch row
             {
             case 0: //My Events
-                self.performSegueWithIdentifier("toMyEvents", sender: self)
+                self.performSegue(withIdentifier: "toMyEvents", sender: self)
             case 1:
-                self.performSegueWithIdentifier("toJoinEvents", sender: self)
+                self.performSegue(withIdentifier: "toJoinEvents", sender: self)
             case 2:
-                self.performSegueWithIdentifier("toCreateEvent", sender: self)
+                self.performSegue(withIdentifier: "toCreateEvent", sender: self)
             case 3:
-                self.performSegueWithIdentifier("toSettings", sender: self)
+                self.performSegue(withIdentifier: "toSettings", sender: self)
             default:
                 break
             }
@@ -130,10 +130,10 @@ class MenuTableViewController: UITableViewController {
             break
         }
         
-        self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        self.tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
             return 150.0

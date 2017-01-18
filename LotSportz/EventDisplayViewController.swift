@@ -31,7 +31,7 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         super.viewDidLoad()
         
         // Setup event details
-        self.view.bringSubviewToFront(labelType.superview!)
+        self.view.bringSubview(toFront: labelType.superview!)
         self.labelType.text = self.event.type().rawValue
         self.labelDate.text = self.event.dateString(self.event.startTime())
         self.labelField.text = self.event.place()
@@ -61,17 +61,17 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         self.btnJoin.layer.cornerRadius = 4
         
         if alreadyJoined {
-            self.btnJoin.setTitle("Leave", forState: UIControlState.Normal)
+            self.btnJoin.setTitle("Leave", for: UIControlState())
             self.btnJoin.backgroundColor = leaveColor
         }
         else if self.event.isFull(){
-            self.btnJoin.enabled = false
+            self.btnJoin.isEnabled = false
         }
 
-        self.labelType.textColor = UIColor.grayColor()
-        self.labelField.textColor = UIColor.grayColor()
-        self.labelCity.textColor = UIColor.grayColor()
-        self.labelDate.textColor = UIColor.grayColor()
+        self.labelType.textColor = UIColor.gray
+        self.labelField.textColor = UIColor.gray
+        self.labelCity.textColor = UIColor.gray
+        self.labelDate.textColor = UIColor.gray
 
         //Sport image
         switch event.type() {
@@ -93,7 +93,7 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
     }
     
     
-    @IBAction func didTapButton(sender: UIButton) {
+    @IBAction func didTapButton(_ sender: UIButton) {
         if sender == btnJoin {
             if alreadyJoined {
                 let delegate = self.delegate as! MyEventsTableViewController
@@ -102,25 +102,25 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
                 let delegate = self.delegate as! JoinEventsTableViewController
                 delegate.joinOrLeaveEvent(self.event, join: true)
             }
-            self.navigationController?.popViewControllerAnimated(true)
+            self.navigationController?.popViewController(animated: true)
         } else if sender == btnShare {
             self.shareEvent2(self.event)
         }
     }
     
     // MARK: - FBShare
-    func shareEvent2(event: Event) {
+    func shareEvent2(_ event: Event) {
         let content: FBSDKShareLinkContent = FBSDKShareLinkContent()
         switch event.type() {
         case .Soccer:
-            content.imageURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/soccer%403x.png")
-            content.contentURL = NSURL(string: "http://lotsportz.herokuapp.com/soccer")
+            content.imageURL = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/soccer%403x.png")
+            content.contentURL = URL(string: "http://lotsportz.herokuapp.com/soccer")
         case .FlagFootball:
-            content.imageURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/football%403x.png")
-            content.contentURL = NSURL(string: "http://lotsportz.herokuapp.com/football")
+            content.imageURL = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/football%403x.png")
+            content.contentURL = URL(string: "http://lotsportz.herokuapp.com/football")
         case .Basketball:
-            content.imageURL = NSURL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/basketball%403x.png")
-            content.contentURL = NSURL(string: "http://lotsportz.herokuapp.com/basketball")
+            content.imageURL = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/basketball%403x.png")
+            content.contentURL = URL(string: "http://lotsportz.herokuapp.com/basketball")
         default:
             content.imageURL = nil
         }
@@ -137,7 +137,7 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         let dialog = FBSDKShareDialog()
         dialog.shareContent = content
         dialog.fromViewController = self
-        dialog.mode = FBSDKShareDialogMode.Native
+        dialog.mode = FBSDKShareDialogMode.native
         if dialog.canShow() {
             // FB app exists - this share works no matter what
             dialog.show()
@@ -145,30 +145,30 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         else {
             // FB app not installed on phone. user may have to login
             // this opens a dialog in the app, but link and title are correctly shared.
-            dialog.mode = FBSDKShareDialogMode.FeedWeb
+            dialog.mode = FBSDKShareDialogMode.feedWeb
             dialog.show()
         }
     }
 
     
     // MARK: - FBSDKSharingDelegate
-    func sharerDidCancel(sharer: FBSDKSharing!) {
+    func sharerDidCancel(_ sharer: FBSDKSharing!) {
         print("User cancelled sharing.")
     }
     
-    func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
-        let alert = UIAlertController(title: "Success", message: "Event shared!", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+    func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable: Any]!) {
+        let alert = UIAlertController(title: "Success", message: "Event shared!", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
-    func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+    func sharer(_ sharer: FBSDKSharing!, didFailWithError error: Error!) {
         print("Error: \(error)")
-        let alert = UIAlertController(title: "Error", message: "Event could not be shared at this time.", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+        let alert = UIAlertController(title: "Error", message: "Event could not be shared at this time.", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
 
 }

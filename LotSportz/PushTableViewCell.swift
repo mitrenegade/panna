@@ -17,7 +17,7 @@ class PushTableViewCell: UITableViewCell {
         // Initialization code
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
@@ -31,8 +31,8 @@ class PushTableViewCell: UITableViewCell {
         }
     }
 
-    @IBAction func switchState(sender: AnyObject) {
-        print("Switch changed to \(self.pushSwitch.on)")
-        NotificationService.toggleUserReceivesNotifications(self.pushSwitch.on)
+    @IBAction func switchState(_ sender: AnyObject) {
+        print("Switch changed to \(self.pushSwitch.isOn)")
+        NotificationService.toggleUserReceivesNotifications(self.pushSwitch.isOn)
     }
 }

@@ -26,7 +26,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func didClickButton(button: UIButton) {
+    @IBAction func didClickButton(_ button: UIButton) {
         if button == self.buttonSignup {
             self.createEmailUser()
         }
@@ -52,10 +52,10 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        firAuth?.createUserWithEmail(email, password: password, completion: { (user, error) in
+        firAuth?.createUser(withEmail: email, password: password, completion: { (user, error) in
             if (error != nil) {
                 print("Error: \(error)")
-                self.simpleAlert("Could not sign up", defaultMessage: nil, error: error)
+                self.simpleAlert("Could not sign up", defaultMessage: nil, error: error as? NSError)
             }
             else {
                 print("results: \(user)")
@@ -78,10 +78,10 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        firAuth?.signInWithEmail(email, password: password, completion: { (user, error) in
+        firAuth?.signIn(withEmail: email, password: password, completion: { (user, error) in
             if (error != nil) {
                 print("Error: \(error)")
-                self.simpleAlert("Could not log in", defaultMessage: nil, error: error)
+                self.simpleAlert("Could not log in", defaultMessage: nil, error: error as? NSError)
             }
             else {
                 print("results: \(user)")
