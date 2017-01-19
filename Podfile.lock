@@ -32,8 +32,6 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.18.0):
     - FBSDKCoreKit
-  - Firebase (3.11.1):
-    - Firebase/Core (= 3.11.1)
   - Firebase/Auth (3.11.1):
     - Firebase/Core
     - FirebaseAuth (= 3.1.0)
@@ -91,8 +89,8 @@ DEPENDENCIES:
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
-  - Firebase
   - Firebase/Auth
+  - Firebase/Core
   - Firebase/Database
   - Parse
   - RandomKit
@@ -124,6 +122,6 @@ SPEC CHECKSUMS:
   ShiftOperations: 0c77c06851e7976c2665d601b46af123dbffeade
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
 
-PODFILE CHECKSUM: d59bb0cae10cc0618c9483b1cb649d7d3dfbf9ed
+PODFILE CHECKSUM: 32a9737b72f581107b1844c87157aafdf8cc3541
 
 COCOAPODS: 1.1.1

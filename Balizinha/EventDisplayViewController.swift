@@ -1,6 +1,6 @@
 //
 //  EventDisplayViewController.swift
-//  LotSportz
+// Balizinha
 //
 //  Created by Tom Strissel on 6/26/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.

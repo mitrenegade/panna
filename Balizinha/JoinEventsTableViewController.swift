@@ -1,6 +1,6 @@
 //
 //  JoinEventsTableViewController.swift
-//  LotSportz
+// Balizinha
 //
 //  Created by Tom Strissel on 5/23/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.

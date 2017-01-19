@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  LotSportz
+// Balizinha
 //
 //  Created by Bobby Ren on 5/8/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.
@@ -16,7 +16,7 @@ import Parse
 import Fabric
 import Crashlytics
 
-var firRef = FIRDatabase.database().reference() // Firebase(url: "https://lotsportz.firebaseio.com");
+var firRef = FIRDatabase.database().reference()
 let firAuth = FIRAuth.auth()
 
 let PARSE_APP_ID: String = "Y1kUP1Nwz77UlFW5wIGvK4ptgvCwKQjDejrXbMi7"

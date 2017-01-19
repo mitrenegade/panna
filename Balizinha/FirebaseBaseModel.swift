@@ -1,6 +1,6 @@
 //
 //  FirebaseBaseModel.swift
-//  LotSportz
+// Balizinha
 //
 //  Created by Bobby Ren on 5/13/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.

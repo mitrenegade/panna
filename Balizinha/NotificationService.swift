@@ -1,6 +1,6 @@
 //
 //  NotificationService.swift
-//  LotSportz
+// Balizinha
 //
 //  Created by Bobby Ren on 6/28/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.
