@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B2B1870D241ADBC5DA67FB8 /* Pods_LotSportz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2393261844733F0603E5A8AF /* Pods_LotSportz.framework */; };
 		8E379F011CE57E8600C91A12 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F001CE57E8600C91A12 /* EventService.swift */; };
 		8E379F031CE5805F00C91A12 /* BobbySandbox.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E379F021CE5805F00C91A12 /* BobbySandbox.storyboard */; };
 		8E379F051CE580B500C91A12 /* SandboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F041CE580B500C91A12 /* SandboxViewController.swift */; };
@@ -24,6 +23,7 @@
 		8ECD58E11CDF853500AD2B13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ECD58E01CDF853500AD2B13 /* Main.storyboard */; };
 		8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */; };
 		8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
+		9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */; };
 		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
 		F2048F7E1CED59A50039F7BB /* MyEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7D1CED59A50039F7BB /* MyEventsTableViewController.swift */; };
 		F21571F51D200B7C00D2F59A /* EventDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */; };
@@ -40,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		2393261844733F0603E5A8AF /* Pods_LotSportz.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LotSportz.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EEC7A03F1D4279355F0F9CC /* Pods-Balizinha.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.release.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.release.xcconfig"; sourceTree = "<group>"; };
 		72850730339D7BDEAC192B33 /* Pods-LotSportz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotSportz.release.xcconfig"; path = "Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz.release.xcconfig"; sourceTree = "<group>"; };
 		75AF04F244D31D4B039DF4B6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E379F001CE57E8600C91A12 /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
@@ -49,7 +50,7 @@
 		8E379F091CE58CEE00C91A12 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		8E39FE8D1D237C710030CB96 /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		8E55FF931CF2066600A0BDB8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		8E7256961CDF793100C9E054 /* LotSportz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LotSportz.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E7256961CDF793100C9E054 /* Balizinha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Balizinha.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7256991CDF793200C9E054 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E72569B1CDF793200C9E054 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8E72569E1CDF793200C9E054 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LoginSignup.storyboard; sourceTree = "<group>"; };
@@ -57,10 +58,12 @@
 		8E7256A31CDF793200C9E054 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E7256A51CDF793200C9E054 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
-		8E99730A1CE9FA2A00054664 /* LotSportz-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LotSportz-Bridging-Header.h"; sourceTree = "<group>"; };
+		8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Balizinha-Bridging-Header.h"; sourceTree = "<group>"; };
 		8ECD58E01CDF853500AD2B13 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
 		8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ED7C1F62DA3A7F54848AA802 /* Pods-Balizinha.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.debug.xcconfig"; sourceTree = "<group>"; };
 		F2048F7B1CED57170039F7BB /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		F2048F7D1CED59A50039F7BB /* MyEventsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyEventsTableViewController.swift; sourceTree = "<group>"; };
 		F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDisplayViewController.swift; sourceTree = "<group>"; };
@@ -81,7 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B2B1870D241ADBC5DA67FB8 /* Pods_LotSportz.framework in Frameworks */,
+				9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +96,7 @@
 			children = (
 				75AF04F244D31D4B039DF4B6 /* Pods.framework */,
 				2393261844733F0603E5A8AF /* Pods_LotSportz.framework */,
+				AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -102,6 +106,8 @@
 			children = (
 				F3ECC67839D6AA22A6465193 /* Pods-LotSportz.debug.xcconfig */,
 				72850730339D7BDEAC192B33 /* Pods-LotSportz.release.xcconfig */,
+				ED7C1F62DA3A7F54848AA802 /* Pods-Balizinha.debug.xcconfig */,
+				5EEC7A03F1D4279355F0F9CC /* Pods-Balizinha.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -147,7 +153,7 @@
 		8E72568D1CDF793100C9E054 = {
 			isa = PBXGroup;
 			children = (
-				8E7256981CDF793200C9E054 /* LotSportz */,
+				8E7256981CDF793200C9E054 /* Balizinha */,
 				8E7256971CDF793100C9E054 /* Products */,
 				1A53F01B36D3404A3B964FE7 /* Frameworks */,
 				878F3F8CB0175474EC745B40 /* Pods */,
@@ -157,12 +163,12 @@
 		8E7256971CDF793100C9E054 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8E7256961CDF793100C9E054 /* LotSportz.app */,
+				8E7256961CDF793100C9E054 /* Balizinha.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8E7256981CDF793200C9E054 /* LotSportz */ = {
+		8E7256981CDF793200C9E054 /* Balizinha */ = {
 			isa = PBXGroup;
 			children = (
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
@@ -175,13 +181,13 @@
 				8E379F0C1CE593B500C91A12 /* Sandbox */,
 				F20AD03B1D26C0F500969990 /* Utils */,
 			);
-			path = LotSportz;
+			path = Balizinha;
 			sourceTree = "<group>";
 		};
 		F20AD03B1D26C0F500969990 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				8E99730A1CE9FA2A00054664 /* LotSportz-Bridging-Header.h */,
+				8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */,
 				8E7256A01CDF793200C9E054 /* Assets.xcassets */,
 				8E7256A51CDF793200C9E054 /* Info.plist */,
 				8E55FF931CF2066600A0BDB8 /* GoogleService-Info.plist */,
@@ -228,9 +234,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8E7256951CDF793100C9E054 /* LotSportz */ = {
+		8E7256951CDF793100C9E054 /* Balizinha */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8E7256A81CDF793200C9E054 /* Build configuration list for PBXNativeTarget "LotSportz" */;
+			buildConfigurationList = 8E7256A81CDF793200C9E054 /* Build configuration list for PBXNativeTarget "Balizinha" */;
 			buildPhases = (
 				BD4034CDECCE5F82AD70949C /* [CP] Check Pods Manifest.lock */,
 				8E7256921CDF793100C9E054 /* Sources */,
@@ -244,9 +250,9 @@
 			);
 			dependencies = (
 			);
-			name = LotSportz;
+			name = Balizinha;
 			productName = LotSportz;
-			productReference = 8E7256961CDF793100C9E054 /* LotSportz.app */;
+			productReference = 8E7256961CDF793100C9E054 /* Balizinha.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -271,7 +277,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8E7256911CDF793100C9E054 /* Build configuration list for PBXProject "LotSportz" */;
+			buildConfigurationList = 8E7256911CDF793100C9E054 /* Build configuration list for PBXProject "Balizinha" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -284,7 +290,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8E7256951CDF793100C9E054 /* LotSportz */,
+				8E7256951CDF793100C9E054 /* Balizinha */,
 			);
 		};
 /* End PBXProject section */
@@ -319,7 +325,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8E5CE7981D2CAE75001ADBA3 /* ShellScript */ = {
@@ -347,7 +353,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BD4034CDECCE5F82AD70949C /* [CP] Check Pods Manifest.lock */ = {
@@ -505,20 +511,20 @@
 		};
 		8E7256A91CDF793200C9E054 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F3ECC67839D6AA22A6465193 /* Pods-LotSportz.debug.xcconfig */;
+			baseConfigurationReference = ED7C1F62DA3A7F54848AA802 /* Pods-Balizinha.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				INFOPLIST_FILE = LotSportz/Info.plist;
+				INFOPLIST_FILE = Balizinha/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.lotsportz;
+				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.balizinha;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "LotSportz/LotSportz-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Balizinha/Balizinha-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -527,18 +533,18 @@
 		};
 		8E7256AA1CDF793200C9E054 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72850730339D7BDEAC192B33 /* Pods-LotSportz.release.xcconfig */;
+			baseConfigurationReference = 5EEC7A03F1D4279355F0F9CC /* Pods-Balizinha.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				INFOPLIST_FILE = LotSportz/Info.plist;
+				INFOPLIST_FILE = Balizinha/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.lotsportz;
+				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.balizinha;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "dba1abbb-c527-4c50-8062-6cfd20e6e77c";
-				SWIFT_OBJC_BRIDGING_HEADER = "LotSportz/LotSportz-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Balizinha/Balizinha-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -547,7 +553,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8E7256911CDF793100C9E054 /* Build configuration list for PBXProject "LotSportz" */ = {
+		8E7256911CDF793100C9E054 /* Build configuration list for PBXProject "Balizinha" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E7256A61CDF793200C9E054 /* Debug */,
@@ -556,7 +562,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8E7256A81CDF793200C9E054 /* Build configuration list for PBXNativeTarget "LotSportz" */ = {
+		8E7256A81CDF793200C9E054 /* Build configuration list for PBXNativeTarget "Balizinha" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E7256A91CDF793200C9E054 /* Debug */,

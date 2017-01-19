@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8E7256951CDF793100C9E054"
-               BuildableName = "LotSportz.app"
-               BlueprintName = "LotSportz"
-               ReferencedContainer = "container:LotSportz.xcodeproj">
+               BuildableName = "Balizinha.app"
+               BlueprintName = "Balizinha"
+               ReferencedContainer = "container:Balizinha.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8E7256951CDF793100C9E054"
-            BuildableName = "LotSportz.app"
-            BlueprintName = "LotSportz"
-            ReferencedContainer = "container:LotSportz.xcodeproj">
+            BuildableName = "Balizinha.app"
+            BlueprintName = "Balizinha"
+            ReferencedContainer = "container:Balizinha.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8E7256951CDF793100C9E054"
-            BuildableName = "LotSportz.app"
-            BlueprintName = "LotSportz"
-            ReferencedContainer = "container:LotSportz.xcodeproj">
+            BuildableName = "Balizinha.app"
+            BlueprintName = "Balizinha"
+            ReferencedContainer = "container:Balizinha.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,9 +75,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8E7256951CDF793100C9E054"
-            BuildableName = "LotSportz.app"
-            BlueprintName = "LotSportz"
-            ReferencedContainer = "container:LotSportz.xcodeproj">
+            BuildableName = "Balizinha.app"
+            BlueprintName = "Balizinha"
+            ReferencedContainer = "container:Balizinha.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
