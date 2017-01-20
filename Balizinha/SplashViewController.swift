@@ -13,19 +13,31 @@ import FirebaseAuth
 class SplashViewController: UIViewController {
     
     var handle: FIRAuthStateDidChangeListenerHandle?
-
+    var loaded = false
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.handle = firAuth?.addStateDidChangeListener({ (auth, user) in
+            if self.loaded {
+                return
+            }
+            
             if let user = user {
                 // user is logged in
-                print("auth: \(auth) user: \(user)")
+                print("auth: \(auth) user: \(user) current \(firAuth?.currentUser)")
                 self.goToMain()
             }
             else {
                 self.goToSignupLogin()
             }
+            
+            if self.handle != nil {
+                firAuth?.removeStateDidChangeListener(self.handle!)
+                self.loaded = true
+                self.handle = nil
+            }
+            
+            // TODO: firebase does not remove user on deletion of app
         })
 
         listenFor(.LoginSuccess, action: #selector(didLogin), object: nil)
@@ -62,7 +74,9 @@ class SplashViewController: UIViewController {
 
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
-            dismiss(animated: true, completion: nil)
+            dismiss(animated: true, completion: { 
+                self.present(homeViewController, animated: true, completion: nil)
+            })
         } else {
             present(homeViewController, animated: true, completion: nil)
         }
@@ -76,14 +90,11 @@ class SplashViewController: UIViewController {
         
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
-            dismiss(animated: true, completion: nil)
+            dismiss(animated: true, completion: {
+                self.present(homeViewController, animated: true, completion: nil)
+            })
         } else {
             present(homeViewController, animated: true, completion: nil)
-        }
-
-        if self.handle != nil {
-            firAuth?.removeStateDidChangeListener(self.handle!)
-            self.handle = nil
         }
         
         self.listenFor(NotificationType.LoginSuccess, action: #selector(SplashViewController.didLogin), object: nil)
