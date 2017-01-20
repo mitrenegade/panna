@@ -320,7 +320,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             currentField!.text = self.type
         } else if (currentField == self.maxPlayersField) { //selected max players
             self.numPlayers = UInt(self.pickerView(self.numberPickerView, titleForRow: self.numberPickerView.selectedRow(inComponent: 0), forComponent: 0)!)
-            currentField!.text = "\(self.numPlayers)"
+            currentField!.text = "\(self.numPlayers!)"
         }
         // comes from clicking on done button. may not have the text yet
         else if currentField == self.dayField {

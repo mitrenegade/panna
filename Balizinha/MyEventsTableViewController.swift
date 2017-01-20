@@ -26,6 +26,7 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         }
         
         self.refreshEvents()
+        NotificationCenter.default.addObserver(self, selector: #selector(MyEventsTableViewController.refreshEvents), name: NSNotification.Name(EventNotification.Changed.rawValue), object: nil)
         
         self.navigationItem.title = "My Events"
     }

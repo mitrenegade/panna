@@ -19,7 +19,6 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
     @IBOutlet var menuButton: UIBarButtonItem!
     
     override func viewWillAppear(_ animated: Bool) {
-        self.refreshEvents()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +29,9 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
         }
         
         self.navigationItem.title = "Join Events"
+        
+        self.refreshEvents()
+        NotificationCenter.default.addObserver(self, selector: #selector(MyEventsTableViewController.refreshEvents), name: NSNotification.Name(EventNotification.Changed.rawValue), object: nil)
     }
     
     override func didReceiveMemoryWarning() {
