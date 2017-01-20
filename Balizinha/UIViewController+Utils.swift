@@ -49,6 +49,18 @@ extension NSObject {
     func notify(_ notificationName: String, object: AnyObject?, userInfo: [AnyHashable: Any]?) {
         NotificationCenter.default.post(name: Notification.Name(rawValue: notificationName), object: object, userInfo: userInfo)
     }
+
+    func listenFor(_ notification: NotificationType, action: Selector, object: AnyObject?) {
+        NotificationCenter.default.addObserver(self, selector: action, name: notification.name(), object: object)
+    }
+    
+    func stopListeningFor(_ notification: NotificationType) {
+        NotificationCenter.default.removeObserver(self, name: notification.name(), object: nil)
+    }
+    
+    func notify(_ notification: NotificationType, object: AnyObject?, userInfo: [AnyHashable: Any]?) {
+        NotificationCenter.default.post(name: notification.name(), object: object, userInfo: userInfo)
+    }
 }
 
 extension UIAlertController {
