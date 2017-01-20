@@ -1,6 +1,6 @@
 //
 //  MenuTableViewController.swift
-//  LotSportz
+// Balizinha
 //
 //  Created by Tom Strissel on 5/17/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.

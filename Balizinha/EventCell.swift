@@ -1,6 +1,6 @@
 //
 //  EventCell.swift
-//  LotSportz
+// Balizinha
 //
 //  Created by Tom Strissel on 5/18/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.
@@ -38,12 +38,12 @@ class EventCell: UITableViewCell {
 
     func setupWithEvent(_ event: Event) {
         self.event = event
-        let place = event.place()
+        let place = event.place
         self.labelLocation.text = place
-        self.labelDate.text = self.event?.dateString(event.startTime()) //To-Do: Sanitize Date info from event.time
-        self.labelTime.text = self.event?.timeString(event.startTime()) //To-Do: Add start/end time attributes for events
+        self.labelDate.text = self.event?.dateString(event.startTime) //To-Do: Sanitize Date info from event.time
+        self.labelTime.text = self.event?.timeString(event.startTime) //To-Do: Add start/end time attributes for events
         
-        switch event.type() {
+        switch event.type {
         case .Basketball:
             self.eventLogo.image = UIImage(named: "basketball")
         case .Soccer:
@@ -54,7 +54,7 @@ class EventCell: UITableViewCell {
             self.eventLogo.isHidden = true
         }
         
-        if !event.isPast() {
+        if !event.isPast {
             // Button display and action
             if self.event!.containsUser(firAuth!.currentUser!) {
                 self.labelFull.text = "You're going!" //To-Do: Add functionality whether or not event is full
@@ -63,7 +63,7 @@ class EventCell: UITableViewCell {
             }
             else {
                 self.btnAction.setTitle("Join", for: UIControlState())
-                if self.event!.isFull() {
+                if self.event!.isFull {
                     self.labelFull.text = "Event full"
                     self.btnAction.isEnabled = false
                 }
@@ -75,11 +75,11 @@ class EventCell: UITableViewCell {
             // self.btnAction.tag = indexPath.row //tag uniquely identifies cell, and therefore, the event
             // TODO: hook up cancel or join behavior
             
-            self.labelAttendance.text = "\(self.event!.numPlayers()) Attending"
+            self.labelAttendance.text = "\(self.event!.numPlayers) Attending"
         } else {
             self.labelFull.isHidden = true
             self.btnAction.isHidden = true
-            self.labelAttendance.text = "\(self.event!.numPlayers()) Attended"
+            self.labelAttendance.text = "\(self.event!.numPlayers) Attended"
         }
     }
 

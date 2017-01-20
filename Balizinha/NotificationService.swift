@@ -1,6 +1,6 @@
 //
 //  NotificationService.swift
-//  LotSportz
+// Balizinha
 //
 //  Created by Bobby Ren on 6/28/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.
@@ -41,7 +41,7 @@ class NotificationService: NSObject {
         for event in events {
             //create local notification
             let notification = UILocalNotification()
-            notification.fireDate = event.startTime().addingTimeInterval(kEventNotificationIntervalSeconds) as Date
+            notification.fireDate = event.startTime.addingTimeInterval(kEventNotificationIntervalSeconds) as Date
             
             notification.alertBody = kEventNotificationMessage
             UIApplication.shared.scheduleLocalNotification(notification)
@@ -51,7 +51,7 @@ class NotificationService: NSObject {
     
     class func scheduleNotificationForEvent(_ event: Event) {
         let notification = UILocalNotification()
-        notification.fireDate = event.startTime().addingTimeInterval(kEventNotificationIntervalSeconds) as Date
+        notification.fireDate = event.startTime.addingTimeInterval(kEventNotificationIntervalSeconds) as Date
         notification.alertBody = kEventNotificationMessage
         UIApplication.shared.scheduleLocalNotification(notification)
     }

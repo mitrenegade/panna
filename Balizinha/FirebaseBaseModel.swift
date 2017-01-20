@@ -1,6 +1,6 @@
 //
 //  FirebaseBaseModel.swift
-//  LotSportz
+// Balizinha
 //
 //  Created by Bobby Ren on 5/13/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.
@@ -35,7 +35,7 @@ class FirebaseBaseModel: NSObject {
     }
 
     // returns unique id for this firebase object
-    func id() -> String {
+    var id: String {
         return self.firebaseKey
     }
 }

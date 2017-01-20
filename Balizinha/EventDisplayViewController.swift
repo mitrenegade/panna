@@ -1,6 +1,6 @@
 //
 //  EventDisplayViewController.swift
-//  LotSportz
+// Balizinha
 //
 //  Created by Tom Strissel on 6/26/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.
@@ -32,23 +32,23 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         
         // Setup event details
         self.view.bringSubview(toFront: labelType.superview!)
-        self.labelType.text = self.event.type().rawValue
-        self.labelDate.text = self.event.dateString(self.event.startTime())
-        self.labelField.text = self.event.place()
-        self.labelCity.text = self.event.city()
-        self.navigationItem.title = self.event.type().rawValue
+        self.labelType.text = self.event.type.rawValue
+        self.labelDate.text = self.event.dateString(self.event.startTime)
+        self.labelField.text = self.event.place
+        self.labelCity.text = self.event.city
+        self.navigationItem.title = self.event.type.rawValue
         
-        if self.event.info() == ""{
+        if self.event.info == ""{
             self.labelDescription.text = "No further event information at this time."
         }else {
-            self.labelDescription.text = "Description: \(self.event.info())"
+            self.labelDescription.text = "Description: \(self.event.info)"
         }
-        self.labelNumAttending.text = "\(self.event.numPlayers()) attending"
+        self.labelNumAttending.text = "\(self.event.numPlayers) attending"
         
-        if self.event.isFull(){
+        if self.event.isFull{
             self.labelSpotsAvailable.text = "Event full!"
         } else {
-            let spots = self.event.maxPlayers() - self.event.numPlayers()
+            let spots = self.event.maxPlayers - self.event.numPlayers
             if spots == 1{
                 self.labelSpotsAvailable.text = "\(spots) spot available"
             } else {
@@ -64,7 +64,7 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
             self.btnJoin.setTitle("Leave", for: UIControlState())
             self.btnJoin.backgroundColor = leaveColor
         }
-        else if self.event.isFull(){
+        else if self.event.isFull{
             self.btnJoin.isEnabled = false
         }
 
@@ -74,7 +74,7 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         self.labelDate.textColor = UIColor.gray
 
         //Sport image
-        switch event.type() {
+        switch event.type {
         case .Soccer:
             self.sportImageView.image = UIImage(named: "soccer")
         case .FlagFootball:
@@ -111,7 +111,7 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
     // MARK: - FBShare
     func shareEvent2(_ event: Event) {
         let content: FBSDKShareLinkContent = FBSDKShareLinkContent()
-        switch event.type() {
+        switch event.type {
         case .Soccer:
             content.imageURL = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/soccer%403x.png")
             content.contentURL = URL(string: "http://lotsportz.herokuapp.com/soccer")
@@ -126,7 +126,7 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         }
         
         content.contentTitle = "My event on LotSportz"
-        content.contentDescription = "I'm playing \(event.type().rawValue) at \(event.city()) on \(event.dateString(event.startTime()))"
+        content.contentDescription = "I'm playing \(event.type.rawValue) at \(event.city) on \(event.dateString(event.startTime))"
         
         /*
          This does not use contentTitle and contentDescription if the native app share dialog is used. It only works via web/safari facebook sharing.

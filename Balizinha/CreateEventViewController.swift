@@ -1,6 +1,6 @@
 //
 //  CreateEventTableViewController.swift
-//  LotSportz
+// Balizinha
 //
 //  Created by Tom Strissel on 5/19/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.
@@ -320,7 +320,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             currentField!.text = self.type
         } else if (currentField == self.maxPlayersField) { //selected max players
             self.numPlayers = UInt(self.pickerView(self.numberPickerView, titleForRow: self.numberPickerView.selectedRow(inComponent: 0), forComponent: 0)!)
-            currentField!.text = "\(self.numPlayers)"
+            currentField!.text = "\(self.numPlayers!)"
         }
         // comes from clicking on done button. may not have the text yet
         else if currentField == self.dayField {
@@ -453,7 +453,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     func sendPushForCreatedEvent(_ event: Event) {
         let userId = firAuth!.currentUser!.uid
         let title = "New event created"
-        let message = "A game of \(event.type().rawValue) now available in \(event.place()), \(event.city()) on \(event.timeString(event.startTime()))"
+        let message = "A game of \(event.type.rawValue) now available in \(event.place), \(event.city) on \(event.timeString(event.startTime))"
         let params = ["channel": "eventsGlobal", "message": message, "title": title, "sender": userId]
         PFCloud.callFunction(inBackground: "sendPushFromDevice", withParameters: params) { (results, error) in
             print("results \(results) error \(error)")

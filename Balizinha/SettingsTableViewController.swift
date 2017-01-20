@@ -1,6 +1,6 @@
 //
 //  SettingsTableViewController.swift
-//  LotSportz
+// Balizinha
 //
 //  Created by Tom Strissel on 5/19/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.

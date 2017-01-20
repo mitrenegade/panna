@@ -1,6 +1,6 @@
 //
 //  MyEventsTableViewController.swift
-//  LotSportz
+// Balizinha
 //
 //  Created by Tom Strissel on 5/18/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.
@@ -12,7 +12,6 @@ import Parse
 
 class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     
-    var service = EventService.sharedInstance()
     var sortedUpcomingEvents: [Event] = []
     var sortedPastEvents: [Event] = []
     @IBOutlet var menuButton: UIBarButtonItem!
@@ -27,9 +26,9 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
         }
         
         self.refreshEvents()
+        NotificationCenter.default.addObserver(self, selector: #selector(MyEventsTableViewController.refreshEvents), name: NSNotification.Name(EventNotification.Changed.rawValue), object: nil)
         
         self.navigationItem.title = "My Events"
-        self.service.listenForEventUsers()
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,27 +38,27 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
 
     func refreshEvents() {
         
-        service.getEvents(type: nil) { (results) in
+        EventService.sharedInstance().getEvents(type: nil) { (results) in
             // completion function will get called once at the start, and each time events change
             
             // 1: sort all events by time
             self.sortedUpcomingEvents = results.sorted { (event1, event2) -> Bool in
-                return event1.id() < event2.id()
+                return event1.id < event2.id
             }
             
             // 2: Remove events the user has joined
-            self.service.getEventsForUser(firAuth!.currentUser!, completion: { (eventIds) in
+            EventService.sharedInstance().getEventsForUser(firAuth!.currentUser!, completion: { (eventIds) in
                 self.sortedUpcomingEvents = self.sortedUpcomingEvents.filter({ (event) -> Bool in
-                    eventIds.contains(event.id())
+                    eventIds.contains(event.id)
                 })
                 
                 let original = self.sortedUpcomingEvents
                 self.sortedPastEvents = original.filter({ (event) -> Bool in
-                    event.isPast()
+                    event.isPast
                 })
                 
                 self.sortedUpcomingEvents = original.filter({ (event) -> Bool in
-                    !event.isPast()
+                    !event.isPast
                 })
                 NotificationService.refreshNotifications(self.sortedUpcomingEvents)
                 self.tableView.reloadData()
@@ -119,10 +118,10 @@ class MyEventsTableViewController: UITableViewController, EventCellDelegate {
     func joinOrLeaveEvent(_ event: Event, join: Bool) {
         let user = firAuth!.currentUser!
         if join {
-            self.service.joinEvent(event, user: user)
+            EventService.sharedInstance().joinEvent(event, user: user)
         }
         else {
-            self.service.leaveEvent(event, user: user)
+            EventService.sharedInstance().leaveEvent(event, user: user)
         }
         
         self.refreshEvents()
