@@ -14,7 +14,7 @@
         <scene sceneID="Cw4-23-mvi">
             <objects>
                 <navigationController id="62U-2l-IWp" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Account" id="M98-3a-RKp"/>
+                    <tabBarItem key="tabBarItem" title="Account" image="profile30" id="M98-3a-RKp"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="aTr-1L-HRO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -31,7 +31,7 @@
         <scene sceneID="gsb-cg-rLk">
             <objects>
                 <navigationController id="WNJ-Ss-jpS" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Calendar" id="0ID-Lc-Lr7"/>
+                    <tabBarItem key="tabBarItem" title="Calendar" image="calendar30" id="0ID-Lc-Lr7"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sTp-p8-kCe">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -48,7 +48,7 @@
         <scene sceneID="PbG-jk-Qm5">
             <objects>
                 <navigationController id="bnH-Cb-EpM" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Events" id="li8-i8-acE"/>
+                    <tabBarItem key="tabBarItem" title="Events" image="soccer30" id="li8-i8-acE"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ElZ-s5-ulv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -593,7 +593,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="calendar30" width="16" height="16"/>
+        <image name="profile30" width="16" height="16"/>
         <image name="soccer" width="375" height="192"/>
+        <image name="soccer30" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="7i6-hp-4L6"/>
