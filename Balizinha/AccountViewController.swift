@@ -1,6 +1,6 @@
 //
-//  SettingsTableViewController.swift
-// Balizinha
+//  AccountViewController.swift
+//  Balizinha
 //
 //  Created by Tom Strissel on 5/19/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.
@@ -9,7 +9,7 @@
 import UIKit
 import SWRevealViewController
 
-class SettingsTableViewController: UITableViewController {
+class AccountViewController: UITableViewController {
     
     let menuOptions = ["Push Notifications", "Logout"]
     var service = EventService.sharedInstance()
@@ -23,7 +23,7 @@ class SettingsTableViewController: UITableViewController {
             menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
         }
         
-        self.navigationItem.title = "Settings"
+        self.navigationItem.title = "Account"
 
     }
 

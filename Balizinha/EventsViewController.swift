@@ -1,5 +1,5 @@
 //
-//  JoinEventsTableViewController.swift
+//  EventsViewController.swift
 // Balizinha
 //
 //  Created by Tom Strissel on 5/23/16.
@@ -9,7 +9,7 @@
 import UIKit
 import SWRevealViewController
 
-class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
+class EventsViewController: UITableViewController, EventCellDelegate {
 
     var service = EventService.sharedInstance()
     var allEvents : [Event] = []
@@ -28,10 +28,10 @@ class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
             menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
         }
         
-        self.navigationItem.title = "Join Events"
+        self.navigationItem.title = "Events"
         
         self.refreshEvents()
-        self.listenFor(NotificationType.EventsChanged, action: #selector(JoinEventsTableViewController.refreshEvents), object: nil)
+        self.listenFor(NotificationType.EventsChanged, action: #selector(self.refreshEvents), object: nil)
     }
     
     override func didReceiveMemoryWarning() {

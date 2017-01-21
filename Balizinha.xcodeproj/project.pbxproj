@@ -28,16 +28,16 @@
 		8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
 		9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */; };
 		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
-		F2048F7E1CED59A50039F7BB /* MyEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7D1CED59A50039F7BB /* MyEventsTableViewController.swift */; };
+		F2048F7E1CED59A50039F7BB /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */; };
 		F21571F51D200B7C00D2F59A /* EventDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */; };
 		F238AA261CEBA33500B5D37E /* OldMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F238AA251CEBA33500B5D37E /* OldMenu.storyboard */; };
 		F238AA281CEBA38700B5D37E /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F238AA271CEBA38700B5D37E /* MenuTableViewController.swift */; };
 		F250A7FC1CFF1588003A7DEA /* TransparentTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */; };
-		F2C0F1201CF3E8BB00CB98F1 /* JoinEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C0F11F1CF3E8BB00CB98F1 /* JoinEventsTableViewController.swift */; };
+		F2C0F1201CF3E8BB00CB98F1 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C0F11F1CF3E8BB00CB98F1 /* EventsViewController.swift */; };
 		F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3B71CEE109000350115 /* DetailCell.swift */; };
 		F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3B91CEE10E800350115 /* DescriptionCell.swift */; };
 		F2F7C3BD1CEE11B300350115 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3BC1CEE11B300350115 /* CreateEventViewController.swift */; };
-		F2F7C3C01CEE296A00350115 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3BF1CEE296A00350115 /* SettingsTableViewController.swift */; };
+		F2F7C3C01CEE296A00350115 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3BF1CEE296A00350115 /* AccountViewController.swift */; };
 		F2F7C3C21CEE2CDD00350115 /* PushTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3C11CEE2CDD00350115 /* PushTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -71,16 +71,16 @@
 		AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED7C1F62DA3A7F54848AA802 /* Pods-Balizinha.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.debug.xcconfig"; sourceTree = "<group>"; };
 		F2048F7B1CED57170039F7BB /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
-		F2048F7D1CED59A50039F7BB /* MyEventsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyEventsTableViewController.swift; sourceTree = "<group>"; };
+		F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDisplayViewController.swift; sourceTree = "<group>"; };
 		F238AA251CEBA33500B5D37E /* OldMenu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OldMenu.storyboard; sourceTree = "<group>"; };
 		F238AA271CEBA38700B5D37E /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransparentTextField.swift; sourceTree = "<group>"; };
-		F2C0F11F1CF3E8BB00CB98F1 /* JoinEventsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinEventsTableViewController.swift; sourceTree = "<group>"; };
+		F2C0F11F1CF3E8BB00CB98F1 /* EventsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
 		F2F7C3B71CEE109000350115 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
 		F2F7C3B91CEE10E800350115 /* DescriptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
 		F2F7C3BC1CEE11B300350115 /* CreateEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
-		F2F7C3BF1CEE296A00350115 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		F2F7C3BF1CEE296A00350115 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		F2F7C3C11CEE2CDD00350115 /* PushTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushTableViewCell.swift; sourceTree = "<group>"; };
 		F3ECC67839D6AA22A6465193 /* Pods-LotSportz.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotSportz.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -231,11 +231,11 @@
 			children = (
 				8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */,
 				F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */,
-				F2F7C3BF1CEE296A00350115 /* SettingsTableViewController.swift */,
+				F2F7C3BF1CEE296A00350115 /* AccountViewController.swift */,
 				F238AA271CEBA38700B5D37E /* MenuTableViewController.swift */,
 				F2F7C3BC1CEE11B300350115 /* CreateEventViewController.swift */,
-				F2C0F11F1CF3E8BB00CB98F1 /* JoinEventsTableViewController.swift */,
-				F2048F7D1CED59A50039F7BB /* MyEventsTableViewController.swift */,
+				F2C0F11F1CF3E8BB00CB98F1 /* EventsViewController.swift */,
+				F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */,
 			);
 			name = "Main Menu";
 			sourceTree = "<group>";
@@ -397,10 +397,10 @@
 				F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
-				F2C0F1201CF3E8BB00CB98F1 /* JoinEventsTableViewController.swift in Sources */,
+				F2C0F1201CF3E8BB00CB98F1 /* EventsViewController.swift in Sources */,
 				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,
-				F2F7C3C01CEE296A00350115 /* SettingsTableViewController.swift in Sources */,
-				F2048F7E1CED59A50039F7BB /* MyEventsTableViewController.swift in Sources */,
+				F2F7C3C01CEE296A00350115 /* AccountViewController.swift in Sources */,
+				F2048F7E1CED59A50039F7BB /* CalendarViewController.swift in Sources */,
 				F250A7FC1CFF1588003A7DEA /* TransparentTextField.swift in Sources */,
 				F2F7C3BD1CEE11B300350115 /* CreateEventViewController.swift in Sources */,
 				8E379F051CE580B500C91A12 /* SandboxViewController.swift in Sources */,

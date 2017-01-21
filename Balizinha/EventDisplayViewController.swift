@@ -96,10 +96,10 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
     @IBAction func didTapButton(_ sender: UIButton) {
         if sender == btnJoin {
             if alreadyJoined {
-                let delegate = self.delegate as! MyEventsTableViewController
+                let delegate = self.delegate as! CalendarViewController
                 delegate.joinOrLeaveEvent(self.event, join: false)
             } else  {
-                let delegate = self.delegate as! JoinEventsTableViewController
+                let delegate = self.delegate as! EventsViewController
                 delegate.joinOrLeaveEvent(self.event, join: true)
             }
             self.navigationController?.popViewController(animated: true)
