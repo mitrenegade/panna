@@ -77,7 +77,6 @@ PODS:
   - RandomKit (3.0.0):
     - ShiftOperations
   - ShiftOperations (1.0.0)
-  - SWRevealViewController (2.3.0)
 
 DEPENDENCIES:
   - AFNetworking
@@ -94,7 +93,6 @@ DEPENDENCIES:
   - Firebase/Database
   - Parse
   - RandomKit
-  - SWRevealViewController
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -120,8 +118,7 @@ SPEC CHECKSUMS:
   Parse: 4335d65f40cb3d43190d723144bbe1afb9c38230
   RandomKit: 03b4be99ecc35850b794e0185689931d72024e93
   ShiftOperations: 0c77c06851e7976c2665d601b46af123dbffeade
-  SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
 
-PODFILE CHECKSUM: 32a9737b72f581107b1844c87157aafdf8cc3541
+PODFILE CHECKSUM: 7c9f5fa411c3e0cf116dbb723ac275630fcf932f
 
 COCOAPODS: 1.1.1

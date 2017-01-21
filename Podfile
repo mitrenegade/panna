@@ -18,7 +18,6 @@ target 'Balizinha' do
 	pod 'FBSDKLoginKit'
 	pod 'FBSDKShareKit'
 	pod 'DateTools'
-	pod 'SWRevealViewController'
 
 	pod 'RandomKit'
 	pod 'Batch'

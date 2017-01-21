@@ -11,8 +11,6 @@
 		8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E11E42B1E31B80800DB4B27 /* Main.storyboard */; };
 		8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */; };
 		8E379F011CE57E8600C91A12 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F001CE57E8600C91A12 /* EventService.swift */; };
-		8E379F031CE5805F00C91A12 /* BobbySandbox.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E379F021CE5805F00C91A12 /* BobbySandbox.storyboard */; };
-		8E379F051CE580B500C91A12 /* SandboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F041CE580B500C91A12 /* SandboxViewController.swift */; };
 		8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */; };
 		8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F091CE58CEE00C91A12 /* Event.swift */; };
 		8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E39FE8D1D237C710030CB96 /* NotificationService.swift */; };
@@ -50,8 +48,6 @@
 		8E11E42B1E31B80800DB4B27 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurableNavigationController.swift; sourceTree = "<group>"; };
 		8E379F001CE57E8600C91A12 /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
-		8E379F021CE5805F00C91A12 /* BobbySandbox.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BobbySandbox.storyboard; sourceTree = "<group>"; };
-		8E379F041CE580B500C91A12 /* SandboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SandboxViewController.swift; sourceTree = "<group>"; };
 		8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBaseModel.swift; sourceTree = "<group>"; };
 		8E379F091CE58CEE00C91A12 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		8E39FE8D1D237C710030CB96 /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -136,15 +132,6 @@
 			name = Services;
 			sourceTree = "<group>";
 		};
-		8E379F0C1CE593B500C91A12 /* Sandbox */ = {
-			isa = PBXGroup;
-			children = (
-				8E379F021CE5805F00C91A12 /* BobbySandbox.storyboard */,
-				8E379F041CE580B500C91A12 /* SandboxViewController.swift */,
-			);
-			name = Sandbox;
-			sourceTree = "<group>";
-		};
 		8E379F0D1CE593C300C91A12 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,7 +172,6 @@
 				8E379F061CE58AFB00C91A12 /* Models */,
 				8E379F0B1CE58F9400C91A12 /* Services */,
 				8E379F0D1CE593C300C91A12 /* Storyboards */,
-				8E379F0C1CE593B500C91A12 /* Sandbox */,
 				F20AD03B1D26C0F500969990 /* Utils */,
 			);
 			path = Balizinha;
@@ -313,7 +299,6 @@
 				8E7256A11CDF793200C9E054 /* Assets.xcassets in Resources */,
 				8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */,
 				F238AA261CEBA33500B5D37E /* OldMenu.storyboard in Resources */,
-				8E379F031CE5805F00C91A12 /* BobbySandbox.storyboard in Resources */,
 				8ECD58E11CDF853500AD2B13 /* Splash.storyboard in Resources */,
 				8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */,
 				8E55FF941CF2066600A0BDB8 /* GoogleService-Info.plist in Resources */,
@@ -403,7 +388,6 @@
 				F2048F7E1CED59A50039F7BB /* CalendarViewController.swift in Sources */,
 				F250A7FC1CFF1588003A7DEA /* TransparentTextField.swift in Sources */,
 				F2F7C3BD1CEE11B300350115 /* CreateEventViewController.swift in Sources */,
-				8E379F051CE580B500C91A12 /* SandboxViewController.swift in Sources */,
 				F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */,
 				8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */,
 				8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */,

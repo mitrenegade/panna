@@ -70,15 +70,19 @@ class SplashViewController: UIViewController {
     }
     
     private func goToMain() {
-        guard let homeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() else { return }
-
+        guard let homeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as? UITabBarController else { return }
+        homeViewController.selectedIndex = 1
+        
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
-            dismiss(animated: true, completion: { 
+            dismiss(animated: true, completion: {
+                self.present(homeViewController, animated: true, completion: { 
+                })
                 self.present(homeViewController, animated: true, completion: nil)
             })
         } else {
-            present(homeViewController, animated: true, completion: nil)
+            self.present(homeViewController, animated: true, completion: {
+            })
         }
 
         self.listenFor(NotificationType.LogoutSuccess, action: #selector(SplashViewController.didLogout), object: nil)

@@ -7,23 +7,15 @@
 //
 
 import UIKit
-import SWRevealViewController
 import Parse
 
 class CalendarViewController: UITableViewController, EventCellDelegate {
     
     var sortedUpcomingEvents: [Event] = []
     var sortedPastEvents: [Event] = []
-    @IBOutlet var menuButton: UIBarButtonItem!
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if self.revealViewController() != nil {
-            menuButton.target = self.revealViewController()
-            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-        }
         
         self.refreshEvents()
         self.listenFor(NotificationType.EventsChanged, action: #selector(self.refreshEvents), object: nil)

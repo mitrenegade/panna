@@ -193,14 +193,7 @@
                             <outlet property="delegate" destination="Gsn-na-Iq4" id="FLz-4G-Kky"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="LFO-5E-ar1">
-                        <barButtonItem key="leftBarButtonItem" image="menu" id="QrI-5N-Un7">
-                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="menuButton" destination="QrI-5N-Un7" id="v3f-Hd-emK"/>
-                    </connections>
+                    <navigationItem key="navigationItem" id="LFO-5E-ar1"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Unw-Dt-1ne" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -285,14 +278,7 @@
                             <outlet property="delegate" destination="Cbk-bh-9qD" id="3IO-gQ-Xvx"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="P6E-Sj-hZQ">
-                        <barButtonItem key="leftBarButtonItem" image="menu" id="fSo-OL-BLB">
-                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="menuButton" destination="fSo-OL-BLB" id="Iim-Zq-yn5"/>
-                    </connections>
+                    <navigationItem key="navigationItem" id="P6E-Sj-hZQ"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pYl-Ot-svj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -412,21 +398,11 @@
                             <outlet property="delegate" destination="KHg-mx-bZ9" id="zkg-nU-TLO"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="1g1-l6-gjV">
-                        <barButtonItem key="leftBarButtonItem" image="menu" id="r9D-vG-GeP">
-                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="menuButton" destination="r9D-vG-GeP" id="UjN-lx-lKP"/>
-                    </connections>
+                    <navigationItem key="navigationItem" id="1g1-l6-gjV"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MQ3-hK-h5d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="601" y="206"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="menu" width="22" height="22"/>
-    </resources>
 </document>
