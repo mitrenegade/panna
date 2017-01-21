@@ -30,6 +30,8 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(self.close))
+        
         // Setup event details
         self.view.bringSubview(toFront: labelType.superview!)
         self.labelType.text = self.event.type.rawValue
@@ -92,6 +94,9 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    func close() {
+        self.navigationController?.dismiss(animated: true, completion: nil)
+    }
     
     @IBAction func didTapButton(_ sender: UIButton) {
         if sender == btnJoin {

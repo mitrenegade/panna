@@ -109,7 +109,9 @@ class EventsViewController: UITableViewController, EventCellDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "toEventDetails", sender: self)
+        tableView.deselectRow(at: indexPath, animated: true)
+        let event = sortedEvents[eventTypes[indexPath.section]]![indexPath.row]
+        performSegue(withIdentifier: "toJoinEventDetails", sender: event)
     }
     
     // MARK: EventCellDelegate
@@ -130,12 +132,14 @@ class EventsViewController: UITableViewController, EventCellDelegate {
     
      // MARK: - Navigation     
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let detailsController = segue.destination as! EventDisplayViewController
+        guard let nav = segue.destination as? UINavigationController else { return }
+        guard let detailsController = nav.viewControllers[0] as? EventDisplayViewController else { return }
+        guard let event = sender as? Event else { return }
+        
         detailsController.alreadyJoined = false
         detailsController.delegate = self
         
-        let indexPath = self.tableView.indexPathForSelectedRow
-        detailsController.event = sortedEvents[eventTypes[indexPath!.section]]![indexPath!.row]
+        detailsController.event = event
         
      // Pass the selected object to the new view controller.
      }

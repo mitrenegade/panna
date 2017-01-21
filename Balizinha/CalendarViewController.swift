@@ -119,24 +119,27 @@ class CalendarViewController: UITableViewController, EventCellDelegate {
         self.refreshEvents()
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         guard indexPath.section == 0 else {
-            self.tableView.deselectRow(at: indexPath, animated: true)
             return
         }
 
-        self.performSegue(withIdentifier: "toMyEventDetails", sender: self)
+        let event = sortedUpcomingEvents[indexPath.row]
+        self.performSegue(withIdentifier: "toMyEventDetails", sender: event)
     }
     
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let detailsController = segue.destination as! EventDisplayViewController
+        guard let nav = segue.destination as? UINavigationController else { return }
+        guard let detailsController = nav.viewControllers[0] as? EventDisplayViewController else { return }
+        guard let event = sender as? Event else { return }
+        
         detailsController.alreadyJoined = true
         detailsController.delegate = self
         
-        let indexPath = self.tableView.indexPathForSelectedRow
-        detailsController.event = sortedUpcomingEvents[indexPath!.row]
+        detailsController.event = event
         
     }
     
