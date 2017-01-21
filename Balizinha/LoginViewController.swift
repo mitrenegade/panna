@@ -67,7 +67,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 print("results: \(user)")
                 self.storeUserInfo(user!)
                 
-                self.notify("login:success", object: nil, userInfo: nil)
+                self.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
             }
         })
     }
@@ -92,8 +92,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         
                         // store user data
                         self.storeUserInfo(user!)
-                        
-                        self.notify("login:success", object: nil, userInfo: nil)
+                        self.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
                     }
                 })
             }

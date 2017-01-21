@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="K2Y-zC-zf6">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Splash View Controller-->
+        <scene sceneID="LN4-pT-5AG">
+            <objects>
+                <viewController id="K2Y-zC-zf6" customClass="SplashViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mDP-8l-KLH"/>
+                        <viewControllerLayoutGuide type="bottom" id="9at-Gf-b6P"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hyk-yI-PnZ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="soccer_field_background" translatesAutoresizingMaskIntoConstraints="NO" id="Wlg-Dz-Xgb">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BALIZINHA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="PXv-lw-kas">
+                                <rect key="frame" x="0.0" y="267" width="375" height="133"/>
+                                <color key="backgroundColor" red="0.83921568627450982" green="0.15686274509803921" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="43"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Wlg-Dz-Xgb" secondAttribute="trailing" id="GpI-Jr-R9f"/>
+                            <constraint firstItem="Wlg-Dz-Xgb" firstAttribute="top" secondItem="hyk-yI-PnZ" secondAttribute="top" id="JDb-Vo-i6U"/>
+                            <constraint firstItem="PXv-lw-kas" firstAttribute="height" secondItem="Wlg-Dz-Xgb" secondAttribute="height" multiplier="1:5" id="K8y-b9-cFl"/>
+                            <constraint firstItem="Wlg-Dz-Xgb" firstAttribute="leading" secondItem="hyk-yI-PnZ" secondAttribute="leading" id="L0u-jn-09L"/>
+                            <constraint firstItem="9at-Gf-b6P" firstAttribute="top" secondItem="Wlg-Dz-Xgb" secondAttribute="bottom" id="LHZ-dW-nqI"/>
+                            <constraint firstItem="PXv-lw-kas" firstAttribute="centerX" secondItem="hyk-yI-PnZ" secondAttribute="centerX" id="dLM-Nk-HkN"/>
+                            <constraint firstItem="PXv-lw-kas" firstAttribute="centerY" secondItem="hyk-yI-PnZ" secondAttribute="centerY" id="kEc-Up-17N"/>
+                            <constraint firstItem="PXv-lw-kas" firstAttribute="leading" secondItem="hyk-yI-PnZ" secondAttribute="leading" id="p6a-o9-b4M"/>
+                            <constraint firstAttribute="trailing" secondItem="PXv-lw-kas" secondAttribute="trailing" id="tFB-19-7Rx"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k8d-9h-eN3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="528.79999999999995" y="-12.143928035982009"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="soccer_field_background" width="375" height="554"/>
+    </resources>
+</document>

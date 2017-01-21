@@ -1,5 +1,5 @@
 //
-//  JoinEventsTableViewController.swift
+//  EventsViewController.swift
 // Balizinha
 //
 //  Created by Tom Strissel on 5/23/16.
@@ -7,31 +7,23 @@
 //
 
 import UIKit
-import SWRevealViewController
 
-class JoinEventsTableViewController: UITableViewController, EventCellDelegate {
+class EventsViewController: UITableViewController, EventCellDelegate {
 
     var service = EventService.sharedInstance()
     var allEvents : [Event] = []
     var sortedEvents: [EventType: [Event]] = [.Soccer: [], .Basketball: [], .FlagFootball: []]
     let eventTypes = [EventType.Soccer, EventType.Basketball, EventType.FlagFootball]
     
-    @IBOutlet var menuButton: UIBarButtonItem!
-    
     override func viewWillAppear(_ animated: Bool) {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if self.revealViewController() != nil {
-            menuButton.target = self.revealViewController()
-            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-        }
-        
-        self.navigationItem.title = "Join Events"
+        self.navigationItem.title = "Events"
         
         self.refreshEvents()
-        NotificationCenter.default.addObserver(self, selector: #selector(MyEventsTableViewController.refreshEvents), name: NSNotification.Name(EventNotification.Changed.rawValue), object: nil)
+        self.listenFor(NotificationType.EventsChanged, action: #selector(self.refreshEvents), object: nil)
     }
     
     override func didReceiveMemoryWarning() {

@@ -7,10 +7,9 @@
 //
 
 import UIKit
-import SWRevealViewController
 import Parse
 
-class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, SWRevealViewControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
+class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     let options = ["Sport Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
     var sportTypes = ["Select Type", "Soccer", "Basketball", "Flag Football"]
@@ -59,12 +58,6 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         
         self.setupPickers()
         self.setupTextFields()
-        
-        if self.revealViewController() != nil {
-            menuButton.target = self.revealViewController()
-            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-
-        }
     
     }
 
@@ -141,7 +134,6 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
                 
                 if let event = event {
                     // TODO: create some sort of activity indicator
-                    self.revealViewController().revealToggle(nil)
                     self.menuController!.goToMyEvents()
                     self.sendPushForCreatedEvent(event)
                 }

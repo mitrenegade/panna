@@ -11,3 +11,13 @@ import Foundation
 
 let leaveColor = UIColor(red: 253/256.0, green: 172/256.0, blue: 146/256.0, alpha: 1.0)
 let joinColor = UIColor(red: 28/256.0, green: 71/256.0, blue: 131/256.0, alpha: 1.0)
+
+enum NotificationType: String {
+    case LogoutSuccess
+    case LoginSuccess
+    case EventsChanged
+    
+    func name() -> Notification.Name {
+        return Notification.Name(self.rawValue)
+    }
+}

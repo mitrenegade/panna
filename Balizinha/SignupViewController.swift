@@ -85,7 +85,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             }
             else {
                 print("results: \(user)")
-                self.notify("login:success", object: nil, userInfo: nil)
+                self.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
             }
         })
     }

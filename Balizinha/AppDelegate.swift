@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 import FBSDKCoreKit
 import FBSDKLoginKit
-import SWRevealViewController
 import Batch
 import Parse
 import Fabric
@@ -22,21 +21,10 @@ let firAuth = FIRAuth.auth()
 let PARSE_APP_ID: String = "Y1kUP1Nwz77UlFW5wIGvK4ptgvCwKQjDejrXbMi7"
 let PARSE_CLIENT_KEY: String = "NOTUSED-O7G1syjw0PXZTOmV0FTvsH9TSTvk7e7Ll6qpDWfW"
 
-// Selector Syntatic sugar: https://medium.com/swift-programming/swift-selector-syntax-sugar-81c8a8b10df3#.a6ml91o38
-private extension Selector {
-    // private to only this swift file
-    static let didLogin =
-        #selector(AppDelegate.didLogin)
-    static let didLogout =
-        #selector(AppDelegate.didLogout)
-}
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var handle: FIRAuthStateDidChangeListenerHandle?
-    var revealController: SWRevealViewController?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -46,17 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Firebase
         FIRApp.configure()
-        self.handle = firAuth?.addStateDidChangeListener({ (auth, user) in
-            if let user = user {
-                // user is logged in
-                print("auth: \(auth) user: \(user)")
-                self.goToMenu()
-
-            }
-            else {
-                self.goToSignupLogin()
-            }
-        })
         
         // Facebook
         FBSDKAppEvents.activateApp()
@@ -81,62 +58,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let alert = UIAlertController(title: "Alert", message: "You have an event in one hour!", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         
-        self.revealController?.present(alert, animated: true, completion: nil)
+        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
-    // MARK: - Navigation
-    func goToSignupLogin() {
-        let nav = UIStoryboard(name: "LoginSignup", bundle: nil).instantiateViewController(withIdentifier: "LoginSignupNavigationController") as! UINavigationController
-        self.window?.rootViewController?.present(nav, animated: true, completion: nil)
-        if self.handle != nil {
-            firAuth?.removeStateDidChangeListener(self.handle!)
-            self.handle = nil
-        }
-        
-        self.listenFor("login:success", action: .didLogin, object: nil)
-    }
-    
-    func didLogin() {
-        print("logged in")
-        self.stopListeningFor("login:success")
-
-        // first dismiss login/signup flow
-        self.window?.rootViewController?.dismiss(animated: true, completion: {
-            // load main flow
-            self.goToMenu()
-        })
-    }
-    
-    func goToMenu() {
-        if self.revealController != nil {
-            return
-        }
-        
-        let controller = UIStoryboard(name: "Menu", bundle: nil).instantiateViewController(withIdentifier: "RevealViewController") as! SWRevealViewController
-        self.window?.rootViewController?.present(controller, animated: true, completion: nil)
-        self.revealController = controller
-        self.listenFor("logout:success", action: .didLogout, object: nil)
-        
-        EventService.sharedInstance().listenForEventUsers()
-    }
-    
-    func didLogout() {
-        print("logged out")
-        self.stopListeningFor("logout:Success")
-        NotificationService.clearAllNotifications()
-        
-        // first dismiss main app
-        self.window?.rootViewController?.dismiss(animated: true, completion: {
-            // load main flow
-            self.revealController = nil
-            self.goToSignupLogin()
-        })
-    }
-    
     // Push
     // MARK: - Push
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -170,7 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         
-        self.revealController?.present(alert, animated: true, completion: nil)
+        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
     }
 
 }

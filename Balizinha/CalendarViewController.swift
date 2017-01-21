@@ -1,5 +1,5 @@
 //
-//  MyEventsTableViewController.swift
+//  CalendarViewController.swift
 // Balizinha
 //
 //  Created by Tom Strissel on 5/18/16.
@@ -7,28 +7,20 @@
 //
 
 import UIKit
-import SWRevealViewController
 import Parse
 
-class MyEventsTableViewController: UITableViewController, EventCellDelegate {
+class CalendarViewController: UITableViewController, EventCellDelegate {
     
     var sortedUpcomingEvents: [Event] = []
     var sortedPastEvents: [Event] = []
-    @IBOutlet var menuButton: UIBarButtonItem!
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if self.revealViewController() != nil {
-            menuButton.target = self.revealViewController()
-            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-        }
-        
         self.refreshEvents()
-        NotificationCenter.default.addObserver(self, selector: #selector(MyEventsTableViewController.refreshEvents), name: NSNotification.Name(EventNotification.Changed.rawValue), object: nil)
+        self.listenFor(NotificationType.EventsChanged, action: #selector(self.refreshEvents), object: nil)
         
-        self.navigationItem.title = "My Events"
+        self.navigationItem.title = "Calendar"
     }
 
     override func didReceiveMemoryWarning() {

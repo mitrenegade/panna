@@ -17,10 +17,6 @@ private var eventServiceSingleton: EventService?
 private var TESTING = false
 var _usersForEvents: [String: AnyObject]?
 
-enum EventNotification: String {
-    case Changed
-}
-
 class EventService: NSObject {
     
     private lazy var __once: () = {
@@ -30,7 +26,7 @@ class EventService: NSObject {
                 // this block is called for every result returned
                 _usersForEvents = snapshot.value as? [String: AnyObject]
                 
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: EventNotification.Changed.rawValue), object: nil)
+                NotificationCenter.default.post(name: NotificationType.EventsChanged.name(), object: nil)
             }
         }()
     
