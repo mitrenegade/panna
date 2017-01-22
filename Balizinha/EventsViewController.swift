@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EventsViewController: UITableViewController, EventCellDelegate {
+class EventsViewController: UITableViewController {
 
     var service = EventService.sharedInstance()
     var allEvents : [Event] = []
@@ -21,6 +21,12 @@ class EventsViewController: UITableViewController, EventCellDelegate {
         super.viewDidLoad()
         
         self.navigationItem.title = "Events"
+        
+        let addButton = UIButton(type: .custom)
+        addButton.setImage(UIImage.init(named: "plusIcon30"), for: .normal)
+        addButton.addTarget(self, action: #selector(self.didClickAddEvent(sender:)), for: .touchUpInside)
+        addButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
         
         self.refreshEvents()
         self.listenFor(NotificationType.EventsChanged, action: #selector(self.refreshEvents), object: nil)
@@ -69,6 +75,15 @@ class EventsViewController: UITableViewController, EventCellDelegate {
         }
     }
     
+    func didClickAddEvent(sender: Any) {
+        self.simpleAlert("Create an event?", message: "You must be a paid organizer to create a new game. Click to proceed.") {
+            // create
+            self.performSegue(withIdentifier: "goToCreateEvent", sender: nil)
+        }
+    }
+}
+
+extension EventsViewController {
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return self.sortedEvents.keys.count
@@ -109,9 +124,13 @@ class EventsViewController: UITableViewController, EventCellDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "toEventDetails", sender: self)
+        tableView.deselectRow(at: indexPath, animated: true)
+        let event = sortedEvents[eventTypes[indexPath.section]]![indexPath.row]
+        performSegue(withIdentifier: "toJoinEventDetails", sender: event)
     }
-    
+}
+
+extension EventsViewController: EventCellDelegate {
     // MARK: EventCellDelegate
     func joinOrLeaveEvent(_ event: Event, join: Bool) {
         let user = firAuth!.currentUser!
@@ -130,15 +149,26 @@ class EventsViewController: UITableViewController, EventCellDelegate {
     
      // MARK: - Navigation     
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let detailsController = segue.destination as! EventDisplayViewController
-        detailsController.alreadyJoined = false
-        detailsController.delegate = self
+        guard let nav = segue.destination as? UINavigationController else { return }
         
-        let indexPath = self.tableView.indexPathForSelectedRow
-        detailsController.event = sortedEvents[eventTypes[indexPath!.section]]![indexPath!.row]
-        
-     // Pass the selected object to the new view controller.
+        if segue.identifier == "toJoinEventDetails" {
+            guard let detailsController = nav.viewControllers[0] as? EventDisplayViewController else { return }
+            guard let event = sender as? Event else { return }
+            
+            detailsController.alreadyJoined = false
+            detailsController.delegate = self
+            
+            detailsController.event = event
+        }
+        else if segue.identifier == "goToCreateEvent" {
+            guard let controller = nav.viewControllers[0] as? CreateEventViewController else { return }
+            controller.delegate = self
+        }
      }
-    
+}
 
+extension EventsViewController: CreateEventDelegate {
+    func didCreateEvent() {
+        self.tabBarController?.selectedIndex = 2
+    }
 }

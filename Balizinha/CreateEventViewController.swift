@@ -9,6 +9,10 @@
 import UIKit
 import Parse
 
+protocol CreateEventDelegate {
+    func didCreateEvent()
+}
+
 class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     let options = ["Sport Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
@@ -49,7 +53,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     var startTimePickerView: UIDatePicker = UIDatePicker()
     var endTimePickerView: UIDatePicker = UIDatePicker()
 
-    var menuController: MenuTableViewController?
+    var delegate: CreateEventDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,9 +137,10 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info, completion: { (event, error) in
                 
                 if let event = event {
-                    // TODO: create some sort of activity indicator
-                    self.menuController!.goToMyEvents()
                     self.sendPushForCreatedEvent(event)
+                    self.navigationController?.dismiss(animated: true, completion: {
+                        self.delegate?.didCreateEvent()
+                    })
                 }
                 else {
                     if let error = error {
@@ -151,6 +156,12 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         }
     }
 
+    @IBAction func didClickCancel(_ sender: AnyObject) {
+        self.navigationController?.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension CreateEventViewController {
     // MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
