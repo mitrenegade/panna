@@ -84,7 +84,11 @@ class SplashViewController: UIViewController {
     }
     
     private func goToMain() {
-        guard let homeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as? UITabBarController else { return }
+        var storyboardName = "Main"
+        if let workoutWithMe = FEATURE_FLAGS["WorkoutWithMe"] as? Bool, workoutWithMe == true {
+            storyboardName = "WorkoutWithMeMain"
+        }
+        guard let homeViewController = UIStoryboard(name: storyboardName, bundle: nil).instantiateInitialViewController() as? UITabBarController else { return }
         homeViewController.selectedIndex = 1
         
         if let presented = presentedViewController {

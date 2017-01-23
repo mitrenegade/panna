@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="gM7-EK-akO">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Map View Controller-->
+        <scene sceneID="Ypk-4h-NMv">
+            <objects>
+                <viewController id="gM7-EK-akO" customClass="MapViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HkR-XZ-l6U"/>
+                        <viewControllerLayoutGuide type="bottom" id="9ru-0v-0Th"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="beW-WM-r62">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="dFP-DC-3gQ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="222"/>
+                                <connections>
+                                    <outlet property="delegate" destination="gM7-EK-akO" id="dW5-Xu-ufW"/>
+                                </connections>
+                            </mapView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AvF-O9-mLk">
+                                <rect key="frame" x="0.0" y="230" width="375" height="437"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="gM7-EK-akO" id="jk9-cA-wYS"/>
+                                    <outlet property="delegate" destination="gM7-EK-akO" id="rcm-3h-2tW"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="9ru-0v-0Th" firstAttribute="top" secondItem="AvF-O9-mLk" secondAttribute="bottom" id="b7S-AM-dUC"/>
+                            <constraint firstItem="dFP-DC-3gQ" firstAttribute="height" secondItem="beW-WM-r62" secondAttribute="height" multiplier="1:3" id="eNi-Xa-AUo"/>
+                            <constraint firstItem="AvF-O9-mLk" firstAttribute="top" secondItem="dFP-DC-3gQ" secondAttribute="bottom" constant="8" id="gmt-zz-hcz"/>
+                            <constraint firstAttribute="trailing" secondItem="AvF-O9-mLk" secondAttribute="trailing" id="i6i-Hd-qXe"/>
+                            <constraint firstItem="dFP-DC-3gQ" firstAttribute="leading" secondItem="beW-WM-r62" secondAttribute="leading" id="oD2-lw-fRc"/>
+                            <constraint firstAttribute="trailing" secondItem="dFP-DC-3gQ" secondAttribute="trailing" id="qq8-lC-Gka"/>
+                            <constraint firstItem="dFP-DC-3gQ" firstAttribute="top" secondItem="beW-WM-r62" secondAttribute="top" id="vIh-fE-N6S"/>
+                            <constraint firstItem="AvF-O9-mLk" firstAttribute="leading" secondItem="beW-WM-r62" secondAttribute="leading" id="voQ-zv-oFO"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="dFP-DC-3gQ" id="pCV-YH-fit"/>
+                        <outlet property="tableView" destination="AvF-O9-mLk" id="Ltp-wh-Eoy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zjI-f0-Vtc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="72.799999999999997" y="73.313343328335833"/>
+        </scene>
+    </scenes>
+</document>

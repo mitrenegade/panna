@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="FYd-ZO-RE8">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Account-->
+        <scene sceneID="q8t-yK-ohU">
+            <objects>
+                <navigationController id="afC-xy-mVH" customClass="ConfigurableNavigationController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Account" image="profile30" id="ZO2-Kk-t1v"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="A6L-sK-CuT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="rootStoryboardName" value="Account"/>
+                    </userDefinedRuntimeAttributes>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QlA-VK-gmv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-257" y="-514"/>
+        </scene>
+        <!--Calendar-->
+        <scene sceneID="Pvj-Ts-iZm">
+            <objects>
+                <navigationController id="XH6-iE-VhR" customClass="ConfigurableNavigationController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Calendar" image="calendar30" id="d0E-tu-YZD"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="TZW-W4-wNB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="rootStoryboardName" value="Calendar"/>
+                    </userDefinedRuntimeAttributes>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WVT-fa-XfG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-257" y="938"/>
+        </scene>
+        <!--Events-->
+        <scene sceneID="TA2-qD-QdN">
+            <objects>
+                <navigationController id="nil-lg-p5V" customClass="ConfigurableNavigationController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Events" image="soccer30" id="yZK-tg-wLF"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="OTx-tw-Vg6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="rootStoryboardName" value="MapView"/>
+                    </userDefinedRuntimeAttributes>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Oh0-jw-4Wv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-244" y="206"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="Lha-vi-ZAY">
+            <objects>
+                <tabBarController id="FYd-ZO-RE8" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="kcX-UG-auF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="afC-xy-mVH" kind="relationship" relationship="viewControllers" id="6A8-hR-c5c"/>
+                        <segue destination="nil-lg-p5V" kind="relationship" relationship="viewControllers" id="wHg-TU-kNS"/>
+                        <segue destination="XH6-iE-VhR" kind="relationship" relationship="viewControllers" id="zgL-Lt-Dvj"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YfW-dT-1nV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1102" y="-231"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="calendar30" width="16" height="16"/>
+        <image name="profile30" width="16" height="16"/>
+        <image name="soccer30" width="16" height="16"/>
+    </resources>
+</document>
