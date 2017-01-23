@@ -15,7 +15,7 @@ protocol CreateEventDelegate {
 
 class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITextViewDelegate {
     
-    let options = ["Sport Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
+    var options = ["Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
     var sportTypes = ["Select Type", "Soccer", "Basketball", "Flag Football"]
     
     var currentField : UITextField?
@@ -59,6 +59,10 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         super.viewDidLoad()
         
         self.navigationItem.title = "Create Event"
+        
+        if let soccerOnly = FEATURE_FLAGS["SoccerOnly"] as? Bool, soccerOnly == true {
+            options.remove(at: 0) // remove Event Type
+        }
         
         self.setupPickers()
         self.setupTextFields()
@@ -185,15 +189,15 @@ extension CreateEventViewController {
         switch indexPath.section {
         case 0:
             let cell : DetailCell
-            if indexPath.row == 1 || indexPath.row == 2 {
+            if options[indexPath.row] == "Location" || options[indexPath.row] == "City" {
                 cell = tableView.dequeueReusableCell(withIdentifier: "cityCell", for: indexPath) as! DetailCell
                 cell.valueTextField.delegate = self
                 cell.valueTextField.inputAccessoryView = nil
                 
-                if indexPath.row == 2 {
+                if options[indexPath.row] == "Location" {
                     cell.valueTextField.placeholder = "Boston"
                     self.cityField = cell.valueTextField
-                } else{
+                } else if options[indexPath.row] == "City" {
                     cell.valueTextField.placeholder = "Braden Field"
                     self.locationField = cell.valueTextField
                 }
@@ -204,24 +208,24 @@ extension CreateEventViewController {
                 cell.valueTextField.isUserInteractionEnabled = false;
                 cell.valueTextField.delegate = self
                 
-                switch indexPath.row {
-                case 0:
+                switch options[indexPath.row] {
+                case "Event Type":
                     self.typeField = cell.valueTextField
                     self.typeField?.inputView = self.typePickerView
                     cell.valueTextField.inputAccessoryView = nil
-                case 3:
+                case "Day":
                     self.dayField = cell.valueTextField
                     self.dayField?.inputView = self.datePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
-                case 4:
+                case "Start Time":
                     self.startField = cell.valueTextField
                     self.startField?.inputView = self.startTimePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
-                case 5:
+                case "End Time":
                     self.endField = cell.valueTextField
                     self.endField?.inputView = self.endTimePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
-                case 6:
+                case "Max Players":
                     self.maxPlayersField = cell.valueTextField
                     self.maxPlayersField?.inputView = self.numberPickerView
                     cell.valueTextField.inputAccessoryView = nil
@@ -279,22 +283,21 @@ extension CreateEventViewController {
             }
             
             var textField: UITextField!
-            switch indexPath.row {
-            case 0:
-                print("Tapped sport types")
+            switch options[indexPath.row] {
+            case "Event Type":
                 textField = self.typeField!
                 typePickerView.reloadAllComponents()
-            case 1:
+            case "Location":
                 textField = self.locationField!
-            case 2:
+            case "City":
                 textField = self.cityField!
-            case 3:
+            case "Day":
                 textField = self.dayField!
-            case 4:
+            case "Start Time":
                 textField = self.startField!
-            case 5:
+            case "End Time":
                 textField = self.endField!
-            case 6:
+            case "Max Players":
                 textField = self.maxPlayersField!
                 print("Tapped number of players")
                 numberPickerView.reloadAllComponents()
