@@ -78,7 +78,6 @@ class SplashViewController: UIViewController {
             dismiss(animated: true, completion: {
                 self.present(homeViewController, animated: true, completion: { 
                 })
-                self.present(homeViewController, animated: true, completion: nil)
             })
         } else {
             self.present(homeViewController, animated: true, completion: {
