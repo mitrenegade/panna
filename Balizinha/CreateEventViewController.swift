@@ -21,15 +21,15 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     var currentField : UITextField?
     var currentTextView : UITextView?
     
-    var type : String!
-    var city : String!
-    var location : String!
-    var date : Date!
-    var dateString: String!
-    var startTime: Date!
-    var endTime: Date!
-    var numPlayers : UInt!
-    var info : String!
+    var type : String?
+    var city : String?
+    var location : String?
+    var date : Date?
+    var dateString: String?
+    var startTime: Date?
+    var endTime: Date?
+    var numPlayers : UInt?
+    var info : String?
    
     var typeField: UITextField?
     var cityField: UITextField?
@@ -133,31 +133,59 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     @IBAction func didClickSave(_ sender: AnyObject) {
         // in case user clicks save without clicking done first
         self.info = self.descriptionTextView!.text
-
-        if type != nil && city != nil && location != nil && date != nil && startTime != nil && endTime != nil && numPlayers != nil && info != nil  {
-            self.startTime = self.combineDateAndTime(date, time: startTime)
-            self.endTime = self.combineDateAndTime(date, time: endTime)
-            
-            EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info, completion: { (event, error) in
-                
-                if let event = event {
-                    self.sendPushForCreatedEvent(event)
-                    self.navigationController?.dismiss(animated: true, completion: {
-                        self.delegate?.didCreateEvent()
-                    })
-                }
-                else {
-                    if let error = error {
-                        self.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
-                    }
-                }
-            })
-        } else {
-            let alert = UIAlertController(title: "Alert", message: "Pleae enter all required fields.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            
-            self.present(alert, animated: true, completion: nil)
+        
+        if let soccerOnly = FEATURE_FLAGS["SoccerOnly"] as? Bool, soccerOnly == true {
+            self.type = "Soccer"
         }
+        else {
+            guard let type = self.type else {
+                self.simpleAlert("Invalid selection", message: "Please select an event type")
+                return
+            }
+        }
+        
+        guard let location = self.location else {
+            self.simpleAlert("Invalid selection", message: "Please select a location")
+            return
+        }
+        guard let city = self.city else {
+            self.simpleAlert("Invalid selection", message: "Please select a city")
+            return
+        }
+        guard let date = self.date else {
+            self.simpleAlert("Invalid selection", message: "Please select the event date")
+            return
+        }
+        guard let startTime = self.startTime else {
+            self.simpleAlert("Invalid selection", message: "Please select a start time")
+            return
+        }
+        guard let endTime = self.endTime else {
+            self.simpleAlert("Invalid selection", message: "Please select an end time")
+            return
+        }
+        guard let numPlayers = self.numPlayers else {
+            self.simpleAlert("Invalid selection", message: "Please select the number of players allowed")
+            return
+        }
+
+        self.startTime = self.combineDateAndTime(date, time: startTime)
+        self.endTime = self.combineDateAndTime(date, time: endTime)
+        
+        EventService.sharedInstance().createEvent(self.type ?? "Soccer", city: city, place: location, startTime: startTime, endTime: endTime, max_players: numPlayers, info: self.info, completion: { (event, error) in
+            
+            if let event = event {
+                self.sendPushForCreatedEvent(event)
+                self.navigationController?.dismiss(animated: true, completion: {
+                    self.delegate?.didCreateEvent()
+                })
+            }
+            else {
+                if let error = error {
+                    self.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
+                }
+            }
+        })
     }
 
     @IBAction func didClickCancel(_ sender: AnyObject) {
