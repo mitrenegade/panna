@@ -127,4 +127,15 @@ class Event: FirebaseBaseModel {
     var isPast: Bool {
         return (ComparisonResult.orderedAscending == self.startTime.compare(Date())) //event time happened before current time
     }
+    
+    var owner: String? {
+        return self.dict["owner"] as? String
+    }
+    
+    var userIsOwner: Bool {
+        guard let owner = self.owner else { return false }
+        guard let user = firAuth?.currentUser else { return false }
+
+        return user.uid == owner
+    }
 }

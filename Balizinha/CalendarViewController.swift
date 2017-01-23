@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class CalendarViewController: UITableViewController, EventCellDelegate {
+class CalendarViewController: UITableViewController {
     
     var sortedUpcomingEvents: [Event] = []
     var sortedPastEvents: [Event] = []
@@ -58,7 +58,9 @@ class CalendarViewController: UITableViewController, EventCellDelegate {
         }
         
     }
-    
+}
+
+extension CalendarViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -106,18 +108,6 @@ class CalendarViewController: UITableViewController, EventCellDelegate {
         return cell
     }
 
-    // MARK: EventCellDelegate
-    func joinOrLeaveEvent(_ event: Event, join: Bool) {
-        let user = firAuth!.currentUser!
-        if join {
-            EventService.sharedInstance().joinEvent(event, user: user)
-        }
-        else {
-            EventService.sharedInstance().leaveEvent(event, user: user)
-        }
-        
-        self.refreshEvents()
-    }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard indexPath.section == 0 else {
@@ -144,4 +134,20 @@ class CalendarViewController: UITableViewController, EventCellDelegate {
         
     }
     
+}
+
+extension CalendarViewController: EventCellDelegate {
+    
+    // MARK: EventCellDelegate
+    func joinOrLeaveEvent(_ event: Event, join: Bool) {
+        let user = firAuth!.currentUser!
+        if join {
+            EventService.sharedInstance().joinEvent(event, user: user)
+        }
+        else {
+            EventService.sharedInstance().leaveEvent(event, user: user)
+        }
+        
+        self.refreshEvents()
+    }
 }

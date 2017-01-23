@@ -64,7 +64,10 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         self.btnShare.layer.cornerRadius = 4
         self.btnJoin.layer.cornerRadius = 4
         
-        if alreadyJoined {
+        if event.userIsOwner {
+            self.btnJoin.setTitle("Edit", for: .normal)
+        }
+        else if alreadyJoined {
             self.btnJoin.setTitle("Leave", for: UIControlState())
             self.btnJoin.backgroundColor = leaveColor
         }
@@ -102,14 +105,18 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
     
     @IBAction func didTapButton(_ sender: UIButton) {
         if sender == btnJoin {
-            if alreadyJoined {
+            if event.userIsOwner {
+                self.simpleAlert("Edit event coming soon", message: "You will be able to edit your event in the next version.")
+            }
+            else if alreadyJoined {
                 let delegate = self.delegate as! CalendarViewController
                 delegate.joinOrLeaveEvent(self.event, join: false)
+                self.navigationController?.popViewController(animated: true)
             } else  {
                 let delegate = self.delegate as! EventsViewController
                 delegate.joinOrLeaveEvent(self.event, join: true)
+                self.navigationController?.popViewController(animated: true)
             }
-            self.navigationController?.popViewController(animated: true)
         } else if sender == btnShare {
             self.shareEvent2(self.event)
         }

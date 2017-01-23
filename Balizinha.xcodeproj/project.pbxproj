@@ -225,11 +225,11 @@
 			isa = PBXGroup;
 			children = (
 				8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */,
-				F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */,
 				F2F7C3BF1CEE296A00350115 /* AccountViewController.swift */,
 				F2F7C3BC1CEE11B300350115 /* CreateEventViewController.swift */,
 				F2C0F11F1CF3E8BB00CB98F1 /* EventsViewController.swift */,
 				F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */,
+				F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */,
 			);
 			name = "Main Menu";
 			sourceTree = "<group>";
