@@ -78,7 +78,7 @@ class EventsViewController: UITableViewController {
     func didClickAddEvent(sender: Any) {
         self.simpleAlert("Create an event?", message: "You must be a paid organizer to create a new game. Click to proceed.") {
             // create
-            self.performSegue(withIdentifier: "goToCreateEvent", sender: nil)
+            self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
         }
     }
 }
@@ -126,7 +126,7 @@ extension EventsViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let event = sortedEvents[eventTypes[indexPath.section]]![indexPath.row]
-        performSegue(withIdentifier: "toJoinEventDetails", sender: event)
+        performSegue(withIdentifier: "toEventDetails", sender: event)
     }
 }
 
@@ -151,7 +151,8 @@ extension EventsViewController: EventCellDelegate {
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let nav = segue.destination as? UINavigationController else { return }
         
-        if segue.identifier == "toJoinEventDetails" {
+        if segue.identifier == "toEventDetails" {
+            let frame = nav.view.frame // force load root view controller
             guard let detailsController = nav.viewControllers[0] as? EventDisplayViewController else { return }
             guard let event = sender as? Event else { return }
             
@@ -160,7 +161,7 @@ extension EventsViewController: EventCellDelegate {
             
             detailsController.event = event
         }
-        else if segue.identifier == "goToCreateEvent" {
+        else if segue.identifier == "toCreateEvent" {
             guard let controller = nav.viewControllers[0] as? CreateEventViewController else { return }
             controller.delegate = self
         }
