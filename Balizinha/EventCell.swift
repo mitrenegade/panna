@@ -56,7 +56,12 @@ class EventCell: UITableViewCell {
         
         if !event.isPast {
             // Button display and action
-            if self.event!.containsUser(firAuth!.currentUser!) {
+            if self.event!.userIsOwner {
+                self.labelFull.text = "This is your event."
+                self.btnAction.setTitle("Edit", for: UIControlState())
+                self.btnAction.isEnabled = false
+            }
+            else if self.event!.containsUser(firAuth!.currentUser!) {
                 self.labelFull.text = "You're going!" //To-Do: Add functionality whether or not event is full
                 self.btnAction.setTitle("Leave", for: UIControlState())
                 self.btnAction.isEnabled = true
