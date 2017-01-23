@@ -21,3 +21,7 @@ enum NotificationType: String {
         return Notification.Name(self.rawValue)
     }
 }
+
+var FEATURE_FLAGS: [String: Any] = [
+    "SoccerOnly": true // for Balizinha, only sport is soccer
+    ]

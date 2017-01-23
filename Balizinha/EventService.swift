@@ -96,20 +96,22 @@ class EventService: NSObject {
             return
         }
         
+        guard let user = firAuth?.currentUser else { return }
+        
         let eventRef = firRef.child("events") // this references the endpoint lotsports.firebase.com/events/
         let newEventRef = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
         
-        var params: [String: AnyObject] = ["type": type as AnyObject, "city": city as AnyObject, "place": place as AnyObject, "startTime": startTime.timeIntervalSince1970 as AnyObject, "endTime": endTime.timeIntervalSince1970 as AnyObject, "max_players": max_players as AnyObject]
+        var params: [String: Any] = ["type": type, "city": city, "place": place, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "max_players": max_players, "owner": user.uid]
         if info == nil {
-            params["info"] = "No description available" as AnyObject?
+            params["info"] = "No description available"
         } else {
             params["info"] = info as AnyObject?
         }
         
         newEventRef.setValue(params) { (error, ref) in
-            if error != nil {
+            if let error = error as? NSError {
                 print(error)
-                completion(nil, error as NSError?)
+                completion(nil, error)
             } else {
                 ref.observe(.value, with: { (snapshot) in
                     let event = Event(snapshot: snapshot)

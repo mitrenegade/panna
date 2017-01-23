@@ -15,21 +15,21 @@ protocol CreateEventDelegate {
 
 class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITextViewDelegate {
     
-    let options = ["Sport Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
+    var options = ["Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
     var sportTypes = ["Select Type", "Soccer", "Basketball", "Flag Football"]
     
     var currentField : UITextField?
     var currentTextView : UITextView?
     
-    var type : String!
-    var city : String!
-    var location : String!
-    var date : Date!
-    var dateString: String!
-    var startTime: Date!
-    var endTime: Date!
-    var numPlayers : UInt!
-    var info : String!
+    var type : String?
+    var city : String?
+    var location : String?
+    var date : Date?
+    var dateString: String?
+    var startTime: Date?
+    var endTime: Date?
+    var numPlayers : UInt?
+    var info : String?
    
     var typeField: UITextField?
     var cityField: UITextField?
@@ -59,6 +59,10 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         super.viewDidLoad()
         
         self.navigationItem.title = "Create Event"
+        
+        if let soccerOnly = FEATURE_FLAGS["SoccerOnly"] as? Bool, soccerOnly == true {
+            options.remove(at: 0) // remove Event Type
+        }
         
         self.setupPickers()
         self.setupTextFields()
@@ -129,31 +133,59 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     @IBAction func didClickSave(_ sender: AnyObject) {
         // in case user clicks save without clicking done first
         self.info = self.descriptionTextView!.text
-
-        if type != nil && city != nil && location != nil && date != nil && startTime != nil && endTime != nil && numPlayers != nil && info != nil  {
-            self.startTime = self.combineDateAndTime(date, time: startTime)
-            self.endTime = self.combineDateAndTime(date, time: endTime)
-            
-            EventService.sharedInstance().createEvent(self.type, city: self.city, place: self.location, startTime: self.startTime, endTime: self.endTime, max_players: self.numPlayers, info: self.info, completion: { (event, error) in
-                
-                if let event = event {
-                    self.sendPushForCreatedEvent(event)
-                    self.navigationController?.dismiss(animated: true, completion: {
-                        self.delegate?.didCreateEvent()
-                    })
-                }
-                else {
-                    if let error = error {
-                        self.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
-                    }
-                }
-            })
-        } else {
-            let alert = UIAlertController(title: "Alert", message: "Pleae enter all required fields.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            
-            self.present(alert, animated: true, completion: nil)
+        
+        if let soccerOnly = FEATURE_FLAGS["SoccerOnly"] as? Bool, soccerOnly == true {
+            self.type = "Soccer"
         }
+        else {
+            guard let type = self.type else {
+                self.simpleAlert("Invalid selection", message: "Please select an event type")
+                return
+            }
+        }
+        
+        guard let location = self.location else {
+            self.simpleAlert("Invalid selection", message: "Please select a location")
+            return
+        }
+        guard let city = self.city else {
+            self.simpleAlert("Invalid selection", message: "Please select a city")
+            return
+        }
+        guard let date = self.date else {
+            self.simpleAlert("Invalid selection", message: "Please select the event date")
+            return
+        }
+        guard let startTime = self.startTime else {
+            self.simpleAlert("Invalid selection", message: "Please select a start time")
+            return
+        }
+        guard let endTime = self.endTime else {
+            self.simpleAlert("Invalid selection", message: "Please select an end time")
+            return
+        }
+        guard let numPlayers = self.numPlayers else {
+            self.simpleAlert("Invalid selection", message: "Please select the number of players allowed")
+            return
+        }
+
+        self.startTime = self.combineDateAndTime(date, time: startTime)
+        self.endTime = self.combineDateAndTime(date, time: endTime)
+        
+        EventService.sharedInstance().createEvent(self.type ?? "Soccer", city: city, place: location, startTime: startTime, endTime: endTime, max_players: numPlayers, info: self.info, completion: { (event, error) in
+            
+            if let event = event {
+                self.sendPushForCreatedEvent(event)
+                self.navigationController?.dismiss(animated: true, completion: {
+                    self.delegate?.didCreateEvent()
+                })
+            }
+            else {
+                if let error = error {
+                    self.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
+                }
+            }
+        })
     }
 
     @IBAction func didClickCancel(_ sender: AnyObject) {
@@ -185,15 +217,15 @@ extension CreateEventViewController {
         switch indexPath.section {
         case 0:
             let cell : DetailCell
-            if indexPath.row == 1 || indexPath.row == 2 {
+            if options[indexPath.row] == "Location" || options[indexPath.row] == "City" {
                 cell = tableView.dequeueReusableCell(withIdentifier: "cityCell", for: indexPath) as! DetailCell
                 cell.valueTextField.delegate = self
                 cell.valueTextField.inputAccessoryView = nil
                 
-                if indexPath.row == 2 {
+                if options[indexPath.row] == "Location" {
                     cell.valueTextField.placeholder = "Boston"
                     self.cityField = cell.valueTextField
-                } else{
+                } else if options[indexPath.row] == "City" {
                     cell.valueTextField.placeholder = "Braden Field"
                     self.locationField = cell.valueTextField
                 }
@@ -204,24 +236,24 @@ extension CreateEventViewController {
                 cell.valueTextField.isUserInteractionEnabled = false;
                 cell.valueTextField.delegate = self
                 
-                switch indexPath.row {
-                case 0:
+                switch options[indexPath.row] {
+                case "Event Type":
                     self.typeField = cell.valueTextField
                     self.typeField?.inputView = self.typePickerView
                     cell.valueTextField.inputAccessoryView = nil
-                case 3:
+                case "Day":
                     self.dayField = cell.valueTextField
                     self.dayField?.inputView = self.datePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
-                case 4:
+                case "Start Time":
                     self.startField = cell.valueTextField
                     self.startField?.inputView = self.startTimePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
-                case 5:
+                case "End Time":
                     self.endField = cell.valueTextField
                     self.endField?.inputView = self.endTimePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
-                case 6:
+                case "Max Players":
                     self.maxPlayersField = cell.valueTextField
                     self.maxPlayersField?.inputView = self.numberPickerView
                     cell.valueTextField.inputAccessoryView = nil
@@ -279,22 +311,21 @@ extension CreateEventViewController {
             }
             
             var textField: UITextField!
-            switch indexPath.row {
-            case 0:
-                print("Tapped sport types")
+            switch options[indexPath.row] {
+            case "Event Type":
                 textField = self.typeField!
                 typePickerView.reloadAllComponents()
-            case 1:
+            case "Location":
                 textField = self.locationField!
-            case 2:
+            case "City":
                 textField = self.cityField!
-            case 3:
+            case "Day":
                 textField = self.dayField!
-            case 4:
+            case "Start Time":
                 textField = self.startField!
-            case 5:
+            case "End Time":
                 textField = self.endField!
-            case 6:
+            case "Max Players":
                 textField = self.maxPlayersField!
                 print("Tapped number of players")
                 numberPickerView.reloadAllComponents()
