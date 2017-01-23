@@ -34,7 +34,9 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         
         // Setup event details
         self.view.bringSubview(toFront: labelType.superview!)
-        self.labelType.text = self.event.type.rawValue
+        if let type = self.event.type as? EventType {
+            self.labelType.text = type.rawValue
+        }
         self.labelDate.text = self.event.dateString(self.event.startTime)
         self.labelField.text = self.event.place
         self.labelCity.text = self.event.city

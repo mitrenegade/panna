@@ -132,7 +132,8 @@ class CalendarViewController: UITableViewController, EventCellDelegate {
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let nav = segue.destination as? UINavigationController else { return }
+        guard let nav = segue.destination as? ConfigurableNavigationController else { return }
+        let frame = nav.view.frame // force viewDidLoad so viewControllers exists
         guard let detailsController = nav.viewControllers[0] as? EventDisplayViewController else { return }
         guard let event = sender as? Event else { return }
         

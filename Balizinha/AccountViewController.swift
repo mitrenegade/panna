@@ -65,7 +65,7 @@ class AccountViewController: UITableViewController {
             break
         case 1:
             try! firAuth?.signOut()
-            self.notify("logout:success", object: nil, userInfo: nil)
+            self.notify(.LogoutSuccess, object: nil, userInfo: nil)
         default:
             break
         }

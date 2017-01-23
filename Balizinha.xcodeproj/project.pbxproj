@@ -20,6 +20,10 @@
 		8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */; };
 		8E7256A11CDF793200C9E054 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7256A01CDF793200C9E054 /* Assets.xcassets */; };
 		8E7256AD1CDF7DB600C9E054 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */; };
+		8EC799291E363549004ACC52 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC799281E363549004ACC52 /* Account.storyboard */; };
+		8EC7992B1E3635A0004ACC52 /* Events.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC7992A1E3635A0004ACC52 /* Events.storyboard */; };
+		8EC7992D1E3635A8004ACC52 /* Calendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */; };
+		8EC7992F1E3636A0004ACC52 /* EventDetails.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC7992E1E3636A0004ACC52 /* EventDetails.storyboard */; };
 		8ECD58E11CDF853500AD2B13 /* Splash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ECD58E01CDF853500AD2B13 /* Splash.storyboard */; };
 		8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */; };
 		8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
@@ -58,6 +62,10 @@
 		8E7256A51CDF793200C9E054 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Balizinha-Bridging-Header.h"; sourceTree = "<group>"; };
+		8EC799281E363549004ACC52 /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
+		8EC7992A1E3635A0004ACC52 /* Events.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Events.storyboard; sourceTree = "<group>"; };
+		8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Calendar.storyboard; sourceTree = "<group>"; };
+		8EC7992E1E3636A0004ACC52 /* EventDetails.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = EventDetails.storyboard; sourceTree = "<group>"; };
 		8ECD58E01CDF853500AD2B13 /* Splash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Splash.storyboard; sourceTree = "<group>"; };
 		8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
 		8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -136,6 +144,10 @@
 				8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */,
 				8E11E42B1E31B80800DB4B27 /* Main.storyboard */,
 				F238AA251CEBA33500B5D37E /* OldMenu.storyboard */,
+				8EC799281E363549004ACC52 /* Account.storyboard */,
+				8EC7992A1E3635A0004ACC52 /* Events.storyboard */,
+				8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */,
+				8EC7992E1E3636A0004ACC52 /* EventDetails.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -292,12 +304,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EC7992D1E3635A8004ACC52 /* Calendar.storyboard in Resources */,
 				8E7256A11CDF793200C9E054 /* Assets.xcassets in Resources */,
 				8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */,
 				F238AA261CEBA33500B5D37E /* OldMenu.storyboard in Resources */,
 				8ECD58E11CDF853500AD2B13 /* Splash.storyboard in Resources */,
 				8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */,
+				8EC7992F1E3636A0004ACC52 /* EventDetails.storyboard in Resources */,
+				8EC7992B1E3635A0004ACC52 /* Events.storyboard in Resources */,
 				8E55FF941CF2066600A0BDB8 /* GoogleService-Info.plist in Resources */,
+				8EC799291E363549004ACC52 /* Account.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
