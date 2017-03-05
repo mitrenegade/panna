@@ -30,7 +30,7 @@ class CalendarViewController: UITableViewController {
 
     func refreshEvents() {
         
-        EventService.sharedInstance().getEvents(type: nil) { (results) in
+        EventService.shared.getEvents(type: nil) { (results) in
             // completion function will get called once at the start, and each time events change
             
             // 1: sort all events by time
@@ -39,7 +39,7 @@ class CalendarViewController: UITableViewController {
             }
             
             // 2: Remove events the user has joined
-            EventService.sharedInstance().getEventsForUser(firAuth!.currentUser!, completion: { (eventIds) in
+            EventService.shared.getEventsForUser(firAuth!.currentUser!, completion: { (eventIds) in
                 self.sortedUpcomingEvents = self.sortedUpcomingEvents.filter({ (event) -> Bool in
                     eventIds.contains(event.id)
                 })
@@ -142,10 +142,10 @@ extension CalendarViewController: EventCellDelegate {
     func joinOrLeaveEvent(_ event: Event, join: Bool) {
         let user = firAuth!.currentUser!
         if join {
-            EventService.sharedInstance().joinEvent(event, user: user)
+            EventService.shared.joinEvent(event, user: user)
         }
         else {
-            EventService.sharedInstance().leaveEvent(event, user: user)
+            EventService.shared.leaveEvent(event, user: user)
         }
         
         self.refreshEvents()

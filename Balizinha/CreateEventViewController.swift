@@ -181,7 +181,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         self.startTime = self.combineDateAndTime(date, time: startTime)
         self.endTime = self.combineDateAndTime(date, time: endTime)
         
-        EventService.sharedInstance().createEvent(self.type ?? "Soccer", city: city, place: location, startTime: startTime, endTime: endTime, max_players: numPlayers, info: self.info, completion: { (event, error) in
+        EventService.shared.createEvent(self.type ?? "Soccer", city: city, place: location, startTime: startTime, endTime: endTime, max_players: numPlayers, info: self.info, completion: { (event, error) in
             
             if let event = event {
                 self.sendPushForCreatedEvent(event)

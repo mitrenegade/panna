@@ -6,7 +6,7 @@
 //  Copyright © 2016 Bobby Ren. All rights reserved.
 //
 // EventService usage:
-// var service = EventService.sharedInstance()
+// var service = EventService.shared
 // service.getEvents()
 
 import UIKit
@@ -30,7 +30,7 @@ class EventService: NSObject {
         }()
     
     // MARK: - Singleton
-    class func sharedInstance() -> EventService {
+    static var shared: EventService {
         if eventServiceSingleton == nil {
             eventServiceSingleton = EventService()
         }
@@ -91,7 +91,7 @@ class EventService: NSObject {
         
         print ("Create events")
         
-        if TESTING {
+        if AIRPLANE_MODE {
             return
         }
         
@@ -101,7 +101,7 @@ class EventService: NSObject {
         let newEventRef = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
         
         var params: [String: Any] = ["type": type, "city": city, "place": place, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "max_players": max_players, "owner": user.uid]
-        params["createdAt"] = Date()
+        params["createdAt"] = Date().timeIntervalSince1970
         if info == nil {
             params["info"] = "No description available"
         } else {

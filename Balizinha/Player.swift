@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class Player: FirebaseBaseModel {
-//    var service = EventService.sharedInstance()
+//    var service = EventService.shared
 
     var name: String? {
         get {

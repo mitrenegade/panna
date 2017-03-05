@@ -11,7 +11,7 @@ import UIKit
 class AccountViewController: UITableViewController {
     
     let menuOptions = ["Edit profile", "Push Notifications", "Logout"]
-    var service = EventService.sharedInstance()
+    var service = EventService.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()

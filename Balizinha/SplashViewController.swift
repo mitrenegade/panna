@@ -85,7 +85,7 @@ class SplashViewController: UIViewController {
         }
 
         self.listenFor(NotificationType.LogoutSuccess, action: #selector(SplashViewController.didLogout), object: nil)
-        EventService.sharedInstance().listenForEventUsers()
+        EventService.shared.listenForEventUsers()
         PlayerService.shared.current // invoke listener
     }
     
