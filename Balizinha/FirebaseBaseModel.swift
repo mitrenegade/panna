@@ -19,7 +19,7 @@ class FirebaseBaseModel: NSObject {
 
     var firebaseKey: String! // store id
     var firebaseRef: FIRDatabaseReference? // url like lotsportz.firebase.com/model/id
-    var dict: [String: AnyObject]! // {key1: val1, key2: val2 ...}
+    var dict: [String: Any]! // {key1: val1, key2: val2 ...}
     
     init(snapshot: FIRDataSnapshot?) {
         if snapshot != nil {

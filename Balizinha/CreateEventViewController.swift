@@ -129,7 +129,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         save2.tintColor = self.view.tintColor
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
-        if TEST {
+        if TESTING {
             self.location = "Rittenhouse"
             self.city = "Philadelphia"
             self.date = Date()

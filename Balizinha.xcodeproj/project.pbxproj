@@ -10,6 +10,11 @@
 		8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E4291E31B07900DB4B27 /* SplashViewController.swift */; };
 		8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E11E42B1E31B80800DB4B27 /* Main.storyboard */; };
 		8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */; };
+		8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */; };
+		8E19A49E1E6C61FE00D301EC /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A49D1E6C61FE00D301EC /* Player.swift */; };
+		8E19A4A01E6C644B00D301EC /* LogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A49F1E6C644B00D301EC /* LogService.swift */; };
+		8E19A4A21E6C658600D301EC /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A11E6C658600D301EC /* String+Utils.swift */; };
+		8E19A4A41E6C67A500D301EC /* PlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A31E6C67A500D301EC /* PlayerService.swift */; };
 		8E379F011CE57E8600C91A12 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F001CE57E8600C91A12 /* EventService.swift */; };
 		8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */; };
 		8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F091CE58CEE00C91A12 /* Event.swift */; };
@@ -49,6 +54,11 @@
 		8E11E4291E31B07900DB4B27 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		8E11E42B1E31B80800DB4B27 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurableNavigationController.swift; sourceTree = "<group>"; };
+		8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerInfoViewController.swift; sourceTree = "<group>"; };
+		8E19A49D1E6C61FE00D301EC /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		8E19A49F1E6C644B00D301EC /* LogService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogService.swift; sourceTree = "<group>"; };
+		8E19A4A11E6C658600D301EC /* String+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Utils.swift"; sourceTree = "<group>"; };
+		8E19A4A31E6C67A500D301EC /* PlayerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerService.swift; sourceTree = "<group>"; };
 		8E379F001CE57E8600C91A12 /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBaseModel.swift; sourceTree = "<group>"; };
 		8E379F091CE58CEE00C91A12 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -124,6 +134,7 @@
 			children = (
 				8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */,
 				8E379F091CE58CEE00C91A12 /* Event.swift */,
+				8E19A49D1E6C61FE00D301EC /* Player.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -132,7 +143,9 @@
 			isa = PBXGroup;
 			children = (
 				8E379F001CE57E8600C91A12 /* EventService.swift */,
+				8E19A4A31E6C67A500D301EC /* PlayerService.swift */,
 				8E39FE8D1D237C710030CB96 /* NotificationService.swift */,
+				8E19A49F1E6C644B00D301EC /* LogService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -189,6 +202,7 @@
 		F20AD03B1D26C0F500969990 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				8E19A4A11E6C658600D301EC /* String+Utils.swift */,
 				8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */,
 				8E7256A01CDF793200C9E054 /* Assets.xcassets */,
 				8E7256A51CDF793200C9E054 /* Info.plist */,
@@ -205,6 +219,7 @@
 				8E11E4291E31B07900DB4B27 /* SplashViewController.swift */,
 				8E72569B1CDF793200C9E054 /* LoginViewController.swift */,
 				8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */,
+				8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */,
 			);
 			name = Login/Signup;
 			sourceTree = "<group>";
@@ -385,10 +400,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E19A4A41E6C67A500D301EC /* PlayerService.swift in Sources */,
 				8E7256AD1CDF7DB600C9E054 /* SignupViewController.swift in Sources */,
 				F2F7C3C21CEE2CDD00350115 /* PushTableViewCell.swift in Sources */,
 				8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */,
 				8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */,
+				8E19A49E1E6C61FE00D301EC /* Player.swift in Sources */,
 				F21571F51D200B7C00D2F59A /* EventDisplayViewController.swift in Sources */,
 				F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
@@ -399,12 +416,15 @@
 				F2048F7E1CED59A50039F7BB /* CalendarViewController.swift in Sources */,
 				F250A7FC1CFF1588003A7DEA /* TransparentTextField.swift in Sources */,
 				F2F7C3BD1CEE11B300350115 /* CreateEventViewController.swift in Sources */,
+				8E19A4A21E6C658600D301EC /* String+Utils.swift in Sources */,
 				F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */,
 				8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */,
 				8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */,
 				8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */,
 				8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */,
 				8E379F011CE57E8600C91A12 /* EventService.swift in Sources */,
+				8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */,
+				8E19A4A01E6C644B00D301EC /* LogService.swift in Sources */,
 				8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

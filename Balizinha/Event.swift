@@ -16,8 +16,7 @@ enum EventType: String {
     case Other
 }
 
-var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-let formatter = DateFormatter()
+fileprivate let formatter = DateFormatter()
 
 class Event: FirebaseBaseModel {
     var service = EventService.sharedInstance()

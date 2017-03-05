@@ -15,6 +15,8 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var inputConfirmation: UITextField!
     @IBOutlet weak var buttonSignup: UIButton!
     
+    var newPlayer: Player?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -91,8 +93,25 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             }
             else {
                 print("results: \(user)")
-                self.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
+                PlayerService.shared.createPlayer(name: nil, email: email, city: nil, info: nil, completion: { (player, error) in
+                    if let error = error {
+                        self.simpleAlert("Could not sign up", defaultMessage: nil, error: error as? NSError)
+                    }
+                    else {
+                        self.newPlayer = player
+                        self.performSegue(withIdentifier: "ToEditPlayer", sender: nil)
+                    }
+                })
             }
         })
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ToEditPlayer" {
+            if let controller = segue.destination as? PlayerInfoViewController {
+                controller.player = self.newPlayer
+                controller.isCreatingPlayer = true
+            }
+        }
     }
 }

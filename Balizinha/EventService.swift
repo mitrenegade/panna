@@ -14,7 +14,6 @@ import Firebase
 import RandomKit
 
 private var eventServiceSingleton: EventService?
-private var TESTING = false
 var _usersForEvents: [String: AnyObject]?
 
 class EventService: NSObject {
@@ -55,7 +54,7 @@ class EventService: NSObject {
         // only gets events once, and removes observer afterwards
         print("Get events")
         
-        if TESTING {
+        if AIRPLANE_MODE {
             let results = [Event.randomEvent(), Event.randomEvent(), Event.randomEvent(), Event.randomEvent(), Event.randomEvent(), Event.randomEvent()]
             completion(results)
             return
