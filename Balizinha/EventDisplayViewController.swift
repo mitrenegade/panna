@@ -16,6 +16,8 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
     @IBOutlet var labelField: UILabel!
     @IBOutlet var labelCity: UILabel!
     
+    @IBOutlet var scrollViewAttendees: UIScrollView!
+    
     @IBOutlet var labelDescription: UILabel!
     @IBOutlet var labelNumAttending: UILabel!
     @IBOutlet var labelSpotsAvailable: UILabel!
