@@ -22,6 +22,8 @@ enum NotificationType: String {
     }
 }
 
+var TEST = true
+
 var FEATURE_FLAGS: [String: Any] = [
     "SoccerOnly": true // for Balizinha, only sport is soccer
     ]

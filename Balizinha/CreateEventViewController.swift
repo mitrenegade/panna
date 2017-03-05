@@ -128,6 +128,15 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         let save2: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self.view, action: #selector(UIView.endEditing(_:)))
         save2.tintColor = self.view.tintColor
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
+        
+        if TEST {
+            self.location = "Rittenhouse"
+            self.city = "Philadelphia"
+            self.date = Date()
+            self.startTime = Date()+1800
+            self.endTime = Date()+3600
+            self.numPlayers = 10
+        }
     }
     
     @IBAction func didClickSave(_ sender: AnyObject) {
