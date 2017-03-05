@@ -72,6 +72,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 print("results: \(user)")
                 self.storeUserInfo(user!)
                 
+                PlayerService.shared.current // invoke listener
                 self.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
             }
         })

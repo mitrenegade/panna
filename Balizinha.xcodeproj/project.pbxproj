@@ -131,6 +131,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		8E19A4A71E6C7FCE00D301EC /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				F2F7C3BF1CEE296A00350115 /* AccountViewController.swift */,
+				8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */,
+			);
+			name = Account;
+			sourceTree = "<group>";
+		};
 		8E379F061CE58AFB00C91A12 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -193,6 +202,7 @@
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
 				F20AD03C1D26C10000969990 /* Login/Signup */,
 				F2F7C3BE1CEE11BE00350115 /* Main Menu */,
+				8E19A4A71E6C7FCE00D301EC /* Account */,
 				F2F7C3BB1CEE10F700350115 /* Cells */,
 				8E379F061CE58AFB00C91A12 /* Models */,
 				8E379F0B1CE58F9400C91A12 /* Services */,
@@ -222,7 +232,6 @@
 				8E11E4291E31B07900DB4B27 /* SplashViewController.swift */,
 				8E72569B1CDF793200C9E054 /* LoginViewController.swift */,
 				8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */,
-				8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */,
 			);
 			name = Login/Signup;
 			sourceTree = "<group>";
@@ -243,7 +252,6 @@
 			isa = PBXGroup;
 			children = (
 				8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */,
-				F2F7C3BF1CEE296A00350115 /* AccountViewController.swift */,
 				F2F7C3BC1CEE11B300350115 /* CreateEventViewController.swift */,
 				F2C0F11F1CF3E8BB00CB98F1 /* EventsViewController.swift */,
 				F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */,

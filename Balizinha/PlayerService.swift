@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 
 private var playerServiceSingleton: PlayerService?
+var _currentPlayer: Player?
+
 class PlayerService: NSObject {
     // MARK: - Singleton
     static var shared: PlayerService {
@@ -60,4 +62,21 @@ class PlayerService: NSObject {
         }
     }
 
+    private lazy var __once: () = {
+        // firRef is the global firebase ref
+        let playersRef = firRef.child("players") // this references the endpoint lotsports.firebase.com/players/
+        let existingUserId = firAuth?.currentUser?.uid
+        let playerRef: FIRDatabaseReference = playersRef.child(existingUserId!) // FIXME better optional unwrapping. what happens on logout?
+        
+        playerRef.observe(.value) { (snapshot: FIRDataSnapshot!) in
+            _currentPlayer = Player(snapshot: snapshot)
+        }
+    }()
+
+    var current: Player? {
+        // todo: does this work?
+        var onceToken: Int = 0
+        _ = self.__once
+        return _currentPlayer
+    }
 }

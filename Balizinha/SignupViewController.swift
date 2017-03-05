@@ -15,8 +15,6 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var inputConfirmation: UITextField!
     @IBOutlet weak var buttonSignup: UIButton!
     
-    var newPlayer: Player?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -94,24 +92,24 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             else {
                 print("signIn results: \(user) profile \(user?.photoURL) \(user?.displayName)")
                 PlayerService.shared.createPlayer(name: nil, email: email, city: nil, info: nil, photoUrl: nil, completion: { (player, error) in
-                    if let error = error {
-                        self.simpleAlert("Could not sign up", defaultMessage: nil, error: error as? NSError)
+                    PlayerService.shared.current // invoke listener
+                    if let player = player {
+                        self.goToEditPlayer(player)
                     }
                     else {
-                        self.newPlayer = player
-                        self.performSegue(withIdentifier: "ToEditPlayer", sender: nil)
+                        self.simpleAlert("Could not sign up", defaultMessage: "There was an error creating your player profile.", error: error)
                     }
                 })
             }
         })
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ToEditPlayer" {
-            if let controller = segue.destination as? PlayerInfoViewController {
-                controller.player = self.newPlayer
-                controller.isCreatingPlayer = true
-            }
+    func goToEditPlayer(_ player: Player?) {
+        if let controller = UIStoryboard.init(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerInfoViewController") as? PlayerInfoViewController {
+            controller.player = player
+            controller.isCreatingPlayer = true
+            
+            self.navigationController?.pushViewController(controller, animated: true)
         }
     }
 }

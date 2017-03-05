@@ -40,18 +40,6 @@ class PlayerInfoViewController: UIViewController {
             self.title = "Edit player"
             self.navigationItem.rightBarButtonItem = nil
 
-            /*
-            if let photo = player.photo {
-                photo.getDataInBackground(block: { (data, error) in
-                    if let data = data {
-                        let image = UIImage(data: data)
-                        self.buttonPhoto.setImage(image, for: .normal)
-                        self.buttonPhoto.layer.cornerRadius = self.buttonPhoto.frame.size.width / 2
-                    }
-                })
-            }
-            */
-            self.switchInactive.isOn = player?.isInactive ?? true
         }
         self.setupTextView()
         self.refresh()
@@ -83,7 +71,6 @@ class PlayerInfoViewController: UIViewController {
         if let photoUrl = player.photoUrl {
             self.refreshPhoto(url: photoUrl)
         }
-        //self.switchInactive.isOn = player.isInactive
     }
     
     func refreshPhoto(url: String) {
@@ -124,18 +111,6 @@ class PlayerInfoViewController: UIViewController {
         }
     }
 
-    @IBAction func didClickClose(_ sender: AnyObject?) {
-        self.view.endEditing(true)
-        if let text = self.inputCity.text, text.characters.count > 0 {
-            if !text.isValidEmail() {
-                self.simpleAlert("Invalid email", message: "Please enter a valid email if it exists.")
-                return
-            }
-        }
-
-        self.close()
-    }
-    
     @IBAction func didClickAddPhoto(_ sender: AnyObject?) {
         self.view.endEditing(true)
         self.takePhoto()
@@ -146,12 +121,8 @@ class PlayerInfoViewController: UIViewController {
     }
     
     @IBAction func didClickSave(_ sender: AnyObject?) {
-        if let text = self.inputCity.text, text.characters.count > 0 {
-            if !text.isValidEmail() {
-                self.simpleAlert("Invalid email", message: "Please enter a valid email if it exists.")
-                return
-            }
-        }
+        self.view.endEditing(true)
+
         guard let player = self.player else {
             return
         }
@@ -160,7 +131,7 @@ class PlayerInfoViewController: UIViewController {
             player.name = text
         }
         if let text = self.inputCity.text, text.characters.count > 0 {
-            player.email = text
+            player.city = text
         }
         if let text = inputNotes.text, text.characters.count > 0 {
             player.info = text
@@ -187,17 +158,14 @@ extension PlayerInfoViewController: UITextFieldDelegate {
         }
         else if textField == inputCity {
             if let text = textField.text, text.characters.count > 0 {
-                if text.isValidEmail() {
-                    player.email = text
-                }
-                else {
-                    textField.text = player.email
-                }
+                player.city = text
+            }
+            else {
+                textField.text = player.city
             }
         }
         
-        textField.resignFirstResponder()
-        
+        textField.resignFirstResponder()        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
