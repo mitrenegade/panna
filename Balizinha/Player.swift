@@ -37,6 +37,32 @@ class Player: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
+    
+    var city: String? {
+        get {
+            if let val = self.dict["city"] as? String {
+                return val
+            }
+            return nil
+        }
+        set {
+            self.dict["city"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+    
+    var photoUrl: String? {
+        get {
+            if let val = self.dict["photoUrl"] as? String {
+                return val
+            }
+            return nil
+        }
+        set {
+            self.dict["photoUrl"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
 
     var info: String? {
         get {

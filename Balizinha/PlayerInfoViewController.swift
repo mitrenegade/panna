@@ -24,14 +24,12 @@ class PlayerInfoViewController: UIViewController {
 
     var player: Player?
     weak var delegate: PlayerDelegate?
-    var newPhoto: UIImage?
     var isCreatingPlayer = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        newPhoto = nil
         inputNotes.text = nil
         
         if self.isCreatingPlayer {
@@ -76,13 +74,35 @@ class PlayerInfoViewController: UIViewController {
         if let name = player.name {
             self.inputName.text = name
         }
-        if let email = player.email {
-            self.inputCity.text = email
+        if let city = player.city {
+            self.inputCity.text = city
         }
         if let notes = player.info {
             self.inputNotes.text = notes
         }
-        self.switchInactive.isOn = player.isInactive
+        if let photoUrl = player.photoUrl {
+            self.refreshPhoto(url: photoUrl)
+        }
+        //self.switchInactive.isOn = player.isInactive
+    }
+    
+    func refreshPhoto(url: String) {
+        do {
+            if let URL = URL(string: url) {
+                let data = try Data(contentsOf: URL)
+                if let image = UIImage(data: data) {
+                    self.refreshPhoto(photo: image)
+                }
+            }
+        }
+        catch {
+            print("invalid photo")
+        }
+    }
+    
+    func refreshPhoto(photo: UIImage) {
+        self.buttonPhoto.setImage(photo, for: .normal)
+        buttonPhoto.layer.cornerRadius = buttonPhoto.frame.size.width / 2
     }
     
     func close() {
@@ -111,10 +131,6 @@ class PlayerInfoViewController: UIViewController {
                 self.simpleAlert("Invalid email", message: "Please enter a valid email if it exists.")
                 return
             }
-        }
-
-        if let photo = self.newPhoto, let data = UIImageJPEGRepresentation(photo, 0.8) {
-            //player?.photo = PFFile(data:data)
         }
 
         self.close()
@@ -148,9 +164,6 @@ class PlayerInfoViewController: UIViewController {
         }
         if let text = inputNotes.text, text.characters.count > 0 {
             player.info = text
-        }
-        if let photo = self.newPhoto, let data = UIImageJPEGRepresentation(photo, 0.8) {
-            //player.photo = PFFile(data:data)
         }
 
         self.close()
@@ -228,10 +241,13 @@ extension PlayerInfoViewController: UIImagePickerControllerDelegate, UINavigatio
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let img = info[UIImagePickerControllerEditedImage] ?? info[UIImagePickerControllerOriginalImage]
         guard let photo = img as? UIImage else { return }
-        self.buttonPhoto.setImage(photo, for: .normal)
         picker.dismiss(animated: true, completion: nil)
-        buttonPhoto.layer.cornerRadius = buttonPhoto.frame.size.width / 2
-        self.newPhoto = photo
+        FirebaseImageService.uploadImage(image: photo, completion: { (url) in
+            if let url = url {
+                self.player?.photoUrl = url
+            }
+        })
+        self.refreshPhoto(photo: photo)
     }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

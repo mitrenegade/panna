@@ -20,7 +20,7 @@ class PlayerService: NSObject {
         return playerServiceSingleton!
     }
 
-    func createPlayer(name: String?, email: String?, city: String?, info: String?, completion:@escaping (Player?, NSError?) -> Void) {
+    func createPlayer(name: String?, email: String?, city: String?, info: String?, photoUrl: String?, completion:@escaping (Player?, NSError?) -> Void) {
         
         guard let user = firAuth?.currentUser else { return }
         
@@ -40,6 +40,9 @@ class PlayerService: NSObject {
         }
         if let info = info {
             params["info"] = info
+        }
+        if let photoUrl = photoUrl {
+            params["photoUrl"] = photoUrl
         }
         
         newPlayerRef.setValue(params) { (error, ref) in

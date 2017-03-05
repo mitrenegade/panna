@@ -66,7 +66,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                 self.simpleAlert("Could not sign up", defaultMessage: nil, error: error as? NSError)
             }
             else {
-                print("results: \(user)")
+                print("createUser results: \(user)")
                 self.loginUser()
             }
         })
@@ -92,8 +92,8 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                 self.simpleAlert("Could not log in", defaultMessage: nil, error: error as? NSError)
             }
             else {
-                print("results: \(user)")
-                PlayerService.shared.createPlayer(name: nil, email: email, city: nil, info: nil, completion: { (player, error) in
+                print("signIn results: \(user) profile \(user?.photoURL) \(user?.displayName)")
+                PlayerService.shared.createPlayer(name: nil, email: email, city: nil, info: nil, photoUrl: nil, completion: { (player, error) in
                     if let error = error {
                         self.simpleAlert("Could not sign up", defaultMessage: nil, error: error as? NSError)
                     }
