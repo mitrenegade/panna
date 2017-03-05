@@ -102,6 +102,7 @@ class EventService: NSObject {
         let newEventRef = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
         
         var params: [String: Any] = ["type": type, "city": city, "place": place, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "max_players": max_players, "owner": user.uid]
+        params["createdAt"] = Date()
         if info == nil {
             params["info"] = "No description available"
         } else {
