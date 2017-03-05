@@ -6,19 +6,17 @@
 //  Copyright © 2016 Bobby Ren. All rights reserved.
 //
 // EventService usage:
-// var service = EventService.sharedInstance()
+// var service = EventService.shared
 // service.getEvents()
 
 import UIKit
 import Firebase
 import RandomKit
 
-private var eventServiceSingleton: EventService?
-private var TESTING = false
+fileprivate var singleton: EventService?
 var _usersForEvents: [String: AnyObject]?
 
 class EventService: NSObject {
-    
     private lazy var __once: () = {
             // firRef is the global firebase ref
             let queryRef = firRef.child("eventUsers") // this creates a query on the endpoint lotsports.firebase.com/events/
@@ -31,20 +29,25 @@ class EventService: NSObject {
         }()
     
     // MARK: - Singleton
-    class func sharedInstance() -> EventService {
-        if eventServiceSingleton == nil {
-            eventServiceSingleton = EventService()
+    static var shared: EventService {
+        if singleton == nil {
+            singleton = EventService()
         }
         
-        return eventServiceSingleton!
+        return singleton!
     }
     
+    class func resetOnLogout() {
+        singleton = nil
+    }
+    
+
     // MARK: - Global/constant listeners
     var usersForEvents: [String: AnyObject]? {
         return _usersForEvents
     }
+
     func listenForEventUsers() {
-        var onceToken: Int = 0
         _ = self.__once
     }
     
@@ -55,7 +58,7 @@ class EventService: NSObject {
         // only gets events once, and removes observer afterwards
         print("Get events")
         
-        if TESTING {
+        if AIRPLANE_MODE {
             let results = [Event.randomEvent(), Event.randomEvent(), Event.randomEvent(), Event.randomEvent(), Event.randomEvent(), Event.randomEvent()]
             completion(results)
             return
@@ -92,7 +95,7 @@ class EventService: NSObject {
         
         print ("Create events")
         
-        if TESTING {
+        if AIRPLANE_MODE {
             return
         }
         
@@ -102,6 +105,7 @@ class EventService: NSObject {
         let newEventRef = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
         
         var params: [String: Any] = ["type": type, "city": city, "place": place, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "max_players": max_players, "owner": user.uid]
+        params["createdAt"] = Date().timeIntervalSince1970
         if info == nil {
             params["info"] = "No description available"
         } else {

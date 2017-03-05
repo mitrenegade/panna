@@ -58,6 +58,10 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Balizinha needs camera access so you can take profile photos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Balizinha needs photo library access so you can take profile photos.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>Splash</string>
 	<key>UIMainStoryboardFile</key>

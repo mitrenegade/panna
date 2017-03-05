@@ -21,6 +21,12 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.isNavigationBarHidden = false
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -58,7 +64,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                 self.simpleAlert("Could not sign up", defaultMessage: nil, error: error as? NSError)
             }
             else {
-                print("results: \(user)")
+                print("createUser results: \(user)")
                 self.loginUser()
             }
         })
@@ -84,9 +90,26 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                 self.simpleAlert("Could not log in", defaultMessage: nil, error: error as? NSError)
             }
             else {
-                print("results: \(user)")
-                self.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
+                print("signIn results: \(user) profile \(user?.photoURL) \(user?.displayName)")
+                PlayerService.shared.createPlayer(name: nil, email: email, city: nil, info: nil, photoUrl: nil, completion: { (player, error) in
+                    PlayerService.shared.current // invoke listener
+                    if let player = player {
+                        self.goToEditPlayer(player)
+                    }
+                    else {
+                        self.simpleAlert("Could not sign up", defaultMessage: "There was an error creating your player profile.", error: error)
+                    }
+                })
             }
         })
+    }
+
+    func goToEditPlayer(_ player: Player?) {
+        if let controller = UIStoryboard.init(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerInfoViewController") as? PlayerInfoViewController {
+            controller.player = player
+            controller.isCreatingPlayer = true
+            
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
     }
 }

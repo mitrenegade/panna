@@ -10,7 +10,7 @@ import UIKit
 
 class EventsViewController: UITableViewController {
 
-    var service = EventService.sharedInstance()
+    var service = EventService.shared
     var allEvents : [Event] = []
     var sortedEvents: [EventType: [Event]] = [.Soccer: [], .Basketball: [], .FlagFootball: []]
     let eventTypes = [EventType.Soccer, EventType.Basketball, EventType.FlagFootball]
