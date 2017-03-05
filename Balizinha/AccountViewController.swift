@@ -66,8 +66,7 @@ class AccountViewController: UITableViewController {
         case 1:
             break
         case 2:
-            try! firAuth?.signOut()
-            self.notify(.LogoutSuccess, object: nil, userInfo: nil)
+            self.logout()
         default:
             break
         }
@@ -80,5 +79,12 @@ class AccountViewController: UITableViewController {
                 controller.isCreatingPlayer = false
             }
         }
+    }
+    
+    private func logout() {
+        try! firAuth?.signOut()
+        EventService.resetOnLogout() // force new listeners
+        PlayerService.resetOnLogout()
+        self.notify(.LogoutSuccess, object: nil, userInfo: nil)
     }
 }

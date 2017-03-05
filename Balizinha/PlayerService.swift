@@ -9,17 +9,21 @@
 import UIKit
 import Firebase
 
-private var playerServiceSingleton: PlayerService?
+fileprivate var singleton: PlayerService?
 var _currentPlayer: Player?
 
 class PlayerService: NSObject {
     // MARK: - Singleton
     static var shared: PlayerService {
-        if playerServiceSingleton == nil {
-            playerServiceSingleton = PlayerService()
+        if singleton == nil {
+            singleton = PlayerService()
         }
         
-        return playerServiceSingleton!
+        return singleton!
+    }
+
+    class func resetOnLogout() {
+        singleton = nil
     }
 
     func createPlayer(name: String?, email: String?, city: String?, info: String?, photoUrl: String?, completion:@escaping (Player?, NSError?) -> Void) {
@@ -74,8 +78,6 @@ class PlayerService: NSObject {
     }()
 
     var current: Player? {
-        // todo: does this work?
-        var onceToken: Int = 0
         _ = self.__once
         return _currentPlayer
     }

@@ -13,11 +13,10 @@ import UIKit
 import Firebase
 import RandomKit
 
-private var eventServiceSingleton: EventService?
+fileprivate var singleton: EventService?
 var _usersForEvents: [String: AnyObject]?
 
 class EventService: NSObject {
-    
     private lazy var __once: () = {
             // firRef is the global firebase ref
             let queryRef = firRef.child("eventUsers") // this creates a query on the endpoint lotsports.firebase.com/events/
@@ -31,19 +30,24 @@ class EventService: NSObject {
     
     // MARK: - Singleton
     static var shared: EventService {
-        if eventServiceSingleton == nil {
-            eventServiceSingleton = EventService()
+        if singleton == nil {
+            singleton = EventService()
         }
         
-        return eventServiceSingleton!
+        return singleton!
     }
     
+    class func resetOnLogout() {
+        singleton = nil
+    }
+    
+
     // MARK: - Global/constant listeners
     var usersForEvents: [String: AnyObject]? {
         return _usersForEvents
     }
+
     func listenForEventUsers() {
-        var onceToken: Int = 0
         _ = self.__once
     }
     
