@@ -287,7 +287,7 @@ extension Event {
     }
     
     func randomType() -> String {
-        let types: [EventType] = [.Soccer, .Basketball, .FlagFootball]
+        let types: [EventType] = [.balizinha, .basketball, .flagFootball]
         let random = Int(arc4random_uniform(UInt32(types.count)))
         return types[random].rawValue
     }

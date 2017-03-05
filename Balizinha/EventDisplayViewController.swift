@@ -9,25 +9,36 @@
 import UIKit
 import FBSDKShareKit
 
-class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
+protocol EventDisplayComponentDelegate: class {
+    func componentHeightChanged(controller: UIViewController, newHeight: CGFloat)
+}
+
+class EventDisplayViewController: UIViewController {
 
     @IBOutlet var labelType: UILabel!
     @IBOutlet var labelDate: UILabel!
-    @IBOutlet var labelField: UILabel!
-    @IBOutlet var labelCity: UILabel!
-    
-    @IBOutlet var scrollViewAttendees: UIScrollView!
-    
+    @IBOutlet var labelInfo: UILabel!
+
+    /*
     @IBOutlet var labelDescription: UILabel!
     @IBOutlet var labelNumAttending: UILabel!
     @IBOutlet var labelSpotsAvailable: UILabel!
     @IBOutlet var btnJoin: UIButton!
     @IBOutlet var btnShare: UIButton!
+    */
     
     @IBOutlet var sportImageView: UIImageView!
     var event : Event!
     var delegate : AnyObject!
     var alreadyJoined : Bool = false
+    
+    @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
+    @IBOutlet var constraintActivityHeight: NSLayoutConstraint!
+    
+    var locationController: ExpandableMapViewController!
+    var playersController: PlayersScrollViewController!
+    var paymentController: PaymentTypesViewController!
+    var activityController: EventActivityViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,15 +51,15 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
             self.labelType.text = type.rawValue
         }
         self.labelDate.text = self.event.dateString(self.event.startTime)
-        self.labelField.text = self.event.place
-        self.labelCity.text = self.event.city
         self.navigationItem.title = self.event.type.rawValue
         
         if self.event.info == ""{
-            self.labelDescription.text = "No further event information at this time."
+            self.labelInfo.text = "No further event information at this time."
         }else {
-            self.labelDescription.text = "Description: \(self.event.info)"
+            self.labelInfo.text = "Description: \(self.event.info)"
         }
+        
+        /*
         self.labelNumAttending.text = "\(self.event.numPlayers) attending"
         
         if self.event.isFull{
@@ -76,35 +87,38 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
         else if self.event.isFull{
             self.btnJoin.isEnabled = false
         }
-
-        self.labelType.textColor = UIColor.gray
-        self.labelField.textColor = UIColor.gray
-        self.labelCity.textColor = UIColor.gray
-        self.labelDate.textColor = UIColor.gray
+        */
 
         //Sport image
         switch event.type {
-        case .Soccer:
-            self.sportImageView.image = UIImage(named: "soccer")
-        case .FlagFootball:
-            self.sportImageView.image = UIImage(named: "football")
-        case .Basketball:
-            self.sportImageView.image = UIImage(named: "basketball")
         default:
+            self.sportImageView.image = UIImage(named: "soccer")
             print("No image for this sport: using soccer image by default")
         }
         
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     func close() {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "EmbedLocation" {
+            self.locationController = segue.destination as? ExpandableMapViewController
+            locationController.delegate = self
+        }
+        else if segue.identifier == "EmbedPlayers" {
+            self.playersController = segue.destination as? PlayersScrollViewController
+        }
+        else if segue.identifier == "EmbedPayment" {
+            self.paymentController = segue.destination as? PaymentTypesViewController
+        }
+        else if segue.identifier == "EmbedActivity" {
+            self.activityController = segue.destination as? EventActivityViewController
+        }
+    }
+    
+    /*
     @IBAction func didTapButton(_ sender: UIButton) {
         if sender == btnJoin {
             if event.userIsOwner {
@@ -123,18 +137,36 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
             self.shareEvent2(self.event)
         }
     }
+    */
     
+}
+
+// MARK: EventDisplayComponentDelegate
+extension EventDisplayViewController: EventDisplayComponentDelegate {
+    func componentHeightChanged(controller: UIViewController, newHeight: CGFloat) {
+        if controller == self.locationController {
+            self.constraintLocationHeight.constant = newHeight
+        }
+        else if controller == self.activityController {
+            self.constraintActivityHeight.constant = newHeight
+        }
+    }
+}
+
+// MARK: Sharing
+/*
+extension EventDisplayViewController: FBSDKSharingDelegate {
     // MARK: - FBShare
     func shareEvent2(_ event: Event) {
         let content: FBSDKShareLinkContent = FBSDKShareLinkContent()
         switch event.type {
-        case .Soccer:
+        case .balizinha:
             content.imageURL = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/soccer%403x.png")
             content.contentURL = URL(string: "http://lotsportz.herokuapp.com/soccer")
-        case .FlagFootball:
+        case .flagFootball:
             content.imageURL = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/football%403x.png")
             content.contentURL = URL(string: "http://lotsportz.herokuapp.com/football")
-        case .Basketball:
+        case .basketball:
             content.imageURL = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/basketball%403x.png")
             content.contentURL = URL(string: "http://lotsportz.herokuapp.com/basketball")
         default:
@@ -188,3 +220,4 @@ class EventDisplayViewController: UIViewController, FBSDKSharingDelegate {
     }
 
 }
+ */

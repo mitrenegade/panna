@@ -7,29 +7,28 @@
 //
 
 import UIKit
+import MapKit
 
 class ExpandableMapViewController: UIViewController {
 
+    @IBOutlet var labelLocation: UILabel!
+    @IBOutlet var buttonExpand: UIButton!
+    @IBOutlet var mapView: MKMapView!
+    
+    var event: Event?
+    weak var delegate: EventDisplayComponentDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.buttonExpand.isEnabled = false
+        
+        self.labelLocation.text = event?.locationString ?? "Location TBA"
+        
+        self.delegate?.componentHeightChanged(controller: self, newHeight: 40)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func didClickButtonExpand(_ sender: Any?) {
+        print("none")
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

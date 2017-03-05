@@ -12,8 +12,8 @@ class EventsViewController: UITableViewController {
 
     var service = EventService.shared
     var allEvents : [Event] = []
-    var sortedEvents: [EventType: [Event]] = [.Soccer: [], .Basketball: [], .FlagFootball: []]
-    let eventTypes = [EventType.Soccer, EventType.Basketball, EventType.FlagFootball]
+    var sortedEvents: [EventType: [Event]] = [.balizinha: [], .basketball: [], .flagFootball: []]
+    let eventTypes = [EventType.balizinha, EventType.basketball, EventType.flagFootball]
     
     override func viewWillAppear(_ animated: Bool) {
     }
@@ -62,7 +62,7 @@ class EventsViewController: UITableViewController {
                 })
                 
                 // 3: Organize events by type
-                self.sortedEvents = [.Soccer: [], .Basketball: [], .FlagFootball: []]
+                self.sortedEvents = [.balizinha: [], .basketball: [], .flagFootball: []]
                 
                 for event in self.allEvents{
                     var oldValue = self.sortedEvents[event.type]
@@ -92,13 +92,13 @@ extension EventsViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            let soccerEvents = self.sortedEvents[.Soccer]
+            let soccerEvents = self.sortedEvents[.balizinha]
             return (soccerEvents?.count)!
         case 1:
-            let basketballEvents = self.sortedEvents[.Basketball]
+            let basketballEvents = self.sortedEvents[.basketball]
             return (basketballEvents?.count)!
         default:
-            let flagFootballEvents = self.sortedEvents[.FlagFootball]
+            let flagFootballEvents = self.sortedEvents[.flagFootball]
             return (flagFootballEvents?.count)!
         }
     }
