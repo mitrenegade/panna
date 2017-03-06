@@ -24,11 +24,18 @@ class ExpandableMapViewController: UIViewController {
         self.buttonExpand.isEnabled = false
         
         self.labelLocation.text = event?.locationString ?? "Location TBA"
-        
-        self.delegate?.componentHeightChanged(controller: self, newHeight: 40)
     }
 
     @IBAction func didClickButtonExpand(_ sender: Any?) {
         print("none")
+    }
+    
+    func toggleMap(show: Bool) {
+        if show {
+            self.delegate?.componentHeightChanged(controller: self, newHeight: 80)
+        }
+        else {
+            self.delegate?.componentHeightChanged(controller: self, newHeight: 35)
+        }
     }
 }

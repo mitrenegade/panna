@@ -96,6 +96,9 @@ class EventDisplayViewController: UIViewController {
             print("No image for this sport: using soccer image by default")
         }
         
+        // hide map
+        self.locationController.toggleMap(show: false)
+        
     }
 
     func close() {
