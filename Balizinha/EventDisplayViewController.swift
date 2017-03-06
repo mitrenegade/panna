@@ -33,6 +33,7 @@ class EventDisplayViewController: UIViewController {
     var alreadyJoined : Bool = false
     
     @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
+    @IBOutlet var constraintPlayersHeight: NSLayoutConstraint!
     @IBOutlet var constraintActivityHeight: NSLayoutConstraint!
     
     var locationController: ExpandableMapViewController!
@@ -108,10 +109,13 @@ class EventDisplayViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EmbedLocation" {
             self.locationController = segue.destination as? ExpandableMapViewController
-            locationController.delegate = self
+            self.locationController.event = self.event
+            self.locationController.delegate = self
         }
         else if segue.identifier == "EmbedPlayers" {
             self.playersController = segue.destination as? PlayersScrollViewController
+            self.playersController.event = self.event
+            self.playersController.delegate = self
         }
         else if segue.identifier == "EmbedPayment" {
             self.paymentController = segue.destination as? PaymentTypesViewController
@@ -149,6 +153,9 @@ extension EventDisplayViewController: EventDisplayComponentDelegate {
     func componentHeightChanged(controller: UIViewController, newHeight: CGFloat) {
         if controller == self.locationController {
             self.constraintLocationHeight.constant = newHeight
+        }
+        else if controller == self.playersController {
+            self.constraintPlayersHeight.constant = newHeight
         }
         else if controller == self.activityController {
             self.constraintActivityHeight.constant = newHeight

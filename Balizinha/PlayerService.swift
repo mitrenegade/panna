@@ -11,7 +11,7 @@ import Firebase
 
 fileprivate var singleton: PlayerService?
 var _currentPlayer: Player?
-
+fileprivate var playersRef: FIRDatabaseReference?
 class PlayerService: NSObject {
     // MARK: - Singleton
     static var shared: PlayerService {
@@ -29,10 +29,10 @@ class PlayerService: NSObject {
     func createPlayer(name: String?, email: String?, city: String?, info: String?, photoUrl: String?, completion:@escaping (Player?, NSError?) -> Void) {
         
         guard let user = firAuth?.currentUser else { return }
+        guard let playersRef = playersRef else { return }
         
-        let playerRef = firRef.child("players") // this references the endpoint lotsports.firebase.com/events/
         let existingUserId = user.uid
-        let newPlayerRef: FIRDatabaseReference = playerRef.child(existingUserId)
+        let newPlayerRef: FIRDatabaseReference = playersRef.child(existingUserId)
         
         var params: [String: Any] = ["createdAt": Date().timeIntervalSince1970]
         if let name = name {
@@ -68,9 +68,11 @@ class PlayerService: NSObject {
 
     private lazy var __once: () = {
         // firRef is the global firebase ref
-        let playersRef = firRef.child("players") // this references the endpoint lotsports.firebase.com/players/
+        playersRef = firRef.child("players") // this references the endpoint lotsports.firebase.com/players/
+        playersRef!.keepSynced(true)
+
         let existingUserId = firAuth?.currentUser?.uid
-        let playerRef: FIRDatabaseReference = playersRef.child(existingUserId!) // FIXME better optional unwrapping. what happens on logout?
+        let playerRef: FIRDatabaseReference = playersRef!.child(existingUserId!) // FIXME better optional unwrapping. what happens on logout?
         
         playerRef.observe(.value) { (snapshot: FIRDataSnapshot!) in
             _currentPlayer = Player(snapshot: snapshot)
@@ -80,5 +82,12 @@ class PlayerService: NSObject {
     var current: Player? {
         _ = self.__once
         return _currentPlayer
+    }
+    
+    func withId(id: String, completion: @escaping ((Player?)->Void)) {
+        guard let playersRef = playersRef else { return }
+        playersRef.child(id).observeSingleEvent(of: .value) { (snapshot) in
+            completion(Player(snapshot: snapshot))
+        }
     }
 }

@@ -244,7 +244,7 @@ class EventService: NSObject {
         }
     }
     
-    func getUsersForEvent(_ event: Event, completion: @escaping (_ userIds: [String]) -> Void) {
+    func observeUsersForEvent(_ event: Event, completion: @escaping (_ userIds: [String]) -> Void) {
         // returns all current events for a user. Returns as snapshot
         // only gets events once, and removes observer afterwards
         print("Get users for event \(event.id)")
@@ -268,7 +268,7 @@ class EventService: NSObject {
             }
             print("getUsersForEvent \(event.id) results count: \(results.count)")
             completion(results)
-            queryRef.removeObserver(withHandle: handle)
+            //queryRef.removeObserver(withHandle: handle)
         }
     }
 }
