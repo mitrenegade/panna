@@ -48,9 +48,8 @@ class ActionService: NSObject {
         let queryRef = firRef.child("action")//childByAppendingPath("events") // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // sort by time
-//        queryRef.queryEqual(toValue: event.id, childKey: "event")
-        queryRef.queryOrdered(byChild: "event").queryEqual(toValue: "-KebA1X-9WbR0Sjh0NfF")
-//        queryRef.queryEqual(toValue: "joinEvent", childKey: "type")
+        queryRef.queryOrdered(byChild: "createdAt")
+//        queryRef.queryOrdered(byChild: "event") // cannot be used to filter for events
         
         // filter for type
         // do query
@@ -60,9 +59,11 @@ class ActionService: NSObject {
             var results: [Action] = []
             if let allObjects =  snapshot.children.allObjects as? [FIRDataSnapshot] {
                 for actionDict: FIRDataSnapshot in allObjects {
-                    let action = Action(snapshot: actionDict)
-                    results.append(action)
-                    print(action.event)
+                    if let eventId = actionDict.childSnapshot(forPath: "event").value as? String, eventId == event.id {
+                        let action = Action(snapshot: actionDict)
+                        results.append(action)
+                        print(action.event)
+                    }
                 }
             }
             print("loadedActions results count: \(results.count)")

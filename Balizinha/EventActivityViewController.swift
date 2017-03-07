@@ -28,9 +28,7 @@ class EventActionsViewController: UIViewController {
 
     }
 
-    var handleActionUpdates: actionUpdateHandler = { results, controller in
-        print("loaded actions: \(results)")
-        
+    var handleActionUpdates: actionUpdateHandler = { results, controller in        
         controller.actions = results
         controller.tableView.reloadData()
     }
