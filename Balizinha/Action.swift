@@ -84,6 +84,13 @@ class Action: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
+    
+    var createdAt: Date? {
+        if let timeInterval = self.dict["createdAt"] as? TimeInterval {
+            return Date(timeIntervalSince1970: timeInterval)
+        }
+        return nil
+    }
 }
 
 extension Action {

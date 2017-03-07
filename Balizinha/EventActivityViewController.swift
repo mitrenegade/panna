@@ -15,22 +15,30 @@ class EventActionsViewController: UIViewController {
     var event: Event? {
         didSet {
             if let newVal = event {
-                ActionService().listenForActions(event: newVal, controller: self, completion: handleActionUpdates)
+//                ActionService().listenForActions(event: newVal, controller: self, completion: handleActionUpdates)
+                ActionService().listenForActions(event: newVal, controller: self, completion: { (action) -> (Void) in
+                    self.actions[action.id] = action
+                    self.reloadData()
+                })
             }
         }
     }
-    var actions: [Action]?
-    
+    var actions: [String: Action] = [:]
+    var sortedActions: [Action]?
     weak var delegate: EventDisplayComponentDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
     }
-
-    var handleActionUpdates: actionUpdateHandler = { results, controller in        
-        controller.actions = results
-        controller.tableView.reloadData()
+    
+    func reloadData() {
+        self.sortedActions = actions.values.filter({ (action) -> Bool in
+            return action.createdAt != nil
+        }).sorted(by: { (a, b) -> Bool in
+            a.createdAt! < b.createdAt!
+        })
+        self.tableView.reloadData()
     }
 }
 
@@ -40,13 +48,14 @@ extension EventActionsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let actions = self.actions else { return 0 }
+        guard let actions = self.sortedActions else { return 1 }
         return actions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ActionCell", for: indexPath)
-        guard let actions = self.actions, indexPath.row < actions.count else {
+        guard let actions = self.sortedActions, indexPath.row < actions.count else {
+            cell.textLabel?.text = "No recent activity"
             return cell
         }
         let action = actions[indexPath.row]

@@ -10,7 +10,7 @@
 import UIKit
 import Firebase
 
-typealias actionUpdateHandler = ([Action], EventActionsViewController) -> (Void)
+typealias actionUpdateHandler = (Action) -> (Void)
 class ActionService: NSObject {
     class func post(_ type: ActionType, userId: String?, username: String?, eventId: String, message: String?) {
         let baseRef = firRef.child("action") // this references the endpoint lotsports.firebase.com/action/
@@ -45,15 +45,32 @@ class ActionService: NSObject {
     func listenForActions(event: Event, controller: EventActionsViewController, completion: @escaping actionUpdateHandler) {
         // returns all current events of a certain type. Returns as snapshot
         // only gets events once, and removes observer afterwards
-        let queryRef = firRef.child("action")//childByAppendingPath("events") // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // sort by time
-        queryRef.queryOrdered(byChild: "createdAt")
-//        queryRef.queryOrdered(byChild: "event") // cannot be used to filter for events
+        let queryRef = firRef.child("eventActions").child(event.id)
         
-        // filter for type
-        // do query
-        var handle: UInt = 0
+        // query for eventActions
+        queryRef.observe(.value, with: { (snapshot) in
+            print("snapshot: \(snapshot)")
+            if let allObjects = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                for actionDict in allObjects {
+                    let actionId = actionDict.key
+                    if let val = actionDict.value as? Bool, val == true {
+                        
+                        // query for the action
+                        let actionQueryRef = firRef.child("action").child(actionId)
+                        actionQueryRef.observeSingleEvent(of: .value, with: { (actionSnapshot) in
+                            let action = Action(snapshot: actionSnapshot)
+                            completion(action)
+                        })
+                    }
+                }
+            }
+        })
+        
+        /*
+         let queryRef = firRef.child("action").child(event.id)
+         //        queryRef.queryOrdered(byChild: "event") // cannot be used to filter for events
         queryRef.observeSingleEvent(of: .value) { (snapshot: FIRDataSnapshot!) in
             // this block is called for every result returned
             var results: [Action] = []
@@ -69,6 +86,7 @@ class ActionService: NSObject {
             print("loadedActions results count: \(results.count)")
             completion(results, controller)
         }
+        */
     }
 
 }
