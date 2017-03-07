@@ -119,23 +119,36 @@ class EventService: NSObject {
             } else {
                 ref.observe(.value, with: { (snapshot) in
                     let event = Event(snapshot: snapshot)
+
                     // TODO: completion blocks for these too
                     self.addEvent(event: event, toUser: firAuth!.currentUser!, join: true)
                     self.addUser(firAuth!.currentUser!, toEvent: event, join: true)
+                    
+                    // add an action
+                    ActionService.post(.createEvent, userId: user.uid, eventId: event.id, message: nil)
+                    
                     completion(event, nil)
                 })
             }
         }
     }
     
-    func joinEvent(_ event: Event, user: FIRUser) {
+    func joinEvent(_ event: Event) {
+        guard let user = firAuth?.currentUser else { return }
         self.addEvent(event: event, toUser: user, join: true)
         self.addUser(user, toEvent: event, join: true)
+        
+        // add an action
+        ActionService.post(.joinEvent, userId: user.uid, eventId: event.id, message: nil)
     }
     
-    func leaveEvent(_ event: Event, user: FIRUser) {
+    func leaveEvent(_ event: Event) {
+        guard let user = firAuth?.currentUser else { return }
         self.addEvent(event: event, toUser: user, join: false)
         self.addUser(user, toEvent: event, join: false)
+
+        // add an action
+        ActionService.post(.leaveEvent, userId: user.uid, eventId: event.id, message: nil)
     }
     
     // MARK: User's events helper

@@ -51,7 +51,13 @@ class EventDisplayViewController: UIViewController {
         if let type = self.event.type as? EventType {
             self.labelType.text = type.rawValue
         }
-        self.labelDate.text = self.event.dateString(self.event.startTime)
+        if let startTime = self.event.startTime {
+            self.labelDate.text = self.event.dateString(startTime)
+        }
+        else {
+            self.labelDate.text = "Start TBD"
+        }
+        
         self.navigationItem.title = self.event.type.rawValue
         
         if self.event.info == ""{

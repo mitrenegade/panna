@@ -42,9 +42,9 @@ class Action: FirebaseBaseModel {
         }
     }
     
-    var event: String {
+    var event: String? { // if an action is directly related to an event
         get {
-            return self.dict["event"] as? String ?? "" // invalid event ids will be filtered out
+            return self.dict["event"] as? String
         }
         set {
             self.dict["event"] = newValue
@@ -58,6 +58,16 @@ class Action: FirebaseBaseModel {
         }
         set {
             self.dict["message"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+    
+    var visible: Bool { // whether an action should appear in the feed
+        get {
+            return self.dict["visible"] as? Bool ?? false
+        }
+        set {
+            self.dict["visible"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }

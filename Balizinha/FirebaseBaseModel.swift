@@ -28,7 +28,7 @@ class FirebaseBaseModel: NSObject {
             self.dict = snapshot!.value as? [String: AnyObject]
         }
     }
-
+    
     // returns dict, or the value/contents of this object
     func toAnyObject() -> AnyObject {
         return self.dict as AnyObject
