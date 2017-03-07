@@ -39,7 +39,7 @@ class EventDisplayViewController: UIViewController {
     var locationController: ExpandableMapViewController!
     var playersController: PlayersScrollViewController!
     var paymentController: PaymentTypesViewController!
-    var activityController: EventActivityViewController!
+    var activityController: EventActionsViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,7 +127,9 @@ class EventDisplayViewController: UIViewController {
             self.paymentController = segue.destination as? PaymentTypesViewController
         }
         else if segue.identifier == "EmbedActivity" {
-            self.activityController = segue.destination as? EventActivityViewController
+            self.activityController = segue.destination as? EventActionsViewController
+            self.activityController.delegate = self
+            self.activityController.event = self.event
         }
     }
     

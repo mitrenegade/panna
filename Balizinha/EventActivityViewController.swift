@@ -1,5 +1,5 @@
 //
-//  EventActivityViewController.swift
+//  EventActionsViewController.swift
 //  Balizinha
 //
 //  Created by Bobby Ren on 3/5/17.
@@ -8,13 +8,25 @@
 
 import UIKit
 
-class EventActivityViewController: UIViewController {
+class EventActionsViewController: UIViewController {
+    
+    @IBOutlet weak var tableView: UITableView!
 
-    var event: Event?
+    var event: Event? {
+        didSet {
+            if let newVal = event {
+                ActionService().listenForActions(event: newVal, completion: handleActionUpdates)
+            }
+        }
+    }
     weak var delegate: EventDisplayComponentDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+    }
+
+    var handleActionUpdates: actionUpdateHandler = { results in
+        print("results: \(results)")
     }
 }
