@@ -10,7 +10,7 @@ import UIKit
 
 class AccountViewController: UITableViewController {
     
-    let menuOptions = ["Edit profile", "Push Notifications", "Logout"]
+    let menuOptions = ["Edit profile", "Push notifications", "Version", "Bundle", "Logout"]
     var service = EventService.shared
 
     override func viewDidLoad() {
@@ -38,34 +38,50 @@ class AccountViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        switch indexPath.row {
-        case 1:
+        switch menuOptions[indexPath.row] {
+        case "Push notifications":
             let cell : PushTableViewCell = tableView.dequeueReusableCell(withIdentifier: "push", for: indexPath) as! PushTableViewCell
             cell.labelPush.text = menuOptions[indexPath.row]
             cell.selectionStyle = .none
+            cell.accessoryType = .none
             cell.refresh()
             return cell
             
-        case 0, 2:
+        case "Edit profile", "Logout":
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             cell.textLabel?.text = menuOptions[indexPath.row]
+            cell.accessoryType = .detailDisclosureButton
+            return cell
+            
+        case "Version":
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+            let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+            cell.textLabel?.text = "Version: \(version ?? "unknown") (\(build ?? "unknown"))"
+            cell.accessoryType = .none
+            return cell
+            
+        case "Bundle":
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            let bundle = Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String
+            cell.textLabel?.text = "Bundle id: \(bundle ?? "unknown")"
+            cell.accessoryType = .none
             return cell
             
         default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            return cell
+            return UITableViewCell()
         }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
        
-        switch indexPath.row {
-        case 0:
+        switch menuOptions[indexPath.row] {
+        case "Edit profile":
             self.performSegue(withIdentifier: "ToEditPlayerInfo", sender: nil)
-        case 1:
+        case "Push notifications":
             break
-        case 2:
+        case "Logout":
             self.logout()
         default:
             break
