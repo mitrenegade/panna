@@ -15,10 +15,12 @@ class EventActionsViewController: UIViewController {
     var event: Event? {
         didSet {
             if let newVal = event {
-                ActionService().listenForActions(event: newVal, completion: handleActionUpdates)
+                ActionService().listenForActions(event: newVal, controller: self, completion: handleActionUpdates)
             }
         }
     }
+    var actions: [Action]?
+    
     weak var delegate: EventDisplayComponentDelegate?
 
     override func viewDidLoad() {
@@ -26,7 +28,31 @@ class EventActionsViewController: UIViewController {
 
     }
 
-    var handleActionUpdates: actionUpdateHandler = { results in
-        print("results: \(results)")
+    var handleActionUpdates: actionUpdateHandler = { results, controller in
+        print("loaded actions: \(results)")
+        
+        controller.actions = results
+        controller.tableView.reloadData()
+    }
+}
+
+extension EventActionsViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let actions = self.actions else { return 0 }
+        return actions.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ActionCell", for: indexPath)
+        guard let actions = self.actions, indexPath.row < actions.count else {
+            return cell
+        }
+        let action = actions[indexPath.row]
+        cell.textLabel?.text = action.type.rawValue
+        return cell
     }
 }

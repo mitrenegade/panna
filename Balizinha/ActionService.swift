@@ -10,7 +10,7 @@
 import UIKit
 import Firebase
 
-typealias actionUpdateHandler = ([Action]) -> (Void)
+typealias actionUpdateHandler = ([Action], EventActionsViewController) -> (Void)
 class ActionService: NSObject {
     class func post(_ type: ActionType, userId: String?, eventId: String, message: String?) {
         let baseRef = firRef.child("action") // this references the endpoint lotsports.firebase.com/action/
@@ -28,7 +28,7 @@ class ActionService: NSObject {
         }
     }
     
-    func listenForActions(event: Event, completion: @escaping actionUpdateHandler) {
+    func listenForActions(event: Event, controller: EventActionsViewController, completion: @escaping actionUpdateHandler) {
         // returns all current events of a certain type. Returns as snapshot
         // only gets events once, and removes observer afterwards
         let queryRef = firRef.child("action")//childByAppendingPath("events") // this creates a query on the endpoint lotsports.firebase.com/events/
@@ -49,7 +49,7 @@ class ActionService: NSObject {
                 }
             }
             print("getEvents results count: \(results.count)")
-            completion(results)
+            completion(results, controller)
         }
     }
 
