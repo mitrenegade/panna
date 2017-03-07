@@ -27,57 +27,70 @@ class Event: FirebaseBaseModel {
     var service = EventService.shared
     
     var type: EventType {
-        for type: EventType in [.event3v3, .event5v5, .balizinha] {
-            if type.rawValue == self.dict["type"] as? String {
-                return type
+        get {
+            for type: EventType in [.event3v3, .event5v5, .balizinha] {
+                if type.rawValue == self.dict["type"] as? String {
+                    return type
+                }
             }
+            return .other
         }
-        return .other
+        set {
+            self.dict["type"] = newValue.rawValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
     }
     
     var city: String? {
-        if let val = self.dict["city"] as? String {
-            return val
+        get {
+            return self.dict["city"] as? String
         }
-        return nil
+        set {
+            self.dict["city"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
     }
     
     var place: String? {
-        if let val = self.dict["place"] as? String {
-            return val
+        get {
+            return self.dict["place"] as? String
         }
-        return nil
+        set {
+            self.dict["place"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
     }
     
-    /* Old model
-    var time: NSDate {
-        if let val = self.dict["time"] as? NSTimeInterval {
-            return NSDate(timeIntervalSince1970: val)
+    var startTime: Date? {
+        get {
+            if let val = self.dict["startTime"] as? TimeInterval {
+                return Date(timeIntervalSince1970: val)
+            }
+            return nil // what is a valid date equivalent of TBD?
         }
-        return NSDate() // what is a valid date equivalent of TBD?
-    } //To-Do: Add begin/end time
-    */
+        set {
+            self.dict["startTime"] = newValue?.timeIntervalSince1970
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
     
-    var startTime: Date {
-        if let val = self.dict["startTime"] as? TimeInterval {
-            return Date(timeIntervalSince1970: val)
+    var endTime: Date? {
+        get {
+            if let val = self.dict["endTime"] as? TimeInterval {
+                return Date(timeIntervalSince1970: val)
+            }
+            return nil // what is a valid date equivalent of TBD?
         }
-        return Date() // what is a valid date equivalent of TBD?
-    } //To-Do: Add begin/end time
-
-    
-    var endTime: Date {
-        if let val = self.dict["endTime"] as? TimeInterval {
-            return Date(timeIntervalSince1970: val)
+        set {
+            self.dict["endTime"] = newValue?.timeIntervalSince1970
+            self.firebaseRef?.updateChildValues(self.dict)
         }
-        return Date() // what is a valid date equivalent of TBD?
-    } //To-Do: Add begin/end time
-
+    }
     
     func dateString(_ date: Date) -> String {
         return "\((date as NSDate).day()) \(months[(date as NSDate).month() - 1]) \((date as NSDate).year())"
     }
-
+    
     func timeString(_ date: Date) -> String {
         formatter.dateStyle = .none
         formatter.timeStyle = .short
@@ -87,10 +100,17 @@ class Event: FirebaseBaseModel {
     }
     
     var maxPlayers: Int {
-        if let val = self.dict["max_players"] as? Int {
-            return val
+        get {
+            if let val = self.dict["max_players"] as? Int {
+                return val
+            }
+            return 0
         }
-        return 0
+        set {
+            self.dict["max_players"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+        
     }
     
     var numPlayers: Int {
@@ -100,10 +120,17 @@ class Event: FirebaseBaseModel {
     }
     
     var info: String {
-        if let val = self.dict["info"] as? String {
-            return val
+        get {
+            if let val = self.dict["info"] as? String {
+                return val
+            }
+            return ""
         }
-        return ""
+        set {
+            self.dict["info"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+        
     }
     
     var users: [String] {
@@ -129,7 +156,12 @@ class Event: FirebaseBaseModel {
     }
     
     var isPast: Bool {
-        return (ComparisonResult.orderedAscending == self.startTime.compare(Date())) //event time happened before current time
+        if let startTime = self.startTime {
+            return (ComparisonResult.orderedAscending == startTime.compare(Date())) //event time happened before current time
+        }
+        else {
+            return false // false means TBD
+        }
     }
     
     var owner: String? {
@@ -139,7 +171,7 @@ class Event: FirebaseBaseModel {
     var userIsOwner: Bool {
         guard let owner = self.owner else { return false }
         guard let user = firAuth?.currentUser else { return false }
-
+        
         return user.uid == owner
     }
     

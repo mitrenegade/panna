@@ -20,6 +20,8 @@
 		8E19A4AC1E6C9C9600D301EC /* PlayersScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4AB1E6C9C9600D301EC /* PlayersScrollViewController.swift */; };
 		8E19A4AE1E6C9CB300D301EC /* EventActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4AD1E6C9CB300D301EC /* EventActivityViewController.swift */; };
 		8E19A4B01E6C9CF200D301EC /* PaymentTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4AF1E6C9CF200D301EC /* PaymentTypesViewController.swift */; };
+		8E27716E1E6E60D700B161ED /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E27716D1E6E60D700B161ED /* Action.swift */; };
+		8E2771701E6E655A00B161ED /* ActionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E27716F1E6E655A00B161ED /* ActionService.swift */; };
 		8E379F011CE57E8600C91A12 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F001CE57E8600C91A12 /* EventService.swift */; };
 		8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */; };
 		8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F091CE58CEE00C91A12 /* Event.swift */; };
@@ -69,6 +71,8 @@
 		8E19A4AB1E6C9C9600D301EC /* PlayersScrollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayersScrollViewController.swift; sourceTree = "<group>"; };
 		8E19A4AD1E6C9CB300D301EC /* EventActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventActivityViewController.swift; sourceTree = "<group>"; };
 		8E19A4AF1E6C9CF200D301EC /* PaymentTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentTypesViewController.swift; sourceTree = "<group>"; };
+		8E27716D1E6E60D700B161ED /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		8E27716F1E6E655A00B161ED /* ActionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionService.swift; sourceTree = "<group>"; };
 		8E379F001CE57E8600C91A12 /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBaseModel.swift; sourceTree = "<group>"; };
 		8E379F091CE58CEE00C91A12 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -166,6 +170,7 @@
 				8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */,
 				8E379F091CE58CEE00C91A12 /* Event.swift */,
 				8E19A49D1E6C61FE00D301EC /* Player.swift */,
+				8E27716D1E6E60D700B161ED /* Action.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -178,6 +183,7 @@
 				8E39FE8D1D237C710030CB96 /* NotificationService.swift */,
 				8E19A49F1E6C644B00D301EC /* LogService.swift */,
 				8E19A4A51E6C793800D301EC /* FirebaseImageService.swift */,
+				8E27716F1E6E655A00B161ED /* ActionService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -436,6 +442,8 @@
 				F2F7C3C21CEE2CDD00350115 /* PushTableViewCell.swift in Sources */,
 				8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */,
 				8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */,
+				8E27716E1E6E60D700B161ED /* Action.swift in Sources */,
+				8E2771701E6E655A00B161ED /* ActionService.swift in Sources */,
 				8E19A49E1E6C61FE00D301EC /* Player.swift in Sources */,
 				F21571F51D200B7C00D2F59A /* EventDisplayViewController.swift in Sources */,
 				F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */,

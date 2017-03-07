@@ -40,8 +40,14 @@ class EventCell: UITableViewCell {
         self.event = event
         let place = event.place
         self.labelLocation.text = place
-        self.labelDate.text = self.event?.dateString(event.startTime) //To-Do: Sanitize Date info from event.time
-        self.labelTime.text = self.event?.timeString(event.startTime) //To-Do: Add start/end time attributes for events
+        if let startTime = event.startTime {
+            self.labelDate.text = event.dateString(startTime) //To-Do: Sanitize Date info from event.time
+            self.labelTime.text = event.timeString(startTime) //To-Do: Add start/end time attributes for events
+        }
+        else {
+            self.labelDate.text = "Date TBD"
+            self.labelTime.text = "Time TBD"
+        }
         
         switch event.type {
         case .basketball:

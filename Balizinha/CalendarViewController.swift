@@ -140,12 +140,11 @@ extension CalendarViewController: EventCellDelegate {
     
     // MARK: EventCellDelegate
     func joinOrLeaveEvent(_ event: Event, join: Bool) {
-        let user = firAuth!.currentUser!
         if join {
-            EventService.shared.joinEvent(event, user: user)
+            EventService.shared.joinEvent(event)
         }
         else {
-            EventService.shared.leaveEvent(event, user: user)
+            EventService.shared.leaveEvent(event)
         }
         
         self.refreshEvents()

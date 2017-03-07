@@ -39,19 +39,17 @@ class NotificationService: NSObject {
         guard let events = events else { return }
         // reschedule event notifications
         for event in events {
-            //create local notification
-            let notification = UILocalNotification()
-            notification.fireDate = event.startTime.addingTimeInterval(kEventNotificationIntervalSeconds) as Date
-            
-            notification.alertBody = kEventNotificationMessage
-            UIApplication.shared.scheduleLocalNotification(notification)
+            self.scheduleNotificationForEvent(event)
         }
         
     }
     
     class func scheduleNotificationForEvent(_ event: Event) {
+        //create local notification
+        guard let startTime = event.startTime else { return }
         let notification = UILocalNotification()
-        notification.fireDate = event.startTime.addingTimeInterval(kEventNotificationIntervalSeconds) as Date
+        notification.fireDate = startTime.addingTimeInterval(kEventNotificationIntervalSeconds) as Date
+        
         notification.alertBody = kEventNotificationMessage
         UIApplication.shared.scheduleLocalNotification(notification)
     }

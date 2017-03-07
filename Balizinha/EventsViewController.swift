@@ -53,7 +53,7 @@ class EventsViewController: UITableViewController {
                 print("eventsForUser \(firAuth!.currentUser!): \(eventIds)")
 
                 for event in self.allEvents {
-                    print("event id \(event.id) date \(event.dateString(event.endTime)) past \(event.isPast)")
+                    print("event id \(event.id) date \(event.dateString(event.endTime ?? Date())) past \(event.isPast)")
                 }
                 print("all events count \(self.allEvents.count)")
                 
@@ -133,14 +133,13 @@ extension EventsViewController {
 extension EventsViewController: EventCellDelegate {
     // MARK: EventCellDelegate
     func joinOrLeaveEvent(_ event: Event, join: Bool) {
-        let user = firAuth!.currentUser!
         if join {
             //add notification in case user doesn't return to MyEvents
-            self.service.joinEvent(event, user: user)
+            self.service.joinEvent(event)
             NotificationService.scheduleNotificationForEvent(event)
         }
         else {
-            self.service.leaveEvent(event, user: user)
+            self.service.leaveEvent(event)
         }
  
         self.refreshEvents()

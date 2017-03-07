@@ -16,7 +16,7 @@ protocol CreateEventDelegate {
 class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     var options = ["Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
-    var sportTypes = ["Select Type", "Soccer", "Basketball", "Flag Football"]
+    var sportTypes = ["Select Type", "Balizinha"] // TODO: add 3v3, 5v5
     
     var currentField : UITextField?
     var currentTextView : UITextView?
@@ -144,7 +144,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         self.info = self.descriptionTextView!.text
         
         if let soccerOnly = FEATURE_FLAGS["SoccerOnly"] as? Bool, soccerOnly == true {
-            self.type = "Soccer"
+            self.type = EventType.balizinha.rawValue
         }
         else {
             guard let type = self.type else {
@@ -181,7 +181,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         self.startTime = self.combineDateAndTime(date, time: startTime)
         self.endTime = self.combineDateAndTime(date, time: endTime)
         
-        EventService.shared.createEvent(self.type ?? "Soccer", city: city, place: location, startTime: startTime, endTime: endTime, max_players: numPlayers, info: self.info, completion: { (event, error) in
+        EventService.shared.createEvent(self.type ?? EventType.balizinha.rawValue, city: city, place: location, startTime: startTime, endTime: endTime, max_players: numPlayers, info: self.info, completion: { (event, error) in
             
             if let event = event {
                 self.sendPushForCreatedEvent(event)
@@ -496,7 +496,11 @@ extension CreateEventViewController {
     func sendPushForCreatedEvent(_ event: Event) {
         let userId = firAuth!.currentUser!.uid
         let title = "New event created"
-        let message = "A game of \(event.type.rawValue) now available in \(event.place), \(event.city) on \(event.timeString(event.startTime))"
+        var dateString = ""
+        if let startTime = event.startTime {
+            dateString = " on \(event.timeString(startTime))"
+        }
+        let message = "A game of \(event.type.rawValue) now available in \(event.place), \(event.city)\(dateString)"
         let params = ["channel": "eventsGlobal", "message": message, "title": title, "sender": userId]
         PFCloud.callFunction(inBackground: "sendPushFromDevice", withParameters: params) { (results, error) in
             print("results \(results) error \(error)")

@@ -39,7 +39,7 @@ class EventDisplayViewController: UIViewController {
     var locationController: ExpandableMapViewController!
     var playersController: PlayersScrollViewController!
     var paymentController: PaymentTypesViewController!
-    var activityController: EventActivityViewController!
+    var activityController: EventActionsViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +51,13 @@ class EventDisplayViewController: UIViewController {
         if let type = self.event.type as? EventType {
             self.labelType.text = type.rawValue
         }
-        self.labelDate.text = self.event.dateString(self.event.startTime)
+        if let startTime = self.event.startTime {
+            self.labelDate.text = self.event.dateString(startTime)
+        }
+        else {
+            self.labelDate.text = "Start TBD"
+        }
+        
         self.navigationItem.title = self.event.type.rawValue
         
         if self.event.info == ""{
@@ -121,7 +127,9 @@ class EventDisplayViewController: UIViewController {
             self.paymentController = segue.destination as? PaymentTypesViewController
         }
         else if segue.identifier == "EmbedActivity" {
-            self.activityController = segue.destination as? EventActivityViewController
+            self.activityController = segue.destination as? EventActionsViewController
+            self.activityController.delegate = self
+            self.activityController.event = self.event
         }
     }
     

@@ -69,10 +69,13 @@ class EventService: NSObject {
         // sort by time
         eventQueryRef.queryOrdered(byChild: "startTime")
         
-        // filter for type
+        // filter for type - this does not work
+        /*
         if let _ = type {
+            // should be queryOrdered(byChild: "type").equalTo(type)
             eventQueryRef.queryEqual(toValue: type!, childKey: "type")
         }
+        */
         
         // do query
         var handle: UInt = 0
@@ -87,7 +90,7 @@ class EventService: NSObject {
             }
             print("getEvents results count: \(results.count)")
             completion(results)
-            eventQueryRef.removeObserver(withHandle: handle)
+            //eventQueryRef.removeObserver(withHandle: handle)
         }
     }
     
@@ -119,23 +122,36 @@ class EventService: NSObject {
             } else {
                 ref.observe(.value, with: { (snapshot) in
                     let event = Event(snapshot: snapshot)
+
                     // TODO: completion blocks for these too
                     self.addEvent(event: event, toUser: firAuth!.currentUser!, join: true)
                     self.addUser(firAuth!.currentUser!, toEvent: event, join: true)
+                    
+                    // add an action
+                    ActionService.post(.createEvent, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
+                    
                     completion(event, nil)
                 })
             }
         }
     }
     
-    func joinEvent(_ event: Event, user: FIRUser) {
+    func joinEvent(_ event: Event) {
+        guard let user = firAuth?.currentUser else { return }
         self.addEvent(event: event, toUser: user, join: true)
         self.addUser(user, toEvent: event, join: true)
+        
+        // add an action
+        ActionService.post(.joinEvent, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
     }
     
-    func leaveEvent(_ event: Event, user: FIRUser) {
+    func leaveEvent(_ event: Event) {
+        guard let user = firAuth?.currentUser else { return }
         self.addEvent(event: event, toUser: user, join: false)
         self.addUser(user, toEvent: event, join: false)
+
+        // add an action
+        ActionService.post(.leaveEvent, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
     }
     
     // MARK: User's events helper
@@ -144,9 +160,14 @@ class EventService: NSObject {
         // use transactions: https://firebase.google.com/docs/database/ios/save-data#save_data_as_transactions
         // join: whether or not to join. Can use this method to leave an event
 
-        let usersRef = firRef.child("userEvents")
         let userId = user.uid
         let eventId = event.id
+        let userEventRef = firRef.child("userEvents").child(userId)
+        let params: [String: Any] = [eventId: join]
+        userEventRef.updateChildValues(params, withCompletionBlock: { (error, ref) in
+            print("ref \(ref)")
+        })
+        /*
         usersRef.runTransactionBlock({ (currentData: FIRMutableData) -> FIRTransactionResult in
             var allUserEvents: [String: AnyObject] = [:]
             if currentData.hasChildren() {
@@ -175,6 +196,7 @@ class EventService: NSObject {
                 print(error?.localizedDescription)
             }
         }
+        */
     }
     
     func getEventsForUser(_ user: FIRUser, completion: @escaping (_ eventIds: [String]) -> Void) {
@@ -201,7 +223,7 @@ class EventService: NSObject {
             }
             print("getEventsForUser \(user.uid) results count: \(results.count)")
             completion(results)
-            eventQueryRef.removeObserver(withHandle: handle)
+            //eventQueryRef.removeObserver(withHandle: handle)
         }
     }
     
@@ -212,8 +234,15 @@ class EventService: NSObject {
         // join: whether or not to join. Can use this method to leave an event
         
         let eventsRef = firRef.child("eventUsers")
+        
         let userId = user.uid
         let eventId = event.id
+        let eventUserRef = firRef.child("eventUsers").child(eventId)
+        let params: [String: Any] = [userId: join]
+        eventUserRef.updateChildValues(params, withCompletionBlock: { (error, ref) in
+            print("ref \(ref)")
+        })
+        /*
         eventsRef.runTransactionBlock({ (currentData: FIRMutableData) -> FIRTransactionResult in
             var allEventUsers: [String: AnyObject] = [:]
             if currentData.hasChildren() {
@@ -242,6 +271,7 @@ class EventService: NSObject {
                 print(error?.localizedDescription)
             }
         }
+        */
     }
     
     func observeUsersForEvent(_ event: Event, completion: @escaping (_ userIds: [String]) -> Void) {
@@ -259,10 +289,8 @@ class EventService: NSObject {
             if let allObjects =  snapshot.children.allObjects as? [FIRDataSnapshot] {
                 for snapshot: FIRDataSnapshot in allObjects {
                     let userId = snapshot.key
-                    if let val = snapshot.value as? Bool {
-                        if val == true {
-                            results.append(userId)
-                        }
+                    if let val = snapshot.value as? Bool, val == true {
+                        results.append(userId)
                     }
                 }
             }
