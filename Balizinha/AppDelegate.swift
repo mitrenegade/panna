@@ -34,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Firebase
         FIRApp.configure()
+        FIRDatabase.database().persistenceEnabled = true
         
         // Facebook
         FBSDKAppEvents.activateApp()

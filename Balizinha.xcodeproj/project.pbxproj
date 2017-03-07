@@ -16,6 +16,10 @@
 		8E19A4A21E6C658600D301EC /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A11E6C658600D301EC /* String+Utils.swift */; };
 		8E19A4A41E6C67A500D301EC /* PlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A31E6C67A500D301EC /* PlayerService.swift */; };
 		8E19A4A61E6C793800D301EC /* FirebaseImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A51E6C793800D301EC /* FirebaseImageService.swift */; };
+		8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A91E6C9C7500D301EC /* ExpandableMapViewController.swift */; };
+		8E19A4AC1E6C9C9600D301EC /* PlayersScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4AB1E6C9C9600D301EC /* PlayersScrollViewController.swift */; };
+		8E19A4AE1E6C9CB300D301EC /* EventActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4AD1E6C9CB300D301EC /* EventActivityViewController.swift */; };
+		8E19A4B01E6C9CF200D301EC /* PaymentTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4AF1E6C9CF200D301EC /* PaymentTypesViewController.swift */; };
 		8E379F011CE57E8600C91A12 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F001CE57E8600C91A12 /* EventService.swift */; };
 		8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */; };
 		8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F091CE58CEE00C91A12 /* Event.swift */; };
@@ -61,6 +65,10 @@
 		8E19A4A11E6C658600D301EC /* String+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Utils.swift"; sourceTree = "<group>"; };
 		8E19A4A31E6C67A500D301EC /* PlayerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerService.swift; sourceTree = "<group>"; };
 		8E19A4A51E6C793800D301EC /* FirebaseImageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseImageService.swift; sourceTree = "<group>"; };
+		8E19A4A91E6C9C7500D301EC /* ExpandableMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableMapViewController.swift; sourceTree = "<group>"; };
+		8E19A4AB1E6C9C9600D301EC /* PlayersScrollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayersScrollViewController.swift; sourceTree = "<group>"; };
+		8E19A4AD1E6C9CB300D301EC /* EventActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventActivityViewController.swift; sourceTree = "<group>"; };
+		8E19A4AF1E6C9CF200D301EC /* PaymentTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentTypesViewController.swift; sourceTree = "<group>"; };
 		8E379F001CE57E8600C91A12 /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBaseModel.swift; sourceTree = "<group>"; };
 		8E379F091CE58CEE00C91A12 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -140,6 +148,18 @@
 			name = Account;
 			sourceTree = "<group>";
 		};
+		8E19A4A81E6C933400D301EC /* Event Details */ = {
+			isa = PBXGroup;
+			children = (
+				F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */,
+				8E19A4A91E6C9C7500D301EC /* ExpandableMapViewController.swift */,
+				8E19A4AB1E6C9C9600D301EC /* PlayersScrollViewController.swift */,
+				8E19A4AF1E6C9CF200D301EC /* PaymentTypesViewController.swift */,
+				8E19A4AD1E6C9CB300D301EC /* EventActivityViewController.swift */,
+			);
+			name = "Event Details";
+			sourceTree = "<group>";
+		};
 		8E379F061CE58AFB00C91A12 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -200,13 +220,15 @@
 			children = (
 				8ED3DE761E330CB700947040 /* Balizinha.entitlements */,
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
+				8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */,
 				F20AD03C1D26C10000969990 /* Login/Signup */,
-				F2F7C3BE1CEE11BE00350115 /* Main Menu */,
-				8E19A4A71E6C7FCE00D301EC /* Account */,
-				F2F7C3BB1CEE10F700350115 /* Cells */,
 				8E379F061CE58AFB00C91A12 /* Models */,
 				8E379F0B1CE58F9400C91A12 /* Services */,
 				8E379F0D1CE593C300C91A12 /* Storyboards */,
+				8E19A4A71E6C7FCE00D301EC /* Account */,
+				F2F7C3BE1CEE11BE00350115 /* Events */,
+				8E19A4A81E6C933400D301EC /* Event Details */,
+				F2F7C3BB1CEE10F700350115 /* Cells */,
 				F20AD03B1D26C0F500969990 /* Utils */,
 			);
 			path = Balizinha;
@@ -248,16 +270,14 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
-		F2F7C3BE1CEE11BE00350115 /* Main Menu */ = {
+		F2F7C3BE1CEE11BE00350115 /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */,
 				F2F7C3BC1CEE11B300350115 /* CreateEventViewController.swift */,
 				F2C0F11F1CF3E8BB00CB98F1 /* EventsViewController.swift */,
 				F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */,
-				F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */,
 			);
-			name = "Main Menu";
+			name = Events;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -419,21 +439,25 @@
 				8E19A49E1E6C61FE00D301EC /* Player.swift in Sources */,
 				F21571F51D200B7C00D2F59A /* EventDisplayViewController.swift in Sources */,
 				F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */,
+				8E19A4B01E6C9CF200D301EC /* PaymentTypesViewController.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				F2C0F1201CF3E8BB00CB98F1 /* EventsViewController.swift in Sources */,
 				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,
 				F2F7C3C01CEE296A00350115 /* AccountViewController.swift in Sources */,
 				F2048F7E1CED59A50039F7BB /* CalendarViewController.swift in Sources */,
+				8E19A4AE1E6C9CB300D301EC /* EventActivityViewController.swift in Sources */,
 				F250A7FC1CFF1588003A7DEA /* TransparentTextField.swift in Sources */,
 				F2F7C3BD1CEE11B300350115 /* CreateEventViewController.swift in Sources */,
 				8E19A4A21E6C658600D301EC /* String+Utils.swift in Sources */,
 				F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */,
+				8E19A4AC1E6C9C9600D301EC /* PlayersScrollViewController.swift in Sources */,
 				8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */,
 				8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */,
 				8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */,
 				8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */,
 				8E379F011CE57E8600C91A12 /* EventService.swift in Sources */,
+				8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */,
 				8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */,
 				8E19A4A61E6C793800D301EC /* FirebaseImageService.swift in Sources */,
 				8E19A4A01E6C644B00D301EC /* LogService.swift in Sources */,

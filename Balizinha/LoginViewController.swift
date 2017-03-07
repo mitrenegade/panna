@@ -106,24 +106,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func storeUserInfo(_ user: FIRUser) {
-        /*
-        var userInfo = [
-            "uid": authData.uid,
-            "provider": authData.provider,
-        ]
-        if let displayName = authData.providerData["displayName"] as? String {
-            userInfo["displayName"] = displayName
-        }
-        if let email = authData.providerData["email"] as? String {
-            userInfo["email"] = email
-        }
-
-        // Create a child path with a key set to the uid underneath the "users" node
-        // This creates a URL path like the following:
-        //  - https://<YOUR-FIREBASE-APP>.firebaseio.com/users/<uid>
-        firebaseRef.childByAppendingPath("userInfo")
-            .childByAppendingPath(authData.uid).setValue(userInfo)
-         */
+        print("signIn results: \(user) profile \(user.photoURL) \(user.displayName)")
+        PlayerService.shared.createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { (player, error) in
+            PlayerService.shared.current // invoke listener
+        })
     }
 }
 

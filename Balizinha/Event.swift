@@ -10,10 +10,15 @@ import UIKit
 import Firebase
 
 enum EventType: String {
-    case Soccer = "Soccer"
-    case Basketball = "Basketball"
-    case FlagFootball = "Flag Football"
-    case Other
+    case basketball = "Basketball"
+    case flagFootball = "Flag Football"
+    
+    // balizinha only
+    case event3v3 = "3 vs 3"
+    case event5v5 = "5 vs 5"
+    case balizinha = "Balizinha"
+
+    case other
 }
 
 fileprivate let formatter = DateFormatter()
@@ -22,26 +27,26 @@ class Event: FirebaseBaseModel {
     var service = EventService.shared
     
     var type: EventType {
-        for type: EventType in [EventType.Soccer, EventType.Basketball, EventType.FlagFootball] {
+        for type: EventType in [.event3v3, .event5v5, .balizinha] {
             if type.rawValue == self.dict["type"] as? String {
                 return type
             }
         }
-        return EventType.Other
+        return .other
     }
     
-    var city: String {
+    var city: String? {
         if let val = self.dict["city"] as? String {
             return val
         }
-        return ""
+        return nil
     }
     
-    var place: String {
+    var place: String? {
         if let val = self.dict["place"] as? String {
             return val
         }
-        return ""
+        return nil
     }
     
     /* Old model
@@ -136,5 +141,18 @@ class Event: FirebaseBaseModel {
         guard let user = firAuth?.currentUser else { return false }
 
         return user.uid == owner
+    }
+    
+    var locationString: String? {
+        if let city = self.city, let place = self.place {
+            return "\(place), \(city)"
+        }
+        else if let city = self.city {
+            return city
+        }
+        else if let place = self.place {
+            return place
+        }
+        return nil
     }
 }
