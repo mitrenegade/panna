@@ -28,6 +28,17 @@ class ActionService: NSObject {
         
         newObjectRef.setValue(params) { (error, ref) in
             print("post created for \(type.rawValue) user \(userId) event \(eventId) message \(message)")
+            
+            guard error == nil else { return }
+            
+            // add the entry [actionId: true] to eventActions/eventId
+            // should not need a transaction since we are not changing existing values under /eventId
+            let eventActionRef = firRef.child("eventActions").child(eventId)
+            let actionId = ref.key
+            let params: [String: Any] = [actionId: true]
+            eventActionRef.updateChildValues(params, withCompletionBlock: { (error, ref) in
+                print("ref \(ref)")
+            })
         }
     }
     
@@ -37,21 +48,24 @@ class ActionService: NSObject {
         let queryRef = firRef.child("action")//childByAppendingPath("events") // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // sort by time
-        queryRef.queryOrdered(byChild: "createdAt")
+//        queryRef.queryEqual(toValue: event.id, childKey: "event")
+        queryRef.queryOrdered(byChild: "event").queryEqual(toValue: "-KebA1X-9WbR0Sjh0NfF")
+//        queryRef.queryEqual(toValue: "joinEvent", childKey: "type")
         
         // filter for type
         // do query
         var handle: UInt = 0
-        handle = queryRef.observe(.value) { (snapshot: FIRDataSnapshot!) in
+        queryRef.observeSingleEvent(of: .value) { (snapshot: FIRDataSnapshot!) in
             // this block is called for every result returned
             var results: [Action] = []
             if let allObjects =  snapshot.children.allObjects as? [FIRDataSnapshot] {
                 for actionDict: FIRDataSnapshot in allObjects {
                     let action = Action(snapshot: actionDict)
                     results.append(action)
+                    print(action.event)
                 }
             }
-            print("getEvents results count: \(results.count)")
+            print("loadedActions results count: \(results.count)")
             completion(results, controller)
         }
     }
