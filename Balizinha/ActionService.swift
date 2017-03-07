@@ -42,7 +42,7 @@ class ActionService: NSObject {
         }
     }
     
-    func listenForActions(event: Event, controller: EventActionsViewController, completion: @escaping actionUpdateHandler) {
+    func observeActions(forEvent event: Event, completion: @escaping actionUpdateHandler) {
         // returns all current events of a certain type. Returns as snapshot
         // only gets events once, and removes observer afterwards
         

@@ -178,10 +178,12 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             return
         }
 
-        self.startTime = self.combineDateAndTime(date, time: startTime)
-        self.endTime = self.combineDateAndTime(date, time: endTime)
+        let start = self.combineDateAndTime(date, time: startTime)
+        let end = self.combineDateAndTime(date, time: endTime)
+        self.startTime = start
+        self.endTime = end
         
-        EventService.shared.createEvent(self.type ?? EventType.balizinha.rawValue, city: city, place: location, startTime: startTime, endTime: endTime, max_players: numPlayers, info: self.info, completion: { (event, error) in
+        EventService.shared.createEvent(self.type ?? EventType.balizinha.rawValue, city: city, place: location, startTime: start, endTime: end, max_players: numPlayers, info: self.info, completion: { (event, error) in
             
             if let event = event {
                 self.sendPushForCreatedEvent(event)
@@ -232,11 +234,11 @@ extension CreateEventViewController {
                 cell.valueTextField.inputAccessoryView = nil
                 
                 if options[indexPath.row] == "Location" {
+                    cell.valueTextField.placeholder = "Fenway Park"
+                    self.locationField = cell.valueTextField
+                } else if options[indexPath.row] == "City" {
                     cell.valueTextField.placeholder = "Boston"
                     self.cityField = cell.valueTextField
-                } else if options[indexPath.row] == "City" {
-                    cell.valueTextField.placeholder = "Braden Field"
-                    self.locationField = cell.valueTextField
                 }
             }
             else {

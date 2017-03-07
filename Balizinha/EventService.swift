@@ -274,7 +274,10 @@ class EventService: NSObject {
         */
     }
     
-    func observeUsersForEvent(_ event: Event, completion: @escaping (_ userIds: [String]) -> Void) {
+    func observeUsers(forEvent event: Event, completion: @escaping (_ userIds: [String]) -> Void) {
+        // TODO: return each event instead of a list of userIds
+        
+        
         // returns all current events for a user. Returns as snapshot
         // only gets events once, and removes observer afterwards
         print("Get users for event \(event.id)")
@@ -282,8 +285,7 @@ class EventService: NSObject {
         let queryRef = firRef.child("eventUsers").child(event.id) // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // do query
-        var handle: UInt = 0
-        handle = queryRef.observe(.value) { (snapshot: FIRDataSnapshot!) in
+        queryRef.observe(.value) { (snapshot: FIRDataSnapshot!) in
             // this block is called for every result returned
             var results: [String] = []
             if let allObjects =  snapshot.children.allObjects as? [FIRDataSnapshot] {
@@ -296,7 +298,6 @@ class EventService: NSObject {
             }
             print("getUsersForEvent \(event.id) results count: \(results.count)")
             completion(results)
-            //queryRef.removeObserver(withHandle: handle)
         }
     }
 }

@@ -26,7 +26,7 @@ class PlayersScrollViewController: UIViewController {
     
     func observeUsers() {
         guard let event = self.event else { return }
-        EventService.shared.observeUsersForEvent(event) { (ids) in
+        EventService.shared.observeUsers(forEvent: event) { (ids) in
             for id: String in ids {
                 PlayerService.shared.withId(id: id, completion: { (player) in
                     if let player = player {

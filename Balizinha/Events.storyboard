@@ -198,8 +198,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="qGQ-g8-noh"/>
                                                     <exclude reference="3IM-Ho-3jD"/>
+                                                    <exclude reference="qGQ-g8-noh"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -239,8 +239,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="FHA-vz-I9O"/>
                                                     <exclude reference="FAb-fQ-qfd"/>
+                                                    <exclude reference="FHA-vz-I9O"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -275,9 +275,9 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="NRH-zs-gdF"/>
-                                                    <exclude reference="6c2-7g-n7Y"/>
                                                     <exclude reference="1oM-ll-N3m"/>
+                                                    <exclude reference="6c2-7g-n7Y"/>
+                                                    <exclude reference="NRH-zs-gdF"/>
                                                     <exclude reference="eSQ-lN-I6o"/>
                                                 </mask>
                                             </variation>
@@ -359,7 +359,6 @@
         <!--Configurable Navigation Controller-->
         <scene sceneID="kbQ-GD-5hu">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6ia-s5-yHl" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="BSR-TI-DRS" customClass="ConfigurableNavigationController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kvZ-NC-KY0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -369,6 +368,7 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="rootStoryboardName" value="EventDetails"/>
                     </userDefinedRuntimeAttributes>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6ia-s5-yHl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1338" y="971"/>
         </scene>

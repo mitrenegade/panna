@@ -134,8 +134,8 @@ class Event: FirebaseBaseModel {
     }
     
     var users: [String] {
-        print("usersForEvents: \(self.service.usersForEvents!)")
-        if let results = self.service.usersForEvents![self.id] as? [String: AnyObject] {
+        guard let usersForEvents = self.service.usersForEvents else { return [] }
+        if let results = usersForEvents[self.id] as? [String: AnyObject] {
             let filtered = results.filter({ (key, val) -> Bool in
                 return val as! Bool
             })

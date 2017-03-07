@@ -15,8 +15,7 @@ class EventActionsViewController: UIViewController {
     var event: Event? {
         didSet {
             if let newVal = event {
-//                ActionService().listenForActions(event: newVal, controller: self, completion: handleActionUpdates)
-                ActionService().listenForActions(event: newVal, controller: self, completion: { (action) -> (Void) in
+                ActionService().observeActions(forEvent: newVal, completion: { (action) -> (Void) in
                     self.actions[action.id] = action
                     self.reloadData()
                 })
