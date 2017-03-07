@@ -125,7 +125,7 @@ class EventService: NSObject {
                     self.addUser(firAuth!.currentUser!, toEvent: event, join: true)
                     
                     // add an action
-                    ActionService.post(.createEvent, userId: user.uid, eventId: event.id, message: nil)
+                    ActionService.post(.createEvent, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
                     
                     completion(event, nil)
                 })
@@ -139,7 +139,7 @@ class EventService: NSObject {
         self.addUser(user, toEvent: event, join: true)
         
         // add an action
-        ActionService.post(.joinEvent, userId: user.uid, eventId: event.id, message: nil)
+        ActionService.post(.joinEvent, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
     }
     
     func leaveEvent(_ event: Event) {
@@ -148,7 +148,7 @@ class EventService: NSObject {
         self.addUser(user, toEvent: event, join: false)
 
         // add an action
-        ActionService.post(.leaveEvent, userId: user.uid, eventId: event.id, message: nil)
+        ActionService.post(.leaveEvent, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
     }
     
     // MARK: User's events helper

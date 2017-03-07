@@ -52,7 +52,7 @@ extension EventActionsViewController: UITableViewDataSource {
             return cell
         }
         let action = actions[indexPath.row]
-        cell.textLabel?.text = action.type.rawValue
+        cell.textLabel?.text = action.displayString
         return cell
     }
 }

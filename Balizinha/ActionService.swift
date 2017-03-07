@@ -12,12 +12,15 @@ import Firebase
 
 typealias actionUpdateHandler = ([Action], EventActionsViewController) -> (Void)
 class ActionService: NSObject {
-    class func post(_ type: ActionType, userId: String?, eventId: String, message: String?) {
+    class func post(_ type: ActionType, userId: String?, username: String?, eventId: String, message: String?) {
         let baseRef = firRef.child("action") // this references the endpoint lotsports.firebase.com/action/
         let newObjectRef = baseRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/action/<uniqueId>
         var params: [String: Any] = ["type": type.rawValue, "event": eventId, "createdAt": Date().timeIntervalSince1970]
         if let userId = userId { // userId is almost always FIRAuth.current
             params["user"] = userId
+        }
+        if let username = username {
+            params["username"] = username
         }
         if let message = message {
             params["message"] = message

@@ -17,6 +17,8 @@ enum ActionType: String {
 }
 
 fileprivate let GENERIC_MESSAGE = " is in this game"
+fileprivate let GENERIC_CHAT = "..."
+fileprivate let GENERIC_USERNAME = "A player"
 class Action: FirebaseBaseModel {
     var type: ActionType {
         get {
@@ -42,6 +44,17 @@ class Action: FirebaseBaseModel {
         }
     }
     
+    var username: String? {
+        // makes it easier to generate displayString
+        get {
+            return self.dict["username"] as? String
+        }
+        set {
+            self.dict["username"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+    
     var event: String? { // if an action is directly related to an event
         get {
             return self.dict["event"] as? String
@@ -52,9 +65,9 @@ class Action: FirebaseBaseModel {
         }
     }
 
-    var message: String {
+    var message: String? {
         get {
-            return self.dict["message"] as? String ?? GENERIC_MESSAGE
+            return self.dict["message"] as? String
         }
         set {
             self.dict["message"] = newValue
@@ -69,6 +82,36 @@ class Action: FirebaseBaseModel {
         set {
             self.dict["visible"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+}
+
+extension Action {
+    var displayDate: String {
+        let createdAt: Date
+        if let val = self.dict["createdAt"] as? TimeInterval {
+            createdAt = Date(timeIntervalSince1970: val)
+        }
+        else {
+            return "65 Billion BC"
+        }
+        
+        return createdAt.dateString()
+    }
+    
+    var displayString: String {
+        switch self.type {
+        case .chat:
+            return (self.username ?? GENERIC_USERNAME) + " said: " + (self.message ?? GENERIC_CHAT)
+        case .createEvent:
+            return (self.username ?? GENERIC_USERNAME) + " created this event at " + self.displayDate
+        case .joinEvent:
+            return (self.username ?? GENERIC_USERNAME) + " joined this event"
+        case .leaveEvent:
+            return (self.username ?? GENERIC_USERNAME) + " left this event"
+        default:
+            // system message
+            return "Admin says: hi"
         }
     }
 }
