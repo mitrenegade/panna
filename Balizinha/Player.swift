@@ -14,7 +14,8 @@ class Player: FirebaseBaseModel {
 
     var name: String? {
         get {
-            if let val = self.dict["name"] as? String {
+            guard let dict = self.dict else { return nil }
+            if let val = dict["name"] as? String {
                 return val
             }
             return nil
@@ -27,7 +28,8 @@ class Player: FirebaseBaseModel {
 
     var email: String? {
         get {
-            if let val = self.dict["email"] as? String {
+            guard let dict = self.dict else { return nil }
+            if let val = dict["email"] as? String {
                 return val
             }
             return nil
@@ -40,7 +42,8 @@ class Player: FirebaseBaseModel {
     
     var city: String? {
         get {
-            if let val = self.dict["city"] as? String {
+            guard let dict = self.dict else { return nil }
+            if let val = dict["city"] as? String {
                 return val
             }
             return nil
@@ -53,7 +56,8 @@ class Player: FirebaseBaseModel {
     
     var photoUrl: String? {
         get {
-            if let val = self.dict["photoUrl"] as? String {
+            guard let dict = self.dict else { return nil }
+            if let val = dict["photoUrl"] as? String {
                 return val
             }
             return nil
@@ -66,7 +70,8 @@ class Player: FirebaseBaseModel {
 
     var info: String? {
         get {
-            if let val = self.dict["info"] as? String {
+            guard let dict = self.dict else { return nil }
+            if let val = dict["info"] as? String {
                 return val
             }
             return nil

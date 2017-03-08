@@ -142,7 +142,9 @@ class EventService: NSObject {
         self.addUser(user, toEvent: event, join: true)
         
         // add an action
-        ActionService.post(.joinEvent, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
+        PlayerService.shared.withId(id: user.uid) { (player) in
+            ActionService.post(.joinEvent, userId: user.uid, username: player?.name, eventId: event.id, message: nil)
+        }
     }
     
     func leaveEvent(_ event: Event) {

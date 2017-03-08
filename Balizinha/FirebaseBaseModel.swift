@@ -22,10 +22,10 @@ class FirebaseBaseModel: NSObject {
     var dict: [String: Any]! // {key1: val1, key2: val2 ...}
     
     init(snapshot: FIRDataSnapshot?) {
-        if snapshot != nil {
-            self.firebaseKey = snapshot!.key
-            self.firebaseRef = snapshot!.ref
-            self.dict = snapshot!.value as? [String: AnyObject]
+        if let snapshot = snapshot {
+            self.firebaseKey = snapshot.key
+            self.firebaseRef = snapshot.ref
+            self.dict = snapshot.value as? [String: AnyObject]
         }
     }
     
