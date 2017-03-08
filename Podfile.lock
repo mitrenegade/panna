@@ -22,7 +22,7 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - Crashlytics (3.8.3):
+  - Crashlytics (3.8.4):
     - Fabric (~> 1.6.3)
   - DateTools (2.0.0)
   - Fabric (1.6.11)
@@ -99,7 +99,7 @@ SPEC CHECKSUMS:
   AsyncImageView: 416e99402e5b1f20571de70ad619ced90f56a7d9
   Batch: 4c2ab398e92663ec7132fc348d6f613c541fd9e2
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
+  Crashlytics: 79e236942ca1e7fc641df1feb9a275360a78ab6a
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   FBSDKCoreKit: 894b2b6eda6a4c8c4204e92e59cc355709ef045c
