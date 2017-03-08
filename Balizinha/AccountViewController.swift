@@ -50,7 +50,7 @@ class AccountViewController: UITableViewController {
         case "Edit profile", "Logout":
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             cell.textLabel?.text = menuOptions[indexPath.row]
-            cell.accessoryType = .detailDisclosureButton
+            cell.accessoryType = .disclosureIndicator
             return cell
             
         case "Version":
