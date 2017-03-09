@@ -35,7 +35,7 @@ class EventActionsViewController: UIViewController {
         self.sortedActions = actions.values.filter({ (action) -> Bool in
             return action.createdAt != nil
         }).sorted(by: { (a, b) -> Bool in
-            a.createdAt! < b.createdAt!
+            a.createdAt! > b.createdAt!
         })
         self.tableView.reloadData()
         self.delegate?.componentHeightChanged(controller: self, newHeight: self.tableView.contentSize.height)
