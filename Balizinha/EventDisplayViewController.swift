@@ -32,14 +32,17 @@ class EventDisplayViewController: UIViewController {
     var delegate : AnyObject!
     var alreadyJoined : Bool = false
     
+    @IBOutlet var constraintWidth: NSLayoutConstraint!
     @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
     @IBOutlet var constraintPlayersHeight: NSLayoutConstraint!
     @IBOutlet var constraintActivityHeight: NSLayoutConstraint!
+    @IBOutlet var constraintInputBottomOffset: NSLayoutConstraint!
     
     var locationController: ExpandableMapViewController!
     var playersController: PlayersScrollViewController!
     var paymentController: PaymentTypesViewController!
     var activityController: EventActionsViewController!
+    var chatController: ChatInputViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,10 +105,15 @@ class EventDisplayViewController: UIViewController {
             self.sportImageView.image = UIImage(named: "soccer")
             print("No image for this sport: using soccer image by default")
         }
+        self.constraintWidth.constant = UIScreen.main.bounds.size.width
         
         // hide map
         self.locationController.toggleMap(show: false)
         
+        // keyboard
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
     }
 
     func close() {
@@ -130,6 +138,10 @@ class EventDisplayViewController: UIViewController {
             self.activityController = segue.destination as? EventActionsViewController
             self.activityController.delegate = self
             self.activityController.event = self.event
+        }
+        else if segue.identifier == "EmbedChat" {
+            self.chatController = segue.destination as? ChatInputViewController
+            self.chatController.event = self.event
         }
     }
     
@@ -169,6 +181,27 @@ extension EventDisplayViewController: EventDisplayComponentDelegate {
             self.constraintActivityHeight.constant = newHeight
         }
     }
+}
+
+// MARK: Keyboard
+extension EventDisplayViewController {
+    // MARK - Keyboard
+    func keyboardWillShow(_ notification: Notification) {
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let keyboardHeight = keyboardRectangle.height
+        
+        self.constraintInputBottomOffset.constant = keyboardHeight
+        self.chatController.toggleButton(show: false)
+    }
+    // MARK - Keyboard
+    func keyboardWillHide(_ notification: Notification) {
+        self.constraintInputBottomOffset.constant = 0
+        self.chatController.toggleButton(show: true)
+    }
+    
+
 }
 
 // MARK: Sharing

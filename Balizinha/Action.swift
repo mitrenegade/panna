@@ -107,18 +107,27 @@ extension Action {
     }
     
     var displayString: String {
+        let user = self.userIsOwner ? "You" : (self.username ?? GENERIC_USERNAME)
         switch self.type {
         case .chat:
-            return (self.username ?? GENERIC_USERNAME) + " said: " + (self.message ?? GENERIC_CHAT)
+            return user + " said: " + (self.message ?? GENERIC_CHAT)
         case .createEvent:
-            return (self.username ?? GENERIC_USERNAME) + " created this event at " + self.displayDate
+            return user + " created this event at " + self.displayDate
         case .joinEvent:
-            return (self.username ?? GENERIC_USERNAME) + " joined this event"
+            return user + " joined this event"
         case .leaveEvent:
-            return (self.username ?? GENERIC_USERNAME) + " left this event"
+            return user + " left this event"
         default:
             // system message
             return "Admin says: hi"
         }
+    }
+    
+    
+    var userIsOwner: Bool {
+        guard let owner = self.user else { return false }
+        guard let user = firAuth?.currentUser else { return false }
+        
+        return user.uid == owner
     }
 }
