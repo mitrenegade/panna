@@ -38,6 +38,7 @@ class EventActionsViewController: UIViewController {
             a.createdAt! < b.createdAt!
         })
         self.tableView.reloadData()
+        self.delegate?.componentHeightChanged(controller: self, newHeight: self.tableView.contentSize.height)
     }
 }
 
