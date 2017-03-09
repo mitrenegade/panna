@@ -37,8 +37,9 @@ class ChatInputViewController: UIViewController {
     
     func send() {
         print("sending text: \(self.inputText.text)")
-        self.view.endEditing(true)
         guard let text = self.inputText.text else { return }
+        self.clear()
+        
         guard let event = self.event else { return }
         let eventId = event.id
         

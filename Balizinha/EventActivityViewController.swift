@@ -53,13 +53,17 @@ extension EventActionsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ActionCellOthers", for: indexPath)
         guard let actions = self.sortedActions, indexPath.row < actions.count else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ActionCell", for: indexPath)
             cell.textLabel?.text = "No recent activity"
             return cell
         }
+        
         let action = actions[indexPath.row]
-        cell.textLabel?.text = action.displayString
+        let cellIdentifier = action.userIsOwner ? "ActionCellUser": "ActionCellOthers"
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ActionCell
+        cell.configureWith(action: action)
         return cell
     }
 }
