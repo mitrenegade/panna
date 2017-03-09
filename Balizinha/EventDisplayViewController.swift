@@ -131,6 +131,10 @@ class EventDisplayViewController: UIViewController {
             self.activityController.delegate = self
             self.activityController.event = self.event
         }
+        else if segue.identifier == "EmbedChat" {
+            let controller = segue.destination as? ChatInputViewController
+            controller?.event = self.event
+        }
     }
     
     /*

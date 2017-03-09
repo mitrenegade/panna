@@ -12,6 +12,17 @@ import Firebase
 
 typealias actionUpdateHandler = (Action) -> (Void)
 class ActionService: NSObject {
+
+    class func post(_ type: ActionType, eventId: String, message: String?) {
+        // convenience function to encapsulate player loading and displayName for an action that is relevant to the current player
+        guard let user = firAuth?.currentUser else { return }
+        let userId = user.uid
+        PlayerService.shared.withId(id: userId) { (player) in
+            ActionService.post(type, userId: userId, username: player?.name ?? user.displayName, eventId: eventId, message: message)
+        }
+        
+    }
+    
     class func post(_ type: ActionType, userId: String?, username: String?, eventId: String, message: String?) {
         let baseRef = firRef.child("action") // this references the endpoint lotsports.firebase.com/action/
         let newObjectRef = baseRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/action/<uniqueId>

@@ -52,7 +52,7 @@ extension EventActionsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ActionCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ActionCellOthers", for: indexPath)
         guard let actions = self.sortedActions, indexPath.row < actions.count else {
             cell.textLabel?.text = "No recent activity"
             return cell
