@@ -24,9 +24,10 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v5N-mi-Yah">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="B6C2DF80-254E-4DDE-BEFC-00110B76DDA8" translatesAutoresizingMaskIntoConstraints="NO" id="E75-s4-H12">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="03AEFFA5-2807-4134-BD3C-238D444356C1" translatesAutoresizingMaskIntoConstraints="NO" id="E75-s4-H12">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                         <constraints>
+                                            <constraint firstAttribute="width" constant="375" id="bxi-Tm-Ce3"/>
                                             <constraint firstAttribute="height" constant="200" id="hVk-GI-CwH"/>
                                         </constraints>
                                     </imageView>
@@ -163,8 +164,10 @@
                     <navigationItem key="navigationItem" id="ldZ-Q8-IpV"/>
                     <connections>
                         <outlet property="constraintActivityHeight" destination="eId-3c-bHY" id="2vy-Is-5Cm"/>
+                        <outlet property="constraintInputBottomOffset" destination="cEb-Ru-VOm" id="4ry-SA-oAV"/>
                         <outlet property="constraintLocationHeight" destination="eVB-nQ-1Rw" id="seM-6w-e4z"/>
                         <outlet property="constraintPlayersHeight" destination="03K-Lp-YdI" id="Itn-a4-TNj"/>
+                        <outlet property="constraintWidth" destination="bxi-Tm-Ce3" id="fTJ-fs-yZN"/>
                         <outlet property="labelDate" destination="0hR-vD-Xwe" id="QM1-xx-LFY"/>
                         <outlet property="labelInfo" destination="FCt-eO-A2r" id="BzG-yc-KQU"/>
                         <outlet property="labelType" destination="rfV-G2-Hlb" id="jhl-t7-2hf"/>
@@ -478,6 +481,7 @@
                     </view>
                     <connections>
                         <outlet property="buttonSend" destination="ifc-LA-3E1" id="iNh-01-FF4"/>
+                        <outlet property="constraintButtonWidth" destination="jip-X9-DZh" id="BeD-si-33y"/>
                         <outlet property="inputText" destination="Bdt-7B-jhF" id="xzs-ry-r1B"/>
                     </connections>
                 </viewController>
@@ -487,7 +491,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="B6C2DF80-254E-4DDE-BEFC-00110B76DDA8" width="375" height="192">
+        <image name="03AEFFA5-2807-4134-BD3C-238D444356C1" width="375" height="192">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
