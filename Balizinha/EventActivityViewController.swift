@@ -11,7 +11,8 @@ import UIKit
 class EventActionsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-
+    var firstAppear: Bool = true
+    
     var event: Event? {
         didSet {
             if let newVal = event {
@@ -28,17 +29,21 @@ class EventActionsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
     func reloadData() {
         self.sortedActions = actions.values.filter({ (action) -> Bool in
             return action.createdAt != nil
         }).sorted(by: { (a, b) -> Bool in
-            a.createdAt! > b.createdAt!
+            a.createdAt! < b.createdAt!
         })
         self.tableView.reloadData()
-        self.delegate?.componentHeightChanged(controller: self, newHeight: self.tableView.contentSize.height)
+        //self.delegate?.componentHeightChanged(controller: self, newHeight: self.tableView.contentSize.height)
+        
+        if let actions = self.sortedActions, actions.count > 0 {
+            firstAppear = false
+            self.tableView.scrollToRow(at: NSIndexPath(row: actions.count - 1, section: 0) as IndexPath, at: .bottom, animated: true)
+        }
     }
 }
 

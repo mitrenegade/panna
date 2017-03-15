@@ -21,10 +21,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v5N-mi-Yah">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v5N-mi-Yah">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="03AEFFA5-2807-4134-BD3C-238D444356C1" translatesAutoresizingMaskIntoConstraints="NO" id="E75-s4-H12">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BA3513C2-89C3-48ED-9884-EF21BD036F02" translatesAutoresizingMaskIntoConstraints="NO" id="E75-s4-H12">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="375" id="bxi-Tm-Ce3"/>
@@ -104,9 +104,9 @@
                                         </connections>
                                     </containerView>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="do0-We-LXv" userLabel="Container View - chat">
-                                        <rect key="frame" x="0.0" y="400" width="375" height="197"/>
+                                        <rect key="frame" x="0.0" y="400" width="375" height="247"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="197" id="eId-3c-bHY"/>
+                                            <constraint firstAttribute="height" constant="247" id="oQi-1b-Zgc"/>
                                         </constraints>
                                         <connections>
                                             <segue destination="iuG-3b-Gq9" kind="embed" identifier="EmbedActivity" id="K6q-oN-di0"/>
@@ -130,7 +130,7 @@
                                     <constraint firstItem="E75-s4-H12" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="WmU-0V-xfg"/>
                                     <constraint firstItem="nNh-T3-3nB" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="azC-QS-B1H"/>
                                     <constraint firstItem="XKL-LP-hIz" firstAttribute="top" secondItem="E75-s4-H12" secondAttribute="bottom" id="gRz-lA-UbI"/>
-                                    <constraint firstAttribute="bottom" secondItem="do0-We-LXv" secondAttribute="bottom" constant="50" id="okd-Vk-ob1"/>
+                                    <constraint firstAttribute="bottom" secondItem="do0-We-LXv" secondAttribute="bottom" id="m6A-BG-CAZ"/>
                                     <constraint firstAttribute="trailing" secondItem="nNh-T3-3nB" secondAttribute="trailing" id="r3E-vB-vuB"/>
                                     <constraint firstItem="AFl-cT-9PU" firstAttribute="top" secondItem="XKL-LP-hIz" secondAttribute="bottom" id="rra-dP-uAL"/>
                                     <constraint firstItem="do0-We-LXv" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="wcv-7b-wk9"/>
@@ -163,7 +163,8 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="ldZ-Q8-IpV"/>
                     <connections>
-                        <outlet property="constraintActivityHeight" destination="eId-3c-bHY" id="2vy-Is-5Cm"/>
+                        <outlet property="activityView" destination="do0-We-LXv" id="BWG-Lk-K5v"/>
+                        <outlet property="constraintActivityHeight" destination="oQi-1b-Zgc" id="cjl-bF-PAR"/>
                         <outlet property="constraintInputBottomOffset" destination="cEb-Ru-VOm" id="4ry-SA-oAV"/>
                         <outlet property="constraintLocationHeight" destination="eVB-nQ-1Rw" id="seM-6w-e4z"/>
                         <outlet property="constraintPlayersHeight" destination="03K-Lp-YdI" id="Itn-a4-TNj"/>
@@ -313,22 +314,22 @@
                         <viewControllerLayoutGuide type="bottom" id="dzO-3Q-hNt"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="re1-kY-OoP">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="197"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="247"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eBw-Dt-B8i">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="197"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eBw-Dt-B8i">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="247"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActionCell" textLabel="ii4-8r-oOE" style="IBUITableViewCellStyleDefault" id="Evi-Od-Fn4">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Evi-Od-Fn4" id="9gA-ab-Rh0">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ii4-8r-oOE">
-                                                    <rect key="frame" x="15" y="0.0" width="345" height="43"/>
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -341,7 +342,7 @@
                                         <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mLq-wI-RXi" id="11S-UJ-nVh">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile30" translatesAutoresizingMaskIntoConstraints="NO" id="ter-Mx-fCa">
@@ -379,7 +380,7 @@
                                         <rect key="frame" x="0.0" y="116" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Reu-7q-pzX" id="CG4-AH-SC7">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile30" translatesAutoresizingMaskIntoConstraints="NO" id="647-xw-Xyk">
@@ -491,7 +492,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="03AEFFA5-2807-4134-BD3C-238D444356C1" width="375" height="192">
+        <image name="BA3513C2-89C3-48ED-9884-EF21BD036F02" width="375" height="192">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

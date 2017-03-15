@@ -44,6 +44,8 @@ class EventDisplayViewController: UIViewController {
     var activityController: EventActionsViewController!
     var chatController: ChatInputViewController!
     
+    @IBOutlet weak var activityView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -116,6 +118,18 @@ class EventDisplayViewController: UIViewController {
 
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // make sure table height is exactly correct because autolayout doesn't correctly set it
+        var height = self.view.frame.size.height + 40 - self.activityView.frame.origin.y
+        if height < 80 {
+            height = 80 // show at least two rows
+        }
+        self.constraintActivityHeight.constant = height
+
+    }
+    
     func close() {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
@@ -136,7 +150,7 @@ class EventDisplayViewController: UIViewController {
         }
         else if segue.identifier == "EmbedActivity" {
             self.activityController = segue.destination as? EventActionsViewController
-            self.activityController.delegate = self
+            //self.activityController.delegate = self
             self.activityController.event = self.event
         }
         else if segue.identifier == "EmbedChat" {
@@ -176,9 +190,6 @@ extension EventDisplayViewController: EventDisplayComponentDelegate {
         }
         else if controller == self.playersController {
             self.constraintPlayersHeight.constant = newHeight
-        }
-        else if controller == self.activityController {
-            self.constraintActivityHeight.constant = newHeight
         }
     }
 }
