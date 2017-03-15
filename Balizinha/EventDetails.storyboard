@@ -24,7 +24,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v5N-mi-Yah">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0A90D116-0236-4E13-A359-BFF50ABD5CF6" translatesAutoresizingMaskIntoConstraints="NO" id="E75-s4-H12">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="E94724DA-4C8B-464E-9CA1-0D6FCAF7C4BE" translatesAutoresizingMaskIntoConstraints="NO" id="E75-s4-H12">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="375" id="bxi-Tm-Ce3"/>
@@ -345,7 +345,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile30" translatesAutoresizingMaskIntoConstraints="NO" id="ter-Mx-fCa">
+                                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="ter-Mx-fCa">
                                                     <rect key="frame" x="8" y="6" width="30" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="dLV-fY-pUc"/>
@@ -386,7 +386,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile30" translatesAutoresizingMaskIntoConstraints="NO" id="647-xw-Xyk">
+                                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="647-xw-Xyk">
                                                     <rect key="frame" x="337" y="6" width="30" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="4Tb-OD-3hb"/>
@@ -498,7 +498,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="0A90D116-0236-4E13-A359-BFF50ABD5CF6" width="375" height="192">
+        <image name="E94724DA-4C8B-464E-9CA1-0D6FCAF7C4BE" width="375" height="192">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -5352,6 +5352,6 @@ AARvKgAEbywABG8xAARvOQAEbzwABG9BAARvSQAEb0wABG9eAARvYQAEb2YAAAAAAAAEAQAAAAAAAABB
 AAAAAAAAAAAAAAAAAARvaA
 </mutableData>
         </image>
-        <image name="profile30" width="16" height="16"/>
+        <image name="profile-img" width="256" height="256"/>
     </resources>
 </document>

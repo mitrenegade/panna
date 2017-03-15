@@ -22,6 +22,8 @@ class PlayersScrollViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         self.observeUsers()
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTap(_:)))
+        scrollView.addGestureRecognizer(gesture)
     }
     
     func observeUsers() {
@@ -37,7 +39,7 @@ class PlayersScrollViewController: UIViewController {
         }
     }
     
-    private var icons: [PlayerIcon] = []
+    fileprivate var icons: [PlayerIcon] = []
     func addPlayer(player: Player) {
         let icon = PlayerIcon()
         icon.player = player
@@ -75,8 +77,28 @@ class PlayersScrollViewController: UIViewController {
     }
 }
 
-fileprivate var iconSize: CGFloat = 30
+// MARK: - tap to view player
+extension PlayersScrollViewController {
+    func didTap(_ gesture: UITapGestureRecognizer?) {
+        let point = gesture?.location(ofTouch: 0, in: self.scrollView)
+        for icon in self.icons {
+            if icon.view.frame.contains(point!) {
+                self.didSelectPlayer(player: icon.player)
+            }
+        }
+    }
+    
+    func didSelectPlayer(player: Player?) {
+        guard let player = player else { return }
+        
+        guard let playerController = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as? PlayerViewController else { return }
+        
+        playerController.player = player
+        self.navigationController?.pushViewController(playerController, animated: true)
+    }
+}
 
+fileprivate var iconSize: CGFloat = 30
 class PlayerIcon: NSObject {
     var view: UIView! = UIView()
     var imageView: UIImageView = UIImageView()
@@ -131,7 +153,7 @@ class PlayerIcon: NSObject {
     
     func clearPhoto() {
         self.activityIndicator.stopAnimating()
-        self.imageView.image = UIImage(named: "profile30")
+        self.imageView.image = UIImage(named: "profile-img")
     }
     
     func remove() {
