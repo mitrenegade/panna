@@ -12,10 +12,13 @@ class ActionCell: UITableViewCell {
     
     @IBOutlet var labelText: UILabel!
     @IBOutlet var photoView: UIImageView!
+    @IBOutlet var constraintLabelHeight: NSLayoutConstraint!
     var actionId: String?
 
     func configureWith(action: Action) {
         self.labelText.text = action.displayString
+        self.labelText.sizeToFit()
+        self.constraintLabelHeight.constant = max(40, self.labelText.frame.size.height)
         
         guard let userId = action.user else { return }
         
