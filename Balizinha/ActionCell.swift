@@ -22,25 +22,33 @@ class ActionCell: UITableViewCell {
         
         guard let userId = action.user else { return }
         
-        self.actionId = action.id
+        let actionId = action.id
+        self.actionId = actionId
         PlayerService.shared.withId(id: userId) { (player) in
             print("url: \(player?.photoUrl)")
-            if let url = player?.photoUrl, let actionId = self.actionId {
+            if let url = player?.photoUrl {
                 self.refreshPhoto(url: url, currentActionId: actionId)
+            }
+            else {
+                self.refreshPhoto(url: nil, currentActionId: actionId)
             }
         }
 
     }
     
-    func refreshPhoto(url: String, currentActionId: String) {
+    func refreshPhoto(url: String?, currentActionId: String) {
+        self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 4
+        self.photoView.clipsToBounds = true
         do {
-            if let URL = URL(string: url) {
+            if let url = url, let URL = URL(string: url) {
                 let data = try Data(contentsOf: URL)
                 if let image = UIImage(data: data), self.actionId == currentActionId {
                     // only set if the cell is still for the same actionId
                     self.photoView.image = image
-                    self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 2
                 }
+            }
+            else {
+                self.photoView.image = UIImage(named: "profile-img")
             }
         }
         catch {
