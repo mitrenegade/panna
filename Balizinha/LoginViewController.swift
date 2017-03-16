@@ -80,6 +80,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func handleFacebookUser() {
         let permissions = ["email", "public_profile", "user_about_me"]
+        FBSDKLoginManager().logOut() // in case user has switched accounts
         facebookLogin.logIn(withReadPermissions: permissions, from: self) { (result, error) in
             if error != nil {
                 print("Facebook login failed. Error \(error)")
