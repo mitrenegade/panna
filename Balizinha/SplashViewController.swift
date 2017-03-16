@@ -26,6 +26,16 @@ class SplashViewController: UIViewController {
                 // user is logged in
                 print("auth: \(auth) user: \(user) current \(firAuth?.currentUser)")
                 self.goToMain()
+                
+                // pull user data from facebook
+                // must be done after playerRef is created
+                for provider in user.providerData {
+                    if provider.providerID == "facebook.com" {
+                        PlayerService.shared.createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { (player, error) in
+                            print("player \(player) error \(error)")
+                        })
+                    }
+                }
             }
             else {
                 self.goToSignupLogin()
