@@ -114,8 +114,6 @@ class PlayerIcon: NSObject {
             imageView.frame = CGRect(x: 0, y: 0, width: iconSize, height: iconSize)
             imageView.contentMode = .scaleAspectFit
             imageView.clipsToBounds = true
-            imageView.layer.borderWidth = 1
-            imageView.layer.borderColor = UIColor.lightGray.cgColor
             imageView.layer.cornerRadius = imageView.frame.size.height / 4
             
             self.refreshPhoto(url: player?.photoUrl)

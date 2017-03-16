@@ -275,8 +275,8 @@
 		F2F7C3BB1CEE10F700350115 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */,
 				F2F7C3C11CEE2CDD00350115 /* PushTableViewCell.swift */,
+				F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */,
 				F2048F7B1CED57170039F7BB /* EventCell.swift */,
 				F2F7C3B71CEE109000350115 /* DetailCell.swift */,
 				F2F7C3B91CEE10E800350115 /* DescriptionCell.swift */,
