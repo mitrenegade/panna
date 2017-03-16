@@ -24,7 +24,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v5N-mi-Yah">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="E94724DA-4C8B-464E-9CA1-0D6FCAF7C4BE" translatesAutoresizingMaskIntoConstraints="NO" id="E75-s4-H12">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="A6CA914E-1A01-4D90-AADA-71C5EFB2CEC3" translatesAutoresizingMaskIntoConstraints="NO" id="E75-s4-H12">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="375" id="bxi-Tm-Ce3"/>
@@ -253,7 +253,7 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pbc-lD-oOA">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.83921568629999999" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="375" id="OVz-fs-bnc"/>
                                     <constraint firstAttribute="height" constant="80" id="dTZ-Tj-LSJ"/>
@@ -469,7 +469,9 @@
                                     <constraint firstAttribute="width" constant="46" id="jip-X9-DZh"/>
                                     <constraint firstAttribute="height" constant="30" id="sXJ-N1-E2u"/>
                                 </constraints>
-                                <state key="normal" title="Send"/>
+                                <state key="normal" title="Send">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <action selector="didClickSend:" destination="QZ5-5f-Beq" eventType="touchUpInside" id="AmJ-aW-aYx"/>
                                 </connections>
@@ -498,7 +500,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="E94724DA-4C8B-464E-9CA1-0D6FCAF7C4BE" width="375" height="192">
+        <image name="A6CA914E-1A01-4D90-AADA-71C5EFB2CEC3" width="375" height="192">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

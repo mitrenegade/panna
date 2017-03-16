@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
 class AccountViewController: UITableViewController {
     
@@ -101,6 +102,7 @@ class AccountViewController: UITableViewController {
         try! firAuth?.signOut()
         EventService.resetOnLogout() // force new listeners
         PlayerService.resetOnLogout()
+        FBSDKLoginManager().logOut()
         self.notify(.LogoutSuccess, object: nil, userInfo: nil)
     }
 }
