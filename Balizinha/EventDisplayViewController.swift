@@ -102,11 +102,29 @@ class EventDisplayViewController: UIViewController {
         */
 
         //Sport image
-        switch event.type {
-        default:
-            self.sportImageView.image = UIImage(named: "soccer")
-            print("No image for this sport: using soccer image by default")
+        if let url = event?.photoUrl, let URL = URL(string: url) {
+            do {
+                let data = try Data(contentsOf: URL)
+                if let image = UIImage(data: data) {
+                    // only set if the cell is still for the same actionId
+                    self.sportImageView.image = image
+                }
+                else {
+                    self.sportImageView.image = UIImage(named: "soccer")
+                }
+            }
+            catch {
+                self.sportImageView.image = UIImage(named: "soccer")
+            }
         }
+        else {
+            switch event.type {
+            default:
+                self.sportImageView.image = UIImage(named: "soccer")
+                print("No image for this sport: using soccer image by default")
+            }
+        }
+        
         self.constraintWidth.constant = UIScreen.main.bounds.size.width
         
         // hide map
