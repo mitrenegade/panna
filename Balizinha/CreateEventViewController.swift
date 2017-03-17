@@ -293,14 +293,24 @@ extension CreateEventViewController {
 
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel(frame: CGRect(x: 20, y: 0, width: self.view.frame.size.width - 20, height: 40))
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 40))
+        view.backgroundColor = UIColor.clear
+        label.backgroundColor = UIColor.clear
         switch section {
         case 0:
-            return "Details"
+            label.text = "Details"
         default:
-            return  "Description"
+            label.text = "Description"
         }
+        label.textColor = UIColor.white
+        view.addSubview(label)
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
