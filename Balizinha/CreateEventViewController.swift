@@ -61,6 +61,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     var eventImage: UIImage?
 
     var delegate: CreateEventDelegate?
+    var cameraController: CameraOverlayViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -223,11 +224,11 @@ extension CreateEventViewController {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0: // photo
+        case Sections.photo.rawValue: // photo
             return 1
-        case 1: // details
+        case Sections.details.rawValue: // details
             return options.count
-        case 2: // description
+        case Sections.notes.rawValue: // description
             return 1
         default:
             return 0
@@ -332,9 +333,12 @@ extension CreateEventViewController {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Tapped Cell \(indexPath)")
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         switch indexPath.section {
-        case 0:
+        case Sections.photo.rawValue:
+            self.selectPhoto()
+        case Sections.details.rawValue:
             if currentField != nil{
                 currentField!.resignFirstResponder()
             }
@@ -525,5 +529,35 @@ extension CreateEventViewController {
         PFCloud.callFunction(inBackground: "sendPushFromDevice", withParameters: params) { (results, error) in
             print("results \(results) error \(error)")
         }
+    }
+}
+
+// photo
+extension CreateEventViewController: CameraControlsDelegate {
+    func selectPhoto() {
+        self.view.endEditing(true)
+        
+        let controller = CameraOverlayViewController(
+            nibName:"CameraOverlayViewController",
+            bundle: nil
+        )
+        controller.delegate = self
+        controller.view.frame = self.view.frame
+        controller.takePhoto(from: self)
+        self.cameraController = controller
+        
+        // add overlayview
+        //ParseLog.log(typeString: "AddEventPhoto", title: nil, message: nil, params: nil, error: nil)
+    }
+    
+    func didTakePhoto(image: UIImage) {
+        self.eventImage = image
+        let indexPath = IndexPath(row: 0, section: 0)
+        self.tableView.reloadRows(at: [indexPath], with: .automatic)
+        self.dismissCamera()
+    }
+    
+    func dismissCamera() {
+        self.dismiss(animated: true, completion: nil)
     }
 }
