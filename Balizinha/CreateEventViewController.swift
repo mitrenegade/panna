@@ -13,6 +13,12 @@ protocol CreateEventDelegate {
     func didCreateEvent()
 }
 
+fileprivate enum Sections: Int {
+    case photo = 0
+    case details = 1
+    case notes = 2
+}
+
 class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     var options = ["Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
@@ -52,6 +58,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     var datePickerView: UIDatePicker = UIDatePicker()
     var startTimePickerView: UIDatePicker = UIDatePicker()
     var endTimePickerView: UIDatePicker = UIDatePicker()
+    var eventImage: UIImage?
 
     var delegate: CreateEventDelegate?
     
@@ -63,6 +70,9 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         if let soccerOnly = FEATURE_FLAGS["SoccerOnly"] as? Bool, soccerOnly == true {
             options.remove(at: 0) // remove Event Type
         }
+        
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = 44
         
         self.setupPickers()
         self.setupTextFields()
@@ -208,14 +218,16 @@ extension CreateEventViewController {
     // MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0:
+        case 0: // photo
+            return 1
+        case 1: // details
             return options.count
-        case 1:
+        case 2: // description
             return 1
         default:
             return 0
@@ -226,7 +238,11 @@ extension CreateEventViewController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.section {
-        case 0:
+        case Sections.photo.rawValue:
+            let cell: EventPhotoCell = tableView.dequeueReusableCell(withIdentifier: "EventPhotoCell", for: indexPath) as! EventPhotoCell
+            cell.photo = self.eventImage
+            return cell
+        case Sections.details.rawValue:
             let cell : DetailCell
             if options[indexPath.row] == "Location" || options[indexPath.row] == "City" {
                 cell = tableView.dequeueReusableCell(withIdentifier: "cityCell", for: indexPath) as! DetailCell
@@ -277,7 +293,7 @@ extension CreateEventViewController {
 
             return cell
 
-        case 1:
+        case Sections.notes.rawValue:
             let cell : DescriptionCell = tableView.dequeueReusableCell(withIdentifier: "descriptionCell", for: indexPath) as! DescriptionCell
             self.descriptionTextView = cell.descriptionTextView
             cell.descriptionTextView.delegate = self
@@ -299,7 +315,9 @@ extension CreateEventViewController {
         view.backgroundColor = UIColor.clear
         label.backgroundColor = UIColor.clear
         switch section {
-        case 0:
+        case Sections.photo.rawValue:
+            return nil
+        case Sections.details.rawValue:
             label.text = "Details"
         default:
             label.text = "Description"
@@ -313,16 +331,6 @@ extension CreateEventViewController {
         return 40
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        switch indexPath.section {
-        case 1:
-            return 160.0
-        default:
-            return 44.0
-        }
-    }
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Tapped Cell \(indexPath)")
         switch indexPath.section {

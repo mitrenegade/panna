@@ -41,6 +41,16 @@ class Event: FirebaseBaseModel {
         }
     }
     
+    var photoUrl: String? {
+        get {
+            return self.dict["photoUrl"] as? String
+        }
+        set {
+            self.dict["photoUrl"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+    
     var city: String? {
         get {
             return self.dict["city"] as? String

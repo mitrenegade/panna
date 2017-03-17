@@ -42,6 +42,7 @@
 		8ECD58E11CDF853500AD2B13 /* Splash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ECD58E01CDF853500AD2B13 /* Splash.storyboard */; };
 		8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */; };
 		8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
+		8EE5B31D1E7C109B00BC72A5 /* EventPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */; };
 		9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */; };
 		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
 		F2048F7E1CED59A50039F7BB /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */; };
@@ -100,6 +101,7 @@
 		8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
 		8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8ED3DE761E330CB700947040 /* Balizinha.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Balizinha.entitlements; sourceTree = "<group>"; };
+		8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventPhotoCell.swift; sourceTree = "<group>"; };
 		AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED7C1F62DA3A7F54848AA802 /* Pods-Balizinha.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.debug.xcconfig"; sourceTree = "<group>"; };
 		F2048F7B1CED57170039F7BB /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 				F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */,
 				F2048F7B1CED57170039F7BB /* EventCell.swift */,
 				F2F7C3B71CEE109000350115 /* DetailCell.swift */,
+				8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */,
 				F2F7C3B91CEE10E800350115 /* DescriptionCell.swift */,
 				8E54213F1E70DF8700AE4F3A /* ActionCell.swift */,
 			);
@@ -482,6 +485,7 @@
 				8E19A4A61E6C793800D301EC /* FirebaseImageService.swift in Sources */,
 				8E19A4A01E6C644B00D301EC /* LogService.swift in Sources */,
 				8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */,
+				8EE5B31D1E7C109B00BC72A5 /* EventPhotoCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
