@@ -19,7 +19,7 @@ fileprivate enum Sections: Int {
     case notes = 2
 }
 
-class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITextViewDelegate {
+class CreateEventViewController: UIViewController, UITextViewDelegate {
     
     var options = ["Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
     var sportTypes = ["Select Type", "Balizinha"] // TODO: add 3v3, 5v5
@@ -198,6 +198,15 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             
             if let event = event {
                 self.sendPushForCreatedEvent(event)
+                
+                if let photo = self.eventImage {
+                    FirebaseImageService.uploadImage(image: photo, completion: { (url) in
+                        if let url = url {
+                            event.photoUrl = url
+                        }
+                    })
+                }
+
                 self.navigationController?.dismiss(animated: true, completion: {
                     self.delegate?.didCreateEvent()
                 })
@@ -215,7 +224,7 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     }
 }
 
-extension CreateEventViewController {
+extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -400,7 +409,10 @@ extension CreateEventViewController {
             self.timePickerValueChanged(self.endTimePickerView)
         }
     }
+}
 
+// MARK: PickerView
+extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     //MARK: - Delegates and data sources
     //MARK: Data Sources
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -459,7 +471,9 @@ extension CreateEventViewController {
             self.endTime = sender.date
         }
     }
-    
+}
+
+extension CreateEventViewController: UITextFieldDelegate {
     // MARK: - UITextFieldDelegate
     func textFieldDidBeginEditing(_ textField: UITextField) {
         currentField = textField
