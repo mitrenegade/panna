@@ -13,7 +13,13 @@ protocol CreateEventDelegate {
     func didCreateEvent()
 }
 
-class CreateEventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITextViewDelegate {
+fileprivate enum Sections: Int {
+    case photo = 0
+    case details = 1
+    case notes = 2
+}
+
+class CreateEventViewController: UIViewController, UITextViewDelegate {
     
     var options = ["Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
     var sportTypes = ["Select Type", "Balizinha"] // TODO: add 3v3, 5v5
@@ -52,8 +58,10 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     var datePickerView: UIDatePicker = UIDatePicker()
     var startTimePickerView: UIDatePicker = UIDatePicker()
     var endTimePickerView: UIDatePicker = UIDatePicker()
+    var eventImage: UIImage?
 
     var delegate: CreateEventDelegate?
+    var cameraController: CameraOverlayViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +71,9 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
         if let soccerOnly = FEATURE_FLAGS["SoccerOnly"] as? Bool, soccerOnly == true {
             options.remove(at: 0) // remove Event Type
         }
+        
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = 44
         
         self.setupPickers()
         self.setupTextFields()
@@ -187,6 +198,15 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
             
             if let event = event {
                 self.sendPushForCreatedEvent(event)
+                
+                if let photo = self.eventImage {
+                    FirebaseImageService.uploadImage(image: photo, completion: { (url) in
+                        if let url = url {
+                            event.photoUrl = url
+                        }
+                    })
+                }
+
                 self.navigationController?.dismiss(animated: true, completion: {
                     self.delegate?.didCreateEvent()
                 })
@@ -204,18 +224,20 @@ class CreateEventViewController: UIViewController, UITableViewDataSource, UITabl
     }
 }
 
-extension CreateEventViewController {
+extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0:
+        case Sections.photo.rawValue: // photo
+            return 1
+        case Sections.details.rawValue: // details
             return options.count
-        case 1:
+        case Sections.notes.rawValue: // description
             return 1
         default:
             return 0
@@ -226,7 +248,11 @@ extension CreateEventViewController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.section {
-        case 0:
+        case Sections.photo.rawValue:
+            let cell: EventPhotoCell = tableView.dequeueReusableCell(withIdentifier: "EventPhotoCell", for: indexPath) as! EventPhotoCell
+            cell.photo = self.eventImage
+            return cell
+        case Sections.details.rawValue:
             let cell : DetailCell
             if options[indexPath.row] == "Location" || options[indexPath.row] == "City" {
                 cell = tableView.dequeueReusableCell(withIdentifier: "cityCell", for: indexPath) as! DetailCell
@@ -277,7 +303,7 @@ extension CreateEventViewController {
 
             return cell
 
-        case 1:
+        case Sections.notes.rawValue:
             let cell : DescriptionCell = tableView.dequeueReusableCell(withIdentifier: "descriptionCell", for: indexPath) as! DescriptionCell
             self.descriptionTextView = cell.descriptionTextView
             cell.descriptionTextView.delegate = self
@@ -293,30 +319,35 @@ extension CreateEventViewController {
 
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel(frame: CGRect(x: 20, y: 0, width: self.view.frame.size.width - 20, height: 40))
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 40))
+        view.backgroundColor = UIColor.clear
+        label.backgroundColor = UIColor.clear
         switch section {
-        case 0:
-            return "Details"
+        case Sections.photo.rawValue:
+            return nil
+        case Sections.details.rawValue:
+            label.text = "Details"
         default:
-            return  "Description"
+            label.text = "Description"
         }
+        label.textColor = UIColor.white
+        view.addSubview(label)
+        return view
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
         switch indexPath.section {
-        case 1:
-            return 160.0
-        default:
-            return 44.0
-        }
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Tapped Cell \(indexPath)")
-        switch indexPath.section {
-        case 0:
+        case Sections.photo.rawValue:
+            self.selectPhoto()
+        case Sections.details.rawValue:
             if currentField != nil{
                 currentField!.resignFirstResponder()
             }
@@ -378,7 +409,10 @@ extension CreateEventViewController {
             self.timePickerValueChanged(self.endTimePickerView)
         }
     }
+}
 
+// MARK: PickerView
+extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     //MARK: - Delegates and data sources
     //MARK: Data Sources
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -437,7 +471,9 @@ extension CreateEventViewController {
             self.endTime = sender.date
         }
     }
-    
+}
+
+extension CreateEventViewController: UITextFieldDelegate {
     // MARK: - UITextFieldDelegate
     func textFieldDidBeginEditing(_ textField: UITextField) {
         currentField = textField
@@ -507,5 +543,35 @@ extension CreateEventViewController {
         PFCloud.callFunction(inBackground: "sendPushFromDevice", withParameters: params) { (results, error) in
             print("results \(results) error \(error)")
         }
+    }
+}
+
+// photo
+extension CreateEventViewController: CameraControlsDelegate {
+    func selectPhoto() {
+        self.view.endEditing(true)
+        
+        let controller = CameraOverlayViewController(
+            nibName:"CameraOverlayViewController",
+            bundle: nil
+        )
+        controller.delegate = self
+        controller.view.frame = self.view.frame
+        controller.takePhoto(from: self)
+        self.cameraController = controller
+        
+        // add overlayview
+        //ParseLog.log(typeString: "AddEventPhoto", title: nil, message: nil, params: nil, error: nil)
+    }
+    
+    func didTakePhoto(image: UIImage) {
+        self.eventImage = image
+        let indexPath = IndexPath(row: 0, section: 0)
+        self.tableView.reloadRows(at: [indexPath], with: .automatic)
+        self.dismissCamera()
+    }
+    
+    func dismissCamera() {
+        self.dismiss(animated: true, completion: nil)
     }
 }

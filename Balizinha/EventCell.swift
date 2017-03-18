@@ -49,17 +49,25 @@ class EventCell: UITableViewCell {
             self.labelTime.text = "Time TBD"
         }
         
-        switch event.type {
-        case .basketball:
-            self.eventLogo.image = UIImage(named: "basketball")
-        case .balizinha:
-            self.eventLogo.image = UIImage(named: "soccer")
-        case .flagFootball:
-            self.eventLogo.image = UIImage(named: "football")
-        default:
-            self.eventLogo.isHidden = true
+        if let url = event.photoUrl, let URL = URL(string: url) {
+            do {
+                let data = try Data(contentsOf: URL)
+                if let image = UIImage(data: data) {
+                    // only set if the cell is still for the same actionId
+                    self.eventLogo.image = image
+                }
+                else {
+                    self.eventLogo.image = UIImage(named: "soccer")
+                }
+            }
+            catch {
+                self.eventLogo.image = UIImage(named: "soccer")
+            }
         }
-        
+        else {
+            self.eventLogo.image = UIImage(named: "soccer")
+        }
+
         if !event.isPast {
             // Button display and action
             if self.event!.userIsOwner {

@@ -42,6 +42,9 @@
 		8ECD58E11CDF853500AD2B13 /* Splash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ECD58E01CDF853500AD2B13 /* Splash.storyboard */; };
 		8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */; };
 		8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
+		8EE5B31D1E7C109B00BC72A5 /* EventPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */; };
+		8EE5B3231E7C17F100BC72A5 /* CameraOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3211E7C17F100BC72A5 /* CameraOverlayViewController.swift */; };
+		8EE5B3241E7C17F100BC72A5 /* CameraOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EE5B3221E7C17F100BC72A5 /* CameraOverlayViewController.xib */; };
 		9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */; };
 		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
 		F2048F7E1CED59A50039F7BB /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */; };
@@ -100,6 +103,9 @@
 		8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
 		8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8ED3DE761E330CB700947040 /* Balizinha.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Balizinha.entitlements; sourceTree = "<group>"; };
+		8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventPhotoCell.swift; sourceTree = "<group>"; };
+		8EE5B3211E7C17F100BC72A5 /* CameraOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraOverlayViewController.swift; sourceTree = "<group>"; };
+		8EE5B3221E7C17F100BC72A5 /* CameraOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraOverlayViewController.xib; sourceTree = "<group>"; };
 		AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED7C1F62DA3A7F54848AA802 /* Pods-Balizinha.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.debug.xcconfig"; sourceTree = "<group>"; };
 		F2048F7B1CED57170039F7BB /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
@@ -242,10 +248,20 @@
 				8E19A4A71E6C7FCE00D301EC /* Account */,
 				F2F7C3BE1CEE11BE00350115 /* Events */,
 				8E19A4A81E6C933400D301EC /* Event Details */,
+				8EE5B3201E7C17E800BC72A5 /* Camera */,
 				F2F7C3BB1CEE10F700350115 /* Cells */,
 				F20AD03B1D26C0F500969990 /* Utils */,
 			);
 			path = Balizinha;
+			sourceTree = "<group>";
+		};
+		8EE5B3201E7C17E800BC72A5 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				8EE5B3211E7C17F100BC72A5 /* CameraOverlayViewController.swift */,
+				8EE5B3221E7C17F100BC72A5 /* CameraOverlayViewController.xib */,
+			);
+			name = Camera;
 			sourceTree = "<group>";
 		};
 		F20AD03B1D26C0F500969990 /* Utils */ = {
@@ -279,6 +295,7 @@
 				F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */,
 				F2048F7B1CED57170039F7BB /* EventCell.swift */,
 				F2F7C3B71CEE109000350115 /* DetailCell.swift */,
+				8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */,
 				F2F7C3B91CEE10E800350115 /* DescriptionCell.swift */,
 				8E54213F1E70DF8700AE4F3A /* ActionCell.swift */,
 			);
@@ -374,6 +391,7 @@
 				8EC7992F1E3636A0004ACC52 /* EventDetails.storyboard in Resources */,
 				8EC7992B1E3635A0004ACC52 /* Events.storyboard in Resources */,
 				8E55FF941CF2066600A0BDB8 /* GoogleService-Info.plist in Resources */,
+				8EE5B3241E7C17F100BC72A5 /* CameraOverlayViewController.xib in Resources */,
 				8EC799291E363549004ACC52 /* Account.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -446,6 +464,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EE5B3231E7C17F100BC72A5 /* CameraOverlayViewController.swift in Sources */,
 				8E19A4A41E6C67A500D301EC /* PlayerService.swift in Sources */,
 				8E7256AD1CDF7DB600C9E054 /* SignupViewController.swift in Sources */,
 				F2F7C3C21CEE2CDD00350115 /* PushTableViewCell.swift in Sources */,
@@ -482,6 +501,7 @@
 				8E19A4A61E6C793800D301EC /* FirebaseImageService.swift in Sources */,
 				8E19A4A01E6C644B00D301EC /* LogService.swift in Sources */,
 				8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */,
+				8EE5B31D1E7C109B00BC72A5 /* EventPhotoCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
