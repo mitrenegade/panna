@@ -112,7 +112,7 @@ class PlayerIcon: NSObject {
             
             // FIXME: imageView must be explicitly sized, and cannot just be the same size is view
             imageView.frame = CGRect(x: 0, y: 0, width: iconSize, height: iconSize)
-            imageView.contentMode = .scaleAspectFit
+            imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
             imageView.layer.cornerRadius = imageView.frame.size.height / 4
             

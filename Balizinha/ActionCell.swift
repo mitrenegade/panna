@@ -39,6 +39,7 @@ class ActionCell: UITableViewCell {
     func refreshPhoto(url: String?, currentActionId: String) {
         self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 4
         self.photoView.clipsToBounds = true
+        self.photoView.contentMode = .scaleAspectFill
         do {
             if let url = url, let URL = URL(string: url) {
                 let data = try Data(contentsOf: URL)
