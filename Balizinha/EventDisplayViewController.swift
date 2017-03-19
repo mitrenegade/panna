@@ -8,6 +8,7 @@
 
 import UIKit
 import FBSDKShareKit
+import AsyncImageView
 
 protocol EventDisplayComponentDelegate: class {
     func componentHeightChanged(controller: UIViewController, newHeight: CGFloat)
@@ -27,7 +28,7 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet var btnShare: UIButton!
     */
     
-    @IBOutlet var sportImageView: UIImageView!
+    @IBOutlet var sportImageView: AsyncImageView!
     var event : Event!
     var delegate : AnyObject!
     var alreadyJoined : Bool = false
@@ -104,27 +105,11 @@ class EventDisplayViewController: UIViewController {
 
         //Sport image
         if let url = event?.photoUrl, let URL = URL(string: url) {
-            do {
-                let data = try Data(contentsOf: URL)
-                if let image = UIImage(data: data) {
-                    // only set if the cell is still for the same actionId
-                    self.sportImageView.image = image
-                }
-                else {
-                    self.sportImageView.image = UIImage(named: "soccer")
-                }
-            }
-            catch let error {
-                print("error: \(error)")
-                self.sportImageView.image = UIImage(named: "soccer")
-            }
+            self.sportImageView.imageURL = URL
         }
         else {
-            switch event.type {
-            default:
-                self.sportImageView.image = UIImage(named: "soccer")
-                print("No image for this sport: using soccer image by default")
-            }
+            self.sportImageView.imageURL = nil
+            self.sportImageView.image = UIImage(named: "soccer")
         }
         
         self.constraintWidth.constant = UIScreen.main.bounds.size.width

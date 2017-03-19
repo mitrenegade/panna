@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AsyncImageView
 
 class PlayersScrollViewController: UIViewController {
 
@@ -101,15 +102,9 @@ extension PlayersScrollViewController {
 fileprivate var iconSize: CGFloat = 30
 class PlayerIcon: NSObject {
     var view: UIView! = UIView()
-    var imageView: UIImageView = UIImageView()
-    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    var imageView: AsyncImageView = AsyncImageView()
     var player: Player? {
         didSet {
-            self.activityIndicator.hidesWhenStopped = true
-            if activityIndicator.superview == nil {
-                self.view.addSubview(activityIndicator)
-            }
-            
             // FIXME: imageView must be explicitly sized, and cannot just be the same size is view
             imageView.frame = CGRect(x: 0, y: 0, width: iconSize, height: iconSize)
             imageView.contentMode = .scaleAspectFill
@@ -126,32 +121,13 @@ class PlayerIcon: NSObject {
     }
     
     func refreshPhoto(url: String?) {
-        do {
-            self.activityIndicator.startAnimating()
-            // TODO: loading indicator
-            if let url = url, let URL = URL(string: url) {
-                let data = try Data(contentsOf: URL)
-                if let image = UIImage(data: data) {
-                    self.imageView.image = image
-                    self.activityIndicator.stopAnimating()
-                }
-                else {
-                    self.clearPhoto()
-                }
-            }
-            else {
-                self.clearPhoto()
-            }
+        if let url = url, let URL = URL(string: url) {
+            self.imageView.imageURL = URL
         }
-        catch let error {
-            print("invalid photo \(error)")
-            self.clearPhoto()
+        else {
+            self.imageView.imageURL = nil
+            self.imageView.image = UIImage(named: "profile-img")
         }
-    }
-    
-    func clearPhoto() {
-        self.activityIndicator.stopAnimating()
-        self.imageView.image = UIImage(named: "profile-img")
     }
     
     func remove() {

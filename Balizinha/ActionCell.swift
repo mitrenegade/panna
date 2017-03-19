@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import AsyncImageView
 
 class ActionCell: UITableViewCell {
     
     @IBOutlet var labelText: UILabel!
-    @IBOutlet var photoView: UIImageView!
+    @IBOutlet var photoView: AsyncImageView!
     @IBOutlet var constraintLabelHeight: NSLayoutConstraint!
     var actionId: String?
 
@@ -40,20 +41,12 @@ class ActionCell: UITableViewCell {
         self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 4
         self.photoView.clipsToBounds = true
         self.photoView.contentMode = .scaleAspectFill
-        do {
-            if let url = url, let URL = URL(string: url) {
-                let data = try Data(contentsOf: URL)
-                if let image = UIImage(data: data), self.actionId == currentActionId {
-                    // only set if the cell is still for the same actionId
-                    self.photoView.image = image
-                }
-            }
-            else {
-                self.photoView.image = UIImage(named: "profile-img")
-            }
+        if let url = url, let URL = URL(string: url), self.actionId == currentActionId  {
+            self.photoView.imageURL = URL
         }
-        catch {
-            print("invalid photo")
+        else {
+            self.photoView.imageURL = nil
+            self.photoView.image = UIImage(named: "profile-img")
         }
     }
 
