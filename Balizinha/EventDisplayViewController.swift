@@ -60,7 +60,7 @@ class EventDisplayViewController: UIViewController {
         self.labelType.text = "\(name) (\(type))"
         
         if let startTime = self.event.startTime {
-            self.labelDate.text = self.event.dateString(startTime)
+            self.labelDate.text = "\(self.event.dateString(startTime)), \(self.event.timeString(startTime))"
         }
         else {
             self.labelDate.text = "Start TBD"
