@@ -81,6 +81,26 @@ class EventsViewController: UITableViewController {
             self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
         }
     }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let nav = segue.destination as? UINavigationController else { return }
+        
+        if segue.identifier == "toEventDetails" {
+            let frame = nav.view.frame // force load root view controller
+            guard let detailsController = nav.viewControllers[0] as? EventDisplayViewController else { return }
+            guard let event = sender as? Event else { return }
+            
+            detailsController.alreadyJoined = false
+            detailsController.delegate = self
+            
+            detailsController.event = event
+        }
+        else if segue.identifier == "toCreateEvent" {
+            guard let controller = nav.viewControllers[0] as? CreateEventViewController else { return }
+            controller.delegate = self
+        }
+    }
 }
 
 extension EventsViewController {
@@ -137,26 +157,9 @@ extension EventsViewController: EventCellDelegate {
         self.refreshEvents()
     }
     
-    
-     // MARK: - Navigation     
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let nav = segue.destination as? UINavigationController else { return }
-        
-        if segue.identifier == "toEventDetails" {
-            let frame = nav.view.frame // force load root view controller
-            guard let detailsController = nav.viewControllers[0] as? EventDisplayViewController else { return }
-            guard let event = sender as? Event else { return }
-            
-            detailsController.alreadyJoined = false
-            detailsController.delegate = self
-            
-            detailsController.event = event
-        }
-        else if segue.identifier == "toCreateEvent" {
-            guard let controller = nav.viewControllers[0] as? CreateEventViewController else { return }
-            controller.delegate = self
-        }
-     }
+    func editEvent(_ event: Event) {
+        // does not implement this
+    }
 }
 
 extension EventsViewController: CreateEventDelegate {

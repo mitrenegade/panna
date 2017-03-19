@@ -38,6 +38,7 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet var constraintPlayersHeight: NSLayoutConstraint!
     @IBOutlet var constraintActivityHeight: NSLayoutConstraint!
     @IBOutlet var constraintInputBottomOffset: NSLayoutConstraint!
+    @IBOutlet var constraintInputHeight: NSLayoutConstraint!
     
     var locationController: ExpandableMapViewController!
     var playersController: PlayersScrollViewController!
@@ -59,7 +60,7 @@ class EventDisplayViewController: UIViewController {
         self.labelType.text = "\(name) (\(type))"
         
         if let startTime = self.event.startTime {
-            self.labelDate.text = self.event.dateString(startTime)
+            self.labelDate.text = "\(self.event.dateString(startTime)), \(self.event.timeString(startTime))"
         }
         else {
             self.labelDate.text = "Start TBD"
@@ -121,6 +122,9 @@ class EventDisplayViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
+        if let isPast = self.event?.isPast, isPast {
+            self.constraintInputHeight.constant = 0
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -128,6 +132,10 @@ class EventDisplayViewController: UIViewController {
         
         // make sure table height is exactly correct because autolayout doesn't correctly set it
         var height = self.view.frame.size.height + 40 - self.activityView.frame.origin.y
+        if self.event.isPast {
+            height += 40
+        }
+        
         if height < 80 {
             height = 80 // show at least two rows
         }

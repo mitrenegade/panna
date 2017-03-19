@@ -104,15 +104,18 @@ class Event: FirebaseBaseModel {
     }
     
     func dateString(_ date: Date) -> String {
-        return "\((date as NSDate).day()) \(months[(date as NSDate).month() - 1]) \((date as NSDate).year())"
+        //return "\((date as NSDate).day()) \(months[(date as NSDate).month() - 1]) \((date as NSDate).year())"
+        return CreateEventViewController.dateStringForDate(date)
     }
     
     func timeString(_ date: Date) -> String {
+        /*
         formatter.dateStyle = .none
         formatter.timeStyle = .short
         let time = formatter.string(from: date)
         return "\(time)"
-        
+        */
+        return CreateEventViewController.timeStringForDate(date)
     }
     
     var maxPlayers: Int {

@@ -152,4 +152,11 @@ extension CalendarViewController: EventCellDelegate {
         
         self.refreshEvents()
     }
+    
+    func editEvent(_ event: Event) {
+        guard let controller = UIStoryboard(name: "Events", bundle: nil).instantiateViewController(withIdentifier: "CreateEventViewController") as? CreateEventViewController else { return }
+        controller.eventToEdit = event
+        let nav = UINavigationController(rootViewController: controller)
+        self.present(nav, animated: true, completion: nil)
+    }
 }
