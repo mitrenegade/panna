@@ -10,14 +10,10 @@ import UIKit
 import Firebase
 
 enum EventType: String {
-    case basketball = "Basketball"
-    case flagFootball = "Flag Football"
-    
-    // balizinha only
     case event3v3 = "3 vs 3"
     case event5v5 = "5 vs 5"
-    case futbol = "futbol" // general soccer
-
+    case event7v7 = "7 vs 7"
+    case event11v11 = "11 vs 11"
     case other
 }
 
@@ -38,7 +34,7 @@ class Event: FirebaseBaseModel {
 
     var type: EventType {
         get {
-            for type: EventType in [.event3v3, .event5v5, .futbol] {
+            for type: EventType in [.event3v3, .event5v5, .event7v7, .event11v11] {
                 if type.rawValue == self.dict["type"] as? String {
                     return type
                 }

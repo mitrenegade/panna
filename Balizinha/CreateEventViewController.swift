@@ -22,13 +22,14 @@ fileprivate enum Sections: Int {
 class CreateEventViewController: UIViewController, UITextViewDelegate {
     
     var options = ["Name", "Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
-    var sportTypes = ["Select Type", "Balizinha"] // TODO: add 3v3, 5v5
+    var sportTypes = ["Select Type", "3v3", "5v5", "7v7", "11v11"]
+    var eventTypes: [EventType] = [.other, .event3v3, .event5v5, .event7v7, .event11v11]
     
     var currentField : UITextField?
     var currentTextView : UITextView?
     
     var name: String?
-    var type : String?
+    var type : EventType?
     var city : String?
     var location : String?
     var date : Date?
@@ -69,10 +70,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         
         self.navigationItem.title = "Create Event"
-        
-        if let soccerOnly = FEATURE_FLAGS["SoccerOnly"] as? Bool, soccerOnly == true, let index = options.index(of: "Event Type") {
-            options.remove(at: index) // remove Event Type
-        }
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
@@ -156,16 +153,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         // in case user clicks save without clicking done first
         self.info = self.descriptionTextView!.text
         
-        if let soccerOnly = FEATURE_FLAGS["SoccerOnly"] as? Bool, soccerOnly == true {
-            self.type = EventType.futbol.rawValue
-        }
-        else {
-            guard let type = self.type else {
-                self.simpleAlert("Invalid selection", message: "Please select an event type")
-                return
-            }
-        }
-        
         guard let location = self.location else {
             self.simpleAlert("Invalid selection", message: "Please select a location")
             return
@@ -196,7 +183,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         self.startTime = start
         self.endTime = end
  
-        EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.futbol.rawValue, city: city, place: location, startTime: start, endTime: end, max_players: numPlayers, info: self.info, completion: { (event, error) in
+        EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, place: location, startTime: start, endTime: end, max_players: numPlayers, info: self.info, completion: { (event, error) in
             
             if let event = event {
                 self.sendPushForCreatedEvent(event)
@@ -400,8 +387,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
     
     func updateLabel(){
         if (currentField == self.typeField) {
-            self.type = sportTypes[self.typePickerView.selectedRow(inComponent: 0)]
-            currentField!.text = self.type
+            let selectedRow = self.typePickerView.selectedRow(inComponent: 0)
+            self.type = eventTypes[selectedRow]
+            currentField!.text = self.sportTypes[selectedRow]
         } else if (currentField == self.maxPlayersField) { //selected max players
             self.numPlayers = UInt(self.pickerView(self.numberPickerView, titleForRow: self.numberPickerView.selectedRow(inComponent: 0), forComponent: 0)!)
             currentField!.text = "\(self.numPlayers!)"
@@ -493,6 +481,9 @@ extension CreateEventViewController: UITextFieldDelegate {
         }
         else if textField == self.locationField {
             self.location = textField.text
+        }
+        else if textField == self.nameField {
+            self.name = textField.text
         }
     }
     

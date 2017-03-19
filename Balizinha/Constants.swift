@@ -28,5 +28,5 @@ var TESTING = false
 var AIRPLANE_MODE = false
 
 var FEATURE_FLAGS: [String: Any] = [
-    "SoccerOnly": true // for Balizinha, only sport is soccer
-    ]
+    //"SoccerOnly": true // for Balizinha, only sport is soccer
+    :]
