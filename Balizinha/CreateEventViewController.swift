@@ -155,6 +155,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func didClickSave(_ sender: AnyObject) {
         // in case user clicks save without clicking done first
+        self.view.endEditing(true)
         self.info = self.descriptionTextView!.text
         
         guard let location = self.location else {
@@ -186,30 +187,60 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         let end = self.combineDateAndTime(date, time: endTime)
         self.startTime = start
         self.endTime = end
- 
-        EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, place: location, startTime: start, endTime: end, max_players: numPlayers, info: self.info, completion: { (event, error) in
-            
-            if let event = event {
-                self.sendPushForCreatedEvent(event)
-                
-                if let photo = self.eventImage {
-                    FirebaseImageService.uploadImage(image: photo, type: "event", uid: event.id, completion: { (url) in
-                        if let url = url {
-                            event.photoUrl = url
-                        }
-                    })
-                }
+        
+        if let event = self.eventToEdit, var dict = event.dict {
+            // event already exists: update/edit info
+            dict["name"] = self.name ?? "Balizinha"
+            dict["type"] = self.type?.rawValue
+            dict["city"] = city
+            dict["place"] = location
+            dict["maxPlayers"] = numPlayers
+            dict["info"] = self.info
+            event.dict = dict
+            event.firebaseRef?.updateChildValues(dict) // update all these values without multiple update calls
 
-                self.navigationController?.dismiss(animated: true, completion: {
-                    self.delegate?.didCreateEvent()
+            // use the built in conversion for dates
+            event.startTime = start
+            event.endTime = end
+
+            // update photo if it has been changed
+            if let photo = self.eventImage {
+                FirebaseImageService.uploadImage(image: photo, type: "event", uid: event.id, completion: { (url) in
+                    if let url = url {
+                        event.photoUrl = url
+                    }
                 })
             }
-            else {
-                if let error = error {
-                    self.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
+            
+            self.navigationController?.dismiss(animated: true, completion: {
+                // event updated
+            })
+        }
+        else {
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, place: location, startTime: start, endTime: end, max_players: numPlayers, info: self.info, completion: { (event, error) in
+                
+                if let event = event {
+                    self.sendPushForCreatedEvent(event)
+                    
+                    if let photo = self.eventImage {
+                        FirebaseImageService.uploadImage(image: photo, type: "event", uid: event.id, completion: { (url) in
+                            if let url = url {
+                                event.photoUrl = url
+                            }
+                        })
+                    }
+                    
+                    self.navigationController?.dismiss(animated: true, completion: {
+                        self.delegate?.didCreateEvent()
+                    })
                 }
-            }
-        })
+                else {
+                    if let error = error {
+                        self.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
+                    }
+                }
+            })
+        }
     }
 
     @IBAction func didClickCancel(_ sender: AnyObject) {
