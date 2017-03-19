@@ -260,15 +260,24 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 if options[indexPath.row] == "Location" {
                     cell.valueTextField.placeholder = "Fenway Park"
                     self.locationField = cell.valueTextField
-                    self.locationField?.text = self.eventToEdit?.place
+                    if let place = self.eventToEdit?.place {
+                        self.location = place
+                        self.locationField?.text = place
+                    }
                 } else if options[indexPath.row] == "City" {
                     cell.valueTextField.placeholder = "Boston"
                     self.cityField = cell.valueTextField
-                    self.cityField?.text = self.eventToEdit?.city
+                    if let city = self.eventToEdit?.city {
+                        self.city = city
+                        self.cityField?.text = city
+                    }
                 } else if options[indexPath.row] == "Name" {
                     cell.valueTextField.placeholder = "Balizinha"
                     self.nameField = cell.valueTextField
-                    self.nameField?.text = self.eventToEdit?.name
+                    if let name = self.eventToEdit?.name {
+                        self.name = name
+                        self.nameField?.text = name
+                    }
                 }
                 
             }
@@ -285,26 +294,40 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     cell.valueTextField.inputAccessoryView = nil
                     
                     if let event = self.eventToEdit, let index = self.eventTypes.index(of: event.type) {
+                        self.type = event.type
                         self.typeField?.text = self.sportTypes[index]
                     }
                 case "Day":
                     self.dayField = cell.valueTextField
                     self.dayField?.inputView = self.datePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
+                    if let date = self.eventToEdit?.startTime {
+                        self.date = date
+                        self.dayField?.text = self.dateStringForDate(date)
+                    }
                 case "Start Time":
                     self.startField = cell.valueTextField
                     self.startField?.inputView = self.startTimePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
+                    if let date = self.eventToEdit?.startTime {
+                        self.startTime = date
+                        self.startField?.text = self.timeStringForDate(date)
+                    }
                 case "End Time":
                     self.endField = cell.valueTextField
                     self.endField?.inputView = self.endTimePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
+                    if let date = self.eventToEdit?.endTime {
+                        self.endTime = date
+                        self.endField?.text = self.timeStringForDate(date)
+                    }
                 case "Max Players":
                     self.maxPlayersField = cell.valueTextField
                     self.maxPlayersField?.inputView = self.numberPickerView
                     cell.valueTextField.inputAccessoryView = nil
 
-                    if let max = self.numPlayers {
+                    if let max = self.eventToEdit?.maxPlayers {
+                        self.numPlayers = UInt(max)
                         self.maxPlayersField?.text = "\(max)"
                     }
                 default:
@@ -322,6 +345,11 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             cell.descriptionTextView.delegate = self
             
             cell.descriptionTextView.inputAccessoryView = self.keyboardDoneButtonView2
+            
+            if let notes = self.eventToEdit?.info {
+                self.info = notes
+                cell.descriptionTextView.text = notes
+            }
 
             return cell
         default:
@@ -465,22 +493,28 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
     }
     
     // date picker
-    func datePickerValueChanged(_ sender:UIDatePicker) {
+    func dateStringForDate(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = DateFormatter.Style.medium
         dateFormatter.timeStyle = DateFormatter.Style.none
-
-        date = sender.date
-        dateString = dateFormatter.string(from: sender.date)
+        return dateFormatter.string(from: date)
+    }
+    
+    func datePickerValueChanged(_ sender:UIDatePicker) {
+        self.date = sender.date
+        self.dateString = self.dateStringForDate(sender.date)
         currentField!.text = dateString
     }
     
     // start and end time picker
-    func timePickerValueChanged(_ sender:UIDatePicker) {
+    func timeStringForDate(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = DateFormatter.Style.none
         dateFormatter.timeStyle = DateFormatter.Style.short
-        currentField!.text = dateFormatter.string(from: sender.date)
+        return dateFormatter.string(from: date)
+    }
+    func timePickerValueChanged(_ sender:UIDatePicker) {
+        currentField!.text = timeStringForDate(sender.date)
         if (sender == startTimePickerView) {
             self.startTime = sender.date
         } else {
