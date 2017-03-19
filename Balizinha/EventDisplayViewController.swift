@@ -53,9 +53,10 @@ class EventDisplayViewController: UIViewController {
         
         // Setup event details
         self.view.bringSubview(toFront: labelType.superview!)
-        if let type = self.event.type as? EventType {
-            self.labelType.text = type.rawValue
-        }
+        let name = self.event.name ?? "Balizinha"
+        let type = self.event.type.rawValue
+        self.labelType.text = "\(name) (\(type))"
+        
         if let startTime = self.event.startTime {
             self.labelDate.text = self.event.dateString(startTime)
         }
