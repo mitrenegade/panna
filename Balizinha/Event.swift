@@ -16,7 +16,7 @@ enum EventType: String {
     // balizinha only
     case event3v3 = "3 vs 3"
     case event5v5 = "5 vs 5"
-    case balizinha = "Balizinha"
+    case futbol = "futbol" // general soccer
 
     case other
 }
@@ -26,9 +26,19 @@ fileprivate let formatter = DateFormatter()
 class Event: FirebaseBaseModel {
     var service = EventService.shared
     
+    var name: String? {
+        get {
+            return self.dict["name"] as? String
+        }
+        set {
+            self.dict["name"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+
     var type: EventType {
         get {
-            for type: EventType in [.event3v3, .event5v5, .balizinha] {
+            for type: EventType in [.event3v3, .event5v5, .futbol] {
                 if type.rawValue == self.dict["type"] as? String {
                     return type
                 }

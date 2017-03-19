@@ -21,12 +21,13 @@ fileprivate enum Sections: Int {
 
 class CreateEventViewController: UIViewController, UITextViewDelegate {
     
-    var options = ["Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
+    var options = ["Name", "Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
     var sportTypes = ["Select Type", "Balizinha"] // TODO: add 3v3, 5v5
     
     var currentField : UITextField?
     var currentTextView : UITextView?
     
+    var name: String?
     var type : String?
     var city : String?
     var location : String?
@@ -37,6 +38,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var numPlayers : UInt?
     var info : String?
    
+    var nameField: UITextField?
     var typeField: UITextField?
     var cityField: UITextField?
     var locationField: UITextField?
@@ -68,8 +70,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         
         self.navigationItem.title = "Create Event"
         
-        if let soccerOnly = FEATURE_FLAGS["SoccerOnly"] as? Bool, soccerOnly == true {
-            options.remove(at: 0) // remove Event Type
+        if let soccerOnly = FEATURE_FLAGS["SoccerOnly"] as? Bool, soccerOnly == true, let index = options.index(of: "Event Type") {
+            options.remove(at: index) // remove Event Type
         }
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -155,7 +157,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         self.info = self.descriptionTextView!.text
         
         if let soccerOnly = FEATURE_FLAGS["SoccerOnly"] as? Bool, soccerOnly == true {
-            self.type = EventType.balizinha.rawValue
+            self.type = EventType.futbol.rawValue
         }
         else {
             guard let type = self.type else {
@@ -194,7 +196,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         self.startTime = start
         self.endTime = end
  
-        EventService.shared.createEvent(self.type ?? EventType.balizinha.rawValue, city: city, place: location, startTime: start, endTime: end, max_players: numPlayers, info: self.info, completion: { (event, error) in
+        EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.futbol.rawValue, city: city, place: location, startTime: start, endTime: end, max_players: numPlayers, info: self.info, completion: { (event, error) in
             
             if let event = event {
                 self.sendPushForCreatedEvent(event)
@@ -254,7 +256,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             return cell
         case Sections.details.rawValue:
             let cell : DetailCell
-            if options[indexPath.row] == "Location" || options[indexPath.row] == "City" {
+            if options[indexPath.row] == "Location" || options[indexPath.row] == "City" || options[indexPath.row] == "Name" {
                 cell = tableView.dequeueReusableCell(withIdentifier: "cityCell", for: indexPath) as! DetailCell
                 cell.valueTextField.delegate = self
                 cell.valueTextField.inputAccessoryView = nil
@@ -265,7 +267,11 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 } else if options[indexPath.row] == "City" {
                     cell.valueTextField.placeholder = "Boston"
                     self.cityField = cell.valueTextField
+                } else if options[indexPath.row] == "Name" {
+                    cell.valueTextField.placeholder = "Balizinha"
+                    self.nameField = cell.valueTextField
                 }
+                
             }
             else {
                 cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
@@ -354,6 +360,8 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             
             var textField: UITextField!
             switch options[indexPath.row] {
+            case "Name":
+                textField = self.nameField!
             case "Event Type":
                 textField = self.typeField!
                 typePickerView.reloadAllComponents()
