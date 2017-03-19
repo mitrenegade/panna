@@ -70,7 +70,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
             else {
                 print("results: \(user)")
-                self.storeUserInfo(user!)
+                // do not store userInfo on login. should be created on signup.
+                //self.storeUserInfo(user!)
                 
                 PlayerService.shared.current // invoke listener
                 self.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)

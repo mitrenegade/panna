@@ -60,7 +60,8 @@ class EventCell: UITableViewCell {
                     self.eventLogo.image = UIImage(named: "soccer")
                 }
             }
-            catch {
+            catch let error {
+                print("error: \(error)")
                 self.eventLogo.image = UIImage(named: "soccer")
             }
         }
