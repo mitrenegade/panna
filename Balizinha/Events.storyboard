@@ -137,7 +137,7 @@
         <!--Create Event View Controller-->
         <scene sceneID="eLM-Xg-PtX">
             <objects>
-                <viewController id="iE0-Lk-oSS" customClass="CreateEventViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateEventViewController" id="iE0-Lk-oSS" customClass="CreateEventViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="k8J-HL-wuM"/>
                         <viewControllerLayoutGuide type="bottom" id="iTv-oj-ECg"/>

@@ -66,10 +66,15 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var delegate: CreateEventDelegate?
     var cameraController: CameraOverlayViewController?
     
+    var eventToEdit: Event?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.title = "Create Event"
+        if let _ = self.eventToEdit {
+            self.setupEditEvent()
+        }
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
@@ -93,7 +98,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     }
     
     func setupPickers() {
-        
         for picker in [typePickerView, numberPickerView] {
             picker.sizeToFit()
             picker.backgroundColor = .white
@@ -239,7 +243,12 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         switch indexPath.section {
         case Sections.photo.rawValue:
             let cell: EventPhotoCell = tableView.dequeueReusableCell(withIdentifier: "EventPhotoCell", for: indexPath) as! EventPhotoCell
-            cell.photo = self.eventImage
+            if let url = self.eventToEdit?.photoUrl {
+                cell.url = url
+            }
+            else if let photo = self.eventImage {
+                cell.photo = photo
+            }
             return cell
         case Sections.details.rawValue:
             let cell : DetailCell
@@ -251,12 +260,15 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 if options[indexPath.row] == "Location" {
                     cell.valueTextField.placeholder = "Fenway Park"
                     self.locationField = cell.valueTextField
+                    self.locationField?.text = self.eventToEdit?.place
                 } else if options[indexPath.row] == "City" {
                     cell.valueTextField.placeholder = "Boston"
                     self.cityField = cell.valueTextField
+                    self.cityField?.text = self.eventToEdit?.city
                 } else if options[indexPath.row] == "Name" {
                     cell.valueTextField.placeholder = "Balizinha"
                     self.nameField = cell.valueTextField
+                    self.nameField?.text = self.eventToEdit?.name
                 }
                 
             }
@@ -271,6 +283,10 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     self.typeField = cell.valueTextField
                     self.typeField?.inputView = self.typePickerView
                     cell.valueTextField.inputAccessoryView = nil
+                    
+                    if let event = self.eventToEdit, let index = self.eventTypes.index(of: event.type) {
+                        self.typeField?.text = self.sportTypes[index]
+                    }
                 case "Day":
                     self.dayField = cell.valueTextField
                     self.dayField?.inputView = self.datePickerView
@@ -287,6 +303,10 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     self.maxPlayersField = cell.valueTextField
                     self.maxPlayersField?.inputView = self.numberPickerView
                     cell.valueTextField.inputAccessoryView = nil
+
+                    if let max = self.numPlayers {
+                        self.maxPlayersField?.text = "\(max)"
+                    }
                 default:
                     break
                 }
@@ -572,5 +592,27 @@ extension CreateEventViewController: CameraControlsDelegate {
     
     func dismissCamera() {
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+// MARK: Edit event
+extension CreateEventViewController {
+    func setupEditEvent() {
+        guard let event = self.eventToEdit else { return }
+        self.navigationItem.title = "Edit Event"
+
+        self.name = event.name
+        self.type = event.type
+        self.location = event.place
+        self.city = event.city
+        
+        // day
+        
+        // start time
+        
+        // end time
+        
+        // max players
+        self.numPlayers = UInt(event.maxPlayers)
     }
 }

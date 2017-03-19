@@ -17,30 +17,43 @@ class EventPhotoCell: UITableViewCell {
     
     var photo: UIImage? {
         didSet {
-            self.refreshPhoto()
+            if let image = self.photo {
+                self.constraintCellHeight.constant = 200
+                self.photoView.image = image
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.photoView.alpha = 1
+                })
+            }
+            else {
+                self.clearPhoto()
+            }
+        }
+    }
+    
+    var url: String? {
+        didSet {
+            if let url = url {
+                self.constraintCellHeight.constant = 200
+                self.photoView.imageURL = URL(string: url)
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.photoView.alpha = 1
+                })
+            }
+            else {
+                self.clearPhoto()
+            }
         }
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.refreshPhoto()
-    }
-    
-    func refreshPhoto() {
-        if let image = self.photo {
-            self.constraintCellHeight.constant = 200
-            self.photoView.image = image
-            UIView.animate(withDuration: 0.25, animations: {
-                self.photoView.alpha = 1
-            })
-        }
-        else {
-            self.clearPhoto()
-        }
+        self.clearPhoto()
     }
     
     func clearPhoto() {
         self.constraintCellHeight.constant = 44
+        self.photoView.imageURL = nil
+        self.photoView.image = nil
         self.photoView.alpha = 0
     }
 }

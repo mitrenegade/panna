@@ -11,6 +11,7 @@ import AsyncImageView
 
 protocol EventCellDelegate {
     func joinOrLeaveEvent(_ event: Event, join: Bool)
+    func editEvent(_ event: Event)
 }
 
 class EventCell: UITableViewCell {
@@ -64,7 +65,7 @@ class EventCell: UITableViewCell {
             if self.event!.userIsOwner {
                 self.labelFull.text = "This is your event."
                 self.btnAction.setTitle("Edit", for: UIControlState())
-                self.btnAction.isEnabled = false
+                self.btnAction.isEnabled = true
             }
             else if self.event!.containsUser(firAuth!.currentUser!) {
                 self.labelFull.text = "You're going!" //To-Do: Add functionality whether or not event is full
@@ -95,6 +96,13 @@ class EventCell: UITableViewCell {
 
     @IBAction func didTapButton(_ sender: AnyObject) {
         print("Tapped Cancel/Join")
-        self.delegate?.joinOrLeaveEvent(self.event!, join: !self.event!.containsUser(firAuth!.currentUser!))
+        guard let event = self.event else { return }
+        if event.userIsOwner {
+            // edit
+            self.delegate?.editEvent(event)
+        }
+        else {
+            self.delegate?.joinOrLeaveEvent(event, join: !event.containsUser(firAuth!.currentUser!))
+        }
     }
 }
