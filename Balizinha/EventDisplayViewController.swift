@@ -113,7 +113,8 @@ class EventDisplayViewController: UIViewController {
                     self.sportImageView.image = UIImage(named: "soccer")
                 }
             }
-            catch {
+            catch let error {
+                print("error: \(error)")
                 self.sportImageView.image = UIImage(named: "soccer")
             }
         }

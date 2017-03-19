@@ -120,7 +120,7 @@ class EventService: NSObject {
                 print(error)
                 completion(nil, error)
             } else {
-                ref.observe(.value, with: { (snapshot) in
+                ref.observeSingleEvent(of: .value, with: { (snapshot) in
                     let event = Event(snapshot: snapshot)
 
                     // TODO: completion blocks for these too

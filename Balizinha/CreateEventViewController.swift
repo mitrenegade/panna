@@ -193,14 +193,14 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         let end = self.combineDateAndTime(date, time: endTime)
         self.startTime = start
         self.endTime = end
-        
+ 
         EventService.shared.createEvent(self.type ?? EventType.balizinha.rawValue, city: city, place: location, startTime: start, endTime: end, max_players: numPlayers, info: self.info, completion: { (event, error) in
             
             if let event = event {
                 self.sendPushForCreatedEvent(event)
                 
                 if let photo = self.eventImage {
-                    FirebaseImageService.uploadImage(image: photo, completion: { (url) in
+                    FirebaseImageService.uploadImage(image: photo, type: "event", uid: event.id, completion: { (url) in
                         if let url = url {
                             event.photoUrl = url
                         }

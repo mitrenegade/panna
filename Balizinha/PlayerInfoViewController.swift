@@ -210,7 +210,11 @@ extension PlayerInfoViewController: UIImagePickerControllerDelegate, UINavigatio
         let img = info[UIImagePickerControllerEditedImage] ?? info[UIImagePickerControllerOriginalImage]
         guard let photo = img as? UIImage else { return }
         picker.dismiss(animated: true, completion: nil)
-        FirebaseImageService.uploadImage(image: photo, completion: { (url) in
+        guard let id = self.player?.id else {
+            self.simpleAlert("Invalid info", message: "We could not save your photo because your user is invalid. Please log out and log back in.")
+            return
+        }
+        FirebaseImageService.uploadImage(image: photo, type: "player", uid: id, completion: { (url) in
             if let url = url {
                 self.player?.photoUrl = url
             }

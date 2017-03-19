@@ -111,8 +111,14 @@ extension CalendarViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let event = sortedUpcomingEvents[indexPath.row]
-        self.performSegue(withIdentifier: "toMyEventDetails", sender: event)
+        if indexPath.section == 0 {
+            let event = sortedUpcomingEvents[indexPath.row]
+            self.performSegue(withIdentifier: "toMyEventDetails", sender: event)
+        }
+        else if indexPath.section == 1 {
+            let event = sortedPastEvents[indexPath.row]
+            self.performSegue(withIdentifier: "toMyEventDetails", sender: event)
+        }
     }
     
     // MARK: - Navigation

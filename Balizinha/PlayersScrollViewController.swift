@@ -143,8 +143,8 @@ class PlayerIcon: NSObject {
                 self.clearPhoto()
             }
         }
-        catch {
-            print("invalid photo")
+        catch let error {
+            print("invalid photo \(error)")
             self.clearPhoto()
         }
     }
