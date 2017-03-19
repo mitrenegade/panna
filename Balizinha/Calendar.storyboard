@@ -12,7 +12,6 @@
         <!--Calendar View Controller-->
         <scene sceneID="I4c-RV-3CP">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wE4-J9-BTT" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController storyboardIdentifier="CalendarViewController" id="UWP-94-eWB" customClass="CalendarViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="101" sectionHeaderHeight="28" sectionFooterHeight="28" id="GRv-Qs-lc5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -112,10 +111,10 @@
                                     <outlet property="btnAction" destination="lED-BZ-iYf" id="hF4-jO-nVU"/>
                                     <outlet property="eventLogo" destination="HrK-CS-LJ8" id="WUM-rc-oQM"/>
                                     <outlet property="labelAttendance" destination="8Gk-KP-mUz" id="RHX-D9-1Z3"/>
-                                    <outlet property="labelDate" destination="uh7-53-B5o" id="56l-S7-K0B"/>
                                     <outlet property="labelFull" destination="kxj-cc-oj5" id="ipb-gs-b8H"/>
                                     <outlet property="labelLocation" destination="ce0-0E-fsL" id="unb-Ox-GSe"/>
-                                    <outlet property="labelTime" destination="tL6-xl-BWA" id="SX2-Km-6Sv"/>
+                                    <outlet property="labelName" destination="uh7-53-B5o" id="4Va-dw-CFy"/>
+                                    <outlet property="labelTimeDate" destination="tL6-xl-BWA" id="0Jz-5Q-xjR"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -130,13 +129,13 @@
                         <segue destination="2fN-C8-XxG" kind="presentation" identifier="toMyEventDetails" id="mbe-s9-aoV"/>
                     </connections>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wE4-J9-BTT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="601" y="937"/>
         </scene>
         <!--Configurable Navigation Controller-->
         <scene sceneID="3yj-c0-li8">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jza-9o-wm7" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="2fN-C8-XxG" customClass="ConfigurableNavigationController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Pm5-g1-yLh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -146,6 +145,7 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="rootStoryboardName" value="EventDetails"/>
                     </userDefinedRuntimeAttributes>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jza-9o-wm7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1492" y="936"/>
         </scene>

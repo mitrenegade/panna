@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Wy0-HM-Nhe" id="iv6-IH-6h1">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6yl-1m-NaW">
@@ -111,10 +111,10 @@
                                     <outlet property="btnAction" destination="Exn-PF-Cxn" id="Xtc-7S-nqi"/>
                                     <outlet property="eventLogo" destination="6yl-1m-NaW" id="epm-16-euK"/>
                                     <outlet property="labelAttendance" destination="8jh-l2-MWc" id="Mpa-pX-GdJ"/>
-                                    <outlet property="labelDate" destination="RyJ-Yi-blE" id="IzW-Az-Fg7"/>
                                     <outlet property="labelFull" destination="2W0-gQ-7nf" id="tTI-3W-jJc"/>
                                     <outlet property="labelLocation" destination="Kbg-cx-Spd" id="Jbi-u5-DyU"/>
-                                    <outlet property="labelTime" destination="hNa-2A-ujL" id="oYs-6O-I9W"/>
+                                    <outlet property="labelName" destination="RyJ-Yi-blE" id="K3v-6c-bWj"/>
+                                    <outlet property="labelTimeDate" destination="hNa-2A-ujL" id="uLm-Ji-rae"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

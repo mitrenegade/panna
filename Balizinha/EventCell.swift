@@ -18,8 +18,8 @@ class EventCell: UITableViewCell {
     @IBOutlet var labelFull: UILabel!
     @IBOutlet var labelAttendance: UILabel!
     @IBOutlet var labelLocation: UILabel!
-    @IBOutlet var labelTime: UILabel!
-    @IBOutlet var labelDate: UILabel!
+    @IBOutlet var labelName: UILabel!
+    @IBOutlet var labelTimeDate: UILabel!
     @IBOutlet var eventLogo: UIImageView!
     
     var event: Event?
@@ -38,16 +38,17 @@ class EventCell: UITableViewCell {
 
     func setupWithEvent(_ event: Event) {
         self.event = event
-        let place = event.place
-        self.labelLocation.text = place
+        let name = event.name ?? "Balizinha"
+        let type = event.type.rawValue
+        self.labelName.text = "\(name) (\(type))"
         if let startTime = event.startTime {
-            self.labelDate.text = event.dateString(startTime) //To-Do: Sanitize Date info from event.time
-            self.labelTime.text = event.timeString(startTime) //To-Do: Add start/end time attributes for events
+            self.labelTimeDate.text = "\(event.dateString(startTime)) \(event.timeString(startTime))"
         }
         else {
-            self.labelDate.text = "Date TBD"
-            self.labelTime.text = "Time TBD"
+            self.labelTimeDate.text = "Date/Time TBD"
         }
+        let place = event.place
+        self.labelLocation.text = place
         
         if let url = event.photoUrl, let URL = URL(string: url) {
             do {
