@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import AsyncImageView
 
 class EventPhotoCell: UITableViewCell {
     
     @IBOutlet var labelText: UILabel!
-    @IBOutlet var photoView: UIImageView!
+    @IBOutlet var photoView: AsyncImageView!
     @IBOutlet var constraintCellHeight: NSLayoutConstraint!
     
     var photo: UIImage? {
