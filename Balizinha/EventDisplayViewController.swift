@@ -39,7 +39,8 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet var constraintActivityHeight: NSLayoutConstraint!
     @IBOutlet var constraintInputBottomOffset: NSLayoutConstraint!
     @IBOutlet var constraintInputHeight: NSLayoutConstraint!
-    
+
+    var organizerController: OrganizerViewController!
     var locationController: ExpandableMapViewController!
     var playersController: PlayersScrollViewController!
     var paymentController: PaymentTypesViewController!
@@ -148,7 +149,11 @@ class EventDisplayViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "EmbedLocation" {
+        if segue.identifier == "EmbedOrganizer" {
+            self.organizerController = segue.destination as? OrganizerViewController
+            self.organizerController.event = self.event
+        }
+        else if segue.identifier == "EmbedLocation" {
             self.locationController = segue.destination as? ExpandableMapViewController
             self.locationController.event = self.event
             self.locationController.delegate = self
