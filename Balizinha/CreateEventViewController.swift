@@ -19,6 +19,8 @@ fileprivate enum Sections: Int {
     case notes = 2
 }
 
+fileprivate var FUTURE_DAYS = 90
+
 class CreateEventViewController: UIViewController, UITextViewDelegate {
     
     var options = ["Name", "Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
@@ -58,7 +60,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var saveButton: UIBarButtonItem!
     var typePickerView: UIPickerView = UIPickerView()
     var numberPickerView: UIPickerView = UIPickerView()
-    var datePickerView: UIDatePicker = UIDatePicker()
+    var datePickerView: UIPickerView = UIPickerView()
     var startTimePickerView: UIDatePicker = UIDatePicker()
     var endTimePickerView: UIDatePicker = UIDatePicker()
     var eventImage: UIImage?
@@ -67,13 +69,14 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var cameraController: CameraOverlayViewController?
     
     var eventToEdit: Event?
+    var datesForPicker: [Date] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.title = "Create Event"
         if let _ = self.eventToEdit {
-            self.setupEditEvent()
+            self.navigationItem.title = "Edit Event"
         }
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -81,7 +84,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         
         self.setupPickers()
         self.setupTextFields()
-    
     }
 
     override func didReceiveMemoryWarning() {
@@ -98,27 +100,24 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     }
     
     func setupPickers() {
-        for picker in [typePickerView, numberPickerView] {
+        for picker in [typePickerView, numberPickerView, datePickerView] {
             picker.sizeToFit()
             picker.backgroundColor = .white
             picker.delegate = self
             picker.dataSource = self
         }
         
-        for picker in [startTimePickerView, endTimePickerView, datePickerView] {
+        for picker in [startTimePickerView, endTimePickerView] {
             picker.sizeToFit()
             picker.backgroundColor = .white
         }
-        datePickerView.minimumDate = Date()
-        
-        self.datePickerView.datePickerMode = UIDatePickerMode.date
-        self.datePickerView.addTarget(self, action: #selector(datePickerValueChanged), for: UIControlEvents.valueChanged)
-        
         self.startTimePickerView.datePickerMode = UIDatePickerMode.time
         self.startTimePickerView.addTarget(self, action: #selector(timePickerValueChanged), for: UIControlEvents.valueChanged)
         
         self.endTimePickerView.datePickerMode = UIDatePickerMode.time
         self.endTimePickerView.addTarget(self, action: #selector(timePickerValueChanged), for: UIControlEvents.valueChanged)
+        
+        self.generatePickerDates()
     }
     
     func setupTextFields() {
@@ -322,7 +321,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 case "Event Type":
                     self.typeField = cell.valueTextField
                     self.typeField?.inputView = self.typePickerView
-                    cell.valueTextField.inputAccessoryView = nil
+                    cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView2
                     
                     if let event = self.eventToEdit, let index = self.eventTypes.index(of: event.type) {
                         self.type = event.type
@@ -355,7 +354,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 case "Max Players":
                     self.maxPlayersField = cell.valueTextField
                     self.maxPlayersField?.inputView = self.numberPickerView
-                    cell.valueTextField.inputAccessoryView = nil
+                    cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView2
 
                     if let max = self.eventToEdit?.maxPlayers {
                         self.numPlayers = UInt(max)
@@ -474,14 +473,14 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             currentField!.text = "\(self.numPlayers!)"
         }
         // comes from clicking on done button. may not have the text yet
-        else if currentField == self.dayField {
-            self.datePickerValueChanged(self.datePickerView)
-        }
         else if currentField == self.startField {
             self.timePickerValueChanged(self.startTimePickerView)
         }
         else if currentField == self.endField {
             self.timePickerValueChanged(self.endTimePickerView)
+        }
+        else if currentField == self.dayField {
+            self.datePickerValueChanged(self.datePickerView)
         }
     }
 }
@@ -493,12 +492,16 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         //print("Reloaded number of rows")
         if pickerView == self.typePickerView {
             return sportTypes.count
         }
-        return 30
+        else if pickerView == self.numberPickerView {
+            return 30
+        }
+        return FUTURE_DAYS // datePickerView: default 3 months
     }
     
     // The data to return for the row and component (column) that's being passed in
@@ -508,6 +511,11 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
         if pickerView == self.typePickerView {
             return sportTypes[row]
         }
+        else if pickerView == self.datePickerView {
+            if row < self.datesForPicker.count {
+                return dateStringForDate(self.datesForPicker[row])
+            }
+        }
         if row == 0 {
             return "Select a number"
         }
@@ -515,6 +523,9 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        // let user pick more dates and click done
+        if pickerView == self.datePickerView { return }
+        
         if row > 0 {
             updateLabel()
             currentField!.isUserInteractionEnabled = false
@@ -526,14 +537,17 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
     // date picker
     func dateStringForDate(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = DateFormatter.Style.medium
-        dateFormatter.timeStyle = DateFormatter.Style.none
+        dateFormatter.dateFormat = "EEE MM/dd/yyyy"
+        //dateFormatter.dateStyle = DateFormatter.Style.medium
+        //dateFormatter.timeStyle = DateFormatter.Style.none
         return dateFormatter.string(from: date)
     }
     
-    func datePickerValueChanged(_ sender:UIDatePicker) {
-        self.date = sender.date
-        self.dateString = self.dateStringForDate(sender.date)
+    func datePickerValueChanged(_ sender:UIPickerView) {
+        let row = sender.selectedRow(inComponent: 0)
+        guard row < self.datesForPicker.count else { return }
+        self.date = self.datesForPicker[row]
+        self.dateString = self.dateStringForDate(self.datesForPicker[row])
         currentField!.text = dateString
     }
     
@@ -660,24 +674,14 @@ extension CreateEventViewController: CameraControlsDelegate {
     }
 }
 
-// MARK: Edit event
+// MARK: custom weekday pickers
 extension CreateEventViewController {
-    func setupEditEvent() {
-        guard let event = self.eventToEdit else { return }
-        self.navigationItem.title = "Edit Event"
-
-        self.name = event.name
-        self.type = event.type
-        self.location = event.place
-        self.city = event.city
+    func generatePickerDates() {
+        guard self.datesForPicker.count == 0 else { return }
         
-        // day
-        
-        // start time
-        
-        // end time
-        
-        // max players
-        self.numPlayers = UInt(event.maxPlayers)
+        for var row in 0..<FUTURE_DAYS {
+            let date = Date().addingTimeInterval(3600*24*TimeInterval(row))
+            datesForPicker.append(date)
+        }
     }
 }
