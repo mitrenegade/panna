@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AsyncImageView
 
 protocol PlayerDelegate: class {
     func didUpdatePlayer(player: Player)
@@ -21,10 +22,13 @@ class PlayerInfoViewController: UIViewController {
     @IBOutlet var switchInactive: UISwitch!
     @IBOutlet var labelPaymentWarning: UILabel!
     @IBOutlet var buttonPayment: UIButton!
+    @IBOutlet var photoView: AsyncImageView!
 
     var player: Player?
     weak var delegate: PlayerDelegate?
     var isCreatingPlayer = false
+    
+    var cameraController: CameraOverlayViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,22 +78,16 @@ class PlayerInfoViewController: UIViewController {
     }
     
     func refreshPhoto(url: String) {
-        do {
-            if let URL = URL(string: url) {
-                let data = try Data(contentsOf: URL)
-                if let image = UIImage(data: data) {
-                    self.refreshPhoto(photo: image)
-                }
-            }
+        if let URL = URL(string: url) {
+            photoView.image = nil
+            photoView.showActivityIndicator = true
+            photoView.imageURL = URL
+            self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 2
         }
-        catch {
-            print("invalid photo")
+        else {
+            self.photoView.image = UIImage(named: "add_user")
+            self.photoView.layer.cornerRadius = 0
         }
-    }
-    
-    func refreshPhoto(photo: UIImage) {
-        self.buttonPhoto.setImage(photo, for: .normal)
-        buttonPhoto.layer.cornerRadius = buttonPhoto.frame.size.width / 2
     }
     
     func close() {
@@ -113,7 +111,7 @@ class PlayerInfoViewController: UIViewController {
 
     @IBAction func didClickAddPhoto(_ sender: AnyObject?) {
         self.view.endEditing(true)
-        self.takePhoto()
+        self.selectPhoto()
     }
 
     @IBAction func didClickSwitch(_ sender: AnyObject?) {
@@ -185,44 +183,41 @@ extension PlayerInfoViewController: UITextViewDelegate {
 }
 
 // MARK: Camera
-extension PlayerInfoViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func takePhoto() {
+// photo
+extension PlayerInfoViewController: CameraControlsDelegate {
+    func selectPhoto() {
         self.view.endEditing(true)
-
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        picker.allowsEditing = true
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            picker.sourceType = .camera
-        }
-        else if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            picker.sourceType = .photoLibrary
-        }
-        else {
-            picker.sourceType = .savedPhotosAlbum
-        }
         
-        self.present(picker, animated: true, completion: nil)
-        LogService.log(typeString: "EditMemberPhoto", title: player?.id, message: nil, params: nil, error: nil)
+        let controller = CameraOverlayViewController(
+            nibName:"CameraOverlayViewController",
+            bundle: nil
+        )
+        controller.delegate = self
+        controller.view.frame = self.view.frame
+        controller.takePhoto(from: self)
+        self.cameraController = controller
+        
+        // add overlayview
+        //ParseLog.log(typeString: "AddEventPhoto", title: nil, message: nil, params: nil, error: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let img = info[UIImagePickerControllerEditedImage] ?? info[UIImagePickerControllerOriginalImage]
-        guard let photo = img as? UIImage else { return }
-        picker.dismiss(animated: true, completion: nil)
+    func didTakePhoto(image: UIImage) {
         guard let id = self.player?.id else {
             self.simpleAlert("Invalid info", message: "We could not save your photo because your user is invalid. Please log out and log back in.")
             return
         }
-        FirebaseImageService.uploadImage(image: photo, type: "player", uid: id, completion: { (url) in
+        FirebaseImageService.uploadImage(image: image, type: "player", uid: id, completion: { (url) in
             if let url = url {
-                self.player?.photoUrl = url
+                self.refreshPhoto(url: url)
             }
         })
-        self.refreshPhoto(photo: photo)
+        self.photoView.image = image
+        self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 2
+        
+        self.dismissCamera()
     }
-
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
+    
+    func dismissCamera() {
+        self.dismiss(animated: true, completion: nil)
     }
 }
