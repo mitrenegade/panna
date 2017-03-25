@@ -31,9 +31,12 @@ class SplashViewController: UIViewController {
                 // must be done after playerRef is created
                 for provider in user.providerData {
                     if provider.providerID == "facebook.com" {
+                        /*
+                         // do not always pull facebook info
                         PlayerService.shared.createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { (player, error) in
                             print("player \(player) error \(error)")
                         })
+                        */
                     }
                 }
             }
