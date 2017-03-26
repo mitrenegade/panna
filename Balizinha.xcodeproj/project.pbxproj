@@ -47,6 +47,7 @@
 		8EE5B3241E7C17F100BC72A5 /* CameraOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EE5B3221E7C17F100BC72A5 /* CameraOverlayViewController.xib */; };
 		8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */; };
 		8EE5B3281E7F365200BC72A5 /* PlayerIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */; };
+		8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
 		9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */; };
 		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
 		F2048F7E1CED59A50039F7BB /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */; };
@@ -110,6 +111,7 @@
 		8EE5B3221E7C17F100BC72A5 /* CameraOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraOverlayViewController.xib; sourceTree = "<group>"; };
 		8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizerViewController.swift; sourceTree = "<group>"; };
 		8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerIcon.swift; sourceTree = "<group>"; };
+		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
 		AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED7C1F62DA3A7F54848AA802 /* Pods-Balizinha.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.debug.xcconfig"; sourceTree = "<group>"; };
 		F2048F7B1CED57170039F7BB /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 				F2F7C3B91CEE10E800350115 /* DescriptionCell.swift */,
 				8E54213F1E70DF8700AE4F3A /* ActionCell.swift */,
 				8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */,
+				8EF25BC41E88161A0079E90B /* ToggleCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -501,6 +504,7 @@
 				8E19A4AC1E6C9C9600D301EC /* PlayersScrollViewController.swift in Sources */,
 				8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */,
 				8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */,
+				8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */,
 				8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */,
 				8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */,
 				8E379F011CE57E8600C91A12 /* EventService.swift in Sources */,

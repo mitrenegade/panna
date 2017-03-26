@@ -23,7 +23,7 @@ fileprivate var FUTURE_DAYS = 90
 
 class CreateEventViewController: UIViewController, UITextViewDelegate {
     
-    var options = ["Name", "Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
+    var options = ["Name", "Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players", "Payment"]
     var sportTypes = ["Select Type", "3v3", "5v5", "7v7", "11v11"]
     var eventTypes: [EventType] = [.other, .event3v3, .event5v5, .event7v7, .event11v11]
     
@@ -40,6 +40,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var endTime: Date?
     var numPlayers : UInt?
     var info : String?
+    var paymentRequired: Bool = false
    
     var nameField: UITextField?
     var typeField: UITextField?
@@ -218,7 +219,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             })
         }
         else {
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, place: location, startTime: start, endTime: end, max_players: numPlayers, info: self.info, completion: { (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, place: location, startTime: start, endTime: end, max_players: numPlayers, info: self.info, paymentRequired: self.paymentRequired, completion: { (event, error) in
                 
                 if let event = event {
                     self.sendPushForCreatedEvent(event)
@@ -312,6 +313,11 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     }
                 }
                 
+            }
+            else if options[indexPath.row] == "Payment" {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell", for: indexPath) as! ToggleCell
+                cell.delegate = self
+                return cell
             }
             else {
                 cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
@@ -685,5 +691,12 @@ extension CreateEventViewController {
             let date = Date().addingTimeInterval(3600*24*TimeInterval(row))
             datesForPicker.append(date)
         }
+    }
+}
+
+// MARK: ToggleCell
+extension CreateEventViewController: ToggleCellDelegate {
+    func didToggleSwitch(isOn: Bool) {
+        paymentRequired = isOn
     }
 }
