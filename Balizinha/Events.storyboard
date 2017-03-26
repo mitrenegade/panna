@@ -224,7 +224,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Z5F-Gv-1ba">
-                                                    <rect key="frame" x="8" y="0.0" width="348" height="43"/>
+                                                    <rect key="frame" x="66" y="0.0" width="290" height="43"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="Pe5-QW-oGv"/>
                                                     </constraints>
@@ -235,11 +235,11 @@
                                             <constraints>
                                                 <constraint firstItem="Z5F-Gv-1ba" firstAttribute="trailing" secondItem="F4X-yU-N7C" secondAttribute="trailingMargin" id="3IM-Ho-3jD"/>
                                                 <constraint firstItem="Z5F-Gv-1ba" firstAttribute="centerY" secondItem="F4X-yU-N7C" secondAttribute="centerY" id="6Oz-rK-1ZW"/>
-                                                <constraint firstItem="Z5F-Gv-1ba" firstAttribute="leading" secondItem="F4X-yU-N7C" secondAttribute="leadingMargin" id="Bom-Me-87c"/>
                                                 <constraint firstItem="Y4s-Nv-oPb" firstAttribute="centerY" secondItem="F4X-yU-N7C" secondAttribute="centerY" id="HRR-Rf-KWO"/>
                                                 <constraint firstItem="Y4s-Nv-oPb" firstAttribute="leading" secondItem="F4X-yU-N7C" secondAttribute="leading" constant="16" id="MDm-cI-YGq"/>
                                                 <constraint firstItem="Z5F-Gv-1ba" firstAttribute="trailing" secondItem="F4X-yU-N7C" secondAttribute="trailingMargin" constant="-11" id="Xv0-Gm-RqR"/>
                                                 <constraint firstItem="Z5F-Gv-1ba" firstAttribute="leading" secondItem="Y4s-Nv-oPb" secondAttribute="trailing" constant="8" id="qGQ-g8-noh"/>
+                                                <constraint firstItem="Z5F-Gv-1ba" firstAttribute="leading" secondItem="Y4s-Nv-oPb" secondAttribute="trailing" constant="8" id="syn-aU-Kh6"/>
                                                 <constraint firstItem="Z5F-Gv-1ba" firstAttribute="top" secondItem="F4X-yU-N7C" secondAttribute="topMargin" constant="-8" id="uc6-NG-EWf"/>
                                             </constraints>
                                             <variation key="default">
@@ -268,7 +268,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aR9-3O-D8b" customClass="TransparentTextField" customModule="Balizinha" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="0.0" width="326" height="43"/>
+                                                    <rect key="frame" x="66" y="0.0" width="268" height="43"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="6BD-ct-pbl"/>
                                                     </constraints>
@@ -277,10 +277,10 @@
                                                 </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="aR9-3O-D8b" firstAttribute="leading" secondItem="1wh-GI-gQh" secondAttribute="leadingMargin" id="5iF-vo-wCG"/>
                                                 <constraint firstItem="A5s-Bm-IrB" firstAttribute="leading" secondItem="1wh-GI-gQh" secondAttribute="leading" constant="16" id="6gK-1c-vS3"/>
                                                 <constraint firstItem="aR9-3O-D8b" firstAttribute="leading" secondItem="A5s-Bm-IrB" secondAttribute="trailing" constant="8" id="FAb-fQ-qfd"/>
                                                 <constraint firstItem="aR9-3O-D8b" firstAttribute="trailing" secondItem="1wh-GI-gQh" secondAttribute="trailingMargin" id="FHA-vz-I9O"/>
+                                                <constraint firstItem="aR9-3O-D8b" firstAttribute="leading" secondItem="A5s-Bm-IrB" secondAttribute="trailing" constant="8" id="PlW-KZ-bo8"/>
                                                 <constraint firstItem="aR9-3O-D8b" firstAttribute="centerY" secondItem="1wh-GI-gQh" secondAttribute="centerY" id="Xfa-qR-uDe"/>
                                                 <constraint firstItem="A5s-Bm-IrB" firstAttribute="centerY" secondItem="1wh-GI-gQh" secondAttribute="centerY" id="eLW-AN-44D"/>
                                                 <constraint firstItem="aR9-3O-D8b" firstAttribute="top" secondItem="1wh-GI-gQh" secondAttribute="topMargin" constant="-8" id="kya-NG-ih4"/>
@@ -338,6 +338,40 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="DescriptionTextView" destination="gvB-YD-bA5" id="yXx-D5-aid"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToggleCell" id="nVH-jy-zl1" customClass="ToggleCell" customModule="Balizinha" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="413" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nVH-jy-zl1" id="zIs-Js-93s">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iBy-md-neX">
+                                                    <rect key="frame" x="318" y="6" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="didToggleSwitchWithSender:" destination="nVH-jy-zl1" eventType="valueChanged" id="F3k-kB-m1z"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Payment required" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="26O-d8-1av">
+                                                    <rect key="frame" x="16" y="11" width="294" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="iBy-md-neX" firstAttribute="leading" secondItem="26O-d8-1av" secondAttribute="trailing" constant="8" id="2uw-3Z-0Kf"/>
+                                                <constraint firstItem="26O-d8-1av" firstAttribute="centerY" secondItem="zIs-Js-93s" secondAttribute="centerY" id="5XK-AC-iKm"/>
+                                                <constraint firstAttribute="trailing" secondItem="iBy-md-neX" secondAttribute="trailing" constant="8" id="945-fJ-4Pe"/>
+                                                <constraint firstItem="iBy-md-neX" firstAttribute="top" secondItem="zIs-Js-93s" secondAttribute="top" constant="6" id="mFp-1X-LwR"/>
+                                                <constraint firstItem="26O-d8-1av" firstAttribute="leading" secondItem="zIs-Js-93s" secondAttribute="leading" constant="16" id="o1z-zp-nIe"/>
+                                                <constraint firstAttribute="bottom" secondItem="iBy-md-neX" secondAttribute="bottom" constant="6" id="qUZ-Z5-1gu"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="labelText" destination="26O-d8-1av" id="XrK-dr-TV5"/>
+                                            <outlet property="switchToggle" destination="iBy-md-neX" id="iOS-AM-1Rg"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

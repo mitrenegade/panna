@@ -17,13 +17,13 @@
                         <viewControllerLayoutGuide type="bottom" id="RSz-2L-tQo"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="PU7-jQ-ScZ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="900"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v5N-mi-Yah">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v5N-mi-Yah">
+                                <rect key="frame" x="0.0" y="20" width="375" height="880"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="19F9D2D8-0934-433C-8434-0141261D7A51" translatesAutoresizingMaskIntoConstraints="NO" id="E75-s4-H12">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="2C76312F-E6F6-4789-9175-8C557AD4E2B0" translatesAutoresizingMaskIntoConstraints="NO" id="E75-s4-H12">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="375" id="bxi-Tm-Ce3"/>
@@ -104,15 +104,15 @@
                                         </connections>
                                     </containerView>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="do0-We-LXv" userLabel="Container View - chat">
-                                        <rect key="frame" x="0.0" y="550" width="375" height="197"/>
+                                        <rect key="frame" x="0.0" y="550" width="375" height="200"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="197" id="oQi-1b-Zgc"/>
+                                            <constraint firstAttribute="height" constant="200" id="oQi-1b-Zgc"/>
                                         </constraints>
                                         <connections>
                                             <segue destination="iuG-3b-Gq9" kind="embed" identifier="EmbedActivity" id="K6q-oN-di0"/>
                                         </connections>
                                     </containerView>
-                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nBh-qV-Eg0">
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nBh-qV-Eg0" userLabel="Container View - organizer">
                                         <rect key="frame" x="0.0" y="380" width="375" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="86n-tI-D7g"/>
@@ -121,9 +121,17 @@
                                             <segue destination="z1j-ZZ-quw" kind="embed" identifier="EmbedOrganizer" id="3At-1D-E4N"/>
                                         </connections>
                                     </containerView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bhl-nn-68t" userLabel="View - spacer for chat">
+                                        <rect key="frame" x="0.0" y="750" width="375" height="50"/>
+                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="UvV-ic-Vba"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="E75-s4-H12" firstAttribute="top" secondItem="v5N-mi-Yah" secondAttribute="top" id="0Hg-cz-9QX"/>
+                                    <constraint firstItem="Bhl-nn-68t" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="0Hx-Lt-nrr"/>
                                     <constraint firstAttribute="trailing" secondItem="do0-We-LXv" secondAttribute="trailing" id="30S-ig-rF4"/>
                                     <constraint firstItem="nBh-qV-Eg0" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="6cO-pg-Kd1"/>
                                     <constraint firstItem="XKL-LP-hIz" firstAttribute="top" secondItem="y7x-2l-MZf" secondAttribute="bottom" id="83e-KR-6i3"/>
@@ -146,8 +154,11 @@
                                     <constraint firstItem="E75-s4-H12" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="WmU-0V-xfg"/>
                                     <constraint firstAttribute="trailing" secondItem="nBh-qV-Eg0" secondAttribute="trailing" id="ZBm-cj-3OY"/>
                                     <constraint firstItem="AFl-cT-9PU" firstAttribute="top" secondItem="nBh-qV-Eg0" secondAttribute="bottom" id="ZyN-1A-G2x"/>
+                                    <constraint firstAttribute="bottom" secondItem="Bhl-nn-68t" secondAttribute="bottom" id="aaG-Ox-gCE"/>
                                     <constraint firstItem="nNh-T3-3nB" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="azC-QS-B1H"/>
+                                    <constraint firstAttribute="trailing" secondItem="Bhl-nn-68t" secondAttribute="trailing" id="ddB-h5-Nb8"/>
                                     <constraint firstItem="XKL-LP-hIz" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="i5y-vo-KB5"/>
+                                    <constraint firstItem="Bhl-nn-68t" firstAttribute="top" secondItem="do0-We-LXv" secondAttribute="bottom" id="lPz-hu-Ik3"/>
                                     <constraint firstAttribute="trailing" secondItem="nNh-T3-3nB" secondAttribute="trailing" id="r3E-vB-vuB"/>
                                     <constraint firstItem="do0-We-LXv" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="wcv-7b-wk9"/>
                                     <constraint firstItem="do0-We-LXv" firstAttribute="top" secondItem="nNh-T3-3nB" secondAttribute="bottom" id="ymG-fp-jnd"/>
@@ -155,7 +166,7 @@
                                 </constraints>
                             </scrollView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f72-yV-K2b">
-                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="850" width="375" height="50"/>
                                 <color key="backgroundColor" red="0.094117647060000004" green="0.4823529412" blue="0.61960784310000006" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="aGQ-UK-1Rq"/>
@@ -178,12 +189,15 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="ldZ-Q8-IpV"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="900"/>
                     <connections>
                         <outlet property="activityView" destination="do0-We-LXv" id="BWG-Lk-K5v"/>
                         <outlet property="constraintActivityHeight" destination="oQi-1b-Zgc" id="cjl-bF-PAR"/>
                         <outlet property="constraintInputBottomOffset" destination="cEb-Ru-VOm" id="4ry-SA-oAV"/>
                         <outlet property="constraintInputHeight" destination="aGQ-UK-1Rq" id="DOp-mR-4ob"/>
                         <outlet property="constraintLocationHeight" destination="eVB-nQ-1Rw" id="seM-6w-e4z"/>
+                        <outlet property="constraintPaymentHeight" destination="j2B-AI-8En" id="i9t-TF-odf"/>
                         <outlet property="constraintPlayersHeight" destination="03K-Lp-YdI" id="Itn-a4-TNj"/>
                         <outlet property="constraintWidth" destination="bxi-Tm-Ce3" id="fTJ-fs-yZN"/>
                         <outlet property="labelDate" destination="0hR-vD-Xwe" id="QM1-xx-LFY"/>
@@ -194,7 +208,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RpN-95-ZF0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2277.5999999999999" y="936.88155922038993"/>
+            <point key="canvasLocation" x="2277.5999999999999" y="936.4317841079461"/>
         </scene>
         <!--Expandable Map View Controller-->
         <scene sceneID="Xm1-vQ-RLT">
@@ -331,11 +345,11 @@
                         <viewControllerLayoutGuide type="bottom" id="dzO-3Q-hNt"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="re1-kY-OoP">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="197"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eBw-Dt-B8i">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="197"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActionCell" textLabel="ii4-8r-oOE" style="IBUITableViewCellStyleDefault" id="Evi-Od-Fn4">
@@ -562,7 +576,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="19F9D2D8-0934-433C-8434-0141261D7A51" width="375" height="192">
+        <image name="2C76312F-E6F6-4789-9175-8C557AD4E2B0" width="375" height="192">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

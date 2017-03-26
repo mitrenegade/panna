@@ -102,7 +102,49 @@ class Event: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
+    var maxPlayers: Int {
+        get {
+            if let val = self.dict["max_players"] as? Int {
+                return val
+            }
+            return 0
+        }
+        set {
+            self.dict["max_players"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+        
+    }
+
+    var info: String {
+        get {
+            if let val = self.dict["info"] as? String {
+                return val
+            }
+            return ""
+        }
+        set {
+            self.dict["info"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+        
+    }
+
+    var paymentRequired: Bool {
+        if let paymentRequired = self.dict["paymentRequired"] as? Bool {
+            return paymentRequired
+        }
+        return false
+    }
     
+    var owner: String? {
+        return self.dict["owner"] as? String
+    }
+    
+}
+
+// Utils
+extension Event {
     func dateString(_ date: Date) -> String {
         //return "\((date as NSDate).day()) \(months[(date as NSDate).month() - 1]) \((date as NSDate).year())"
         return CreateEventViewController.dateStringForDate(date)
@@ -118,38 +160,10 @@ class Event: FirebaseBaseModel {
         return CreateEventViewController.timeStringForDate(date)
     }
     
-    var maxPlayers: Int {
-        get {
-            if let val = self.dict["max_players"] as? Int {
-                return val
-            }
-            return 0
-        }
-        set {
-            self.dict["max_players"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
-        }
-        
-    }
-    
     var numPlayers: Int {
         let users = self.users
         print("users: \(users.count)")
         return users.count
-    }
-    
-    var info: String {
-        get {
-            if let val = self.dict["info"] as? String {
-                return val
-            }
-            return ""
-        }
-        set {
-            self.dict["info"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
-        }
-        
     }
     
     var users: [String] {
@@ -181,10 +195,6 @@ class Event: FirebaseBaseModel {
         else {
             return false // false means TBD
         }
-    }
-    
-    var owner: String? {
-        return self.dict["owner"] as? String
     }
     
     var userIsOwner: Bool {

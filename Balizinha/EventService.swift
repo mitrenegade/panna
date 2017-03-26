@@ -94,7 +94,7 @@ class EventService: NSObject {
         }
     }
     
-    func createEvent(_ name: String, type: EventType, city: String, place: String, startTime: Date, endTime: Date, max_players: UInt, info: String?, completion:@escaping (Event?, NSError?) -> Void) {
+    func createEvent(_ name: String, type: EventType, city: String, place: String, startTime: Date, endTime: Date, max_players: UInt, info: String?, paymentRequired: Bool, completion:@escaping (Event?, NSError?) -> Void) {
         
         print ("Create events")
         
@@ -107,7 +107,7 @@ class EventService: NSObject {
         let eventRef = firRef.child("events") // this references the endpoint lotsports.firebase.com/events/
         let newEventRef = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
         
-        var params: [String: Any] = ["name": name, "type": type.rawValue, "city": city, "place": place, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "max_players": max_players, "owner": user.uid]
+        var params: [String: Any] = ["name": name, "type": type.rawValue, "city": city, "place": place, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "max_players": max_players, "owner": user.uid, "paymentRequired": paymentRequired]
         params["createdAt"] = Date().timeIntervalSince1970
         if info == nil {
             params["info"] = "No description available"

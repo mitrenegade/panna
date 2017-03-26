@@ -36,6 +36,7 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet var constraintWidth: NSLayoutConstraint!
     @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
     @IBOutlet var constraintPlayersHeight: NSLayoutConstraint!
+    @IBOutlet var constraintPaymentHeight: NSLayoutConstraint!
     @IBOutlet var constraintActivityHeight: NSLayoutConstraint!
     @IBOutlet var constraintInputBottomOffset: NSLayoutConstraint!
     @IBOutlet var constraintInputHeight: NSLayoutConstraint!
@@ -126,12 +127,19 @@ class EventDisplayViewController: UIViewController {
         if let isPast = self.event?.isPast, isPast {
             self.constraintInputHeight.constant = 0
         }
+        
+        if !self.event.paymentRequired {
+            self.constraintPaymentHeight.constant = 0
+            self.view.setNeedsUpdateConstraints()
+            self.view.updateConstraintsIfNeeded()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // make sure table height is exactly correct because autolayout doesn't correctly set it
+        /*
         var height = self.view.frame.size.height + 40 - self.activityView.frame.origin.y
         if self.event.isPast {
             height += 40
@@ -141,7 +149,7 @@ class EventDisplayViewController: UIViewController {
             height = 80 // show at least two rows
         }
         self.constraintActivityHeight.constant = height
-
+        */
     }
     
     func close() {
