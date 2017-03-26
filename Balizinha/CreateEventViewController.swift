@@ -317,6 +317,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             else if options[indexPath.row] == "Payment" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell", for: indexPath) as! ToggleCell
                 cell.delegate = self
+                cell.switchToggle.isOn = paymentRequired
                 return cell
             }
             else {

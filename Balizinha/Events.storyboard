@@ -224,7 +224,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Z5F-Gv-1ba">
-                                                    <rect key="frame" x="348" y="0.0" width="8" height="43"/>
+                                                    <rect key="frame" x="66" y="0.0" width="290" height="43"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="Pe5-QW-oGv"/>
                                                     </constraints>
@@ -239,6 +239,7 @@
                                                 <constraint firstItem="Y4s-Nv-oPb" firstAttribute="leading" secondItem="F4X-yU-N7C" secondAttribute="leading" constant="16" id="MDm-cI-YGq"/>
                                                 <constraint firstItem="Z5F-Gv-1ba" firstAttribute="trailing" secondItem="F4X-yU-N7C" secondAttribute="trailingMargin" constant="-11" id="Xv0-Gm-RqR"/>
                                                 <constraint firstItem="Z5F-Gv-1ba" firstAttribute="leading" secondItem="Y4s-Nv-oPb" secondAttribute="trailing" constant="8" id="qGQ-g8-noh"/>
+                                                <constraint firstItem="Z5F-Gv-1ba" firstAttribute="leading" secondItem="Y4s-Nv-oPb" secondAttribute="trailing" constant="8" id="syn-aU-Kh6"/>
                                                 <constraint firstItem="Z5F-Gv-1ba" firstAttribute="top" secondItem="F4X-yU-N7C" secondAttribute="topMargin" constant="-8" id="uc6-NG-EWf"/>
                                             </constraints>
                                             <variation key="default">
@@ -267,7 +268,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aR9-3O-D8b" customClass="TransparentTextField" customModule="Balizinha" customModuleProvider="target">
-                                                    <rect key="frame" x="326" y="0.0" width="8" height="43"/>
+                                                    <rect key="frame" x="66" y="0.0" width="268" height="43"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="6BD-ct-pbl"/>
                                                     </constraints>
@@ -279,6 +280,7 @@
                                                 <constraint firstItem="A5s-Bm-IrB" firstAttribute="leading" secondItem="1wh-GI-gQh" secondAttribute="leading" constant="16" id="6gK-1c-vS3"/>
                                                 <constraint firstItem="aR9-3O-D8b" firstAttribute="leading" secondItem="A5s-Bm-IrB" secondAttribute="trailing" constant="8" id="FAb-fQ-qfd"/>
                                                 <constraint firstItem="aR9-3O-D8b" firstAttribute="trailing" secondItem="1wh-GI-gQh" secondAttribute="trailingMargin" id="FHA-vz-I9O"/>
+                                                <constraint firstItem="aR9-3O-D8b" firstAttribute="leading" secondItem="A5s-Bm-IrB" secondAttribute="trailing" constant="8" id="PlW-KZ-bo8"/>
                                                 <constraint firstItem="aR9-3O-D8b" firstAttribute="centerY" secondItem="1wh-GI-gQh" secondAttribute="centerY" id="Xfa-qR-uDe"/>
                                                 <constraint firstItem="A5s-Bm-IrB" firstAttribute="centerY" secondItem="1wh-GI-gQh" secondAttribute="centerY" id="eLW-AN-44D"/>
                                                 <constraint firstItem="aR9-3O-D8b" firstAttribute="top" secondItem="1wh-GI-gQh" secondAttribute="topMargin" constant="-8" id="kya-NG-ih4"/>
@@ -351,7 +353,7 @@
                                                         <action selector="didToggleSwitchWithSender:" destination="nVH-jy-zl1" eventType="valueChanged" id="F3k-kB-m1z"/>
                                                     </connections>
                                                 </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event has participation cost" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="26O-d8-1av">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Payment required" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="26O-d8-1av">
                                                     <rect key="frame" x="16" y="11" width="294" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
