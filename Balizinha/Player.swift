@@ -85,4 +85,18 @@ class Player: FirebaseBaseModel {
     var isInactive: Bool {
         return false
     }
+    
+    var isOwner: Bool {
+        get {
+            guard let dict = self.dict else { return false }
+            if let val = dict["isOwner"] as? Bool {
+                return val
+            }
+            return false
+        }
+        set {
+            self.dict["isOwner"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
 }
