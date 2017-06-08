@@ -76,7 +76,19 @@ class EventsViewController: UITableViewController {
     }
     
     func didClickAddEvent(sender: Any) {
-        self.simpleAlert("Create an event?", message: "You must be a paid organizer to create a new game. Click to proceed.") {
+        guard let user = PlayerService.shared.current else { return }
+        if !user.isOwner {
+            let alert = UIAlertController(title: "Create an event?", message: "You must be a paid organizer to create a new game. Click to upgrade for free.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Go", style: UIAlertActionStyle.default, handler: { (action) in
+                user.isOwner = true
+                
+                // create
+                self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
+            }))
+            self.navigationController?.present(alert, animated: true, completion: nil)
+        }
+        else {
             // create
             self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
         }
