@@ -11,7 +11,7 @@ import FBSDKLoginKit
 
 class AccountViewController: UITableViewController {
     
-    let menuOptions = ["Edit profile", "Push notifications", "Version", "Bundle", "Logout"]
+    let menuOptions = ["Edit profile", "Push notifications", "Version", /*"Bundle", */"Logout"]
     var service = EventService.shared
 
     override func viewDidLoad() {
