@@ -14,6 +14,7 @@ class EventPhotoCell: UITableViewCell {
     @IBOutlet var labelText: UILabel!
     @IBOutlet var photoView: AsyncImageView!
     @IBOutlet var constraintCellHeight: NSLayoutConstraint!
+    @IBOutlet weak var imagePlus: UIImageView!
     
     var photo: UIImage? {
         didSet {
@@ -23,9 +24,11 @@ class EventPhotoCell: UITableViewCell {
                 UIView.animate(withDuration: 0.25, animations: {
                     self.photoView.alpha = 1
                 })
+                self.imagePlus.isHidden = true
             }
             else {
                 self.clearPhoto()
+                self.imagePlus.isHidden = false
             }
         }
     }

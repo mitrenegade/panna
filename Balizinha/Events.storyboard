@@ -206,6 +206,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="constraintCellHeight" destination="6VR-kf-c0E" id="vHK-zG-WGZ"/>
+                                            <outlet property="imagePlus" destination="Ack-hd-iRa" id="JWT-SI-6Uq"/>
                                             <outlet property="labelText" destination="bOQ-QV-AkS" id="tSh-jR-hYO"/>
                                             <outlet property="photoView" destination="9gH-Jb-eQW" id="Ihw-Rx-Vat"/>
                                         </connections>
