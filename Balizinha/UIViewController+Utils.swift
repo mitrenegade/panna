@@ -11,8 +11,12 @@ import UIKit
 extension UIViewController {
     
     func simpleAlert(_ title: String, defaultMessage: String?, error: NSError?) {
-        if error != nil {
-            if let msg = error!.userInfo["error"] as? String {
+        if let error = error {
+            if let msg = error.userInfo["error"] as? String {
+                self.simpleAlert(title, message: msg)
+                return
+            }
+            else if let msg = error.localizedDescription {
                 self.simpleAlert(title, message: msg)
                 return
             }
