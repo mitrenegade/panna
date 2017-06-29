@@ -67,7 +67,7 @@ class EventCell: UITableViewCell {
                 self.btnAction.setTitle("Edit", for: UIControlState())
                 self.btnAction.isEnabled = true
             }
-            else if self.event!.containsUser(firAuth!.currentUser!) {
+            else if self.event!.containsUser(firAuth.currentUser!) {
                 self.labelFull.text = "You're going!" //To-Do: Add functionality whether or not event is full
                 self.btnAction.setTitle("Leave", for: UIControlState())
                 self.btnAction.isEnabled = true
@@ -102,7 +102,7 @@ class EventCell: UITableViewCell {
             self.delegate?.editEvent(event)
         }
         else {
-            self.delegate?.joinOrLeaveEvent(event, join: !event.containsUser(firAuth!.currentUser!))
+            self.delegate?.joinOrLeaveEvent(event, join: !event.containsUser(firAuth.currentUser!))
         }
     }
 }

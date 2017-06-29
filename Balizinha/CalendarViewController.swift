@@ -39,7 +39,7 @@ class CalendarViewController: UITableViewController {
             }
             
             // 2: Remove events the user has joined
-            EventService.shared.getEventsForUser(firAuth!.currentUser!, completion: { (eventIds) in
+            EventService.shared.getEventsForUser(firAuth.currentUser!, completion: { (eventIds) in
                 self.sortedUpcomingEvents = self.sortedUpcomingEvents.filter({ (event) -> Bool in
                     eventIds.contains(event.id)
                 })

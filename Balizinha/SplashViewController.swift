@@ -12,19 +12,19 @@ import FirebaseAuth
 
 class SplashViewController: UIViewController {
     
-    var handle: FIRAuthStateDidChangeListenerHandle?
+    var handle: AuthStateDidChangeListenerHandle?
     var loaded = false
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.handle = firAuth?.addStateDidChangeListener({ (auth, user) in
+        self.handle = firAuth.addStateDidChangeListener({ (auth, user) in
             if self.loaded {
                 return
             }
             
             if let user = user {
                 // user is logged in
-                print("auth: \(auth) user: \(user) current \(firAuth?.currentUser)")
+                print("auth: \(auth) user: \(user) current \(firAuth.currentUser)")
                 self.goToMain()
                 
                 // pull user data from facebook
@@ -45,7 +45,7 @@ class SplashViewController: UIViewController {
             }
             
             if self.handle != nil {
-                firAuth?.removeStateDidChangeListener(self.handle!)
+                firAuth.removeStateDidChangeListener(self.handle!)
                 self.loaded = true
                 self.handle = nil
             }

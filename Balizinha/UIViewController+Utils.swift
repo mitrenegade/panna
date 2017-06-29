@@ -17,7 +17,7 @@ extension UIViewController {
                 return
             }
         }
-        self.simpleAlert(title, message: defaultMessage ?? error.localizedDescription)
+        self.simpleAlert(title, message: defaultMessage ?? error?.localizedDescription)
     }
     
     func simpleAlert(_ title: String, message: String?) {

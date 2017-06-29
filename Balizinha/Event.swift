@@ -169,10 +169,14 @@ extension Event {
     var users: [String] {
         guard let usersForEvents = self.service.usersForEvents else { return [] }
         if let results = usersForEvents[self.id] as? [String: AnyObject] {
-            let filtered = results.filter({ (key, val) -> Bool in
+            let filtered = results.filter({ (arg) -> Bool in
+                
+                let (key, val) = arg
                 return val as! Bool
             })
-            let userIds = filtered.map({ (key, val) -> String in
+            let userIds = filtered.map({ (arg) -> String in
+                
+                let (key, val) = arg
                 return key
             })
             return userIds
@@ -180,7 +184,7 @@ extension Event {
         return []
     }
     
-    func containsUser(_ user: FIRUser) -> Bool {
+    func containsUser(_ user: User) -> Bool {
         return self.users.contains(user.uid)
     }
     
@@ -199,7 +203,7 @@ extension Event {
     
     var userIsOwner: Bool {
         guard let owner = self.owner else { return false }
-        guard let user = firAuth?.currentUser else { return false }
+        guard let user = firAuth.currentUser else { return false }
         
         return user.uid == owner
     }

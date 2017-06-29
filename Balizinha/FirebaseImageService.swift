@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseStorage
 
-fileprivate let storage = FIRStorage.storage()
+fileprivate let storage = Storage.storage()
 fileprivate let storageRef = storage.reference()
 fileprivate let imageBaseRef = storageRef.child("images")
 
@@ -21,8 +21,8 @@ class FirebaseImageService: NSObject {
             return
         }
         
-        let imageRef: FIRStorageReference = imageBaseRef.child(type).child(uid)
-        let uploadTask = imageRef.put(data, metadata: nil) { (meta, error) in
+        let imageRef: StorageReference = imageBaseRef.child(type).child(uid)
+        let uploadTask = imageRef.putData(data, metadata: nil) { (meta, error) in
             guard let metadata = meta else {
                 completion(nil)
                 return

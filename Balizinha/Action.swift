@@ -126,7 +126,7 @@ extension Action {
     
     var userIsOwner: Bool {
         guard let owner = self.user else { return false }
-        guard let user = firAuth?.currentUser else { return false }
+        guard let user = firAuth.currentUser else { return false }
         
         return user.uid == owner
     }
