@@ -277,6 +277,10 @@ class EventService: NSObject {
     func observeUsers(forEvent event: Event, completion: @escaping (_ userIds: [String]) -> Void) {
         // TODO: return each event instead of a list of userIds
         
+        if AIRPLANE_MODE {
+            completion([])
+            return 
+        }
         
         // returns all current events for a user. Returns as snapshot
         // only gets events once, and removes observer afterwards
