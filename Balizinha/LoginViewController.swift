@@ -97,9 +97,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         print("Login failed. \(error)")
                     } else {
                         print("Logged in! \(user)")
-                        
+                        guard let user = user else { return }
                         // store user data
-                        self.storeUserInfo(user!)
+                        self.storeUserInfo(user)
+                        self.downloadFacebookPhoto(user)
                         self.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
                     }
                 })
@@ -112,6 +113,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         PlayerService.shared.createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { (player, error) in
             PlayerService.shared.current // invoke listener
         })
+    }
+    
+    fileprivate func downloadFacebookPhoto(_ user: User) {
+        guard let photoUrl = user.photoURL else { return }
+        guard let player = PlayerService.shared.current else { return }
+        DispatchQueue.global().async {
+            guard let data = try? Data(contentsOf: photoUrl) else { return }
+            guard let image = UIImage(data: data) else { return }
+            FirebaseImageService.uploadImage(image: image, type: "player", uid: user.uid, completion: { (url) in
+                if let url = url {
+                    player.photoUrl = url
+                }
+            })
+        }
     }
 }
 
