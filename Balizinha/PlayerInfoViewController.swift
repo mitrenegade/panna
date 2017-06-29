@@ -209,6 +209,9 @@ extension PlayerInfoViewController: CameraControlsDelegate {
         FirebaseImageService.uploadImage(image: image, type: "player", uid: id, completion: { (url) in
             if let url = url {
                 self.refreshPhoto(url: url)
+                if let player = PlayerService.shared.current {
+                    player.photoUrl = url
+                }
             }
         })
         self.photoView.image = image
