@@ -11,7 +11,7 @@ import Firebase
 
 fileprivate var singleton: PlayerService?
 var _currentPlayer: Player?
-fileprivate var playersRef: FIRDatabaseReference?
+fileprivate var playersRef: DatabaseReference?
 class PlayerService: NSObject {
     // MARK: - Singleton
     static var shared: PlayerService {
@@ -28,11 +28,11 @@ class PlayerService: NSObject {
 
     func createPlayer(name: String?, email: String?, city: String?, info: String?, photoUrl: String?, completion:@escaping (Player?, NSError?) -> Void) {
         
-        guard let user = firAuth?.currentUser else { return }
+        guard let user = firAuth.currentUser else { return }
         guard let playersRef = playersRef else { return }
         
         let existingUserId = user.uid
-        let newPlayerRef: FIRDatabaseReference = playersRef.child(existingUserId)
+        let newPlayerRef: DatabaseReference = playersRef.child(existingUserId)
         
         var params: [String: Any] = ["createdAt": Date().timeIntervalSince1970]
         if let name = name {
@@ -71,10 +71,10 @@ class PlayerService: NSObject {
         playersRef = firRef.child("players") // this references the endpoint lotsports.firebase.com/players/
         playersRef!.keepSynced(true)
 
-        let existingUserId = firAuth?.currentUser?.uid
-        let playerRef: FIRDatabaseReference = playersRef!.child(existingUserId!) // FIXME better optional unwrapping. what happens on logout?
+        let existingUserId = firAuth.currentUser?.uid
+        let playerRef: DatabaseReference = playersRef!.child(existingUserId!) // FIXME better optional unwrapping. what happens on logout?
         
-        playerRef.observe(.value) { (snapshot: FIRDataSnapshot!) in
+        playerRef.observe(.value) { (snapshot: DataSnapshot!) in
             _currentPlayer = Player(snapshot: snapshot)
         }
     }()

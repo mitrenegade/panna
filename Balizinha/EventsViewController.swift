@@ -48,9 +48,9 @@ class EventsViewController: UITableViewController {
             }
             
             // 2: Remove events the user has joined
-            self.service.getEventsForUser(firAuth!.currentUser!, completion: { (eventIds) in
+            self.service.getEventsForUser(firAuth.currentUser!, completion: { (eventIds) in
                 
-                print("eventsForUser \(firAuth!.currentUser!): \(eventIds)")
+                print("eventsForUser \(firAuth.currentUser!): \(eventIds)")
 
                 for event in self.allEvents {
                     print("event id \(event.id) date \(event.dateString(event.endTime ?? Date())) past \(event.isPast)")

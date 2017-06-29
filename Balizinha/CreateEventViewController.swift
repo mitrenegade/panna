@@ -639,7 +639,7 @@ extension CreateEventViewController: UITextFieldDelegate {
 
     // MARK: Push notifications
     func sendPushForCreatedEvent(_ event: Event) {
-        let userId = firAuth!.currentUser!.uid
+        let userId = firAuth.currentUser!.uid
         let title = "New event created"
         var dateString = ""
         if let startTime = event.startTime {

@@ -58,7 +58,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        firAuth?.createUser(withEmail: email, password: password, completion: { (user, error) in
+        firAuth.createUser(withEmail: email, password: password, completion: { (user, error) in
             if (error != nil) {
                 print("Error: \(error)")
                 self.simpleAlert("Could not sign up", defaultMessage: nil, error: error as? NSError)
@@ -84,7 +84,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        firAuth?.signIn(withEmail: email, password: password, completion: { (user, error) in
+        firAuth.signIn(withEmail: email, password: password, completion: { (user, error) in
             if (error != nil) {
                 print("Error: \(error)")
                 self.simpleAlert("Could not log in", defaultMessage: nil, error: error as? NSError)

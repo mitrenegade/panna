@@ -15,7 +15,7 @@ class ActionService: NSObject {
 
     class func post(_ type: ActionType, eventId: String, message: String?) {
         // convenience function to encapsulate player loading and displayName for an action that is relevant to the current player
-        guard let user = firAuth?.currentUser else { return }
+        guard let user = firAuth.currentUser else { return }
         let userId = user.uid
         PlayerService.shared.withId(id: userId) { (player) in
             ActionService.post(type, userId: userId, username: player?.name ?? user.displayName, eventId: eventId, message: message)
@@ -27,7 +27,7 @@ class ActionService: NSObject {
         let baseRef = firRef.child("action") // this references the endpoint lotsports.firebase.com/action/
         let newObjectRef = baseRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/action/<uniqueId>
         var params: [String: Any] = ["type": type.rawValue, "event": eventId, "createdAt": Date().timeIntervalSince1970]
-        if let userId = userId { // userId is almost always FIRAuth.current
+        if let userId = userId { // userId is almost always Auth.current
             params["user"] = userId
         }
         if let username = username {
@@ -63,7 +63,7 @@ class ActionService: NSObject {
         // query for eventActions
         queryRef.observe(.value, with: { (snapshot) in
             print("snapshot: \(snapshot)")
-            if let allObjects = snapshot.children.allObjects as? [FIRDataSnapshot] {
+            if let allObjects = snapshot.children.allObjects as? [DataSnapshot] {
                 for actionDict in allObjects {
                     let actionId = actionDict.key
                     if let val = actionDict.value as? Bool, val == true {
@@ -82,11 +82,11 @@ class ActionService: NSObject {
         /*
          let queryRef = firRef.child("action").child(event.id)
          //        queryRef.queryOrdered(byChild: "event") // cannot be used to filter for events
-        queryRef.observeSingleEvent(of: .value) { (snapshot: FIRDataSnapshot!) in
+        queryRef.observeSingleEvent(of: .value) { (snapshot: DataSnapshot!) in
             // this block is called for every result returned
             var results: [Action] = []
-            if let allObjects =  snapshot.children.allObjects as? [FIRDataSnapshot] {
-                for actionDict: FIRDataSnapshot in allObjects {
+            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
+                for actionDict: DataSnapshot in allObjects {
                     if let eventId = actionDict.childSnapshot(forPath: "event").value as? String, eventId == event.id {
                         let action = Action(snapshot: actionDict)
                         results.append(action)

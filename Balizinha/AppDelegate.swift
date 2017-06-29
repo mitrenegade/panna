@@ -15,8 +15,8 @@ import Parse
 import Fabric
 import Crashlytics
 
-var firRef = FIRDatabase.database().reference()
-let firAuth = FIRAuth.auth()
+var firRef = Database.database().reference()
+let firAuth = Auth.auth()
 
 let PARSE_APP_ID: String = "Y1kUP1Nwz77UlFW5wIGvK4ptgvCwKQjDejrXbMi7"
 let PARSE_CLIENT_KEY: String = "NOTUSED-O7G1syjw0PXZTOmV0FTvsH9TSTvk7e7Ll6qpDWfW"
@@ -33,8 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil))
 
         // Firebase
-        FIRApp.configure()
-        FIRDatabase.database().persistenceEnabled = true
+        FirebaseApp.configure()
+        Database.database().isPersistenceEnabled = true
         
         // Facebook
         FBSDKAppEvents.activateApp()
@@ -92,7 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          */
         guard let title = userInfo["title"] as? String else { return }
         guard let message = userInfo["message"] as? String else { return }
-        guard let sender = userInfo["sender"] as? String, sender != firAuth?.currentUser!.uid else {
+        guard let sender = userInfo["sender"] as? String, sender != firAuth.currentUser!.uid else {
             print("Own message, ignoring")
             return
         }

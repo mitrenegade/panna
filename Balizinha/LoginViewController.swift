@@ -63,7 +63,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        firAuth?.signIn(withEmail: email, password: password, completion: { (user, error) in
+        firAuth.signIn(withEmail: email, password: password, completion: { (user, error) in
             if (error != nil) {
                 print("Error: \(error)")
                 self.simpleAlert("Could not log in", defaultMessage: nil,  error: error as? NSError)
@@ -91,8 +91,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 print("Facebook login success: \(result)")
                 let accessToken = FBSDKAccessToken.current().tokenString
                 
-                let credential = FIRFacebookAuthProvider.credential(withAccessToken: accessToken!)
-                firAuth!.signIn(with: credential, completion: { (user, error) in
+                let credential = FacebookAuthProvider.credential(withAccessToken: accessToken!)
+                firAuth.signIn(with: credential, completion: { (user, error) in
                     if error != nil {
                         print("Login failed. \(error)")
                     } else {
@@ -107,7 +107,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func storeUserInfo(_ user: FIRUser) {
+    func storeUserInfo(_ user: User) {
         print("signIn results: \(user) profile \(user.photoURL) \(user.displayName)")
         PlayerService.shared.createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { (player, error) in
             PlayerService.shared.current // invoke listener

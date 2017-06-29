@@ -99,7 +99,7 @@ class AccountViewController: UITableViewController {
     }
     
     private func logout() {
-        try! firAuth?.signOut()
+        try! firAuth.signOut()
         EventService.resetOnLogout() // force new listeners
         PlayerService.resetOnLogout()
         FBSDKLoginManager().logOut()

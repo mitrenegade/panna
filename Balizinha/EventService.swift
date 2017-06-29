@@ -20,7 +20,7 @@ class EventService: NSObject {
     private lazy var __once: () = {
             // firRef is the global firebase ref
             let queryRef = firRef.child("eventUsers") // this creates a query on the endpoint lotsports.firebase.com/events/
-            queryRef.observe(.value) { (snapshot: FIRDataSnapshot!) in
+            queryRef.observe(.value) { (snapshot: DataSnapshot!) in
                 // this block is called for every result returned
                 _usersForEvents = snapshot.value as? [String: AnyObject]
                 
@@ -79,11 +79,11 @@ class EventService: NSObject {
         
         // do query
         var handle: UInt = 0
-        handle = eventQueryRef.observe(.value) { (snapshot: FIRDataSnapshot!) in
+        handle = eventQueryRef.observe(.value) { (snapshot: DataSnapshot!) in
             // this block is called for every result returned
             var results: [Event] = []
-            if let allObjects =  snapshot.children.allObjects as? [FIRDataSnapshot] {
-                for eventDict: FIRDataSnapshot in allObjects {
+            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
+                for eventDict: DataSnapshot in allObjects {
                     let event = Event(snapshot: eventDict)
                     results.append(event)
                 }
@@ -102,7 +102,7 @@ class EventService: NSObject {
             return
         }
         
-        guard let user = firAuth?.currentUser else { return }
+        guard let user = firAuth.currentUser else { return }
         
         let eventRef = firRef.child("events") // this references the endpoint lotsports.firebase.com/events/
         let newEventRef = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
@@ -124,8 +124,8 @@ class EventService: NSObject {
                     let event = Event(snapshot: snapshot)
 
                     // TODO: completion blocks for these too
-                    self.addEvent(event: event, toUser: firAuth!.currentUser!, join: true)
-                    self.addUser(firAuth!.currentUser!, toEvent: event, join: true)
+                    self.addEvent(event: event, toUser: firAuth.currentUser!, join: true)
+                    self.addUser(firAuth.currentUser!, toEvent: event, join: true)
                     
                     // add an action
                     ActionService.post(.createEvent, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
@@ -137,7 +137,7 @@ class EventService: NSObject {
     }
     
     func joinEvent(_ event: Event) {
-        guard let user = firAuth?.currentUser else { return }
+        guard let user = firAuth.currentUser else { return }
         self.addEvent(event: event, toUser: user, join: true)
         self.addUser(user, toEvent: event, join: true)
         
@@ -146,7 +146,7 @@ class EventService: NSObject {
     }
     
     func leaveEvent(_ event: Event) {
-        guard let user = firAuth?.currentUser else { return }
+        guard let user = firAuth.currentUser else { return }
         self.addEvent(event: event, toUser: user, join: false)
         self.addUser(user, toEvent: event, join: false)
 
@@ -155,7 +155,7 @@ class EventService: NSObject {
     }
     
     // MARK: User's events helper
-    func addEvent(event: Event, toUser user: FIRUser, join: Bool) {
+    func addEvent(event: Event, toUser user: User, join: Bool) {
         // adds eventId to user's events list
         // use transactions: https://firebase.google.com/docs/database/ios/save-data#save_data_as_transactions
         // join: whether or not to join. Can use this method to leave an event
@@ -199,7 +199,7 @@ class EventService: NSObject {
         */
     }
     
-    func getEventsForUser(_ user: FIRUser, completion: @escaping (_ eventIds: [String]) -> Void) {
+    func getEventsForUser(_ user: User, completion: @escaping (_ eventIds: [String]) -> Void) {
         // returns all current events for a user. Returns as snapshot
         // only gets events once, and removes observer afterwards
         print("Get events for user \(user.uid)")
@@ -208,11 +208,11 @@ class EventService: NSObject {
         
         // do query
         var handle: UInt = 0
-        handle = eventQueryRef.observe(.value) { (snapshot: FIRDataSnapshot!) in
+        handle = eventQueryRef.observe(.value) { (snapshot: DataSnapshot!) in
             // this block is called for every result returned
             var results: [String] = []
-            if let allObjects =  snapshot.children.allObjects as? [FIRDataSnapshot] {
-                for snapshot: FIRDataSnapshot in allObjects {
+            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
+                for snapshot: DataSnapshot in allObjects {
                     let eventId = snapshot.key
                     if let val = snapshot.value as? Bool {
                         if val == true {
@@ -228,7 +228,7 @@ class EventService: NSObject {
     }
     
     // MARK: - Event's users helper
-    func addUser(_ user: FIRUser, toEvent event: Event, join: Bool) {
+    func addUser(_ user: User, toEvent event: Event, join: Bool) {
         // adds eventId to user's events list
         // use transactions: https://firebase.google.com/docs/database/ios/save-data#save_data_as_transactions
         // join: whether or not to join. Can use this method to leave an event
@@ -289,11 +289,11 @@ class EventService: NSObject {
         let queryRef = firRef.child("eventUsers").child(event.id) // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // do query
-        queryRef.observe(.value) { (snapshot: FIRDataSnapshot!) in
+        queryRef.observe(.value) { (snapshot: DataSnapshot!) in
             // this block is called for every result returned
             var results: [String] = []
-            if let allObjects =  snapshot.children.allObjects as? [FIRDataSnapshot] {
-                for snapshot: FIRDataSnapshot in allObjects {
+            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
+                for snapshot: DataSnapshot in allObjects {
                     let userId = snapshot.key
                     if let val = snapshot.value as? Bool, val == true {
                         results.append(userId)
@@ -314,7 +314,7 @@ extension Event {
     
     convenience init() {
         self.init(snapshot: nil)
-        self.firebaseKey = String.random()
+        self.firebaseKey = String.random(using: &Xoroshiro.default)
         let hours: Int = Int(arc4random_uniform(72))
         self.dict = ["type": self.randomType() as AnyObject, "place": self.randomPlace() as AnyObject, "time": (Date() as NSDate).addingHours(hours).timeIntervalSince1970 as AnyObject, "info": "Randomly generated event" as AnyObject]
     }
