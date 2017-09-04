@@ -219,7 +219,8 @@ class EventDisplayViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Delete Event", style: .default, handler: { (action) in
             self.deleteEvent()
         }))
-        self.show(alert, sender: nil)
+        alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
