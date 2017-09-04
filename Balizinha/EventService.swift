@@ -85,7 +85,9 @@ class EventService: NSObject {
             if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
                 for eventDict: DataSnapshot in allObjects {
                     let event = Event(snapshot: eventDict)
-                    results.append(event)
+                    if event.active {
+                        results.append(event)
+                    }
                 }
             }
             print("getEvents results count: \(results.count)")

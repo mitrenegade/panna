@@ -163,7 +163,7 @@
                                 </connections>
                             </pickerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="av1-CO-Jha">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="573"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                 <color key="backgroundColor" red="0.83921568629999999" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EventPhotoCell" rowHeight="100" id="jdx-BC-yFx" customClass="EventPhotoCell" customModule="Balizinha" customModuleProvider="target">
@@ -375,42 +375,48 @@
                                             <outlet property="switchToggle" destination="iBy-md-neX" id="iOS-AM-1Rg"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DeleteCell" id="Eee-7J-p1z">
+                                        <rect key="frame" x="0.0" y="456.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Eee-7J-p1z" id="vtb-py-ud0">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete Event" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6Y-1e-16g">
+                                                    <rect key="frame" x="0.0" y="11" width="375" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <color key="textColor" red="0.83921568629999999" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="M6Y-1e-16g" firstAttribute="centerY" secondItem="vtb-py-ud0" secondAttribute="centerY" id="4ao-3m-WEL"/>
+                                                <constraint firstItem="M6Y-1e-16g" firstAttribute="leading" secondItem="vtb-py-ud0" secondAttribute="leading" id="LG5-UW-cGA"/>
+                                                <constraint firstAttribute="trailing" secondItem="M6Y-1e-16g" secondAttribute="trailing" id="r5W-7a-knq"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="iE0-Lk-oSS" id="8Ua-yH-KuM"/>
                                     <outlet property="delegate" destination="iE0-Lk-oSS" id="pvZ-cb-Xhm"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s7Q-lO-kDj">
-                                <rect key="frame" x="0.0" y="573" width="375" height="30"/>
-                                <color key="backgroundColor" red="0.83921568629999999" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="9wQ-Vp-TWZ"/>
-                                </constraints>
-                                <state key="normal" title="Delete Event">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="didClickDelete:" destination="iE0-Lk-oSS" eventType="touchUpInside" id="qbS-Kf-bbA"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ce4-r9-zhg" firstAttribute="trailing" secondItem="2v7-oO-UHN" secondAttribute="trailing" id="51u-6k-cV1"/>
                             <constraint firstItem="av1-CO-Jha" firstAttribute="top" secondItem="k8J-HL-wuM" secondAttribute="bottom" id="Dd5-nd-fAA"/>
                             <constraint firstItem="av1-CO-Jha" firstAttribute="leading" secondItem="qYX-wN-3ra" secondAttribute="leading" id="EZE-Rm-5QW"/>
-                            <constraint firstItem="iTv-oj-ECg" firstAttribute="top" secondItem="s7Q-lO-kDj" secondAttribute="bottom" id="GrP-sI-Fjh"/>
                             <constraint firstAttribute="trailing" secondItem="av1-CO-Jha" secondAttribute="trailing" id="KbX-zn-udG"/>
-                            <constraint firstItem="s7Q-lO-kDj" firstAttribute="top" secondItem="av1-CO-Jha" secondAttribute="bottom" id="UF6-eO-8lY"/>
                             <constraint firstItem="2v7-oO-UHN" firstAttribute="leading" secondItem="qYX-wN-3ra" secondAttribute="leadingMargin" constant="-20" id="VHl-eo-fZJ"/>
                             <constraint firstItem="iTv-oj-ECg" firstAttribute="top" secondItem="2v7-oO-UHN" secondAttribute="bottom" id="ZPz-6b-nTI"/>
                             <constraint firstItem="ce4-r9-zhg" firstAttribute="top" secondItem="2v7-oO-UHN" secondAttribute="top" id="bd1-0C-hyB"/>
-                            <constraint firstItem="s7Q-lO-kDj" firstAttribute="leading" secondItem="qYX-wN-3ra" secondAttribute="leading" id="e8N-dL-Zav"/>
                             <constraint firstItem="ce4-r9-zhg" firstAttribute="leading" secondItem="2v7-oO-UHN" secondAttribute="leading" id="im7-rv-2Qj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="2v7-oO-UHN" secondAttribute="trailing" constant="-20" id="oZR-PB-GzX"/>
+                            <constraint firstItem="iTv-oj-ECg" firstAttribute="top" secondItem="av1-CO-Jha" secondAttribute="bottom" id="u8a-GQ-hPx"/>
                             <constraint firstItem="ce4-r9-zhg" firstAttribute="bottom" secondItem="2v7-oO-UHN" secondAttribute="bottom" id="vzw-xw-b8E"/>
-                            <constraint firstAttribute="trailing" secondItem="s7Q-lO-kDj" secondAttribute="trailing" id="zNw-YB-lUl"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
@@ -431,7 +437,6 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="667"/>
                     <connections>
-                        <outlet property="constraintDeleteHeight" destination="9wQ-Vp-TWZ" id="4hF-be-0Hb"/>
                         <outlet property="saveButton" destination="uEu-QL-VaY" id="G6r-FD-ZRg"/>
                         <outlet property="tableView" destination="av1-CO-Jha" id="tjc-oW-9mk"/>
                     </connections>
