@@ -33,7 +33,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil))
 
         // Firebase
-        FirebaseApp.configure()
+        // Do not include infolist in project: https://firebase.google.com/docs/configure/#reliable-analytics
+        let plistFilename = "GoogleService-Info\(TESTING ? "-dev" : "")"
+        let filePath = Bundle.main.path(forResource: plistFilename, ofType: "plist")
+        assert(filePath != nil, "File doesn't exist")
+        if let path = filePath, let fileopts = FirebaseOptions.init(contentsOfFile: path) {
+            FirebaseApp.configure(options: fileopts)
+        }
         Database.database().isPersistenceEnabled = true
         
         // Facebook
