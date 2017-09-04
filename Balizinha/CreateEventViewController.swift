@@ -17,6 +17,7 @@ fileprivate enum Sections: Int {
     case photo = 0
     case details = 1
     case notes = 2
+    case delete = 3
 }
 
 fileprivate var FUTURE_DAYS = 90
@@ -59,6 +60,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var menuButton: UIBarButtonItem!
     @IBOutlet var saveButton: UIBarButtonItem!
+
     var typePickerView: UIPickerView = UIPickerView()
     var numberPickerView: UIPickerView = UIPickerView()
     var datePickerView: UIPickerView = UIPickerView()
@@ -158,7 +160,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     @IBAction func didClickSave(_ sender: AnyObject) {
         // in case user clicks save without clicking done first
         self.view.endEditing(true)
-        self.info = self.descriptionTextView!.text
+        self.info = self.descriptionTextView?.text ?? eventToEdit?.info
         
         guard let location = self.location else {
             self.simpleAlert("Invalid selection", message: "Please select a location")
@@ -254,6 +256,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
     // MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
+        if eventToEdit?.userIsOwner == true {
+            return 4
+        }
         return 3
     }
 
@@ -264,6 +269,8 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         case Sections.details.rawValue: // details
             return options.count
         case Sections.notes.rawValue: // description
+            return 1
+        case Sections.delete.rawValue:
             return 1
         default:
             return 0
@@ -391,6 +398,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             }
 
             return cell
+        case Sections.delete.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DeleteCell", for: indexPath)
+            return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath)
             return cell
@@ -409,8 +419,13 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             return nil
         case Sections.details.rawValue:
             label.text = "Details"
-        default:
+        case Sections.notes.rawValue:
             label.text = "Description"
+        case Sections.delete.rawValue:
+            view.backgroundColor = .white
+            label.text = ""
+        default:
+            return nil;
         }
         label.textColor = UIColor.white
         view.addSubview(label)
@@ -418,6 +433,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == Sections.delete.rawValue {
+            return 0.1
+        }
         return 40
     }
     
@@ -459,7 +477,8 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             currentField = textField
             textField.isUserInteractionEnabled = true
             textField.becomeFirstResponder()
-            
+        case Sections.delete.rawValue:
+            self.didClickDelete(nil)
         default:
             break
         }
@@ -491,6 +510,19 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         else if currentField == self.dayField {
             self.datePickerValueChanged(self.datePickerView)
         }
+    }
+}
+
+// MARK: Delete
+extension CreateEventViewController {
+    func didClickDelete(_ sender: UIButton?) {
+        guard let event = eventToEdit else { return }
+        let alert = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes, delete this event", style: .default, handler: { (action) in
+            EventService.shared.deleteEvent(event)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 

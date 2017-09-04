@@ -54,7 +54,7 @@ class EventDisplayViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(self.close))
-        
+       
         // Setup event details
         self.view.bringSubview(toFront: labelType.superview!)
         let name = self.event.name ?? "Balizinha"
@@ -205,7 +205,6 @@ class EventDisplayViewController: UIViewController {
         }
     }
     */
-    
 }
 
 // MARK: EventDisplayComponentDelegate

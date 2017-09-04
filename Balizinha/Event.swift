@@ -141,6 +141,13 @@ class Event: FirebaseBaseModel {
         return self.dict["owner"] as? String
     }
     
+    var active: Bool {
+        if let isActive = self.dict["active"] as? Bool {
+            return isActive
+        }
+        
+        return true
+    }
 }
 
 // Utils

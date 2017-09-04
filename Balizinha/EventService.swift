@@ -85,7 +85,9 @@ class EventService: NSObject {
             if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
                 for eventDict: DataSnapshot in allObjects {
                     let event = Event(snapshot: eventDict)
-                    results.append(event)
+                    if event.active {
+                        results.append(event)
+                    }
                 }
             }
             print("getEvents results count: \(results.count)")
@@ -136,6 +138,15 @@ class EventService: NSObject {
         }
     }
     
+    func deleteEvent(_ event: Event) {
+        //let userId = user.uid
+        let eventId = event.id
+        let eventRef = firRef.child("events").child(eventId)
+        eventRef.updateChildValues(["active": false])
+        //        let eventUserRef = firRef.child("eventUsers").child(eventId)
+//        eventUserRef.observe(.value) { (snapshot: DataSnapshot!) in
+//        }
+    }
     func joinEvent(_ event: Event) {
         guard let user = firAuth.currentUser else { return }
         self.addEvent(event: event, toUser: user, join: true)
@@ -232,8 +243,6 @@ class EventService: NSObject {
         // adds eventId to user's events list
         // use transactions: https://firebase.google.com/docs/database/ios/save-data#save_data_as_transactions
         // join: whether or not to join. Can use this method to leave an event
-        
-        let eventsRef = firRef.child("eventUsers")
         
         let userId = user.uid
         let eventId = event.id
