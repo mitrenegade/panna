@@ -26,6 +26,11 @@ class FirebaseBaseModel: NSObject {
             self.firebaseKey = snapshot.key
             self.firebaseRef = snapshot.ref
             self.dict = snapshot.value as? [String: AnyObject]
+            
+            // a new user doesn't have a dictionary
+            if self.dict == nil {
+                self.dict = [:]
+            }
         }
     }
     
