@@ -55,14 +55,6 @@ class EventDisplayViewController: UIViewController {
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(self.close))
        
-        if event.userIsOwner {
-            let moreButton = UIButton(type: .custom)
-            moreButton.setImage(UIImage(named: "ellipses"), for: .normal)
-            moreButton.addTarget(self, action: #selector(didClickMore), for: .touchUpInside)
-            moreButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: moreButton)
-        }
-        
         // Setup event details
         self.view.bringSubview(toFront: labelType.superview!)
         let name = self.event.name ?? "Balizinha"
@@ -213,21 +205,6 @@ class EventDisplayViewController: UIViewController {
         }
     }
     */
-    
-    func didClickMore(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Options", message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Delete Event", style: .default, handler: { (action) in
-            self.deleteEvent()
-        }))
-        alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
-}
-
-extension EventDisplayViewController {
-    fileprivate func deleteEvent() {
-        print("deleting event")
-    }
 }
 
 // MARK: EventDisplayComponentDelegate

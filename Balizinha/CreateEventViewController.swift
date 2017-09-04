@@ -59,6 +59,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var menuButton: UIBarButtonItem!
     @IBOutlet var saveButton: UIBarButtonItem!
+    @IBOutlet var constraintDeleteHeight: NSLayoutConstraint!
+
     var typePickerView: UIPickerView = UIPickerView()
     var numberPickerView: UIPickerView = UIPickerView()
     var datePickerView: UIPickerView = UIPickerView()
@@ -85,6 +87,15 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         
         self.setupPickers()
         self.setupTextFields()
+        
+        if eventToEdit?.userIsOwner == true {
+            self.constraintDeleteHeight.constant = 30
+        }
+        else {
+            self.constraintDeleteHeight.constant = 0
+        }
+        
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -491,6 +502,19 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         else if currentField == self.dayField {
             self.datePickerValueChanged(self.datePickerView)
         }
+    }
+}
+
+// MARK: Delete
+extension CreateEventViewController {
+    @IBAction func didClickDelete(_ sender: UIButton) {
+        guard let event = eventToEdit else { return }
+        let alert = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes, delete this event", style: .default, handler: { (action) in
+            EventService.shared.deleteEvent(event)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 

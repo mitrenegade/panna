@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="yzn-VZ-faJ">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="yzn-VZ-faJ">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Wy0-HM-Nhe" id="iv6-IH-6h1">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6yl-1m-NaW">
@@ -163,14 +163,14 @@
                                 </connections>
                             </pickerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="av1-CO-Jha">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="573"/>
                                 <color key="backgroundColor" red="0.83921568629999999" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EventPhotoCell" rowHeight="100" id="jdx-BC-yFx" customClass="EventPhotoCell" customModule="Balizinha" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="100"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jdx-BC-yFx" id="hLC-ud-pvu">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a photo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bOQ-QV-AkS">
@@ -212,10 +212,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cityCell" id="LSZ-kv-r19" customClass="DetailCell" customModule="Balizinha" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="156" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="155.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LSZ-kv-r19" id="F4X-yU-N7C">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y4s-Nv-oPb">
@@ -256,10 +256,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="detailCell" id="lDb-ab-Og5" customClass="DetailCell" customModule="Balizinha" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="200" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="199.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lDb-ab-Og5" id="1wh-GI-gQh">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5s-Bm-IrB">
@@ -300,10 +300,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="descriptionCell" rowHeight="169" id="vLz-wY-Qlr" customClass="DescriptionCell" customModule="Balizinha" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="244" width="375" height="169"/>
+                                        <rect key="frame" x="0.0" y="243.5" width="375" height="169"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vLz-wY-Qlr" id="xaL-Xb-cuV">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="168"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="168.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gvB-YD-bA5">
@@ -342,10 +342,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToggleCell" id="nVH-jy-zl1" customClass="ToggleCell" customModule="Balizinha" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="413" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="412.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nVH-jy-zl1" id="zIs-Js-93s">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iBy-md-neX">
@@ -381,20 +381,36 @@
                                     <outlet property="delegate" destination="iE0-Lk-oSS" id="pvZ-cb-Xhm"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s7Q-lO-kDj">
+                                <rect key="frame" x="0.0" y="573" width="375" height="30"/>
+                                <color key="backgroundColor" red="0.83921568629999999" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="9wQ-Vp-TWZ"/>
+                                </constraints>
+                                <state key="normal" title="Delete Event">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="didClickDelete:" destination="iE0-Lk-oSS" eventType="touchUpInside" id="qbS-Kf-bbA"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ce4-r9-zhg" firstAttribute="trailing" secondItem="2v7-oO-UHN" secondAttribute="trailing" id="51u-6k-cV1"/>
-                            <constraint firstItem="iTv-oj-ECg" firstAttribute="top" secondItem="av1-CO-Jha" secondAttribute="bottom" id="5Qf-2g-lEc"/>
                             <constraint firstItem="av1-CO-Jha" firstAttribute="top" secondItem="k8J-HL-wuM" secondAttribute="bottom" id="Dd5-nd-fAA"/>
                             <constraint firstItem="av1-CO-Jha" firstAttribute="leading" secondItem="qYX-wN-3ra" secondAttribute="leading" id="EZE-Rm-5QW"/>
+                            <constraint firstItem="iTv-oj-ECg" firstAttribute="top" secondItem="s7Q-lO-kDj" secondAttribute="bottom" id="GrP-sI-Fjh"/>
                             <constraint firstAttribute="trailing" secondItem="av1-CO-Jha" secondAttribute="trailing" id="KbX-zn-udG"/>
+                            <constraint firstItem="s7Q-lO-kDj" firstAttribute="top" secondItem="av1-CO-Jha" secondAttribute="bottom" id="UF6-eO-8lY"/>
                             <constraint firstItem="2v7-oO-UHN" firstAttribute="leading" secondItem="qYX-wN-3ra" secondAttribute="leadingMargin" constant="-20" id="VHl-eo-fZJ"/>
                             <constraint firstItem="iTv-oj-ECg" firstAttribute="top" secondItem="2v7-oO-UHN" secondAttribute="bottom" id="ZPz-6b-nTI"/>
                             <constraint firstItem="ce4-r9-zhg" firstAttribute="top" secondItem="2v7-oO-UHN" secondAttribute="top" id="bd1-0C-hyB"/>
+                            <constraint firstItem="s7Q-lO-kDj" firstAttribute="leading" secondItem="qYX-wN-3ra" secondAttribute="leading" id="e8N-dL-Zav"/>
                             <constraint firstItem="ce4-r9-zhg" firstAttribute="leading" secondItem="2v7-oO-UHN" secondAttribute="leading" id="im7-rv-2Qj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="2v7-oO-UHN" secondAttribute="trailing" constant="-20" id="oZR-PB-GzX"/>
                             <constraint firstItem="ce4-r9-zhg" firstAttribute="bottom" secondItem="2v7-oO-UHN" secondAttribute="bottom" id="vzw-xw-b8E"/>
+                            <constraint firstAttribute="trailing" secondItem="s7Q-lO-kDj" secondAttribute="trailing" id="zNw-YB-lUl"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
@@ -412,7 +428,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="667"/>
                     <connections>
+                        <outlet property="constraintDeleteHeight" destination="9wQ-Vp-TWZ" id="4hF-be-0Hb"/>
                         <outlet property="saveButton" destination="uEu-QL-VaY" id="G6r-FD-ZRg"/>
                         <outlet property="tableView" destination="av1-CO-Jha" id="tjc-oW-9mk"/>
                     </connections>
