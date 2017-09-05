@@ -146,6 +146,18 @@ class EventService: NSObject {
         //        let eventUserRef = firRef.child("eventUsers").child(eventId)
 //        eventUserRef.observe(.value) { (snapshot: DataSnapshot!) in
 //        }
+        
+        // remove users from that event by setting userEvent to false
+        observeUsers(forEvent: event) { (ids) in
+            for userId: String in ids {
+                let userEventRef = firRef.child("userEvents").child(userId)
+                let params: [String: Any] = [eventId: false]
+                userEventRef.updateChildValues(params, withCompletionBlock: { (error, ref) in
+                })
+            }
+        }
+
+    
     }
     func joinEvent(_ event: Event) {
         guard let user = firAuth.currentUser else { return }
