@@ -151,8 +151,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.location = "Rittenhouse"
             self.city = "Philadelphia"
             self.date = Date()
-            self.startTime = Date()+1800
-            self.endTime = Date()+3600
+//            self.startTime = Date()+1800
+//            self.endTime = Date()+3600
             self.numPlayers = 10
         }
     }
@@ -221,7 +221,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             })
         }
         else {
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, place: location, startTime: start, endTime: end, max_players: numPlayers, info: self.info, paymentRequired: self.paymentRequired, completion: { (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, place: location, startTime: start, endTime: end, maxPlayers: numPlayers, info: self.info, paymentRequired: self.paymentRequired, completion: { (event, error) in
                 
                 if let event = event {
                     self.sendPushForCreatedEvent(event)
@@ -450,33 +450,33 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 currentField!.resignFirstResponder()
             }
             
-            var textField: UITextField!
+            let textField: UITextField?
             switch options[indexPath.row] {
             case "Name":
-                textField = self.nameField!
+                textField = self.nameField
             case "Event Type":
-                textField = self.typeField!
+                textField = self.typeField
                 typePickerView.reloadAllComponents()
             case "Location":
-                textField = self.locationField!
+                textField = self.locationField
             case "City":
-                textField = self.cityField!
+                textField = self.cityField
             case "Day":
-                textField = self.dayField!
+                textField = self.dayField
             case "Start Time":
-                textField = self.startField!
+                textField = self.startField
             case "End Time":
-                textField = self.endField!
+                textField = self.endField
             case "Max Players":
-                textField = self.maxPlayersField!
+                textField = self.maxPlayersField
                 print("Tapped number of players")
                 numberPickerView.reloadAllComponents()
             default:
-                break
+                textField = nil
             }
+            textField?.isUserInteractionEnabled = true
+            textField?.becomeFirstResponder()
             currentField = textField
-            textField.isUserInteractionEnabled = true
-            textField.becomeFirstResponder()
         case Sections.delete.rawValue:
             self.didClickDelete(nil)
         default:
@@ -566,14 +566,13 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         // let user pick more dates and click done
-        if pickerView == self.datePickerView { return }
-        
-        if row > 0 {
-            updateLabel()
-            currentField!.isUserInteractionEnabled = false
-            currentField!.resignFirstResponder()
-        }
-        
+        guard pickerView != self.datePickerView else { return }
+        guard let currentField = currentField else { return }
+        guard row > 0 else { return }
+
+        updateLabel()
+        currentField.isUserInteractionEnabled = false
+        currentField.resignFirstResponder()
     }
     
     // date picker
@@ -603,9 +602,9 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
     func timePickerValueChanged(_ sender:UIDatePicker) {
         currentField!.text = CreateEventViewController.timeStringForDate(sender.date)
         if (sender == startTimePickerView) {
-            self.startTime = sender.date
+            self.startTime = sender.clampedDate
         } else {
-            self.endTime = sender.date
+            self.endTime = sender.clampedDate
         }
     }
 }
@@ -614,6 +613,18 @@ extension CreateEventViewController: UITextFieldDelegate {
     // MARK: - UITextFieldDelegate
     func textFieldDidBeginEditing(_ textField: UITextField) {
         currentField = textField
+        
+        if currentField == startField {
+            startTimePickerView.date = startTime ?? Date()
+            startTimePickerView.date = startTimePickerView.futureClampedDate
+        }
+        else if currentField == endField {
+            endTimePickerView.date = Date()
+            if let time = startTime {
+                endTimePickerView.date = time.addingTimeInterval(3600)
+            }
+            endTimePickerView.date = endTimePickerView.futureClampedDate
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {

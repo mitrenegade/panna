@@ -104,13 +104,16 @@ class Event: FirebaseBaseModel {
     }
     var maxPlayers: Int {
         get {
-            if let val = self.dict["max_players"] as? Int {
-                return val
+            if let val = self.dict["maxPlayers"] as? UInt {
+                return Int(val)
+            }
+            else if let val = self.dict["max_players"] as? UInt { // backwards compatibility
+                return Int(val)
             }
             return 0
         }
         set {
-            self.dict["max_players"] = newValue
+            self.dict["maxPlayers"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
         
@@ -200,8 +203,8 @@ extension Event {
     }
     
     var isPast: Bool {
-        if let startTime = self.startTime {
-            return (ComparisonResult.orderedAscending == startTime.compare(Date())) //event time happened before current time
+        if let endTime = self.endTime {
+            return (ComparisonResult.orderedAscending == endTime.compare(Date())) //event time happened before current time
         }
         else {
             return false // false means TBD

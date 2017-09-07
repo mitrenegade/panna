@@ -61,6 +61,7 @@ class EventCell: UITableViewCell {
         }
 
         if !event.isPast {
+            btnAction.isHidden = false
             // Button display and action
             if self.event!.userIsOwner {
                 self.labelFull.text = "This is your event."

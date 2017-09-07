@@ -36,6 +36,7 @@
 		8E7256A11CDF793200C9E054 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7256A01CDF793200C9E054 /* Assets.xcassets */; };
 		8E7256AD1CDF7DB600C9E054 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */; };
 		8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBF1C381E7965BA0057871F /* PlayerViewController.swift */; };
+		8EC2EFEB1F60D6F90081FF68 /* UIDatePickerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */; };
 		8EC799291E363549004ACC52 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC799281E363549004ACC52 /* Account.storyboard */; };
 		8EC7992B1E3635A0004ACC52 /* Events.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC7992A1E3635A0004ACC52 /* Events.storyboard */; };
 		8EC7992D1E3635A8004ACC52 /* Calendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */; };
@@ -100,6 +101,7 @@
 		8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Balizinha-Bridging-Header.h"; sourceTree = "<group>"; };
 		8EBF1C381E7965BA0057871F /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDatePickerHelper.swift; sourceTree = "<group>"; };
 		8EC799281E363549004ACC52 /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		8EC7992A1E3635A0004ACC52 /* Events.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Events.storyboard; sourceTree = "<group>"; };
 		8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Calendar.storyboard; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 			isa = PBXGroup;
 			children = (
 				F2F7C3BC1CEE11B300350115 /* CreateEventViewController.swift */,
+				8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */,
 				F2C0F11F1CF3E8BB00CB98F1 /* EventsViewController.swift */,
 				F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */,
 			);
@@ -549,6 +552,7 @@
 				8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */,
 				8E19A4A61E6C793800D301EC /* FirebaseImageService.swift in Sources */,
 				8E19A4A01E6C644B00D301EC /* LogService.swift in Sources */,
+				8EC2EFEB1F60D6F90081FF68 /* UIDatePickerHelper.swift in Sources */,
 				8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */,
 				8EE5B31D1E7C109B00BC72A5 /* EventPhotoCell.swift in Sources */,
 			);
