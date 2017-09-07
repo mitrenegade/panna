@@ -126,8 +126,11 @@ class EventDisplayViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
         if let isPast = self.event?.isPast, isPast {
-            self.constraintInputHeight.constant = 0
-            self.constraintSpacerHeight.constant = 0
+            self.hideChat()
+        }
+        
+        if let currentUser = firAuth.currentUser, self.event?.containsUser(currentUser) == false {
+            self.hideChat()
         }
         
         if !self.event.paymentRequired {
@@ -207,6 +210,10 @@ class EventDisplayViewController: UIViewController {
         }
     }
     */
+    func hideChat() {
+        self.constraintInputHeight.constant = 0
+        self.constraintSpacerHeight.constant = 0
+    }
 }
 
 // MARK: EventDisplayComponentDelegate
