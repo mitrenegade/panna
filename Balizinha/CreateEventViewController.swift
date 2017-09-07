@@ -148,12 +148,12 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
         if TESTING {
-            self.location = "Rittenhouse"
-            self.city = "Philadelphia"
-            self.date = Date()
+//            self.location = "Rittenhouse"
+//            self.city = "Philadelphia"
+//            self.date = Date()
 //            self.startTime = Date()+1800
 //            self.endTime = Date()+3600
-            self.numPlayers = 10
+//            self.numPlayers = 10
         }
     }
     
@@ -188,7 +188,11 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
 
         let start = self.combineDateAndTime(date, time: startTime)
-        let end = self.combineDateAndTime(date, time: endTime)
+        var end = self.combineDateAndTime(date, time: endTime)
+        // most like scenario is that endTime is past midnight so it gets interpreted as midnight of the day before.
+        if end.timeIntervalSince(start) < 0 {
+            end = end.addingTimeInterval(24*3600)
+        }
         self.startTime = start
         self.endTime = end
         
@@ -643,7 +647,7 @@ extension CreateEventViewController: UITextFieldDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.keyboardHeight, right: 0)
         
-        let indexPath = IndexPath(row: 0, section: 1)
+        let indexPath = IndexPath(row: 0, section: Sections.notes.rawValue)
         self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
     }
     
