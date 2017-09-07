@@ -64,9 +64,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
         
         firAuth.signIn(withEmail: email, password: password, completion: { (user, error) in
-            if (error != nil) {
+            if let error: NSError = error as? NSError {
                 print("Error: \(error)")
-                self.simpleAlert("Could not log in", defaultMessage: nil,  error: error as? NSError)
+                if error.code == 17009 {
+                    self.simpleAlert("Could not log in", message: "Invalid password.")
+                }
+                else if error.code == 17011 {
+                    // invalid user. firebase error message is too wordy
+                    self.simpleAlert("User not found", message: "Please sign up to create an account.")
+                }
+                else {
+                    self.simpleAlert("Could not log in", defaultMessage: nil,  error: error)
+                }
             }
             else {
                 print("results: \(user)")
