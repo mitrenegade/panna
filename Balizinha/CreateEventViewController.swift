@@ -148,12 +148,12 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
         if TESTING {
-            self.location = "Rittenhouse"
-            self.city = "Philadelphia"
-            self.date = Date()
+//            self.location = "Rittenhouse"
+//            self.city = "Philadelphia"
+//            self.date = Date()
 //            self.startTime = Date()+1800
 //            self.endTime = Date()+3600
-            self.numPlayers = 10
+//            self.numPlayers = 10
         }
     }
     
@@ -188,7 +188,11 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
 
         let start = self.combineDateAndTime(date, time: startTime)
-        let end = self.combineDateAndTime(date, time: endTime)
+        var end = self.combineDateAndTime(date, time: endTime)
+        // most like scenario is that endTime is past midnight so it gets interpreted as midnight of the day before.
+        if end.timeIntervalSince(start) < 0 {
+            end = end.addingTimeInterval(24*3600)
+        }
         self.startTime = start
         self.endTime = end
         
