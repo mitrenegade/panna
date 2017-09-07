@@ -40,7 +40,8 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet var constraintActivityHeight: NSLayoutConstraint!
     @IBOutlet var constraintInputBottomOffset: NSLayoutConstraint!
     @IBOutlet var constraintInputHeight: NSLayoutConstraint!
-
+    @IBOutlet var constraintSpacerHeight: NSLayoutConstraint!
+    
     var organizerController: OrganizerViewController!
     var locationController: ExpandableMapViewController!
     var playersController: PlayersScrollViewController!
@@ -126,6 +127,7 @@ class EventDisplayViewController: UIViewController {
 
         if let isPast = self.event?.isPast, isPast {
             self.constraintInputHeight.constant = 0
+            self.constraintSpacerHeight.constant = 0
         }
         
         if !self.event.paymentRequired {
