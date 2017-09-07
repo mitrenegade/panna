@@ -21,6 +21,8 @@ class PlayerService: NSObject {
         
         return singleton!
     }
+    
+    static var cachedNames: [String: String] = [:]
 
     class func resetOnLogout() {
         singleton = nil
@@ -58,6 +60,7 @@ class PlayerService: NSObject {
             } else {
                 ref.observeSingleEvent(of: .value, with: { (snapshot) in
                     let player = Player(snapshot: snapshot)
+                    PlayerService.cachedNames[player.id] = player.name
                     completion(player, nil)
                 }, withCancel: { (error) in
                     completion(nil, nil)
@@ -86,8 +89,10 @@ class PlayerService: NSObject {
     
     func withId(id: String, completion: @escaping ((Player?)->Void)) {
         guard let playersRef = playersRef else { return }
-        playersRef.child(id).observeSingleEvent(of: .value) { (snapshot) in
-            completion(Player(snapshot: snapshot))
-        }
+        playersRef.child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+            let player = Player(snapshot: snapshot)
+            PlayerService.cachedNames[id] = player.name
+            completion(player)
+        })
     }
 }

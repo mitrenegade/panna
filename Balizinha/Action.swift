@@ -107,16 +107,17 @@ extension Action {
     }
     
     var displayString: String {
-        let user = self.userIsOwner ? "You" : (self.username ?? GENERIC_USERNAME)
+        let uid = self.user ?? ""
+        let userString = self.userIsOwner ? "You" : (self.username ?? (PlayerService.cachedNames[uid] ?? GENERIC_USERNAME) )
         switch self.type {
         case .chat:
-            return user + " said: " + (self.message ?? GENERIC_CHAT)
+            return userString + " said: " + (self.message ?? GENERIC_CHAT)
         case .createEvent:
-            return user + " created this event at " + self.displayDate
+            return userString + " created this event at " + self.displayDate
         case .joinEvent:
-            return user + " joined this event"
+            return userString + " joined this event"
         case .leaveEvent:
-            return user + " left this event"
+            return userString + " left this event"
         default:
             // system message
             return "Admin says: hi"

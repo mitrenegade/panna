@@ -148,12 +148,12 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
         if TESTING {
-//            self.location = "Rittenhouse"
-//            self.city = "Philadelphia"
-//            self.date = Date()
-//            self.startTime = Date()+1800
-//            self.endTime = Date()+3600
-//            self.numPlayers = 10
+            self.location = "Rittenhouse"
+            self.city = "Philadelphia"
+            self.date = Date()
+            self.startTime = Date()+1800
+            self.endTime = Date()+3600
+            self.numPlayers = 10
         }
     }
     
