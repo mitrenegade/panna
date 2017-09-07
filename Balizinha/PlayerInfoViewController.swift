@@ -43,7 +43,7 @@ class PlayerInfoViewController: UIViewController {
             self.navigationItem.leftBarButtonItem = nil
         }
         else {
-            self.title = "Edit player"
+            self.title = "Edit profile"
             self.navigationItem.rightBarButtonItem = nil
 
         }
