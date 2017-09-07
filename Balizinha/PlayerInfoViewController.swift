@@ -23,6 +23,8 @@ class PlayerInfoViewController: UIViewController {
     @IBOutlet var labelPaymentWarning: UILabel!
     @IBOutlet var buttonPayment: UIButton!
     @IBOutlet var photoView: AsyncImageView!
+    
+    weak var currentInput: UITextField?
 
     var player: Player?
     weak var delegate: PlayerDelegate?
@@ -41,24 +43,28 @@ class PlayerInfoViewController: UIViewController {
             self.navigationItem.leftBarButtonItem = nil
         }
         else {
-            self.title = "Edit player"
+            self.title = "Edit profile"
             self.navigationItem.rightBarButtonItem = nil
 
         }
-        self.setupTextView()
+        self.setupInputs()
         self.refresh()
     }
     
-    func setupTextView() {
+    func setupInputs() {
         let keyboardDoneButtonView: UIToolbar = UIToolbar()
         keyboardDoneButtonView.sizeToFit()
         keyboardDoneButtonView.barStyle = UIBarStyle.black
         keyboardDoneButtonView.tintColor = UIColor.white
-        let saveButton: UIBarButtonItem = UIBarButtonItem(title: "Update", style: UIBarButtonItemStyle.done, target: self, action: #selector(dismissKeyboard))
-        keyboardDoneButtonView.setItems([saveButton], animated: true)
+        let cancel: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelEditing))
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let saveButton: UIBarButtonItem = UIBarButtonItem(title: "Update", style: .done, target: self, action: #selector(save))
+        keyboardDoneButtonView.setItems([cancel, flex, saveButton], animated: true)
+        
+        self.inputName.inputAccessoryView = keyboardDoneButtonView
+        self.inputCity.inputAccessoryView = keyboardDoneButtonView
         self.inputNotes.inputAccessoryView = keyboardDoneButtonView
     }
-
     
     func refresh() {
         guard let player = self.player else { return }
@@ -137,48 +143,42 @@ class PlayerInfoViewController: UIViewController {
 
         self.close()
     }
+    
+    func save() {
+        self.view.endEditing(true)
+        
+        player?.info = self.inputNotes.text
+        if currentInput == inputName, inputName.text?.isEmpty == false {
+                player?.name = inputName.text
+        }
+        else if currentInput == inputCity, inputCity.text?.isEmpty == false {
+            player?.city = inputCity.text
+        }
+    }
+
+    func cancelEditing() {
+        self.view.endEditing(true)
+        inputNotes.resignFirstResponder()
+        
+        inputName.text = player?.name
+        inputCity.text = player?.city
+        inputNotes.text = player?.info
+    }
 }
 
 // MARK: UITextFieldDelegate
 extension PlayerInfoViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        currentInput = textField
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let player = self.player else { return }
-        if textField == inputName {
-            if let text = textField.text, text.characters.count > 0 {
-                player.name = text
-            }
-            else {
-                textField.text = player.name
-            }
-        }
-        else if textField == inputCity {
-            if let text = textField.text, text.characters.count > 0 {
-                player.city = text
-            }
-            else {
-                textField.text = player.city
-            }
-        }
-        
-        textField.resignFirstResponder()        
+        textField.resignFirstResponder()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
-    }
-}
-
-extension PlayerInfoViewController: UITextViewDelegate {
-    func dismissKeyboard() {
-        self.view.endEditing(true)
-        
-        if let player = self.player {
-            player.info = self.inputNotes.text
-        }
     }
 }
 

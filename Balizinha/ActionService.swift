@@ -62,7 +62,7 @@ class ActionService: NSObject {
         
         // query for eventActions
         queryRef.observe(.value, with: { (snapshot) in
-            print("snapshot: \(snapshot)")
+            print("observeActions snapshot: \(snapshot)")
             if let allObjects = snapshot.children.allObjects as? [DataSnapshot] {
                 for actionDict in allObjects {
                     let actionId = actionDict.key
