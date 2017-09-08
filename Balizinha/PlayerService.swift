@@ -17,6 +17,7 @@ class PlayerService: NSObject {
     static var shared: PlayerService {
         if singleton == nil {
             singleton = PlayerService()
+            singleton?.__once
         }
         
         return singleton!

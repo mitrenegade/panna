@@ -40,7 +40,7 @@ class PlayerInfoViewController: UIViewController {
         
         if self.isCreatingPlayer {
             self.title = "New player"
-            self.navigationItem.leftBarButtonItem = nil
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil) // hide back button
         }
         else {
             self.title = "Edit profile"
@@ -134,6 +134,11 @@ class PlayerInfoViewController: UIViewController {
         if let text = self.inputName.text, text.characters.count > 0 {
             player.name = text
         }
+        else if isCreatingPlayer {
+            self.simpleAlert("Please enter a name", message: "Our players would like to know what to call you.")
+            return
+        }
+        
         if let text = self.inputCity.text, text.characters.count > 0 {
             player.city = text
         }
