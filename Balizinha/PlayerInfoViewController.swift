@@ -154,7 +154,7 @@ class PlayerInfoViewController: UIViewController {
         
         player?.info = self.inputNotes.text
         if currentInput == inputName, inputName.text?.isEmpty == false {
-                player?.name = inputName.text
+            player?.name = inputName.text
         }
         else if currentInput == inputCity, inputCity.text?.isEmpty == false {
             player?.city = inputCity.text

@@ -47,7 +47,10 @@ class Action: FirebaseBaseModel {
     var username: String? {
         // makes it easier to generate displayString
         get {
-            return self.dict["username"] as? String
+            if let username = self.dict["username"] as? String {
+                return username
+            }
+            return nil
         }
         set {
             self.dict["username"] = newValue
