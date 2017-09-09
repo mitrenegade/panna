@@ -47,6 +47,9 @@ class CalendarViewController: UITableViewController {
                 let original = self.sortedUpcomingEvents
                 self.sortedPastEvents = original.filter({ (event) -> Bool in
                     event.isPast
+                }).sorted(by: { (e1, e2) -> Bool in
+                    guard let startTime1 = e1.startTime, let startTime2 = e2.startTime else { return true }
+                    return startTime1.timeIntervalSince(startTime2) > 0
                 })
                 
                 self.sortedUpcomingEvents = original.filter({ (event) -> Bool in
