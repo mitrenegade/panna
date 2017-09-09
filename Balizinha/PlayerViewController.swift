@@ -31,13 +31,28 @@ class PlayerViewController: UIViewController {
         if let name = player.name {
             self.nameLabel.text = name
         }
+        else if let email = player.email {
+            self.nameLabel.text = email
+        }
+        else {
+            self.nameLabel.text = nil
+        }
+        
         if let city = player.city {
             self.cityLabel.text = city
         }
+        else {
+            self.cityLabel.text = nil
+        }
+        
         if let notes = player.info {
             self.notesLabel.text = notes
             self.notesLabel.sizeToFit()
         }
+        else {
+            self.notesLabel.text = nil
+        }
+        
         if let photoUrl = player.photoUrl {
             self.refreshPhoto(url: photoUrl)
         }

@@ -14,9 +14,7 @@ class EventsViewController: UITableViewController {
     var allEvents : [Event] = []
     var sortedEvents: [EventType: [Event]] = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .other: []]
     let eventTypes: [EventType] = [.event3v3, .event5v5, .event7v7, .event11v11, .other]
-    
-    override func viewWillAppear(_ animated: Bool) {
-    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -157,6 +155,24 @@ extension EventsViewController {
 extension EventsViewController: EventCellDelegate {
     // MARK: EventCellDelegate
     func joinOrLeaveEvent(_ event: Event, join: Bool) {
+        guard let current = PlayerService.shared.current else {
+            self.simpleAlert("Could not join event", message: "Please update your player profile!")
+            return
+        }
+        guard current.name != nil else {
+            if let tab = self.tabBarController, let controllers = tab.viewControllers, let viewController = controllers[0] as? ConfigurableNavigationController {
+                viewController.loadDefaultRootViewController()
+            }
+            let alert = UIAlertController(title: "Could not join event", message: "You need to add your name before joining a game. Update your profile now?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+                self.tabBarController?.selectedIndex = 0
+            }))
+            alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+            return
+        }
+        
         if join {
             //add notification in case user doesn't return to MyEvents
             self.service.joinEvent(event)

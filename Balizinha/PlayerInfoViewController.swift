@@ -30,6 +30,8 @@ class PlayerInfoViewController: UIViewController {
     weak var delegate: PlayerDelegate?
     var isCreatingPlayer = false
     
+    fileprivate var askedForPhoto = false
+    
     var cameraController: CameraOverlayViewController?
     
     override func viewDidLoad() {
@@ -40,7 +42,7 @@ class PlayerInfoViewController: UIViewController {
         
         if self.isCreatingPlayer {
             self.title = "New player"
-            self.navigationItem.leftBarButtonItem = nil
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil) // hide back button
         }
         else {
             self.title = "Edit profile"
@@ -99,6 +101,11 @@ class PlayerInfoViewController: UIViewController {
     func close() {
         if self.isCreatingPlayer {
             // on signup, don't pop or dismiss
+            if self.player?.photoUrl == nil && !askedForPhoto {
+                promptForPhotoOnce()
+                return
+            }
+            
             self.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
             return
         }
@@ -134,6 +141,11 @@ class PlayerInfoViewController: UIViewController {
         if let text = self.inputName.text, text.characters.count > 0 {
             player.name = text
         }
+        else if isCreatingPlayer {
+            self.simpleAlert("Please enter a name", message: "Our players would like to know what to call you.")
+            return
+        }
+        
         if let text = self.inputCity.text, text.characters.count > 0 {
             player.city = text
         }
@@ -149,7 +161,7 @@ class PlayerInfoViewController: UIViewController {
         
         player?.info = self.inputNotes.text
         if currentInput == inputName, inputName.text?.isEmpty == false {
-                player?.name = inputName.text
+            player?.name = inputName.text
         }
         else if currentInput == inputCity, inputCity.text?.isEmpty == false {
             player?.city = inputCity.text
@@ -163,6 +175,18 @@ class PlayerInfoViewController: UIViewController {
         inputName.text = player?.name
         inputCity.text = player?.city
         inputNotes.text = player?.info
+    }
+    
+    fileprivate func promptForPhotoOnce() {
+        askedForPhoto = true
+        let alert = UIAlertController(title: "Add a photo?", message: "Hey, including your picture will make it easier for the organizer and the other players to recognize you. Would you like to add a photo?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+            // clicking ok cancels the save action
+        }))
+        alert.addAction(UIAlertAction(title: "Not now", style: .cancel) { (action) in
+            self.close()
+        })
+        self.present(alert, animated: true, completion: nil)
     }
 }
 

@@ -39,29 +39,23 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     }
     
     func createEmailUser() {
-        let email = self.inputEmail.text!
-        let password = self.inputPassword.text!
-        let confirmation = self.inputConfirmation.text!
-        
-        if email.characters.count == 0 {
-            print("Invalid email")
+        guard let email = self.inputEmail.text, !email.isEmpty else {
+            self.simpleAlert("Please enter your email", message: nil)
             return
         }
-        
-        if password.characters.count == 0 {
-            print("Invalid password")
+        guard let password = self.inputPassword.text, !password.isEmpty else {
+            self.simpleAlert("Please enter your password", message: nil)
             return
         }
-        
-        if confirmation.characters.count == 0 {
-            print("Password and confirmation do not match")
+        guard let confirmation = self.inputConfirmation.text, confirmation == password else {
+            self.simpleAlert("Password and confirmation must match", message: nil)
             return
         }
         
         firAuth.createUser(withEmail: email, password: password, completion: { (user, error) in
-            if (error != nil) {
+            if let error = error as? NSError {
                 print("Error: \(error)")
-                self.simpleAlert("Could not sign up", defaultMessage: nil, error: error as? NSError)
+                self.simpleAlert("Could not sign up", defaultMessage: nil, error: error)
             }
             else {
                 print("createUser results: \(user)")
@@ -71,23 +65,19 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     }
         
     func loginUser() {
-        let email = self.inputEmail.text!
-        let password = self.inputPassword.text!
-        
-        if email.characters.count == 0 {
-            print("Invalid email")
+        guard let email = self.inputEmail.text, !email.isEmpty else {
+            self.simpleAlert("Please enter your email", message: nil)
             return
         }
-        
-        if password.characters.count == 0 {
-            print("Invalid password")
+        guard let password = self.inputPassword.text, !password.isEmpty else {
+            self.simpleAlert("Please enter your password", message: nil)
             return
         }
         
         firAuth.signIn(withEmail: email, password: password, completion: { (user, error) in
-            if (error != nil) {
+            if let error = error as? NSError {
                 print("Error: \(error)")
-                self.simpleAlert("Could not log in", defaultMessage: nil, error: error as? NSError)
+                self.simpleAlert("Could not log in", defaultMessage: nil, error: error)
             }
             else {
                 print("signIn results: \(user) profile \(user?.photoURL) \(user?.displayName)")

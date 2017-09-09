@@ -70,6 +70,16 @@ extension EventActionsViewController: UITableViewDataSource {
         let action = actions[indexPath.row]
         let cellIdentifier = action.userIsOwner ? "ActionCellUser": "ActionCellOthers"
         
+        // make sure action has a name
+        if action.username == nil, let userId = action.user {
+            // lazily request for next time
+            PlayerService.shared.withId(id: userId, completion: { player in
+                if let name = player?.name {
+                    action.username = name
+                }
+            })
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ActionCell
         cell.configureWith(action: action)
         return cell
