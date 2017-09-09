@@ -16,9 +16,14 @@ class EventActivityViewController: UIViewController {
     var event: Event? {
         didSet {
             if let newVal = event {
-                ActionService().observeActions(forEvent: newVal, completion: { (action) -> (Void) in
-                    self.actions[action.id] = action
-                    self.reloadData()
+                ActionService().observeActions(forEvent: newVal, completion: { (action, visible) -> (Void) in
+                    if visible {
+                        self.actions[action.id] = action
+                        self.reloadData()
+                    }
+                    else {
+                        self.actions[action.id] = nil
+                    }
                 })
             }
         }
@@ -94,8 +99,13 @@ extension EventActivityViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard let actions = self.sortedActions, indexPath.row < actions.count else {
+            return
+        }
+        let action = actions[indexPath.row]
+        
         if editingStyle == .delete {
-            print("deleted")
+            ActionService.delete(action: action)
         }
     }
 }

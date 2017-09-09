@@ -10,7 +10,7 @@
 import UIKit
 import Firebase
 
-typealias actionUpdateHandler = (Action) -> (Void)
+typealias actionUpdateHandler = (Action, _ visible: Bool) -> (Void)
 class ActionService: NSObject {
 
     class func post(_ type: ActionType, eventId: String, message: String?) {
@@ -53,6 +53,15 @@ class ActionService: NSObject {
         }
     }
     
+    class func delete(action: Action) {
+        let actionId = action.id
+         // instead of deleting the action, just set eventActions for this action to false
+         // because eventAction observers don't recognize a delete vs a change/create
+        guard let eventId = action.event else { return }
+        let queryRef = firRef.child("eventActions").child(eventId)
+        queryRef.updateChildValues([actionId: false])
+    }
+    
     func observeActions(forEvent event: Event, completion: @escaping actionUpdateHandler) {
         // returns all current events of a certain type. Returns as snapshot
         // only gets events once, and removes observer afterwards
@@ -66,13 +75,13 @@ class ActionService: NSObject {
             if let allObjects = snapshot.children.allObjects as? [DataSnapshot] {
                 for actionDict in allObjects {
                     let actionId = actionDict.key
-                    if let val = actionDict.value as? Bool, val == true {
+                    if let val = actionDict.value as? Bool {
                         
                         // query for the action
                         let actionQueryRef = firRef.child("action").child(actionId)
                         actionQueryRef.observeSingleEvent(of: .value, with: { (actionSnapshot) in
                             let action = Action(snapshot: actionSnapshot)
-                            completion(action)
+                            completion(action, val)
                         })
                     }
                 }
