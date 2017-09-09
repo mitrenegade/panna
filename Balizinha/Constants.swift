@@ -24,7 +24,7 @@ enum NotificationType: String {
     }
 }
 
-var TESTING = false
+var TESTING = true
 var AIRPLANE_MODE = false
 
 var FEATURE_FLAGS: [String: Any] = [
