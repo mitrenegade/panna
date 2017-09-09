@@ -1,5 +1,5 @@
 //
-//  EventActionsViewController.swift
+//  EventActivityViewController.swift
 //  Balizinha
 //
 //  Created by Bobby Ren on 3/5/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EventActionsViewController: UIViewController {
+class EventActivityViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var firstAppear: Bool = true
@@ -16,9 +16,14 @@ class EventActionsViewController: UIViewController {
     var event: Event? {
         didSet {
             if let newVal = event {
-                ActionService().observeActions(forEvent: newVal, completion: { (action) -> (Void) in
-                    self.actions[action.id] = action
-                    self.reloadData()
+                ActionService().observeActions(forEvent: newVal, completion: { (action, visible) -> (Void) in
+                    if visible {
+                        self.actions[action.id] = action
+                        self.reloadData()
+                    }
+                    else {
+                        self.actions[action.id] = nil
+                    }
                 })
             }
         }
@@ -50,7 +55,7 @@ class EventActionsViewController: UIViewController {
     }
 }
 
-extension EventActionsViewController: UITableViewDataSource {
+extension EventActivityViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -83,5 +88,24 @@ extension EventActionsViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ActionCell
         cell.configureWith(action: action)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        guard let actions = self.sortedActions, indexPath.row < actions.count else {
+            return false
+        }
+        let action = actions[indexPath.row]
+        return action.type == .chat && action.userIsOwner
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard let actions = self.sortedActions, indexPath.row < actions.count else {
+            return
+        }
+        let action = actions[indexPath.row]
+        
+        if editingStyle == .delete {
+            ActionService.delete(action: action)
+        }
     }
 }
