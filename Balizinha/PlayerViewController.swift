@@ -31,6 +31,9 @@ class PlayerViewController: UIViewController {
         if let name = player.name {
             self.nameLabel.text = name
         }
+        else if let email = player.email {
+            self.nameLabel.text = email
+        }
         else {
             self.nameLabel.text = nil
         }
