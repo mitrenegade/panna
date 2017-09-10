@@ -58,6 +58,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Fabric.sharedSDK().debug = true
         Fabric.with([Crashlytics.self])
 
+        // Background fetch
+        application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+
+        testWriteRemoteData()
+
         return true
     }
     
@@ -111,3 +116,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+// MARK: - Background fetch
+extension AppDelegate {
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("PUSH: background fetch")
+        LoggingService.shared.log(event: "BackgroundFetch", info: nil)
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
+}
+
+extension AppDelegate: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+        print("PUSH: Firebase registration token: \(fcmToken)")
+    }
+    
+    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+        print("PUSH: Received data message: \(remoteMessage.appData)")
+    }
+}
+
+extension AppDelegate {
+    func testWriteRemoteData() {
+        guard let targetUserId = PlayerService.shared.current?.id else { return }
+        LoggingService.shared.log(event: "testWriteRemoteData", info: nil)
+        RemoteDataService.shared.post(userId: targetUserId, message: "testing")
+    }
+}
