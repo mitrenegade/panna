@@ -14,6 +14,7 @@ import Batch
 import Parse
 import Fabric
 import Crashlytics
+import RxSwift
 
 var firRef = Database.database().reference()
 let firAuth = Auth.auth()
@@ -25,6 +26,7 @@ let PARSE_CLIENT_KEY: String = "NOTUSED-O7G1syjw0PXZTOmV0FTvsH9TSTvk7e7Ll6qpDWfW
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let disposable = DisposeBag()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -58,6 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Fabric.sharedSDK().debug = true
         Fabric.with([Crashlytics.self])
 
+        // Background fetch
+        application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        
+        logPlayerLogin()
+        
         return true
     }
     
@@ -111,3 +118,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+// MARK: - Background fetch
+extension AppDelegate {
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("PUSH: background fetch")
+        LoggingService.shared.log(event: "BackgroundFetch", info: nil)
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
+}
+
+extension AppDelegate {
+    func logPlayerLogin() {
+        let observable = PlayerService.shared.observedPlayer
+        observable.take(1).subscribe(onNext: { (player) in
+            LoggingService.shared.log(event: "testWriteRemoteData", info: nil)
+            RemoteDataService.shared.post(userId: player.id, message: "testing")
+        }, onError: { (error) in
+            print("error \(error)")
+        }, onCompleted: { 
+            print("completed")
+        }, onDisposed: {
+            print("disposed")
+        }).addDisposableTo(disposable)
+    }
+}

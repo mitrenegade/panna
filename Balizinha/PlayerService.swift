@@ -8,10 +8,12 @@
 
 import UIKit
 import Firebase
+import RxSwift
 
 fileprivate var singleton: PlayerService?
 var _currentPlayer: Player?
 fileprivate var playersRef: DatabaseReference?
+
 class PlayerService: NSObject {
     // MARK: - Singleton
     static var shared: PlayerService {
@@ -74,18 +76,29 @@ class PlayerService: NSObject {
         // firRef is the global firebase ref
         playersRef = firRef.child("players") // this references the endpoint lotsports.firebase.com/players/
         playersRef!.keepSynced(true)
-
-        let existingUserId = firAuth.currentUser?.uid
-        let playerRef: DatabaseReference = playersRef!.child(existingUserId!) // FIXME better optional unwrapping. what happens on logout?
-        
-        playerRef.observe(.value) { (snapshot: DataSnapshot!) in
-            _currentPlayer = Player(snapshot: snapshot)
-        }
     }()
 
     var current: Player? {
         _ = self.__once
         return _currentPlayer
+    }
+    
+    var observedPlayer: Observable<Player> {
+        _ = self.__once
+        
+        return Observable.create({ (observer) -> Disposable in
+            let existingUserId = firAuth.currentUser?.uid
+            let playerRef: DatabaseReference = playersRef!.child(existingUserId!) // FIXME better optional unwrapping. what happens on logout?
+            
+            playerRef.observe(.value) { (snapshot: DataSnapshot!) in
+                _currentPlayer = Player(snapshot: snapshot)
+                if let player = _currentPlayer {
+                    observer.onNext(player)
+                }
+            }
+
+            return Disposables.create()
+        })
     }
     
     func withId(id: String, completion: @escaping ((Player?)->Void)) {
