@@ -8,6 +8,7 @@ target 'Balizinha' do
     pod 'Firebase/Database'
     pod 'Firebase/Storage'
     pod 'Firebase/RemoteConfig'
+    pod 'Firebase/Messaging'
 
     pod 'Parse'
 
