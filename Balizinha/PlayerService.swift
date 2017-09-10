@@ -8,10 +8,12 @@
 
 import UIKit
 import Firebase
+import RxSwift
 
 fileprivate var singleton: PlayerService?
 var _currentPlayer: Player?
 fileprivate var playersRef: DatabaseReference?
+
 class PlayerService: NSObject {
     // MARK: - Singleton
     static var shared: PlayerService {
@@ -83,9 +85,15 @@ class PlayerService: NSObject {
         }
     }()
 
-    var current: Player? {
+    var current: Observable<Player> {
         _ = self.__once
-        return _currentPlayer
+        
+        return Observable.create({ (observer) -> Disposable in
+            if let player = _currentPlayer {
+                observer.onNext(player)
+            }
+            return Disposables.create()
+        })
     }
     
     func withId(id: String, completion: @escaping ((Player?)->Void)) {

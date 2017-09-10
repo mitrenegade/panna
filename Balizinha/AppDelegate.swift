@@ -14,6 +14,7 @@ import Batch
 import Parse
 import Fabric
 import Crashlytics
+import RxSwift
 
 var firRef = Database.database().reference()
 let firAuth = Auth.auth()
@@ -60,9 +61,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Background fetch
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
-
-        testWriteRemoteData()
-
+        
+        logPlayerLogin()
+        
         return true
     }
     
@@ -125,18 +126,9 @@ extension AppDelegate {
     }
 }
 
-extension AppDelegate: MessagingDelegate {
-    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
-        print("PUSH: Firebase registration token: \(fcmToken)")
-    }
-    
-    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        print("PUSH: Received data message: \(remoteMessage.appData)")
-    }
-}
-
 extension AppDelegate {
-    func testWriteRemoteData() {
+    func logPlayerLogin() {
+//        PlayerService.shared.current.observable()
         guard let targetUserId = PlayerService.shared.current?.id else { return }
         LoggingService.shared.log(event: "testWriteRemoteData", info: nil)
         RemoteDataService.shared.post(userId: targetUserId, message: "testing")

@@ -13,6 +13,9 @@ target 'Balizinha' do
     pod 'Crashlytics'
     pod 'Fabric'
 
+    pod 'RxSwift'
+    pod 'RxCocoa'
+
 	pod 'AFNetworking'
 	pod 'AsyncImageView'
 	pod 'FBSDKCoreKit'

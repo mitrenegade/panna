@@ -78,6 +78,9 @@ PODS:
   - RandomKit (5.1.0):
     - ShiftOperations (~> 1.0.2)
     - Threadly (~> 1.0)
+  - RxCocoa (3.6.1):
+    - RxSwift (~> 3.6)
+  - RxSwift (3.6.1)
   - ShiftOperations (1.0.2)
   - Threadly (1.2.0)
 
@@ -97,6 +100,8 @@ DEPENDENCIES:
   - Firebase/Storage
   - Parse
   - RandomKit
+  - RxCocoa
+  - RxSwift
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -120,9 +125,11 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 30d874b96d0d76028f61fbd122801e3f030d47db
   Parse: c0519f8fbf57bd0334f75cd22ac032d86ee55464
   RandomKit: 300a73d10e84efcd5efd450a7c56ceeec7d27dbb
+  RxCocoa: 84a08739ab186248c7f31ce4ee92d6f8a947d690
+  RxSwift: f9de85ea20cd2f7716ee5409fc13523dc638e4e4
   ShiftOperations: 702c9aa98d3b20d98dceb71dd8437b562f7ab3ad
   Threadly: b772ed7c1ff4a3f03eb4600bbc5ef83b3be5cb29
 
-PODFILE CHECKSUM: 0d5e9e86116bf017a17ff1da1bfa9c367abf44ab
+PODFILE CHECKSUM: 0f2fa6843812bbbba4dcf4323ec9ceff2abb6e98
 
 COCOAPODS: 1.3.1
