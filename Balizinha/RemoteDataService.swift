@@ -22,6 +22,7 @@ class RemoteDataService: NSObject {
     static var shared: RemoteDataService {
         if singleton == nil {
             singleton = RemoteDataService()
+            singleton?.__once
         }
         
         return singleton!

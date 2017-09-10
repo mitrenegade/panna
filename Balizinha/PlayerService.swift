@@ -76,22 +76,27 @@ class PlayerService: NSObject {
         // firRef is the global firebase ref
         playersRef = firRef.child("players") // this references the endpoint lotsports.firebase.com/players/
         playersRef!.keepSynced(true)
-
-        let existingUserId = firAuth.currentUser?.uid
-        let playerRef: DatabaseReference = playersRef!.child(existingUserId!) // FIXME better optional unwrapping. what happens on logout?
-        
-        playerRef.observe(.value) { (snapshot: DataSnapshot!) in
-            _currentPlayer = Player(snapshot: snapshot)
-        }
     }()
 
-    var current: Observable<Player> {
+    var current: Player? {
+        _ = self.__once
+        return _currentPlayer
+    }
+    
+    var observedPlayer: Observable<Player> {
         _ = self.__once
         
         return Observable.create({ (observer) -> Disposable in
-            if let player = _currentPlayer {
-                observer.onNext(player)
+            let existingUserId = firAuth.currentUser?.uid
+            let playerRef: DatabaseReference = playersRef!.child(existingUserId!) // FIXME better optional unwrapping. what happens on logout?
+            
+            playerRef.observe(.value) { (snapshot: DataSnapshot!) in
+                _currentPlayer = Player(snapshot: snapshot)
+                if let player = _currentPlayer {
+                    observer.onNext(player)
+                }
             }
+
             return Disposables.create()
         })
     }

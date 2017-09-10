@@ -22,6 +22,7 @@ class LoggingService: NSObject {
     static var shared: LoggingService {
         if singleton == nil {
             singleton = LoggingService()
+            singleton?.__once
         }
         
         return singleton!
@@ -31,7 +32,7 @@ class LoggingService: NSObject {
         guard TESTING else { return }
         guard let ref = loggingRef?.childByAutoId() else { return }
         var params = info ?? [:]
-        params["timestamp"] = Date()
+        params["timestamp"] = Date().timeIntervalSince1970
         params["text"] = event
         ref.updateChildValues(params)
     }

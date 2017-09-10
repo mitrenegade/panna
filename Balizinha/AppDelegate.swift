@@ -26,6 +26,7 @@ let PARSE_CLIENT_KEY: String = "NOTUSED-O7G1syjw0PXZTOmV0FTvsH9TSTvk7e7Ll6qpDWfW
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let disposable = DisposeBag()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -128,9 +129,16 @@ extension AppDelegate {
 
 extension AppDelegate {
     func logPlayerLogin() {
-//        PlayerService.shared.current.observable()
-        guard let targetUserId = PlayerService.shared.current?.id else { return }
-        LoggingService.shared.log(event: "testWriteRemoteData", info: nil)
-        RemoteDataService.shared.post(userId: targetUserId, message: "testing")
+        let observable = PlayerService.shared.observedPlayer
+        observable.take(1).subscribe(onNext: { (player) in
+            LoggingService.shared.log(event: "testWriteRemoteData", info: nil)
+            RemoteDataService.shared.post(userId: player.id, message: "testing")
+        }, onError: { (error) in
+            print("error \(error)")
+        }, onCompleted: { 
+            print("completed")
+        }, onDisposed: {
+            print("disposed")
+        }).addDisposableTo(disposable)
     }
 }
