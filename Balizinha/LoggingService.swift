@@ -30,10 +30,9 @@ class LoggingService: NSObject {
 
     func log(event: String, info: [AnyHashable: Any]?) {
         guard TESTING else { return }
-        guard let ref = loggingRef?.childByAutoId() else { return }
+        guard let ref = loggingRef?.child(event).childByAutoId() else { return }
         var params = info ?? [:]
         params["timestamp"] = Date().timeIntervalSince1970
-        params["text"] = event
         ref.updateChildValues(params)
     }
 }
