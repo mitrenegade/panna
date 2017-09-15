@@ -129,7 +129,11 @@ extension AppDelegate {
 
 extension AppDelegate {
     func logPlayerLogin() {
-        let observable = PlayerService.shared.observedPlayer
+        // TODO: FIX THIS BEFORE RELEASE - try new devices
+        guard let observable = PlayerService.shared.observedPlayer else {
+            print("doh")
+            return
+        }
         observable.take(1).subscribe(onNext: { (player) in
             LoggingService.shared.log(event: "testWriteRemoteData", info: nil)
             RemoteDataService.shared.post(userId: player.id, message: "testing")

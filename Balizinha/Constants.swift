@@ -27,6 +27,3 @@ enum NotificationType: String {
 var TESTING = true
 var AIRPLANE_MODE = false
 
-var FEATURE_FLAGS: [String: Any] = [
-    //"SoccerOnly": true // for Balizinha, only sport is soccer
-    :]

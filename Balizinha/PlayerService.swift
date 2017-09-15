@@ -83,12 +83,14 @@ class PlayerService: NSObject {
         return _currentPlayer
     }
     
-    var observedPlayer: Observable<Player> {
+    var observedPlayer: Observable<Player>? {
         _ = self.__once
         
+        // TODO: how to handle this
+        guard let existingUserId = firAuth.currentUser?.uid else { return nil }
+        
         return Observable.create({ (observer) -> Disposable in
-            let existingUserId = firAuth.currentUser?.uid
-            let playerRef: DatabaseReference = playersRef!.child(existingUserId!) // FIXME better optional unwrapping. what happens on logout?
+            let playerRef: DatabaseReference = playersRef!.child(existingUserId) // FIXME better optional unwrapping. what happens on logout?
             
             playerRef.observe(.value) { (snapshot: DataSnapshot!) in
                 _currentPlayer = Player(snapshot: snapshot)
