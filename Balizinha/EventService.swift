@@ -146,9 +146,6 @@ class EventService: NSObject {
         let eventId = event.id
         let eventRef = firRef.child("events").child(eventId)
         eventRef.updateChildValues(["active": false])
-        //        let eventUserRef = firRef.child("eventUsers").child(eventId)
-//        eventUserRef.observe(.value) { (snapshot: DataSnapshot!) in
-//        }
         
         // remove users from that event by setting userEvent to false
         observeUsers(forEvent: event) { (ids) in

@@ -28,9 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        //enable local notifications
-        application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil))
-
         // Firebase
         // Do not include infolist in project: https://firebase.google.com/docs/configure/#reliable-analytics
         let plistFilename = "GoogleService-Info\(TESTING ? "-dev" : "")"

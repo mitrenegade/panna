@@ -9,6 +9,7 @@
 import UIKit
 import Parse
 import UserNotifications
+import FirebaseMessaging
 
 let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"
@@ -116,7 +117,10 @@ class NotificationService: NSObject {
         }
     }
     
-    // PUSH NOTIFICATIONS
+}
+
+// PUSH NOTIFICATIONS via Parse
+extension NotificationService {
     class func registerForPushNotifications(_ deviceToken: Data, enabled: Bool) {
         let installation = PFInstallation.current()
         installation!.setDeviceTokenFrom(deviceToken)
@@ -157,5 +161,26 @@ class NotificationService: NSObject {
         
         // toggle/reschedule events
         self.refreshNotifications(self.shared.scheduledEvents)
+    }
+}
+
+// PUSH Notifications on events
+extension NotificationService {
+    fileprivate func subscribeToTopic(topic: String) {
+        Messaging.messaging().subscribe(toTopic: topic)
+    }
+    
+    func registerForEventNotifications(event: Event) {
+        let key = event.id
+        let topic = "event:" + key
+        self.subscribeToTopic(topic: topic)
+    }
+    
+    func sendForDelete(event: Event) {
+        
+    }
+    
+    fileprivate func sendNotificationHelper() {
+        
     }
 }
