@@ -26,11 +26,32 @@ exports.testLog = functions.database.ref('/events')
 
 exports.createStripeCustomer = functions.auth.user().onCreate(event => {
   const data = event.data;
-  return stripe.customers.create({
-    email: data.email
-  }).then(customer => {
-  	console.log("createStripeCustomer " + data.uid + " email " + data.email)
-    return admin.database().ref(`/stripe_customers/${data.uid}/customer_id`).set(customer.id);
-  });
+  const email = data.email;
+  const uid = data.uid;
+
+  // return stripe.customers.create({
+  //   email: email
+  // }).then(customer => {
+  // 	console.log("createStripeCustomer " + data.uid + " email " + data.email)
+  //   return admin.database().ref(`/stripe_customers/${data.uid}/customer_id`).set(customer.id);
+  // });
+  stripe.customers.create({
+	  email: email
+	}, function(err, customer) {
+		ref = '/stripe_customers/${uid}/customer_id'
+		console.log('customer' + customer + 'err ' + err + ' ref ' + ref)
+		admin.database().ref(ref).set(customer.id);
+		res.send(200, {'customer': customer, 'error':err})
+  // asynchronously called
+	});
 });
 
+exports.testFunction = functions.https.onRequest( (req, res) => {
+  stripe.customers.create({
+	  email: 'test@gmail.com'
+	}, function(err, customer) {
+		console.log('customer' + customer + 'err ' + err)
+		res.send(200, {'customer': customer, 'error':err})
+  // asynchronously called
+	});
+});

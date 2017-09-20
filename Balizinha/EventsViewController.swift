@@ -183,6 +183,8 @@ extension EventsViewController: EventCellDelegate {
         }
  
         self.refreshEvents()
+        
+        self.testFirebaseFunction()
     }
     
     func editEvent(_ event: Event) {
@@ -193,5 +195,11 @@ extension EventsViewController: EventCellDelegate {
 extension EventsViewController: CreateEventDelegate {
     func didCreateEvent() {
         self.tabBarController?.selectedIndex = 2
+    }
+}
+
+extension EventsViewController {
+    func testFirebaseFunction() {
+        FirebaseFunctionsService().test()
     }
 }
