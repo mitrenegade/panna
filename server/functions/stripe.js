@@ -1,18 +1,21 @@
-const functions = require('firebase-functions'),
-      admin = require('firebase-admin'),
-      logging = require('@google-cloud/logging')();
-admin.initializeApp(functions.config().firebase);
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+const logging = require('@google-cloud/logging')();
 
 // Stripe
-//const config = firebase.config().prod // for prod environment
-const config = firebase.config().dev // for dev environment
+//const config = app.config().prod // for prod environment
+const config = functions.config().dev
 const stripe = require('stripe')(config.stripe.token)
 
 const currency = 'USD';
 
+// cloud functions are all defined in index.js but they call module functions
+// https://stackoverflow.com/questions/43486278/how-do-i-structure-cloud-functions-for-firebase-to-deploy-multiple-functions-fro
+
 // [START chargecustomer]
 // Charge the Stripe customer whenever an amount is written to the Realtime database
-exports.createStripeCharge = functions.database.ref('/stripe_customers/{userId}/charges/{id}').onWrite(event => {
+exports.createStripeCharge = functions.database.ref(`/stripe_customers/{userId}/charges/{id}`).onWrite(event => {
+//function createStripeCharge(req, res, ref) {
   const val = event.data.val();
   // This onWrite will trigger whenever anything is written to the path, so
   // noop if the charge was deleted, errored out, or the Stripe API returned a result (id exists) 
@@ -42,20 +45,21 @@ exports.createStripeCharge = functions.database.ref('/stripe_customers/{userId}/
 // [END chargecustomer]]
 
 // When a user is created, register them with Stripe
-exports.createStripeCustomer = functions.auth.user().onCreate(event => {
-  const data = event.data;
+exports.createStripeCustomerHandler = (email, uid, ref) => {
+    console.log('calling createStripeCustomerHandler with email ' + email)
   return stripe.customers.create({
-    email: data.email
+    email: email
   }).then(customer => {
-    return admin.database().ref(`/stripe_customers/${data.uid}/customer_id`).set(customer.id);
-  });
-});
+    //response(customer)
+    return ref.set(uid);
+  })
+};
 
 // Add a payment source (card) for a user by writing a stripe payment source token to Realtime database
-exports.addPaymentSource = functions.database.ref('/stripe_customers/{userId}/sources/{pushId}/token').onWrite(event => {
+exports.addPaymentSource = functions.database.ref(`/stripe_customers/{userId}/sources/{pushId}/token`).onWrite(event => {
   const source = event.data.val();
   if (source === null) return null;
-  return admin.database().ref(`/stripe_customers/${event.params.userId}/customer_id`).once('value').then(snapshot => {
+  return admin.database().ref('/stripe_customers/${event.params.userId}/customer_id').once('value').then(snapshot => {
     return snapshot.val();
   }).then(customer => {
     return stripe.customers.createSource(customer, {source});
@@ -78,5 +82,6 @@ exports.cleanupUser = functions.auth.user().onDelete(event => {
     return admin.database().ref(`/stripe_customers/${event.data.uid}`).remove();
   });
 });
+
 
 
