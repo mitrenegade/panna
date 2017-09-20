@@ -38,10 +38,9 @@ exports.createStripeCustomer = functions.auth.user().onCreate(event => {
   stripe.customers.create({
 	  email: email
 	}, function(err, customer) {
-		ref = '/stripe_customers/${uid}/customer_id'
+		ref = `/stripe_customers/${uid}/customer_id`
 		console.log('customer' + customer + 'err ' + err + ' ref ' + ref)
-		admin.database().ref(ref).set(customer.id);
-		res.send(200, {'customer': customer, 'error':err})
+		return admin.database().ref(ref).set(customer.id);
   // asynchronously called
 	});
 });
@@ -50,7 +49,9 @@ exports.testFunction = functions.https.onRequest( (req, res) => {
   stripe.customers.create({
 	  email: 'test@gmail.com'
 	}, function(err, customer) {
-		console.log('customer' + customer + 'err ' + err)
+		ref = '/stripe_customers/1234/customer_id'
+		console.log('customer' + customer + 'err ' + err + ' ref ' + ref)
+		admin.database().ref(ref).set(customer.id);
 		res.send(200, {'customer': customer, 'error':err})
   // asynchronously called
 	});
