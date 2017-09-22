@@ -45,6 +45,24 @@ exports.createStripeCustomer = functions.auth.user().onCreate(event => {
 	});
 });
 
+// Add a payment source (card) for a user by writing a stripe payment source token to Realtime database
+exports.addPaymentSourceFunction = functions.https.onRequest( (req, res) => {
+	token = req.body.token
+	console.log('token ' + token)
+	customerRef = admin.database().ref('/stripe_customers/${event.params.userId}/customer_id').once('value').then(snapshot => {
+		customer = snapshot.val()
+		stripe.sources.create({
+			type: 'type',
+			usage: 'reusable'
+		}).then( source => {
+			ref = `/stripe_customers/${uid}`
+			admin.database().ref(ref).setValue({"source":source.id, "last4":source.last4, "brand": source.brand});
+			res.send(200, {"source": source.id})
+		})
+	})
+	stripe.customers.createSource
+})
+
 exports.testFunction = functions.https.onRequest( (req, res) => {
   stripe.customers.create({
 	  email: 'test@gmail.com'

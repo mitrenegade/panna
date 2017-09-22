@@ -44,34 +44,6 @@ exports.createStripeCharge = functions.database.ref(`/stripe_customers/{userId}/
 });
 // [END chargecustomer]]
 
-// When a user is created, register them with Stripe
-exports.createStripeCustomerHandler = (email, uid, ref) => {
-    console.log('calling createStripeCustomerHandler with email ' + email)
-  return stripe.customers.create({
-    email: email
-  }).then(customer => {
-    //response(customer)
-    return ref.set(uid);
-  })
-};
-
-// Add a payment source (card) for a user by writing a stripe payment source token to Realtime database
-exports.addPaymentSource = functions.database.ref(`/stripe_customers/{userId}/sources/{pushId}/token`).onWrite(event => {
-  const source = event.data.val();
-  if (source === null) return null;
-  return admin.database().ref('/stripe_customers/${event.params.userId}/customer_id').once('value').then(snapshot => {
-    return snapshot.val();
-  }).then(customer => {
-    return stripe.customers.createSource(customer, {source});
-  }).then(response => {
-      return event.data.adminRef.parent.set(response);
-    }, error => {
-      return event.data.adminRef.parent.child('error').set(userFacingMessage(error)).then(() => {
-        return reportError(error, {user: event.params.userId});
-      });
-  });
-});
-
 // When a user deletes their account, clean up after them
 exports.cleanupUser = functions.auth.user().onDelete(event => {
   return admin.database().ref(`/stripe_customers/${event.data.uid}`).once('value').then(snapshot => {
