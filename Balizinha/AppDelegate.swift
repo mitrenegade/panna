@@ -15,12 +15,7 @@ import Parse
 import Fabric
 import Crashlytics
 import RxSwift
-
-var firRef = Database.database().reference()
-let firAuth = Auth.auth()
-
-let PARSE_APP_ID: String = "Y1kUP1Nwz77UlFW5wIGvK4ptgvCwKQjDejrXbMi7"
-let PARSE_CLIENT_KEY: String = "NOTUSED-O7G1syjw0PXZTOmV0FTvsH9TSTvk7e7Ll6qpDWfW"
+import Stripe
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -64,6 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
         logPlayerLogin()
+        
+        STPPaymentConfiguration.shared().publishableKey = STRIPE_KEY_DEV
         
         return true
     }

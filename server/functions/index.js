@@ -1,6 +1,7 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const logging = require('@google-cloud/logging')();
+const app = require('express')
 
 admin.initializeApp(functions.config().firebase);
 
@@ -62,6 +63,24 @@ exports.addPaymentSourceFunction = functions.https.onRequest( (req, res) => {
 	})
 	stripe.customers.createSource
 })
+
+app.post(path, (req, res) => {
+  const stripe_version = req.query.api_version;
+  if (!stripe_version) {
+    res.status(400).end();
+    return;
+  }
+  // This function assumes that some previous middleware has determined the
+  // correct customerId for the session and saved it on the request object.
+  stripe.ephemeralKeys.create(
+    {customer: req.customerId},
+    {stripe_version: stripe_version}
+  ).then((key) => {
+    res.status(200).json(key);
+  }).catch((err) => {
+    res.status(500).end();
+  });
+});
 
 exports.testFunction = functions.https.onRequest( (req, res) => {
   stripe.customers.create({
