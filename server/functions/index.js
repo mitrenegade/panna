@@ -64,8 +64,9 @@ exports.addPaymentSourceFunction = functions.https.onRequest( (req, res) => {
 	stripe.customers.createSource
 })
 
-app.post(path, (req, res) => {
-  const stripe_version = req.query.api_version;
+exports.ephemeralKeys = functions.https.onRequest( (req, res) => {
+	console.log('Called ephemeral keys with ' + req.body.api_version + ' and ' + req.body.customer_id)
+  const stripe_version = req.body.api_version;
   if (!stripe_version) {
     res.status(400).end();
     return;
@@ -73,7 +74,7 @@ app.post(path, (req, res) => {
   // This function assumes that some previous middleware has determined the
   // correct customerId for the session and saved it on the request object.
   stripe.ephemeralKeys.create(
-    {customer: req.customerId},
+    {customer: req.body.customer_id},
     {stripe_version: stripe_version}
   ).then((key) => {
     res.status(200).json(key);

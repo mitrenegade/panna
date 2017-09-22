@@ -34,7 +34,7 @@ class PaymentInfoViewController: UIViewController {
 
 extension PaymentInfoViewController: STPPaymentContextDelegate {
     func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
-        
+        print("didChange")
 //        self.activityIndicator.animating = paymentContext.loading
 //        self.paymentButton.enabled = paymentContext.selectedPaymentMethod != nil
 //        self.paymentLabel.text = paymentContext.selectedPaymentMethod?.label
@@ -44,7 +44,7 @@ extension PaymentInfoViewController: STPPaymentContextDelegate {
     func paymentContext(_ paymentContext: STPPaymentContext,
                         didCreatePaymentResult paymentResult: STPPaymentResult,
                         completion: @escaping STPErrorBlock) {
-        
+        print("didCreatePayment")
 //        FirebaseFunctionsService.createCharge(paymentResult.source.stripeID, completion: { (error: Error?) in
 //            if let error = error {
 //                completion(error)
@@ -57,7 +57,7 @@ extension PaymentInfoViewController: STPPaymentContextDelegate {
     func paymentContext(_ paymentContext: STPPaymentContext,
                         didFinishWith status: STPPaymentStatus,
                         error: Error?) {
-        
+        print("didFinish")
         switch status {
         case .error: break
 //            self.showError(error)
@@ -71,6 +71,7 @@ extension PaymentInfoViewController: STPPaymentContextDelegate {
     func paymentContext(_ paymentContext: STPPaymentContext,
                         didFailToLoadWithError error: Error) {
         self.navigationController?.popViewController(animated: true)
+        print("didFailToLoad")
         // Show the error to your user, etc.
     }
 }
