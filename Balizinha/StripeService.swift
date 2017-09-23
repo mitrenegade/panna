@@ -20,7 +20,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
 //        return singleton!
 //        
 //    }
-
+    
     // payment method
     var paymentContext: STPPaymentContext?
     var hostController: UIViewController?
@@ -30,6 +30,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
     var urlSession: URLSession?
     var dataTask: URLSessionTask?
     var data: Data?
+    var customerId: String?
 
     var completionHandler: STPJSONResponseCompletionBlock?
     
@@ -40,7 +41,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         
         urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: self.opQueue)
         
-        let params = ["api_version": apiVersion, "customer_id": "cus_BQqLbjbWyqc8Ca"]
+        let params = ["api_version": apiVersion, "customer_id": self.customerId]
         var request = URLRequest(url:url)
         request.httpMethod = "POST"
         request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
@@ -53,13 +54,54 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         task?.resume()
     }
     
-    func setupPaymentContext(host: UIViewController?) {
-        let customerContext = STPCustomerContext(keyProvider: self)
-        self.paymentContext = STPPaymentContext(customerContext: customerContext)
-        self.paymentContext?.delegate = self
-        if let host = host {
-            self.paymentContext?.hostViewController = host
+    func loadPayment(host: UIViewController?) {
+        guard let player = PlayerService.shared.current else {
+            return
         }
+        
+        let ref = firRef.child("stripe_customers").child(player.id).child("customer_id")
+        ref.observe(.value, with: { (snapshot) in
+            guard let customerId = snapshot.value as? String else {
+                // old player does not have a stripe customer, must create one
+                print("uh oh")
+                return
+            }
+            self.customerId = customerId
+            
+            let customerContext = STPCustomerContext(keyProvider: self)
+            self.paymentContext = STPPaymentContext(customerContext: customerContext)
+            self.paymentContext?.delegate = self
+            if let host = host {
+                self.paymentContext?.hostViewController = host
+            }
+        })
+    }
+    
+    // for legacy users
+    func checkForStripeCustomer(_ player: Player) {
+        let ref = firRef.child("stripe_customers").child(player.id).child("customer_id")
+        ref.observe(.value, with: { (snapshot) in
+            guard let customerId = snapshot.value as? String else {
+                // old player does not have a stripe customer, must create one
+                self.createCustomer()
+                return
+            }
+            // otherwise stripe customer exists and all is well
+            print("stripe_customer for player \(player.id) exists: \(customerId)")
+        })
+    }
+    func createCustomer() {
+        guard let url = self.baseURL?.appendingPathComponent("createStripeCustomerForLegacyUser") else { return }
+        urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: self.opQueue)
+        
+        let params = ["email": PlayerService.shared.current?.email, "id": PlayerService.shared.current?.id]
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+        
+        try! request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
+        let task = urlSession?.dataTask(with: request)
+        task?.resume()
     }
 }
 
@@ -130,7 +172,6 @@ extension StripeService: URLSessionDelegate, URLSessionDataDelegate {
                 completionHandler?(json as? [String: AnyObject], nil)
             } catch let error {
                 print("error \(error)")
-                let string = String(data: usableData, encoding: .utf8)
                 completionHandler?(nil, error)
             }
         }

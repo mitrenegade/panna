@@ -21,7 +21,7 @@ import Stripe
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let disposable = DisposeBag()
+    let disposeBag = DisposeBag()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -127,6 +127,7 @@ extension AppDelegate {
 extension AppDelegate {
     func logPlayerLogin() {
         // TODO: FIX THIS BEFORE RELEASE - try new devices
+        // TODO: on logout/login, this doesn't get triggered again
         guard let observable = PlayerService.shared.observedPlayer else {
             print("doh")
             return
@@ -134,12 +135,15 @@ extension AppDelegate {
         observable.take(1).subscribe(onNext: { (player) in
             LoggingService.shared.log(event: "testWriteRemoteData", info: nil)
             RemoteDataService.shared.post(userId: player.id, message: "testing")
+            
+            // checks for stripe customer
+            StripeService().checkForStripeCustomer(player)
         }, onError: { (error) in
             print("error \(error)")
         }, onCompleted: { 
             print("completed")
         }, onDisposed: {
             print("disposed")
-        }).addDisposableTo(disposable)
+        }).addDisposableTo(disposeBag)
     }
 }
