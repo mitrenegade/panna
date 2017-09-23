@@ -345,6 +345,9 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iqu-eV-GZi">
                                 <rect key="frame" x="0.0" y="0.0" width="343" height="60"/>
+                                <connections>
+                                    <action selector="didClickAddPayment:" destination="ywJ-1s-axP" eventType="touchUpInside" id="Iw2-02-VIl"/>
+                                </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="NN9-XL-7s7">
                                 <rect key="frame" x="12" y="12" width="37" height="37"/>

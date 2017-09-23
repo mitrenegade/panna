@@ -37,8 +37,8 @@ class PaymentInfoViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func didClickButton(sender: UIButton) {
-//        self.paymentContext?.presentPaymentMethodsViewController()
+    @IBAction func didClickAddPayment(_ sender: UIButton) {
+        stripeService.paymentContext?.presentPaymentMethodsViewController()
     }
 }
 
