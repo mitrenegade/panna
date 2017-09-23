@@ -10,7 +10,6 @@ import UIKit
 import Stripe
 
 class PaymentInfoViewController: UIViewController {
-    var paymentContext: STPPaymentContext?
     
     @IBOutlet weak var paymentButton: UIButton!
     @IBOutlet weak var paymentIcon: UIImageView!
@@ -18,82 +17,57 @@ class PaymentInfoViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var constraintIconWidth: NSLayoutConstraint!
     
+    let stripeService = StripeService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        let customerContext = STPCustomerContext(keyProvider: StripeService.shared)
-        self.paymentContext = STPPaymentContext(customerContext: customerContext)
-        self.paymentContext?.delegate = self
-        self.paymentContext?.hostViewController = self
-        self.paymentContext?.paymentAmount = 500 // pull from game object
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshPayment), name: NSNotification.Name("StripePaymentContextChanged"), object: nil)
+        
+        stripeService.setupPaymentContext(host: self)
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     @IBAction func didClickButton(sender: UIButton) {
-        self.paymentContext?.presentPaymentMethodsViewController()
+//        self.paymentContext?.presentPaymentMethodsViewController()
     }
 }
 
-extension PaymentInfoViewController: STPPaymentContextDelegate {
-    func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
-        print("didChange")
-        self.paymentButton.isEnabled = paymentContext.selectedPaymentMethod != nil
-
+// MARK: - Listeners for STPPaymentContext
+extension PaymentInfoViewController {
+    func refreshPayment() {
+        guard let paymentContext = stripeService.paymentContext else { return }
         if paymentContext.loading {
             self.activityIndicator.startAnimating()
             self.paymentLabel.text = "Loading your payment methods"
             self.constraintIconWidth.constant = 60
+            
+            self.paymentButton.isEnabled = false
+        }
+        else if let paymentMethod = paymentContext.selectedPaymentMethod {
+            self.activityIndicator.stopAnimating()
+            
+            self.paymentLabel.text = paymentMethod.label
+            self.paymentIcon.image = paymentMethod.image
+            self.constraintIconWidth.constant = 60
+            
+            self.paymentButton.isEnabled = false
         }
         else {
             self.activityIndicator.stopAnimating()
-            if let paymentMethod = paymentContext.selectedPaymentMethod {
-                self.paymentLabel.text = paymentContext.selectedPaymentMethod?.label
-                self.paymentIcon.image = paymentContext.selectedPaymentMethod?.image
-                self.constraintIconWidth.constant = 60
-            }
-            else {
-                self.paymentLabel.text = "Click to add a payment method"
-                self.constraintIconWidth.constant = 0
-            }
+            self.paymentLabel.text = "Click to add a payment method"
+            self.constraintIconWidth.constant = 0
+            
+            self.paymentButton.isEnabled = true
         }
-    }
-    
-    func paymentContext(_ paymentContext: STPPaymentContext,
-                        didCreatePaymentResult paymentResult: STPPaymentResult,
-                        completion: @escaping STPErrorBlock) {
-        print("didCreatePayment")
-//        FirebaseFunctionsService.createCharge(paymentResult.source.stripeID, completion: { (error: Error?) in
-//            if let error = error {
-//                completion(error)
-//            } else {
-//                completion(nil)
-//            }
-//        })
-    }
-    
-    func paymentContext(_ paymentContext: STPPaymentContext,
-                        didFinishWith status: STPPaymentStatus,
-                        error: Error?) {
-        print("didFinish")
-        switch status {
-        case .error: break
-//            self.showError(error)
-        case .success: break
-//            self.showReceipt()
-        case .userCancellation:
-            return // Do nothing
-        }
-    }
-    
-    func paymentContext(_ paymentContext: STPPaymentContext,
-                        didFailToLoadWithError error: Error) {
-        self.navigationController?.popViewController(animated: true)
-        print("didFailToLoad")
-        // Show the error to your user, etc.
     }
 }
