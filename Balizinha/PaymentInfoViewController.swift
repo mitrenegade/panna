@@ -12,6 +12,12 @@ import Stripe
 class PaymentInfoViewController: UIViewController {
     var paymentContext: STPPaymentContext?
     
+    @IBOutlet weak var paymentButton: UIButton!
+    @IBOutlet weak var paymentIcon: UIImageView!
+    @IBOutlet weak var paymentLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var constraintIconWidth: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,7 +27,6 @@ class PaymentInfoViewController: UIViewController {
         self.paymentContext?.delegate = self
         self.paymentContext?.hostViewController = self
         self.paymentContext?.paymentAmount = 500 // pull from game object
-        self.paymentContext?.presentPaymentMethodsViewController()
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,16 +34,33 @@ class PaymentInfoViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
+    @IBAction func didClickButton(sender: UIButton) {
+        self.paymentContext?.presentPaymentMethodsViewController()
+    }
 }
 
 extension PaymentInfoViewController: STPPaymentContextDelegate {
     func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
         print("didChange")
-//        self.activityIndicator.animating = paymentContext.loading
-//        self.paymentButton.enabled = paymentContext.selectedPaymentMethod != nil
-//        self.paymentLabel.text = paymentContext.selectedPaymentMethod?.label
-//        self.paymentIcon.image = paymentContext.selectedPaymentMethod?.image
+        self.paymentButton.isEnabled = paymentContext.selectedPaymentMethod != nil
+
+        if paymentContext.loading {
+            self.activityIndicator.startAnimating()
+            self.paymentLabel.text = "Loading your payment methods"
+            self.constraintIconWidth.constant = 60
+        }
+        else {
+            self.activityIndicator.stopAnimating()
+            if let paymentMethod = paymentContext.selectedPaymentMethod {
+                self.paymentLabel.text = paymentContext.selectedPaymentMethod?.label
+                self.paymentIcon.image = paymentContext.selectedPaymentMethod?.image
+                self.constraintIconWidth.constant = 60
+            }
+            else {
+                self.paymentLabel.text = "Click to add a payment method"
+                self.constraintIconWidth.constant = 0
+            }
+        }
     }
     
     func paymentContext(_ paymentContext: STPPaymentContext,
