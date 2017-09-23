@@ -192,6 +192,11 @@ extension EventsViewController: EventCellDelegate {
     
     func paymentNeeded() {
         let alert = UIAlertController(title: "No payment method available", message: "This event has a fee. Please add a payment method in your profile.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+            // todo: go to account
+        }))
+        alert.addAction(UIAlertAction(title: "Later", style: .cancel, handler: { (action) in
+        }))
         self.present(alert, animated: true, completion: nil)
     }
 }

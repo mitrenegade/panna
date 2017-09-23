@@ -130,7 +130,7 @@ extension EventCell {
         self.btnAction.isEnabled = false
         self.btnAction.alpha = 0.5
 
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshStripeStatus), name: NSNotification.Name("StripePaymentContextChanged"), object: nil)
+        self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshStripeStatus), object: nil)
     }
     
     func refreshStripeStatus() {

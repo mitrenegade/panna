@@ -23,7 +23,7 @@ class PaymentInfoViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshPayment), name: NSNotification.Name("StripePaymentContextChanged"), object: nil)
+        self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshPayment), object: nil)
         
         stripeService.loadPayment(host: self)
     }

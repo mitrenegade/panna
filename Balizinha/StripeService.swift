@@ -110,7 +110,7 @@ extension StripeService: STPPaymentContextDelegate {
     func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
         print("didChange")
 
-        NotificationCenter.default.post(name: NSNotification.Name("StripePaymentContextChanged"), object: nil)
+        self.notify(NotificationType.PaymentContextChanged, object: nil, userInfo: nil)
     }
     
     func paymentContext(_ paymentContext: STPPaymentContext,
