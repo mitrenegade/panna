@@ -133,6 +133,7 @@ extension EventsViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
         cell.delegate = self
+        cell.paymentDelegate = self
         
         let event = sortedEvents[eventTypes[indexPath.section]]![indexPath.row]
         cell.setupWithEvent(event)
@@ -189,13 +190,27 @@ extension EventsViewController: EventCellDelegate {
     func editEvent(_ event: Event) {
         // does not implement this
     }
-    
+}
+
+extension EventsViewController: EventPaymentDelegate {
     func paymentNeeded() {
         let alert = UIAlertController(title: "No payment method available", message: "This event has a fee. Please add a payment method in your profile.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
             // todo: go to account
         }))
         alert.addAction(UIAlertAction(title: "Later", style: .cancel, handler: { (action) in
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func chargePayment(for event: Event, payment: STPPaymentMethod) {
+        guard let user = firAuth.currentUser else { return }
+        
+        let alert = UIAlertController(title: "Confirm payment", message: "Press Ok to pay $6.99 for this game.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
         }))
         self.present(alert, animated: true, completion: nil)
     }
