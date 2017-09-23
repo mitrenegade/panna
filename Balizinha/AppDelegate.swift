@@ -135,8 +135,8 @@ extension AppDelegate {
             return
         }
         observable.take(1).subscribe(onNext: { (player) in
-            LoggingService.shared.log(event: "testWriteRemoteData", info: nil)
-            RemoteDataService.shared.post(userId: player.id, message: "testing")
+//            LoggingService.shared.log(event: "testWriteRemoteData", info: nil)
+//            RemoteDataService.shared.post(userId: player.id, message: "testing")
             
             // checks for stripe customer
             StripeService().checkForStripeCustomer(player)

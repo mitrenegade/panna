@@ -124,8 +124,8 @@ extension EventCell {
     func checkStripe() {
         if stripeService == nil {
             stripeService = StripeService()
-            stripeService?.loadPayment(host: nil)
         }
+        stripeService?.loadPayment(host: nil)
         self.activityIndicator.startAnimating()
         self.btnAction.isEnabled = false
         self.btnAction.alpha = 0.5
