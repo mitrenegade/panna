@@ -53,12 +53,13 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         task?.resume()
     }
     
-    func setupPaymentContext(host: UIViewController) {
+    func setupPaymentContext(host: UIViewController?) {
         let customerContext = STPCustomerContext(keyProvider: self)
         self.paymentContext = STPPaymentContext(customerContext: customerContext)
         self.paymentContext?.delegate = self
-        self.paymentContext?.hostViewController = host
-//        self.paymentContext?.paymentAmount = 500 // pull from game object
+        if let host = host {
+            self.paymentContext?.hostViewController = host
+        }
     }
 }
 

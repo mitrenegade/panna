@@ -8,10 +8,12 @@
 
 import UIKit
 import AsyncImageView
+import Stripe
 
 protocol EventCellDelegate {
     func joinOrLeaveEvent(_ event: Event, join: Bool)
     func editEvent(_ event: Event)
+    func paymentNeeded()
 }
 
 class EventCell: UITableViewCell {
@@ -23,9 +25,12 @@ class EventCell: UITableViewCell {
     @IBOutlet var labelName: UILabel!
     @IBOutlet var labelTimeDate: UILabel!
     @IBOutlet var eventLogo: AsyncImageView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var event: Event?
     var delegate: EventCellDelegate?
+    
+    var stripeService: StripeService?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -103,7 +108,49 @@ class EventCell: UITableViewCell {
             self.delegate?.editEvent(event)
         }
         else {
-            self.delegate?.joinOrLeaveEvent(event, join: !event.containsUser(firAuth.currentUser!))
+            let join = !event.containsUser(firAuth.currentUser!)
+            if join && event.paymentRequired {
+                self.checkStripe()
+            }
+            else {
+                self.delegate?.joinOrLeaveEvent(event, join: join)
+            }
+        }
+    }
+}
+
+// MARK: - Payment
+extension EventCell {
+    func checkStripe() {
+        if stripeService == nil {
+            stripeService = StripeService()
+            stripeService?.setupPaymentContext(host: nil)
+        }
+        self.activityIndicator.startAnimating()
+        self.btnAction.isEnabled = false
+        self.btnAction.alpha = 0.5
+
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshStripeStatus), name: NSNotification.Name("StripePaymentContextChanged"), object: nil)
+    }
+    
+    func refreshStripeStatus() {
+        guard let paymentContext = stripeService?.paymentContext else { return }
+        if paymentContext.loading {
+            self.activityIndicator.startAnimating()
+            self.btnAction.isEnabled = false
+            self.btnAction.alpha = 0.5
+        }
+        else {
+            self.activityIndicator.stopAnimating()
+            self.btnAction.isEnabled = true
+            self.btnAction.alpha = 1
+            if paymentContext.selectedPaymentMethod == nil {
+                self.delegate?.paymentNeeded()
+            }
+            else {
+                guard let user = firAuth.currentUser, let event = self.event else { return }
+                self.delegate?.joinOrLeaveEvent(event, join: !event.containsUser(user))
+            }
         }
     }
 }
