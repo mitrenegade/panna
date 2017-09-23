@@ -62,6 +62,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         STPPaymentConfiguration.shared().publishableKey = STRIPE_KEY_DEV
         
+        self.listenFor(NotificationType.LoginSuccess, action: #selector(logPlayerLogin), object: nil)
+        
         return true
     }
     
