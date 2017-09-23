@@ -23,9 +23,9 @@ class PaymentInfoViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshPayment), name: NSNotification.Name("StripePaymentContextChanged"), object: nil)
+        self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshPayment), object: nil)
         
-        stripeService.setupPaymentContext(host: self)
+        stripeService.loadPayment(host: self)
     }
 
     deinit {
@@ -37,8 +37,8 @@ class PaymentInfoViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func didClickButton(sender: UIButton) {
-//        self.paymentContext?.presentPaymentMethodsViewController()
+    @IBAction func didClickAddPayment(_ sender: UIButton) {
+        stripeService.paymentContext?.presentPaymentMethodsViewController()
     }
 }
 

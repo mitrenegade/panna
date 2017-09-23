@@ -143,6 +143,9 @@ extension CalendarViewController {
 }
 
 extension CalendarViewController: EventCellDelegate {
+    func paymentNeeded() {
+        // not used...
+    }
     
     // MARK: EventCellDelegate
     func joinOrLeaveEvent(_ event: Event, join: Bool) {

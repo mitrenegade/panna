@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Stripe
 
 class EventsViewController: UITableViewController {
 
@@ -173,13 +174,6 @@ extension EventsViewController: EventCellDelegate {
             return
         }
         
-        if event.paymentRequired {
-            if let paymentController = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PaymentInfoViewController") as? PaymentInfoViewController {
-                self.navigationController?.present(paymentController, animated: true)
-            }
-            return
-        }
-        
         if join {
             //add notification in case user doesn't return to MyEvents
             self.service.joinEvent(event)
@@ -194,6 +188,16 @@ extension EventsViewController: EventCellDelegate {
     
     func editEvent(_ event: Event) {
         // does not implement this
+    }
+    
+    func paymentNeeded() {
+        let alert = UIAlertController(title: "No payment method available", message: "This event has a fee. Please add a payment method in your profile.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+            // todo: go to account
+        }))
+        alert.addAction(UIAlertAction(title: "Later", style: .cancel, handler: { (action) in
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
