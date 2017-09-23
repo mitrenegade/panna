@@ -19,9 +19,6 @@ class PlayerInfoViewController: UIViewController {
     @IBOutlet var inputName: UITextField!
     @IBOutlet var inputCity: UITextField!
     @IBOutlet var inputNotes: UITextView!
-    @IBOutlet var switchInactive: UISwitch!
-    @IBOutlet var labelPaymentWarning: UILabel!
-    @IBOutlet var buttonPayment: UIButton!
     @IBOutlet var photoView: AsyncImageView!
     
     weak var currentInput: UITextField?
@@ -33,6 +30,11 @@ class PlayerInfoViewController: UIViewController {
     fileprivate var askedForPhoto = false
     
     var cameraController: CameraOverlayViewController?
+    
+    // Payment
+    @IBOutlet weak var containerPayment: UIView!
+    @IBOutlet weak var constraintPaymentHeight: NSLayoutConstraint!
+    weak var paymentController: PaymentInfoViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,10 +129,6 @@ class PlayerInfoViewController: UIViewController {
         self.selectPhoto()
     }
 
-    @IBAction func didClickSwitch(_ sender: AnyObject?) {
-        // not used
-    }
-    
     @IBAction func didClickSave(_ sender: AnyObject?) {
         self.view.endEditing(true)
 
@@ -187,6 +185,12 @@ class PlayerInfoViewController: UIViewController {
             self.close()
         })
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "embedPaymentController" {
+            self.paymentController = segue.destination as? PaymentInfoViewController
+        }
     }
 }
 
@@ -247,4 +251,9 @@ extension PlayerInfoViewController: CameraControlsDelegate {
     func dismissCamera() {
         self.dismiss(animated: true, completion: nil)
     }
+}
+
+// MARK: - Payment
+extension PlayerInfoViewController {
+    
 }

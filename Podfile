@@ -16,13 +16,16 @@ target 'Balizinha' do
     pod 'RxSwift'
     pod 'RxCocoa'
 
-	pod 'AFNetworking'
-	pod 'AsyncImageView'
-	pod 'FBSDKCoreKit'
-	pod 'FBSDKLoginKit'
-	pod 'FBSDKShareKit'
-	pod 'DateTools'
+    pod 'AFNetworking'
+    pod 'AsyncImageView'
 
-	pod 'RandomKit'
-	pod 'Batch'
+    pod 'FBSDKCoreKit'
+    pod 'FBSDKLoginKit'
+    pod 'FBSDKShareKit'
+    pod 'DateTools'
+
+    pod 'RandomKit'
+    pod 'Batch'
+
+    pod 'Stripe'
 end

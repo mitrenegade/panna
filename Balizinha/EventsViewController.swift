@@ -173,6 +173,13 @@ extension EventsViewController: EventCellDelegate {
             return
         }
         
+        if event.paymentRequired {
+            if let paymentController = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PaymentInfoViewController") as? PaymentInfoViewController {
+                self.navigationController?.present(paymentController, animated: true)
+            }
+            return
+        }
+        
         if join {
             //add notification in case user doesn't return to MyEvents
             self.service.joinEvent(event)
@@ -183,8 +190,6 @@ extension EventsViewController: EventCellDelegate {
         }
  
         self.refreshEvents()
-        
-        self.testFirebaseFunction()
     }
     
     func editEvent(_ event: Event) {
@@ -195,11 +200,5 @@ extension EventsViewController: EventCellDelegate {
 extension EventsViewController: CreateEventDelegate {
     func didCreateEvent() {
         self.tabBarController?.selectedIndex = 2
-    }
-}
-
-extension EventsViewController {
-    func testFirebaseFunction() {
-        FirebaseFunctionsService().test()
     }
 }
