@@ -8,6 +8,7 @@
 
 import UIKit
 import Stripe
+import Firebase
 
 fileprivate var singleton: StripeService?
 
@@ -102,6 +103,25 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         try! request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
         let task = urlSession?.dataTask(with: request)
         task?.resume()
+    }
+    
+    func createCharge(for event: Event, player: Player, completion: ((_ success: Bool,_ error: Error?)->())?) {
+        let ref = firRef.child("stripe_customers").child(player.id).child("charges").childByAutoId()
+        let params:[AnyHashable: Any] = ["amount": 699]
+        ref.updateChildValues(params)
+        ref.observe(.value) { (snapshot: DataSnapshot) in
+            if let info = snapshot.value as? [String: AnyObject], let status = info["status"] as? String {
+                print("status \(status)")
+                if status == "succeeded" {
+                    completion?(true, nil)
+                }
+                else {
+                    if let error = info["error"] {
+                        completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -219,8 +219,6 @@ extension EventsViewController {
         }
         stripeService?.loadPayment(host: nil)
         self.activityIndicator.startAnimating()
-//        joinEventCell.btnAction.isEnabled = false
-//        joinEventCell.btnAction.alpha = 0.5
         
         self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshStripeStatus), object: nil)
     }
@@ -229,13 +227,9 @@ extension EventsViewController {
         guard let paymentContext = stripeService?.paymentContext else { return }
         if paymentContext.loading {
             self.activityIndicator.startAnimating()
-//            self.btnAction.isEnabled = false
-//            self.btnAction.alpha = 0.5
         }
         else {
             self.activityIndicator.stopAnimating()
-//            self.btnAction.isEnabled = true
-//            self.btnAction.alpha = 1
             if let paymentMethod = paymentContext.selectedPaymentMethod {
                 guard let event = self.joiningEvent else {
                     simpleAlert("Invalid event", message: "Could not join event. Please try again.")
@@ -277,25 +271,19 @@ extension EventsViewController {
         }
         self.activityIndicator.startAnimating()
 
-        let ref = firRef.child("stripe_customers").child(current.id).child("charges").childByAutoId()
-        let params:[AnyHashable: Any] = ["amount": 699]
-        ref.updateChildValues(params)
-        ref.observe(.value) { (snapshot: DataSnapshot) in
-            if let info = snapshot.value as? [String: AnyObject], let status = info["status"] as? String {
-                print("status \(status)")
-                self.activityIndicator.stopAnimating()
-                if status == "succeeded" {
-                    self.joinEvent(event)
-                }
-                else {
-                    var errorMessage = "Status \(status)"
-                    if let error = info["error"] {
-                        errorMessage = "\(errorMessage) Error \(error)"
-                    }
-                    self.simpleAlert("Could not join game", message: "There was an issue making a payment. \(errorMessage)")
-                }
+        stripeService?.createCharge(for: event, player: current, completion: { (success, error) in
+            self.activityIndicator.stopAnimating()
+            if success {
+                self.joinEvent(event)
             }
-        }
+            else if let error = error as? NSError {
+                var errorMessage = ""
+                if let errorString = error.userInfo["error"] as? String {
+                    errorMessage = "Error \(errorString)"
+                }
+                self.simpleAlert("Could not join game", message: "There was an issue making a payment. \(errorMessage)")
+            }
+        })
     }
 }
 
