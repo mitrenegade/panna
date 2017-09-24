@@ -122,7 +122,7 @@ exports.createStripeCharge = functions.database.ref(`/charges/events/{eventId}/{
   }).then(response => {
       // If the result is successful, write it back to the database
       console.log("createStripeCharge success with response " + response)
-      return event.data.adminRef.set(response);
+      return event.data.adminRef.update(response);
     }, error => {
       // We want to capture errors and render them in a user-friendly way, while
       // still logging an exception with Stackdriver
