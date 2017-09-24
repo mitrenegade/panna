@@ -149,7 +149,17 @@ extension CalendarViewController: EventCellDelegate {
             EventService.shared.joinEvent(event)
         }
         else {
-            EventService.shared.leaveEvent(event)
+            if event.paymentRequired {
+                let alert = UIAlertController(title: "Are you sure?", message: "You are leaving a game that you've already paid for.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Leave game", style: .default, handler: { (action) in
+                    EventService.shared.leaveEvent(event)
+                }))
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
+            else {
+                EventService.shared.leaveEvent(event)
+            }
         }
         
         self.refreshEvents()
