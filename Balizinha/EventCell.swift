@@ -13,7 +13,11 @@ import Stripe
 protocol EventCellDelegate {
     func joinOrLeaveEvent(_ event: Event, join: Bool)
     func editEvent(_ event: Event)
+}
+
+protocol EventPaymentDelegate {
     func paymentNeeded()
+    func shouldCharge(for event: Event, payment: STPPaymentMethod)
 }
 
 class EventCell: UITableViewCell {
@@ -29,6 +33,7 @@ class EventCell: UITableViewCell {
     
     var event: Event?
     var delegate: EventCellDelegate?
+    var paymentDelegate: EventPaymentDelegate?
     
     var stripeService: StripeService?
     
@@ -144,13 +149,14 @@ extension EventCell {
             self.activityIndicator.stopAnimating()
             self.btnAction.isEnabled = true
             self.btnAction.alpha = 1
-            if paymentContext.selectedPaymentMethod == nil {
-                self.delegate?.paymentNeeded()
+            if let paymentMethod = paymentContext.selectedPaymentMethod {
+                guard let event = self.event else { return }
+                self.paymentDelegate?.shouldCharge(for: event, payment: paymentMethod)
             }
             else {
-                guard let user = firAuth.currentUser, let event = self.event else { return }
-                self.delegate?.joinOrLeaveEvent(event, join: !event.containsUser(user))
+                self.paymentDelegate?.paymentNeeded()
             }
+            self.stopListeningFor(NotificationType.PaymentContextChanged)
         }
     }
 }
