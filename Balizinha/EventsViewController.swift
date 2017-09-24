@@ -8,6 +8,7 @@
 
 import UIKit
 import Stripe
+import Firebase
 
 class EventsViewController: UITableViewController {
 
@@ -16,6 +17,8 @@ class EventsViewController: UITableViewController {
     var sortedEvents: [EventType: [Event]] = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .other: []]
     let eventTypes: [EventType] = [.event3v3, .event5v5, .event7v7, .event11v11, .other]
 
+    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,6 +32,11 @@ class EventsViewController: UITableViewController {
         
         self.refreshEvents()
         self.listenFor(NotificationType.EventsChanged, action: #selector(self.refreshEvents), object: nil)
+        
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.center = self.view.center
+        self.view.addSubview(activityIndicator)
+        activityIndicator.color = UIColor.red
     }
     
     override func didReceiveMemoryWarning() {
@@ -176,9 +184,7 @@ extension EventsViewController: EventCellDelegate {
         }
         
         if join {
-            //add notification in case user doesn't return to MyEvents
-            self.service.joinEvent(event)
-            NotificationService.scheduleNotificationForEvent(event)
+            self.joinEvent(event)
         }
         else {
             self.service.leaveEvent(event)
@@ -189,6 +195,18 @@ extension EventsViewController: EventCellDelegate {
     
     func editEvent(_ event: Event) {
         // does not implement this
+    }
+    
+    fileprivate func joinEvent(_ event: Event) {
+        //add notification in case user doesn't return to MyEvents
+        self.service.joinEvent(event)
+        NotificationService.scheduleNotificationForEvent(event)
+        
+        if UserDefaults.standard.bool(forKey: UserSettings.DisplayedJoinEventMessage.rawValue) == false {
+            self.simpleAlert("You've joined a game", message: "You can go to your Calendar to see upcoming events.")
+            UserDefaults.standard.set(true, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
+            UserDefaults.standard.synchronize()
+        }
     }
 }
 
@@ -203,22 +221,42 @@ extension EventsViewController: EventPaymentDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func chargePayment(for event: Event, payment: STPPaymentMethod) {
-        guard let current = PlayerService.shared.current else {
-            self.simpleAlert("Could not make payment", message: "Please update your player profile!")
-            return
-        }
-        
+    func shouldCharge(for event: Event, payment: STPPaymentMethod) {
         let alert = UIAlertController(title: "Confirm payment", message: "Press Ok to pay $6.99 for this game.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
-            let ref = firRef.child("stripe_customers").child(current.id).child("charges").childByAutoId()
-            let params:[AnyHashable: Any] = ["amount": 699]
-            ref.updateChildValues(params)
-            print("updating \(ref)")
+            self.chargeAndWait(event: event)
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
         }))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func chargeAndWait(event: Event) {
+        guard let current = PlayerService.shared.current else {
+            self.simpleAlert("Could not make payment", message: "Please update your player profile!")
+            return
+        }
+        self.activityIndicator.startAnimating()
+
+        let ref = firRef.child("stripe_customers").child(current.id).child("charges").childByAutoId()
+        let params:[AnyHashable: Any] = ["amount": 699]
+        ref.updateChildValues(params)
+        ref.observe(.value) { (snapshot: DataSnapshot) in
+            if let info = snapshot.value as? [String: AnyObject], let status = info["status"] as? String {
+                print("status \(status)")
+                self.activityIndicator.stopAnimating()
+                if status == "succeeded" {
+                    self.joinEvent(event)
+                }
+                else {
+                    var errorMessage = "Status \(status)"
+                    if let error = info["error"] {
+                        errorMessage = "\(errorMessage) Error \(error)"
+                    }
+                    self.simpleAlert("Could not join game", message: "There was an issue making a payment. \(errorMessage)")
+                }
+            }
+        }
     }
 }
 

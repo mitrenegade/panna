@@ -26,6 +26,10 @@ enum NotificationType: String {
     }
 }
 
+enum UserSettings: String {
+    case DisplayedJoinEventMessage
+}
+
 var TESTING = true
 var AIRPLANE_MODE = false
 

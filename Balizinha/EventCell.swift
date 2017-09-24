@@ -17,7 +17,7 @@ protocol EventCellDelegate {
 
 protocol EventPaymentDelegate {
     func paymentNeeded()
-    func chargePayment(for event: Event, payment: STPPaymentMethod)
+    func shouldCharge(for event: Event, payment: STPPaymentMethod)
 }
 
 class EventCell: UITableViewCell {
@@ -151,7 +151,7 @@ extension EventCell {
             self.btnAction.alpha = 1
             if let paymentMethod = paymentContext.selectedPaymentMethod {
                 guard let event = self.event else { return }
-                self.paymentDelegate?.chargePayment(for: event, payment: paymentMethod)
+                self.paymentDelegate?.shouldCharge(for: event, payment: paymentMethod)
             }
             else {
                 self.paymentDelegate?.paymentNeeded()
