@@ -8,16 +8,10 @@
 
 import UIKit
 import AsyncImageView
-import Stripe
 
 protocol EventCellDelegate {
     func joinOrLeaveEvent(_ event: Event, join: Bool)
     func editEvent(_ event: Event)
-}
-
-protocol EventPaymentDelegate {
-    func paymentNeeded()
-    func shouldCharge(for event: Event, payment: STPPaymentMethod)
 }
 
 class EventCell: UITableViewCell {
@@ -33,9 +27,6 @@ class EventCell: UITableViewCell {
     
     var event: Event?
     var delegate: EventCellDelegate?
-    var paymentDelegate: EventPaymentDelegate?
-    
-    var stripeService: StripeService?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -114,49 +105,7 @@ class EventCell: UITableViewCell {
         }
         else {
             let join = !event.containsUser(firAuth.currentUser!)
-            if join && event.paymentRequired {
-                self.checkStripe()
-            }
-            else {
-                self.delegate?.joinOrLeaveEvent(event, join: join)
-            }
-        }
-    }
-}
-
-// MARK: - Payment
-extension EventCell {
-    func checkStripe() {
-        if stripeService == nil {
-            stripeService = StripeService()
-        }
-        stripeService?.loadPayment(host: nil)
-        self.activityIndicator.startAnimating()
-        self.btnAction.isEnabled = false
-        self.btnAction.alpha = 0.5
-
-        self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshStripeStatus), object: nil)
-    }
-    
-    func refreshStripeStatus() {
-        guard let paymentContext = stripeService?.paymentContext else { return }
-        if paymentContext.loading {
-            self.activityIndicator.startAnimating()
-            self.btnAction.isEnabled = false
-            self.btnAction.alpha = 0.5
-        }
-        else {
-            self.activityIndicator.stopAnimating()
-            self.btnAction.isEnabled = true
-            self.btnAction.alpha = 1
-            if let paymentMethod = paymentContext.selectedPaymentMethod {
-                guard let event = self.event else { return }
-                self.paymentDelegate?.shouldCharge(for: event, payment: paymentMethod)
-            }
-            else {
-                self.paymentDelegate?.paymentNeeded()
-            }
-            self.stopListeningFor(NotificationType.PaymentContextChanged)
+            self.delegate?.joinOrLeaveEvent(event, join: join)
         }
     }
 }
