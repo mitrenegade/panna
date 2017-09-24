@@ -156,6 +156,7 @@ extension EventCell {
             else {
                 self.paymentDelegate?.paymentNeeded()
             }
+            self.stopListeningFor(NotificationType.PaymentContextChanged)
         }
     }
 }

@@ -204,11 +204,17 @@ extension EventsViewController: EventPaymentDelegate {
     }
     
     func chargePayment(for event: Event, payment: STPPaymentMethod) {
-        guard let user = firAuth.currentUser else { return }
+        guard let current = PlayerService.shared.current else {
+            self.simpleAlert("Could not make payment", message: "Please update your player profile!")
+            return
+        }
         
         let alert = UIAlertController(title: "Confirm payment", message: "Press Ok to pay $6.99 for this game.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
-            
+            let ref = firRef.child("stripe_customers").child(current.id).child("charges").childByAutoId()
+            let params:[AnyHashable: Any] = ["amount": 699]
+            ref.updateChildValues(params)
+            print("updating \(ref)")
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
         }))

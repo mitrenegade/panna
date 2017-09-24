@@ -96,3 +96,39 @@ exports.ephemeralKeys = functions.https.onRequest( (req, res) => {
     res.status(500).end();
   });
 });
+
+// Charge the Stripe customer whenever an amount is written to the Realtime database
+exports.createStripeCharge = functions.database.ref(`/stripe_customers/{userId}/charges/{id}`).onWrite(event => {
+//function createStripeCharge(req, res, ref) {
+  const val = event.data.val();
+  console.log("createStripeCharge userId " + event.params.userId + " id " + event.params.id + " val " + val)
+  // This onWrite will trigger whenever anything is written to the path, so
+  // noop if the charge was deleted, errored out, or the Stripe API returned a result (id exists) 
+  if (val === null || val.id || val.error) return null;
+  // Look up the Stripe customer id written in createStripeCustomer
+  return admin.database().ref(`/stripe_customers/${event.params.userId}/customer_id`).once('value').then(snapshot => {
+    return snapshot.val();
+  }).then(customer => {
+    // Create a charge using the pushId as the idempotency key, protecting against double charges 
+    const amount = val.amount;
+    const idempotency_key = event.params.id;
+    const currency = 'USD'
+    let charge = {amount, currency, customer};
+    if (val.source !== null) charge.source = val.source;
+    console.log("createStripeCharge amount " + amount + " customer " + customer + " source " + val.source)
+    return stripe.charges.create(charge, {idempotency_key});
+  }).then(response => {
+      // If the result is successful, write it back to the database
+      console.log("createStripeCharge success with response " + response)
+      return event.data.adminRef.set(response);
+    }, error => {
+      // We want to capture errors and render them in a user-friendly way, while
+      // still logging an exception with Stackdriver
+      console.log("createStripeCharge error " + error)
+      return event.data.adminRef.child('error').set(error)
+      // .then(() => {
+      //   return reportError(error, {user: event.params.userId});
+      // });
+    }
+  );
+});
