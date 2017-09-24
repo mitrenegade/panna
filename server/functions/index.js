@@ -98,15 +98,17 @@ exports.ephemeralKeys = functions.https.onRequest( (req, res) => {
 });
 
 // Charge the Stripe customer whenever an amount is written to the Realtime database
-exports.createStripeCharge = functions.database.ref(`/stripe_customers/{userId}/charges/{id}`).onWrite(event => {
+exports.createStripeCharge = functions.database.ref(`/charges/events/{eventId}/{id}`).onWrite(event => {
 //function createStripeCharge(req, res, ref) {
   const val = event.data.val();
-  console.log("createStripeCharge userId " + event.params.userId + " id " + event.params.id + " val " + val)
+  const userId = val.player_id
+  const eventId = event.params.eventId
+  console.log("createStripeCharge for event " + eventId + " userId " + userId + " charge id " + event.params.id)
   // This onWrite will trigger whenever anything is written to the path, so
   // noop if the charge was deleted, errored out, or the Stripe API returned a result (id exists) 
   if (val === null || val.id || val.error) return null;
   // Look up the Stripe customer id written in createStripeCustomer
-  return admin.database().ref(`/stripe_customers/${event.params.userId}/customer_id`).once('value').then(snapshot => {
+  return admin.database().ref(`/stripe_customers/${userId}/customer_id`).once('value').then(snapshot => {
     return snapshot.val();
   }).then(customer => {
     // Create a charge using the pushId as the idempotency key, protecting against double charges 
