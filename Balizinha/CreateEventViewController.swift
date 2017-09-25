@@ -42,6 +42,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var numPlayers : UInt?
     var info : String?
     var paymentRequired: Bool = false
+    var amount: NSNumber?
    
     var nameField: UITextField?
     var typeField: UITextField?
@@ -52,6 +53,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var endField: UITextField?
     var maxPlayersField: UITextField?
     var descriptionTextView : UITextView?
+    var amountField: UITextField?
     
     var keyboardDoneButtonView: UIToolbar!
     var keyboardDoneButtonView2: UIToolbar!
@@ -73,6 +75,18 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     
     var eventToEdit: Event?
     var datesForPicker: [Date] = []
+    
+    fileprivate var formatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.currencyCode = "USD"
+        formatter.currencySymbol = "$"
+        formatter.currencyDecimalSeparator = "."
+        formatter.maximumFractionDigits = 2
+        formatter.minimumFractionDigits = 2
+        formatter.locale = Locale.current
+        formatter.numberStyle = .currency
+        return formatter
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -327,8 +341,10 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             }
             else if options[indexPath.row] == "Payment" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell", for: indexPath) as! ToggleCell
+                cell.input.inputAccessoryView = keyboardDoneButtonView
                 cell.delegate = self
-                cell.switchToggle.isOn = paymentRequired
+                self.didToggleSwitch(isOn: paymentRequired)
+                self.amountField = cell.input
                 return cell
             }
             else {
@@ -513,6 +529,14 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         }
         else if currentField == self.dayField {
             self.datePickerValueChanged(self.datePickerView)
+        }
+        else if currentField == self.amountField {
+            if let formattedAmount = self.amountNumber(from: self.amountField?.text) {
+                self.amount = formattedAmount
+                if let string = self.amountString(from: formattedAmount) {
+                    self.amountField?.text = string
+                }
+            }
         }
     }
 }
@@ -747,5 +771,29 @@ extension CreateEventViewController {
 extension CreateEventViewController: ToggleCellDelegate {
     func didToggleSwitch(isOn: Bool) {
         paymentRequired = isOn
+        self.amountField?.isEnabled = isOn
+        self.amountField?.isHidden = !isOn
+        if let amountString = self.amountString(from: self.amount), isOn {
+            self.amountField?.text = amountString
+        }
+        else {
+            self.amountField?.text = nil
+        }
+    }
+    
+    func amountNumber(from text: String?) -> NSNumber? {
+        guard let inputText = text else { return nil }
+        if let amount = Double(inputText) {
+            return amount as NSNumber
+        }
+        else if let amount = formatter.number(from: inputText) {
+            return amount
+        }
+        return nil
+    }
+    
+    func amountString(from number: NSNumber?) -> String? {
+        guard let number = number else { return nil }
+        return formatter.string(from: number)
     }
 }

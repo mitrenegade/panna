@@ -362,22 +362,34 @@
                                                     </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Payment required" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="26O-d8-1av">
-                                                    <rect key="frame" x="16" y="11" width="294" height="21"/>
+                                                    <rect key="frame" x="16" y="11" width="135" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zcJ-KU-eVx">
+                                                    <rect key="frame" x="159" y="6" width="151" height="30"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="iE0-Lk-oSS" id="pGo-pg-p9H"/>
+                                                    </connections>
+                                                </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="iBy-md-neX" firstAttribute="leading" secondItem="26O-d8-1av" secondAttribute="trailing" constant="8" id="2uw-3Z-0Kf"/>
                                                 <constraint firstItem="26O-d8-1av" firstAttribute="centerY" secondItem="zIs-Js-93s" secondAttribute="centerY" id="5XK-AC-iKm"/>
                                                 <constraint firstAttribute="trailing" secondItem="iBy-md-neX" secondAttribute="trailing" constant="8" id="945-fJ-4Pe"/>
+                                                <constraint firstItem="zcJ-KU-eVx" firstAttribute="leading" secondItem="26O-d8-1av" secondAttribute="trailing" constant="8" id="GoA-EA-3vh"/>
+                                                <constraint firstItem="iBy-md-neX" firstAttribute="leading" secondItem="zcJ-KU-eVx" secondAttribute="trailing" constant="8" id="Vg8-hR-PIN"/>
                                                 <constraint firstItem="iBy-md-neX" firstAttribute="top" secondItem="zIs-Js-93s" secondAttribute="top" constant="6" id="mFp-1X-LwR"/>
                                                 <constraint firstItem="26O-d8-1av" firstAttribute="leading" secondItem="zIs-Js-93s" secondAttribute="leading" constant="16" id="o1z-zp-nIe"/>
                                                 <constraint firstAttribute="bottom" secondItem="iBy-md-neX" secondAttribute="bottom" constant="6" id="qUZ-Z5-1gu"/>
+                                                <constraint firstItem="zcJ-KU-eVx" firstAttribute="centerY" secondItem="zIs-Js-93s" secondAttribute="centerY" id="y0b-jo-a5U"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="input" destination="zcJ-KU-eVx" id="GSe-gy-9EP"/>
                                             <outlet property="labelText" destination="26O-d8-1av" id="XrK-dr-TV5"/>
                                             <outlet property="switchToggle" destination="iBy-md-neX" id="iOS-AM-1Rg"/>
                                         </connections>
