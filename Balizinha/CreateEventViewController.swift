@@ -54,6 +54,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var maxPlayersField: UITextField?
     var descriptionTextView : UITextView?
     var amountField: UITextField?
+    var paymentSwitch: UISwitch?
     
     var keyboardDoneButtonView: UIToolbar!
     var keyboardDoneButtonView2: UIToolbar!
@@ -225,6 +226,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             dict["place"] = location
             dict["maxPlayers"] = numPlayers
             dict["info"] = self.info
+            dict["paymentRequired"] = self.paymentRequired
             if paymentRequired {
                 dict["amount"] = self.amount
             }
@@ -354,8 +356,10 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 cell.input.inputAccessoryView = keyboardDoneButtonView
                 cell.delegate = self
                 self.amountField = cell.input
+                self.paymentSwitch = cell.switchToggle
                 
                 if let amount = self.eventToEdit?.amount {
+                    self.paymentRequired = self.eventToEdit?.paymentRequired ?? false
                     self.amount = amount
                 }
                 self.didToggleSwitch(isOn: paymentRequired)
@@ -812,6 +816,7 @@ extension CreateEventViewController {
 extension CreateEventViewController: ToggleCellDelegate {
     func didToggleSwitch(isOn: Bool) {
         paymentRequired = isOn
+        self.paymentSwitch?.isOn = isOn
         self.amountField?.isEnabled = isOn
         self.amountField?.isHidden = !isOn
         if isOn {
