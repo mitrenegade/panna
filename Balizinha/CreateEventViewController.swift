@@ -42,6 +42,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var numPlayers : UInt?
     var info : String?
     var paymentRequired: Bool = false
+    var amount: NSNumber?
    
     var nameField: UITextField?
     var typeField: UITextField?
@@ -52,6 +53,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var endField: UITextField?
     var maxPlayersField: UITextField?
     var descriptionTextView : UITextView?
+    var amountField: UITextField?
+    var paymentSwitch: UISwitch?
     
     var keyboardDoneButtonView: UIToolbar!
     var keyboardDoneButtonView2: UIToolbar!
@@ -73,6 +76,18 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     
     var eventToEdit: Event?
     var datesForPicker: [Date] = []
+    
+    fileprivate var formatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.currencyCode = "USD"
+        formatter.currencySymbol = "$"
+        formatter.currencyDecimalSeparator = "."
+        formatter.maximumFractionDigits = 2
+        formatter.minimumFractionDigits = 2
+        formatter.locale = Locale.current
+        formatter.numberStyle = .currency
+        return formatter
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -186,6 +201,13 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.simpleAlert("Invalid selection", message: "Please select the number of players allowed")
             return
         }
+        
+        if paymentRequired {
+            guard let amount = self.amount, amount.doubleValue > 0 else {
+                self.simpleAlert("Invalid payment amount", message: "Please enter the amount required to play, or turn off the payment requirement.")
+                return
+            }
+        }
 
         let start = self.combineDateAndTime(date, time: startTime)
         var end = self.combineDateAndTime(date, time: endTime)
@@ -204,6 +226,10 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             dict["place"] = location
             dict["maxPlayers"] = numPlayers
             dict["info"] = self.info
+            dict["paymentRequired"] = self.paymentRequired
+            if paymentRequired {
+                dict["amount"] = self.amount
+            }
             event.dict = dict
             event.firebaseRef?.updateChildValues(dict) // update all these values without multiple update calls
 
@@ -225,7 +251,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             })
         }
         else {
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, place: location, startTime: start, endTime: end, maxPlayers: numPlayers, info: self.info, paymentRequired: self.paymentRequired, completion: { (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, place: location, startTime: start, endTime: end, maxPlayers: numPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, completion: { (event, error) in
                 
                 if let event = event {
                     self.sendPushForCreatedEvent(event)
@@ -327,8 +353,16 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             }
             else if options[indexPath.row] == "Payment" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell", for: indexPath) as! ToggleCell
+                cell.input.inputAccessoryView = keyboardDoneButtonView
                 cell.delegate = self
-                cell.switchToggle.isOn = paymentRequired
+                self.amountField = cell.input
+                self.paymentSwitch = cell.switchToggle
+                
+                if let amount = self.eventToEdit?.amount {
+                    self.paymentRequired = self.eventToEdit?.paymentRequired ?? false
+                    self.amount = amount
+                }
+                self.didToggleSwitch(isOn: paymentRequired)
                 return cell
             }
             else {
@@ -514,6 +548,17 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         else if currentField == self.dayField {
             self.datePickerValueChanged(self.datePickerView)
         }
+        else if currentField == self.amountField {
+            if let formattedAmount = self.amountNumber(from: self.amountField?.text) {
+                self.amount = formattedAmount
+                if let string = self.amountString(from: formattedAmount) {
+                    self.amountField?.text = string
+                }
+            }
+            else {
+                self.revertAmount()
+            }
+        }
     }
 }
 
@@ -641,6 +686,30 @@ extension CreateEventViewController: UITextFieldDelegate {
         else if textField == self.nameField {
             self.name = textField.text
         }
+        else if textField == self.amountField, let newAmount = amountNumber(from: textField.text) {
+            var title = "Payment amount"
+            var shouldShow = false
+            if newAmount.doubleValue < 1 {
+                title = "Low payment amount"
+                shouldShow = true
+            }
+            else if newAmount.doubleValue >= 20 {
+                title = "High payment amount"
+                shouldShow = true
+            }
+            if shouldShow, let string = self.amountString(from: newAmount) {
+                let oldAmount = self.amount
+                let alert = UIAlertController(title: title, message: "Are you sure you want the payment per player to be \(string)?", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+                    self.amount = oldAmount // because of timing issue, self.amount gets set to new amount by now
+                    self.revertAmount()
+                }))
+                alert.addAction(UIAlertAction(title: "Amount is correct", style: .default, handler: { (action) in
+                    
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
     }
     
     // MARK: -UITextViewDelegate
@@ -747,5 +816,31 @@ extension CreateEventViewController {
 extension CreateEventViewController: ToggleCellDelegate {
     func didToggleSwitch(isOn: Bool) {
         paymentRequired = isOn
+        self.paymentSwitch?.isOn = isOn
+        self.amountField?.isEnabled = isOn
+        self.amountField?.isHidden = !isOn
+        if isOn {
+            self.revertAmount()
+        }
+    }
+    
+    func amountNumber(from text: String?) -> NSNumber? {
+        guard let inputText = text else { return nil }
+        if let amount = Double(inputText) {
+            return amount as NSNumber
+        }
+        else if let amount = formatter.number(from: inputText) {
+            return amount
+        }
+        return nil
+    }
+    
+    func amountString(from number: NSNumber?) -> String? {
+        guard let number = number else { return nil }
+        return formatter.string(from: number)
+    }
+    
+    func revertAmount() {
+        self.amountField?.text = self.amountString(from: self.amount)
     }
 }

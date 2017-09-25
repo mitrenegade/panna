@@ -15,6 +15,7 @@ class ToggleCell: UITableViewCell {
     
     @IBOutlet var labelText: UILabel!
     @IBOutlet var switchToggle: UISwitch!
+    @IBOutlet weak var input: UITextField!
 
     weak var delegate: ToggleCellDelegate?
     
