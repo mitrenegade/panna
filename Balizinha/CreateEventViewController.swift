@@ -200,6 +200,13 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.simpleAlert("Invalid selection", message: "Please select the number of players allowed")
             return
         }
+        
+        if paymentRequired {
+            guard let amount = self.amount, amount.doubleValue > 0 else {
+                self.simpleAlert("Invalid payment amount", message: "Please enter the amount required to play, or turn off the payment requirement.")
+                return
+            }
+        }
 
         let start = self.combineDateAndTime(date, time: startTime)
         var end = self.combineDateAndTime(date, time: endTime)
@@ -537,6 +544,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     self.amountField?.text = string
                 }
             }
+            else {
+                self.revertAmount()
+            }
         }
     }
 }
@@ -665,6 +675,30 @@ extension CreateEventViewController: UITextFieldDelegate {
         else if textField == self.nameField {
             self.name = textField.text
         }
+        else if textField == self.amountField, let newAmount = amountNumber(from: textField.text) {
+            var title = "Payment amount"
+            var shouldShow = false
+            if newAmount.doubleValue < 1 {
+                title = "Low payment amount"
+                shouldShow = true
+            }
+            else if newAmount.doubleValue >= 20 {
+                title = "High payment amount"
+                shouldShow = true
+            }
+            if shouldShow, let string = self.amountString(from: newAmount) {
+                let oldAmount = self.amount
+                let alert = UIAlertController(title: title, message: "Are you sure you want the payment per player to be \(string)?", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+                    self.amount = oldAmount // because of timing issue, self.amount gets set to new amount by now
+                    self.revertAmount()
+                }))
+                alert.addAction(UIAlertAction(title: "Amount is correct", style: .default, handler: { (action) in
+                    
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
     }
     
     // MARK: -UITextViewDelegate
@@ -773,11 +807,8 @@ extension CreateEventViewController: ToggleCellDelegate {
         paymentRequired = isOn
         self.amountField?.isEnabled = isOn
         self.amountField?.isHidden = !isOn
-        if let amountString = self.amountString(from: self.amount), isOn {
-            self.amountField?.text = amountString
-        }
-        else {
-            self.amountField?.text = nil
+        if isOn {
+            self.revertAmount()
         }
     }
     
@@ -795,5 +826,9 @@ extension CreateEventViewController: ToggleCellDelegate {
     func amountString(from number: NSNumber?) -> String? {
         guard let number = number else { return nil }
         return formatter.string(from: number)
+    }
+    
+    func revertAmount() {
+        self.amountField?.text = self.amountString(from: self.amount)
     }
 }
