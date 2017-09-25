@@ -225,6 +225,9 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             dict["place"] = location
             dict["maxPlayers"] = numPlayers
             dict["info"] = self.info
+            if paymentRequired {
+                dict["amount"] = self.amount
+            }
             event.dict = dict
             event.firebaseRef?.updateChildValues(dict) // update all these values without multiple update calls
 
@@ -246,7 +249,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             })
         }
         else {
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, place: location, startTime: start, endTime: end, maxPlayers: numPlayers, info: self.info, paymentRequired: self.paymentRequired, completion: { (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, place: location, startTime: start, endTime: end, maxPlayers: numPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, completion: { (event, error) in
                 
                 if let event = event {
                     self.sendPushForCreatedEvent(event)
@@ -350,8 +353,12 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell", for: indexPath) as! ToggleCell
                 cell.input.inputAccessoryView = keyboardDoneButtonView
                 cell.delegate = self
-                self.didToggleSwitch(isOn: paymentRequired)
                 self.amountField = cell.input
+                
+                if let amount = self.eventToEdit?.amount {
+                    self.amount = amount
+                }
+                self.didToggleSwitch(isOn: paymentRequired)
                 return cell
             }
             else {

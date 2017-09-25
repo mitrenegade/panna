@@ -140,6 +140,10 @@ class Event: FirebaseBaseModel {
         return false
     }
     
+    var amount: NSNumber? {
+        return self.dict["amount"] as? NSNumber
+    }
+    
     var owner: String? {
         return self.dict["owner"] as? String
     }

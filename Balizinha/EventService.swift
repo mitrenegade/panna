@@ -96,7 +96,7 @@ class EventService: NSObject {
         }
     }
     
-    func createEvent(_ name: String, type: EventType, city: String, place: String, startTime: Date, endTime: Date, maxPlayers: UInt, info: String?, paymentRequired: Bool, completion:@escaping (Event?, NSError?) -> Void) {
+    func createEvent(_ name: String, type: EventType, city: String, place: String, startTime: Date, endTime: Date, maxPlayers: UInt, info: String?, paymentRequired: Bool, amount: NSNumber? = 0, completion:@escaping (Event?, NSError?) -> Void) {
         
         print ("Create events")
         
@@ -110,6 +110,9 @@ class EventService: NSObject {
         let newEventRef = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
         
         var params: [String: Any] = ["name": name, "type": type.rawValue, "city": city, "place": place, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "maxPlayers": maxPlayers, "owner": user.uid, "paymentRequired": paymentRequired]
+        if paymentRequired {
+            params["amount"] = amount
+        }
         params["createdAt"] = Date().timeIntervalSince1970
         if info == nil {
             params["info"] = "No description available"
