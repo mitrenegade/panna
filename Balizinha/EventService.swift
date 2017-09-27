@@ -328,6 +328,26 @@ class EventService: NSObject {
             completion(results)
         }
     }
+    
+    func totalAmountPaid(for event: Event, completion: ((Double, Int)->())?) {
+        let queryRef = firRef.child("charges/events").child(event.id)
+        queryRef.observe(.value) { (snapshot: DataSnapshot!) in
+            var total: Double = 0
+            var count: Int = 0
+            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
+                for snapshot: DataSnapshot in allObjects {
+                    let playerId = snapshot.key // TODO: display all players who've paid
+                    let payment = Payment(snapshot: snapshot)
+                    guard payment.paid, let amount = payment.amount, let refunded = payment.refunded else { continue }
+                    let netPayment: Double = (amount.doubleValue - refunded.doubleValue) / 100.0
+                    total += netPayment
+                    count += 1
+                    print("Charges \(event.id): payment by \(playerId) = \(netPayment)")
+                }
+            }
+            completion?(total, count)
+        }
+    }
 }
 
 extension Event {
@@ -356,4 +376,34 @@ extension Event {
     }
 }
 
+// MARK: - Payment helpers
+extension EventService {
+    class func amountNumber(from text: String?) -> NSNumber? {
+        guard let inputText = text else { return nil }
+        if let amount = Double(inputText) {
+            return amount as NSNumber
+        }
+        else if let amount = currencyFormatter.number(from: inputText) {
+            return amount
+        }
+        return nil
+    }
+    
+    class func amountString(from number: NSNumber?) -> String? {
+        guard let number = number else { return nil }
+        return currencyFormatter.string(from: number)
+    }
+    
+    fileprivate static var currencyFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.currencyCode = "USD"
+        formatter.currencySymbol = "$"
+        formatter.currencyDecimalSeparator = "."
+        formatter.maximumFractionDigits = 2
+        formatter.minimumFractionDigits = 2
+        formatter.locale = Locale.current
+        formatter.numberStyle = .currency
+        return formatter
+    }
+}
 

@@ -77,18 +77,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var eventToEdit: Event?
     var datesForPicker: [Date] = []
     
-    fileprivate var formatter: NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.currencyCode = "USD"
-        formatter.currencySymbol = "$"
-        formatter.currencyDecimalSeparator = "."
-        formatter.maximumFractionDigits = 2
-        formatter.minimumFractionDigits = 2
-        formatter.locale = Locale.current
-        formatter.numberStyle = .currency
-        return formatter
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -549,9 +537,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             self.datePickerValueChanged(self.datePickerView)
         }
         else if currentField == self.amountField {
-            if let formattedAmount = self.amountNumber(from: self.amountField?.text) {
+            if let formattedAmount = EventService.amountNumber(from: self.amountField?.text) {
                 self.amount = formattedAmount
-                if let string = self.amountString(from: formattedAmount) {
+                if let string = EventService.amountString(from: formattedAmount) {
                     self.amountField?.text = string
                 }
             }
@@ -686,7 +674,7 @@ extension CreateEventViewController: UITextFieldDelegate {
         else if textField == self.nameField {
             self.name = textField.text
         }
-        else if textField == self.amountField, let newAmount = amountNumber(from: textField.text) {
+        else if textField == self.amountField, let newAmount = EventService.amountNumber(from: textField.text) {
             var title = "Payment amount"
             var shouldShow = false
             if newAmount.doubleValue < 1 {
@@ -697,7 +685,7 @@ extension CreateEventViewController: UITextFieldDelegate {
                 title = "High payment amount"
                 shouldShow = true
             }
-            if shouldShow, let string = self.amountString(from: newAmount) {
+            if shouldShow, let string = EventService.amountString(from: newAmount) {
                 let oldAmount = self.amount
                 let alert = UIAlertController(title: title, message: "Are you sure you want the payment per player to be \(string)?", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
@@ -824,23 +812,7 @@ extension CreateEventViewController: ToggleCellDelegate {
         }
     }
     
-    func amountNumber(from text: String?) -> NSNumber? {
-        guard let inputText = text else { return nil }
-        if let amount = Double(inputText) {
-            return amount as NSNumber
-        }
-        else if let amount = formatter.number(from: inputText) {
-            return amount
-        }
-        return nil
-    }
-    
-    func amountString(from number: NSNumber?) -> String? {
-        guard let number = number else { return nil }
-        return formatter.string(from: number)
-    }
-    
     func revertAmount() {
-        self.amountField?.text = self.amountString(from: self.amount)
+        self.amountField?.text = EventService.amountString(from: self.amount)
     }
 }
