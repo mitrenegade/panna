@@ -5,7 +5,7 @@ const app = require('express')
 
 admin.initializeApp(functions.config().firebase);
 
-const config = functions.config().dev
+const config = functions.config().prod
 const stripe = require('stripe')(config.stripe.token)
 
 exports.createStripeCustomer = functions.auth.user().onCreate(event => {
