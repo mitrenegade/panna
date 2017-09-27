@@ -35,8 +35,11 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
 
     var completionHandler: STPJSONResponseCompletionBlock?
     
-    let baseURL = URL(string: "https://us-central1-balizinha-dev.cloudfunctions.net/")
-
+    var baseURL: URL? {
+        let urlSuffix = TESTING ? "-dev" : "-c9cd7"
+        return URL(string: "https://us-central1-balizinha\(urlSuffix).cloudfunctions.net/")
+    }
+    
     func createCustomerKey(withAPIVersion apiVersion: String, completion: @escaping STPJSONResponseCompletionBlock) {
         guard let url = self.baseURL?.appendingPathComponent("ephemeralKeys") else { return }
         
@@ -65,6 +68,9 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
             guard let customerId = snapshot.value as? String else {
                 // old player does not have a stripe customer, must create one
                 print("uh oh")
+                if let player = PlayerService.shared.current {
+                    self.checkForStripeCustomer(player)
+                }
                 return
             }
             self.customerId = customerId
@@ -194,6 +200,7 @@ extension StripeService: URLSessionDelegate, URLSessionDataDelegate {
         if let usableData = self.data {
             do {
                 let json = try JSONSerialization.jsonObject(with: usableData, options: [])
+                print("urlSession completed with json \(json)")
                 completionHandler?(json as? [String: AnyObject], nil)
             } catch let error {
                 print("error \(error)")
@@ -202,6 +209,9 @@ extension StripeService: URLSessionDelegate, URLSessionDataDelegate {
         }
         else if let error = error {
             completionHandler?(nil, error)
+        }
+        else {
+            print("here")
         }
     }
 }
