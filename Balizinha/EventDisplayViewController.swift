@@ -178,6 +178,7 @@ class EventDisplayViewController: UIViewController {
         }
         else if segue.identifier == "EmbedPayment" {
             self.paymentController = segue.destination as? PaymentTypesViewController
+            self.paymentController.event = self.event
         }
         else if segue.identifier == "EmbedActivity" {
             self.activityController = segue.destination as? EventActivityViewController
