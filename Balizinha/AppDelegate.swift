@@ -60,7 +60,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         logPlayerLogin()
         
-        STPPaymentConfiguration.shared().publishableKey = STRIPE_KEY_DEV
+        let STRIPE_KEY = TESTING ? STRIPE_KEY_DEV : STRIPE_KEY_PROD
+        STPPaymentConfiguration.shared().publishableKey = STRIPE_KEY
         
         self.listenFor(NotificationType.LoginSuccess, action: #selector(logPlayerLogin), object: nil)
         
