@@ -61,6 +61,9 @@ extension PaymentInfoViewController {
             self.constraintIconWidth.constant = 60
             
             self.paymentButton.isEnabled = false
+            
+            // always write card to firebase since it's an internal call
+            stripeService.savePaymentInfo(paymentMethod)
         }
         else {
             self.activityIndicator.stopAnimating()

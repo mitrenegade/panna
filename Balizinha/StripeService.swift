@@ -35,8 +35,11 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
 
     var completionHandler: STPJSONResponseCompletionBlock?
     
-    let baseURL = URL(string: "https://us-central1-balizinha-dev.cloudfunctions.net/")
-
+    var baseURL: URL? {
+        let urlSuffix = TESTING ? "-dev" : "-c9cd7"
+        return URL(string: "https://us-central1-balizinha\(urlSuffix).cloudfunctions.net/")
+    }
+    
     func createCustomerKey(withAPIVersion apiVersion: String, completion: @escaping STPJSONResponseCompletionBlock) {
         guard let url = self.baseURL?.appendingPathComponent("ephemeralKeys") else { return }
         
@@ -65,6 +68,9 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
             guard let customerId = snapshot.value as? String else {
                 // old player does not have a stripe customer, must create one
                 print("uh oh")
+                if let player = PlayerService.shared.current {
+                    self.checkForStripeCustomer(player)
+                }
                 return
             }
             self.customerId = customerId
@@ -103,6 +109,14 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         try! request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
         let task = urlSession?.dataTask(with: request)
         task?.resume()
+    }
+    
+    func savePaymentInfo(_ paymentMethod: STPPaymentMethod) {
+        // calls this function after a payment source has been created
+        guard let player = PlayerService.shared.current, let card = paymentMethod as? STPCard else { return }
+        let ref = firRef.child("stripe_customers").child(player.id)
+        let params: [String: Any] = ["source": card.stripeID, "last4":card.last4(), "label": card.label]
+        ref.updateChildValues(params)
     }
     
     func createCharge(for event: Event, player: Player, completion: ((_ success: Bool,_ error: Error?)->())?) {
@@ -167,7 +181,7 @@ extension StripeService: STPPaymentContextDelegate {
     
     func paymentContext(_ paymentContext: STPPaymentContext,
                         didFailToLoadWithError error: Error) {
-        print("didFailToLoad")
+        print("didFailToLoad error \(error)")
         // Show the error to your user, etc.
     }
 }
@@ -194,6 +208,7 @@ extension StripeService: URLSessionDelegate, URLSessionDataDelegate {
         if let usableData = self.data {
             do {
                 let json = try JSONSerialization.jsonObject(with: usableData, options: [])
+                print("urlSession completed with json \(json)")
                 completionHandler?(json as? [String: AnyObject], nil)
             } catch let error {
                 print("error \(error)")
@@ -202,6 +217,9 @@ extension StripeService: URLSessionDelegate, URLSessionDataDelegate {
         }
         else if let error = error {
             completionHandler?(nil, error)
+        }
+        else {
+            print("here")
         }
     }
 }
