@@ -111,6 +111,14 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         task?.resume()
     }
     
+    func savePaymentInfo(_ paymentMethod: STPPaymentMethod) {
+        // calls this function after a payment source has been created
+        guard let player = PlayerService.shared.current, let card = paymentMethod as? STPCard else { return }
+        let ref = firRef.child("stripe_customers").child(player.id)
+        let params: [String: Any] = ["source": card.stripeID, "last4":card.last4(), "label": card.label]
+        ref.updateChildValues(params)
+    }
+    
     func createCharge(for event: Event, player: Player, completion: ((_ success: Bool,_ error: Error?)->())?) {
         guard let amount = event.amount else {
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Invalid amount on event", "eventId": event.id]))
@@ -173,7 +181,7 @@ extension StripeService: STPPaymentContextDelegate {
     
     func paymentContext(_ paymentContext: STPPaymentContext,
                         didFailToLoadWithError error: Error) {
-        print("didFailToLoad")
+        print("didFailToLoad error \(error)")
         // Show the error to your user, etc.
     }
 }

@@ -5,7 +5,7 @@ const app = require('express')
 
 admin.initializeApp(functions.config().firebase);
 
-const config = functions.config().prod
+const config = functions.config().dev
 const stripe = require('stripe')(config.stripe.token)
 
 exports.createStripeCustomer = functions.auth.user().onCreate(event => {
@@ -35,24 +35,6 @@ exports.createStripeCustomerForLegacyUser = functions.https.onRequest( (req, res
         res.send(200, {'customer': customer, 'error':err})
     });
 });
-
-// Add a payment source (card) for a user by writing a stripe payment source token to Realtime database
-exports.addPaymentSourceFunction = functions.https.onRequest( (req, res) => {
-    token = req.body.token
-    console.log('token ' + token)
-    customerRef = admin.database().ref('/stripe_customers/${event.params.userId}/customer_id').once('value').then(snapshot => {
-        customer = snapshot.val()
-        stripe.sources.create({
-            type: 'type',
-            usage: 'reusable'
-        }).then( source => {
-            ref = `/stripe_customers/${uid}`
-            admin.database().ref(ref).setValue({"source":source.id, "last4":source.last4, "brand": source.brand});
-            res.send(200, {"source": source.id})
-        })
-    })
-    stripe.customers.createSource
-})
 
 exports.ephemeralKeys = functions.https.onRequest( (req, res) => {
     console.log('Called ephemeral keys with ' + req.body.api_version + ' and ' + req.body.customer_id)
