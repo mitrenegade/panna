@@ -106,9 +106,13 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
     }
     
     func createCharge(for event: Event, player: Player, completion: ((_ success: Bool,_ error: Error?)->())?) {
-//        let ref = firRef.child("stripe_customers").child(player.id).child("charges").childByAutoId()
+        guard let amount = event.amount else {
+            completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Invalid amount on event", "eventId": event.id]))
+            return
+        }
         let ref = firRef.child("charges/events").child(event.id).childByAutoId()
-        let params:[AnyHashable: Any] = ["amount": 599, "player_id": player.id]
+        let cents = ceil(amount.doubleValue * 100.0)
+        let params:[AnyHashable: Any] = ["amount": cents, "player_id": player.id]
         ref.updateChildValues(params)
         ref.observe(.value) { (snapshot: DataSnapshot) in
             if let info = snapshot.value as? [String: AnyObject], let status = info["status"] as? String {
