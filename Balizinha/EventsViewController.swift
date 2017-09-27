@@ -255,7 +255,11 @@ extension EventsViewController {
     }
     
     func shouldCharge(for event: Event, payment: STPPaymentMethod) {
-        let alert = UIAlertController(title: "Confirm payment", message: "Press Ok to pay $6.99 for this game.", preferredStyle: .alert)
+        guard let paymentString: String = EventService.amountString(from: event.amount ?? NSNumber(value: 6.99)) else {
+            self.simpleAlert("Could not calculate payment", message: "Please let us know about this error.")
+            return
+        }
+        let alert = UIAlertController(title: "Confirm payment", message: "Press Ok to pay \(paymentString) for this game.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
             self.chargeAndWait(event: event)
         }))

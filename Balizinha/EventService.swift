@@ -356,4 +356,34 @@ extension Event {
     }
 }
 
+// MARK: - Payment helpers
+extension EventService {
+    class func amountNumber(from text: String?) -> NSNumber? {
+        guard let inputText = text else { return nil }
+        if let amount = Double(inputText) {
+            return amount as NSNumber
+        }
+        else if let amount = currencyFormatter.number(from: inputText) {
+            return amount
+        }
+        return nil
+    }
+    
+    class func amountString(from number: NSNumber?) -> String? {
+        guard let number = number else { return nil }
+        return currencyFormatter.string(from: number)
+    }
+    
+    fileprivate static var currencyFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.currencyCode = "USD"
+        formatter.currencySymbol = "$"
+        formatter.currencyDecimalSeparator = "."
+        formatter.maximumFractionDigits = 2
+        formatter.minimumFractionDigits = 2
+        formatter.locale = Locale.current
+        formatter.numberStyle = .currency
+        return formatter
+    }
+}
 
