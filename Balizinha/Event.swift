@@ -134,6 +134,9 @@ class Event: FirebaseBaseModel {
     }
 
     var paymentRequired: Bool {
+        if let amount = self.amount, amount.doubleValue > 0 {
+            return true
+        }
         if let paymentRequired = self.dict["paymentRequired"] as? Bool {
             return paymentRequired
         }

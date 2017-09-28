@@ -12,7 +12,7 @@ import AsyncImageView
 class ActionCell: UITableViewCell {
     
     @IBOutlet var labelText: UILabel!
-    @IBOutlet var photoView: AsyncImageView!
+    @IBOutlet var photoView: AsyncImageView?
     @IBOutlet var constraintLabelHeight: NSLayoutConstraint!
     var actionId: String?
 
@@ -38,15 +38,16 @@ class ActionCell: UITableViewCell {
     }
     
     func refreshPhoto(url: String?, currentActionId: String) {
-        self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 4
-        self.photoView.clipsToBounds = true
-        self.photoView.contentMode = .scaleAspectFill
+        self.photoView?.layer.cornerRadius = self.photoView?.frame.size.width ?? 0 / 4
+        self.photoView?.clipsToBounds = true
+        self.photoView?.contentMode = .scaleAspectFill
         if let url = url, let URL = URL(string: url), self.actionId == currentActionId  {
-            self.photoView.imageURL = URL
+            self.photoView?.imageURL = URL
         }
         else {
-            self.photoView.imageURL = nil
-            self.photoView.image = UIImage(named: "profile-img")
+            self.photoView?.imageURL = nil
+            self.photoView?
+                .image = UIImage(named: "profile-img")
         }
     }
 

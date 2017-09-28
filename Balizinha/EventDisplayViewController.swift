@@ -29,6 +29,7 @@ class EventDisplayViewController: UIViewController {
     */
     
     @IBOutlet var sportImageView: AsyncImageView!
+    @IBOutlet weak var scrollView: UIScrollView!
     var event : Event!
     var delegate : AnyObject!
     var alreadyJoined : Bool = false
@@ -133,11 +134,7 @@ class EventDisplayViewController: UIViewController {
             self.hideChat()
         }
         
-        if !self.event.paymentRequired {
-            self.constraintPaymentHeight.constant = 0
-            self.view.setNeedsUpdateConstraints()
-            self.view.updateConstraintsIfNeeded()
-        }
+        self.constraintPaymentHeight.constant = self.event.paymentRequired ? 40 : 0
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -182,7 +179,7 @@ class EventDisplayViewController: UIViewController {
         }
         else if segue.identifier == "EmbedActivity" {
             self.activityController = segue.destination as? EventActivityViewController
-            //self.activityController.delegate = self
+            self.activityController.delegate = self
             self.activityController.event = self.event
         }
         else if segue.identifier == "EmbedChat" {
@@ -225,6 +222,10 @@ extension EventDisplayViewController: EventDisplayComponentDelegate {
         }
         else if controller == self.playersController {
             self.constraintPlayersHeight.constant = newHeight
+        }
+        else if controller == self.activityController {
+            print("\(newHeight)")
+            self.constraintActivityHeight.constant = newHeight
         }
     }
 }
