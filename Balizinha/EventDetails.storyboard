@@ -19,11 +19,11 @@
                         <viewControllerLayoutGuide type="bottom" id="RSz-2L-tQo"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="PU7-jQ-ScZ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="1100"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="910"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v5N-mi-Yah">
-                                <rect key="frame" x="0.0" y="20" width="375" height="1080"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="890"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageView:E75-s4-H12:image" translatesAutoresizingMaskIntoConstraints="NO" id="E75-s4-H12">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
@@ -106,9 +106,9 @@
                                         </connections>
                                     </containerView>
                                     <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="do0-We-LXv" userLabel="Container View - chat">
-                                        <rect key="frame" x="0.0" y="550" width="375" height="400"/>
+                                        <rect key="frame" x="0.0" y="550" width="375" height="200"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="400" id="oQi-1b-Zgc"/>
+                                            <constraint firstAttribute="height" constant="200" id="oQi-1b-Zgc"/>
                                         </constraints>
                                         <connections>
                                             <segue destination="iuG-3b-Gq9" kind="embed" identifier="EmbedActivity" id="K6q-oN-di0"/>
@@ -124,7 +124,7 @@
                                         </connections>
                                     </containerView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bhl-nn-68t" userLabel="View - spacer for chat">
-                                        <rect key="frame" x="0.0" y="950" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="750" width="375" height="50"/>
                                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="UvV-ic-Vba"/>
@@ -168,7 +168,7 @@
                                 </constraints>
                             </scrollView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f72-yV-K2b">
-                                <rect key="frame" x="0.0" y="1050" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="860" width="375" height="50"/>
                                 <color key="backgroundColor" red="0.094117647060000004" green="0.4823529412" blue="0.61960784310000006" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="aGQ-UK-1Rq"/>
@@ -192,7 +192,7 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="ldZ-Q8-IpV"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="375" height="1100"/>
+                    <size key="freeformSize" width="375" height="910"/>
                     <connections>
                         <outlet property="activityView" destination="do0-We-LXv" id="BWG-Lk-K5v"/>
                         <outlet property="constraintActivityHeight" destination="oQi-1b-Zgc" id="cjl-bF-PAR"/>
@@ -359,11 +359,11 @@
                         <viewControllerLayoutGuide type="bottom" id="dzO-3Q-hNt"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="re1-kY-OoP">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="400"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="40" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eBw-Dt-B8i">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="400"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActionCell" id="Evi-Od-Fn4" customClass="ActionCell" customModule="Balizinha" customModuleProvider="target">

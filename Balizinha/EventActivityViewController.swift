@@ -36,7 +36,7 @@ class EventActivityViewController: UIViewController {
         super.viewDidLoad()
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.estimatedRowHeight = 600
+        self.tableView.estimatedRowHeight = 120
     }
     
     func reloadData() {
@@ -50,7 +50,7 @@ class EventActivityViewController: UIViewController {
             firstAppear = false
             self.tableView.scrollToRow(at: NSIndexPath(row: actions.count - 1, section: 0) as IndexPath, at: .top, animated: true)
         }
-        self.delegate?.componentHeightChanged(controller: self, newHeight: self.tableView.contentSize.height)
+//        self.delegate?.componentHeightChanged(controller: self, newHeight: self.tableView.contentSize.height)
         
     }
 }
