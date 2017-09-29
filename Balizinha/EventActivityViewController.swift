@@ -30,7 +30,6 @@ class EventActivityViewController: UIViewController {
     }
     var actions: [String: Action] = [:]
     var sortedActions: [Action]?
-    weak var delegate: EventDisplayComponentDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,8 +49,6 @@ class EventActivityViewController: UIViewController {
             firstAppear = false
             self.tableView.scrollToRow(at: NSIndexPath(row: actions.count - 1, section: 0) as IndexPath, at: .top, animated: true)
         }
-//        self.delegate?.componentHeightChanged(controller: self, newHeight: self.tableView.contentSize.height)
-        
     }
 }
 

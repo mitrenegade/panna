@@ -179,7 +179,6 @@ class EventDisplayViewController: UIViewController {
         }
         else if segue.identifier == "EmbedActivity" {
             self.activityController = segue.destination as? EventActivityViewController
-            self.activityController.delegate = self
             self.activityController.event = self.event
         }
         else if segue.identifier == "EmbedChat" {
@@ -222,10 +221,6 @@ extension EventDisplayViewController: EventDisplayComponentDelegate {
         }
         else if controller == self.playersController {
             self.constraintPlayersHeight.constant = newHeight
-        }
-        else if controller == self.activityController {
-            print("\(newHeight)")
-            self.constraintActivityHeight.constant = newHeight
         }
     }
 }
