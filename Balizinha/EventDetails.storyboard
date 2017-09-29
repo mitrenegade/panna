@@ -363,14 +363,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="40" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eBw-Dt-B8i">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
+                                <rect key="frame" x="5" y="5" width="365" height="190"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActionCell" id="Evi-Od-Fn4" customClass="ActionCell" customModule="Balizinha" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="40"/>
+                                        <rect key="frame" x="0.0" y="28" width="365" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Evi-Od-Fn4" id="9gA-ab-Rh0">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="39.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="365" height="39.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v8e-Vw-FCF">
@@ -396,10 +396,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActionCellOthers" id="mLq-wI-RXi" customClass="ActionCell" customModule="Balizinha" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="68" width="375" height="40"/>
+                                        <rect key="frame" x="0.0" y="68" width="365" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mLq-wI-RXi" id="11S-UJ-nVh">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="39.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="365" height="39.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="ter-Mx-fCa">
@@ -435,10 +435,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActionCellUser" id="Reu-7q-pzX" customClass="ActionCell" customModule="Balizinha" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="108" width="375" height="40"/>
+                                        <rect key="frame" x="0.0" y="108" width="365" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Reu-7q-pzX" id="CG4-AH-SC7">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="39.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="365" height="39.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="647-xw-Xyk">
@@ -483,10 +483,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="eBw-Dt-B8i" firstAttribute="leading" secondItem="re1-kY-OoP" secondAttribute="leading" id="PmE-0O-Jfq"/>
-                            <constraint firstItem="dzO-3Q-hNt" firstAttribute="top" secondItem="eBw-Dt-B8i" secondAttribute="bottom" id="Wia-Ii-gMt"/>
-                            <constraint firstItem="eBw-Dt-B8i" firstAttribute="top" secondItem="re1-kY-OoP" secondAttribute="top" id="as1-Sg-rVb"/>
-                            <constraint firstAttribute="trailing" secondItem="eBw-Dt-B8i" secondAttribute="trailing" id="fLW-j1-peg"/>
+                            <constraint firstItem="eBw-Dt-B8i" firstAttribute="leading" secondItem="re1-kY-OoP" secondAttribute="leading" constant="5" id="PmE-0O-Jfq"/>
+                            <constraint firstItem="dzO-3Q-hNt" firstAttribute="top" secondItem="eBw-Dt-B8i" secondAttribute="bottom" constant="5" id="Wia-Ii-gMt"/>
+                            <constraint firstItem="eBw-Dt-B8i" firstAttribute="top" secondItem="re1-kY-OoP" secondAttribute="top" constant="5" id="as1-Sg-rVb"/>
+                            <constraint firstAttribute="trailing" secondItem="eBw-Dt-B8i" secondAttribute="trailing" constant="5" id="fLW-j1-peg"/>
                         </constraints>
                     </view>
                     <connections>

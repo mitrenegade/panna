@@ -36,6 +36,10 @@ class EventActivityViewController: UIViewController {
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 120
+        
+        self.tableView.layer.borderWidth = 2
+        self.tableView.layer.cornerRadius = 20
+        self.tableView.layer.borderColor = UIColor.darkGray.cgColor
     }
     
     func reloadData() {
