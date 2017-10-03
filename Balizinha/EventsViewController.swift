@@ -85,21 +85,26 @@ class EventsViewController: UITableViewController {
     }
     
     func didClickAddEvent(sender: Any) {
-        guard let user = PlayerService.shared.current else { return }
-        if !user.isOwner {
-            let alert = UIAlertController(title: "Create an event?", message: "You must be a paid organizer to create a new game. Click to upgrade for free.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "Go", style: UIAlertActionStyle.default, handler: { (action) in
-                user.isOwner = true
-                
-                // create
-                self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
-            }))
-            self.navigationController?.present(alert, animated: true, completion: nil)
+        if let _ = OrganizerService.shared.current {
+            // create event
+            self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
         }
         else {
-            // create
-            self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
+            // create organizer
+            let alert = UIAlertController(title: "Become an Organizer?", message: "You must be an organizer to create a new game. Click now to start a month long free trial.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Start", style: UIAlertActionStyle.default, handler: { (action) in
+                OrganizerService.shared.createOrganizer(completion: { (organizer, error) in
+                    if let error = error {
+                        self.simpleAlert("Could not become organizer", message: "There was an issue joining the organizer trial. \(error.localizedDescription)")
+                    }
+                    else {
+                        // create
+                        self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
+                    }
+                })
+            }))
+            self.navigationController?.present(alert, animated: true, completion: nil)
         }
     }
     

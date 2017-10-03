@@ -74,7 +74,7 @@ extension EventActivityViewController: UITableViewDataSource {
         }
         
         let action = actions[indexPath.row]
-        let cellIdentifier = action.userIsOwner ? "ActionCellUser": "ActionCellOthers"
+        let cellIdentifier = action.userIsOrganizer ? "ActionCellUser": "ActionCellOthers"
         
         // make sure action has a name
         if action.username == nil, let userId = action.user {
@@ -96,7 +96,7 @@ extension EventActivityViewController: UITableViewDataSource {
             return false
         }
         let action = actions[indexPath.row]
-        return action.type == .chat && action.userIsOwner
+        return action.type == .chat && action.userIsOrganizer
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

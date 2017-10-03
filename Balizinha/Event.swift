@@ -215,7 +215,7 @@ extension Event {
         }
     }
     
-    var userIsOwner: Bool {
+    var userIsOrganizer: Bool {
         guard let owner = self.owner else { return false }
         guard let user = firAuth.currentUser else { return false }
         

@@ -274,7 +274,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
     // MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        if eventToEdit?.userIsOwner == true {
+        if eventToEdit?.userIsOrganizer == true {
             return 4
         }
         return 3

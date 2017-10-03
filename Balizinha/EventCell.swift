@@ -64,7 +64,7 @@ class EventCell: UITableViewCell {
         if !event.isPast {
             btnAction.isHidden = false
             // Button display and action
-            if self.event!.userIsOwner {
+            if self.event!.userIsOrganizer {
                 self.labelFull.text = "This is your event."
                 self.btnAction.setTitle("Edit", for: UIControlState())
                 self.btnAction.isEnabled = true
@@ -99,7 +99,7 @@ class EventCell: UITableViewCell {
     @IBAction func didTapButton(_ sender: AnyObject) {
         print("Tapped Cancel/Join")
         guard let event = self.event else { return }
-        if event.userIsOwner {
+        if event.userIsOrganizer {
             // edit
             self.delegate?.editEvent(event)
         }
