@@ -45,7 +45,9 @@ class OrganizerService: NSObject {
 
         return Observable.create({ (observer) -> Disposable in
             newOrganizerRef.observe(.value) { (snapshot: DataSnapshot!) in
-                observer.onNext(Organizer(snapshot: snapshot))
+                if snapshot.exists() {
+                    observer.onNext(Organizer(snapshot: snapshot))
+                }
             }
             
             return Disposables.create()

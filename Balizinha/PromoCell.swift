@@ -19,7 +19,7 @@ class PromoCell: UITableViewCell {
     }
     
     func configure() {
-        guard let current = PlayerService.shared.current, let promoId = current.promotion else {
+        guard let current = PlayerService.shared.current, let promoId = current.promotionId else {
             self.reset()
             return
         }
@@ -30,7 +30,7 @@ class PromoCell: UITableViewCell {
         promotionRef.observeSingleEvent(of: .value) { (snapshot: DataSnapshot?) in
             if let snapshot = snapshot {
                 let promotion = Promotion(snapshot: snapshot)
-                self.textLabel?.text = "Promo program: \(promotion.easyCode)"
+                self.textLabel?.text = "Current promo: \(promotion.id)"
                 self.detailTextLabel?.text = promotion.info
             }
             else {

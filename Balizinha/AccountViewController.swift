@@ -90,7 +90,7 @@ class AccountViewController: UITableViewController {
         case "Logout":
             self.logout()
         case "Promo program":
-            if let player = PlayerService.shared.current, player.promotion == nil {
+            if let player = PlayerService.shared.current, player.promotionId == nil {
                 self.addPromotion()
             }
         default:
@@ -117,6 +117,7 @@ class AccountViewController: UITableViewController {
     
     // MARK: - Promotions
     func addPromotion() {
+        guard let current = PlayerService.shared.current else { return }
         let alert = UIAlertController(title: "Please enter a promo code", message: nil, preferredStyle: .alert)
         alert.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "Promo code"
@@ -127,6 +128,8 @@ class AccountViewController: UITableViewController {
                 PromotionService.shared.withId(id: promo, completion: { (promotion) in
                     if let promotion = promotion {
                         print("\(promotion)")
+                        current.promotionId = promotion.id
+                        self.tableView.reloadData()
                     }
                     else {
                         self.simpleAlert("Invalid promo code", message: "The promo code \(promo) seems to be invalid.")

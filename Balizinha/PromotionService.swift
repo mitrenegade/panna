@@ -31,7 +31,12 @@ class PromotionService: NSObject {
             }
 
             let promotion = Promotion(snapshot: snapshot)
-            completion(promotion)
+            if promotion.active {
+                completion(promotion)
+            }
+            else {
+                completion(nil)
+            }
         })
     }
 }

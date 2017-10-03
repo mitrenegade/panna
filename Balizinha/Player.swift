@@ -87,12 +87,12 @@ class Player: FirebaseBaseModel {
     }
     
     // MARK: - Preferred Status
-    var promotion: String? {
+    var promotionId: String? {
         get {
-            return self.dict?["promotion"] as? String
+            return self.dict?["promotionId"] as? String
         }
         set {
-            self.dict["promotion"] = newValue
+            self.dict["promotionId"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
