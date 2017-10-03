@@ -11,7 +11,7 @@ import FBSDKLoginKit
 
 class AccountViewController: UITableViewController {
     
-    let menuOptions = ["Edit profile", "Push notifications", "Version", /*"Bundle", */"Logout"]
+    let menuOptions = ["Edit profile", "Push notifications", "Promo program", "Version", /*"Bundle", */"Logout"]
     var service = EventService.shared
 
     override func viewDidLoad() {
@@ -69,6 +69,11 @@ class AccountViewController: UITableViewController {
             cell.accessoryType = .none
             return cell
             
+        case "Promo program":
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PromoCell", for: indexPath) as! PromoCell
+            cell.configure()
+            return cell
+            
         default:
             return UITableViewCell()
         }
@@ -84,6 +89,10 @@ class AccountViewController: UITableViewController {
             break
         case "Logout":
             self.logout()
+        case "Promo program":
+            if let player = PlayerService.shared.current, player.promotionId == nil {
+                self.addPromotion()
+            }
         default:
             break
         }
@@ -102,7 +111,36 @@ class AccountViewController: UITableViewController {
         try! firAuth.signOut()
         EventService.resetOnLogout() // force new listeners
         PlayerService.resetOnLogout()
+        OrganizerService.resetOnLogout()
         FBSDKLoginManager().logOut()
         self.notify(.LogoutSuccess, object: nil, userInfo: nil)
+    }
+    
+    // MARK: - Promotions
+    func addPromotion() {
+        guard let current = PlayerService.shared.current else { return }
+        let alert = UIAlertController(title: "Please enter a promo code", message: nil, preferredStyle: .alert)
+        alert.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Promo code"
+        }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            if let textField = alert.textFields?[0], let promo = textField.text {
+                print("Using promo code \(promo)")
+                PromotionService.shared.withId(id: promo, completion: { (promotion, error) in
+                    if let promotion = promotion {
+                        print("\(promotion)")
+                        current.promotionId = promotion.id
+                        self.tableView.reloadData()
+                        LoggingService.shared.log(event: "AddPromoCode", message: "success", info: ["code":promo], error: nil)
+                    }
+                    else {
+                        self.simpleAlert("Invalid promo code", message: "The promo code \(promo) seems to be invalid.")
+                        LoggingService.shared.log(event: "AddPromoCode", message: "invalid", info: ["code":promo], error: error)
+                    }
+                })
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
     }
 }
