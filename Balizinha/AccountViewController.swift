@@ -89,6 +89,10 @@ class AccountViewController: UITableViewController {
             break
         case "Logout":
             self.logout()
+        case "Promo program":
+            if let player = PlayerService.shared.current, player.promotion == nil {
+                self.addPromotion()
+            }
         default:
             break
         }
@@ -109,5 +113,20 @@ class AccountViewController: UITableViewController {
         PlayerService.resetOnLogout()
         FBSDKLoginManager().logOut()
         self.notify(.LogoutSuccess, object: nil, userInfo: nil)
+    }
+    
+    // MARK: - Promotions
+    func addPromotion() {
+        let alert = UIAlertController(title: "Please enter a promo code", message: nil, preferredStyle: .alert)
+        alert.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Promo code"
+        }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            if let textField = alert.textFields?[0] as? UITextField {
+                print("Using promo code \(textField.text)")
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
     }
 }
