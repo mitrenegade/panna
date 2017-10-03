@@ -15,7 +15,6 @@
 		8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */; };
 		8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */; };
 		8E19A49E1E6C61FE00D301EC /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A49D1E6C61FE00D301EC /* Player.swift */; };
-		8E19A4A01E6C644B00D301EC /* LogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A49F1E6C644B00D301EC /* LogService.swift */; };
 		8E19A4A21E6C658600D301EC /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A11E6C658600D301EC /* String+Utils.swift */; };
 		8E19A4A41E6C67A500D301EC /* PlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A31E6C67A500D301EC /* PlayerService.swift */; };
 		8E19A4A61E6C793800D301EC /* FirebaseImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A51E6C793800D301EC /* FirebaseImageService.swift */; };
@@ -88,7 +87,6 @@
 		8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurableNavigationController.swift; sourceTree = "<group>"; };
 		8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerInfoViewController.swift; sourceTree = "<group>"; };
 		8E19A49D1E6C61FE00D301EC /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-		8E19A49F1E6C644B00D301EC /* LogService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogService.swift; sourceTree = "<group>"; };
 		8E19A4A11E6C658600D301EC /* String+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Utils.swift"; sourceTree = "<group>"; };
 		8E19A4A31E6C67A500D301EC /* PlayerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerService.swift; sourceTree = "<group>"; };
 		8E19A4A51E6C793800D301EC /* FirebaseImageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseImageService.swift; sourceTree = "<group>"; };
@@ -232,7 +230,6 @@
 				8E379F001CE57E8600C91A12 /* EventService.swift */,
 				8E19A4A31E6C67A500D301EC /* PlayerService.swift */,
 				8E39FE8D1D237C710030CB96 /* NotificationService.swift */,
-				8E19A49F1E6C644B00D301EC /* LogService.swift */,
 				8E19A4A51E6C793800D301EC /* FirebaseImageService.swift */,
 				8E27716F1E6E655A00B161ED /* ActionService.swift */,
 				8EDA009B1F6597060080F446 /* RemoteDataService.swift */,
@@ -600,7 +597,6 @@
 				8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */,
 				8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */,
 				8E19A4A61E6C793800D301EC /* FirebaseImageService.swift in Sources */,
-				8E19A4A01E6C644B00D301EC /* LogService.swift in Sources */,
 				8E116D5A1F74A9100067B6F5 /* PaymentInfoViewController.swift in Sources */,
 				8EC2EFEB1F60D6F90081FF68 /* UIDatePickerHelper.swift in Sources */,
 				8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */,

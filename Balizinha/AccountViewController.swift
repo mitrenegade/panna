@@ -126,14 +126,16 @@ class AccountViewController: UITableViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             if let textField = alert.textFields?[0], let promo = textField.text {
                 print("Using promo code \(promo)")
-                PromotionService.shared.withId(id: promo, completion: { (promotion) in
+                PromotionService.shared.withId(id: promo, completion: { (promotion, error) in
                     if let promotion = promotion {
                         print("\(promotion)")
                         current.promotionId = promotion.id
                         self.tableView.reloadData()
+                        LoggingService.shared.log(event: "AddPromoCode", message: "success", info: ["code":promo], error: nil)
                     }
                     else {
                         self.simpleAlert("Invalid promo code", message: "The promo code \(promo) seems to be invalid.")
+                        LoggingService.shared.log(event: "AddPromoCode", message: "invalid", info: ["code":promo], error: error)
                     }
                 })
             }

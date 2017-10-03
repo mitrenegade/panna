@@ -26,7 +26,7 @@ class PromoCell: UITableViewCell {
 
         self.textLabel?.text = "Loading promotion"
         self.detailTextLabel?.text = nil
-        PromotionService.shared.withId(id: promoId) { (promotion) in
+        PromotionService.shared.withId(id: promoId) { (promotion, error) in
             if let promotion = promotion {
                 self.textLabel?.text = "Current promo: \(promotion.id)"
                 self.detailTextLabel?.text = promotion.info

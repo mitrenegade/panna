@@ -33,6 +33,21 @@ class LoggingService: NSObject {
         guard let ref = loggingRef?.child(event).childByAutoId() else { return }
         var params = info ?? [:]
         params["timestamp"] = Date().timeIntervalSince1970
+        if let current = PlayerService.shared.current {
+            params["playerId"] = current.id
+        }
         ref.updateChildValues(params)
     }
+    
+    func log(event: String, message: String?, info: [AnyHashable: Any]?, error: NSError?) {
+        var params: [AnyHashable: Any] = info ?? [:]
+        if let message = message {
+            params["message"] = message
+        }
+        if let error = error {
+            params["error"] = "\(error)"
+        }
+        self.log(event: event, info: params)
+    }
+
 }

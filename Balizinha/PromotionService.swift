@@ -28,21 +28,21 @@ class PromotionService: NSObject {
         ref.keepSynced(true)
     }()
 
-    func withId(id: String, completion: @escaping ((Promotion?)->Void)) {
+    func withId(id: String, completion: @escaping ((Promotion?, NSError?)->Void)) {
         let ref = firRef.child("promotions/\(id)")
         
         ref.observeSingleEvent(of: .value, with: { (snapshot: DataSnapshot) in
             guard snapshot.exists() else {
-                completion(nil)
+                completion(nil, NSError(domain: "balizinha.promo", code: 0, userInfo: ["reason": "Does not exist"]))
                 return
             }
 
             let promotion = Promotion(snapshot: snapshot)
             if promotion.active {
-                completion(promotion)
+                completion(promotion, nil)
             }
             else {
-                completion(nil)
+                completion(nil, NSError(domain: "balizinha.promo", code: 1, userInfo: ["reason": "No longer active", "id": id]))
             }
         })
     }

@@ -262,13 +262,13 @@ extension EventsViewController {
     fileprivate func calculateAmountForEvent(event: Event, completion:@escaping ((Double)->Void)) {
         let amount = event.amount?.doubleValue ?? 0
         if let promotionId = PlayerService.shared.current?.promotionId {
-            PromotionService.shared.withId(id: promotionId, completion: { (promotion) in
+            PromotionService.shared.withId(id: promotionId, completion: { (promotion, error) in
                 if let promotion = promotion, let discount = promotion.discountFactor {
                     print("Event cost with discount of \(discount) = \(amount * discount)")
                     completion(amount * discount)
                 }
                 else {
-                    print("Event cost either has no promotion or no discount")
+                    print("Event cost either has no promotion or no discount. Error: \(error)")
                     completion(amount)
                 }
             })
