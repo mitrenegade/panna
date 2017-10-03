@@ -96,7 +96,7 @@ class EventDisplayViewController: UIViewController {
         self.btnShare.layer.cornerRadius = 4
         self.btnJoin.layer.cornerRadius = 4
         
-        if event.userIsOwner {
+        if event.userIsOrganizer {
             self.btnJoin.setTitle("Edit", for: .normal)
         }
         else if alreadyJoined {
@@ -190,7 +190,7 @@ class EventDisplayViewController: UIViewController {
     /*
     @IBAction func didTapButton(_ sender: UIButton) {
         if sender == btnJoin {
-            if event.userIsOwner {
+            if event.userIsOrganizer {
                 self.simpleAlert("Edit event coming soon", message: "You will be able to edit your event in the next version.")
             }
             else if alreadyJoined {

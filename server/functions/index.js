@@ -92,3 +92,9 @@ exports.createStripeCharge = functions.database.ref(`/charges/events/{eventId}/{
     }
 );
 });
+
+// cron job
+exports.daily_job =
+  functions.pubsub.topic('hourly-tick').onPublish((event) => {
+    console.log("This job is ran every hour! " + Date.now())
+  });

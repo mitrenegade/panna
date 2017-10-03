@@ -111,7 +111,7 @@ extension Action {
     
     var displayString: String {
         let uid = self.user ?? ""
-        let userString = self.userIsOwner ? "You" : (self.username ?? (PlayerService.cachedNames[uid] ?? GENERIC_USERNAME) )
+        let userString = self.userIsOrganizer ? "You" : (self.username ?? (PlayerService.cachedNames[uid] ?? GENERIC_USERNAME) )
         switch self.type {
         case .chat:
             return userString + " said: " + (self.message ?? GENERIC_CHAT)
@@ -128,7 +128,7 @@ extension Action {
     }
     
     
-    var userIsOwner: Bool {
+    var userIsOrganizer: Bool {
         guard let owner = self.user else { return false }
         guard let user = firAuth.currentUser else { return false }
         

@@ -59,6 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
         logPlayerLogin()
+        let _ = OrganizerService.shared // trigger organizer loading
         
         let STRIPE_KEY = TESTING ? STRIPE_KEY_DEV : STRIPE_KEY_PROD
         STPPaymentConfiguration.shared().publishableKey = STRIPE_KEY
