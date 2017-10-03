@@ -41,6 +41,15 @@ class Promotion: FirebaseBaseModel {
     var code: String {
         return self.id
     }
+    
+    var discountFactor: Double? {
+        // returns the factor to multiply to update the price
+        // for example, if value is 25% discount, returns .75
+        if self.type == .percentDiscount {
+            return 1 - (value?.doubleValue ?? 0) / 100.0
+        }
+        return nil
+    }
 
 //    var playerId: String? {
 //        return self.dict["playerId"] as? String

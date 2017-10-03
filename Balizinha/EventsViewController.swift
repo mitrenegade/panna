@@ -259,28 +259,50 @@ extension EventsViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func shouldCharge(for event: Event, payment: STPPaymentMethod) {
-        guard let paymentString: String = EventService.amountString(from: event.amount ?? NSNumber(value: 6.99)) else {
-            self.simpleAlert("Could not calculate payment", message: "Please let us know about this error.")
-            return
+    fileprivate func calculateAmountForEvent(event: Event, completion:@escaping ((Double)->Void)) {
+        let amount = event.amount?.doubleValue ?? 0
+        if let promotionId = PlayerService.shared.current?.promotionId {
+            PromotionService.shared.withId(id: promotionId, completion: { (promotion) in
+                if let promotion = promotion, let discount = promotion.discountFactor {
+                    print("Event cost with discount of \(discount) = \(amount * discount)")
+                    completion(amount * discount)
+                }
+                else {
+                    print("Event cost either has no promotion or no discount")
+                    completion(amount)
+                }
+            })
         }
-        let alert = UIAlertController(title: "Confirm payment", message: "Press Ok to pay \(paymentString) for this game.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
-            self.chargeAndWait(event: event)
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
-        }))
-        self.present(alert, animated: true, completion: nil)
+        else {
+            print("Event cost has no promotion")
+            completion(amount)
+        }
     }
     
-    func chargeAndWait(event: Event) {
+    func shouldCharge(for event: Event, payment: STPPaymentMethod) {
+        calculateAmountForEvent(event: event) { (amount) in
+            guard let paymentString: String = EventService.amountString(from: NSNumber(value: amount)) else {
+                self.simpleAlert("Could not calculate payment", message: "Please let us know about this error.")
+                return
+            }
+            let alert = UIAlertController(title: "Confirm payment", message: "Press Ok to pay \(paymentString) for this game.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+                self.chargeAndWait(event: event, amount: amount)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func chargeAndWait(event: Event, amount: Double) {
         guard let current = PlayerService.shared.current else {
             self.simpleAlert("Could not make payment", message: "Please update your player profile!")
             return
         }
         self.activityIndicator.startAnimating()
 
-        stripeService?.createCharge(for: event, player: current, completion: { (success, error) in
+        stripeService?.createCharge(for: event, amount: amount, player: current, completion: { (success, error) in
             self.activityIndicator.stopAnimating()
             if success {
                 self.joinEvent(event)

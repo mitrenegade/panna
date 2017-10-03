@@ -111,6 +111,7 @@ class AccountViewController: UITableViewController {
         try! firAuth.signOut()
         EventService.resetOnLogout() // force new listeners
         PlayerService.resetOnLogout()
+        OrganizerService.resetOnLogout()
         FBSDKLoginManager().logOut()
         self.notify(.LogoutSuccess, object: nil, userInfo: nil)
     }
