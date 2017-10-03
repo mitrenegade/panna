@@ -11,7 +11,7 @@ import FBSDKLoginKit
 
 class AccountViewController: UITableViewController {
     
-    let menuOptions = ["Edit profile", "Push notifications", "Version", /*"Bundle", */"Logout"]
+    let menuOptions = ["Edit profile", "Push notifications", "Promo program", "Version", /*"Bundle", */"Logout"]
     var service = EventService.shared
 
     override func viewDidLoad() {
@@ -67,6 +67,11 @@ class AccountViewController: UITableViewController {
             let bundle = Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String
             cell.textLabel?.text = "Bundle id: \(bundle ?? "unknown")"
             cell.accessoryType = .none
+            return cell
+            
+        case "Promo program":
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PromoCell", for: indexPath) as! PromoCell
+            cell.configure()
             return cell
             
         default:

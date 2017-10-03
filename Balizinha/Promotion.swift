@@ -18,8 +18,10 @@ class Promotion: FirebaseBaseModel {
     // promo model:
     // info: "You are a preferred member"
     // type: percentDiscount
-    // active: true
+    // active: true, false if player switches ids or is removed from the program
     // value: 50
+    // playerId: String? -> if a player claims it
+    // easyCode: String -> Defaults to id, or something easy like Futsal50
     
     var info: String? {
         return self.dict["info"] as? String
@@ -38,4 +40,14 @@ class Promotion: FirebaseBaseModel {
         return self.dict["value"] as? NSNumber
     }
 
+    var playerId: String? {
+        return self.dict["playerId"] as? String
+    }
+    
+    var easyCode: String {
+        if let value = self.dict["easyCode"] as? String {
+            return value
+        }
+        return self.id
+    }
 }
