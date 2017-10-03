@@ -26,10 +26,8 @@ class PromoCell: UITableViewCell {
 
         self.textLabel?.text = "Loading promotion"
         self.detailTextLabel?.text = nil
-        let promotionRef = firRef.child("promotions").child(promoId)
-        promotionRef.observeSingleEvent(of: .value) { (snapshot: DataSnapshot?) in
-            if let snapshot = snapshot {
-                let promotion = Promotion(snapshot: snapshot)
+        PromotionService.shared.withId(id: promoId) { (promotion) in
+            if let promotion = promotion {
                 self.textLabel?.text = "Current promo: \(promotion.id)"
                 self.detailTextLabel?.text = promotion.info
             }
