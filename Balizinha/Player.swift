@@ -85,4 +85,16 @@ class Player: FirebaseBaseModel {
     var isInactive: Bool {
         return false
     }
+    
+    // MARK: - Preferred Status
+    var promotion: String? {
+        get {
+            return self.dict?["promotion"] as? String
+        }
+        set {
+            self.dict["promotion"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
 }
+
