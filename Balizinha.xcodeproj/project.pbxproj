@@ -38,6 +38,8 @@
 		8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */; };
 		8E7256A11CDF793200C9E054 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7256A01CDF793200C9E054 /* Assets.xcassets */; };
 		8E7256AD1CDF7DB600C9E054 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */; };
+		8E7A2FF81F8313C6004EAE6A /* OrganizerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */; };
+		8E7A2FFA1F831411004EAE6A /* Organizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FF91F831410004EAE6A /* Organizer.swift */; };
 		8EACC3B61F7B449C0091FBC5 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EACC3B51F7B449C0091FBC5 /* Payment.swift */; };
 		8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBF1C381E7965BA0057871F /* PlayerViewController.swift */; };
 		8EC2EFEB1F60D6F90081FF68 /* UIDatePickerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */; };
@@ -108,6 +110,8 @@
 		8E7256A01CDF793200C9E054 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E7256A51CDF793200C9E054 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizerService.swift; sourceTree = "<group>"; };
+		8E7A2FF91F831410004EAE6A /* Organizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Organizer.swift; sourceTree = "<group>"; };
 		8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Balizinha-Bridging-Header.h"; sourceTree = "<group>"; };
 		8EACC3B51F7B449C0091FBC5 /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		8EBF1C381E7965BA0057871F /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
@@ -206,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */,
+				8E7A2FF91F831410004EAE6A /* Organizer.swift */,
 				8E379F091CE58CEE00C91A12 /* Event.swift */,
 				8E19A49D1E6C61FE00D301EC /* Player.swift */,
 				8E27716D1E6E60D700B161ED /* Action.swift */,
@@ -227,6 +232,7 @@
 				8EDA009D1F6597BC0080F446 /* LoggingService.swift */,
 				8E116D551F7209C40067B6F5 /* FirebaseFunctionsService.swift */,
 				8E116D571F74A66C0067B6F5 /* StripeService.swift */,
+				8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -544,6 +550,7 @@
 				F2F7C3C21CEE2CDD00350115 /* PushTableViewCell.swift in Sources */,
 				8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */,
 				8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */,
+				8E7A2FFA1F831411004EAE6A /* Organizer.swift in Sources */,
 				8EDA009C1F6597060080F446 /* RemoteDataService.swift in Sources */,
 				8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */,
 				8E27716E1E6E60D700B161ED /* Action.swift in Sources */,
@@ -572,6 +579,7 @@
 				8E19A4AC1E6C9C9600D301EC /* PlayersScrollViewController.swift in Sources */,
 				8E116D581F74A66C0067B6F5 /* StripeService.swift in Sources */,
 				8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */,
+				8E7A2FF81F8313C6004EAE6A /* OrganizerService.swift in Sources */,
 				8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */,
 				8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */,
 				8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */,
