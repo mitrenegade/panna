@@ -42,6 +42,7 @@
 		8E7A2FFA1F831411004EAE6A /* Organizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FF91F831410004EAE6A /* Organizer.swift */; };
 		8E7A2FFC1F83256E004EAE6A /* Promotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFB1F83256E004EAE6A /* Promotion.swift */; };
 		8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */; };
+		8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFF1F833969004EAE6A /* PromotionService.swift */; };
 		8EACC3B61F7B449C0091FBC5 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EACC3B51F7B449C0091FBC5 /* Payment.swift */; };
 		8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBF1C381E7965BA0057871F /* PlayerViewController.swift */; };
 		8EC2EFEB1F60D6F90081FF68 /* UIDatePickerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */; };
@@ -116,6 +117,7 @@
 		8E7A2FF91F831410004EAE6A /* Organizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Organizer.swift; sourceTree = "<group>"; };
 		8E7A2FFB1F83256E004EAE6A /* Promotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promotion.swift; sourceTree = "<group>"; };
 		8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromoCell.swift; sourceTree = "<group>"; };
+		8E7A2FFF1F833969004EAE6A /* PromotionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionService.swift; sourceTree = "<group>"; };
 		8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Balizinha-Bridging-Header.h"; sourceTree = "<group>"; };
 		8EACC3B51F7B449C0091FBC5 /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		8EBF1C381E7965BA0057871F /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				8E116D551F7209C40067B6F5 /* FirebaseFunctionsService.swift */,
 				8E116D571F74A66C0067B6F5 /* StripeService.swift */,
 				8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */,
+				8E7A2FFF1F833969004EAE6A /* PromotionService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -571,6 +574,7 @@
 				8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
+				8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */,
 				F2C0F1201CF3E8BB00CB98F1 /* EventsViewController.swift in Sources */,
 				8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */,
 				8EACC3B61F7B449C0091FBC5 /* Payment.swift in Sources */,

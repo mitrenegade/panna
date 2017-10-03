@@ -122,8 +122,16 @@ class AccountViewController: UITableViewController {
             textField.placeholder = "Promo code"
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-            if let textField = alert.textFields?[0] as? UITextField {
-                print("Using promo code \(textField.text)")
+            if let textField = alert.textFields?[0], let promo = textField.text {
+                print("Using promo code \(promo)")
+                PromotionService.shared.withId(id: promo, completion: { (promotion) in
+                    if let promotion = promotion {
+                        print("\(promotion)")
+                    }
+                    else {
+                        self.simpleAlert("Invalid promo code", message: "The promo code \(promo) seems to be invalid.")
+                    }
+                })
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

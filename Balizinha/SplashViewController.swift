@@ -100,6 +100,7 @@ class SplashViewController: UIViewController {
         self.listenFor(NotificationType.LogoutSuccess, action: #selector(SplashViewController.didLogout), object: nil)
         EventService.shared.listenForEventUsers()
         PlayerService.shared.current // invoke listener
+        let _ = OrganizerService.shared.current // trigger organizer loading
     }
     
     func goToSignupLogin() {
