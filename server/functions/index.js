@@ -61,7 +61,8 @@ exports.createStripeCharge = functions.database.ref(`/charges/events/{eventId}/{
     const val = event.data.val();
     const userId = val.player_id
     const eventId = event.params.eventId
-    console.log("createStripeCharge for event " + eventId + " userId " + userId + " charge id " + event.params.id)
+    const chargeId = event.params.id
+    console.log("createStripeCharge for event " + eventId + " userId " + userId + " charge id " + chargeId)
     // This onWrite will trigger whenever anything is written to the path, so
     // noop if the charge was deleted, errored out, or the Stripe API returned a result (id exists) 
     if (val === null || val.id || val.error) return null;
@@ -69,12 +70,12 @@ exports.createStripeCharge = functions.database.ref(`/charges/events/{eventId}/{
     return admin.database().ref(`/stripe_customers/${userId}/customer_id`).once('value').then(snapshot => {
         return snapshot.val();
     }).then(customer => {
-    // Create a charge using the pushId as the idempotency key, protecting against double charges 
-    const amount = val.amount;
-    const idempotency_key = event.params.id;
-    const currency = 'USD'
-    let charge = {amount, currency, customer};
-    if (val.source !== null) charge.source = val.source;
+        // Create a charge using the pushId as the idempotency key, protecting against double charges 
+        const amount = val.amount;
+        const idempotency_key = chargeId;
+        const currency = 'USD'
+        let charge = {amount, currency, customer};
+        if (val.source !== null) charge.source = val.source;
         console.log("createStripeCharge amount " + amount + " customer " + customer + " source " + val.source)
         return stripe.charges.create(charge, {idempotency_key});
     }).then(response => {
@@ -89,12 +90,46 @@ exports.createStripeCharge = functions.database.ref(`/charges/events/{eventId}/{
         // .then(() => {
         //   return reportError(error, {user: event.params.userId});
         // });
-    }
-);
+    });
+});
+
+exports.createStripeSubscription = functions.database.ref(`/charges/organizer/{organizerId}/{id}`).onWrite(event => {
+//function createStripeCharge(req, res, ref) {
+    const val = event.data.val();
+    const userId = val.player_id
+    const organizerId = event.params.organizerId
+    const chargeId = event.params.id
+    console.log("createStripeSubscription for organizer " + organizerId + " userId " + userId + " charge id " + chargeId)
+    // This onWrite will trigger whenever anything is written to the path, so
+    // noop if the charge was deleted, errored out, or the Stripe API returned a result (id exists) 
+    if (val === null || val.id || val.error) return null;
+    // Look up the Stripe customer id written in createStripeCustomer
+    return admin.database().ref(`/stripe_customers/${userId}/customer_id`).once('value').then(snapshot => {
+        return snapshot.val();
+    }).then(customer => {
+        // Create a charge using the chargeId as the idempotency key, protecting against double charges 
+        var date = Date.now()
+        const trialMonths = 2
+        const trialEnd = date.setMonth(date.getMonth()+trialMonths)
+
+        var subscription = {customer: customer, items:[{plan: "basic-monthly"}], trial_end:trianEnd};
+        console.log("createStripeSubscription amount " + amount + " customer " + customer)
+
+        return stripe.subscriptions.create(subscription, {idempotency_key});
+    }).then(response => {
+        // If the result is successful, write it back to the database
+        console.log("createStripeSubscription success with response " + response)
+        return event.data.adminRef.update(response);
+    }, error => {
+        // We want to capture errors and render them in a user-friendly way, while
+        // still logging an exception with Stackdriver
+        console.log("createStripeSubscription error " + error)
+        return event.data.adminRef.child('error').set(error)
+    });
 });
 
 // cron job
 exports.daily_job =
-  functions.pubsub.topic('hourly-tick').onPublish((event) => {
+  functions.pubsub.topic('daily-tick').onPublish((event) => {
     console.log("This job is ran every hour! " + Date.now())
   });
