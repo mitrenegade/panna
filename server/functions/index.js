@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const logging = require('@google-cloud/logging')();
 const app = require('express')
+const moment = require('moment')
 
 admin.initializeApp(functions.config().firebase);
 
@@ -61,7 +62,8 @@ exports.createStripeCharge = functions.database.ref(`/charges/events/{eventId}/{
     const val = event.data.val();
     const userId = val.player_id
     const eventId = event.params.eventId
-    console.log("createStripeCharge for event " + eventId + " userId " + userId + " charge id " + event.params.id)
+    const chargeId = event.params.id
+    console.log("createStripeCharge for event " + eventId + " userId " + userId + " charge id " + chargeId)
     // This onWrite will trigger whenever anything is written to the path, so
     // noop if the charge was deleted, errored out, or the Stripe API returned a result (id exists) 
     if (val === null || val.id || val.error) return null;
@@ -69,12 +71,12 @@ exports.createStripeCharge = functions.database.ref(`/charges/events/{eventId}/{
     return admin.database().ref(`/stripe_customers/${userId}/customer_id`).once('value').then(snapshot => {
         return snapshot.val();
     }).then(customer => {
-    // Create a charge using the pushId as the idempotency key, protecting against double charges 
-    const amount = val.amount;
-    const idempotency_key = event.params.id;
-    const currency = 'USD'
-    let charge = {amount, currency, customer};
-    if (val.source !== null) charge.source = val.source;
+        // Create a charge using the pushId as the idempotency key, protecting against double charges 
+        const amount = val.amount;
+        const idempotency_key = chargeId;
+        const currency = 'USD'
+        let charge = {amount, currency, customer};
+        if (val.source !== null) charge.source = val.source;
         console.log("createStripeCharge amount " + amount + " customer " + customer + " source " + val.source)
         return stripe.charges.create(charge, {idempotency_key});
     }).then(response => {
@@ -85,16 +87,51 @@ exports.createStripeCharge = functions.database.ref(`/charges/events/{eventId}/{
         // We want to capture errors and render them in a user-friendly way, while
         // still logging an exception with Stackdriver
         console.log("createStripeCharge error " + error)
-        return event.data.adminRef.child('error').set(error)
+        return event.data.adminRef.child('error').set(error.message)
         // .then(() => {
         //   return reportError(error, {user: event.params.userId});
         // });
-    }
-);
+    });
+});
+
+exports.createStripeSubscription = functions.database.ref(`/charges/organizers/{organizerId}/{id}`).onWrite(event => {
+//function createStripeCharge(req, res, ref) {
+    const val = event.data.val();
+    const organizerId = event.params.organizerId
+    const chargeId = event.params.id
+    console.log("createStripeSubscription for organizer " + organizerId + " charge id " + chargeId)
+    // This onWrite will trigger whenever anything is written to the path, so
+    // noop if the charge was deleted, errored out, or the Stripe API returned a result (id exists) 
+    if (val === null || val.id || val.error) return null;
+    // Look up the Stripe customer id written in createStripeCustomer
+    return admin.database().ref(`/stripe_customers/${organizerId}/customer_id`).once('value').then(snapshot => {
+        return snapshot.val();
+    }).then(customer => {
+        // Create a charge using the chargeId as the idempotency key, protecting against double charges 
+        const trialMonths = 2
+        const trialEnd = moment().add(trialMonths, 'months')
+        const endDate = Math.floor(trialEnd.toDate().getTime()/1000) // to unix time
+
+        const plan = "balizinha.organizer.monthly"
+        console.log("createStripeSubscription customer " + customer + " trialEnd " + endDate + " plan " + plan)
+        var subscription = {customer: customer, items:[{plan: plan}]};
+
+        return stripe.subscriptions.create(subscription);
+    }).then(response => {
+        // If the result is successful, write it back to the database
+        console.log("createStripeSubscription success with response " + response)
+        return event.data.adminRef.update(response);
+    }, error => {
+        // We want to capture errors and render them in a user-friendly way, while
+        // still logging an exception with Stackdriver
+        console.log("createStripeSubscription error " + error.message)
+        const trialEnd = moment().add(trialMonths, 'months')
+        return event.data.adminRef.update({"error": error.message, "status": error, "deadline": trialEnd})
+    });
 });
 
 // cron job
 exports.daily_job =
-  functions.pubsub.topic('hourly-tick').onPublish((event) => {
+  functions.pubsub.topic('daily-tick').onPublish((event) => {
     console.log("This job is ran every hour! " + Date.now())
   });

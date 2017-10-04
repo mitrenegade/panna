@@ -18,7 +18,7 @@ class EventsViewController: UITableViewController {
     let eventTypes: [EventType] = [.event3v3, .event5v5, .event7v7, .event11v11, .other]
 
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
-    var stripeService: StripeService?
+    var stripeService: StripeService = StripeService()
     var joiningEvent: Event?
     
     override func viewDidLoad() {
@@ -94,13 +94,30 @@ class EventsViewController: UITableViewController {
             let alert = UIAlertController(title: "Become an Organizer?", message: "You must be an organizer to create a new game. Click now to start a month long free trial.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Start", style: UIAlertActionStyle.default, handler: { (action) in
+                // TODO: check for payment method before creating an organizer?
                 OrganizerService.shared.createOrganizer(completion: { (organizer, error) in
                     if let error = error {
                         self.simpleAlert("Could not become organizer", message: "There was an issue joining the organizer trial. \(error.localizedDescription)")
                     }
                     else {
                         // create
-                        self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
+                        self.stripeService.createSubscription(completion: { (success, error) in
+                            print("Success \(success) error \(error)")
+                            var title: String = "Free trial started"
+                            var message: String = "Good luck organizing games! You are now in the 30 day organizer trial."
+                            if let error = error {
+                                // TODO: handle credit card payment after organizer was created!
+                                // should allow users to organize for now, and ask to add a payment later
+                                // should stop allowing it once their trial is up
+                                title = "Payment needed"
+                                message = "You are in a free trial and can still organize games but please add a payment within 30 days."
+                            }
+                            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+                                self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
+                            }))
+                            self.present(alert, animated: true, completion: nil)
+                        })
                     }
                 })
             }))
@@ -219,17 +236,14 @@ extension EventsViewController: EventCellDelegate {
 // MARK: - Payments
 extension EventsViewController {
     func checkStripe() {
-        if stripeService == nil {
-            stripeService = StripeService()
-        }
-        stripeService?.loadPayment(host: nil)
+        stripeService.loadPayment(host: nil)
         self.activityIndicator.startAnimating()
         
         self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshStripeStatus), object: nil)
     }
     
     func refreshStripeStatus() {
-        guard let paymentContext = stripeService?.paymentContext else { return }
+        guard let paymentContext = stripeService.paymentContext else { return }
         if paymentContext.loading {
             self.activityIndicator.startAnimating()
         }
@@ -302,7 +316,7 @@ extension EventsViewController {
         }
         self.activityIndicator.startAnimating()
 
-        stripeService?.createCharge(for: event, amount: amount, player: current, completion: { (success, error) in
+        stripeService.createCharge(for: event, amount: amount, player: current, completion: { (success, error) in
             self.activityIndicator.stopAnimating()
             if success {
                 self.joinEvent(event)
