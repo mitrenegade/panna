@@ -108,12 +108,12 @@ exports.createStripeSubscription = functions.database.ref(`/charges/organizers/{
         return snapshot.val();
     }).then(customer => {
         // Create a charge using the chargeId as the idempotency key, protecting against double charges 
-        var date = Date.now()
         const trialMonths = 2
-        const trialEnd = date.setMonth(date.getMonth() + trialMonths)
+        const trialEnd = moment().add(trialMonths, 'months')
+        const endDate = Math.floor(trialEnd.toDate().getTime()/1000) // to unix time
 
-        var subscription = {customer: customer, items:[{plan: "basic-monthly"}], trial_end:trianEnd};
-        console.log("createStripeSubscription amount " + amount + " customer " + customer)
+        console.log("createStripeSubscription amount " + amount + " customer " + customer + " trialEnd " + endDate)
+        var subscription = {customer: customer, items:[{plan: "basic-monthly"}], trial_end:endDate};
 
         return stripe.subscriptions.create(subscription, {idempotency_key});
     }).then(response => {
