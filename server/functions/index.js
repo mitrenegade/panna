@@ -112,10 +112,11 @@ exports.createStripeSubscription = functions.database.ref(`/charges/organizers/{
         const trialEnd = moment().add(trialMonths, 'months')
         const endDate = Math.floor(trialEnd.toDate().getTime()/1000) // to unix time
 
-        console.log("createStripeSubscription amount " + amount + " customer " + customer + " trialEnd " + endDate)
-        var subscription = {customer: customer, items:[{plan: "basic-monthly"}], trial_end:endDate};
+        const plan = "balizinha.organizer.monthly"
+        console.log("createStripeSubscription customer " + customer + " trialEnd " + endDate + " plan " + plan)
+        var subscription = {customer: customer, items:[{plan: plan}]};
 
-        return stripe.subscriptions.create(subscription, {idempotency_key});
+        return stripe.subscriptions.create(subscription);
     }).then(response => {
         // If the result is successful, write it back to the database
         console.log("createStripeSubscription success with response " + response)
