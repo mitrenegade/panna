@@ -125,7 +125,8 @@ exports.createStripeSubscription = functions.database.ref(`/charges/organizers/{
         // We want to capture errors and render them in a user-friendly way, while
         // still logging an exception with Stackdriver
         console.log("createStripeSubscription error " + error.message)
-        return event.data.adminRef.child('error').set(error.message)
+        const trialEnd = moment().add(trialMonths, 'months')
+        return event.data.adminRef.update({"error": error.message, "status": error, "deadline": trialEnd})
     });
 });
 
