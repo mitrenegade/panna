@@ -94,6 +94,7 @@ class EventsViewController: UITableViewController {
             let alert = UIAlertController(title: "Become an Organizer?", message: "You must be an organizer to create a new game. Click now to start a month long free trial.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Start", style: UIAlertActionStyle.default, handler: { (action) in
+                // TODO: check for payment method before creating an organizer?
                 OrganizerService.shared.createOrganizer(completion: { (organizer, error) in
                     if let error = error {
                         self.simpleAlert("Could not become organizer", message: "There was an issue joining the organizer trial. \(error.localizedDescription)")
@@ -102,8 +103,21 @@ class EventsViewController: UITableViewController {
                         // create
                         self.stripeService.createSubscription(completion: { (success, error) in
                             print("Success \(success) error \(error)")
+                            var title: String = "Free trial started"
+                            var message: String = "Good luck organizing games! You are now in the 30 day organizer trial."
+                            if let error = error {
+                                // TODO: handle credit card payment after organizer was created!
+                                // should allow users to organize for now, and ask to add a payment later
+                                // should stop allowing it once their trial is up
+                                title = "Payment needed"
+                                message = "You are in a free trial and can still organize games but please add a payment within 30 days."
+                            }
+                            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+                                self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
+                            }))
+                            self.present(alert, animated: true, completion: nil)
                         })
-                        self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
                     }
                 })
             }))

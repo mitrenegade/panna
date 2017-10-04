@@ -87,7 +87,7 @@ exports.createStripeCharge = functions.database.ref(`/charges/events/{eventId}/{
         // We want to capture errors and render them in a user-friendly way, while
         // still logging an exception with Stackdriver
         console.log("createStripeCharge error " + error)
-        return event.data.adminRef.child('error').set(error)
+        return event.data.adminRef.child('error').set(error.message)
         // .then(() => {
         //   return reportError(error, {user: event.params.userId});
         // });
@@ -124,8 +124,8 @@ exports.createStripeSubscription = functions.database.ref(`/charges/organizers/{
     }, error => {
         // We want to capture errors and render them in a user-friendly way, while
         // still logging an exception with Stackdriver
-        console.log("createStripeSubscription error " + error)
-        return event.data.adminRef.child('error').set(error)
+        console.log("createStripeSubscription error " + error.message)
+        return event.data.adminRef.child('error').set(error.message)
     });
 });
 

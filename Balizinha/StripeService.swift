@@ -132,15 +132,13 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         print("Creating charge for event \(event.id) for \(cents) cents")
         ref.updateChildValues(params)
         ref.observe(.value) { (snapshot: DataSnapshot) in
-            if let info = snapshot.value as? [String: AnyObject], let status = info["status"] as? String {
-                print("status \(status)")
-                if status == "succeeded" {
+            if let info = snapshot.value as? [String: AnyObject] {
+                if let status = info["status"] as? String, status == "succeeded" {
+                    print("status \(status)")
                     completion?(true, nil)
                 }
-                else {
-                    if let error = info["error"] {
-                        completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
-                    }
+                else if let error = info["error"] as? String {
+                    completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
                 }
             }
         }
@@ -159,15 +157,13 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         
         ref.updateChildValues(params)
         ref.observe(.value) { (snapshot: DataSnapshot) in
-            if let info = snapshot.value as? [String: AnyObject], let status = info["status"] as? String {
-                print("status \(status)")
-                if status == "succeeded" {
+            if let info = snapshot.value as? [String: AnyObject] {
+                if let status = info["status"] as? String, status == "succeeded" {
+                    print("status \(status)")
                     completion?(true, nil)
                 }
-                else {
-                    if let error = info["error"] {
-                        completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
-                    }
+                else if let error = info["error"] as? String {
+                    completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
                 }
             }
         }
