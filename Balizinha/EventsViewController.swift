@@ -18,7 +18,7 @@ class EventsViewController: UITableViewController {
     let eventTypes: [EventType] = [.event3v3, .event5v5, .event7v7, .event11v11, .other]
 
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
-    var stripeService: StripeService?
+    var stripeService: StripeService = StripeService()
     var joiningEvent: Event?
     
     override func viewDidLoad() {
@@ -100,6 +100,9 @@ class EventsViewController: UITableViewController {
                     }
                     else {
                         // create
+                        self.stripeService.createSubscription(completion: { (success, error) in
+                            print("Success \(success) error \(error)")
+                        })
                         self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
                     }
                 })
@@ -219,17 +222,14 @@ extension EventsViewController: EventCellDelegate {
 // MARK: - Payments
 extension EventsViewController {
     func checkStripe() {
-        if stripeService == nil {
-            stripeService = StripeService()
-        }
-        stripeService?.loadPayment(host: nil)
+        stripeService.loadPayment(host: nil)
         self.activityIndicator.startAnimating()
         
         self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshStripeStatus), object: nil)
     }
     
     func refreshStripeStatus() {
-        guard let paymentContext = stripeService?.paymentContext else { return }
+        guard let paymentContext = stripeService.paymentContext else { return }
         if paymentContext.loading {
             self.activityIndicator.startAnimating()
         }
@@ -302,7 +302,7 @@ extension EventsViewController {
         }
         self.activityIndicator.startAnimating()
 
-        stripeService?.createCharge(for: event, amount: amount, player: current, completion: { (success, error) in
+        stripeService.createCharge(for: event, amount: amount, player: current, completion: { (success, error) in
             self.activityIndicator.stopAnimating()
             if success {
                 self.joinEvent(event)

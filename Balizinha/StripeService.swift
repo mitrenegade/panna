@@ -97,6 +97,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
             print("stripe_customer for player \(player.id) exists: \(customerId)")
         })
     }
+    
     func createCustomer() {
         guard let url = self.baseURL?.appendingPathComponent("createStripeCustomerForLegacyUser") else { return }
         urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: self.opQueue)
@@ -144,6 +145,34 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
             }
         }
     }
+    
+    func createSubscription(completion: ((_ success: Bool,_ error: Error?)->())?) {
+        guard let organizer = OrganizerService.shared.current else {
+            completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Could not create subscription: no organizer"]))
+            return
+        }
+        let ref = firRef.child("charges/organizers").child(organizer.id).childByAutoId()
+        print("Creating charge for organizer \(organizer.id)")
+        
+        // todo: set trial length here and send it into the cloud function?
+        let params = ["subscription": true]
+        
+        ref.updateChildValues(params)
+        ref.observe(.value) { (snapshot: DataSnapshot) in
+            if let info = snapshot.value as? [String: AnyObject], let status = info["status"] as? String {
+                print("status \(status)")
+                if status == "succeeded" {
+                    completion?(true, nil)
+                }
+                else {
+                    if let error = info["error"] {
+                        completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 // MARK: - STPPaymentContextDelegate

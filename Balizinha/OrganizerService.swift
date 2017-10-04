@@ -20,6 +20,9 @@ class OrganizerService: NSObject {
         if singleton == nil {
             singleton = OrganizerService()
 
+            let organizerRef = firRef.child("organizers")
+            organizerRef.keepSynced(true)
+            
             // start observing and set _currentOrganizer
             singleton!.observableOrganizer?.take(1).subscribe(onNext: { (organizer) in
                 _currentOrganizer = organizer
@@ -31,6 +34,7 @@ class OrganizerService: NSObject {
     
     class func resetOnLogout() {
         singleton = nil
+        _currentOrganizer = nil
     }
     
     var current: Organizer? {
@@ -57,11 +61,12 @@ class OrganizerService: NSObject {
     func createOrganizer(completion: ((Organizer?, NSError?) -> Void)? ) {
         
         guard let user = firAuth.currentUser else { return }
+        guard let current = PlayerService.shared.current else { return }
         let organizerRef = firRef.child("organizers")
         
         let existingUserId = user.uid
         let newOrganizerRef: DatabaseReference = organizerRef.child(existingUserId)
-        let params = ["createdAt": Date().timeIntervalSince1970]
+        let params: [AnyHashable: Any] = ["createdAt": Date().timeIntervalSince1970, "name": current.name ?? current.email ?? ""]
         newOrganizerRef.setValue(params) { (error, ref) in
             if let error = error as? NSError {
                 print(error)

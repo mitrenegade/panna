@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const logging = require('@google-cloud/logging')();
 const app = require('express')
+const moment = require('moment')
 
 admin.initializeApp(functions.config().firebase);
 
@@ -93,24 +94,23 @@ exports.createStripeCharge = functions.database.ref(`/charges/events/{eventId}/{
     });
 });
 
-exports.createStripeSubscription = functions.database.ref(`/charges/organizer/{organizerId}/{id}`).onWrite(event => {
+exports.createStripeSubscription = functions.database.ref(`/charges/organizers/{organizerId}/{id}`).onWrite(event => {
 //function createStripeCharge(req, res, ref) {
     const val = event.data.val();
-    const userId = val.player_id
     const organizerId = event.params.organizerId
     const chargeId = event.params.id
-    console.log("createStripeSubscription for organizer " + organizerId + " userId " + userId + " charge id " + chargeId)
+    console.log("createStripeSubscription for organizer " + organizerId + " charge id " + chargeId)
     // This onWrite will trigger whenever anything is written to the path, so
     // noop if the charge was deleted, errored out, or the Stripe API returned a result (id exists) 
     if (val === null || val.id || val.error) return null;
     // Look up the Stripe customer id written in createStripeCustomer
-    return admin.database().ref(`/stripe_customers/${userId}/customer_id`).once('value').then(snapshot => {
+    return admin.database().ref(`/stripe_customers/${organizerId}/customer_id`).once('value').then(snapshot => {
         return snapshot.val();
     }).then(customer => {
         // Create a charge using the chargeId as the idempotency key, protecting against double charges 
         var date = Date.now()
         const trialMonths = 2
-        const trialEnd = date.setMonth(date.getMonth()+trialMonths)
+        const trialEnd = date.setMonth(date.getMonth() + trialMonths)
 
         var subscription = {customer: customer, items:[{plan: "basic-monthly"}], trial_end:trianEnd};
         console.log("createStripeSubscription amount " + amount + " customer " + customer)

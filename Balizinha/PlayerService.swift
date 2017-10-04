@@ -29,6 +29,7 @@ class PlayerService: NSObject {
 
     class func resetOnLogout() {
         singleton = nil
+        _currentPlayer = nil
     }
 
     func createPlayer(name: String?, email: String?, city: String?, info: String?, photoUrl: String?, completion:@escaping (Player?, NSError?) -> Void) {
