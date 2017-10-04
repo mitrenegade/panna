@@ -6,6 +6,7 @@ const moment = require('moment')
 
 admin.initializeApp(functions.config().firebase);
 
+// TO TOGGLE BETWEEN DEV AND PROD: change this to .dev or .prod for functions:config variables to be correct
 const config = functions.config().dev
 const stripe = require('stripe')(config.stripe.token)
 
