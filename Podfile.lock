@@ -26,11 +26,11 @@ PODS:
     - Fabric (~> 1.6.3)
   - DateTools (2.0.0)
   - Fabric (1.6.11)
-  - FBSDKCoreKit (4.24.0):
+  - FBSDKCoreKit (4.27.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.24.0):
+  - FBSDKLoginKit (4.27.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.24.0):
+  - FBSDKShareKit (4.27.0):
     - FBSDKCoreKit
   - Firebase/Auth (4.0.2):
     - Firebase/Core
@@ -75,7 +75,7 @@ PODS:
   - GTMSessionFetcher/Core (1.1.10)
   - Parse (1.15.0):
     - Bolts/Tasks (~> 1.8)
-  - RandomKit (5.1.0):
+  - RandomKit (5.2.3):
     - ShiftOperations (~> 1.0.2)
     - Threadly (~> 1.0)
   - RxCocoa (3.6.1):
@@ -113,9 +113,9 @@ SPEC CHECKSUMS:
   Crashlytics: 79e236942ca1e7fc641df1feb9a275360a78ab6a
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
-  FBSDKCoreKit: f8c9eb0dd34a9cd277c7b60da4b32226d142502d
-  FBSDKLoginKit: 1214c6d5a1c4995b694d8db8a9ba6910c6028acf
-  FBSDKShareKit: a2ed9d7781a4eda9ac20d7404305e795b10251ac
+  FBSDKCoreKit: ebc6c5f5b3f0e72396041050e2266781a38ac587
+  FBSDKLoginKit: 887be4b7452e1c5a3cc4485ce152529965a0c41e
+  FBSDKShareKit: 4f83956d4ca2960730fe7588a168eb8d535c06dc
   Firebase: c7ad0731eab26d18a3fc547dd048b0f7cd9c63ae
   FirebaseAnalytics: 4d7040fefc3cd8b291cde35f12cf063d7963f15d
   FirebaseAuth: ebb6abcbabae00fc47446d690c19ce68d8484fde
@@ -126,13 +126,13 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMSessionFetcher: 30d874b96d0d76028f61fbd122801e3f030d47db
   Parse: c0519f8fbf57bd0334f75cd22ac032d86ee55464
-  RandomKit: 300a73d10e84efcd5efd450a7c56ceeec7d27dbb
+  RandomKit: 380745911c4f7989707489b2ce297194bfcf5031
   RxCocoa: 84a08739ab186248c7f31ce4ee92d6f8a947d690
   RxSwift: f9de85ea20cd2f7716ee5409fc13523dc638e4e4
   ShiftOperations: 702c9aa98d3b20d98dceb71dd8437b562f7ab3ad
   Stripe: 898f83a95d72180c6eb4acd65b2ae6158fc6a8bd
   Threadly: b772ed7c1ff4a3f03eb4600bbc5ef83b3be5cb29
 
-PODFILE CHECKSUM: ac1bd09a51038abedbe7f32677141c060c82a5c4
+PODFILE CHECKSUM: 0d9cb41394e2a191a3e5a568727433b617046d5a
 
 COCOAPODS: 1.3.1
