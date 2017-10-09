@@ -106,7 +106,7 @@ class EventsViewController: UITableViewController {
                     }
                     else {
                         // go directly to create event without payments
-                        if SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+                        guard SettingsService.shared.featureAvailable(feature: "paymentRequired") else {
                             self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
                             return
                         }
