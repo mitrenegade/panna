@@ -126,6 +126,12 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Invalid amount on event", "eventId": event.id]))
             return
         }
+        guard SettingsService.shared.featureAvailable(feature: "paymentRequired") else {
+            // this error prevents rampant charges, but does present an error message to the user
+            LoggingService.shared.log(event: "FeatureFlagError", info: ["feature": "paymentRequired", "function": "createCharge"])
+            completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Payment not allowed for Balizinha"]))
+            return
+        }
         let ref = firRef.child("charges/events").child(event.id).childByAutoId()
         let cents = ceil(amount * 100.0)
         let params:[AnyHashable: Any] = ["amount": cents, "player_id": player.id]
@@ -140,6 +146,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
                 else if let error = info["error"] as? String {
                     completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
                 }
+                completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": "Unknown status"]))
             }
         }
     }
@@ -147,6 +154,12 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
     func createSubscription(completion: ((_ success: Bool,_ error: Error?)->())?) {
         guard let organizer = OrganizerService.shared.current else {
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Could not create subscription: no organizer"]))
+            return
+        }
+        guard SettingsService.shared.featureAvailable(feature: "paymentRequired") else {
+            // this error prevents rampant charges, but does present an error message to the user
+            LoggingService.shared.log(event: "FeatureFlagError", info: ["feature": "paymentRequired", "function": "createCharge"])
+            completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Payment not allowed for Balizinha"]))
             return
         }
         let ref = firRef.child("charges/organizers").child(organizer.id).childByAutoId()
@@ -158,12 +171,15 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         ref.updateChildValues(params)
         ref.observe(.value) { (snapshot: DataSnapshot) in
             if let info = snapshot.value as? [String: AnyObject] {
-                if let status = info["status"] as? String, status == "succeeded" {
+                if let status = info["status"] as? String, status == "active" {
                     print("status \(status)")
                     completion?(true, nil)
                 }
                 else if let error = info["error"] as? String {
                     completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
+                }
+                else {
+                    completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": "Unknown status"]))
                 }
             }
         }
@@ -183,13 +199,6 @@ extension StripeService: STPPaymentContextDelegate {
                         didCreatePaymentResult paymentResult: STPPaymentResult,
                         completion: @escaping STPErrorBlock) {
         print("didCreatePayment")
-        //        FirebaseFunctionsService.createCharge(paymentResult.source.stripeID, completion: { (error: Error?) in
-        //            if let error = error {
-        //                completion(error)
-        //            } else {
-        //                completion(nil)
-        //            }
-        //        })
     }
     
     func paymentContext(_ paymentContext: STPPaymentContext,

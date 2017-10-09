@@ -31,6 +31,11 @@ class PaymentTypesViewController: UIViewController {
     }
     
     func showPaymentTotal() {
+        guard SettingsService.shared.featureAvailable(feature: "paymentRequired") else {
+            labelAmount.text = nil
+            return
+        }
+        
         guard let event = event, event.paymentRequired == true else {
             labelAmount.text = "No payment required"
             return
@@ -57,6 +62,11 @@ class PaymentTypesViewController: UIViewController {
     }
 
     func showPaymentRequired() {
+        guard SettingsService.shared.featureAvailable(feature: "paymentRequired") else {
+            labelAmount.text = nil
+            return
+        }
+
         guard event?.paymentRequired == true, let amount = event?.amount else {
             labelAmount.text = "No payment required to join"
             return

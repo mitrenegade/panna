@@ -20,14 +20,6 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet var labelDate: UILabel!
     @IBOutlet var labelInfo: UILabel!
 
-    /*
-    @IBOutlet var labelDescription: UILabel!
-    @IBOutlet var labelNumAttending: UILabel!
-    @IBOutlet var labelSpotsAvailable: UILabel!
-    @IBOutlet var btnJoin: UIButton!
-    @IBOutlet var btnShare: UIButton!
-    */
-    
     @IBOutlet var sportImageView: AsyncImageView!
     @IBOutlet weak var scrollView: UIScrollView!
     var event : Event!
@@ -134,26 +126,15 @@ class EventDisplayViewController: UIViewController {
             self.hideChat()
         }
         
-        self.constraintPaymentHeight.constant = self.event.paymentRequired ? 40 : 0
+        // update payment display
+        if SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+            self.constraintPaymentHeight.constant = self.event.paymentRequired ? 40 : 0
+        }
+        else {
+            self.constraintPaymentHeight.constant = 0
+        }
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // make sure table height is exactly correct because autolayout doesn't correctly set it
-        /*
-        var height = self.view.frame.size.height + 40 - self.activityView.frame.origin.y
-        if self.event.isPast {
-            height += 40
-        }
-        
-        if height < 80 {
-            height = 80 // show at least two rows
-        }
-        self.constraintActivityHeight.constant = height
-        */
-    }
-    
     func close() {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
@@ -187,26 +168,6 @@ class EventDisplayViewController: UIViewController {
         }
     }
     
-    /*
-    @IBAction func didTapButton(_ sender: UIButton) {
-        if sender == btnJoin {
-            if event.userIsOrganizer {
-                self.simpleAlert("Edit event coming soon", message: "You will be able to edit your event in the next version.")
-            }
-            else if alreadyJoined {
-                let delegate = self.delegate as! CalendarViewController
-                delegate.joinOrLeaveEvent(self.event, join: false)
-                self.navigationController?.popViewController(animated: true)
-            } else  {
-                let delegate = self.delegate as! EventsViewController
-                delegate.joinOrLeaveEvent(self.event, join: true)
-                self.navigationController?.popViewController(animated: true)
-            }
-        } else if sender == btnShare {
-            self.shareEvent2(self.event)
-        }
-    }
-    */
     func hideChat() {
         self.constraintInputHeight.constant = 0
         self.constraintSpacerHeight.constant = 0

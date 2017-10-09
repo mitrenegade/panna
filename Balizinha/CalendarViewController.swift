@@ -158,7 +158,6 @@ extension CalendarViewController: EventCellDelegate {
         }
         
         self.refreshEvents()
-        self.testFirebaseFunction()
     }
     
     func editEvent(_ event: Event) {
@@ -168,10 +167,3 @@ extension CalendarViewController: EventCellDelegate {
         self.present(nav, animated: true, completion: nil)
     }
 }
-
-extension CalendarViewController {
-    func testFirebaseFunction() {
-        FirebaseFunctionsService().test()
-    }
-}
-

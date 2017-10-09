@@ -24,7 +24,7 @@ fileprivate var FUTURE_DAYS = 90
 
 class CreateEventViewController: UIViewController, UITextViewDelegate {
     
-    var options = ["Name", "Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players", "Payment"]
+    var options: [String]!
     var sportTypes = ["Select Type", "3v3", "5v5", "7v7", "11v11"]
     var eventTypes: [EventType] = [.other, .event3v3, .event5v5, .event7v7, .event11v11]
     
@@ -83,6 +83,11 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         self.navigationItem.title = "Create Event"
         if let _ = self.eventToEdit {
             self.navigationItem.title = "Edit Event"
+        }
+        
+        options = ["Name", "Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
+        if SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+            options.append("Payment")
         }
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -162,7 +167,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func didClickSave(_ sender: AnyObject) {
         // in case user clicks save without clicking done first
-        self.view.endEditing(true)
+        self.done()
+        
         self.info = self.descriptionTextView?.text ?? eventToEdit?.info
         
         guard let location = self.location else {
@@ -190,7 +196,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             return
         }
         
-        if paymentRequired {
+        if paymentRequired && SettingsService.shared.featureAvailable(feature: "paymentRequired"){
             guard let amount = self.amount, amount.doubleValue > 0 else {
                 self.simpleAlert("Invalid payment amount", message: "Please enter the amount required to play, or turn off the payment requirement.")
                 return

@@ -11,11 +11,18 @@ import FBSDKLoginKit
 
 class AccountViewController: UITableViewController {
     
-    let menuOptions = ["Edit profile", "Push notifications", "Promo program", "Version", /*"Bundle", */"Logout"]
+    var menuOptions: [String]!
     var service = EventService.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+            menuOptions = ["Edit profile", "Push notifications", "Promo program", "Version", "Logout"]
+        }
+        else {
+            menuOptions = ["Edit profile", "Push notifications", "Version", "Logout"]
+        }
         
         self.navigationItem.title = "Account"
 
