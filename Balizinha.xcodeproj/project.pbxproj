@@ -41,13 +41,23 @@
 		8E1F3CD61F8B9B8C005186AD /* PlayerIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */; };
 		8E1F3CD71F8B9B8C005186AD /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
 		8E1F3CD81F8B9B8C005186AD /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */; };
-		8E1F3CD91F8B9BAC005186AD /* EventCellDonationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E59662C1F8B98BA007A814A /* EventCellDonationTests.swift */; };
 		8E27716E1E6E60D700B161ED /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E27716D1E6E60D700B161ED /* Action.swift */; };
 		8E2771701E6E655A00B161ED /* ActionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E27716F1E6E655A00B161ED /* ActionService.swift */; };
 		8E379F011CE57E8600C91A12 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F001CE57E8600C91A12 /* EventService.swift */; };
 		8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */; };
 		8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F091CE58CEE00C91A12 /* Event.swift */; };
 		8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E39FE8D1D237C710030CB96 /* NotificationService.swift */; };
+		8E4D36641F8BA0D500B8B0B5 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F001CE57E8600C91A12 /* EventService.swift */; };
+		8E4D36651F8BA0D500B8B0B5 /* PlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A31E6C67A500D301EC /* PlayerService.swift */; };
+		8E4D36661F8BA0D500B8B0B5 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E39FE8D1D237C710030CB96 /* NotificationService.swift */; };
+		8E4D36671F8BA0D500B8B0B5 /* FirebaseImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A51E6C793800D301EC /* FirebaseImageService.swift */; };
+		8E4D36681F8BA0D500B8B0B5 /* ActionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E27716F1E6E655A00B161ED /* ActionService.swift */; };
+		8E4D36691F8BA0D500B8B0B5 /* RemoteDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009B1F6597060080F446 /* RemoteDataService.swift */; };
+		8E4D366A1F8BA0D500B8B0B5 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009D1F6597BC0080F446 /* LoggingService.swift */; };
+		8E4D366B1F8BA0D500B8B0B5 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D551F7209C40067B6F5 /* SettingsService.swift */; };
+		8E4D366C1F8BA0D500B8B0B5 /* StripeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D571F74A66C0067B6F5 /* StripeService.swift */; };
+		8E4D366D1F8BA0D500B8B0B5 /* OrganizerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */; };
+		8E4D366E1F8BA0D500B8B0B5 /* PromotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFF1F833969004EAE6A /* PromotionService.swift */; };
 		8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54213D1E70CEF100AE4F3A /* ChatInputViewController.swift */; };
 		8E5421401E70DF8700AE4F3A /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54213F1E70DF8700AE4F3A /* ActionCell.swift */; };
 		8E63160B1F5D9A60005CF114 /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E6316091F5D9A60005CF114 /* GoogleService-Info-dev.plist */; };
@@ -79,7 +89,9 @@
 		8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */; };
 		8EE5B3281E7F365200BC72A5 /* PlayerIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */; };
 		8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
+		8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */; };
 		9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */; };
+		B4941729DDCB9B340512229F /* Pods_BalizinhaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E546CEAA00BF9DA1BE14363 /* Pods_BalizinhaTests.framework */; };
 		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
 		F2048F7E1CED59A50039F7BB /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */; };
 		F21571F51D200B7C00D2F59A /* EventDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */; };
@@ -105,6 +117,7 @@
 
 /* Begin PBXFileReference section */
 		2393261844733F0603E5A8AF /* Pods_LotSportz.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LotSportz.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E546CEAA00BF9DA1BE14363 /* Pods_BalizinhaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BalizinhaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EEC7A03F1D4279355F0F9CC /* Pods-Balizinha.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.release.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.release.xcconfig"; sourceTree = "<group>"; };
 		72850730339D7BDEAC192B33 /* Pods-LotSportz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotSportz.release.xcconfig"; path = "Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz.release.xcconfig"; sourceTree = "<group>"; };
 		75AF04F244D31D4B039DF4B6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -169,7 +182,9 @@
 		8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizerViewController.swift; sourceTree = "<group>"; };
 		8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerIcon.swift; sourceTree = "<group>"; };
 		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
+		A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.release.xcconfig"; sourceTree = "<group>"; };
 		AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C779F650FFE1D803921FC3ED /* Pods-BalizinhaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED7C1F62DA3A7F54848AA802 /* Pods-Balizinha.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.debug.xcconfig"; sourceTree = "<group>"; };
 		F2048F7B1CED57170039F7BB /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -190,6 +205,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4941729DDCB9B340512229F /* Pods_BalizinhaTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +226,7 @@
 				75AF04F244D31D4B039DF4B6 /* Pods.framework */,
 				2393261844733F0603E5A8AF /* Pods_LotSportz.framework */,
 				AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */,
+				5E546CEAA00BF9DA1BE14363 /* Pods_BalizinhaTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -221,6 +238,8 @@
 				72850730339D7BDEAC192B33 /* Pods-LotSportz.release.xcconfig */,
 				ED7C1F62DA3A7F54848AA802 /* Pods-Balizinha.debug.xcconfig */,
 				5EEC7A03F1D4279355F0F9CC /* Pods-Balizinha.release.xcconfig */,
+				C779F650FFE1D803921FC3ED /* Pods-BalizinhaTests.debug.xcconfig */,
+				A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -416,9 +435,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8E1F3CC61F8B9A95005186AD /* Build configuration list for PBXNativeTarget "BalizinhaTests" */;
 			buildPhases = (
+				EC86D2D5A52C1CC9D837E1A7 /* [CP] Check Pods Manifest.lock */,
 				8E1F3CB91F8B9A95005186AD /* Sources */,
 				8E1F3CBA1F8B9A95005186AD /* Frameworks */,
 				8E1F3CBB1F8B9A95005186AD /* Resources */,
+				ED6000F69221B9758C595F11 /* [CP] Embed Pods Frameworks */,
+				9F262E5A0C171CF77680963A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -552,6 +574,8 @@
 				"${BUILT_PRODUCTS_DIR}/ShiftOperations/ShiftOperations.framework",
 				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
 				"${BUILT_PRODUCTS_DIR}/Threadly/Threadly.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -571,6 +595,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ShiftOperations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Threadly.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -608,6 +634,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9F262E5A0C171CF77680963A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		BD4034CDECCE5F82AD70949C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -626,6 +667,62 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		EC86D2D5A52C1CC9D837E1A7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BalizinhaTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ED6000F69221B9758C595F11 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AsyncImageView/AsyncImageView.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/RandomKit/RandomKit.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/ShiftOperations/ShiftOperations.framework",
+				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
+				"${BUILT_PRODUCTS_DIR}/Threadly/Threadly.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AsyncImageView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RandomKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ShiftOperations.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Threadly.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -633,23 +730,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E4D366B1F8BA0D500B8B0B5 /* SettingsService.swift in Sources */,
 				8E1F3CC71F8B9A9D005186AD /* EventCellDonationTests.swift in Sources */,
 				8E1F3CD71F8B9B8C005186AD /* ToggleCell.swift in Sources */,
+				8E4D366E1F8BA0D500B8B0B5 /* PromotionService.swift in Sources */,
+				8E4D366D1F8BA0D500B8B0B5 /* OrganizerService.swift in Sources */,
 				8E1F3CD31F8B9B8C005186AD /* EventPhotoCell.swift in Sources */,
 				8E1F3CC81F8B9B85005186AD /* FirebaseBaseModel.swift in Sources */,
 				8E1F3CD21F8B9B8C005186AD /* DetailCell.swift in Sources */,
 				8E1F3CC01F8B9A95005186AD /* BalizinhaTests.swift in Sources */,
 				8E1F3CD01F8B9B8C005186AD /* TransparentTextField.swift in Sources */,
 				8E1F3CD11F8B9B8C005186AD /* EventCell.swift in Sources */,
+				8E4D36671F8BA0D500B8B0B5 /* FirebaseImageService.swift in Sources */,
+				8E4D36641F8BA0D500B8B0B5 /* EventService.swift in Sources */,
 				8E1F3CCF1F8B9B8C005186AD /* PushTableViewCell.swift in Sources */,
 				8E1F3CC91F8B9B85005186AD /* Organizer.swift in Sources */,
 				8E1F3CD81F8B9B8C005186AD /* PromoCell.swift in Sources */,
+				8E4D36661F8BA0D500B8B0B5 /* NotificationService.swift in Sources */,
 				8E1F3CD51F8B9B8C005186AD /* ActionCell.swift in Sources */,
 				8E1F3CCC1F8B9B85005186AD /* Action.swift in Sources */,
 				8E1F3CCE1F8B9B85005186AD /* Promotion.swift in Sources */,
+				8E4D366C1F8BA0D500B8B0B5 /* StripeService.swift in Sources */,
+				8E4D36651F8BA0D500B8B0B5 /* PlayerService.swift in Sources */,
 				8E1F3CD61F8B9B8C005186AD /* PlayerIcon.swift in Sources */,
+				8E4D366A1F8BA0D500B8B0B5 /* LoggingService.swift in Sources */,
 				8E1F3CCB1F8B9B85005186AD /* Player.swift in Sources */,
 				8E1F3CCD1F8B9B85005186AD /* Payment.swift in Sources */,
+				8E4D36681F8BA0D500B8B0B5 /* ActionService.swift in Sources */,
+				8E4D36691F8BA0D500B8B0B5 /* RemoteDataService.swift in Sources */,
 				8E1F3CCA1F8B9B85005186AD /* Event.swift in Sources */,
 				8E1F3CD41F8B9B8C005186AD /* DescriptionCell.swift in Sources */,
 			);
@@ -676,13 +784,13 @@
 				8E19A49E1E6C61FE00D301EC /* Player.swift in Sources */,
 				F21571F51D200B7C00D2F59A /* EventDisplayViewController.swift in Sources */,
 				F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */,
-				8E1F3CD91F8B9BAC005186AD /* EventCellDonationTests.swift in Sources */,
 				8E19A4B01E6C9CF200D301EC /* PaymentTypesViewController.swift in Sources */,
 				8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */,
 				8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */,
+				8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */,
 				F2C0F1201CF3E8BB00CB98F1 /* EventsViewController.swift in Sources */,
 				8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */,
 				8EACC3B61F7B449C0091FBC5 /* Payment.swift in Sources */,
@@ -738,6 +846,7 @@
 /* Begin XCBuildConfiguration section */
 		8E1F3CC41F8B9A95005186AD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C779F650FFE1D803921FC3ED /* Pods-BalizinhaTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -762,7 +871,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.balizinha.BalizinhaTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Balizinha.app/Balizinha";
 			};
@@ -770,6 +879,7 @@
 		};
 		8E1F3CC51F8B9A95005186AD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -794,7 +904,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.balizinha.BalizinhaTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Balizinha.app/Balizinha";
 			};

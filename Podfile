@@ -28,4 +28,19 @@ target 'Balizinha' do
     pod 'Batch'
 
     pod 'Stripe'
+
+    target 'BalizinhaTests' do
+       inherit! :search_paths
+   	pod 'Firebase/Core'
+    	pod 'Firebase/Database'
+    	pod 'Firebase/Auth'
+    	pod 'Firebase/Storage'
+    	pod 'AsyncImageView'
+    	pod 'RandomKit'
+    	pod 'Stripe'
+    	pod 'RxSwift'
+    	pod 'RxCocoa'
+    end
+
 end
+

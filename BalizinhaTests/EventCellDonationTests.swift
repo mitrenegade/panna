@@ -29,10 +29,10 @@ class EventCellDonationTests: XCTestCase {
     }
     
     func testEventName() {
-        XCAssert(true, "Event name appears correctly")
+        XCTAssert(true, "Event name appears correctly")
     }
     
     func testEventPast() {
-        XCAssert(true, "Event should be past")
+        XCTAssert(true, "Event should be past")
     }
 }
