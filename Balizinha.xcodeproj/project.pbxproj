@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8E116D561F7209C40067B6F5 /* FirebaseFunctionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D551F7209C40067B6F5 /* FirebaseFunctionsService.swift */; };
+		8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D551F7209C40067B6F5 /* SettingsService.swift */; };
 		8E116D581F74A66C0067B6F5 /* StripeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D571F74A66C0067B6F5 /* StripeService.swift */; };
 		8E116D5A1F74A9100067B6F5 /* PaymentInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D591F74A9100067B6F5 /* PaymentInfoViewController.swift */; };
 		8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E4291E31B07900DB4B27 /* SplashViewController.swift */; };
@@ -79,7 +79,7 @@
 		5EEC7A03F1D4279355F0F9CC /* Pods-Balizinha.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.release.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.release.xcconfig"; sourceTree = "<group>"; };
 		72850730339D7BDEAC192B33 /* Pods-LotSportz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotSportz.release.xcconfig"; path = "Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz.release.xcconfig"; sourceTree = "<group>"; };
 		75AF04F244D31D4B039DF4B6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8E116D551F7209C40067B6F5 /* FirebaseFunctionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseFunctionsService.swift; sourceTree = "<group>"; };
+		8E116D551F7209C40067B6F5 /* SettingsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
 		8E116D571F74A66C0067B6F5 /* StripeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripeService.swift; sourceTree = "<group>"; };
 		8E116D591F74A9100067B6F5 /* PaymentInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentInfoViewController.swift; sourceTree = "<group>"; };
 		8E11E4291E31B07900DB4B27 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
@@ -234,7 +234,7 @@
 				8E27716F1E6E655A00B161ED /* ActionService.swift */,
 				8EDA009B1F6597060080F446 /* RemoteDataService.swift */,
 				8EDA009D1F6597BC0080F446 /* LoggingService.swift */,
-				8E116D551F7209C40067B6F5 /* FirebaseFunctionsService.swift */,
+				8E116D551F7209C40067B6F5 /* SettingsService.swift */,
 				8E116D571F74A66C0067B6F5 /* StripeService.swift */,
 				8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */,
 				8E7A2FFF1F833969004EAE6A /* PromotionService.swift */,
@@ -567,7 +567,7 @@
 				F21571F51D200B7C00D2F59A /* EventDisplayViewController.swift in Sources */,
 				F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */,
 				8E19A4B01E6C9CF200D301EC /* PaymentTypesViewController.swift in Sources */,
-				8E116D561F7209C40067B6F5 /* FirebaseFunctionsService.swift in Sources */,
+				8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */,
 				8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,

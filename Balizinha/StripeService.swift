@@ -183,13 +183,6 @@ extension StripeService: STPPaymentContextDelegate {
                         didCreatePaymentResult paymentResult: STPPaymentResult,
                         completion: @escaping STPErrorBlock) {
         print("didCreatePayment")
-        //        FirebaseFunctionsService.createCharge(paymentResult.source.stripeID, completion: { (error: Error?) in
-        //            if let error = error {
-        //                completion(error)
-        //            } else {
-        //                completion(nil)
-        //            }
-        //        })
     }
     
     func paymentContext(_ paymentContext: STPPaymentContext,
