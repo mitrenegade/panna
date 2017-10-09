@@ -57,7 +57,8 @@ class SettingsService: NSObject {
 //    }
     
     func featureAvailable(feature: String) -> Bool {
-        guard let available = featureFlags[feature] as? Bool else { return false }
+        // feature is true by default. feature flags are used to restrict access for test features
+        guard let available = featureFlags[feature] as? Bool else { return true }
         return available
     }
 }

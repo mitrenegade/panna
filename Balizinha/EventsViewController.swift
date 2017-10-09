@@ -91,15 +91,26 @@ class EventsViewController: UITableViewController {
         }
         else {
             // create organizer
-            let alert = UIAlertController(title: "Become an Organizer?", message: "You must be an organizer to create a new game. Click now to start a month long free trial.", preferredStyle: .alert)
+            var message = "You must be an organizer to create a new game. Click now to start organizing games for free."
+            if SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+                message = "You must be an organizer to create a new game. Click now to start a month long free trial."
+            }
+            let alert = UIAlertController(title: "Become an Organizer?", message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Start", style: UIAlertActionStyle.default, handler: { (action) in
+                
                 // TODO: check for payment method before creating an organizer?
                 OrganizerService.shared.createOrganizer(completion: { (organizer, error) in
                     if let error = error {
                         self.simpleAlert("Could not become organizer", message: "There was an issue joining the organizer trial. \(error.localizedDescription)")
                     }
                     else {
+                        // go directly to create event without payments
+                        if SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+                            self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
+                            return
+                        }
+                        
                         // create
                         self.stripeService.createSubscription(completion: { (success, error) in
                             print("Success \(success) error \(error)")
