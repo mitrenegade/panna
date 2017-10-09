@@ -134,6 +134,7 @@ class Event: FirebaseBaseModel {
     }
 
     var paymentRequired: Bool {
+        guard SettingsService.shared.featureAvailable(feature: "paymentRequired") else { return false }
         if let paymentRequired = self.dict["paymentRequired"] as? Bool {
             return paymentRequired
         }

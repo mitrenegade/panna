@@ -218,7 +218,7 @@ extension EventsViewController: EventCellDelegate {
         }
         
         self.joiningEvent = event
-        if event.paymentRequired {
+        if event.paymentRequired && SettingsService.shared.featureAvailable(feature: "paymentRequired") {
             self.checkStripe()
         }
         else {
