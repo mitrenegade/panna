@@ -158,7 +158,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         ref.updateChildValues(params)
         ref.observe(.value) { (snapshot: DataSnapshot) in
             if let info = snapshot.value as? [String: AnyObject] {
-                if let status = info["status"] as? String, status == "succeeded" {
+                if let status = info["status"] as? String, status == "active" {
                     print("status \(status)")
                     completion?(true, nil)
                 }
