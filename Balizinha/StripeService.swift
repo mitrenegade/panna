@@ -116,7 +116,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         // calls this function after a payment source has been created
         guard let player = PlayerService.shared.current, let card = paymentMethod as? STPCard else { return }
         let ref = firRef.child("stripe_customers").child(player.id)
-        let params: [String: Any] = ["source": card.stripeID, "last4":card.last4(), "label": card.label]
+        let params: [String: Any] = ["source": card.stripeID, "last4":card.last4, "label": card.label]
         ref.updateChildValues(params)
     }
     

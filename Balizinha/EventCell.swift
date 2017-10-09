@@ -14,6 +14,30 @@ protocol EventCellDelegate {
     func editEvent(_ event: Event)
 }
 
+protocol EventDonationDelegate {
+    func paidStatus() -> Bool? // if nil, still loading/unknown
+    func promptForDonation()
+}
+
+typealias EventStatus = (isPast: Bool, userIsOwner: Bool, userJoined: Bool)
+
+class EventCellViewModel: NSObject {
+    func buttonTitle(eventStatus: EventStatus) -> String {
+        switch eventStatus {
+        case (true, false, true):
+            return "Donate"
+        case (true, false, false):
+            return ""
+        case (true, true, _):
+            return ""
+        case (false, true, _):
+            return "Edit"
+        case (false, false, let containsUser):
+            return containsUser ? "Leave" : "Join"
+        }
+    }
+}
+
 class EventCell: UITableViewCell {
 
     @IBOutlet var btnAction: UIButton!
@@ -27,6 +51,7 @@ class EventCell: UITableViewCell {
     
     var event: Event?
     var delegate: EventCellDelegate?
+    var donationDelegate: EventDonationDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -61,21 +86,23 @@ class EventCell: UITableViewCell {
             self.eventLogo.image = UIImage(named: "soccer")
         }
 
+        let title = EventCellViewModel().buttonTitle(eventStatus: (event.isPast, event.userIsOrganizer, event.containsUser(firAuth.currentUser!)))
+        self.btnAction.setTitle(title, for: .normal)
+        btnAction.isHidden = false
+        self.btnAction.alpha = 1
+
         if !event.isPast {
-            btnAction.isHidden = false
             // Button display and action
+
             if self.event!.userIsOrganizer {
                 self.labelFull.text = "This is your event."
-                self.btnAction.setTitle("Edit", for: UIControlState())
                 self.btnAction.isEnabled = true
             }
-            else if self.event!.containsUser(firAuth.currentUser!) {
+            else if event.containsUser(firAuth.currentUser!) {
                 self.labelFull.text = "You're going!" //To-Do: Add functionality whether or not event is full
-                self.btnAction.setTitle("Leave", for: UIControlState())
                 self.btnAction.isEnabled = true
             }
             else {
-                self.btnAction.setTitle("Join", for: UIControlState())
                 if self.event!.isFull {
                     self.labelFull.text = "Event full"
                     self.btnAction.isEnabled = false
@@ -85,14 +112,19 @@ class EventCell: UITableViewCell {
                     self.btnAction.isEnabled = true
                 }
             }
-            // self.btnAction.tag = indexPath.row //tag uniquely identifies cell, and therefore, the event
-            // TODO: hook up cancel or join behavior
-            
             self.labelAttendance.text = "\(self.event!.numPlayers) Attending"
         } else {
             self.labelFull.isHidden = true
-            self.btnAction.isHidden = true
             self.labelAttendance.text = "\(self.event!.numPlayers) Attended"
+            self.btnAction.isHidden = false
+            if let paid = self.donationDelegate?.paidStatus() {
+                self.btnAction.isEnabled = !paid
+                self.btnAction.alpha = 1
+            }
+            else {
+                self.btnAction.isEnabled = false
+                self.btnAction.alpha = 0.5
+            }
         }
     }
 
@@ -103,9 +135,13 @@ class EventCell: UITableViewCell {
             // edit
             self.delegate?.editEvent(event)
         }
-        else {
+        else if !event.isPast {
             let join = !event.containsUser(firAuth.currentUser!)
             self.delegate?.joinOrLeaveEvent(event, join: join)
+        }
+        else {
+            // donate
+            self.donationDelegate?.promptForDonation()
         }
     }
 }

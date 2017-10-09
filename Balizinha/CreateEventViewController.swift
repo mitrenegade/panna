@@ -381,7 +381,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
                     if let date = self.eventToEdit?.startTime {
                         self.date = date
-                        self.dayField?.text = CreateEventViewController.dateStringForDate(date)
+                        self.dayField?.text = date.dateStringForPicker()
                     }
                 case "Start Time":
                     self.startField = cell.valueTextField
@@ -389,7 +389,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
                     if let date = self.eventToEdit?.startTime {
                         self.startTime = date
-                        self.startField?.text = CreateEventViewController.timeStringForDate(date)
+                        self.startField?.text = date.timeStringForPicker()
                     }
                 case "End Time":
                     self.endField = cell.valueTextField
@@ -397,7 +397,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
                     if let date = self.eventToEdit?.endTime {
                         self.endTime = date
-                        self.endField?.text = CreateEventViewController.timeStringForDate(date)
+                        self.endField?.text = date.timeStringForPicker()
                     }
                 case "Max Players":
                     self.maxPlayersField = cell.valueTextField
@@ -524,6 +524,8 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func updateLabel(){
+        guard currentField != nil else { return }
+        
         if (currentField == self.typeField) {
             let selectedRow = self.typePickerView.selectedRow(inComponent: 0)
             self.type = eventTypes[selectedRow]
@@ -598,7 +600,7 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
         }
         else if pickerView == self.datePickerView {
             if row < self.datesForPicker.count {
-                return CreateEventViewController.dateStringForDate(self.datesForPicker[row])
+                return self.datesForPicker[row].dateStringForPicker()
             }
         }
         if row == 0 {
@@ -618,32 +620,16 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
         currentField.resignFirstResponder()
     }
     
-    // date picker
-    class func dateStringForDate(_ date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEE, MMM dd"
-        //dateFormatter.dateStyle = DateFormatter.Style.medium
-        //dateFormatter.timeStyle = DateFormatter.Style.none
-        return dateFormatter.string(from: date)
-    }
-    
     func datePickerValueChanged(_ sender:UIPickerView) {
         let row = sender.selectedRow(inComponent: 0)
         guard row < self.datesForPicker.count else { return }
         self.date = self.datesForPicker[row]
-        self.dateString = CreateEventViewController.dateStringForDate(self.datesForPicker[row])
+        self.dateString = self.datesForPicker[row].dateStringForPicker()
         currentField!.text = dateString
     }
     
-    // start and end time picker
-    class func timeStringForDate(_ date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = DateFormatter.Style.none
-        dateFormatter.timeStyle = DateFormatter.Style.short
-        return dateFormatter.string(from: date)
-    }
     func timePickerValueChanged(_ sender:UIDatePicker) {
-        currentField!.text = CreateEventViewController.timeStringForDate(sender.date)
+        currentField!.text = sender.date.timeStringForPicker()
         if (sender == startTimePickerView) {
             self.startTime = sender.clampedDate
         } else {

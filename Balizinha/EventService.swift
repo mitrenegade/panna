@@ -11,7 +11,6 @@
 
 import UIKit
 import Firebase
-import RandomKit
 
 fileprivate var singleton: EventService?
 var _usersForEvents: [String: AnyObject]?
@@ -347,32 +346,6 @@ class EventService: NSObject {
             }
             completion?(total, count)
         }
-    }
-}
-
-extension Event {
-    //***************** hack: for test purposes only
-    class func randomEvent() -> Event {
-        return Event()
-    }
-    
-    convenience init() {
-        self.init(snapshot: nil)
-        self.firebaseKey = String.random(using: &Xoroshiro.default)
-        let hours: Int = Int(arc4random_uniform(72))
-        self.dict = ["type": self.randomType() as AnyObject, "place": self.randomPlace() as AnyObject, "time": (Date() as NSDate).addingHours(hours).timeIntervalSince1970 as AnyObject, "info": "Randomly generated event" as AnyObject]
-    }
-    
-    func randomType() -> String {
-        let types: [EventType] = [.event3v3]
-        let random = Int(arc4random_uniform(UInt32(types.count)))
-        return types[random].rawValue
-    }
-    
-    func randomPlace() -> String {
-        let places = ["Boston", "New York", "Philadelphia", "Florida"]
-        let random = Int(arc4random_uniform(UInt32(places.count)))
-        return places[random]
     }
 }
 

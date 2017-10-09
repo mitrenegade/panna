@@ -17,9 +17,3 @@ extension String {
         return emailTest.evaluate(with: self)
     }
 }
-
-extension Date {
-    func dateString() -> String {
-        return "\((self as NSDate).day()) \(months[(self as NSDate).month() - 1]) \((self as NSDate).year())"
-    }
-}
