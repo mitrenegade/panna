@@ -24,8 +24,12 @@ typealias EventStatus = (isPast: Bool, userIsOwner: Bool, userJoined: Bool)
 class EventCellViewModel: NSObject {
     func buttonTitle(eventStatus: EventStatus) -> String {
         switch eventStatus {
-        case (true, _, _):
+        case (true, false, true):
             return "Donate"
+        case (true, false, false):
+            return ""
+        case (true, true, _):
+            return ""
         case (false, true, _):
             return "Edit"
         case (false, false, let containsUser):

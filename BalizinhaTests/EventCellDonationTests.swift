@@ -38,8 +38,18 @@ class EventCellDonationTests: XCTestCase {
         setupPastEvent()
         guard let event = event else { return }
         XCTAssert(event.isPast == true, "Event should be past")
-        let status = (event.isPast, false, false)
-        XCTAssert(viewModel.buttonTitle(eventStatus: status) == "Donate", "Past events should show donate button")
+
+        // past event, user owned
+        var status = (event.isPast, true, false)
+        XCTAssert(viewModel.buttonTitle(eventStatus: status) == "", "Past owned events should not show button")
+
+        // past event, user joined
+        status = (event.isPast, false, true)
+        XCTAssert(viewModel.buttonTitle(eventStatus: status) == "Donate", "Past joined events should show donate")
+
+        // past event, user is not part of it
+        status = (event.isPast, false, false)
+        XCTAssert(viewModel.buttonTitle(eventStatus: status) == "", "Past events not joined should not show anything")
     }
     
     fileprivate func setupPastEvent() {
