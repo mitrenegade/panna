@@ -49,7 +49,11 @@ class PlayerInfoViewController: UIViewController {
         else {
             self.title = "Edit profile"
             self.navigationItem.rightBarButtonItem = nil
-
+        }
+        
+        if !SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+            containerPayment.isHidden = true
+            constraintPaymentHeight.constant = 0
         }
         self.setupInputs()
         self.refresh()
