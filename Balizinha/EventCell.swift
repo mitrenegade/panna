@@ -14,6 +14,11 @@ protocol EventCellDelegate {
     func editEvent(_ event: Event)
 }
 
+protocol EventDonationDelegate {
+    func paidStatus() -> Bool? // if nil, still loading/unknown
+    func promptForDonation()
+}
+
 class EventCell: UITableViewCell {
 
     @IBOutlet var btnAction: UIButton!
@@ -27,6 +32,7 @@ class EventCell: UITableViewCell {
     
     var event: Event?
     var delegate: EventCellDelegate?
+    var donationDelegate: EventDonationDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -91,8 +97,18 @@ class EventCell: UITableViewCell {
             self.labelAttendance.text = "\(self.event!.numPlayers) Attending"
         } else {
             self.labelFull.isHidden = true
-            self.btnAction.isHidden = true
             self.labelAttendance.text = "\(self.event!.numPlayers) Attended"
+            self.btnAction.isHidden = false
+            if let paid = self.donationDelegate?.paidStatus() {
+                self.btnAction.isEnabled = !paid
+                self.btnAction.alpha = 1
+                self.btnAction.setTitle(paid ? "Donated" : "Donate", for: .normal)
+            }
+            else {
+                self.btnAction.isEnabled = false
+                self.btnAction.alpha = 0.5
+                self.btnAction.setTitle("Donate", for: .normal)
+            }
         }
     }
 
@@ -103,9 +119,13 @@ class EventCell: UITableViewCell {
             // edit
             self.delegate?.editEvent(event)
         }
-        else {
+        else if !event.isPast {
             let join = !event.containsUser(firAuth.currentUser!)
             self.delegate?.joinOrLeaveEvent(event, join: join)
+        }
+        else {
+            // donate
+            self.donationDelegate?.promptForDonation()
         }
     }
 }

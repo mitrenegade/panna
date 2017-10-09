@@ -29,7 +29,6 @@ class CalendarViewController: UITableViewController {
     }
 
     func refreshEvents() {
-        
         EventService.shared.getEvents(type: nil) { (results) in
             // completion function will get called once at the start, and each time events change
             
@@ -99,6 +98,7 @@ extension CalendarViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
         cell.delegate = self
+        cell.donationDelegate = self
         
         switch indexPath.section {
         case 0:
@@ -165,5 +165,31 @@ extension CalendarViewController: EventCellDelegate {
         controller.eventToEdit = event
         let nav = UINavigationController(rootViewController: controller)
         self.present(nav, animated: true, completion: nil)
+    }
+}
+
+// MARK: - Donations
+extension CalendarViewController: EventDonationDelegate {
+    func paidStatus() -> Bool? {
+        return nil
+    }
+
+    func promptForDonation() {
+        let alert = UIAlertController(title: "Contribute to the game", message: "Please enter the amount you'd like to donate.", preferredStyle: .alert)
+        alert.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "$5.00"
+        }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            if let textField = alert.textFields?[0], let text = textField.text, let amount = Double(text), let amountString = EventService.amountString(from: NSNumber(value: amount)) {
+                print("Donating \(amountString)")
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    fileprivate func loadDonationStatus() {
+//        EventService.shared.getEventPayments(type: nil) { (results) in
+//        }
     }
 }
