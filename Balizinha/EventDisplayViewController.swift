@@ -20,14 +20,6 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet var labelDate: UILabel!
     @IBOutlet var labelInfo: UILabel!
 
-    /*
-    @IBOutlet var labelDescription: UILabel!
-    @IBOutlet var labelNumAttending: UILabel!
-    @IBOutlet var labelSpotsAvailable: UILabel!
-    @IBOutlet var btnJoin: UIButton!
-    @IBOutlet var btnShare: UIButton!
-    */
-    
     @IBOutlet var sportImageView: AsyncImageView!
     @IBOutlet weak var scrollView: UIScrollView!
     var event : Event!
@@ -134,7 +126,13 @@ class EventDisplayViewController: UIViewController {
             self.hideChat()
         }
         
-        self.constraintPaymentHeight.constant = self.event.paymentRequired ? 40 : 0
+        // update payment display
+        if SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+            self.constraintPaymentHeight.constant = self.event.paymentRequired ? 40 : 0
+        }
+        else {
+            self.constraintPaymentHeight.constant = 0
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
