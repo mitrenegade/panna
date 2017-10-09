@@ -34,13 +34,17 @@ class EventCellDonationTests: XCTestCase {
         XCTAssert(event?.isPast == true, "Event should be past")
     }
     
+    func testActionButtonForPastEvent() {
+        setupPastEvent()
+        guard let event = event else { return }
+        XCTAssert(event.isPast == true, "Event should be past")
+        let status = (event.isPast, false, false)
+        XCTAssert(viewModel.buttonTitle(eventStatus: status) == "Donate", "Past events should show donate button")
+    }
+    
     fileprivate func setupPastEvent() {
         event = Event()
         let hours: Int = Int(arc4random_uniform(72))
-        event?.dict = ["name": "PastEvent", "time": (Date().timeIntervalSince1970 + Double(hours * 3600)) as AnyObject, "info": "Randomly generated event" as AnyObject]
-        
-        guard let event = event else { return }
-
-        
+        event?.dict = ["name": "PastEvent", "endTime": (Date().timeIntervalSince1970 - Double(hours * 3600)) as AnyObject, "info": "Randomly generated event" as AnyObject]
     }
 }
