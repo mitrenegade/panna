@@ -10,29 +10,37 @@ import XCTest
 
 class EventCellDonationTests: XCTestCase {
 
-    var cell: EventCell!
-    var event: Event!
+    var viewModel: EventCellViewModel = EventCellViewModel()
+    var event: Event?
     
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        cell = EventCell()
-        event = Event()
-        event.dict = ["name": "test"]
-        cell.event = event
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
-        
+        event = nil
     }
     
     func testEventName() {
-        XCTAssert(true, "Event name appears correctly")
+        setupPastEvent()
+//        XCTAssert(cell?.labelName.text == "PastEvent", "Event name appears correctly")
     }
     
     func testEventPast() {
-        XCTAssert(true, "Event should be past")
+        setupPastEvent()
+        XCTAssert(event?.isPast == true, "Event should be past")
+    }
+    
+    fileprivate func setupPastEvent() {
+        event = Event()
+        let hours: Int = Int(arc4random_uniform(72))
+        event?.dict = ["name": "PastEvent", "time": (Date().timeIntervalSince1970 + Double(hours * 3600)) as AnyObject, "info": "Randomly generated event" as AnyObject]
+        
+        guard let event = event else { return }
+
+        
     }
 }
