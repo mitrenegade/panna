@@ -167,7 +167,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func didClickSave(_ sender: AnyObject) {
         // in case user clicks save without clicking done first
-        self.view.endEditing(true)
+        self.done()
+        
         self.info = self.descriptionTextView?.text ?? eventToEdit?.info
         
         guard let location = self.location else {
