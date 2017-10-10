@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="Ynq-rI-nwr">
-                            <rect key="frame" x="0.0" y="205.5" width="375" height="44"/>
+                            <rect key="frame" x="0.0" y="249.5" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </view>
                         <prototypes>
@@ -108,6 +108,53 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PaymentCell" id="bsq-zW-VGY" customClass="PaymentCell" customModule="Balizinha" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="187.5" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bsq-zW-VGY" id="esn-4b-j1G">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Znn-x0-KCe">
+                                            <rect key="frame" x="8" y="2" width="40" height="40"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="Znn-x0-KCe" secondAttribute="height" multiplier="1:1" id="hYL-Fy-LRc"/>
+                                            </constraints>
+                                        </imageView>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="kqp-Zg-ASf">
+                                            <rect key="frame" x="10" y="3" width="37" height="37"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="37" id="wfu-ma-brg"/>
+                                            </constraints>
+                                            <color key="color" red="0.83921568629999999" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </activityIndicatorView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XLd-fa-Ev4">
+                                            <rect key="frame" x="55" y="2" width="312" height="40"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="XLd-fa-Ev4" firstAttribute="leading" secondItem="Znn-x0-KCe" secondAttribute="trailing" constant="7" id="PcM-q5-rY5"/>
+                                        <constraint firstItem="Znn-x0-KCe" firstAttribute="leading" secondItem="esn-4b-j1G" secondAttribute="leading" constant="8" id="QCj-hy-LzG"/>
+                                        <constraint firstItem="kqp-Zg-ASf" firstAttribute="centerX" secondItem="Znn-x0-KCe" secondAttribute="centerX" id="Ty4-61-eHN"/>
+                                        <constraint firstAttribute="bottom" secondItem="Znn-x0-KCe" secondAttribute="bottom" constant="1.5" id="USh-Uw-DFq"/>
+                                        <constraint firstAttribute="bottom" secondItem="XLd-fa-Ev4" secondAttribute="bottom" constant="1.5" id="WRU-W2-dW4"/>
+                                        <constraint firstItem="kqp-Zg-ASf" firstAttribute="centerY" secondItem="esn-4b-j1G" secondAttribute="centerY" id="eWN-F3-FE3"/>
+                                        <constraint firstItem="Znn-x0-KCe" firstAttribute="top" secondItem="esn-4b-j1G" secondAttribute="top" constant="2" id="kd3-i5-ALr"/>
+                                        <constraint firstItem="XLd-fa-Ev4" firstAttribute="top" secondItem="esn-4b-j1G" secondAttribute="top" constant="2" id="kkd-Ma-WiU"/>
+                                        <constraint firstItem="kqp-Zg-ASf" firstAttribute="centerY" secondItem="Znn-x0-KCe" secondAttribute="centerY" id="pUf-GY-u5c"/>
+                                        <constraint firstAttribute="trailing" secondItem="XLd-fa-Ev4" secondAttribute="trailing" constant="8" id="zZf-N0-OQZ"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="activityIndicator" destination="kqp-Zg-ASf" id="eQG-ca-eeA"/>
+                                    <outlet property="constraintIconWidth" destination="wfu-ma-brg" id="Vpg-AF-mj8"/>
+                                    <outlet property="paymentIcon" destination="Znn-x0-KCe" id="oCs-cu-ja1"/>
+                                    <outlet property="paymentLabel" destination="XLd-fa-Ev4" id="L4L-cg-DNG"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="KcH-jg-K0W" id="QlW-OQ-xY4"/>
@@ -122,7 +169,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4ub-gr-UQm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="626" y="-514"/>
+            <point key="canvasLocation" x="624.79999999999995" y="-514.09295352323841"/>
         </scene>
         <!--Player Info View Controller-->
         <scene sceneID="a0o-cs-s8b">

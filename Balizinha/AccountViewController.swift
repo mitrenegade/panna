@@ -13,15 +13,17 @@ class AccountViewController: UITableViewController {
     
     var menuOptions: [String]!
     var service = EventService.shared
+    var paymentCell: PaymentCell?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if SettingsService.shared.featureAvailable(feature: "paymentRequired") {
-            menuOptions = ["Edit profile", "Push notifications", "Promo program", "Version", "Logout"]
+        menuOptions = ["Edit profile", "Push notifications", "Payment options", "Promo program", "Version", "Logout"]
+        if !SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+            menuOptions = menuOptions.filter({$0 != "Promo program"})
         }
-        else {
-            menuOptions = ["Edit profile", "Push notifications", "Version", "Logout"]
+        if !SettingsService.shared.featureAvailable(feature: "donation") {
+            menuOptions = menuOptions.filter({$0 != "Payment options"})
         }
         
         self.navigationItem.title = "Account"
@@ -81,6 +83,16 @@ class AccountViewController: UITableViewController {
             cell.configure()
             return cell
             
+        case "Payment options":
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCell", for: indexPath) as? PaymentCell {
+                cell.configure()
+                self.paymentCell = cell
+                return cell
+            }
+            else {
+                return UITableViewCell()
+            }
+
         default:
             return UITableViewCell()
         }
@@ -99,6 +111,13 @@ class AccountViewController: UITableViewController {
         case "Promo program":
             if let player = PlayerService.shared.current, player.promotionId == nil {
                 self.addPromotion()
+            }
+        case "Payment options":
+            if self.paymentCell?.canAddPayment == true {
+                print("can add payment")
+            }
+            else {
+                print("still processing payment")
             }
         default:
             break
