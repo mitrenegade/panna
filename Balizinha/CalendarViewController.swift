@@ -14,6 +14,8 @@ class CalendarViewController: UITableViewController {
     var sortedUpcomingEvents: [Event] = []
     var sortedPastEvents: [Event] = []
     
+    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,6 +23,11 @@ class CalendarViewController: UITableViewController {
         self.listenFor(NotificationType.EventsChanged, action: #selector(self.refreshEvents), object: nil)
         
         self.navigationItem.title = "Calendar"
+        
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.center = self.view.center
+        self.view.addSubview(activityIndicator)
+        activityIndicator.color = UIColor.red
     }
 
     override func didReceiveMemoryWarning() {
@@ -202,7 +209,10 @@ extension CalendarViewController: EventDonationDelegate {
             if let textField = alert.textFields?[0], let text = textField.text, let amount = Double(text), let amountString = EventService.amountString(from: NSNumber(value: amount)) {
                 print("Donating \(amountString)")
                 
+                self.activityIndicator.startAnimating()
+                
                 StripeService().createCharge(for: event, amount: amount, player: player, isDonation: true, completion: { (success, error) in
+                    self.activityIndicator.stopAnimating()
                     print("Donation completed \(success), has error \(error)")
                     if success {
                         // add an action
@@ -211,8 +221,13 @@ extension CalendarViewController: EventDonationDelegate {
 
                         self.simpleAlert("Thank you for your donation", message: "Your donation of \(amountString) will go a long way to keep Balizinha a great community!")
                     }
-                    else if let error = error as? NSError{
-                        self.simpleAlert("Could not donate", defaultMessage: "There was an issue with donating.", error: error)
+                    else if let error = error as? NSError {
+                        if let msg = error.userInfo["error"] as? String, msg == "Cannot charge a customer that has no active card" {
+                            self.simpleAlert("Could not donate", message: "No credit card available. Please add a payment method in your account settings!")
+                        }
+                        else {
+                            self.simpleAlert("Could not donate", defaultMessage: "There was an issue with donating.", error: error)
+                        }
                     }
                 })
             }

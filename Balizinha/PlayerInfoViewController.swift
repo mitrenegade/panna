@@ -51,7 +51,7 @@ class PlayerInfoViewController: UIViewController {
             self.navigationItem.rightBarButtonItem = nil
         }
         
-        if !SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+        if !SettingsService.shared.featureAvailable(feature: "paymentRequired") && !SettingsService.shared.featureAvailable(feature: "donation") {
             containerPayment.isHidden = true
             constraintPaymentHeight.constant = 0
         }
