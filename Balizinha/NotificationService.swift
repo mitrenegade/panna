@@ -8,29 +8,30 @@
 
 import UIKit
 import Parse
+import UserNotifications
 
 let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"
 let kNotificationsDefaultsKey = "NotificationsDefaultsKey"
 
-var notificationServiceSingleton: NotificationService?
+fileprivate var singleton: NotificationService?
 
 class NotificationService: NSObject {
     var pushDeviceToken: Data?
     var scheduledEvents: [Event]?
 
-    class func sharedInstance() -> NotificationService {
-        if let instance = notificationServiceSingleton {
+    static var shared: NotificationService {
+        if let instance = singleton {
             return instance
         }
-        notificationServiceSingleton = NotificationService()
-        return notificationServiceSingleton!
+        singleton = NotificationService()
+        return singleton!
     }
     
     // LOCAL NOTIFICAITONS
     class func refreshNotifications(_ events: [Event]?) {
         // store reference to events in case notifications are toggled
-        self.sharedInstance().scheduledEvents = events
+        self.shared.scheduledEvents = events
         
         // remove old notifications
         self.clearAllNotifications()
@@ -54,6 +55,29 @@ class NotificationService: NSObject {
         UIApplication.shared.scheduleLocalNotification(notification)
     }
     
+    @available(iOS 10.0, *)
+    class func scheduleNotificationForDonation(_ event: Event) {
+        //create local notification
+        guard let endTime = event.endTime else { return }
+        let content = UNMutableNotificationContent()
+        content.title = NSString.localizedUserNotificationString(forKey: "Donate", arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: "Do you want to contribute for the last game?",
+                                                                arguments: nil)
+        content.userInfo = ["type": "donationReminder", "eventId": event.id]
+        
+        // Configure the trigger for a 7am wakeup.
+//        let date = endTime.addingTimeInterval(30*60)
+        let date = Date().addingTimeInterval(5)
+        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        
+        // Create the request object.
+        let request = UNNotificationRequest(identifier: "DonationRequest", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        
+        print("notification scheduled")
+    }
+
     class func clearAllNotifications() {
         UIApplication.shared.cancelAllLocalNotifications()
     }
@@ -74,7 +98,7 @@ class NotificationService: NSObject {
         let channels = installation!.object(forKey: "channels")
         print("installation registered for remote notifications: token \(deviceToken) channel \(channels)")
         
-        self.sharedInstance().pushDeviceToken = deviceToken
+        self.shared.pushDeviceToken = deviceToken
     }
     
     // User notification preference
@@ -89,7 +113,7 @@ class NotificationService: NSObject {
         UserDefaults.standard.synchronize()
         
         // toggle push notifications
-        if let deviceToken = self.sharedInstance().pushDeviceToken {
+        if let deviceToken = self.shared.pushDeviceToken {
             self.registerForPushNotifications(deviceToken, enabled: enabled)
         }
         else {
@@ -98,6 +122,6 @@ class NotificationService: NSObject {
         }
         
         // toggle/reschedule events
-        self.refreshNotifications(self.sharedInstance().scheduledEvents)
+        self.refreshNotifications(self.shared.scheduledEvents)
     }
 }
