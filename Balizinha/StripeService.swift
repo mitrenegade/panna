@@ -149,7 +149,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
                 else if let error = info["error"] as? String {
                     completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
                 }
-                completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": "Unknown status"]))
+//                completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": "Unknown status"]))
             }
         }
     }
@@ -182,7 +182,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
                     completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
                 }
                 else {
-                    completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": "Unknown status"]))
+//                    completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": "Unknown status"]))
                 }
             }
         }
