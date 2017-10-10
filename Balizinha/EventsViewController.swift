@@ -236,7 +236,10 @@ extension EventsViewController: EventCellDelegate {
         self.service.joinEvent(event)
         if #available(iOS 10.0, *) {
             NotificationService.scheduleNotificationForEvent(event)
-            NotificationService.scheduleNotificationForDonation(event)
+            
+            if SettingsService.shared.featureAvailable(feature: "donation") {
+                NotificationService.scheduleNotificationForDonation(event)
+            }
         }
         
         if UserDefaults.standard.bool(forKey: UserSettings.DisplayedJoinEventMessage.rawValue) == false {

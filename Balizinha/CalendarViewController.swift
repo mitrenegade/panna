@@ -181,11 +181,14 @@ extension CalendarViewController: EventCellDelegate {
 // MARK: - Donations
 extension CalendarViewController: EventDonationDelegate {
     func paidStatus(event: Event) -> Bool? {
+        // used to enforce a user only paying once. not used right now - user can continue to pay
+        // TODO: use charges/events/eventId endpoint to find out if a user has paid
         return false
     }
 
     func promptForDonation(event: Event) {
         guard let player = PlayerService.shared.current else { return }
+        guard SettingsService.shared.featureAvailable(feature: "donation") else { return }
         
         var title = "Hope you enjoyed the game"
         if let name = event.name {
@@ -199,7 +202,7 @@ extension CalendarViewController: EventDonationDelegate {
             if let textField = alert.textFields?[0], let text = textField.text, let amount = Double(text), let amountString = EventService.amountString(from: NSNumber(value: amount)) {
                 print("Donating \(amountString)")
                 
-                StripeService().createCharge(for: event, amount: amount, player: player, completion: { (success, error) in
+                StripeService().createCharge(for: event, amount: amount, player: player, isDonation: true, completion: { (success, error) in
                     print("Donation completed \(success), has error \(error)")
                     if success {
                         // add an action

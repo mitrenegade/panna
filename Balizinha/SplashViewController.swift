@@ -100,7 +100,10 @@ class SplashViewController: UIViewController {
         }
 
         self.listenFor(NotificationType.LogoutSuccess, action: #selector(SplashViewController.didLogout), object: nil)
-        self.listenFor(NotificationType.GoToDonationForEvent, action: #selector(goToCalendar), object: nil)
+        
+        if SettingsService.shared.featureAvailable(feature: "donation") {
+            self.listenFor(NotificationType.GoToDonationForEvent, action: #selector(goToCalendar), object: nil)
+        }
         EventService.shared.listenForEventUsers()
         PlayerService.shared.current // invoke listener
         let _ = OrganizerService.shared.current // trigger organizer loading
