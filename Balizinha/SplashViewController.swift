@@ -77,7 +77,9 @@ class SplashViewController: UIViewController {
     func didLogout() {
         print("logged out")
         self.stopListeningFor(.LogoutSuccess)
-        NotificationService.clearAllNotifications()
+        if #available(iOS 10.0, *) {
+            NotificationService.clearAllNotifications()
+        }
         
         self.goToSignupLogin()
     }
@@ -122,6 +124,7 @@ class SplashViewController: UIViewController {
     }
     
     func goToCalendar(notification: Notification) {
+        // TODO: this doesn't work if we're looking at something on top of the tab bar - need to dismiss?
         guard let homeViewController = presentedViewController as? UITabBarController else {
             return
         }

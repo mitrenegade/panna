@@ -54,7 +54,9 @@ class CalendarViewController: UITableViewController {
                 self.sortedUpcomingEvents = original.filter({ (event) -> Bool in
                     !event.isPast
                 })
-                NotificationService.refreshNotifications(self.sortedUpcomingEvents)
+                if #available(iOS 10.0, *) {
+                    NotificationService.refreshNotifications(self.sortedUpcomingEvents)
+                }
                 self.tableView.reloadData()
             })
         }
@@ -148,13 +150,13 @@ extension CalendarViewController: EventCellDelegate {
         if event.paymentRequired {
             let alert = UIAlertController(title: "Are you sure?", message: "You are leaving a game that you've already paid for.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Leave game", style: .default, handler: { (action) in
-                EventService.shared.leaveEvent(event)
+                self.leaveEvent(event)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             self.present(alert, animated: true)
         }
         else {
-            EventService.shared.leaveEvent(event)
+            self.leaveEvent(event)
         }
         
         self.refreshEvents()
@@ -165,6 +167,14 @@ extension CalendarViewController: EventCellDelegate {
         controller.eventToEdit = event
         let nav = UINavigationController(rootViewController: controller)
         self.present(nav, animated: true, completion: nil)
+    }
+    
+    func leaveEvent(_ event: Event) {
+        EventService.shared.leaveEvent(event)
+        if #available(iOS 10.0, *) {
+            NotificationService.removeNotificationForEvent(event)
+            NotificationService.removeNotificationForDonation(event)
+        }
     }
 }
 
@@ -186,6 +196,10 @@ extension CalendarViewController: EventDonationDelegate {
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             if let textField = alert.textFields?[0], let text = textField.text, let amount = Double(text), let amountString = EventService.amountString(from: NSNumber(value: amount)) {
                 print("Donating \(amountString)")
+
+                // add an action
+                guard let user = firAuth.currentUser else { return }
+                ActionService.post(.donation, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

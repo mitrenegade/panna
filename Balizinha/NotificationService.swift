@@ -14,8 +14,10 @@ let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"
 let kNotificationsDefaultsKey = "NotificationsDefaultsKey"
 
+@available(iOS 10.0, *)
 fileprivate var singleton: NotificationService?
 
+@available(iOS 10.0, *)
 class NotificationService: NSObject {
     var pushDeviceToken: Data?
     var scheduledEvents: [Event]?
@@ -41,6 +43,7 @@ class NotificationService: NSObject {
         // reschedule event notifications
         for event in events {
             self.scheduleNotificationForEvent(event)
+            self.scheduleNotificationForDonation(event)
         }
         
     }
@@ -48,14 +51,23 @@ class NotificationService: NSObject {
     class func scheduleNotificationForEvent(_ event: Event) {
         //create local notification
         guard let startTime = event.startTime else { return }
-        let notification = UILocalNotification()
-        notification.fireDate = startTime.addingTimeInterval(kEventNotificationIntervalSeconds) as Date
         
-        notification.alertBody = kEventNotificationMessage
-        UIApplication.shared.scheduleLocalNotification(notification)
+        let content = UNMutableNotificationContent()
+        content.title = NSString.localizedUserNotificationString(forKey: "Are you ready?", arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: kEventNotificationMessage,
+                                                                arguments: nil)
+        content.userInfo = ["type": "eventReminder", "eventId": event.id]
+        
+        // Configure the trigger
+        let date = startTime.addingTimeInterval(kEventNotificationIntervalSeconds)
+        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        
+        // Create the request object.
+        let request = UNNotificationRequest(identifier: "EventReminder\(event.id)", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
-    @available(iOS 10.0, *)
     class func scheduleNotificationForDonation(_ event: Event) {
         //create local notification
         guard let endTime = event.endTime else { return }
@@ -72,14 +84,36 @@ class NotificationService: NSObject {
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
         // Create the request object.
-        let request = UNNotificationRequest(identifier: "DonationRequest", content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: "DonationRequest\(event.id)", content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         
         print("notification scheduled")
     }
+    
+    class func removeNotificationForEvent(_ event: Event) {
+        let identifier = "EventReminder\(event.id)"
+        self.removeNotification(id: identifier)
+    }
+
+    class func removeNotificationForDonation(_ event: Event) {
+        let identifier = "DonationRequest\(event.id)"
+        self.removeNotification(id: identifier)
+    }
 
     class func clearAllNotifications() {
         UIApplication.shared.cancelAllLocalNotifications()
+    }
+    
+    class func removeNotification(id: String) {
+        UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
+            var identifiers: [String] = []
+            for notification:UNNotificationRequest in notificationRequests {
+                if notification.identifier == "identifierCancel" {
+                    identifiers.append(notification.identifier)
+                }
+            }
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+        }
     }
     
     // PUSH NOTIFICATIONS

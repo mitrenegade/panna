@@ -92,8 +92,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Push
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         // Store the deviceToken in the current Installation and save it to Parse
-        
-        NotificationService.registerForPushNotifications(deviceToken, enabled:true)
+        if #available(iOS 10.0, *) {
+            NotificationService.registerForPushNotifications(deviceToken, enabled:true)
+        }
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

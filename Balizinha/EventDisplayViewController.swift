@@ -135,10 +135,10 @@ class EventDisplayViewController: UIViewController {
             self.constraintPaymentHeight.constant = 0
         }
         
-        // TEST
-         if #available(iOS 10.0, *) {
-            NotificationService.scheduleNotificationForDonation(event)
-        }
+//        // TEST
+//         if #available(iOS 10.0, *) {
+//            NotificationService.scheduleNotificationForDonation(event)
+//        }
     }
 
     func close() {

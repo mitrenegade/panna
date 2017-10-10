@@ -14,6 +14,7 @@ enum ActionType: String {
     case joinEvent
     case leaveEvent
     case systemMessage
+    case donation
 }
 
 fileprivate let GENERIC_MESSAGE = " is in this game"
@@ -121,6 +122,8 @@ extension Action {
             return userString + " joined this event"
         case .leaveEvent:
             return userString + " left this event"
+        case .donation:
+            return userString + " donated to this event"
         default:
             // system message
             return "Admin says: hi"
