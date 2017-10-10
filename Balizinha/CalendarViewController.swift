@@ -181,7 +181,7 @@ extension CalendarViewController: EventCellDelegate {
 // MARK: - Donations
 extension CalendarViewController: EventDonationDelegate {
     func paidStatus(event: Event) -> Bool? {
-        return nil
+        return false
     }
 
     func promptForDonation(event: Event) {
@@ -205,6 +205,9 @@ extension CalendarViewController: EventDonationDelegate {
                         // add an action
                         guard let user = firAuth.currentUser else { return }
                         ActionService.post(.donation, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
+                    }
+                    else if let error = error as? NSError{
+                        self.simpleAlert("Could not donate", defaultMessage: "There was an issue with donating.", error: error)
                     }
                 })
             }
