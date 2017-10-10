@@ -15,8 +15,8 @@ protocol EventCellDelegate {
 }
 
 protocol EventDonationDelegate {
-    func paidStatus() -> Bool? // if nil, still loading/unknown
-    func promptForDonation()
+    func paidStatus(event: Event) -> Bool? // if nil, still loading/unknown
+    func promptForDonation(event: Event)
 }
 
 typealias EventStatus = (isPast: Bool, userIsOwner: Bool, userJoined: Bool)
@@ -116,14 +116,20 @@ class EventCell: UITableViewCell {
         } else {
             self.labelFull.isHidden = true
             self.labelAttendance.text = "\(self.event!.numPlayers) Attended"
-            self.btnAction.isHidden = false
-            if let paid = self.donationDelegate?.paidStatus() {
-                self.btnAction.isEnabled = !paid
-                self.btnAction.alpha = 1
+            
+            if event.userIsOrganizer {
+                self.btnAction.isHidden = true
             }
             else {
-                self.btnAction.isEnabled = false
-                self.btnAction.alpha = 0.5
+                self.btnAction.isHidden = false
+                if let paid = self.donationDelegate?.paidStatus(event: event) {
+                    self.btnAction.isEnabled = !paid
+                    self.btnAction.alpha = 1
+                }
+                else {
+                    self.btnAction.isEnabled = false
+                    self.btnAction.alpha = 0.5
+                }
             }
         }
     }
@@ -141,7 +147,7 @@ class EventCell: UITableViewCell {
         }
         else {
             // donate
-            self.donationDelegate?.promptForDonation()
+            self.donationDelegate?.promptForDonation(event: event)
         }
     }
 }

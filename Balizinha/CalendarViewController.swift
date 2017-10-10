@@ -170,14 +170,18 @@ extension CalendarViewController: EventCellDelegate {
 
 // MARK: - Donations
 extension CalendarViewController: EventDonationDelegate {
-    func paidStatus() -> Bool? {
+    func paidStatus(event: Event) -> Bool? {
         return nil
     }
 
-    func promptForDonation() {
-        let alert = UIAlertController(title: "Contribute to the game", message: "Please enter the amount you'd like to donate.", preferredStyle: .alert)
+    func promptForDonation(event: Event) {
+        var title = "Hope you enjoyed the game"
+        if let name = event.name {
+            title = "Hope you enjoyed \(name)"
+        }
+        let alert = UIAlertController(title: title, message: "Thank you for playing with us, it was great seeing you on the court. Help keep the community going (donate $1 or more) and growing.", preferredStyle: .alert)
         alert.addTextField { (textField : UITextField!) -> Void in
-            textField.placeholder = "$5.00"
+            textField.placeholder = "$1.00"
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             if let textField = alert.textFields?[0], let text = textField.text, let amount = Double(text), let amountString = EventService.amountString(from: NSNumber(value: amount)) {

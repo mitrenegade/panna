@@ -98,6 +98,7 @@ class SplashViewController: UIViewController {
         }
 
         self.listenFor(NotificationType.LogoutSuccess, action: #selector(SplashViewController.didLogout), object: nil)
+        self.listenFor(NotificationType.GoToDonationForEvent, action: #selector(goToCalendar), object: nil)
         EventService.shared.listenForEventUsers()
         PlayerService.shared.current // invoke listener
         let _ = OrganizerService.shared.current // trigger organizer loading
@@ -120,4 +121,20 @@ class SplashViewController: UIViewController {
         self.listenFor(NotificationType.LoginSuccess, action: #selector(SplashViewController.didLogin), object: nil)
     }
     
+    func goToCalendar(notification: Notification) {
+        guard let homeViewController = presentedViewController as? UITabBarController else {
+            return
+        }
+        guard let info = notification.userInfo, let eventId = info["eventId"] as? String else {
+            return
+        }
+        let index = 2
+        homeViewController.selectedIndex = index
+        guard let nav: UINavigationController = homeViewController.viewControllers?[index] as? UINavigationController, let calendar: CalendarViewController = nav.viewControllers[0] as? CalendarViewController else { return }
+        EventService.shared.withId(id: eventId) { (event) in
+            if let event = event {
+                calendar.promptForDonation(event: event)
+            }
+        }
+    }
 }

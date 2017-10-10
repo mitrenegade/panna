@@ -70,10 +70,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         print("local notification received: \(notification)")
-        let alert = UIAlertController(title: "Alert", message: "You have an event in one hour!", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        
-        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+        if let info = notification.userInfo {
+            if let type = info["type"] as? String, type == "donationReminder", let eventId = info["eventId"] as? String {
+                print("Go to donation for event \(eventId)")
+                self.notify(NotificationType.GoToDonationForEvent, object: nil, userInfo: ["eventId": eventId])
+            }
+        }
+        else {
+            let alert = UIAlertController(title: "Alert", message: "You have an event in one hour!", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            
+            self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+        }
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
