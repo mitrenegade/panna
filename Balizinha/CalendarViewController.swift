@@ -185,6 +185,8 @@ extension CalendarViewController: EventDonationDelegate {
     }
 
     func promptForDonation(event: Event) {
+        guard let player = PlayerService.shared.current else { return }
+        
         var title = "Hope you enjoyed the game"
         if let name = event.name {
             title = "Hope you enjoyed \(name)"
@@ -196,10 +198,15 @@ extension CalendarViewController: EventDonationDelegate {
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             if let textField = alert.textFields?[0], let text = textField.text, let amount = Double(text), let amountString = EventService.amountString(from: NSNumber(value: amount)) {
                 print("Donating \(amountString)")
-
-                // add an action
-                guard let user = firAuth.currentUser else { return }
-                ActionService.post(.donation, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
+                
+                StripeService().createCharge(for: event, amount: amount, player: player, completion: { (success, error) in
+                    print("Donation completed \(success), has error \(error)")
+                    if success {
+                        // add an action
+                        guard let user = firAuth.currentUser else { return }
+                        ActionService.post(.donation, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
+                    }
+                })
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

@@ -127,7 +127,7 @@ class EventCell: UITableViewCell {
                     self.btnAction.alpha = 1
                 }
                 else {
-                    self.btnAction.isEnabled = false
+                    self.btnAction.isEnabled = false // loading
                     self.btnAction.alpha = 0.5
                 }
             }

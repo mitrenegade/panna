@@ -120,7 +120,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         ref.updateChildValues(params)
     }
     
-    func createCharge(for event: Event, amount: Double, player: Player, completion: ((_ success: Bool,_ error: Error?)->())?) {
+    func createCharge(for event: Event, amount: Double, player: Player, isDonation: Bool = false, completion: ((_ success: Bool,_ error: Error?)->())?) {
         guard amount > 0 else {
             print("Invalid amount on event")
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Invalid amount on event", "eventId": event.id]))
@@ -134,7 +134,10 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         }
         let ref = firRef.child("charges/events").child(event.id).childByAutoId()
         let cents = ceil(amount * 100.0)
-        let params:[AnyHashable: Any] = ["amount": cents, "player_id": player.id]
+        var params:[AnyHashable: Any] = ["amount": cents, "player_id": player.id]
+        if isDonation {
+            params["isDonation"] = true
+        }
         print("Creating charge for event \(event.id) for \(cents) cents")
         ref.updateChildValues(params)
         ref.observe(.value) { (snapshot: DataSnapshot) in
