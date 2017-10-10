@@ -14,6 +14,7 @@ import Firebase
 
 fileprivate var singleton: EventService?
 var _usersForEvents: [String: AnyObject]?
+var _events: [Event]?
 
 class EventService: NSObject {
     private lazy var __once: () = {
@@ -90,8 +91,8 @@ class EventService: NSObject {
                 }
             }
             print("getEvents results count: \(results.count)")
+            _events = results
             completion(results)
-            //eventQueryRef.removeObserver(withHandle: handle)
         }
     }
     
@@ -380,3 +381,19 @@ extension EventService {
     }
 }
 
+extension EventService {
+    func withId(id: String, completion: @escaping ((Event?)->Void)) {
+        if let foundEvent = _events?.first(where: { (event) -> Bool in
+            return event.id == id
+        }) {
+            completion(foundEvent)
+            return
+        }
+        
+        let eventRef = firRef.child("events")
+        eventRef.child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+            let event = Event(snapshot: snapshot)
+            completion(event)
+        })
+    }
+}

@@ -532,7 +532,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             currentField!.text = self.sportTypes[selectedRow]
         } else if (currentField == self.maxPlayersField) { //selected max players
             self.numPlayers = UInt(self.pickerView(self.numberPickerView, titleForRow: self.numberPickerView.selectedRow(inComponent: 0), forComponent: 0)!)
-            currentField!.text = "\(self.numPlayers!)"
+            if let numPlayers = self.numPlayers {
+                currentField!.text = "\(numPlayers)"
+            }
         }
         // comes from clicking on done button. may not have the text yet
         else if currentField == self.startField {

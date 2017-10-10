@@ -23,6 +23,7 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet var sportImageView: AsyncImageView!
     @IBOutlet weak var scrollView: UIScrollView!
     var event : Event!
+    
     var delegate : AnyObject!
     var alreadyJoined : Bool = false
     
@@ -133,6 +134,11 @@ class EventDisplayViewController: UIViewController {
         else {
             self.constraintPaymentHeight.constant = 0
         }
+        
+//        // TEST
+//         if #available(iOS 10.0, *) {
+//            NotificationService.scheduleNotificationForDonation(event)
+//        }
     }
 
     func close() {

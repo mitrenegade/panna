@@ -120,13 +120,13 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         ref.updateChildValues(params)
     }
     
-    func createCharge(for event: Event, amount: Double, player: Player, completion: ((_ success: Bool,_ error: Error?)->())?) {
+    func createCharge(for event: Event, amount: Double, player: Player, isDonation: Bool = false, completion: ((_ success: Bool,_ error: Error?)->())?) {
         guard amount > 0 else {
             print("Invalid amount on event")
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Invalid amount on event", "eventId": event.id]))
             return
         }
-        guard SettingsService.shared.featureAvailable(feature: "paymentRequired") else {
+        guard SettingsService.shared.featureAvailable(feature: "paymentRequired") || SettingsService.shared.featureAvailable(feature: "donation") else {
             // this error prevents rampant charges, but does present an error message to the user
             LoggingService.shared.log(event: "FeatureFlagError", info: ["feature": "paymentRequired", "function": "createCharge"])
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Payment not allowed for Balizinha"]))
@@ -134,7 +134,10 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         }
         let ref = firRef.child("charges/events").child(event.id).childByAutoId()
         let cents = ceil(amount * 100.0)
-        let params:[AnyHashable: Any] = ["amount": cents, "player_id": player.id]
+        var params:[AnyHashable: Any] = ["amount": cents, "player_id": player.id]
+        if isDonation {
+            params["isDonation"] = true
+        }
         print("Creating charge for event \(event.id) for \(cents) cents")
         ref.updateChildValues(params)
         ref.observe(.value) { (snapshot: DataSnapshot) in
@@ -146,7 +149,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
                 else if let error = info["error"] as? String {
                     completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
                 }
-                completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": "Unknown status"]))
+//                completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": "Unknown status"]))
             }
         }
     }
@@ -156,7 +159,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Could not create subscription: no organizer"]))
             return
         }
-        guard SettingsService.shared.featureAvailable(feature: "paymentRequired") else {
+        guard SettingsService.shared.featureAvailable(feature: "paymentRequired") || SettingsService.shared.featureAvailable(feature: "donation") else {
             // this error prevents rampant charges, but does present an error message to the user
             LoggingService.shared.log(event: "FeatureFlagError", info: ["feature": "paymentRequired", "function": "createCharge"])
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Payment not allowed for Balizinha"]))
@@ -179,7 +182,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
                     completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
                 }
                 else {
-                    completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": "Unknown status"]))
+//                    completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": "Unknown status"]))
                 }
             }
         }

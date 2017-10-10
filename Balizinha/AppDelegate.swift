@@ -70,10 +70,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         print("local notification received: \(notification)")
-        let alert = UIAlertController(title: "Alert", message: "You have an event in one hour!", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        
-        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+        if let info = notification.userInfo {
+            if let type = info["type"] as? String, type == "donationReminder", let eventId = info["eventId"] as? String {
+                print("Go to donation for event \(eventId)")
+                guard SettingsService.shared.featureAvailable(feature: "donation") else { return }
+                self.notify(NotificationType.GoToDonationForEvent, object: nil, userInfo: ["eventId": eventId])
+            }
+        }
+        else {
+            let alert = UIAlertController(title: "Alert", message: "You have an event in one hour!", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            
+            self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+        }
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
@@ -84,8 +93,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Push
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         // Store the deviceToken in the current Installation and save it to Parse
-        
-        NotificationService.registerForPushNotifications(deviceToken, enabled:true)
+        if #available(iOS 10.0, *) {
+            NotificationService.registerForPushNotifications(deviceToken, enabled:true)
+        }
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

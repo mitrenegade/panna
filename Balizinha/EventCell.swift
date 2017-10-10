@@ -15,8 +15,8 @@ protocol EventCellDelegate {
 }
 
 protocol EventDonationDelegate {
-    func paidStatus() -> Bool? // if nil, still loading/unknown
-    func promptForDonation()
+    func paidStatus(event: Event) -> Bool? // if nil, still loading/unknown
+    func promptForDonation(event: Event)
 }
 
 typealias EventStatus = (isPast: Bool, userIsOwner: Bool, userJoined: Bool)
@@ -25,7 +25,12 @@ class EventCellViewModel: NSObject {
     func buttonTitle(eventStatus: EventStatus) -> String {
         switch eventStatus {
         case (true, false, true):
-            return "Donate"
+            if SettingsService.shared.featureAvailable(feature: "donation") {
+                return "Donate"
+            }
+            else {
+                return ""
+            }
         case (true, false, false):
             return ""
         case (true, true, _):
@@ -116,14 +121,20 @@ class EventCell: UITableViewCell {
         } else {
             self.labelFull.isHidden = true
             self.labelAttendance.text = "\(self.event!.numPlayers) Attended"
-            self.btnAction.isHidden = false
-            if let paid = self.donationDelegate?.paidStatus() {
-                self.btnAction.isEnabled = !paid
-                self.btnAction.alpha = 1
+            
+            if !event.userIsOrganizer && SettingsService.shared.featureAvailable(feature: "donation") {
+                self.btnAction.isHidden = false
+                if let paid = self.donationDelegate?.paidStatus(event: event) {
+                    self.btnAction.isEnabled = !paid
+                    self.btnAction.alpha = 1
+                }
+                else {
+                    self.btnAction.isEnabled = false // loading
+                    self.btnAction.alpha = 0.5
+                }
             }
             else {
-                self.btnAction.isEnabled = false
-                self.btnAction.alpha = 0.5
+                self.btnAction.isHidden = true
             }
         }
     }
@@ -141,7 +152,9 @@ class EventCell: UITableViewCell {
         }
         else {
             // donate
-            self.donationDelegate?.promptForDonation()
+            if SettingsService.shared.featureAvailable(feature: "donation") {
+                self.donationDelegate?.promptForDonation(event: event)
+            }
         }
     }
 }

@@ -54,7 +54,9 @@ class CalendarViewController: UITableViewController {
                 self.sortedUpcomingEvents = original.filter({ (event) -> Bool in
                     !event.isPast
                 })
-                NotificationService.refreshNotifications(self.sortedUpcomingEvents)
+                if #available(iOS 10.0, *) {
+                    NotificationService.refreshNotifications(self.sortedUpcomingEvents)
+                }
                 self.tableView.reloadData()
             })
         }
@@ -148,13 +150,13 @@ extension CalendarViewController: EventCellDelegate {
         if event.paymentRequired {
             let alert = UIAlertController(title: "Are you sure?", message: "You are leaving a game that you've already paid for.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Leave game", style: .default, handler: { (action) in
-                EventService.shared.leaveEvent(event)
+                self.leaveEvent(event)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             self.present(alert, animated: true)
         }
         else {
-            EventService.shared.leaveEvent(event)
+            self.leaveEvent(event)
         }
         
         self.refreshEvents()
@@ -166,22 +168,53 @@ extension CalendarViewController: EventCellDelegate {
         let nav = UINavigationController(rootViewController: controller)
         self.present(nav, animated: true, completion: nil)
     }
+    
+    func leaveEvent(_ event: Event) {
+        EventService.shared.leaveEvent(event)
+        if #available(iOS 10.0, *) {
+            NotificationService.removeNotificationForEvent(event)
+            NotificationService.removeNotificationForDonation(event)
+        }
+    }
 }
 
 // MARK: - Donations
 extension CalendarViewController: EventDonationDelegate {
-    func paidStatus() -> Bool? {
-        return nil
+    func paidStatus(event: Event) -> Bool? {
+        // used to enforce a user only paying once. not used right now - user can continue to pay
+        // TODO: use charges/events/eventId endpoint to find out if a user has paid
+        return false
     }
 
-    func promptForDonation() {
-        let alert = UIAlertController(title: "Contribute to the game", message: "Please enter the amount you'd like to donate.", preferredStyle: .alert)
+    func promptForDonation(event: Event) {
+        guard let player = PlayerService.shared.current else { return }
+        guard SettingsService.shared.featureAvailable(feature: "donation") else { return }
+        
+        var title = "Hope you enjoyed the game"
+        if let name = event.name {
+            title = "Hope you enjoyed \(name)"
+        }
+        let alert = UIAlertController(title: title, message: "Thank you for playing with us, it was great seeing you on the court. Help keep the community going (donate $1 or more) and growing.", preferredStyle: .alert)
         alert.addTextField { (textField : UITextField!) -> Void in
-            textField.placeholder = "$5.00"
+            textField.placeholder = "$1.00"
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             if let textField = alert.textFields?[0], let text = textField.text, let amount = Double(text), let amountString = EventService.amountString(from: NSNumber(value: amount)) {
                 print("Donating \(amountString)")
+                
+                StripeService().createCharge(for: event, amount: amount, player: player, isDonation: true, completion: { (success, error) in
+                    print("Donation completed \(success), has error \(error)")
+                    if success {
+                        // add an action
+                        guard let user = firAuth.currentUser else { return }
+                        ActionService.post(.donation, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
+
+                        self.simpleAlert("Thank you for your donation", message: "Your donation of \(amountString) will go a long way to keep Balizinha a great community!")
+                    }
+                    else if let error = error as? NSError{
+                        self.simpleAlert("Could not donate", defaultMessage: "There was an issue with donating.", error: error)
+                    }
+                })
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

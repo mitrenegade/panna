@@ -77,7 +77,9 @@ class SplashViewController: UIViewController {
     func didLogout() {
         print("logged out")
         self.stopListeningFor(.LogoutSuccess)
-        NotificationService.clearAllNotifications()
+        if #available(iOS 10.0, *) {
+            NotificationService.clearAllNotifications()
+        }
         
         self.goToSignupLogin()
     }
@@ -98,6 +100,10 @@ class SplashViewController: UIViewController {
         }
 
         self.listenFor(NotificationType.LogoutSuccess, action: #selector(SplashViewController.didLogout), object: nil)
+        
+        if SettingsService.shared.featureAvailable(feature: "donation") {
+            self.listenFor(NotificationType.GoToDonationForEvent, action: #selector(goToCalendar), object: nil)
+        }
         EventService.shared.listenForEventUsers()
         PlayerService.shared.current // invoke listener
         let _ = OrganizerService.shared.current // trigger organizer loading
@@ -120,4 +126,21 @@ class SplashViewController: UIViewController {
         self.listenFor(NotificationType.LoginSuccess, action: #selector(SplashViewController.didLogin), object: nil)
     }
     
+    func goToCalendar(notification: Notification) {
+        // TODO: this doesn't work if we're looking at something on top of the tab bar - need to dismiss?
+        guard let homeViewController = presentedViewController as? UITabBarController else {
+            return
+        }
+        guard let info = notification.userInfo, let eventId = info["eventId"] as? String else {
+            return
+        }
+        let index = 2
+        homeViewController.selectedIndex = index
+        guard let nav: UINavigationController = homeViewController.viewControllers?[index] as? UINavigationController, let calendar: CalendarViewController = nav.viewControllers[0] as? CalendarViewController else { return }
+        EventService.shared.withId(id: eventId) { (event) in
+            if let event = event {
+                calendar.promptForDonation(event: event)
+            }
+        }
+    }
 }

@@ -234,7 +234,13 @@ extension EventsViewController: EventCellDelegate {
     fileprivate func joinEvent(_ event: Event) {
         //add notification in case user doesn't return to MyEvents
         self.service.joinEvent(event)
-        NotificationService.scheduleNotificationForEvent(event)
+        if #available(iOS 10.0, *) {
+            NotificationService.scheduleNotificationForEvent(event)
+            
+            if SettingsService.shared.featureAvailable(feature: "donation") {
+                NotificationService.scheduleNotificationForDonation(event)
+            }
+        }
         
         if UserDefaults.standard.bool(forKey: UserSettings.DisplayedJoinEventMessage.rawValue) == false {
             self.simpleAlert("You've joined a game", message: "You can go to your Calendar to see upcoming events.")
