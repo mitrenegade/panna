@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 protocol AddPaymentDelegate {
     func needsRefreshPaymentMethods()
@@ -22,10 +23,11 @@ class AddPaymentViewController: UIViewController {
         self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshPayment), object: nil)
 
         stripeService.loadPayment(host: self)
+        Analytics.logEvent("add_payment_viewed", parameters: nil)
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        self.stopListeningFor(NotificationType.PaymentContextChanged)
     }
 
     func refreshPayment() {

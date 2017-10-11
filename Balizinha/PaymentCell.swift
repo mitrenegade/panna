@@ -51,7 +51,7 @@ class PaymentCellViewModel: NSObject {
     
     var canAddPayment: Bool {
         guard let context = paymentContext else { return false }
-        return !context.loading && context.selectedPaymentMethod == nil
+        return !context.loading //&& context.selectedPaymentMethod == nil
     }
 }
 

@@ -82,6 +82,6 @@ extension SettingsService {
 extension SettingsService {
     func recordExperimentGroups() {
         let paymentLocationGroup = self.featureExperiment("paymentLocation")
-        Analytics.setUserProperty(paymentLocationGroup, forName: "PaymentLocationTestA")
+        Analytics.setUserProperty(paymentLocationGroup, forName: "PaymentLocation")
     }
 }
