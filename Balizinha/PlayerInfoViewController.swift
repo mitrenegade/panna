@@ -31,11 +31,6 @@ class PlayerInfoViewController: UIViewController {
     
     var cameraController: CameraOverlayViewController?
     
-    // Payment
-    @IBOutlet weak var containerPayment: UIView!
-    @IBOutlet weak var constraintPaymentHeight: NSLayoutConstraint!
-    weak var paymentController: PaymentInfoViewController?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -51,10 +46,6 @@ class PlayerInfoViewController: UIViewController {
             self.navigationItem.rightBarButtonItem = nil
         }
         
-        if !SettingsService.shared.featureAvailable(feature: "paymentRequired") && !SettingsService.shared.featureAvailable(feature: "donation") {
-            containerPayment.isHidden = true
-            constraintPaymentHeight.constant = 0
-        }
         self.setupInputs()
         self.refresh()
     }
@@ -189,12 +180,6 @@ class PlayerInfoViewController: UIViewController {
             self.close()
         })
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "embedPaymentController" {
-            self.paymentController = segue.destination as? PaymentInfoViewController
-        }
     }
 }
 

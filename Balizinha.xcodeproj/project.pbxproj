@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D551F7209C40067B6F5 /* SettingsService.swift */; };
 		8E116D581F74A66C0067B6F5 /* StripeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D571F74A66C0067B6F5 /* StripeService.swift */; };
-		8E116D5A1F74A9100067B6F5 /* PaymentInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D591F74A9100067B6F5 /* PaymentInfoViewController.swift */; };
 		8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E4291E31B07900DB4B27 /* SplashViewController.swift */; };
 		8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E11E42B1E31B80800DB4B27 /* Main.storyboard */; };
 		8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */; };
@@ -131,7 +130,6 @@
 		75AF04F244D31D4B039DF4B6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E116D551F7209C40067B6F5 /* SettingsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
 		8E116D571F74A66C0067B6F5 /* StripeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripeService.swift; sourceTree = "<group>"; };
-		8E116D591F74A9100067B6F5 /* PaymentInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentInfoViewController.swift; sourceTree = "<group>"; };
 		8E11E4291E31B07900DB4B27 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		8E11E42B1E31B80800DB4B27 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurableNavigationController.swift; sourceTree = "<group>"; };
@@ -262,7 +260,6 @@
 				F2F7C3BF1CEE296A00350115 /* AccountViewController.swift */,
 				8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */,
 				8EBF1C381E7965BA0057871F /* PlayerViewController.swift */,
-				8E116D591F74A9100067B6F5 /* PaymentInfoViewController.swift */,
 				8ECACB0B1F8DAF29000E4949 /* AddPaymentViewController.swift */,
 			);
 			name = Account;
@@ -840,7 +837,6 @@
 				8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */,
 				8E7CABFE1F8D8B8D0095084D /* PaymentCell.swift in Sources */,
 				8E19A4A61E6C793800D301EC /* FirebaseImageService.swift in Sources */,
-				8E116D5A1F74A9100067B6F5 /* PaymentInfoViewController.swift in Sources */,
 				8EC2EFEB1F60D6F90081FF68 /* UIDatePickerHelper.swift in Sources */,
 				8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */,
 			);
