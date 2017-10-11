@@ -49,7 +49,7 @@ class PlayerInfoViewController: UIViewController {
             self.navigationItem.rightBarButtonItem = nil
         }
         
-        if !SettingsService.paymentRequired() && !SettingsService.donation() {
+        if (!SettingsService.paymentRequired() && !SettingsService.donation()) || SettingsService.paymentLocationTestGroup() {
             constraintPaymentHeight.constant = 0
         }
 

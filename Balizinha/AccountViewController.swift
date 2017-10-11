@@ -25,6 +25,9 @@ class AccountViewController: UITableViewController {
         if !SettingsService.donation() {
             menuOptions = menuOptions.filter({$0 != "Payment options"})
         }
+        if !SettingsService.paymentLocationTestGroup() {
+            menuOptions = menuOptions.filter({$0 != "Payment options"})
+        }
         
         self.navigationItem.title = "Account"
 

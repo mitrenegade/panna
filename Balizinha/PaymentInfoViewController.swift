@@ -8,6 +8,7 @@
 
 import UIKit
 import Stripe
+import Firebase
 
 class PaymentInfoViewController: UIViewController {
     
