@@ -11,9 +11,12 @@ import Firebase
 
 fileprivate var singleton: SettingsService?
 class SettingsService: NSObject {
+    private var remoteConfig = RemoteConfig.remoteConfig()
+    
     static var shared: SettingsService {
         if singleton == nil {
             singleton = SettingsService()
+            
         }
         
         return singleton!
@@ -23,15 +26,22 @@ class SettingsService: NSObject {
         _ = self.__once
     }
 
-    var featureFlags: [String: AnyObject] = [:]
+//    var featureFlags: [String: AnyObject] = [:]
     private lazy var __once: () = {
-        let ref = firRef.child("settings")
-        ref.observe(.value, with: { (snapshot: DataSnapshot) in
-            guard snapshot.exists(), let dict = snapshot.value as? [String: AnyObject] else { return }
-            for (key, val) in dict {
-                self.featureFlags[key] = val
-            }
-            print("feature flags updated: \(self.featureFlags)")
+//        let ref = firRef.child("settings")
+//        ref.observe(.value, with: { (snapshot: DataSnapshot) in
+//            guard snapshot.exists(), let dict = snapshot.value as? [String: AnyObject] else { return }
+//            for (key, val) in dict {
+//                self.featureFlags[key] = val
+//            }
+//            print("feature flags updated: \(self.featureFlags)")
+//        })
+        let defaultFeatureFlags: [String: NSObject] = [:]
+        self.remoteConfig.setDefaults(defaultFeatureFlags)
+        self.remoteConfig.fetch(completionHandler: { (status, error) in
+            self.remoteConfig.activateFetched()
+            print("featureAvailable donation \(SettingsService.shared.featureAvailable(feature: "donation"))")
+            print("featureAvailable paymentRequired \(SettingsService.shared.featureAvailable(feature: "paymentRequired"))")
         })
     }()
 
@@ -57,8 +67,12 @@ class SettingsService: NSObject {
 //    }
     
     func featureAvailable(feature: String) -> Bool {
-        // feature is true by default. feature flags are used to restrict access for test features
-        guard let available = featureFlags[feature] as? Bool else { return true }
+        // feature is off by default. feature flags are used to grant access to test features. when a feature is accepted,
+        // the feature flag should be removed from the next build. older builds with the feature flagged have to upgrade
+        // or they will lose that feature when the config is removed.
+        //guard let available = featureFlags[feature] as? Bool else { return true }
+        let config = self.remoteConfig.configValue(forKey: feature)
+        let available = config.boolValue
         return available
     }
 }

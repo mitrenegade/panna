@@ -65,6 +65,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.listenFor(NotificationType.LoginSuccess, action: #selector(logPlayerLogin), object: nil)
 
+        let _ = SettingsService.shared
+
         return true
     }
     
