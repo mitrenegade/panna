@@ -40,6 +40,7 @@ class PaymentInfoViewController: UIViewController {
     @IBAction func didClickAddPayment(_ sender: UIButton) {
         let viewModel = PaymentViewModel(paymentContext: stripeService.paymentContext)
         if viewModel.canAddPayment {
+            Analytics.logEvent("show_payment_controller", parameters: nil)
             stripeService.paymentContext?.presentPaymentMethodsViewController()
         }
     }

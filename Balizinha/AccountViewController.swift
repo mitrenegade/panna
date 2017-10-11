@@ -126,9 +126,6 @@ class AccountViewController: UITableViewController {
                 controller.isCreatingPlayer = false
             }
         }
-        else if segue.identifier == "GoToAddPayment", let controller = segue.destination as? AddPaymentViewController {
-            controller.delegate = self
-        }
     }
     
     private func logout() {
@@ -166,11 +163,5 @@ class AccountViewController: UITableViewController {
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true)
-    }
-}
-
-extension AccountViewController: AddPaymentDelegate {
-    func needsRefreshPaymentMethods() {
-        self.tableView.reloadData()
     }
 }
