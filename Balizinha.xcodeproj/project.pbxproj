@@ -67,6 +67,7 @@
 		8E5421401E70DF8700AE4F3A /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54213F1E70DF8700AE4F3A /* ActionCell.swift */; };
 		8E63160B1F5D9A60005CF114 /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E6316091F5D9A60005CF114 /* GoogleService-Info-dev.plist */; };
 		8E63160C1F5D9A60005CF114 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E63160A1F5D9A60005CF114 /* GoogleService-Info.plist */; };
+		8E6AE53F1F8E5C550062DCF5 /* PaymentInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6AE53E1F8E5C550062DCF5 /* PaymentInfoViewController.swift */; };
 		8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256991CDF793200C9E054 /* AppDelegate.swift */; };
 		8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E72569B1CDF793200C9E054 /* LoginViewController.swift */; };
 		8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */; };
@@ -158,6 +159,7 @@
 		8E59662C1F8B98BA007A814A /* EventCellDonationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCellDonationTests.swift; sourceTree = "<group>"; };
 		8E6316091F5D9A60005CF114 /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
 		8E63160A1F5D9A60005CF114 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8E6AE53E1F8E5C550062DCF5 /* PaymentInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentInfoViewController.swift; sourceTree = "<group>"; };
 		8E7256961CDF793100C9E054 /* Balizinha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Balizinha.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7256991CDF793200C9E054 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E72569B1CDF793200C9E054 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				F2F7C3BF1CEE296A00350115 /* AccountViewController.swift */,
 				8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */,
 				8EBF1C381E7965BA0057871F /* PlayerViewController.swift */,
+				8E6AE53E1F8E5C550062DCF5 /* PaymentInfoViewController.swift */,
 				8ECACB0B1F8DAF29000E4949 /* AddPaymentViewController.swift */,
 			);
 			name = Account;
@@ -837,6 +840,7 @@
 				8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */,
 				8E4D36721F8BA45900B8B0B5 /* NSObject+Utils.swift in Sources */,
 				8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */,
+				8E6AE53F1F8E5C550062DCF5 /* PaymentInfoViewController.swift in Sources */,
 				8E7CABFE1F8D8B8D0095084D /* PaymentCell.swift in Sources */,
 				8E19A4A61E6C793800D301EC /* FirebaseImageService.swift in Sources */,
 				8EC2EFEB1F60D6F90081FF68 /* UIDatePickerHelper.swift in Sources */,
