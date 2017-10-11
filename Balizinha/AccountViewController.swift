@@ -85,7 +85,6 @@ class AccountViewController: UITableViewController {
             
         case "Payment options":
             if let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCell", for: indexPath) as? PaymentCell {
-                cell.configure()
                 self.paymentCell = cell
                 return cell
             }
