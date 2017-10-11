@@ -250,6 +250,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="buttonPhoto" destination="XAo-AL-O26" id="WdU-jy-SDV"/>
+                        <outlet property="constraintPaymentHeight" destination="8Ai-cn-cAc" id="x7G-WN-3Sl"/>
                         <outlet property="inputCity" destination="FlA-eP-4TG" id="lgX-O3-efa"/>
                         <outlet property="inputName" destination="c0o-pC-RKU" id="omt-ew-Acr"/>
                         <outlet property="inputNotes" destination="VSH-KF-Dam" id="p73-h6-ggb"/>
