@@ -43,29 +43,10 @@ class SettingsService: NSObject {
             print("featureAvailable donation \(SettingsService.donation())")
             print("featureAvailable paymentRequired \(SettingsService.paymentRequired())")
             print("paymentLocation \(SettingsService.shared.featureExperiment("paymentLocation")) testGroup \(SettingsService.paymentLocationTestGroup())")
+            
+            self.recordExperimentGroups()
         })
     }()
-
-//    func test() {
-//        let urlString = "https://us-central1-balizinha-dev.cloudfunctions.net/testFunction"
-//        guard let requestUrl = URL(string:urlString) else { return }
-//        let request = URLRequest(url:requestUrl)
-//        let task = URLSession.shared.dataTask(with: request) {
-//            (data, response, error) in
-//            if let usableData = data {
-//                do {
-//                    let json = try JSONSerialization.jsonObject(with: usableData, options: [])
-//                    print("json \(json)") //JSONSerialization
-//                } catch let error as Error {
-//                    print("error \(error)")
-//                }
-//            }
-//            else if let error = error {
-//                print("error \(error)")
-//            }
-//        }
-//        task.resume()
-//    }
     
     fileprivate func featureAvailable(_ feature: String) -> Bool {
         // feature is off by default. feature flags are used to grant access to test features. when a feature is accepted,
@@ -80,8 +61,8 @@ class SettingsService: NSObject {
     }
 }
 
+// MARK: - Convenience
 extension SettingsService {
-    // MARK: - Convenience
     class func donation() -> Bool {
         return shared.featureAvailable("donation")
     }
@@ -94,5 +75,13 @@ extension SettingsService {
         let result = shared.featureExperiment("paymentLocation")
         print("Payment location = \(result)")
         return result != defaults["paymentLocation"] as! String
+    }
+}
+
+// MARK: - Analytics
+extension SettingsService {
+    func recordExperimentGroups() {
+        let paymentLocationGroup = self.featureExperiment("paymentLocation")
+        Analytics.setUserProperty(paymentLocationGroup, forName: "PaymentLocationTestA")
     }
 }
