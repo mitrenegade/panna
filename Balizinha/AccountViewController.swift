@@ -13,15 +13,17 @@ class AccountViewController: UITableViewController {
     
     var menuOptions: [String]!
     var service = EventService.shared
+    var paymentCell: PaymentCell?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if SettingsService.shared.featureAvailable(feature: "paymentRequired") {
-            menuOptions = ["Edit profile", "Push notifications", "Promo program", "Version", "Logout"]
+        menuOptions = ["Edit profile", "Push notifications", "Payment options", "Promo program", "Version", "Logout"]
+        if !SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+            menuOptions = menuOptions.filter({$0 != "Promo program"})
         }
-        else {
-            menuOptions = ["Edit profile", "Push notifications", "Version", "Logout"]
+        if !SettingsService.shared.featureAvailable(feature: "donation") {
+            menuOptions = menuOptions.filter({$0 != "Payment options"})
         }
         
         self.navigationItem.title = "Account"
@@ -81,6 +83,16 @@ class AccountViewController: UITableViewController {
             cell.configure()
             return cell
             
+        case "Payment options":
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCell", for: indexPath) as? PaymentCell {
+                self.paymentCell = cell
+                cell.configure()
+                return cell
+            }
+            else {
+                return UITableViewCell()
+            }
+
         default:
             return UITableViewCell()
         }
@@ -100,6 +112,14 @@ class AccountViewController: UITableViewController {
             if let player = PlayerService.shared.current, player.promotionId == nil {
                 self.addPromotion()
             }
+        case "Payment options":
+            if self.paymentCell?.canAddPayment == true {
+                print("can add payment")
+                self.performSegue(withIdentifier: "GoToAddPayment", sender: nil)
+            }
+            else {
+                print("still processing payment")
+            }
         default:
             break
         }
@@ -111,6 +131,9 @@ class AccountViewController: UITableViewController {
                 controller.player = PlayerService.shared.current
                 controller.isCreatingPlayer = false
             }
+        }
+        else if segue.identifier == "GoToAddPayment", let controller = segue.destination as? AddPaymentViewController {
+            controller.delegate = self
         }
     }
     
@@ -149,5 +172,11 @@ class AccountViewController: UITableViewController {
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true)
+    }
+}
+
+extension AccountViewController: AddPaymentDelegate {
+    func needsRefreshPaymentMethods() {
+        self.tableView.reloadData()
     }
 }

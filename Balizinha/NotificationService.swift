@@ -71,15 +71,15 @@ class NotificationService: NSObject {
     class func scheduleNotificationForDonation(_ event: Event) {
         //create local notification
         guard let endTime = event.endTime else { return }
+        let name = event.name ?? "the last game"
         let content = UNMutableNotificationContent()
         content.title = NSString.localizedUserNotificationString(forKey: "Donate", arguments: nil)
-        content.body = NSString.localizedUserNotificationString(forKey: "Do you want to contribute for the last game?",
-                                                                arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: "Do you want to contribute for \(name)?", arguments: nil)
         content.userInfo = ["type": "donationReminder", "eventId": event.id]
         
         // Configure the trigger for a 7am wakeup.
-//        let date = endTime.addingTimeInterval(30*60)
-        let date = Date().addingTimeInterval(5)
+        let date = endTime.addingTimeInterval(30*60)
+//        let date = Date().addingTimeInterval(5)
         var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
