@@ -204,9 +204,8 @@ extension StripeService: STPPaymentContextDelegate {
         print("didCreatePayment")
     }
     
-    func paymentContext(_ paymentContext: STPPaymentContext,
-                        didFinishWith status: STPPaymentStatus,
-                        error: Error?) {
+    
+    func paymentContext(_ paymentContext: STPPaymentContext, didFinishWith status: STPPaymentStatus, error: Error?) {
         print("didFinish")
         switch status {
         case .error: break
@@ -223,6 +222,8 @@ extension StripeService: STPPaymentContextDelegate {
         print("didFailToLoad error \(error)")
         // Show the error to your user, etc.
     }
+    
+    
 }
 
 // MARK: - Customer Key

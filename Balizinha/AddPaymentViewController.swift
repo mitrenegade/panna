@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Stripe
 
 protocol AddPaymentDelegate {
     func needsRefreshPaymentMethods()
@@ -48,3 +49,4 @@ class AddPaymentViewController: UIViewController {
         }
     }
 }
+

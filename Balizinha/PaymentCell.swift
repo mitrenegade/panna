@@ -21,49 +21,21 @@ class PaymentCellViewModel: NSObject {
             return "Loading your payment methods"
         }
         else if let method = paymentContext?.selectedPaymentMethod {
-            return "Payment method: \(method.label)"
+            return "Click to edit payment methods"
         }
         else {
-            return "Click to add a payment method"
+            return "No payment methods. Click to add one"
         }
-    }
-    
-    var iconWidth: CGFloat {
-        guard let context = paymentContext else { return 40 }
-        if context.loading {
-            return 40
-        }
-        else if context.selectedPaymentMethod != nil {
-            return 60
-        }
-        else {
-            return 0
-        }
-    }
-    
-    var activityIndicatorShouldAnimate: Bool {
-        guard let context = paymentContext else { return true }
-        if context.loading {
-            return true
-        }
-        return false
     }
     
     var canAddPayment: Bool {
         guard let context = paymentContext else { return false }
-        return !context.loading //&& context.selectedPaymentMethod == nil
+        return !context.loading
     }
 }
 
 class PaymentCell: UITableViewCell {
 
-    @IBOutlet weak var paymentIcon: UIImageView!
-    @IBOutlet weak var paymentLabel: UILabel!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var constraintIconWidth: NSLayoutConstraint!
-
-    var canAddPayment: Bool = false
-    
     let stripeService = StripeService()
 
     override func awakeFromNib() {
@@ -72,8 +44,8 @@ class PaymentCell: UITableViewCell {
         self.refreshPayment()
     }
     
-    func configure() {
-        stripeService.loadPayment(host: nil)
+    func configure(host: UIViewController?) {
+        stripeService.loadPayment(host: host)
     }
     
     deinit {
@@ -82,20 +54,19 @@ class PaymentCell: UITableViewCell {
     
     func refreshPayment() {
         let viewModel = PaymentCellViewModel(paymentContext: stripeService.paymentContext)
-        self.paymentLabel.text = viewModel.labelTitle
-        self.constraintIconWidth.constant = viewModel.iconWidth
-        if viewModel.activityIndicatorShouldAnimate {
-            self.activityIndicator.startAnimating()
-        }
-        else {
-            self.activityIndicator.stopAnimating()
-        }
-        canAddPayment = viewModel.canAddPayment
+        self.textLabel?.text = viewModel.labelTitle
         
         if let paymentMethod = stripeService.paymentContext?.selectedPaymentMethod {
-            self.paymentIcon.image = paymentMethod.image
             // always write card to firebase since it's an internal call
+            print("updated card")
             stripeService.savePaymentInfo(paymentMethod)
+        }
+    }
+    
+    func shouldShowPaymentController() {
+        let viewModel = PaymentCellViewModel(paymentContext: stripeService.paymentContext)
+        if viewModel.canAddPayment {
+            stripeService.paymentContext?.presentPaymentMethodsViewController()
         }
     }
 }

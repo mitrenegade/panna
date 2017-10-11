@@ -86,7 +86,7 @@ class AccountViewController: UITableViewController {
         case "Payment options":
             if let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCell", for: indexPath) as? PaymentCell {
                 self.paymentCell = cell
-                cell.configure()
+                cell.configure(host: self)
                 return cell
             }
             else {
@@ -113,13 +113,7 @@ class AccountViewController: UITableViewController {
                 self.addPromotion()
             }
         case "Payment options":
-            if self.paymentCell?.canAddPayment == true {
-                print("can add payment")
-                self.performSegue(withIdentifier: "GoToAddPayment", sender: nil)
-            }
-            else {
-                print("still processing payment")
-            }
+            self.paymentCell?.shouldShowPaymentController()
         default:
             break
         }
