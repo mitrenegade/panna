@@ -86,6 +86,7 @@
 		8EC7992B1E3635A0004ACC52 /* Events.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC7992A1E3635A0004ACC52 /* Events.storyboard */; };
 		8EC7992D1E3635A8004ACC52 /* Calendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */; };
 		8EC7992F1E3636A0004ACC52 /* EventDetails.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC7992E1E3636A0004ACC52 /* EventDetails.storyboard */; };
+		8ECACB0C1F8DAF29000E4949 /* AddPaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECACB0B1F8DAF29000E4949 /* AddPaymentViewController.swift */; };
 		8ECD58E11CDF853500AD2B13 /* Splash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ECD58E01CDF853500AD2B13 /* Splash.storyboard */; };
 		8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */; };
 		8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
@@ -180,6 +181,7 @@
 		8EC7992A1E3635A0004ACC52 /* Events.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Events.storyboard; sourceTree = "<group>"; };
 		8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Calendar.storyboard; sourceTree = "<group>"; };
 		8EC7992E1E3636A0004ACC52 /* EventDetails.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = EventDetails.storyboard; sourceTree = "<group>"; };
+		8ECACB0B1F8DAF29000E4949 /* AddPaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPaymentViewController.swift; sourceTree = "<group>"; };
 		8ECD58E01CDF853500AD2B13 /* Splash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Splash.storyboard; sourceTree = "<group>"; };
 		8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
 		8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */,
 				8EBF1C381E7965BA0057871F /* PlayerViewController.swift */,
 				8E116D591F74A9100067B6F5 /* PaymentInfoViewController.swift */,
+				8ECACB0B1F8DAF29000E4949 /* AddPaymentViewController.swift */,
 			);
 			name = Account;
 			sourceTree = "<group>";
@@ -831,6 +834,7 @@
 				8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */,
 				8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */,
 				8E379F011CE57E8600C91A12 /* EventService.swift in Sources */,
+				8ECACB0C1F8DAF29000E4949 /* AddPaymentViewController.swift in Sources */,
 				8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */,
 				8E4D36721F8BA45900B8B0B5 /* NSObject+Utils.swift in Sources */,
 				8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */,

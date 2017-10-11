@@ -156,11 +156,30 @@
                     <navigationItem key="navigationItem" id="8Id-M2-SrH"/>
                     <connections>
                         <segue destination="awv-Cv-vYB" kind="presentation" identifier="ToEditPlayerInfo" id="8iU-BJ-CHm"/>
+                        <segue destination="E6P-BC-67Q" kind="show" identifier="GoToAddPayment" id="5mL-5o-lx3"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4ub-gr-UQm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="624.79999999999995" y="-514.09295352323841"/>
+        </scene>
+        <!--Add Payment View Controller-->
+        <scene sceneID="QJR-P5-muv">
+            <objects>
+                <viewController storyboardIdentifier="AddPaymentViewController" id="E6P-BC-67Q" customClass="AddPaymentViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bbR-aN-Fz1"/>
+                        <viewControllerLayoutGuide type="bottom" id="vHk-AK-Jlc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DJJ-wy-iCT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3jM-e8-fXZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="625" y="195"/>
         </scene>
         <!--Player Info View Controller-->
         <scene sceneID="a0o-cs-s8b">

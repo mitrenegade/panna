@@ -86,6 +86,7 @@ class AccountViewController: UITableViewController {
         case "Payment options":
             if let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCell", for: indexPath) as? PaymentCell {
                 self.paymentCell = cell
+                cell.configure()
                 return cell
             }
             else {
@@ -114,6 +115,7 @@ class AccountViewController: UITableViewController {
         case "Payment options":
             if self.paymentCell?.canAddPayment == true {
                 print("can add payment")
+                self.performSegue(withIdentifier: "GoToAddPayment", sender: nil)
             }
             else {
                 print("still processing payment")
@@ -129,6 +131,9 @@ class AccountViewController: UITableViewController {
                 controller.player = PlayerService.shared.current
                 controller.isCreatingPlayer = false
             }
+        }
+        else if segue.identifier == "GoToAddPayment", let controller = segue.destination as? AddPaymentViewController {
+            controller.delegate = self
         }
     }
     
@@ -167,5 +172,11 @@ class AccountViewController: UITableViewController {
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true)
+    }
+}
+
+extension AccountViewController: AddPaymentDelegate {
+    func needsRefreshPaymentMethods() {
+        self.tableView.reloadData()
     }
 }

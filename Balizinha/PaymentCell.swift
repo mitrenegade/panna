@@ -43,7 +43,7 @@ class PaymentCellViewModel: NSObject {
     
     var activityIndicatorShouldAnimate: Bool {
         guard let context = paymentContext else { return true }
-        if context.loading || context.selectedPaymentMethod != nil {
+        if context.loading {
             return true
         }
         return false
@@ -69,8 +69,11 @@ class PaymentCell: UITableViewCell {
     override func awakeFromNib() {
         self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshPayment), object: nil)
         
-        stripeService.loadPayment(host: nil)
         self.refreshPayment()
+    }
+    
+    func configure() {
+        stripeService.loadPayment(host: nil)
     }
     
     deinit {
