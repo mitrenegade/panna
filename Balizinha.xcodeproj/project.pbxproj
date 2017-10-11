@@ -68,6 +68,7 @@
 		8E63160B1F5D9A60005CF114 /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E6316091F5D9A60005CF114 /* GoogleService-Info-dev.plist */; };
 		8E63160C1F5D9A60005CF114 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E63160A1F5D9A60005CF114 /* GoogleService-Info.plist */; };
 		8E6AE53F1F8E5C550062DCF5 /* PaymentInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6AE53E1F8E5C550062DCF5 /* PaymentInfoViewController.swift */; };
+		8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */; };
 		8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256991CDF793200C9E054 /* AppDelegate.swift */; };
 		8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E72569B1CDF793200C9E054 /* LoginViewController.swift */; };
 		8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */; };
@@ -160,6 +161,7 @@
 		8E6316091F5D9A60005CF114 /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
 		8E63160A1F5D9A60005CF114 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E6AE53E1F8E5C550062DCF5 /* PaymentInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentInfoViewController.swift; sourceTree = "<group>"; };
+		8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewModel.swift; sourceTree = "<group>"; };
 		8E7256961CDF793100C9E054 /* Balizinha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Balizinha.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7256991CDF793200C9E054 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E72569B1CDF793200C9E054 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -339,6 +341,14 @@
 			name = Storyboards;
 			sourceTree = "<group>";
 		};
+		8E6AE5431F8E5DAD0062DCF5 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */,
+			);
+			name = ViewModels;
+			sourceTree = "<group>";
+		};
 		8E72568D1CDF793100C9E054 = {
 			isa = PBXGroup;
 			children = (
@@ -362,6 +372,7 @@
 		8E7256981CDF793200C9E054 /* Balizinha */ = {
 			isa = PBXGroup;
 			children = (
+				8E6AE5431F8E5DAD0062DCF5 /* ViewModels */,
 				8ED3DE761E330CB700947040 /* Balizinha.entitlements */,
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
 				8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */,
@@ -817,6 +828,7 @@
 				F2C0F1201CF3E8BB00CB98F1 /* EventsViewController.swift in Sources */,
 				8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */,
 				8EACC3B61F7B449C0091FBC5 /* Payment.swift in Sources */,
+				8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */,
 				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,
 				8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */,
 				F2F7C3C01CEE296A00350115 /* AccountViewController.swift in Sources */,

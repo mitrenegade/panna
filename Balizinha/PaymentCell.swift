@@ -10,30 +10,6 @@ import UIKit
 import Firebase
 import Stripe
 
-class PaymentCellViewModel: NSObject {
-    let paymentContext: STPPaymentContext?
-    init(paymentContext: STPPaymentContext?) {
-        self.paymentContext = paymentContext
-    }
-    
-    var labelTitle: String {
-        if paymentContext?.loading == true || paymentContext == nil {
-            return "Loading your payment methods"
-        }
-        else if let method = paymentContext?.selectedPaymentMethod {
-            return "Click to edit payment methods"
-        }
-        else {
-            return "No payment methods. Click to add one"
-        }
-    }
-    
-    var canAddPayment: Bool {
-        guard let context = paymentContext else { return false }
-        return !context.loading
-    }
-}
-
 class PaymentCell: UITableViewCell {
 
     let stripeService = StripeService()
@@ -53,7 +29,7 @@ class PaymentCell: UITableViewCell {
     }
     
     func refreshPayment() {
-        let viewModel = PaymentCellViewModel(paymentContext: stripeService.paymentContext)
+        let viewModel = PaymentViewModel(paymentContext: stripeService.paymentContext, privacy: true)
         self.textLabel?.text = viewModel.labelTitle
         
         if let paymentMethod = stripeService.paymentContext?.selectedPaymentMethod {
@@ -64,7 +40,7 @@ class PaymentCell: UITableViewCell {
     }
     
     func shouldShowPaymentController() {
-        let viewModel = PaymentCellViewModel(paymentContext: stripeService.paymentContext)
+        let viewModel = PaymentViewModel(paymentContext: stripeService.paymentContext)
         if viewModel.canAddPayment {
             stripeService.paymentContext?.presentPaymentMethodsViewController()
         }

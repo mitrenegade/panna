@@ -38,39 +38,31 @@ class PaymentInfoViewController: UIViewController {
     }
     
     @IBAction func didClickAddPayment(_ sender: UIButton) {
-        stripeService.paymentContext?.presentPaymentMethodsViewController()
+        let viewModel = PaymentViewModel(paymentContext: stripeService.paymentContext)
+        if viewModel.canAddPayment {
+            stripeService.paymentContext?.presentPaymentMethodsViewController()
+        }
     }
 }
 
 // MARK: - Listeners for STPPaymentContext
 extension PaymentInfoViewController {
     func refreshPayment() {
-        guard let paymentContext = stripeService.paymentContext else { return }
-        if paymentContext.loading {
+        let viewModel = PaymentViewModel(paymentContext: stripeService.paymentContext)
+        self.paymentLabel.text = viewModel.labelTitle
+        self.constraintIconWidth.constant = viewModel.iconWidth
+        self.paymentIcon.image = viewModel.icon
+        if viewModel.activityIndicatorShouldAnimate {
             self.activityIndicator.startAnimating()
-            self.paymentLabel.text = "Loading your payment methods"
-            self.constraintIconWidth.constant = 60
-            
-            self.paymentButton.isEnabled = false
-        }
-        else if let paymentMethod = paymentContext.selectedPaymentMethod {
-            self.activityIndicator.stopAnimating()
-            
-            self.paymentLabel.text = paymentMethod.label
-            self.paymentIcon.image = paymentMethod.image
-            self.constraintIconWidth.constant = 60
-            
-            self.paymentButton.isEnabled = false
-            
-            // always write card to firebase since it's an internal call
-            stripeService.savePaymentInfo(paymentMethod)
         }
         else {
             self.activityIndicator.stopAnimating()
-            self.paymentLabel.text = "Click to add a payment method"
-            self.constraintIconWidth.constant = 0
-            
-            self.paymentButton.isEnabled = true
+        }
+
+        if let paymentMethod = stripeService.paymentContext?.selectedPaymentMethod {
+            // always write card to firebase since it's an internal call
+            print("updated card")
+            stripeService.savePaymentInfo(paymentMethod)
         }
     }
 }
