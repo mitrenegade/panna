@@ -92,7 +92,7 @@ class EventsViewController: UITableViewController {
         else {
             // create organizer
             var message = "You must be an organizer to create a new game. Click now to start organizing games for free."
-            if SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+            if SettingsService.paymentRequired() {
                 message = "You must be an organizer to create a new game. Click now to start a month long free trial."
             }
             let alert = UIAlertController(title: "Become an Organizer?", message: message, preferredStyle: .alert)
@@ -106,7 +106,7 @@ class EventsViewController: UITableViewController {
                     }
                     else {
                         // go directly to create event without payments
-                        guard SettingsService.shared.featureAvailable(feature: "paymentRequired") else {
+                        guard SettingsService.paymentRequired() else {
                             self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
                             return
                         }
@@ -218,7 +218,7 @@ extension EventsViewController: EventCellDelegate {
         }
         
         self.joiningEvent = event
-        if event.paymentRequired && SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+        if event.paymentRequired && SettingsService.paymentRequired() {
             self.checkStripe()
         }
         else {
@@ -237,7 +237,7 @@ extension EventsViewController: EventCellDelegate {
         if #available(iOS 10.0, *) {
             NotificationService.scheduleNotificationForEvent(event)
             
-            if SettingsService.shared.featureAvailable(feature: "donation") {
+            if SettingsService.donation() {
                 NotificationService.scheduleNotificationForDonation(event)
             }
         }

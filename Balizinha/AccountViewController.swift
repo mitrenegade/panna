@@ -19,10 +19,13 @@ class AccountViewController: UITableViewController {
         super.viewDidLoad()
 
         menuOptions = ["Edit profile", "Push notifications", "Payment options", "Promo program", "Version", "Logout"]
-        if !SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+        if !SettingsService.paymentRequired() {
             menuOptions = menuOptions.filter({$0 != "Promo program"})
         }
-        if !SettingsService.shared.featureAvailable(feature: "donation") {
+        if !SettingsService.donation() {
+            menuOptions = menuOptions.filter({$0 != "Payment options"})
+        }
+        if !SettingsService.paymentLocationTestGroup() {
             menuOptions = menuOptions.filter({$0 != "Payment options"})
         }
         
@@ -86,7 +89,7 @@ class AccountViewController: UITableViewController {
         case "Payment options":
             if let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCell", for: indexPath) as? PaymentCell {
                 self.paymentCell = cell
-                cell.configure()
+                cell.configure(host: self)
                 return cell
             }
             else {
@@ -113,13 +116,7 @@ class AccountViewController: UITableViewController {
                 self.addPromotion()
             }
         case "Payment options":
-            if self.paymentCell?.canAddPayment == true {
-                print("can add payment")
-                self.performSegue(withIdentifier: "GoToAddPayment", sender: nil)
-            }
-            else {
-                print("still processing payment")
-            }
+            self.paymentCell?.shouldShowPaymentController()
         default:
             break
         }
@@ -131,9 +128,6 @@ class AccountViewController: UITableViewController {
                 controller.player = PlayerService.shared.current
                 controller.isCreatingPlayer = false
             }
-        }
-        else if segue.identifier == "GoToAddPayment", let controller = segue.destination as? AddPaymentViewController {
-            controller.delegate = self
         }
     }
     
@@ -172,11 +166,5 @@ class AccountViewController: UITableViewController {
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true)
-    }
-}
-
-extension AccountViewController: AddPaymentDelegate {
-    func needsRefreshPaymentMethods() {
-        self.tableView.reloadData()
     }
 }

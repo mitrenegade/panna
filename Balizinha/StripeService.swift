@@ -126,7 +126,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Invalid amount on event", "eventId": event.id]))
             return
         }
-        guard SettingsService.shared.featureAvailable(feature: "paymentRequired") || SettingsService.shared.featureAvailable(feature: "donation") else {
+        guard SettingsService.paymentRequired() || SettingsService.donation() else {
             // this error prevents rampant charges, but does present an error message to the user
             LoggingService.shared.log(event: "FeatureFlagError", info: ["feature": "paymentRequired", "function": "createCharge"])
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Payment not allowed for Balizinha"]))
@@ -159,7 +159,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Could not create subscription: no organizer"]))
             return
         }
-        guard SettingsService.shared.featureAvailable(feature: "paymentRequired") || SettingsService.shared.featureAvailable(feature: "donation") else {
+        guard SettingsService.paymentRequired() || SettingsService.donation() else {
             // this error prevents rampant charges, but does present an error message to the user
             LoggingService.shared.log(event: "FeatureFlagError", info: ["feature": "paymentRequired", "function": "createCharge"])
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Payment not allowed for Balizinha"]))
@@ -204,9 +204,8 @@ extension StripeService: STPPaymentContextDelegate {
         print("didCreatePayment")
     }
     
-    func paymentContext(_ paymentContext: STPPaymentContext,
-                        didFinishWith status: STPPaymentStatus,
-                        error: Error?) {
+    
+    func paymentContext(_ paymentContext: STPPaymentContext, didFinishWith status: STPPaymentStatus, error: Error?) {
         print("didFinish")
         switch status {
         case .error: break
@@ -223,6 +222,8 @@ extension StripeService: STPPaymentContextDelegate {
         print("didFailToLoad error \(error)")
         // Show the error to your user, etc.
     }
+    
+    
 }
 
 // MARK: - Customer Key
@@ -261,4 +262,27 @@ extension StripeService: URLSessionDelegate, URLSessionDataDelegate {
             print("here")
         }
     }
+
+    //    func test() {
+    //        let urlString = "https://us-central1-balizinha-dev.cloudfunctions.net/testFunction"
+    //        guard let requestUrl = URL(string:urlString) else { return }
+    //        let request = URLRequest(url:requestUrl)
+    //        let task = URLSession.shared.dataTask(with: request) {
+    //            (data, response, error) in
+    //            if let usableData = data {
+    //                do {
+    //                    let json = try JSONSerialization.jsonObject(with: usableData, options: [])
+    //                    print("json \(json)") //JSONSerialization
+    //                } catch let error as Error {
+    //                    print("error \(error)")
+    //                }
+    //            }
+    //            else if let error = error {
+    //                print("error \(error)")
+    //            }
+    //        }
+    //        task.resume()
+    //    }
+
 }
+

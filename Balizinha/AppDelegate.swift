@@ -65,6 +65,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.listenFor(NotificationType.LoginSuccess, action: #selector(logPlayerLogin), object: nil)
 
+        let _ = SettingsService.shared
+
         return true
     }
     
@@ -73,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let info = notification.userInfo {
             if let type = info["type"] as? String, type == "donationReminder", let eventId = info["eventId"] as? String {
                 print("Go to donation for event \(eventId)")
-                guard SettingsService.shared.featureAvailable(feature: "donation") else { return }
+                guard SettingsService.donation() else { return }
                 self.notify(NotificationType.GoToDonationForEvent, object: nil, userInfo: ["eventId": eventId])
             }
         }

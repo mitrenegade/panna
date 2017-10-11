@@ -31,6 +31,9 @@ class PlayerInfoViewController: UIViewController {
     
     var cameraController: CameraOverlayViewController?
     
+    // Payment
+    @IBOutlet weak var constraintPaymentHeight: NSLayoutConstraint!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,6 +49,10 @@ class PlayerInfoViewController: UIViewController {
             self.navigationItem.rightBarButtonItem = nil
         }
         
+        if (!SettingsService.paymentRequired() && !SettingsService.donation()) || SettingsService.paymentLocationTestGroup() {
+            constraintPaymentHeight.constant = 0
+        }
+
         self.setupInputs()
         self.refresh()
     }
