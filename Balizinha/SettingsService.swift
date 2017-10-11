@@ -71,8 +71,6 @@ class SettingsService: NSObject {
         // the feature flag should be removed from the next build. older builds with the feature flagged have to upgrade
         // or they will lose that feature when the config is removed.
         //guard let available = featureFlags[feature] as? Bool else { return true }
-        let config = self.remoteConfig.configValue(forKey: feature)
-        let available = config.boolValue
-        return available
+        return self.remoteConfig[feature].boolValue
     }
 }
