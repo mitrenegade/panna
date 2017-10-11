@@ -12,7 +12,8 @@ import Firebase
 fileprivate var singleton: SettingsService?
 class SettingsService: NSObject {
     private var remoteConfig = RemoteConfig.remoteConfig()
-    
+    static let defaults: [String: AnyObject] = ["paymentLocation":"profile" as AnyObject]
+
     static var shared: SettingsService {
         if singleton == nil {
             singleton = SettingsService()
@@ -36,12 +37,12 @@ class SettingsService: NSObject {
 //            }
 //            print("feature flags updated: \(self.featureFlags)")
 //        })
-        let defaultFeatureFlags: [String: NSObject] = [:]
-        self.remoteConfig.setDefaults(defaultFeatureFlags)
+        self.remoteConfig.setDefaults(defaults as? [String : NSObject])
         self.remoteConfig.fetch(completionHandler: { (status, error) in
             self.remoteConfig.activateFetched()
-            print("featureAvailable donation \(SettingsService.shared.featureAvailable(feature: "donation"))")
-            print("featureAvailable paymentRequired \(SettingsService.shared.featureAvailable(feature: "paymentRequired"))")
+            print("featureAvailable donation \(SettingsService.donation())")
+            print("featureAvailable paymentRequired \(SettingsService.paymentRequired())")
+            print("paymentLocation \(SettingsService.shared.featureExperiment("paymentLocation")) testGroup \(SettingsService.paymentLocationTestGroup())")
         })
     }()
 
@@ -66,11 +67,32 @@ class SettingsService: NSObject {
 //        task.resume()
 //    }
     
-    func featureAvailable(feature: String) -> Bool {
+    fileprivate func featureAvailable(_ feature: String) -> Bool {
         // feature is off by default. feature flags are used to grant access to test features. when a feature is accepted,
         // the feature flag should be removed from the next build. older builds with the feature flagged have to upgrade
         // or they will lose that feature when the config is removed.
         //guard let available = featureFlags[feature] as? Bool else { return true }
         return self.remoteConfig[feature].boolValue
+    }
+    
+    fileprivate func featureExperiment(_ parameter: String) -> String {
+        return self.remoteConfig[parameter].stringValue ?? ""
+    }
+}
+
+extension SettingsService {
+    // MARK: - Convenience
+    class func donation() -> Bool {
+        return shared.featureAvailable("donation")
+    }
+    
+    class func paymentRequired() -> Bool {
+        return shared.featureAvailable("paymentRequired")
+    }
+    
+    class func paymentLocationTestGroup() -> Bool {
+        let result = shared.featureExperiment("paymentLocation")
+        print("Payment location = \(result)")
+        return result != defaults["paymentLocation"] as! String
     }
 }

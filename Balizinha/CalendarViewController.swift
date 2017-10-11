@@ -195,7 +195,7 @@ extension CalendarViewController: EventDonationDelegate {
 
     func promptForDonation(event: Event) {
         guard let player = PlayerService.shared.current else { return }
-        guard SettingsService.shared.featureAvailable(feature: "donation") else { return }
+        guard SettingsService.donation() else { return }
         
         var title = "Hope you enjoyed the game"
         if let name = event.name {

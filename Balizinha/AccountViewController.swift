@@ -19,10 +19,10 @@ class AccountViewController: UITableViewController {
         super.viewDidLoad()
 
         menuOptions = ["Edit profile", "Push notifications", "Payment options", "Promo program", "Version", "Logout"]
-        if !SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+        if !SettingsService.paymentRequired() {
             menuOptions = menuOptions.filter({$0 != "Promo program"})
         }
-        if !SettingsService.shared.featureAvailable(feature: "donation") {
+        if !SettingsService.donation() {
             menuOptions = menuOptions.filter({$0 != "Payment options"})
         }
         

@@ -31,7 +31,7 @@ class PaymentTypesViewController: UIViewController {
     }
     
     func showPaymentTotal() {
-        guard SettingsService.shared.featureAvailable(feature: "paymentRequired") else {
+        guard SettingsService.paymentRequired() else {
             labelAmount.text = nil
             return
         }
@@ -62,7 +62,7 @@ class PaymentTypesViewController: UIViewController {
     }
 
     func showPaymentRequired() {
-        guard SettingsService.shared.featureAvailable(feature: "paymentRequired") else {
+        guard SettingsService.paymentRequired() else {
             labelAmount.text = nil
             return
         }

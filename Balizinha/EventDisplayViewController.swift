@@ -128,7 +128,7 @@ class EventDisplayViewController: UIViewController {
         }
         
         // update payment display
-        if SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+        if SettingsService.paymentRequired() {
             self.constraintPaymentHeight.constant = self.event.paymentRequired ? 40 : 0
         }
         else {

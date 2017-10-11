@@ -86,7 +86,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         
         options = ["Name", "Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
-        if SettingsService.shared.featureAvailable(feature: "paymentRequired") {
+        if SettingsService.paymentRequired() {
             options.append("Payment")
         }
         
@@ -196,7 +196,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             return
         }
         
-        if paymentRequired && SettingsService.shared.featureAvailable(feature: "paymentRequired"){
+        if paymentRequired && SettingsService.paymentRequired(){
             guard let amount = self.amount, amount.doubleValue > 0 else {
                 self.simpleAlert("Invalid payment amount", message: "Please enter the amount required to play, or turn off the payment requirement.")
                 return

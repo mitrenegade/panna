@@ -25,7 +25,7 @@ class EventCellViewModel: NSObject {
     func buttonTitle(eventStatus: EventStatus) -> String {
         switch eventStatus {
         case (true, false, true):
-            if SettingsService.shared.featureAvailable(feature: "donation") {
+            if SettingsService.donation() {
                 return "Donate"
             }
             else {
@@ -122,7 +122,7 @@ class EventCell: UITableViewCell {
             self.labelFull.isHidden = true
             self.labelAttendance.text = "\(self.event!.numPlayers) Attended"
             
-            if !event.userIsOrganizer && SettingsService.shared.featureAvailable(feature: "donation") {
+            if !event.userIsOrganizer && SettingsService.donation() {
                 self.btnAction.isHidden = false
                 if let paid = self.donationDelegate?.paidStatus(event: event) {
                     self.btnAction.isEnabled = !paid
@@ -152,7 +152,7 @@ class EventCell: UITableViewCell {
         }
         else {
             // donate
-            if SettingsService.shared.featureAvailable(feature: "donation") {
+            if SettingsService.donation() {
                 self.donationDelegate?.promptForDonation(event: event)
             }
         }

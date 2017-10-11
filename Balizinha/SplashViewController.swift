@@ -101,7 +101,7 @@ class SplashViewController: UIViewController {
 
         self.listenFor(NotificationType.LogoutSuccess, action: #selector(SplashViewController.didLogout), object: nil)
         
-        if SettingsService.shared.featureAvailable(feature: "donation") {
+        if SettingsService.donation() {
             self.listenFor(NotificationType.GoToDonationForEvent, action: #selector(goToCalendar), object: nil)
         }
         EventService.shared.listenForEventUsers()
