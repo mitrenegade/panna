@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Parse
 
 protocol CreateEventDelegate {
     func didCreateEvent()
@@ -746,9 +745,9 @@ extension CreateEventViewController: UITextFieldDelegate {
         }
         let message = "A game of \(event.type.rawValue) now available in \(event.place), \(event.city)\(dateString)"
         let params = ["channel": "eventsGlobal", "message": message, "title": title, "sender": userId]
-        PFCloud.callFunction(inBackground: "sendPushFromDevice", withParameters: params) { (results, error) in
-            print("results \(results) error \(error)")
-        }
+//        PFCloud.callFunction(inBackground: "sendPushFromDevice", withParameters: params) { (results, error) in
+//            print("results \(results) error \(error)")
+//        }
     }
 }
 
@@ -765,9 +764,6 @@ extension CreateEventViewController: CameraControlsDelegate {
         controller.view.frame = self.view.frame
         controller.takePhoto(from: self)
         self.cameraController = controller
-        
-        // add overlayview
-        //ParseLog.log(typeString: "AddEventPhoto", title: nil, message: nil, params: nil, error: nil)
     }
     
     func didTakePhoto(image: UIImage) {

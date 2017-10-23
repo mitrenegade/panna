@@ -11,7 +11,6 @@ import Firebase
 import FBSDKCoreKit
 import FBSDKLoginKit
 import Batch
-import Parse
 import Fabric
 import Crashlytics
 import RxSwift
@@ -41,14 +40,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Facebook
         FBSDKAppEvents.activateApp()
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-        
-        // Parse
-        let configuration = ParseClientConfiguration {
-            $0.applicationId = PARSE_APP_ID
-            $0.clientKey = PARSE_CLIENT_KEY
-            $0.server = "https://lotsportz.herokuapp.com/parse"
-        }
-        Parse.initialize(with: configuration)
         
         // Crashlytics
         Fabric.sharedSDK().debug = true
@@ -113,10 +104,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
-    // Push
     // MARK: - Push
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        // Store the deviceToken in the current Installation and save it to Parse
+        // Store the deviceToken
         if #available(iOS 10.0, *) {
             NotificationService.registerForPushNotifications(deviceToken, enabled:true)
         }

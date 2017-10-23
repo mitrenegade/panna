@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Parse
 import UserNotifications
 import FirebaseMessaging
 
@@ -119,25 +118,17 @@ class NotificationService: NSObject {
     
 }
 
-// PUSH NOTIFICATIONS via Parse
 @available(iOS 10.0, *)
 extension NotificationService {
     class func registerForPushNotifications(_ deviceToken: Data, enabled: Bool) {
-        let installation = PFInstallation.current()
-        installation!.setDeviceTokenFrom(deviceToken)
-        let channel: String = "eventsGlobal"
-        if enabled {
-            installation!.addUniqueObject(channel, forKey: "channels") // subscribe to global channel
-        }
-        else {
-            installation!.remove(channel, forKey: "channels")
-        }
-        installation!.saveInBackground()
-        
-        let channels = installation!.object(forKey: "channels")
-        print("installation registered for remote notifications: token \(deviceToken) channel \(channels)")
-        
+        let token: String = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        print("registered for push with token \(token)")
+
+        PlayerService.shared.observedPlayer?.asObservable().take(1).subscribe(onNext: { (player) in
+            player.deviceToken = token
+        })
         self.shared.pushDeviceToken = deviceToken
+
     }
     
     // User notification preference

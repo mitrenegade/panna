@@ -39,7 +39,3 @@ let STRIPE_KEY_PROD = "pk_live_IziZ9EDk1374oI3rXjEciLBG"
 
 var firRef = Database.database().reference()
 let firAuth = Auth.auth()
-
-let PARSE_APP_ID: String = "Y1kUP1Nwz77UlFW5wIGvK4ptgvCwKQjDejrXbMi7"
-let PARSE_CLIENT_KEY: String = "NOTUSED-O7G1syjw0PXZTOmV0FTvsH9TSTvk7e7Ll6qpDWfW"
-

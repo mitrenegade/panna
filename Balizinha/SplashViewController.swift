@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Parse
 import FirebaseAuth
 
 class SplashViewController: UIViewController {

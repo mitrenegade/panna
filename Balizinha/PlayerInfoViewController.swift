@@ -220,9 +220,6 @@ extension PlayerInfoViewController: CameraControlsDelegate {
         controller.view.frame = self.view.frame
         controller.takePhoto(from: self)
         self.cameraController = controller
-        
-        // add overlayview
-        //ParseLog.log(typeString: "AddEventPhoto", title: nil, message: nil, params: nil, error: nil)
     }
     
     func didTakePhoto(image: UIImage) {

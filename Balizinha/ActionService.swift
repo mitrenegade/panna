@@ -5,7 +5,6 @@
 //  Created by Bobby Ren on 3/6/17.
 //  Copyright © 2017 Bobby Ren. All rights reserved.
 //
-// similar to parse logging
 
 import UIKit
 import Firebase

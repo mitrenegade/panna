@@ -10,8 +10,6 @@ target 'Balizinha' do
     pod 'Firebase/RemoteConfig'
     pod 'Firebase/Messaging'
 
-    pod 'Parse'
-
     pod 'Crashlytics'
     pod 'Fabric'
 
