@@ -3,8 +3,6 @@ const admin = require('firebase-admin');
 const logging = require('@google-cloud/logging')();
 const app = require('express')
 const moment = require('moment')
-//const push = require('./push.js')
-const axios = require('axios')
 admin.initializeApp(functions.config().firebase);
 
 // TO TOGGLE BETWEEN DEV AND PROD: change this to .dev or .prod for functions:config variables to be correct
@@ -139,6 +137,43 @@ exports.daily_job =
   }
 )
 
-exports.testPush = functions.pubsub.topic('on-demand-tick').onPublish((event) => {
-    console.log("push test worked")
+// a job set once in the past so that a cron job with a manual trigger can be used from google app engine's tasks
+exports.testJob = functions.pubsub.topic('on-demand-tick').onPublish((event) => {
+    console.log("test worked")
 })
+
+// push stuff
+exports.sendPushForUserJoinedEvent = functions.database.ref('/eventUsers/{eventId}/{userId}').onWrite(event => {
+    const eventId = event.params.eventId
+    const userId = event.params.userId
+    var eventUserChanged = false;
+    var eventUserCreated = false;
+    var eventUserData = event.data.val();
+    if (!event.data.previous.exists()) {
+        eventUserCreated = true;
+    }
+    if (!eventUserCreated && event.data.changed()) {
+        eventUserChanged = true;
+    }
+    console.log("event: " + eventId + " user: " + userId + " state: " + eventUserData)
+  //   let msg = 'A project state was changed';
+        // if (projectCreated) {
+        //  msg = `The following new project was added to the project: ${projectData.title}`;
+        // }
+  //   return loadUsers().then(users => {
+  //       let tokens = [];
+  //       for (let user of users) {
+  //           tokens.push(user.pushToken);
+  //       }
+  //       let payload = {
+  //           notification: {
+  //               title: 'Firebase Notification',
+  //               body: msg,
+  //               sound: 'default',
+  //               badge: '1'
+  //           }
+  //       };
+  //       return admin.messaging().sendToDevice(tokens, payload);
+  //   });
+});
+

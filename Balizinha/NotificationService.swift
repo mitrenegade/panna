@@ -120,6 +120,7 @@ class NotificationService: NSObject {
 }
 
 // PUSH NOTIFICATIONS via Parse
+@available(iOS 10.0, *)
 extension NotificationService {
     class func registerForPushNotifications(_ deviceToken: Data, enabled: Bool) {
         let installation = PFInstallation.current()
@@ -165,6 +166,7 @@ extension NotificationService {
 }
 
 // PUSH Notifications on events
+@available(iOS 10.0, *)
 extension NotificationService {
     fileprivate func subscribeToTopic(topic: String) {
         Messaging.messaging().subscribe(toTopic: topic)
