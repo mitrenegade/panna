@@ -168,7 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         
-        print("PUSH: didReceiveRemoteNotification")
+        print("PUSH: didReceiveRemoteNotification from background")
         
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {

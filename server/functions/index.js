@@ -3,7 +3,8 @@ const admin = require('firebase-admin');
 const logging = require('@google-cloud/logging')();
 const app = require('express')
 const moment = require('moment')
-
+//const push = require('./push.js')
+const axios = require('axios')
 admin.initializeApp(functions.config().firebase);
 
 // TO TOGGLE BETWEEN DEV AND PROD: change this to .dev or .prod for functions:config variables to be correct
@@ -134,5 +135,10 @@ exports.createStripeSubscription = functions.database.ref(`/charges/organizers/{
 // cron job
 exports.daily_job =
   functions.pubsub.topic('daily-tick').onPublish((event) => {
-    console.log("This job is ran every hour! " + Date.now())
-  });
+    console.log("This job is run every day! " + Date.now())
+  }
+)
+
+exports.testPush = functions.pubsub.topic('on-demand-tick').onPublish((event) => {
+    console.log("push test worked")
+})
