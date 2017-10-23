@@ -128,7 +128,6 @@ extension NotificationService {
             player.deviceToken = token
         })
         self.shared.pushDeviceToken = deviceToken
-
     }
     
     // User notification preference
@@ -156,7 +155,7 @@ extension NotificationService {
     }
 }
 
-// PUSH Notifications on events
+// PUSH Notifications for pubsub
 @available(iOS 10.0, *)
 extension NotificationService {
     fileprivate func subscribeToTopic(topic: String) {

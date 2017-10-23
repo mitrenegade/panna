@@ -139,7 +139,10 @@ exports.daily_job =
 
 // a job set once in the past so that a cron job with a manual trigger can be used from google app engine's tasks
 exports.testJob = functions.pubsub.topic('on-demand-tick').onPublish((event) => {
-    console.log("test worked")
+    var testToken = "eQuL09AtiCQ:APA91bHc5Yr4TQAOS8h6Sph1tCwIczrkWVf7u279xFxVpjUHaYksDwGTUUcnRk5jcTBFlWoLBs2AW9jAo8zJAdXyLD8kRqrtVjQWGSRBaOmJuN32SN-EE4-BqAp-IWDiB8O3otORC4wt"
+    var msg = "test worked, sending test push to " + testToken
+    console.log(msg)
+    exports.sendPush(testToken, msg)
 })
 
 // push stuff
@@ -156,24 +159,25 @@ exports.sendPushForUserJoinedEvent = functions.database.ref('/eventUsers/{eventI
         eventUserChanged = true;
     }
     console.log("event: " + eventId + " user: " + userId + " state: " + eventUserData)
-  //   let msg = 'A project state was changed';
-        // if (projectCreated) {
-        //  msg = `The following new project was added to the project: ${projectData.title}`;
-        // }
-  //   return loadUsers().then(users => {
-  //       let tokens = [];
-  //       for (let user of users) {
-  //           tokens.push(user.pushToken);
-  //       }
-  //       let payload = {
-  //           notification: {
-  //               title: 'Firebase Notification',
-  //               body: msg,
-  //               sound: 'default',
-  //               badge: '1'
-  //           }
-  //       };
-  //       return admin.messaging().sendToDevice(tokens, payload);
-  //   });
-});
 
+    return admin.database().ref(`/players/${userId}/deviceToken`).once('value').then(snapshot => {
+        return snapshot.val();
+    }).then(token => {
+        var msg = "Update for event " + eventId 
+        return exports.sendPush(token)
+    })
+})
+
+exports.sendPush = function(token, msg) {
+        var tokens = [token]
+        console.log("send push to token " + token)
+        var payload = {
+            notification: {
+                title: 'Firebase Notification',
+                body: msg,
+                sound: 'default',
+                badge: '1'
+            }
+        };
+        return admin.messaging().sendToDevice(tokens, payload);
+}

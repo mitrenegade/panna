@@ -63,6 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         application.registerForRemoteNotifications()
         
+        // BOBBY TODO: handle this in NotificationService instead of using apple's device token
         let token = Messaging.messaging().fcmToken
         print("PUSH: FCM token: \(token ?? "")")
         

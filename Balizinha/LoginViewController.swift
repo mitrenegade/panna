@@ -103,6 +103,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken!)
                 firAuth.signIn(with: credential, completion: { (user, error) in
                     if error != nil {
+                        // TODO: handle this. will give an error for facebook email already exists as an email user
                         print("Login failed. \(error)")
                     } else {
                         print("Logged in! \(user)")
