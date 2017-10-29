@@ -3,7 +3,6 @@ const admin = require('firebase-admin');
 const logging = require('@google-cloud/logging')();
 const app = require('express')
 const moment = require('moment')
-
 admin.initializeApp(functions.config().firebase);
 
 // TO TOGGLE BETWEEN DEV AND PROD: change this to .dev or .prod for functions:config variables to be correct
@@ -134,5 +133,51 @@ exports.createStripeSubscription = functions.database.ref(`/charges/organizers/{
 // cron job
 exports.daily_job =
   functions.pubsub.topic('daily-tick').onPublish((event) => {
-    console.log("This job is ran every hour! " + Date.now())
-  });
+    console.log("This job is run every day! " + Date.now())
+  }
+)
+
+// a job set once in the past so that a cron job with a manual trigger can be used from google app engine's tasks
+exports.testJob = functions.pubsub.topic('on-demand-tick').onPublish((event) => {
+    var testToken = "eQuL09AtiCQ:APA91bHc5Yr4TQAOS8h6Sph1tCwIczrkWVf7u279xFxVpjUHaYksDwGTUUcnRk5jcTBFlWoLBs2AW9jAo8zJAdXyLD8kRqrtVjQWGSRBaOmJuN32SN-EE4-BqAp-IWDiB8O3otORC4wt"
+    var msg = "test worked, sending test push to " + testToken
+    console.log(msg)
+    exports.sendPush(testToken, msg)
+})
+
+// push stuff
+exports.sendPushForUserJoinedEvent = functions.database.ref('/eventUsers/{eventId}/{userId}').onWrite(event => {
+    const eventId = event.params.eventId
+    const userId = event.params.userId
+    var eventUserChanged = false;
+    var eventUserCreated = false;
+    var eventUserData = event.data.val();
+    if (!event.data.previous.exists()) {
+        eventUserCreated = true;
+    }
+    if (!eventUserCreated && event.data.changed()) {
+        eventUserChanged = true;
+    }
+    console.log("event: " + eventId + " user: " + userId + " state: " + eventUserData)
+
+    return admin.database().ref(`/players/${userId}/deviceToken`).once('value').then(snapshot => {
+        return snapshot.val();
+    }).then(token => {
+        var msg = "Update for event " + eventId 
+        return exports.sendPush(token)
+    })
+})
+
+exports.sendPush = function(token, msg) {
+        var tokens = [token]
+        console.log("send push to token " + token)
+        var payload = {
+            notification: {
+                title: 'Firebase Notification',
+                body: msg,
+                sound: 'default',
+                badge: '1'
+            }
+        };
+        return admin.messaging().sendToDevice(tokens, payload);
+}

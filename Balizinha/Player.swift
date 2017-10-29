@@ -96,5 +96,16 @@ class Player: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
+
+    // MARK: - Push
+    var deviceToken: String? {
+        get {
+            return self.dict?["deviceToken"] as? String
+        }
+        set {
+            self.dict["deviceToken"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
 }
 

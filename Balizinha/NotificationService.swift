@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import Parse
 import UserNotifications
+import FirebaseMessaging
 
 let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"
@@ -116,22 +116,17 @@ class NotificationService: NSObject {
         }
     }
     
-    // PUSH NOTIFICATIONS
+}
+
+@available(iOS 10.0, *)
+extension NotificationService {
     class func registerForPushNotifications(_ deviceToken: Data, enabled: Bool) {
-        let installation = PFInstallation.current()
-        installation!.setDeviceTokenFrom(deviceToken)
-        let channel: String = "eventsGlobal"
-        if enabled {
-            installation!.addUniqueObject(channel, forKey: "channels") // subscribe to global channel
-        }
-        else {
-            installation!.remove(channel, forKey: "channels")
-        }
-        installation!.saveInBackground()
-        
-        let channels = installation!.object(forKey: "channels")
-        print("installation registered for remote notifications: token \(deviceToken) channel \(channels)")
-        
+        let token: String = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        print("registered for push with token \(token)")
+
+        PlayerService.shared.observedPlayer?.asObservable().take(1).subscribe(onNext: { (player) in
+            player.deviceToken = token
+        })
         self.shared.pushDeviceToken = deviceToken
     }
     
@@ -157,5 +152,27 @@ class NotificationService: NSObject {
         
         // toggle/reschedule events
         self.refreshNotifications(self.shared.scheduledEvents)
+    }
+}
+
+// PUSH Notifications for pubsub
+@available(iOS 10.0, *)
+extension NotificationService {
+    fileprivate func subscribeToTopic(topic: String) {
+        Messaging.messaging().subscribe(toTopic: topic)
+    }
+    
+    func registerForEventNotifications(event: Event) {
+        let key = event.id
+        let topic = "event:" + key
+        self.subscribeToTopic(topic: topic)
+    }
+    
+    func sendForDelete(event: Event) {
+        
+    }
+    
+    fileprivate func sendNotificationHelper() {
+        
     }
 }
