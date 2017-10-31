@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import RxSwift
 
 fileprivate var singleton: SettingsService?
 class SettingsService: NSObject {
@@ -17,36 +18,29 @@ class SettingsService: NSObject {
     static var shared: SettingsService {
         if singleton == nil {
             singleton = SettingsService()
-            
         }
         
         return singleton!
     }
 
-    func listenForSettings() {
-        _ = self.__once
-    }
+    // observable
+    var observedSettings: Observable<Any>? {
+        return Observable.create({ (observer) -> Disposable in
+            self.remoteConfig.setDefaults(SettingsService.defaults as? [String : NSObject])
+            self.remoteConfig.fetch(completionHandler: { (status, error) in
+                self.remoteConfig.activateFetched()
+                print("featureAvailable donation \(SettingsService.donation())")
+                print("featureAvailable paymentRequired \(SettingsService.paymentRequired())")
+                print("paymentLocation \(SettingsService.shared.featureExperiment("paymentLocation")) testGroup \(SettingsService.paymentLocationTestGroup())")
+                print("featureAvailable maps \(SettingsService.usesMaps)")
+                
+                self.recordExperimentGroups()
+                observer.onNext("done")
+            })
 
-//    var featureFlags: [String: AnyObject] = [:]
-    private lazy var __once: () = {
-//        let ref = firRef.child("settings")
-//        ref.observe(.value, with: { (snapshot: DataSnapshot) in
-//            guard snapshot.exists(), let dict = snapshot.value as? [String: AnyObject] else { return }
-//            for (key, val) in dict {
-//                self.featureFlags[key] = val
-//            }
-//            print("feature flags updated: \(self.featureFlags)")
-//        })
-        self.remoteConfig.setDefaults(defaults as? [String : NSObject])
-        self.remoteConfig.fetch(completionHandler: { (status, error) in
-            self.remoteConfig.activateFetched()
-            print("featureAvailable donation \(SettingsService.donation())")
-            print("featureAvailable paymentRequired \(SettingsService.paymentRequired())")
-            print("paymentLocation \(SettingsService.shared.featureExperiment("paymentLocation")) testGroup \(SettingsService.paymentLocationTestGroup())")
-            
-            self.recordExperimentGroups()
+            return Disposables.create()
         })
-    }()
+    }
     
     fileprivate func featureAvailable(_ feature: String) -> Bool {
         // feature is off by default. feature flags are used to grant access to test features. when a feature is accepted,
@@ -61,7 +55,7 @@ class SettingsService: NSObject {
     }
 }
 
-// MARK: - Convenience
+// MARK: - Remote settings
 extension SettingsService {
     class func donation() -> Bool {
         return shared.featureAvailable("donation")
@@ -71,17 +65,23 @@ extension SettingsService {
         return shared.featureAvailable("paymentRequired")
     }
     
+    class var usesMaps: Bool {
+        return shared.featureAvailable("maps")
+    }
+}
+
+// MARK: - Experiments
+extension SettingsService {
     class func paymentLocationTestGroup() -> Bool {
         let result = shared.featureExperiment("paymentLocation")
         print("Payment location = \(result)")
         return result != defaults["paymentLocation"] as! String
     }
-}
 
-// MARK: - Analytics
-extension SettingsService {
+    // MARK: - Analytics
     func recordExperimentGroups() {
         let paymentLocationGroup = self.featureExperiment("paymentLocation")
         Analytics.setUserProperty(paymentLocationGroup, forName: "PaymentLocation")
     }
 }
+
