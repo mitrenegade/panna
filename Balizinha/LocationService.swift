@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import CoreLocation
 
 class LocationService: NSObject, CLLocationManagerDelegate {
@@ -57,21 +58,23 @@ class LocationService: NSObject, CLLocationManagerDelegate {
 
     // MARK: location
     func warnForLocationPermission() {
-        let message: String = "BondVoyage needs GPS access to find activities near you. Please go to your phone settings to enable location access. Go there now?"
+        let message: String = "Balizina needs location access to find events near you. Please go to your phone settings to enable location access."
         
-        let alert: UIAlertController = UIAlertController(title: "Could not access location", message: message, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Settings", style: .Default, handler: { (action) -> Void in
-            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
-        }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        let alert: UIAlertController = UIAlertController(title: "Could not access location", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        if let url = URL(string: UIApplicationOpenSettingsURLString) {
+            alert.addAction(UIAlertAction(title: "Go to Settings", style: .default, handler: { (action) -> Void in
+                UIApplication.shared.openURL(url)
+            }))
+        }
+        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
     }
     
     func warnForLocationAvailability() {
-        let message: String = "BondVoyage needs an accurate location to find a match. Please make sure your phone can receive accurate location information."
-        let alert: UIAlertController = UIAlertController(title: "Accurate location not found", message: message, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "Close", style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        let message: String = "Balizinha needs to pinpoint your location to find events. Please make sure your phone can receive accurate location information."
+        let alert: UIAlertController = UIAlertController(title: "Accurate location not found", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
+        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
     }
     
 

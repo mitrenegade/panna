@@ -18,7 +18,7 @@ class MapViewController: UIViewController {
     
     // MARK: TableView
     @IBOutlet weak var tableView: UITableView!
-    var snapshot: [FIRDataSnapshot]?
+    var snapshot: [DataSnapshot]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,9 +38,9 @@ class MapViewController: UIViewController {
         
         // do query
         var handle: UInt = 0
-        handle = eventQueryRef.observe(.value) { (snapshot: FIRDataSnapshot!) in
+        handle = eventQueryRef.observe(.value) { (snapshot: DataSnapshot!) in
             // this block is called for every result returned
-            self.snapshot = snapshot.children.allObjects as? [FIRDataSnapshot]
+            self.snapshot = snapshot.children.allObjects as? [DataSnapshot]
             self.tableView.reloadData()
         }
     }
