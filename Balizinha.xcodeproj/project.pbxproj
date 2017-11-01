@@ -76,6 +76,8 @@
 		8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */; };
 		8E7256A11CDF793200C9E054 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7256A01CDF793200C9E054 /* Assets.xcassets */; };
 		8E7256AD1CDF7DB600C9E054 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */; };
+		8E74E54B1FA9FB51005F72DA /* PlaceSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E74E54A1FA9FB51005F72DA /* PlaceSearchViewController.swift */; };
+		8E74E54D1FA9FFF5005F72DA /* PlaceResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E74E54C1FA9FFF5005F72DA /* PlaceResultsViewController.swift */; };
 		8E7A2FF81F8313C6004EAE6A /* OrganizerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */; };
 		8E7A2FFA1F831411004EAE6A /* Organizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FF91F831410004EAE6A /* Organizer.swift */; };
 		8E7A2FFC1F83256E004EAE6A /* Promotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFB1F83256E004EAE6A /* Promotion.swift */; };
@@ -172,6 +174,8 @@
 		8E7256A01CDF793200C9E054 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E7256A51CDF793200C9E054 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		8E74E54A1FA9FB51005F72DA /* PlaceSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchViewController.swift; sourceTree = "<group>"; };
+		8E74E54C1FA9FFF5005F72DA /* PlaceResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceResultsViewController.swift; sourceTree = "<group>"; };
 		8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizerService.swift; sourceTree = "<group>"; };
 		8E7A2FF91F831410004EAE6A /* Organizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Organizer.swift; sourceTree = "<group>"; };
 		8E7A2FFB1F83256E004EAE6A /* Promotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promotion.swift; sourceTree = "<group>"; };
@@ -459,6 +463,8 @@
 			isa = PBXGroup;
 			children = (
 				F2F7C3BC1CEE11B300350115 /* CreateEventViewController.swift */,
+				8E74E54A1FA9FB51005F72DA /* PlaceSearchViewController.swift */,
+				8E74E54C1FA9FFF5005F72DA /* PlaceResultsViewController.swift */,
 				8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */,
 				8EC799261E35AA02004ACC52 /* MapViewController.swift */,
 				F2C0F11F1CF3E8BB00CB98F1 /* EventsViewController.swift */,
@@ -822,6 +828,7 @@
 				8E7A2FFA1F831411004EAE6A /* Organizer.swift in Sources */,
 				8EDA009C1F6597060080F446 /* RemoteDataService.swift in Sources */,
 				8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */,
+				8E74E54B1FA9FB51005F72DA /* PlaceSearchViewController.swift in Sources */,
 				8E27716E1E6E60D700B161ED /* Action.swift in Sources */,
 				8E5421401E70DF8700AE4F3A /* ActionCell.swift in Sources */,
 				8EDA009E1F6597BC0080F446 /* LoggingService.swift in Sources */,
@@ -836,6 +843,7 @@
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */,
+				8E74E54D1FA9FFF5005F72DA /* PlaceResultsViewController.swift in Sources */,
 				8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */,
 				F2C0F1201CF3E8BB00CB98F1 /* EventsViewController.swift in Sources */,
 				8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */,

@@ -84,7 +84,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.navigationItem.title = "Edit Event"
         }
         
-        options = ["Name", "Event Type", "Location", "City", "Day", "Start Time", "End Time", "Max Players"]
+        options = ["Name", "Event Type", "Location", "Day", "Start Time", "End Time", "Max Players"]
         if SettingsService.paymentRequired() {
             options.append("Payment")
         }
@@ -327,6 +327,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                         self.location = place
                         self.locationField?.text = place
                     }
+                    self.locationField?.isUserInteractionEnabled = false
                 } else if options[indexPath.row] == "City" {
                     cell.valueTextField.placeholder = "Boston"
                     self.cityField = cell.valueTextField
@@ -334,6 +335,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                         self.city = city
                         self.cityField?.text = city
                     }
+                    self.cityField?.isUserInteractionEnabled = false
                 } else if options[indexPath.row] == "Name" {
                     cell.valueTextField.placeholder = "Balizinha"
                     self.nameField = cell.valueTextField
@@ -341,6 +343,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                         self.name = name
                         self.nameField?.text = name
                     }
+                    self.nameField?.isUserInteractionEnabled = true
                 }
                 
             }
@@ -508,6 +511,10 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             textField?.isUserInteractionEnabled = true
             textField?.becomeFirstResponder()
             currentField = textField
+            
+            if options[indexPath.row] == "Location" {
+                performSegue(withIdentifier: "toLocationSearch", sender: nil)
+            }
         case Sections.delete.rawValue:
             self.didClickDelete(nil)
         default:
