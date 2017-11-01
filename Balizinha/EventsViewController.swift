@@ -10,8 +10,10 @@ import UIKit
 import Stripe
 import Firebase
 
-class EventsViewController: UITableViewController {
+class EventsViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
+    
     var service = EventService.shared
     var allEvents : [Event] = []
     var sortedEvents: [EventType: [Event]] = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .other: []]
@@ -157,23 +159,23 @@ class EventsViewController: UITableViewController {
     }
 }
 
-extension EventsViewController {
+extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return self.sortedEvents.keys.count
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let eventType = self.eventTypes[section]
         let events = self.sortedEvents[eventType] ?? []
         return events.count
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return eventTypes[section].rawValue
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
         cell.delegate = self
         
@@ -183,13 +185,13 @@ extension EventsViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         let list = sortedEvents[eventTypes[section]]
         return list!.count == 0 ? 0 : UITableViewAutomaticDimension
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let event = sortedEvents[eventTypes[indexPath.section]]![indexPath.row]
         performSegue(withIdentifier: "toEventDetails", sender: event)

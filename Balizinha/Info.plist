@@ -88,5 +88,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Balizinha needs access to your location to find events.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Balizinha needs access to your location to find events.</string>
 </dict>
 </plist>

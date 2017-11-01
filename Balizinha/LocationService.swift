@@ -10,14 +10,14 @@ import Foundation
 import UIKit
 import CoreLocation
 
-class LocationService: NSObject, CLLocationManagerDelegate {
-    static let sharedInstance = LocationService()
+class LocationService: NSObject {
+    static let shared = LocationService()
     
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     var lastLocation: CLLocation?
 
-    func startLocation() {
+    func startLocation(from controller: UIViewController?) {
         // location
         locationManager.delegate = self
         let loc: CLAuthorizationStatus = CLLocationManager.authorizationStatus()
@@ -25,20 +25,49 @@ class LocationService: NSObject, CLLocationManagerDelegate {
             locationManager.startUpdatingLocation()
         }
         else if loc == CLAuthorizationStatus.denied {
-            self.warnForLocationPermission()
+            self.warnForLocationPermission(from: controller)
         }
         else {
             locationManager.requestWhenInUseAuthorization()
         }
     }
+    
+    // MARK: location
+    func warnForLocationPermission(from controller: UIViewController?) {
+        let message: String = "Balizina needs location access to find events near you. Please go to your phone settings to enable location access."
+        
+        let alert: UIAlertController = UIAlertController(title: "Could not access location", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        if let url = URL(string: UIApplicationOpenSettingsURLString) {
+            alert.addAction(UIAlertAction(title: "Go to Settings", style: .default, handler: { (action) -> Void in
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    // Fallback on earlier versions
+                    UIApplication.shared.openURL(url)
+                }
+            }))
+        }
+        controller?.present(alert, animated: true, completion: nil)
+    }
+    
+    func warnForLocationAvailability(from controller: UIViewController?) {
+        let message: String = "Balizinha needs to pinpoint your location to find events. Please make sure your phone can receive accurate location information."
+        let alert: UIAlertController = UIAlertController(title: "Accurate location not found", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
+        controller?.present(alert, animated: true, completion: nil)
+    }
+}
 
-    // MARK: - CLLocationManagerDelegate
-    private func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+// MARK: - CLLocationManagerDelegate
+extension LocationService: CLLocationManagerDelegate {
+    internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse || status == .authorizedAlways {
+            print("location status changed")
             locationManager.startUpdatingLocation()
         }
         else if status == .denied {
-            self.warnForLocationPermission()
+            self.warnForLocationPermission(from: nil)
             print("Authorization is not available")
         }
         else {
@@ -46,7 +75,7 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    private func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first as CLLocation? {
             print("\(location)")
             if self.currentLocation == nil {
@@ -55,27 +84,5 @@ class LocationService: NSObject, CLLocationManagerDelegate {
             }
         }
     }
-
-    // MARK: location
-    func warnForLocationPermission() {
-        let message: String = "Balizina needs location access to find events near you. Please go to your phone settings to enable location access."
-        
-        let alert: UIAlertController = UIAlertController(title: "Could not access location", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        if let url = URL(string: UIApplicationOpenSettingsURLString) {
-            alert.addAction(UIAlertAction(title: "Go to Settings", style: .default, handler: { (action) -> Void in
-                UIApplication.shared.openURL(url)
-            }))
-        }
-        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
-    }
-    
-    func warnForLocationAvailability() {
-        let message: String = "Balizinha needs to pinpoint your location to find events. Please make sure your phone can receive accurate location information."
-        let alert: UIAlertController = UIAlertController(title: "Accurate location not found", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
-        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
-    }
-    
-
 }
+

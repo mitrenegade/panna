@@ -10,73 +10,59 @@ import UIKit
 import MapKit
 import Firebase
 
-class MapViewController: UIViewController {
+class MapViewController: EventsViewController {
     // Data
     
     // MARK: MapView
     @IBOutlet weak var mapView: MKMapView!
     
-    // MARK: TableView
-    @IBOutlet weak var tableView: UITableView!
-    var snapshot: [DataSnapshot]?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        let eventQueryRef = firRef.child("events")
         
-        // sort by time
-        eventQueryRef.queryOrdered(byChild: "startTime")
-        
-        // filter for type
-        //if let _ = type {
-        //    eventQueryRef.queryEqual(toValue: type!, childKey: "type")
-        //}
-        
-        // TODO: filter by owner
-        
-        // do query
-        var handle: UInt = 0
-        handle = eventQueryRef.observe(.value) { (snapshot: DataSnapshot!) in
-            // this block is called for every result returned
-            self.snapshot = snapshot.children.allObjects as? [DataSnapshot]
-            self.tableView.reloadData()
-        }
     }
+    
+    private lazy var __once: () = {
+        LocationService.shared.startLocation(from: self)
+    }()
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        let _ = __once
+    }
+    
+    var currentRadius: CLLocationDistance = 1000
+    func centerMapOnLocation(location: CLLocation) {
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
+                                                                  currentRadius, currentRadius)
+        mapView.setRegion(coordinateRegion, animated: true)
+    }
 }
 
 extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        print("region changed")
-        
+        currentRadius = mapView.currentRadius
+        print("mapview: region changed with radius \(currentRadius)")
     }
-    
+
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        print("user location changed")
+        print("mapview: user location changed")
+        let location = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+        centerMapOnLocation(location: location)
     }
 }
 
-extension MapViewController: UITableViewDataSource, UITableViewDelegate {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+extension MKMapView {
+    
+    func topCenterCoordinate() -> CLLocationCoordinate2D {
+        return self.convert(CGPoint(x: self.frame.size.width / 2.0, y: 0), toCoordinateFrom: self)
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.snapshot?.count ?? 0
+    var currentRadius: Double {
+        let centerLocation = CLLocation(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
+        let topCenterCoordinate = self.topCenterCoordinate()
+        let topCenterLocation = CLLocation(latitude: topCenterCoordinate.latitude, longitude: topCenterCoordinate.longitude)
+        return centerLocation.distance(from: topCenterLocation)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
-        //cell.delegate = self
-
-        guard let eventDict = snapshot?[indexPath.row] else {
-            return cell
-        }
-        let event = Event(snapshot: eventDict)
-        cell.setupWithEvent(event)
-        
-        return cell
-    }
 }
