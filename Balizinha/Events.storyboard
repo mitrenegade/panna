@@ -478,12 +478,28 @@
                     <view key="view" contentMode="scaleToFill" id="ugZ-NU-dAy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.83921568629999999" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" rotateEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" showsCompass="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fSD-iN-M8Z">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <connections>
+                                    <outlet property="delegate" destination="4nl-da-X7N" id="xhG-95-lqE"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="fSD-iN-M8Z" firstAttribute="top" secondItem="qnf-Ub-fQT" secondAttribute="bottom" id="3w0-BJ-f31"/>
+                            <constraint firstItem="TQs-bv-KFj" firstAttribute="top" secondItem="fSD-iN-M8Z" secondAttribute="bottom" id="a53-0Y-Qlx"/>
+                            <constraint firstItem="fSD-iN-M8Z" firstAttribute="leading" secondItem="ugZ-NU-dAy" secondAttribute="leading" id="g1m-zm-K0E"/>
+                            <constraint firstAttribute="trailing" secondItem="fSD-iN-M8Z" secondAttribute="trailing" id="qJ1-19-dn0"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mapView" destination="fSD-iN-M8Z" id="toB-7o-9SY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8A7-o1-aFW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3135" y="114"/>
+            <point key="canvasLocation" x="3133.5999999999999" y="113.79310344827587"/>
         </scene>
         <!--Place Results View Controller-->
         <scene sceneID="GPi-jf-hfF">
