@@ -13,7 +13,8 @@ class PlaceResultsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var matchingItems:[MKMapItem] = []
     weak var mapView: MKMapView?
-
+ var mapSearchDelegate: MapSearchDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -79,3 +80,10 @@ extension PlaceResultsViewController: UITableViewDataSource {
     }
 }
 
+extension PlaceResultsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedItem = matchingItems[indexPath.row].placemark
+        mapSearchDelegate?.dropPinZoomIn(placemark: selectedItem)
+        dismiss(animated: true, completion: nil)
+    }
+}

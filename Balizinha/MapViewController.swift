@@ -44,6 +44,12 @@ class MapViewController: EventsViewController {
 }
 
 extension MapViewController: MKMapViewDelegate {
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+        if let location = LocationService.shared.currentLocation {
+            centerMapOnLocation(location: location)
+        }
+    }
+
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         print("mapview: region changed with span \(mapView.region.span)")
     }
