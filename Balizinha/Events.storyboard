@@ -134,6 +134,7 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="1Hz-Cq-s22"/>
                     <connections>
+                        <outlet property="tableView" destination="YNR-yc-lON" id="xev-UD-IOs"/>
                         <segue destination="ecd-5g-wOR" kind="presentation" identifier="toCreateEvent" id="1HJ-Dq-gB1"/>
                         <segue destination="BSR-TI-DRS" kind="presentation" identifier="toEventDetails" id="KXi-6o-cTs"/>
                     </connections>
