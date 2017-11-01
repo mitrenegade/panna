@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E027C671E354A1F00B6C3AF /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E027C661E354A1F00B6C3AF /* Map.storyboard */; };
 		8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D551F7209C40067B6F5 /* SettingsService.swift */; };
 		8E116D581F74A66C0067B6F5 /* StripeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D571F74A66C0067B6F5 /* StripeService.swift */; };
 		8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E4291E31B07900DB4B27 /* SplashViewController.swift */; };
@@ -42,6 +43,7 @@
 		8E1F3CD81F8B9B8C005186AD /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */; };
 		8E27716E1E6E60D700B161ED /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E27716D1E6E60D700B161ED /* Action.swift */; };
 		8E2771701E6E655A00B161ED /* ActionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E27716F1E6E655A00B161ED /* ActionService.swift */; };
+		8E291E621FA932D2005ECA46 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFB1B91E3D3F00006DD187 /* LocationService.swift */; };
 		8E379F011CE57E8600C91A12 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F001CE57E8600C91A12 /* EventService.swift */; };
 		8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */; };
 		8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F091CE58CEE00C91A12 /* Event.swift */; };
@@ -83,6 +85,7 @@
 		8EACC3B61F7B449C0091FBC5 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EACC3B51F7B449C0091FBC5 /* Payment.swift */; };
 		8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBF1C381E7965BA0057871F /* PlayerViewController.swift */; };
 		8EC2EFEB1F60D6F90081FF68 /* UIDatePickerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */; };
+		8EC799271E35AA02004ACC52 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC799261E35AA02004ACC52 /* MapViewController.swift */; };
 		8EC799291E363549004ACC52 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC799281E363549004ACC52 /* Account.storyboard */; };
 		8EC7992B1E3635A0004ACC52 /* Events.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC7992A1E3635A0004ACC52 /* Events.storyboard */; };
 		8EC7992D1E3635A8004ACC52 /* Calendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */; };
@@ -92,6 +95,7 @@
 		8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
 		8EDA009C1F6597060080F446 /* RemoteDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009B1F6597060080F446 /* RemoteDataService.swift */; };
 		8EDA009E1F6597BC0080F446 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009D1F6597BC0080F446 /* LoggingService.swift */; };
+		8EDFB1BA1E3D3F00006DD187 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFB1B91E3D3F00006DD187 /* LocationService.swift */; };
 		8EE5B3231E7C17F100BC72A5 /* CameraOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3211E7C17F100BC72A5 /* CameraOverlayViewController.swift */; };
 		8EE5B3241E7C17F100BC72A5 /* CameraOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EE5B3221E7C17F100BC72A5 /* CameraOverlayViewController.xib */; };
 		8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */; };
@@ -103,7 +107,6 @@
 		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
 		F2048F7E1CED59A50039F7BB /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */; };
 		F21571F51D200B7C00D2F59A /* EventDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */; };
-		F238AA261CEBA33500B5D37E /* OldMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F238AA251CEBA33500B5D37E /* OldMenu.storyboard */; };
 		F250A7FC1CFF1588003A7DEA /* TransparentTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */; };
 		F2C0F1201CF3E8BB00CB98F1 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C0F11F1CF3E8BB00CB98F1 /* EventsViewController.swift */; };
 		F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F7C3B71CEE109000350115 /* DetailCell.swift */; };
@@ -129,6 +132,7 @@
 		5EEC7A03F1D4279355F0F9CC /* Pods-Balizinha.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.release.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.release.xcconfig"; sourceTree = "<group>"; };
 		72850730339D7BDEAC192B33 /* Pods-LotSportz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotSportz.release.xcconfig"; path = "Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz.release.xcconfig"; sourceTree = "<group>"; };
 		75AF04F244D31D4B039DF4B6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E027C661E354A1F00B6C3AF /* Map.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Map.storyboard; path = ../Map.storyboard; sourceTree = "<group>"; };
 		8E116D551F7209C40067B6F5 /* SettingsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
 		8E116D571F74A66C0067B6F5 /* StripeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripeService.swift; sourceTree = "<group>"; };
 		8E11E4291E31B07900DB4B27 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
@@ -178,6 +182,7 @@
 		8EACC3B51F7B449C0091FBC5 /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		8EBF1C381E7965BA0057871F /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDatePickerHelper.swift; sourceTree = "<group>"; };
+		8EC799261E35AA02004ACC52 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		8EC799281E363549004ACC52 /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		8EC7992A1E3635A0004ACC52 /* Events.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Events.storyboard; sourceTree = "<group>"; };
 		8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Calendar.storyboard; sourceTree = "<group>"; };
@@ -188,6 +193,7 @@
 		8ED3DE761E330CB700947040 /* Balizinha.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Balizinha.entitlements; sourceTree = "<group>"; };
 		8EDA009B1F6597060080F446 /* RemoteDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteDataService.swift; sourceTree = "<group>"; };
 		8EDA009D1F6597BC0080F446 /* LoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
+		8EDFB1B91E3D3F00006DD187 /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventPhotoCell.swift; sourceTree = "<group>"; };
 		8EE5B3211E7C17F100BC72A5 /* CameraOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraOverlayViewController.swift; sourceTree = "<group>"; };
 		8EE5B3221E7C17F100BC72A5 /* CameraOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraOverlayViewController.xib; sourceTree = "<group>"; };
@@ -201,7 +207,6 @@
 		F2048F7B1CED57170039F7BB /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDisplayViewController.swift; sourceTree = "<group>"; };
-		F238AA251CEBA33500B5D37E /* OldMenu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OldMenu.storyboard; sourceTree = "<group>"; };
 		F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransparentTextField.swift; sourceTree = "<group>"; };
 		F2C0F11F1CF3E8BB00CB98F1 /* EventsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
 		F2F7C3B71CEE109000350115 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
@@ -308,6 +313,7 @@
 		8E379F0B1CE58F9400C91A12 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				8EDFB1B91E3D3F00006DD187 /* LocationService.swift */,
 				8E379F001CE57E8600C91A12 /* EventService.swift */,
 				8E19A4A31E6C67A500D301EC /* PlayerService.swift */,
 				8E39FE8D1D237C710030CB96 /* NotificationService.swift */,
@@ -329,7 +335,7 @@
 				8ECD58E01CDF853500AD2B13 /* Splash.storyboard */,
 				8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */,
 				8E11E42B1E31B80800DB4B27 /* Main.storyboard */,
-				F238AA251CEBA33500B5D37E /* OldMenu.storyboard */,
+				8E027C661E354A1F00B6C3AF /* Map.storyboard */,
 				8EC799281E363549004ACC52 /* Account.storyboard */,
 				8EC7992A1E3635A0004ACC52 /* Events.storyboard */,
 				8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */,
@@ -373,6 +379,7 @@
 				8ED3DE761E330CB700947040 /* Balizinha.entitlements */,
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
 				8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */,
+				8EC799251E35A9EE004ACC52 /* WorkoutWithMe */,
 				F20AD03C1D26C10000969990 /* Login/Signup */,
 				8E379F061CE58AFB00C91A12 /* Models */,
 				8E379F0B1CE58F9400C91A12 /* Services */,
@@ -385,6 +392,13 @@
 				F20AD03B1D26C0F500969990 /* Utils */,
 			);
 			path = Balizinha;
+			sourceTree = "<group>";
+		};
+		8EC799251E35A9EE004ACC52 /* WorkoutWithMe */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = WorkoutWithMe;
 			sourceTree = "<group>";
 		};
 		8EE5B3201E7C17E800BC72A5 /* Camera */ = {
@@ -446,6 +460,7 @@
 			children = (
 				F2F7C3BC1CEE11B300350115 /* CreateEventViewController.swift */,
 				8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */,
+				8EC799261E35AA02004ACC52 /* MapViewController.swift */,
 				F2C0F11F1CF3E8BB00CB98F1 /* EventsViewController.swift */,
 				F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */,
 			);
@@ -559,8 +574,8 @@
 			files = (
 				8EC7992D1E3635A8004ACC52 /* Calendar.storyboard in Resources */,
 				8E7256A11CDF793200C9E054 /* Assets.xcassets in Resources */,
+				8E027C671E354A1F00B6C3AF /* Map.storyboard in Resources */,
 				8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */,
-				F238AA261CEBA33500B5D37E /* OldMenu.storyboard in Resources */,
 				8ECD58E11CDF853500AD2B13 /* Splash.storyboard in Resources */,
 				8E63160C1F5D9A60005CF114 /* GoogleService-Info.plist in Resources */,
 				8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */,
@@ -761,6 +776,7 @@
 				8E1F3CD71F8B9B8C005186AD /* ToggleCell.swift in Sources */,
 				8E4D366E1F8BA0D500B8B0B5 /* PromotionService.swift in Sources */,
 				8E4D366D1F8BA0D500B8B0B5 /* OrganizerService.swift in Sources */,
+				8E291E621FA932D2005ECA46 /* LocationService.swift in Sources */,
 				8E1F3CD31F8B9B8C005186AD /* EventPhotoCell.swift in Sources */,
 				8E1F3CC81F8B9B85005186AD /* FirebaseBaseModel.swift in Sources */,
 				8E1F3CD21F8B9B8C005186AD /* DetailCell.swift in Sources */,
@@ -801,6 +817,7 @@
 				8E7256AD1CDF7DB600C9E054 /* SignupViewController.swift in Sources */,
 				F2F7C3C21CEE2CDD00350115 /* PushTableViewCell.swift in Sources */,
 				8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */,
+				8EDFB1BA1E3D3F00006DD187 /* LocationService.swift in Sources */,
 				8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */,
 				8E7A2FFA1F831411004EAE6A /* Organizer.swift in Sources */,
 				8EDA009C1F6597060080F446 /* RemoteDataService.swift in Sources */,
@@ -827,6 +844,7 @@
 				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,
 				8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */,
 				F2F7C3C01CEE296A00350115 /* AccountViewController.swift in Sources */,
+				8EC799271E35AA02004ACC52 /* MapViewController.swift in Sources */,
 				F2048F7E1CED59A50039F7BB /* CalendarViewController.swift in Sources */,
 				8E19A4AE1E6C9CB300D301EC /* EventActivityViewController.swift in Sources */,
 				F250A7FC1CFF1588003A7DEA /* TransparentTextField.swift in Sources */,

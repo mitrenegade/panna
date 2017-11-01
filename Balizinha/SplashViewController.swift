@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import RxSwift
 import FirebaseAuth
 
 class SplashViewController: UIViewController {
-    
     var handle: AuthStateDidChangeListenerHandle?
     var loaded = false
+    let disposeBag = DisposeBag()
+
+    fileprivate var tabs = ["Account", "Events", "Map", "Calendar"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,7 +28,9 @@ class SplashViewController: UIViewController {
             if let user = user {
                 // user is logged in
                 print("auth: \(auth) user: \(user) current \(firAuth.currentUser)")
-                self.goToMain()
+                SettingsService.shared.observedSettings?.take(1).subscribe({[weak self]_ in
+                    self?.goToMain()
+                }).addDisposableTo(self.disposeBag)
                 
                 // pull user data from facebook
                 // must be done after playerRef is created
@@ -83,14 +89,38 @@ class SplashViewController: UIViewController {
         self.goToSignupLogin()
     }
     
+    fileprivate var _homeViewController: UITabBarController?
+    fileprivate var homeViewController: UITabBarController {
+        if let controller = _homeViewController {
+            return controller
+        }
+        let storyboardName = "Main"
+        _homeViewController = UIStoryboard(name: storyboardName, bundle: nil).instantiateInitialViewController() as! UITabBarController
+        return _homeViewController!
+    }
+    
     private func goToMain() {
-        guard let homeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as? UITabBarController else { return }
-        homeViewController.selectedIndex = 1
+        // configure which tabs are displayed
+        // remove this if maps feature becomes permanent
+        if var controllers = homeViewController.viewControllers {
+            if SettingsService.usesMaps, let index = tabs.index(of: "Events") {
+                controllers.remove(at: index)
+                tabs.remove(at: index)
+                homeViewController.viewControllers = controllers
+                homeViewController.selectedIndex = tabs.index(of: "Map")!
+            }
+            else if !SettingsService.usesMaps, let index = tabs.index(of: "Map") {
+                controllers.remove(at: index)
+                tabs.remove(at: index)
+                homeViewController.viewControllers = controllers
+                homeViewController.selectedIndex = tabs.index(of: "Events")!
+            }
+        }
         
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
             dismiss(animated: true, completion: {
-                self.present(homeViewController, animated: true, completion: { 
+                self.present(self.homeViewController, animated: true, completion: {
                 })
             })
         } else {
@@ -107,7 +137,7 @@ class SplashViewController: UIViewController {
         PlayerService.shared.current // invoke listener
         let _ = OrganizerService.shared.current // trigger organizer loading
         let _ = PromotionService.shared
-        SettingsService.shared.listenForSettings()
+        SettingsService.shared.observedSettings?.take(1) // start observing, do nothing with the result
     }
     
     func goToSignupLogin() {
