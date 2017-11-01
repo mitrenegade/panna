@@ -31,18 +31,21 @@ class MapViewController: EventsViewController {
         let _ = __once
     }
     
-    var currentRadius: CLLocationDistance = 1000
+    fileprivate var first: Bool = true
     func centerMapOnLocation(location: CLLocation) {
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
-                                                                  currentRadius, currentRadius)
-        mapView.setRegion(coordinateRegion, animated: true)
+        var span = mapView.region.span
+        if first {
+            first = false
+            span = MKCoordinateSpanMake(0.05, 0.05)
+        }
+        let region = MKCoordinateRegion(center: location.coordinate, span: span)
+        mapView.setRegion(region, animated: true)
     }
 }
 
 extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        currentRadius = mapView.currentRadius
-        print("mapview: region changed with radius \(currentRadius)")
+        print("mapview: region changed with span \(mapView.region.span)")
     }
 
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
@@ -52,8 +55,8 @@ extension MapViewController: MKMapViewDelegate {
     }
 }
 
+// NOT USED
 extension MKMapView {
-    
     func topCenterCoordinate() -> CLLocationCoordinate2D {
         return self.convert(CGPoint(x: self.frame.size.width / 2.0, y: 0), toCoordinateFrom: self)
     }

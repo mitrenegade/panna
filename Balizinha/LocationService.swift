@@ -20,6 +20,7 @@ class LocationService: NSObject {
     func startLocation(from controller: UIViewController?) {
         // location
         locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         let loc: CLAuthorizationStatus = CLLocationManager.authorizationStatus()
         if loc == CLAuthorizationStatus.authorizedAlways || loc == CLAuthorizationStatus.authorizedWhenInUse{
             locationManager.startUpdatingLocation()
