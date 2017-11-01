@@ -17,7 +17,7 @@ class PlaceSearchViewController: UIViewController {
 
     var searchController: UISearchController?
     @IBOutlet weak var mapView: MKMapView!
-    var selectedPin:MKPlacemark? = nil
+    var selectedPlace:MKPlacemark? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +65,10 @@ class PlaceSearchViewController: UIViewController {
         let region = MKCoordinateRegion(center: location.coordinate, span: span)
         mapView.setRegion(region, animated: true)
     }
+    
+    func selectLocation() {
+        print("selected placemark \(selectedPlace)")
+    }
 }
 
 extension PlaceSearchViewController: MKMapViewDelegate {
@@ -83,12 +87,33 @@ extension PlaceSearchViewController: MKMapViewDelegate {
         let location = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
         centerMapOnLocation(location: location)
     }
+
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            //return nil so map view draws "blue dot" for standard user location
+            return nil
+        }
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+        pinView?.pinTintColor = UIColor.orange
+        pinView?.canShowCallout = true
+        let button = UIButton(type: .custom)
+        button.setTitle("Go", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        button.layer.cornerRadius = button.frame.size.width / 2
+        button.backgroundColor = UIColor.blue
+        button.addTarget(self, action: #selector(PlaceSearchViewController.selectLocation), for: .touchUpInside)
+        pinView?.leftCalloutAccessoryView = button
+        return pinView
+    }
 }
 
 extension PlaceSearchViewController: MapSearchDelegate {
     func dropPinZoomIn(placemark:MKPlacemark){
         // cache the pin
-        selectedPin = placemark
+        selectedPlace = placemark
         // clear existing pins
         mapView.removeAnnotations(mapView.annotations)
         let annotation = MKPointAnnotation()
