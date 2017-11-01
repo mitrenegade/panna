@@ -89,10 +89,17 @@ class SplashViewController: UIViewController {
         self.goToSignupLogin()
     }
     
-    private func goToMain() {
+    fileprivate var _homeViewController: UITabBarController?
+    fileprivate var homeViewController: UITabBarController {
+        if let controller = _homeViewController {
+            return controller
+        }
         let storyboardName = "Main"
-        guard let homeViewController = UIStoryboard(name: storyboardName, bundle: nil).instantiateInitialViewController() as? UITabBarController else { return }
-        
+        _homeViewController = UIStoryboard(name: storyboardName, bundle: nil).instantiateInitialViewController() as! UITabBarController
+        return _homeViewController!
+    }
+    
+    private func goToMain() {
         // configure which tabs are displayed
         // remove this if maps feature becomes permanent
         if var controllers = homeViewController.viewControllers {
@@ -113,7 +120,7 @@ class SplashViewController: UIViewController {
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
             dismiss(animated: true, completion: {
-                self.present(homeViewController, animated: true, completion: { 
+                self.present(self.homeViewController, animated: true, completion: {
                 })
             })
         } else {
