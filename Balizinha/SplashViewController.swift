@@ -99,24 +99,6 @@ class SplashViewController: UIViewController {
     }
     
     private func goToMain() {
-        // configure which tabs are displayed
-        // remove this if maps feature becomes permanent
-        /*
-        if var controllers = homeViewController.viewControllers {
-            if SettingsService.usesMaps, let index = tabs.index(of: "Events") {
-                controllers.remove(at: index)
-                tabs.remove(at: index)
-                homeViewController.viewControllers = controllers
-                homeViewController.selectedIndex = tabs.index(of: "Map")!
-            }
-            else if !SettingsService.usesMaps, let index = tabs.index(of: "Map") {
-                controllers.remove(at: index)
-                tabs.remove(at: index)
-                homeViewController.viewControllers = controllers
-                homeViewController.selectedIndex = tabs.index(of: "Events")!
-            }
-        }*/
-        
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
             dismiss(animated: true, completion: {

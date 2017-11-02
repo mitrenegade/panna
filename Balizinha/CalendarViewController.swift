@@ -15,6 +15,8 @@ class CalendarViewController: UITableViewController {
     
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
 
+    let stripeService = StripeService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,6 +29,8 @@ class CalendarViewController: UITableViewController {
         activityIndicator.center = self.view.center
         self.view.addSubview(activityIndicator)
         activityIndicator.color = UIColor.red
+        
+        stripeService.loadPayment(host: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -228,12 +232,16 @@ extension CalendarViewController: EventDonationDelegate {
             textField.placeholder = "$1.00"
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            guard let _ = self.stripeService.paymentContext?.selectedPaymentMethod else {
+                self.promptForInvalidPaymentMethod(nil)
+                return
+            }
             if let textField = alert.textFields?[0], let text = textField.text, let amount = Double(text), let amountString = EventService.amountString(from: NSNumber(value: amount)) {
                 print("Donating \(amountString)")
                 
                 self.activityIndicator.startAnimating()
                 
-                StripeService().createCharge(for: event, amount: amount, player: player, isDonation: true, completion: {[weak self] (success, error) in
+                self.stripeService.createCharge(for: event, amount: amount, player: player, isDonation: true, completion: {[weak self] (success, error) in
                     self?.activityIndicator.stopAnimating()
                     print("Donation completed \(success), has error \(error)")
                     if success {
@@ -244,18 +252,27 @@ extension CalendarViewController: EventDonationDelegate {
                         self?.simpleAlert("Thank you for your donation", message: "Your donation of \(amountString) will go a long way to keep Balizinha a great community!")
                     }
                     else if let error = error as? NSError {
-                        if let msg = error.userInfo["error"] as? String, msg == "Cannot charge a customer that has no active card" {
-                            self?.simpleAlert("Could not donate", message: "No credit card available. Please add a payment method in your account settings!")
-                        }
-                        else {
-                            self?.simpleAlert("Could not donate", defaultMessage: "There was an issue with donating.", error: error)
-                        }
+                        self?.promptForInvalidPaymentMethod(error)
                     }
                 })
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true)
+    }
+    
+    fileprivate func promptForInvalidPaymentMethod(_ error: NSError?) {
+        if let error = error {
+            if let msg = error.userInfo["error"] as? String, msg == "Cannot charge a customer that has no active card" {
+                self.simpleAlert("Could not donate", message: "No credit card available. Please add a payment method in your account settings!")
+            }
+            else {
+                self.simpleAlert("Could not donate", defaultMessage: "There was an issue with donating.", error: error)
+            }
+        }
+        else {
+            self.simpleAlert("Thanks for the thought", message: "You don't currently have a payment method set up. Please go to your account settings and add a credit card.")
+        }
     }
     
     fileprivate func loadDonationStatus() {
