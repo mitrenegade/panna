@@ -57,6 +57,10 @@ class CalendarViewController: UITableViewController {
                     return startTime1.timeIntervalSince(startTime2) > 0
                 })
                 
+                for event in self.sortedPastEvents {
+                    print("event \(event.id) owner \(event.userIsOrganizer)")
+                }
+                
                 self.sortedUpcomingEvents = original.filter({ (event) -> Bool in
                     !event.isPast
                 })
@@ -192,6 +196,21 @@ extension CalendarViewController: EventDonationDelegate {
         return false
     }
 
+    func promptForDonation(eventId: String) {
+        if let event = self.sortedPastEvents.filter({event in
+            return event.id == eventId
+        }).first {
+            self.promptForDonation(event: event)
+        }
+        else {
+            EventService.shared.withId(id: eventId, completion: { (event) in
+                if let event = event {
+                    self.promptForDonation(event: event)
+                }
+            })
+        }
+        
+    }
     func promptForDonation(event: Event) {
         guard let player = PlayerService.shared.current else { return }
         guard SettingsService.donation() else { return }

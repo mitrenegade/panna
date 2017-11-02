@@ -65,7 +65,6 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        
     }
     
     deinit {
@@ -126,6 +125,7 @@ class SplashViewController: UIViewController {
             })
         } else {
             self.present(homeViewController, animated: true, completion: {
+                self.testStuffOnLogin()
             })
         }
 
@@ -167,10 +167,20 @@ class SplashViewController: UIViewController {
         let index = 2
         homeViewController.selectedIndex = index
         guard let nav: UINavigationController = homeViewController.viewControllers?[index] as? UINavigationController, let calendar: CalendarViewController = nav.viewControllers[0] as? CalendarViewController else { return }
-        EventService.shared.withId(id: eventId) { (event) in
-            if let event = event {
-                calendar.promptForDonation(event: event)
-            }
+        calendar.promptForDonation(eventId: eventId)
+    }
+    
+    fileprivate func testStuffOnLogin() {
+        guard TESTING else { return }
+        
+        // test event prompt
+        let eventId = "-KvVZ-amHak48Czl6fJw"
+        guard let homeViewController = presentedViewController as? UITabBarController else {
+            return
         }
+        let index = 2
+        homeViewController.selectedIndex = index
+        guard let nav: UINavigationController = homeViewController.viewControllers?[index] as? UINavigationController, let calendar: CalendarViewController = nav.viewControllers[0] as? CalendarViewController else { return }
+        calendar.promptForDonation(eventId: eventId)
     }
 }
