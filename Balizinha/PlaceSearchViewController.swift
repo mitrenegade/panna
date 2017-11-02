@@ -55,13 +55,9 @@ class PlaceSearchViewController: UIViewController {
         definesPresentationContext = true
     }
     
-    fileprivate var first: Bool = true
+    var first: Bool = true
     func centerMapOnLocation(location: CLLocation) {
-        var span = mapView.region.span
-        if first {
-            first = false
-            span = MKCoordinateSpanMake(0.05, 0.05)
-        }
+        let span = MKCoordinateSpanMake(0.05, 0.05)
         let region = MKCoordinateRegion(center: location.coordinate, span: span)
         mapView.setRegion(region, animated: true)
     }
@@ -79,13 +75,16 @@ extension PlaceSearchViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        print("mapview: region changed with span \(mapView.region.span)")
+        print("mapview: region changed ")
     }
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        print("mapview: user location changed")
         let location = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
-        centerMapOnLocation(location: location)
+        print("mapview: user location changed to \(location)")
+        if first {
+            first = false
+            centerMapOnLocation(location: location)
+        }
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
