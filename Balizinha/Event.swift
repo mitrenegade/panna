@@ -67,12 +67,42 @@ class Event: FirebaseBaseModel {
         }
     }
     
+    var state: String? {
+        get {
+            return self.dict["state"] as? String
+        }
+        set {
+            self.dict["state"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+    
     var place: String? {
         get {
             return self.dict["place"] as? String
         }
         set {
             self.dict["place"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+
+    var lat: Double? {
+        get {
+            return self.dict["lat"] as? Double
+        }
+        set {
+            self.dict["lat"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+    
+    var lon: Double? {
+        get {
+            return self.dict["lon"] as? Double
+        }
+        set {
+            self.dict["lon"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
@@ -224,11 +254,14 @@ extension Event {
     }
     
     var locationString: String? {
-        if let city = self.city, let place = self.place {
-            return "\(place), \(city)"
+        if let city = self.city, let state = self.state {
+            return "\(city), \(state)"
         }
         else if let city = self.city {
             return city
+        }
+        else if let lat = lat, let lon = lon {
+            return "\(lat), \(lon)"
         }
         else if let place = self.place {
             return place

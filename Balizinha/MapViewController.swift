@@ -41,7 +41,7 @@ class MapViewController: EventsViewController {
 
 extension MapViewController: MKMapViewDelegate {
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        if let location = LocationService.shared.currentLocation {
+        if first, let location = LocationService.shared.currentLocation {
             centerMapOnLocation(location: location)
         }
     }

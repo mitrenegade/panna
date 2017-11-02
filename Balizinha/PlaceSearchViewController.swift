@@ -9,15 +9,16 @@
 import UIKit
 import MapKit
 
-protocol MapSearchDelegate {
-    func dropPinZoomIn(placemark:MKPlacemark)
+protocol PlaceSelectDelegate {
+    func didSelectPlace(name: String?, street: String?, city: String?, state: String?, location: CLLocationCoordinate2D?)
 }
 
 class PlaceSearchViewController: UIViewController {
-
     var searchController: UISearchController?
     @IBOutlet weak var mapView: MKMapView!
     var selectedPlace:MKPlacemark? = nil
+    
+    var delegate: PlaceSelectDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +42,7 @@ class PlaceSearchViewController: UIViewController {
     fileprivate func setupSearch() {
         let locationSearchTable = storyboard!.instantiateViewController(withIdentifier: "PlaceResultsViewController") as! PlaceResultsViewController
         locationSearchTable.mapView = mapView
-        locationSearchTable.mapSearchDelegate = self
+        locationSearchTable.delegate = self
         searchController = UISearchController(searchResultsController: locationSearchTable)
         searchController?.searchResultsUpdater = locationSearchTable
         
@@ -63,24 +64,31 @@ class PlaceSearchViewController: UIViewController {
     }
     
     func selectLocation() {
-        print("selected placemark \(selectedPlace)")
+        let name = selectedPlace?.name
+        let street = selectedPlace?.addressDictionary?["Street"] as? String
+        let city = selectedPlace?.addressDictionary?["City"] as? String
+        let state = selectedPlace?.addressDictionary?["State"] as? String
+        let coordinate = selectedPlace?.coordinate
+        print("selected placemark \(name), \(street), \(city), \(state), \(coordinate)")
+        
+        delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
     }
 }
 
 extension PlaceSearchViewController: MKMapViewDelegate {
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        if let location = LocationService.shared.currentLocation {
+        if first, let location = LocationService.shared.currentLocation {
             centerMapOnLocation(location: location)
         }
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        print("mapview: region changed ")
+        //print("mapview: region changed ")
     }
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         let location = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
-        print("mapview: user location changed to \(location)")
+        //print("mapview: user location changed to \(location)")
         if first {
             first = false
             centerMapOnLocation(location: location)
@@ -109,8 +117,8 @@ extension PlaceSearchViewController: MKMapViewDelegate {
     }
 }
 
-extension PlaceSearchViewController: MapSearchDelegate {
-    func dropPinZoomIn(placemark:MKPlacemark){
+extension PlaceSearchViewController: PlaceResultsDelegate {
+    func didSelectPlace(placemark:MKPlacemark){
         // cache the pin
         selectedPlace = placemark
         // clear existing pins

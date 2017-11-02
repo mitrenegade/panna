@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 protocol CreateEventDelegate {
     func didCreateEvent()
@@ -33,7 +34,10 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var name: String?
     var type : EventType?
     var city : String?
-    var location : String?
+    var state: String?
+    var place : String?
+    var lat: Double?
+    var lon: Double?
     var date : Date?
     var dateString: String?
     var startTime: Date?
@@ -46,7 +50,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var nameField: UITextField?
     var typeField: UITextField?
     var cityField: UITextField?
-    var locationField: UITextField?
+    var placeField: UITextField?
     var dayField: UITextField?
     var startField: UITextField?
     var endField: UITextField?
@@ -155,8 +159,9 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
         if TESTING {
-            self.location = "Rittenhouse"
+            self.place = "Rittenhouse"
             self.city = "Philadelphia"
+            self.state = "Pennsylvania"
             self.date = Date()
             self.startTime = Date()+1800
             self.endTime = Date()+3600
@@ -170,12 +175,16 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         
         self.info = self.descriptionTextView?.text ?? eventToEdit?.info
         
-        guard let location = self.location else {
-            self.simpleAlert("Invalid selection", message: "Please select a location")
+        guard let place = self.place else {
+            self.simpleAlert("Invalid selection", message: "Please select a place")
             return
         }
         guard let city = self.city else {
             self.simpleAlert("Invalid selection", message: "Please select a city")
+            return
+        }
+        guard let state = self.state else {
+            self.simpleAlert("Invalid selection", message: "Please select a state")
             return
         }
         guard let date = self.date else {
@@ -216,7 +225,10 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             dict["name"] = self.name ?? "Balizinha"
             dict["type"] = self.type?.rawValue
             dict["city"] = city
-            dict["place"] = location
+            dict["state"] = state
+            dict["place"] = place
+            dict["lat"] = lat
+            dict["lon"] = lon
             dict["maxPlayers"] = numPlayers
             dict["info"] = self.info
             dict["paymentRequired"] = self.paymentRequired
@@ -244,7 +256,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             })
         }
         else {
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, place: location, startTime: start, endTime: end, maxPlayers: numPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, completion: { (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: numPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, completion: { (event, error) in
                 
                 if let event = event {
                     self.sendPushForCreatedEvent(event)
@@ -322,12 +334,12 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 
                 if options[indexPath.row] == "Location" {
                     cell.valueTextField.placeholder = "Fenway Park"
-                    self.locationField = cell.valueTextField
+                    self.placeField = cell.valueTextField
                     if let place = self.eventToEdit?.place {
-                        self.location = place
-                        self.locationField?.text = place
+                        self.place = place
+                        self.placeField?.text = place
                     }
-                    self.locationField?.isUserInteractionEnabled = false
+                    self.placeField?.isUserInteractionEnabled = false
                 } else if options[indexPath.row] == "City" {
                     cell.valueTextField.placeholder = "Boston"
                     self.cityField = cell.valueTextField
@@ -492,7 +504,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 textField = self.typeField
                 typePickerView.reloadAllComponents()
             case "Location":
-                textField = self.locationField
+                textField = self.placeField
             case "City":
                 textField = self.cityField
             case "Day":
@@ -562,6 +574,12 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             else {
                 self.revertAmount()
             }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toLocationSearch", let controller = segue.destination as? PlaceSearchViewController {
+            controller.delegate = self
         }
     }
 }
@@ -665,13 +683,7 @@ extension CreateEventViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField == self.cityField {
-            self.city = textField.text
-        }
-        else if textField == self.locationField {
-            self.location = textField.text
-        }
-        else if textField == self.nameField {
+        if textField == self.nameField {
             self.name = textField.text
         }
         else if textField == self.amountField, let newAmount = EventService.amountNumber(from: textField.text) {
@@ -811,5 +823,36 @@ extension CreateEventViewController: ToggleCellDelegate {
     
     func revertAmount() {
         self.amountField?.text = EventService.amountString(from: self.amount)
+    }
+}
+
+// MARK: PlaceSearchDelegate
+extension CreateEventViewController: PlaceSelectDelegate {
+    func didSelectPlace(name: String?, street: String?, city: String?, state: String?, location: CLLocationCoordinate2D?) {
+        if let location = name {
+            self.placeField?.text = location
+            self.place = location
+        }
+        else if let street = street {
+            self.placeField?.text = street
+            self.place = street
+        }
+        
+        if let city = city {
+            self.cityField?.text = city
+            self.city = city
+        }
+        
+        if let state = state {
+            // none
+            self.state = state
+        }
+        
+        if let coordinate = location {
+            self.lat = coordinate.latitude
+            self.lon = coordinate.longitude
+        }
+        
+        self.navigationController?.popToViewController(self, animated: true)
     }
 }

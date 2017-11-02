@@ -78,7 +78,7 @@ extension LocationService: CLLocationManagerDelegate {
     
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first as CLLocation? {
-            print("\(location)")
+            //print("\(location)")
             if self.currentLocation == nil {
                 // initiate search now
                 self.currentLocation = location
