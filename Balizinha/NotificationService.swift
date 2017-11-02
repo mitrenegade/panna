@@ -71,6 +71,7 @@ class NotificationService: NSObject {
     class func scheduleNotificationForDonation(_ event: Event) {
         //create local notification
         guard let endTime = event.endTime else { return }
+        guard !event.userIsOrganizer else { return }
         let name = event.name ?? "the last game"
         let content = UNMutableNotificationContent()
         content.title = NSString.localizedUserNotificationString(forKey: "Donate", arguments: nil)
