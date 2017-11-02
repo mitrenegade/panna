@@ -125,7 +125,7 @@ class SplashViewController: UIViewController {
             })
         } else {
             self.present(homeViewController, animated: true, completion: {
-                self.testStuffOnLogin()
+                //self.testStuffOnLogin()
             })
         }
 
@@ -147,6 +147,7 @@ class SplashViewController: UIViewController {
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
             dismiss(animated: true, completion: {
+                self._homeViewController = nil
                 self.present(homeViewController, animated: true, completion: nil)
             })
         } else {

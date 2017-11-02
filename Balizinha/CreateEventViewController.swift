@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-protocol CreateEventDelegate {
+protocol CreateEventDelegate: class {
     func didCreateEvent()
 }
 
@@ -74,7 +74,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var endTimePickerView: UIDatePicker = UIDatePicker()
     var eventImage: UIImage?
 
-    var delegate: CreateEventDelegate?
+    weak var delegate: CreateEventDelegate?
     var cameraController: CameraOverlayViewController?
     
     var eventToEdit: Event?
