@@ -263,9 +263,6 @@ extension Event {
         else if let lat = lat, let lon = lon {
             return "\(lat), \(lon)"
         }
-        else if let place = self.place {
-            return place
-        }
         return nil
     }
 }

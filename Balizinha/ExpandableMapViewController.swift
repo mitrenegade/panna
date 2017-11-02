@@ -22,8 +22,18 @@ class ExpandableMapViewController: UIViewController {
         super.viewDidLoad()
 
         self.buttonExpand.isEnabled = false
-        
-        self.labelLocation.text = event?.locationString ?? "Location TBA"
+    
+        let text: String
+        if let place = event?.place, let locationString = event?.locationString {
+            text = "\(place), \(locationString)"
+        }
+        else if let place = event?.place {
+            text = "\(place)"
+        }
+        else {
+            text = event?.locationString ?? "Location TBA"
+        }
+        self.labelLocation.text = text
     }
 
     @IBAction func didClickButtonExpand(_ sender: Any?) {
