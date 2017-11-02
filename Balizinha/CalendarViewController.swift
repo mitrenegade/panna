@@ -15,6 +15,8 @@ class CalendarViewController: UITableViewController {
     
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
 
+    let stripeService = StripeService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,6 +29,8 @@ class CalendarViewController: UITableViewController {
         activityIndicator.center = self.view.center
         self.view.addSubview(activityIndicator)
         activityIndicator.color = UIColor.red
+        
+        stripeService.loadPayment(host: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,35 +39,39 @@ class CalendarViewController: UITableViewController {
     }
 
     func refreshEvents() {
-        EventService.shared.getEvents(type: nil) { (results) in
+        EventService.shared.getEvents(type: nil) { [weak self] (results) in
             // completion function will get called once at the start, and each time events change
             
             // 1: sort all events by time
-            self.sortedUpcomingEvents = results.sorted { (event1, event2) -> Bool in
+            self?.sortedUpcomingEvents = results.sorted { (event1, event2) -> Bool in
                 return event1.id < event2.id
             }
             
             // 2: Remove events the user has joined
-            EventService.shared.getEventsForUser(firAuth.currentUser!, completion: { (eventIds) in
-                self.sortedUpcomingEvents = self.sortedUpcomingEvents.filter({ (event) -> Bool in
+            EventService.shared.getEventsForUser(firAuth.currentUser!, completion: {[weak self] (eventIds) in
+                self?.sortedUpcomingEvents = self?.sortedUpcomingEvents.filter({ (event) -> Bool in
                     eventIds.contains(event.id)
-                })
+                }) ?? []
                 
-                let original = self.sortedUpcomingEvents
-                self.sortedPastEvents = original.filter({ (event) -> Bool in
+                let original = self?.sortedUpcomingEvents
+                self?.sortedPastEvents = original?.filter({ (event) -> Bool in
                     event.isPast
                 }).sorted(by: { (e1, e2) -> Bool in
                     guard let startTime1 = e1.startTime, let startTime2 = e2.startTime else { return true }
                     return startTime1.timeIntervalSince(startTime2) > 0
-                })
+                }) ?? []
                 
-                self.sortedUpcomingEvents = original.filter({ (event) -> Bool in
-                    !event.isPast
-                })
-                if #available(iOS 10.0, *) {
-                    NotificationService.refreshNotifications(self.sortedUpcomingEvents)
+                for event in self?.sortedPastEvents ?? [] {
+                    print("event \(event.id) owner \(event.userIsOrganizer)")
                 }
-                self.tableView.reloadData()
+                
+                self?.sortedUpcomingEvents = original?.filter({ (event) -> Bool in
+                    !event.isPast
+                }) ?? []
+                if #available(iOS 10.0, *) {
+                    NotificationService.refreshNotifications(self?.sortedUpcomingEvents)
+                }
+                self?.tableView.reloadData()
             })
         }
         
@@ -192,6 +200,25 @@ extension CalendarViewController: EventDonationDelegate {
         return false
     }
 
+    func promptForDonation(eventId: String) {
+        if let event = self.sortedPastEvents.filter({event in
+            return event.id == eventId
+        }).first {
+            self.promptForDonation(event: event)
+        }
+        else {
+            guard let user = firAuth.currentUser else { return }
+            EventService.shared.getEventsForUser(user, completion: {[weak self] (eventIds) in
+                guard eventIds.contains(eventId) else { return }
+                EventService.shared.withId(id: eventId, completion: {[weak self] (event) in
+                    if let event = event {
+                        self?.promptForDonation(event: event)
+                    }
+                })
+            })
+        }
+        
+    }
     func promptForDonation(event: Event) {
         guard let player = PlayerService.shared.current else { return }
         guard SettingsService.donation() else { return }
@@ -205,34 +232,47 @@ extension CalendarViewController: EventDonationDelegate {
             textField.placeholder = "$1.00"
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            guard let _ = self.stripeService.paymentContext?.selectedPaymentMethod else {
+                self.promptForInvalidPaymentMethod(nil)
+                return
+            }
             if let textField = alert.textFields?[0], let text = textField.text, let amount = Double(text), let amountString = EventService.amountString(from: NSNumber(value: amount)) {
                 print("Donating \(amountString)")
                 
                 self.activityIndicator.startAnimating()
                 
-                StripeService().createCharge(for: event, amount: amount, player: player, isDonation: true, completion: { (success, error) in
-                    self.activityIndicator.stopAnimating()
+                self.stripeService.createCharge(for: event, amount: amount, player: player, isDonation: true, completion: {[weak self] (success, error) in
+                    self?.activityIndicator.stopAnimating()
                     print("Donation completed \(success), has error \(error)")
                     if success {
                         // add an action
                         guard let user = firAuth.currentUser else { return }
                         ActionService.post(.donation, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
 
-                        self.simpleAlert("Thank you for your donation", message: "Your donation of \(amountString) will go a long way to keep Balizinha a great community!")
+                        self?.simpleAlert("Thank you for your donation", message: "Your donation of \(amountString) will go a long way to keep Balizinha a great community!")
                     }
                     else if let error = error as? NSError {
-                        if let msg = error.userInfo["error"] as? String, msg == "Cannot charge a customer that has no active card" {
-                            self.simpleAlert("Could not donate", message: "No credit card available. Please add a payment method in your account settings!")
-                        }
-                        else {
-                            self.simpleAlert("Could not donate", defaultMessage: "There was an issue with donating.", error: error)
-                        }
+                        self?.promptForInvalidPaymentMethod(error)
                     }
                 })
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true)
+    }
+    
+    fileprivate func promptForInvalidPaymentMethod(_ error: NSError?) {
+        if let error = error {
+            if let msg = error.userInfo["error"] as? String, msg == "Cannot charge a customer that has no active card" {
+                self.simpleAlert("Could not donate", message: "No credit card available. Please add a payment method in your account settings!")
+            }
+            else {
+                self.simpleAlert("Could not donate", defaultMessage: "There was an issue with donating.", error: error)
+            }
+        }
+        else {
+            self.simpleAlert("Thanks for the thought", message: "You don't currently have a payment method set up. Please go to your account settings and add a credit card.")
+        }
     }
     
     fileprivate func loadDonationStatus() {

@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-protocol PlaceResultsDelegate {
+protocol PlaceResultsDelegate: class {
     func didSelectPlace(placemark:MKPlacemark)
 }
 
@@ -17,7 +17,7 @@ class PlaceResultsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var matchingItems:[MKMapItem] = []
     weak var mapView: MKMapView?
-    var delegate: PlaceResultsDelegate?
+    weak var delegate: PlaceResultsDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()

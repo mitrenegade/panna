@@ -65,7 +65,6 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        
     }
     
     deinit {
@@ -100,24 +99,6 @@ class SplashViewController: UIViewController {
     }
     
     private func goToMain() {
-        // configure which tabs are displayed
-        // remove this if maps feature becomes permanent
-        /*
-        if var controllers = homeViewController.viewControllers {
-            if SettingsService.usesMaps, let index = tabs.index(of: "Events") {
-                controllers.remove(at: index)
-                tabs.remove(at: index)
-                homeViewController.viewControllers = controllers
-                homeViewController.selectedIndex = tabs.index(of: "Map")!
-            }
-            else if !SettingsService.usesMaps, let index = tabs.index(of: "Map") {
-                controllers.remove(at: index)
-                tabs.remove(at: index)
-                homeViewController.viewControllers = controllers
-                homeViewController.selectedIndex = tabs.index(of: "Events")!
-            }
-        }*/
-        
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
             dismiss(animated: true, completion: {
@@ -126,6 +107,7 @@ class SplashViewController: UIViewController {
             })
         } else {
             self.present(homeViewController, animated: true, completion: {
+                //self.testStuffOnLogin()
             })
         }
 
@@ -147,6 +129,7 @@ class SplashViewController: UIViewController {
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
             dismiss(animated: true, completion: {
+                self._homeViewController = nil
                 self.present(homeViewController, animated: true, completion: nil)
             })
         } else {
@@ -167,10 +150,20 @@ class SplashViewController: UIViewController {
         let index = 2
         homeViewController.selectedIndex = index
         guard let nav: UINavigationController = homeViewController.viewControllers?[index] as? UINavigationController, let calendar: CalendarViewController = nav.viewControllers[0] as? CalendarViewController else { return }
-        EventService.shared.withId(id: eventId) { (event) in
-            if let event = event {
-                calendar.promptForDonation(event: event)
-            }
+        calendar.promptForDonation(eventId: eventId)
+    }
+    
+    fileprivate func testStuffOnLogin() {
+        guard TESTING else { return }
+        
+        // test event prompt
+        let eventId = "-KvVZ-amHak48Czl6fJw"
+        guard let homeViewController = presentedViewController as? UITabBarController else {
+            return
         }
+        let index = 2
+        homeViewController.selectedIndex = index
+        guard let nav: UINavigationController = homeViewController.viewControllers?[index] as? UINavigationController, let calendar: CalendarViewController = nav.viewControllers[0] as? CalendarViewController else { return }
+        calendar.promptForDonation(eventId: eventId)
     }
 }

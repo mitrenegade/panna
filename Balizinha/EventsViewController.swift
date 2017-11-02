@@ -43,45 +43,44 @@ class EventsViewController: UIViewController {
         activityIndicator.color = UIColor.red
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    deinit {
+        print("eventsView deinit")
     }
     
     func refreshEvents() {
         
-        service.getEvents(type: nil) { (results) in
+        service.getEvents(type: nil) { [weak self] (results) in
             // completion function will get called once at the start, and each time events change
             
             // 1: sort all events by time
-            self.allEvents = results.sorted { (event1, event2) -> Bool in
+            self?.allEvents = results.sorted { (event1, event2) -> Bool in
                 return event1.id > event2.id
             }
             
             // 2: Remove events the user has joined
-            self.service.getEventsForUser(firAuth.currentUser!, completion: { (eventIds) in
+            self?.service.getEventsForUser(firAuth.currentUser!, completion: {[weak self] (eventIds) in
                 
                 print("eventsForUser \(firAuth.currentUser!): \(eventIds)")
 
-                for event in self.allEvents {
+                for event in self?.allEvents ?? [] {
                     print("event id \(event.id) date \(event.dateString(event.endTime ?? Date())) past \(event.isPast)")
                 }
-                print("all events count \(self.allEvents.count)")
+                print("all events count \(self?.allEvents.count)")
                 
-                self.allEvents = self.allEvents.filter({ (event) -> Bool in
+                self?.allEvents = self?.allEvents.filter({ (event) -> Bool in
                     (!eventIds.contains(event.id) && !event.isPast)
-                })
+                }) ?? []
                 
                 // 3: Organize events by type
-                self.sortedEvents = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .other: []]
+                self?.sortedEvents = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .other: []]
                 
-                for event in self.allEvents{
-                    var oldValue = self.sortedEvents[event.type]
+                for event in self?.allEvents ?? [] {
+                    var oldValue = self?.sortedEvents[event.type]
                     print(event.type)
                     oldValue?.append(event)
-                    self.sortedEvents.updateValue(oldValue!, forKey: event.type)
+                    self?.sortedEvents.updateValue(oldValue!, forKey: event.type)
                 }
-                self.tableView.reloadData()
+                self?.tableView.reloadData()
             })
         }
     }
@@ -102,19 +101,19 @@ class EventsViewController: UIViewController {
             alert.addAction(UIAlertAction(title: "Start", style: UIAlertActionStyle.default, handler: { (action) in
                 
                 // TODO: check for payment method before creating an organizer?
-                OrganizerService.shared.createOrganizer(completion: { (organizer, error) in
+                OrganizerService.shared.createOrganizer(completion: {[weak self] (organizer, error) in
                     if let error = error {
-                        self.simpleAlert("Could not become organizer", message: "There was an issue joining the organizer trial. \(error.localizedDescription)")
+                        self?.simpleAlert("Could not become organizer", message: "There was an issue joining the organizer trial. \(error.localizedDescription)")
                     }
                     else {
                         // go directly to create event without payments
                         guard SettingsService.paymentRequired() else {
-                            self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
+                            self?.performSegue(withIdentifier: "toCreateEvent", sender: nil)
                             return
                         }
                         
                         // create
-                        self.stripeService.createSubscription(completion: { (success, error) in
+                        self?.stripeService.createSubscription(completion: { [weak self] (success, error) in
                             print("Success \(success) error \(error)")
                             var title: String = "Free trial started"
                             var message: String = "Good luck organizing games! You are now in the 30 day organizer trial."
@@ -127,9 +126,9 @@ class EventsViewController: UIViewController {
                             }
                             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
-                                self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
+                                self?.performSegue(withIdentifier: "toCreateEvent", sender: nil)
                             }))
-                            self.present(alert, animated: true, completion: nil)
+                            self?.present(alert, animated: true, completion: nil)
                         })
                     }
                 })
@@ -335,17 +334,17 @@ extension EventsViewController {
         }
         self.activityIndicator.startAnimating()
 
-        stripeService.createCharge(for: event, amount: amount, player: current, completion: { (success, error) in
-            self.activityIndicator.stopAnimating()
+        stripeService.createCharge(for: event, amount: amount, player: current, completion: {[weak self] (success, error) in
+            self?.activityIndicator.stopAnimating()
             if success {
-                self.joinEvent(event)
+                self?.joinEvent(event)
             }
             else if let error = error as? NSError {
                 var errorMessage = ""
                 if let errorString = error.userInfo["error"] as? String {
                     errorMessage = "Error \(errorString)"
                 }
-                self.simpleAlert("Could not join game", message: "There was an issue making a payment. \(errorMessage)")
+                self?.simpleAlert("Could not join game", message: "There was an issue making a payment. \(errorMessage)")
             }
         })
     }

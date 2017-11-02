@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-protocol PlaceSelectDelegate {
+protocol PlaceSelectDelegate: class {
     func didSelectPlace(name: String?, street: String?, city: String?, state: String?, location: CLLocationCoordinate2D?)
 }
 
@@ -18,7 +18,7 @@ class PlaceSearchViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     var selectedPlace:MKPlacemark? = nil
     
-    var delegate: PlaceSelectDelegate?
+    weak var delegate: PlaceSelectDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()

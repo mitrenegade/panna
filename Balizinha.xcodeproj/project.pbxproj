@@ -463,8 +463,8 @@
 				8E74E54A1FA9FB51005F72DA /* PlaceSearchViewController.swift */,
 				8E74E54C1FA9FFF5005F72DA /* PlaceResultsViewController.swift */,
 				8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */,
-				8EC799261E35AA02004ACC52 /* MapViewController.swift */,
 				F2C0F11F1CF3E8BB00CB98F1 /* EventsViewController.swift */,
+				8EC799261E35AA02004ACC52 /* MapViewController.swift */,
 				F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */,
 			);
 			name = Events;

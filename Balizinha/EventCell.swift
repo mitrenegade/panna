@@ -9,12 +9,12 @@
 import UIKit
 import AsyncImageView
 
-protocol EventCellDelegate {
+protocol EventCellDelegate: class {
     func joinOrLeaveEvent(_ event: Event, join: Bool)
     func editEvent(_ event: Event)
 }
 
-protocol EventDonationDelegate {
+protocol EventDonationDelegate: class {
     func paidStatus(event: Event) -> Bool? // if nil, still loading/unknown
     func promptForDonation(event: Event)
 }
@@ -55,8 +55,8 @@ class EventCell: UITableViewCell {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var event: Event?
-    var delegate: EventCellDelegate?
-    var donationDelegate: EventDonationDelegate?
+    weak var delegate: EventCellDelegate?
+    weak var donationDelegate: EventDonationDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()

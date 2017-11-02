@@ -74,7 +74,6 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
                 return
             }
             self.customerId = customerId
-            
             let customerContext = STPCustomerContext(keyProvider: self)
             self.paymentContext = STPPaymentContext(customerContext: customerContext)
             self.paymentContext?.delegate = self

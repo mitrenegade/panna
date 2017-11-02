@@ -33,6 +33,9 @@ class AccountViewController: UITableViewController {
 
     }
 
+    deinit {
+        print("accountview deinit")
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -147,18 +150,18 @@ class AccountViewController: UITableViewController {
         alert.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "Promo code"
         }
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (action) in
             if let textField = alert.textFields?[0], let promo = textField.text {
                 print("Using promo code \(promo)")
-                PromotionService.shared.withId(id: promo, completion: { (promotion, error) in
+                PromotionService.shared.withId(id: promo, completion: { [weak self] (promotion, error) in
                     if let promotion = promotion {
                         print("\(promotion)")
                         current.promotionId = promotion.id
-                        self.tableView.reloadData()
+                        self?.tableView.reloadData()
                         LoggingService.shared.log(event: "AddPromoCode", message: "success", info: ["code":promo], error: nil)
                     }
                     else {
-                        self.simpleAlert("Invalid promo code", message: "The promo code \(promo) seems to be invalid.")
+                        self?.simpleAlert("Invalid promo code", message: "The promo code \(promo) seems to be invalid.")
                         LoggingService.shared.log(event: "AddPromoCode", message: "invalid", info: ["code":promo], error: error)
                     }
                 })
