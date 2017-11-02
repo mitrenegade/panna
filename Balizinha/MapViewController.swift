@@ -31,29 +31,37 @@ class MapViewController: EventsViewController {
         let _ = __once
     }
     
-    var currentRadius: CLLocationDistance = 1000
+    var first: Bool = true
     func centerMapOnLocation(location: CLLocation) {
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
-                                                                  currentRadius, currentRadius)
-        mapView.setRegion(coordinateRegion, animated: true)
+        let span = MKCoordinateSpanMake(0.05, 0.05)
+        let region = MKCoordinateRegion(center: location.coordinate, span: span)
+        mapView.setRegion(region, animated: true)
     }
 }
 
 extension MapViewController: MKMapViewDelegate {
-    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        currentRadius = mapView.currentRadius
-        print("mapview: region changed with radius \(currentRadius)")
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+        if first, let location = LocationService.shared.currentLocation {
+            centerMapOnLocation(location: location)
+        }
     }
-
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        print("mapview: region changed ")
+    }
+    
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        print("mapview: user location changed")
         let location = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
-        centerMapOnLocation(location: location)
+        print("mapview: user location changed to \(location)")
+        if first {
+            first = false
+            centerMapOnLocation(location: location)
+        }
     }
 }
 
+// NOT USED
 extension MKMapView {
-    
     func topCenterCoordinate() -> CLLocationCoordinate2D {
         return self.convert(CGPoint(x: self.frame.size.width / 2.0, y: 0), toCoordinateFrom: self)
     }
