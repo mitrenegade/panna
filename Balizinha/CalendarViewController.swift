@@ -203,10 +203,14 @@ extension CalendarViewController: EventDonationDelegate {
             self.promptForDonation(event: event)
         }
         else {
-            EventService.shared.withId(id: eventId, completion: { (event) in
-                if let event = event {
-                    self.promptForDonation(event: event)
-                }
+            guard let user = firAuth.currentUser else { return }
+            EventService.shared.getEventsForUser(user, completion: { (eventIds) in
+                guard eventIds.contains(eventId) else { return }
+                EventService.shared.withId(id: eventId, completion: { (event) in
+                    if let event = event {
+                        self.promptForDonation(event: event)
+                    }
+                })
             })
         }
         
