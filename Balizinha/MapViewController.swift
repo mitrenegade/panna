@@ -12,13 +12,21 @@ import Firebase
 
 class MapViewController: EventsViewController {
     // Data
+    var annotations: [String: MKAnnotation] = [String:MKAnnotation]()
     
     // MARK: MapView
     @IBOutlet weak var mapView: MKMapView!
     
+    // MARK: filtered events
+    var filteredEventIds: [String] = []
+    var filteredEvents: [Event] {
+        return self.allEvents.filter({ (event) -> Bool in
+            return filteredEventIds.contains(event.id)
+        })
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     private lazy var __once: () = {
@@ -36,6 +44,29 @@ class MapViewController: EventsViewController {
         let span = MKCoordinateSpanMake(0.05, 0.05)
         let region = MKCoordinateRegion(center: location.coordinate, span: span)
         mapView.setRegion(region, animated: true)
+    }
+    
+    override func reloadData() {
+        super.reloadData()
+        for event in self.allEvents {
+            self.addAnnotation(for: event)
+        }
+    }
+    
+    func addAnnotation(for event: Event) {
+        guard let lat = event.lat, let lon = event.lon else { return }
+        if let oldAnnotation = annotations[event.id] {
+            mapView.removeAnnotations([oldAnnotation])
+        }
+        
+        let annotation = MKPointAnnotation()
+        let coordinate = CLLocationCoordinate2DMake(lat, lon)
+        annotation.coordinate = coordinate
+        annotation.title = event.name
+        annotation.subtitle = event.locationString
+        mapView.addAnnotation(annotation)
+        
+        annotations[event.id] = annotation
     }
 }
 
@@ -58,19 +89,72 @@ extension MapViewController: MKMapViewDelegate {
             centerMapOnLocation(location: location)
         }
     }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let selectedAnnotation = view.annotation else { return }
+        var selectedId: String?
+        for (eventId, annotation) in annotations {
+            if annotation.title! == selectedAnnotation.title! && annotation.coordinate.latitude == selectedAnnotation.coordinate.latitude && annotation.coordinate.longitude == selectedAnnotation.coordinate.longitude {
+                selectedId = eventId
+                break
+            }
+        }
+        guard let eventId = selectedId else { return }
+        self.filteredEventIds.removeAll()
+        self.filteredEventIds.append(eventId)
+        self.tableView.reloadData()
+    }
+
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        self.filteredEventIds.removeAll()
+        self.tableView.reloadData()
+    }
 }
 
-// NOT USED
-extension MKMapView {
-    func topCenterCoordinate() -> CLLocationCoordinate2D {
-        return self.convert(CGPoint(x: self.frame.size.width / 2.0, y: 0), toCoordinateFrom: self)
+// MARK: UITableViewDataSource, UITableViewDelegate
+extension MapViewController {
+    // MARK: - Table view data source
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
     
-    var currentRadius: Double {
-        let centerLocation = CLLocation(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
-        let topCenterCoordinate = self.topCenterCoordinate()
-        let topCenterLocation = CLLocation(latitude: topCenterCoordinate.latitude, longitude: topCenterCoordinate.longitude)
-        return centerLocation.distance(from: topCenterLocation)
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if filteredEventIds.isEmpty {
+            return allEvents.count
+        }
+        return filteredEvents.count
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return nil
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
+        cell.delegate = self
+        
+        let event: Event
+        if filteredEventIds.isEmpty {
+            event = allEvents[indexPath.row]
+        }
+        else {
+            event = filteredEvents[indexPath.row]
+        }
+        cell.setupWithEvent(event)
+
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let event: Event
+        if filteredEventIds.isEmpty {
+            event = allEvents[indexPath.row]
+        }
+        else {
+            event = filteredEvents[indexPath.row]
+        }
+        performSegue(withIdentifier: "toEventDetails", sender: event)
+    }
 }
+

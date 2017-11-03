@@ -80,9 +80,13 @@ class EventsViewController: UIViewController {
                     oldValue?.append(event)
                     self?.sortedEvents.updateValue(oldValue!, forKey: event.type)
                 }
-                self?.tableView.reloadData()
+                self?.reloadData()
             })
         }
+    }
+    
+    func reloadData() {
+        self.tableView.reloadData()
     }
     
     func didClickAddEvent(sender: Any) {
