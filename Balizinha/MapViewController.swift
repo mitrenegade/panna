@@ -105,6 +105,10 @@ extension MapViewController: MKMapViewDelegate {
         self.tableView.reloadData()
     }
 
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        self.filteredEventIds.removeAll()
+        self.tableView.reloadData()
+    }
 }
 
 // MARK: UITableViewDataSource, UITableViewDelegate
