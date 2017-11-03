@@ -477,13 +477,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GA6-SQ-Hbp">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="222.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="286"/>
                                 <connections>
                                     <outlet property="delegate" destination="ZSz-6h-4qX" id="SIZ-0l-KgO"/>
                                 </connections>
                             </mapView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="101" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5l3-8z-tLh">
-                                <rect key="frame" x="0.0" y="222.5" width="375" height="444.5"/>
+                                <rect key="frame" x="0.0" y="286" width="375" height="381"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EventCell" rowHeight="100" id="rwb-fP-fYq" customClass="EventCell" customModule="Balizinha" customModuleProvider="target">
@@ -602,7 +602,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="GA6-SQ-Hbp" firstAttribute="top" secondItem="Sbg-gP-7E0" secondAttribute="top" id="6RM-xa-LUU"/>
-                            <constraint firstItem="GA6-SQ-Hbp" firstAttribute="height" secondItem="Sbg-gP-7E0" secondAttribute="height" multiplier="1:3" id="D2k-Ha-pZu"/>
+                            <constraint firstItem="GA6-SQ-Hbp" firstAttribute="height" secondItem="Sbg-gP-7E0" secondAttribute="height" multiplier="3:7" id="D2k-Ha-pZu"/>
                             <constraint firstAttribute="trailing" secondItem="GA6-SQ-Hbp" secondAttribute="trailing" id="LvQ-jC-t8a"/>
                             <constraint firstItem="5l3-8z-tLh" firstAttribute="top" secondItem="GA6-SQ-Hbp" secondAttribute="bottom" id="UDI-um-Znk"/>
                             <constraint firstItem="T3t-Wb-TIF" firstAttribute="top" secondItem="5l3-8z-tLh" secondAttribute="bottom" id="VfI-en-ae5"/>

@@ -17,9 +17,16 @@ class MapViewController: EventsViewController {
     // MARK: MapView
     @IBOutlet weak var mapView: MKMapView!
     
+    // MARK: filtered events
+    var filteredEventIds: [String] = []
+    var filteredEvents: [Event] {
+        return self.allEvents.filter({ (event) -> Bool in
+            return filteredEventIds.contains(event.id)
+        })
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     private lazy var __once: () = {
@@ -45,6 +52,22 @@ class MapViewController: EventsViewController {
             self.addAnnotation(for: event)
         }
     }
+    
+    func addAnnotation(for event: Event) {
+        guard let lat = event.lat, let lon = event.lon else { return }
+        if let oldAnnotation = annotations[event.id] {
+            mapView.removeAnnotations([oldAnnotation])
+        }
+        
+        let annotation = MKPointAnnotation()
+        let coordinate = CLLocationCoordinate2DMake(lat, lon)
+        annotation.coordinate = coordinate
+        annotation.title = event.name
+        annotation.subtitle = event.locationString
+        mapView.addAnnotation(annotation)
+        
+        annotations[event.id] = annotation
+    }
 }
 
 extension MapViewController: MKMapViewDelegate {
@@ -66,21 +89,68 @@ extension MapViewController: MKMapViewDelegate {
             centerMapOnLocation(location: location)
         }
     }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let selectedAnnotation = view.annotation else { return }
+        var selectedId: String?
+        for (eventId, annotation) in annotations {
+            if annotation.title! == selectedAnnotation.title! && annotation.coordinate.latitude == selectedAnnotation.coordinate.latitude && annotation.coordinate.longitude == selectedAnnotation.coordinate.longitude {
+                selectedId = eventId
+                break
+            }
+        }
+        guard let eventId = selectedId else { return }
+        self.filteredEventIds.removeAll()
+        self.filteredEventIds.append(eventId)
+        self.tableView.reloadData()
+    }
+
 }
 
-// MARK: - Annotations
+// MARK: UITableViewDataSource, UITableViewDelegate
 extension MapViewController {
-    func addAnnotation(for event: Event) {
-        guard let lat = event.lat, let lon = event.lon else { return }
-        if let oldAnnotation = annotations[event.id] {
-            mapView.removeAnnotations([oldAnnotation])
+    // MARK: - Table view data source
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if filteredEventIds.isEmpty {
+            return allEvents.count
         }
+        return filteredEvents.count
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return nil
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
+        cell.delegate = self
         
-        let annotation = MKPointAnnotation()
-        let coordinate = CLLocationCoordinate2DMake(lat, lon)
-        annotation.coordinate = coordinate
-        annotation.title = event.name
-        annotation.subtitle = event.locationString
-        mapView.addAnnotation(annotation)
+        let event: Event
+        if filteredEventIds.isEmpty {
+            event = allEvents[indexPath.row]
+        }
+        else {
+            event = filteredEvents[indexPath.row]
+        }
+        cell.setupWithEvent(event)
+
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let event: Event
+        if filteredEventIds.isEmpty {
+            event = allEvents[indexPath.row]
+        }
+        else {
+            event = filteredEvents[indexPath.row]
+        }
+        performSegue(withIdentifier: "toEventDetails", sender: event)
     }
 }
+
