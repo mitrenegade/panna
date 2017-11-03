@@ -12,6 +12,7 @@ import Firebase
 
 class MapViewController: EventsViewController {
     // Data
+    var annotations: [String: MKAnnotation] = [String:MKAnnotation]()
     
     // MARK: MapView
     @IBOutlet weak var mapView: MKMapView!
@@ -37,6 +38,13 @@ class MapViewController: EventsViewController {
         let region = MKCoordinateRegion(center: location.coordinate, span: span)
         mapView.setRegion(region, animated: true)
     }
+    
+    override func reloadData() {
+        super.reloadData()
+        for event in self.allEvents {
+            self.addAnnotation(for: event)
+        }
+    }
 }
 
 extension MapViewController: MKMapViewDelegate {
@@ -60,17 +68,19 @@ extension MapViewController: MKMapViewDelegate {
     }
 }
 
-// NOT USED
-extension MKMapView {
-    func topCenterCoordinate() -> CLLocationCoordinate2D {
-        return self.convert(CGPoint(x: self.frame.size.width / 2.0, y: 0), toCoordinateFrom: self)
+// MARK: - Annotations
+extension MapViewController {
+    func addAnnotation(for event: Event) {
+        guard let lat = event.lat, let lon = event.lon else { return }
+        if let oldAnnotation = annotations[event.id] {
+            mapView.removeAnnotations([oldAnnotation])
+        }
+        
+        let annotation = MKPointAnnotation()
+        let coordinate = CLLocationCoordinate2DMake(lat, lon)
+        annotation.coordinate = coordinate
+        annotation.title = event.name
+        annotation.subtitle = event.locationString
+        mapView.addAnnotation(annotation)
     }
-    
-    var currentRadius: Double {
-        let centerLocation = CLLocation(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
-        let topCenterCoordinate = self.topCenterCoordinate()
-        let topCenterLocation = CLLocation(latitude: topCenterCoordinate.latitude, longitude: topCenterCoordinate.longitude)
-        return centerLocation.distance(from: topCenterLocation)
-    }
-    
 }
