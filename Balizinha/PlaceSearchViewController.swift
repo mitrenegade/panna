@@ -26,7 +26,17 @@ class PlaceSearchViewController: UIViewController {
         // Do any additional setup after loading the view.
         setupSearch()
         
-        self.navigationItem.leftBarButtonItem?.title = nil
+        let button = UIButton(type: .custom)
+        button.setTitle("Cancel", for: .normal)
+        button.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        let cancelButton = UIBarButtonItem(customView: button)
+        self.navigationItem.leftBarButtonItem = cancelButton
+
+        let button2 = UIButton(type: .custom)
+        button2.setTitle("Save", for: .normal)
+        button2.addTarget(self, action: #selector(selectLocation), for: .touchUpInside)
+        let saveButton = UIBarButtonItem(customView: button2)
+        self.navigationItem.rightBarButtonItem = saveButton
     }
     
     private lazy var __once: () = {
@@ -37,6 +47,10 @@ class PlaceSearchViewController: UIViewController {
         super.viewDidAppear(animated)
         
         let _ = __once
+    }
+    
+    func cancel() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     fileprivate func setupSearch() {
@@ -64,6 +78,7 @@ class PlaceSearchViewController: UIViewController {
     }
     
     func selectLocation() {
+        guard selectedPlace != nil else { return }
         let name = selectedPlace?.name
         let street = selectedPlace?.addressDictionary?["Street"] as? String
         let city = selectedPlace?.addressDictionary?["City"] as? String
