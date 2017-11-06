@@ -46,6 +46,12 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var info : String?
     var paymentRequired: Bool = false
     var amount: NSNumber?
+    
+    // organizer cache
+    var cachedName: String?
+    var cachedPlace: String?
+    var cachedCity: String?
+    var cachedState: String?
    
     var nameField: UITextField?
     var typeField: UITextField?
@@ -98,6 +104,10 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         
         self.setupPickers()
         self.setupTextFields()
+        
+        if CACHE_ORGANIZER_FAVORITE_LOCATION {
+            self.loadCachedOrganizerFavorites()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -169,6 +179,32 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
 //        }
     }
     
+    fileprivate func loadCachedOrganizerFavorites() {
+        if let name = UserDefaults.standard.string(forKey: "organizerCachedName") {
+            self.name = name
+            self.cachedName = name
+        }
+        if let place = UserDefaults.standard.string(forKey: "organizerCachedPlace") {
+            self.place = place
+            self.cachedPlace = place
+        }
+        if let city = UserDefaults.standard.string(forKey: "organizerCachedCity") {
+            self.city = city
+            self.cachedCity = city
+        }
+        if let state = UserDefaults.standard.string(forKey: "organizerCachedState") {
+            self.state = state
+            self.cachedState = state
+        }
+    }
+    
+    fileprivate func cacheOrganizerFavorites() {
+        UserDefaults.standard.set(self.name, forKey: "organizerCachedName")
+        UserDefaults.standard.set(self.place, forKey: "organizerCachedPlace")
+        UserDefaults.standard.set(self.city, forKey: "organizerCachedCity")
+        UserDefaults.standard.set(self.state, forKey: "organizerCachedState")
+    }
+    
     @IBAction func didClickSave(_ sender: AnyObject) {
         // in case user clicks save without clicking done first
         self.done()
@@ -209,6 +245,10 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                 self.simpleAlert("Invalid payment amount", message: "Please enter the amount required to play, or turn off the payment requirement.")
                 return
             }
+        }
+        
+        if CACHE_ORGANIZER_FAVORITE_LOCATION {
+            self.cacheOrganizerFavorites()
         }
 
         let start = self.combineDateAndTime(date, time: startTime)
@@ -339,6 +379,10 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                         self.place = place
                         self.placeField?.text = place
                     }
+                    else if let cachedPlace = self.cachedPlace {
+                        self.place = cachedPlace
+                        self.placeField?.text = cachedPlace
+                    }
                     self.placeField?.isUserInteractionEnabled = false
                 } else if options[indexPath.row] == "City" {
                     cell.valueTextField.placeholder = "Boston"
@@ -347,6 +391,10 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                         self.city = city
                         self.cityField?.text = city
                     }
+                    else if let cachedCity = self.cachedCity {
+                        self.city = cachedCity
+                        self.cityField?.text = cachedCity
+                    }
                     self.cityField?.isUserInteractionEnabled = false
                 } else if options[indexPath.row] == "Name" {
                     cell.valueTextField.placeholder = "Balizinha"
@@ -354,6 +402,10 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     if let name = self.eventToEdit?.name {
                         self.name = name
                         self.nameField?.text = name
+                    }
+                    else if let cachedName = self.cachedName {
+                        self.name = cachedName
+                        self.nameField?.text = cachedName
                     }
                     self.nameField?.isUserInteractionEnabled = true
                 }

@@ -42,3 +42,5 @@ let firAuth = Auth.auth()
 
 let METERS_PER_MILE: Double = 1609
 let EVENT_RADIUS_MILES_DEFAULT: Double = 50
+
+let CACHE_ORGANIZER_FAVORITE_LOCATION = true // TODO: use a setting
