@@ -53,6 +53,10 @@ class SettingsService: NSObject {
     fileprivate func featureExperiment(_ parameter: String) -> String {
         return self.remoteConfig[parameter].stringValue ?? ""
     }
+    
+    fileprivate func featureValue(_ parameter: String) -> Any {
+        return self.remoteConfig[parameter]
+    }
 }
 
 // MARK: - Remote settings
@@ -67,6 +71,10 @@ extension SettingsService {
     
     class var usesMaps: Bool {
         return shared.featureAvailable("maps")
+    }
+    
+    class var eventFilterRadius: Double {
+        return shared.featureValue("eventRadius") as? Double ?? EVENT_RADIUS_MILES_DEFAULT
     }
 }
 

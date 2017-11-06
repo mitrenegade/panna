@@ -31,7 +31,7 @@ enum UserSettings: String {
     case DisplayedJoinEventMessage
 }
 
-var TESTING = false
+var TESTING = true
 var AIRPLANE_MODE = false
 
 let STRIPE_KEY_DEV = "pk_test_YYNWvzYJi3bTyOJi2SNK3IkE"
@@ -39,3 +39,6 @@ let STRIPE_KEY_PROD = "pk_live_IziZ9EDk1374oI3rXjEciLBG"
 
 var firRef = Database.database().reference()
 let firAuth = Auth.auth()
+
+let METERS_PER_MILE: Double = 1609
+let EVENT_RADIUS_MILES_DEFAULT: Double = 50

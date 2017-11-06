@@ -92,7 +92,7 @@ class PlaceSearchViewController: UIViewController {
 
 extension PlaceSearchViewController: MKMapViewDelegate {
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        if first, let location = LocationService.shared.currentLocation {
+        if first, let location = LocationService.shared.lastLocation {
             centerMapOnLocation(location: location)
         }
     }

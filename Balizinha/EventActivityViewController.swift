@@ -43,9 +43,10 @@ class EventActivityViewController: UIViewController {
     }
     
     func reloadData() {
-        self.sortedActions = actions.values.filter({ (action) -> Bool in
+        let filtered = actions.values.filter { (action) -> Bool in
             return action.createdAt != nil
-        }).sorted(by: { (a, b) -> Bool in
+        }
+        self.sortedActions = filtered.sorted(by: { (a, b) -> Bool in
             a.createdAt! < b.createdAt!
         })
         self.tableView.reloadData()

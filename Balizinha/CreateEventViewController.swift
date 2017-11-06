@@ -158,15 +158,15 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         save2.tintColor = self.view.tintColor
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
-        if TESTING {
-            self.place = "Rittenhouse"
-            self.city = "Philadelphia"
-            self.state = "Pennsylvania"
-            self.date = Date()
-            self.startTime = Date()+1800
-            self.endTime = Date()+3600
-            self.numPlayers = 10
-        }
+//        if TESTING {
+//            self.place = "Rittenhouse"
+//            self.city = "Philadelphia"
+//            self.state = "Pennsylvania"
+//            self.date = Date()
+//            self.startTime = Date()+1800
+//            self.endTime = Date()+3600
+//            self.numPlayers = 10
+//        }
     }
     
     @IBAction func didClickSave(_ sender: AnyObject) {
