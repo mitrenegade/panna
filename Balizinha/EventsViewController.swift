@@ -9,6 +9,8 @@
 import UIKit
 import Stripe
 import Firebase
+import CoreLocation
+import RxSwift
 
 class EventsViewController: UIViewController {
 
@@ -23,6 +25,8 @@ class EventsViewController: UIViewController {
     var stripeService: StripeService = StripeService()
     var joiningEvent: Event?
     
+    let disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,9 +38,15 @@ class EventsViewController: UIViewController {
         addButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
         
-        self.refreshEvents()
         self.listenFor(NotificationType.EventsChanged, action: #selector(self.refreshEvents), object: nil)
-        
+        LocationService.shared.observedLocation.subscribe(onNext: { locationState in
+            switch locationState {
+            case .located(let location):
+                self.refreshEvents()
+            default:
+                print("no location yet")
+            }
+        }).addDisposableTo(disposeBag)
         activityIndicator.hidesWhenStopped = true
         activityIndicator.center = self.view.center
         self.view.addSubview(activityIndicator)
@@ -53,7 +63,8 @@ class EventsViewController: UIViewController {
             // completion function will get called once at the start, and each time events change
             
             // 1: sort all events by time
-            self?.allEvents = results.sorted { (event1, event2) -> Bool in
+            guard let strongself = self else { return }
+            self?.allEvents = strongself.filterByDistance(events: results).sorted { (event1, event2) -> Bool in
                 return event1.id > event2.id
             }
             
@@ -83,6 +94,21 @@ class EventsViewController: UIViewController {
                 self?.reloadData()
             })
         }
+    }
+    
+    fileprivate func filterByDistance(events: [Event]) -> [Event]{
+        guard let location = LocationService.shared.lastLocation else { return events }
+        let filtered = events.filter { (event) -> Bool in
+            guard let lat = event.lat, let lon = event.lon else {
+                print("filtered event \(event.name) no lat lon")
+                return true
+            }
+            let coord = CLLocation(latitude: lat, longitude: lon)
+            let dist = coord.distance(from: location)
+            print("filtered event \(event.name) coord \(coord) dist \(dist)")
+            return dist < Double(SettingsService.eventFilterRadius * METERS_PER_MILE)
+        }
+        return filtered
     }
     
     func reloadData() {

@@ -9,14 +9,23 @@
 import Foundation
 import UIKit
 import CoreLocation
+import RxSwift
 
+enum LocationState {
+    case noLocation
+    case located(CLLocation)
+}
 class LocationService: NSObject {
     static let shared = LocationService()
     
     let locationManager = CLLocationManager()
-    var currentLocation: CLLocation?
+    var locationState: Variable<LocationState> = Variable(.noLocation)
     var lastLocation: CLLocation?
-
+    
+    var observedLocation: Observable<LocationState> {
+        return locationState.asObservable()
+    }
+    
     func startLocation(from controller: UIViewController?) {
         // location
         locationManager.delegate = self
@@ -78,11 +87,8 @@ extension LocationService: CLLocationManagerDelegate {
     
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first as CLLocation? {
-            //print("\(location)")
-            if self.currentLocation == nil {
-                // initiate search now
-                self.currentLocation = location
-            }
+            self.locationState.value = .located(location)
+            lastLocation = location
         }
     }
 }
