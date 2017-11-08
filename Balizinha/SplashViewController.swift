@@ -14,24 +14,31 @@ class SplashViewController: UIViewController {
     var handle: AuthStateDidChangeListenerHandle?
     var loaded = false
     let disposeBag = DisposeBag()
+    static var shared: SplashViewController?
 
-    fileprivate var tabs = ["Account", "Events", "Map", "Calendar"]
+    fileprivate var tabs = ["Account", "Map", "Calendar"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        SettingsService.shared.observedSettings?.take(1).subscribe({[weak self]_ in
+            self?.listenForUser()
+        }).addDisposableTo(self.disposeBag)
+        
+        SplashViewController.shared = self
+    }
+    
+    func listenForUser() {
         self.handle = firAuth.addStateDidChangeListener({ (auth, user) in
             if self.loaded {
                 return
             }
             
-            if let user = user {
+            print("auth: \(auth) user: \(user) current \(firAuth.currentUser)")
+            if let user = user, !user.isAnonymous {
                 // user is logged in
-                print("auth: \(auth) user: \(user) current \(firAuth.currentUser)")
-                SettingsService.shared.observedSettings?.take(1).subscribe({[weak self]_ in
-                    self?.goToMain()
-                }).addDisposableTo(self.disposeBag)
-                
+                self.goToMain()
+
                 // pull user data from facebook
                 // must be done after playerRef is created
                 for provider in user.providerData {
@@ -46,7 +53,12 @@ class SplashViewController: UIViewController {
                 }
             }
             else {
-                self.goToSignupLogin()
+                if SettingsService.showPreview {
+                    self.goToPreview()
+                }
+                else {
+                    self.goToSignupLogin()
+                }
             }
             
             if self.handle != nil {
@@ -85,7 +97,12 @@ class SplashViewController: UIViewController {
             NotificationService.clearAllNotifications()
         }
         
-        self.goToSignupLogin()
+        if SettingsService.showPreview {
+            self.goToPreview()
+        }
+        else {
+            self.goToSignupLogin()
+        }
     }
     
     fileprivate var _homeViewController: UITabBarController?
@@ -99,15 +116,20 @@ class SplashViewController: UIViewController {
     }
     
     private func goToMain() {
+        let start = tabs.index(of: "Map") ?? 0
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
             dismiss(animated: true, completion: {
                 self.present(self.homeViewController, animated: true, completion: {
+                    let index = start
+                    self.homeViewController.selectedIndex = index
                 })
             })
         } else {
             self.present(homeViewController, animated: true, completion: {
                 //self.testStuffOnLogin()
+                let index = start
+                self.homeViewController.selectedIndex = index
             })
         }
 
@@ -151,6 +173,28 @@ class SplashViewController: UIViewController {
         homeViewController.selectedIndex = index
         guard let nav: UINavigationController = homeViewController.viewControllers?[index] as? UINavigationController, let calendar: CalendarViewController = nav.viewControllers[0] as? CalendarViewController else { return }
         calendar.promptForDonation(eventId: eventId)
+    }
+    
+    func goToPreview() {
+        guard let homeViewController = UIStoryboard(name: "Events", bundle: nil).instantiateInitialViewController() as? MapViewController else { return }
+        
+        let nav = UINavigationController(rootViewController: homeViewController)
+        
+        firAuth.signInAnonymously { (user, error) in
+            print("sign in anonymously with result \(user) error \(error)")
+        }
+        
+        if let presented = presentedViewController {
+            guard nav != presented else { return }
+            dismiss(animated: true, completion: {
+                self._homeViewController = nil
+                self.present(nav, animated: true, completion: nil)
+            })
+        } else {
+            present(nav, animated: true, completion: nil)
+        }
+
+        self.listenFor(NotificationType.LoginSuccess, action: #selector(SplashViewController.didLogin), object: nil)
     }
     
     fileprivate func testStuffOnLogin() {

@@ -84,6 +84,8 @@
 		8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFF1F833969004EAE6A /* PromotionService.swift */; };
 		8E7CABFE1F8D8B8D0095084D /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */; };
 		8EACC3B61F7B449C0091FBC5 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EACC3B51F7B449C0091FBC5 /* Payment.swift */; };
+		8EB90B391FB2B8D5007C60F0 /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */; };
+		8EB90B3B1FB2BABE007C60F0 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */; };
 		8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBF1C381E7965BA0057871F /* PlayerViewController.swift */; };
 		8EC2EFEB1F60D6F90081FF68 /* UIDatePickerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */; };
 		8EC799271E35AA02004ACC52 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC799261E35AA02004ACC52 /* MapViewController.swift */; };
@@ -182,6 +184,8 @@
 		8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCell.swift; sourceTree = "<group>"; };
 		8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Balizinha-Bridging-Header.h"; sourceTree = "<group>"; };
 		8EACC3B51F7B449C0091FBC5 /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
+		8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tutorial.storyboard; sourceTree = "<group>"; };
+		8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		8EBF1C381E7965BA0057871F /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDatePickerHelper.swift; sourceTree = "<group>"; };
 		8EC799261E35AA02004ACC52 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -335,6 +339,7 @@
 			isa = PBXGroup;
 			children = (
 				8ECD58E01CDF853500AD2B13 /* Splash.storyboard */,
+				8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */,
 				8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */,
 				8E11E42B1E31B80800DB4B27 /* Main.storyboard */,
 				8EC799281E363549004ACC52 /* Account.storyboard */,
@@ -434,6 +439,7 @@
 				8E11E4291E31B07900DB4B27 /* SplashViewController.swift */,
 				8E72569B1CDF793200C9E054 /* LoginViewController.swift */,
 				8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */,
+				8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */,
 			);
 			name = Login/Signup;
 			sourceTree = "<group>";
@@ -585,6 +591,7 @@
 				8EC7992B1E3635A0004ACC52 /* Events.storyboard in Resources */,
 				8EE5B3241E7C17F100BC72A5 /* CameraOverlayViewController.xib in Resources */,
 				8E63160B1F5D9A60005CF114 /* GoogleService-Info-dev.plist in Resources */,
+				8EB90B391FB2B8D5007C60F0 /* Tutorial.storyboard in Resources */,
 				8EC799291E363549004ACC52 /* Account.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -825,6 +832,7 @@
 				8EDA009C1F6597060080F446 /* RemoteDataService.swift in Sources */,
 				8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */,
 				8E74E54B1FA9FB51005F72DA /* PlaceSearchViewController.swift in Sources */,
+				8EB90B3B1FB2BABE007C60F0 /* TutorialViewController.swift in Sources */,
 				8E27716E1E6E60D700B161ED /* Action.swift in Sources */,
 				8E5421401E70DF8700AE4F3A /* ActionCell.swift in Sources */,
 				8EDA009E1F6597BC0080F446 /* LoggingService.swift in Sources */,

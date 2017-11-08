@@ -17,6 +17,9 @@ class MapViewController: EventsViewController {
     // MARK: MapView
     @IBOutlet weak var mapView: MKMapView!
     
+    var tutorialController: TutorialViewController?
+    var tutorialView: UIView?
+    
     // MARK: filtered events
     var filteredEventIds: [String] = []
     var filteredEvents: [Event] {
@@ -27,16 +30,29 @@ class MapViewController: EventsViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if SettingsService.showPreview, PlayerService.isAnonymous {
+            self.navigationItem.title = "Balizinha"
+            
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign in", style: .done, target: self, action: #selector(didClickProfile(_:)))
+        }
     }
     
-    private lazy var __once: () = {
+    fileprivate lazy var __once: () = {
         LocationService.shared.startLocation(from: self)
     }()
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        let _ = __once
+        
+        var showedTutorial: Bool = false
+        if PlayerService.isAnonymous {
+            showedTutorial = self.showTutorialIfNeeded()
+        }
+        if !showedTutorial {
+            // start location
+            let _ = __once
+        }
     }
     
     var first: Bool = true
@@ -158,3 +174,50 @@ extension MapViewController {
     }
 }
 
+extension MapViewController: TutorialDelegate {
+    func showTutorialIfNeeded() -> Bool {
+        guard UserDefaults.standard.bool(forKey: "showedTutorial") == false else {
+            return false
+        }
+        guard tutorialController == nil else { return false }
+        
+        guard let controller = UIStoryboard(name: "Tutorial", bundle: nil).instantiateInitialViewController() as? TutorialViewController else { return false }
+        tutorialController = controller
+        var frame = self.view.frame
+        //frame.origin.y = -self.view.frame.size.height
+        controller.view.frame = self.view.frame
+        controller.view.backgroundColor = .clear
+        self.view.addSubview(controller.view)
+        
+        controller.delegate = self
+        return true
+    }
+    
+    func didTapTutorial() {
+        // do nothing on tap
+    }
+    
+    func didClickNext() {
+        tutorialController?.view.removeFromSuperview()
+        tutorialController = nil
+        UserDefaults.standard.set(true, forKey: "showedTutorial")
+        
+        // only prompt for location after dismissing tutorial
+        let _ = __once
+    }
+}
+
+// MARK: - Preview
+extension MapViewController {
+    // EventCellDelegate
+    override func previewEvent(_ event: Event) {
+        print("Preview")
+        performSegue(withIdentifier: "toEventDetails", sender: event)
+    }
+    
+    // signup
+    func didClickProfile(_ sender: Any) {
+        print("Create profile")
+        SplashViewController.shared?.goToSignupLogin()
+    }
+}
