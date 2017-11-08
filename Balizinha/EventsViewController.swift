@@ -279,6 +279,10 @@ extension EventsViewController: EventCellDelegate {
             UserDefaults.standard.synchronize()
         }
     }
+    
+    func previewEvent(_ event: Event) {
+        // nothing
+    }
 }
 
 // MARK: - Payments

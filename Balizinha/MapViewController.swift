@@ -200,3 +200,11 @@ extension MapViewController: TutorialDelegate {
         let _ = __once
     }
 }
+
+// MARK: - EventCellDelegate for preview
+extension MapViewController {
+    override func previewEvent(_ event: Event) {
+        print("Preview")
+        performSegue(withIdentifier: "toEventDetails", sender: event)
+    }
+}

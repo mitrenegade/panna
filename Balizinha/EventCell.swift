@@ -12,6 +12,7 @@ import AsyncImageView
 protocol EventCellDelegate: class {
     func joinOrLeaveEvent(_ event: Event, join: Bool)
     func editEvent(_ event: Event)
+    func previewEvent(_ event: Event)
 }
 
 protocol EventDonationDelegate: class {
@@ -23,6 +24,10 @@ typealias EventStatus = (isPast: Bool, userIsOwner: Bool, userJoined: Bool)
 
 class EventCellViewModel: NSObject {
     func buttonTitle(eventStatus: EventStatus) -> String {
+        guard !PlayerService.isAnonymous else {
+            return "Preview"
+        }
+        
         switch eventStatus {
         case (true, false, true):
             if SettingsService.donation() {
@@ -142,6 +147,11 @@ class EventCell: UITableViewCell {
     @IBAction func didTapButton(_ sender: AnyObject) {
         print("Tapped Cancel/Join")
         guard let event = self.event else { return }
+        guard !PlayerService.isAnonymous else {
+            delegate?.previewEvent(event)
+            return
+        }
+
         if event.userIsOrganizer {
             // edit
             self.delegate?.editEvent(event)

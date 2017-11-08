@@ -190,6 +190,10 @@ extension CalendarViewController: EventCellDelegate {
             NotificationService.removeNotificationForDonation(event)
         }
     }
+    
+    func previewEvent(_ event: Event) {
+        // nothing
+    }
 }
 
 // MARK: - Donations
