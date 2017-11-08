@@ -32,9 +32,15 @@ class PlayerService: NSObject {
         _currentPlayer = nil
     }
 
+    // not technically part of Player because anonymous auth should not create a player
+    class var isAnonymous: Bool {
+        guard let user = firAuth.currentUser else { return false }
+        return user.isAnonymous
+    }
+
     func createPlayer(name: String?, email: String?, city: String?, info: String?, photoUrl: String?, completion:@escaping (Player?, NSError?) -> Void) {
         
-        guard let user = firAuth.currentUser else { return }
+        guard let user = firAuth.currentUser, !user.isAnonymous else { return }
         guard let playersRef = playersRef else { return }
         
         let existingUserId = user.uid

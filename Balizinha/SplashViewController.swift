@@ -169,7 +169,6 @@ class SplashViewController: UIViewController {
     
     func goToPreview() {
         guard let homeViewController = UIStoryboard(name: "Events", bundle: nil).instantiateInitialViewController() as? MapViewController else { return }
-        homeViewController.previewMode = true
         
         firAuth.signInAnonymously { (user, error) in
             print("sign in anonymously with result \(user) error \(error)")

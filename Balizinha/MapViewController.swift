@@ -17,7 +17,6 @@ class MapViewController: EventsViewController {
     // MARK: MapView
     @IBOutlet weak var mapView: MKMapView!
     
-    var previewMode: Bool = false
     var tutorialController: TutorialViewController?
     var tutorialView: UIView?
     
@@ -41,7 +40,7 @@ class MapViewController: EventsViewController {
         super.viewDidAppear(animated)
         
         var showedTutorial: Bool = false
-        if previewMode {
+        if PlayerService.isAnonymous {
             showedTutorial = self.showTutorialIfNeeded()
         }
         if !showedTutorial {

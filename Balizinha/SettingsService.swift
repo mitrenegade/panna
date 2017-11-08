@@ -33,7 +33,7 @@ class SettingsService: NSObject {
                 print("featureAvailable paymentRequired \(SettingsService.paymentRequired())")
                 print("paymentLocation \(SettingsService.shared.featureExperiment("paymentLocation")) testGroup \(SettingsService.paymentLocationTestGroup())")
                 print("featureAvailable maps \(SettingsService.usesMaps)")
-                print("showPreview \(SettingsService.shared.featureExperiment("paymentLocation")) testGroup \(SettingsService.showPreviewTestGroup())")
+                print("showPreview \(SettingsService.shared.featureExperiment("showPreview")) testGroup \(SettingsService.showPreviewTestGroup())")
                 self.recordExperimentGroups()
                 observer.onNext("done")
             })
