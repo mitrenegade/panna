@@ -16,7 +16,7 @@ class SplashViewController: UIViewController {
     let disposeBag = DisposeBag()
     static var shared: SplashViewController?
 
-    fileprivate var tabs = ["Account", "Events", "Map", "Calendar"]
+    fileprivate var tabs = ["Account", "Map", "Calendar"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,15 +116,20 @@ class SplashViewController: UIViewController {
     }
     
     private func goToMain() {
+        let start = tabs.index(of: "Map") ?? 0
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
             dismiss(animated: true, completion: {
                 self.present(self.homeViewController, animated: true, completion: {
+                    let index = start
+                    self.homeViewController.selectedIndex = index
                 })
             })
         } else {
             self.present(homeViewController, animated: true, completion: {
                 //self.testStuffOnLogin()
+                let index = start
+                self.homeViewController.selectedIndex = index
             })
         }
 
