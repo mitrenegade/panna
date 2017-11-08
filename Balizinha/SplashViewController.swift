@@ -46,7 +46,7 @@ class SplashViewController: UIViewController {
                 }
             }
             else {
-                self.goToSignupLogin()
+                self.goToPreview()
             }
             
             if self.handle != nil {
@@ -85,7 +85,7 @@ class SplashViewController: UIViewController {
             NotificationService.clearAllNotifications()
         }
         
-        self.goToSignupLogin()
+        self.goToPreview()
     }
     
     fileprivate var _homeViewController: UITabBarController?
@@ -151,6 +151,26 @@ class SplashViewController: UIViewController {
         homeViewController.selectedIndex = index
         guard let nav: UINavigationController = homeViewController.viewControllers?[index] as? UINavigationController, let calendar: CalendarViewController = nav.viewControllers[0] as? CalendarViewController else { return }
         calendar.promptForDonation(eventId: eventId)
+    }
+    
+    func goToPreview() {
+        guard let homeViewController = UIStoryboard(name: "Events", bundle: nil).instantiateInitialViewController() else { return }
+        
+        firAuth.signInAnonymously { (user, error) in
+            print("sign in anonymously with result \(user) error \(error)")
+        }
+        
+        if let presented = presentedViewController {
+            guard homeViewController != presented else { return }
+            dismiss(animated: true, completion: {
+                self._homeViewController = nil
+                self.present(homeViewController, animated: true, completion: nil)
+            })
+        } else {
+            present(homeViewController, animated: true, completion: nil)
+        }
+        
+        self.listenFor(NotificationType.LoginSuccess, action: #selector(SplashViewController.didLogin), object: nil)
     }
     
     fileprivate func testStuffOnLogin() {
