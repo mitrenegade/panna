@@ -33,7 +33,7 @@ class SettingsService: NSObject {
                 print("featureAvailable paymentRequired \(SettingsService.paymentRequired())")
                 print("paymentLocation \(SettingsService.shared.featureExperiment("paymentLocation")) testGroup \(SettingsService.paymentLocationTestGroup())")
                 print("featureAvailable maps \(SettingsService.usesMaps)")
-                
+                print("showPreview \(SettingsService.shared.featureExperiment("paymentLocation")) testGroup \(SettingsService.showPreviewTestGroup())")
                 self.recordExperimentGroups()
                 observer.onNext("done")
             })
@@ -76,6 +76,10 @@ extension SettingsService {
     class var eventFilterRadius: Double {
         return shared.featureValue("eventRadius") as? Double ?? EVENT_RADIUS_MILES_DEFAULT
     }
+    
+    class var showPreview: Bool {
+        return showPreviewTestGroup()
+    }
 }
 
 // MARK: - Experiments
@@ -85,11 +89,20 @@ extension SettingsService {
         print("Payment location = \(result)")
         return result != defaults["paymentLocation"] as! String
     }
+    
+    class func showPreviewTestGroup() -> Bool {
+        let result = shared.featureExperiment("showPreview")
+        print("show preview = \(result)")
+        return result == "true" // returns as string
+    }
 
     // MARK: - Analytics
     func recordExperimentGroups() {
         let paymentLocationGroup = self.featureExperiment("paymentLocation")
         Analytics.setUserProperty(paymentLocationGroup, forName: "PaymentLocation")
+        
+        let previewGroup = self.featureExperiment("showPreview")
+        Analytics.setUserProperty(previewGroup, forName: "ShowPreview")
     }
 }
 

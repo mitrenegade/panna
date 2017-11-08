@@ -20,18 +20,22 @@ class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        SettingsService.shared.observedSettings?.take(1).subscribe({[weak self]_ in
+            self?.listenForUser()
+        }).addDisposableTo(self.disposeBag)
+    }
+    
+    func listenForUser() {
         self.handle = firAuth.addStateDidChangeListener({ (auth, user) in
             if self.loaded {
                 return
             }
             
+            print("auth: \(auth) user: \(user) current \(firAuth.currentUser)")
             if let user = user, !user.isAnonymous {
                 // user is logged in
-                print("auth: \(auth) user: \(user) current \(firAuth.currentUser)")
-                SettingsService.shared.observedSettings?.take(1).subscribe({[weak self]_ in
-                    self?.goToMain()
-                }).addDisposableTo(self.disposeBag)
-                
+                self.goToMain()
+
                 // pull user data from facebook
                 // must be done after playerRef is created
                 for provider in user.providerData {
@@ -46,7 +50,12 @@ class SplashViewController: UIViewController {
                 }
             }
             else {
-                self.goToPreview()
+                if SettingsService.showPreview {
+                    self.goToPreview()
+                }
+                else {
+                    self.goToSignupLogin()
+                }
             }
             
             if self.handle != nil {
@@ -85,7 +94,12 @@ class SplashViewController: UIViewController {
             NotificationService.clearAllNotifications()
         }
         
-        self.goToPreview()
+        if SettingsService.showPreview {
+            self.goToPreview()
+        }
+        else {
+            self.goToSignupLogin()
+        }
     }
     
     fileprivate var _homeViewController: UITabBarController?
