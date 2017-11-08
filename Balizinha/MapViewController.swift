@@ -39,14 +39,14 @@ class MapViewController: EventsViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        if !previewMode {
+        
+        var showedTutorial: Bool = false
+        if previewMode {
+            showedTutorial = self.showTutorialIfNeeded()
+        }
+        if !showedTutorial {
             // start location
             let _ = __once
-        }
-        
-        if previewMode {
-            self.showTutorialIfNeeded()
         }
     }
     
@@ -170,13 +170,13 @@ extension MapViewController {
 }
 
 extension MapViewController: TutorialDelegate {
-    func showTutorialIfNeeded() {
+    func showTutorialIfNeeded() -> Bool {
         guard UserDefaults.standard.bool(forKey: "showedTutorial") == false else {
-            return
+            return false
         }
-        guard tutorialController == nil else { return }
+        guard tutorialController == nil else { return false }
         
-        guard let controller = UIStoryboard(name: "Tutorial", bundle: nil).instantiateInitialViewController() as? TutorialViewController else { return }
+        guard let controller = UIStoryboard(name: "Tutorial", bundle: nil).instantiateInitialViewController() as? TutorialViewController else { return false }
         tutorialController = controller
         var frame = self.view.frame
         //frame.origin.y = -self.view.frame.size.height
@@ -185,6 +185,7 @@ extension MapViewController: TutorialDelegate {
         self.view.addSubview(controller.view)
         
         controller.delegate = self
+        return true
     }
     
     func didTapTutorial() {
