@@ -218,5 +218,6 @@ extension MapViewController {
     // signup
     func didClickProfile(_ sender: Any) {
         print("Create profile")
+        SplashViewController.shared?.goToSignupLogin()
     }
 }

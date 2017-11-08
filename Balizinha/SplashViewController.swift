@@ -14,6 +14,7 @@ class SplashViewController: UIViewController {
     var handle: AuthStateDidChangeListenerHandle?
     var loaded = false
     let disposeBag = DisposeBag()
+    static var shared: SplashViewController?
 
     fileprivate var tabs = ["Account", "Events", "Map", "Calendar"]
     
@@ -23,6 +24,8 @@ class SplashViewController: UIViewController {
         SettingsService.shared.observedSettings?.take(1).subscribe({[weak self]_ in
             self?.listenForUser()
         }).addDisposableTo(self.disposeBag)
+        
+        SplashViewController.shared = self
     }
     
     func listenForUser() {
