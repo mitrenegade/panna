@@ -25,7 +25,7 @@ class SplashViewController: UIViewController {
                 return
             }
             
-            if let user = user {
+            if let user = user, !user.isAnonymous {
                 // user is logged in
                 print("auth: \(auth) user: \(user) current \(firAuth.currentUser)")
                 SettingsService.shared.observedSettings?.take(1).subscribe({[weak self]_ in
@@ -154,7 +154,8 @@ class SplashViewController: UIViewController {
     }
     
     func goToPreview() {
-        guard let homeViewController = UIStoryboard(name: "Events", bundle: nil).instantiateInitialViewController() else { return }
+        guard let homeViewController = UIStoryboard(name: "Events", bundle: nil).instantiateInitialViewController() as? MapViewController else { return }
+        homeViewController.previewMode = true
         
         firAuth.signInAnonymously { (user, error) in
             print("sign in anonymously with result \(user) error \(error)")
@@ -169,7 +170,7 @@ class SplashViewController: UIViewController {
         } else {
             present(homeViewController, animated: true, completion: nil)
         }
-        
+
         self.listenFor(NotificationType.LoginSuccess, action: #selector(SplashViewController.didLogin), object: nil)
     }
     

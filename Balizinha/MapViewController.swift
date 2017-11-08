@@ -17,6 +17,10 @@ class MapViewController: EventsViewController {
     // MARK: MapView
     @IBOutlet weak var mapView: MKMapView!
     
+    var previewMode: Bool = false
+    var tutorialController: TutorialViewController?
+    var tutorialView: UIView?
+    
     // MARK: filtered events
     var filteredEventIds: [String] = []
     var filteredEvents: [Event] {
@@ -37,6 +41,10 @@ class MapViewController: EventsViewController {
         super.viewDidAppear(animated)
 
         let _ = __once
+        
+        if previewMode {
+            self.showTutorialIfNeeded()
+        }
     }
     
     var first: Bool = true
@@ -158,3 +166,27 @@ extension MapViewController {
     }
 }
 
+extension MapViewController: TutorialDelegate {
+    func showTutorialIfNeeded() {
+        guard UserDefaults.standard.bool(forKey: "showedTutorial") == false else {
+            return
+        }
+        guard tutorialController == nil else { return }
+        
+        guard let controller = UIStoryboard(name: "Tutorial", bundle: nil).instantiateInitialViewController() as? TutorialViewController else { return }
+        tutorialController = controller
+        var frame = self.view.frame
+        //frame.origin.y = -self.view.frame.size.height
+        controller.view.frame = self.view.frame
+        controller.view.backgroundColor = .clear
+        self.view.addSubview(controller.view)
+        
+        controller.delegate = self
+    }
+    
+    func didDismissTutorial() {
+        tutorialController?.view.removeFromSuperview()
+        tutorialController = nil
+        UserDefaults.standard.set(true, forKey: "showedTutorial")
+    }
+}

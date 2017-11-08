@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dCI-Kn-PBb">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Tutorial View Controller-->
+        <scene sceneID="cne-RV-FQk">
+            <objects>
+                <viewController id="dCI-Kn-PBb" customClass="TutorialViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0se-cp-dA9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x5r-V0-8no" userLabel="View - BG">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="slh-Pq-Rm2" userLabel="View - Content">
+                                <rect key="frame" x="38" y="67" width="300" height="534"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Balizinha" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n5e-DD-mtE">
+                                        <rect key="frame" x="8" y="0.0" width="284" height="107"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Come find pickup games for small-goal soccer" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vyj-gz-tC8">
+                                        <rect key="frame" x="8" y="107" width="284" height="107"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use the map to find a game near you. Sign up in order to join games and organize your own!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Job-B6-pM9">
+                                        <rect key="frame" x="8" y="214" width="284" height="320"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstItem="Vyj-gz-tC8" firstAttribute="top" secondItem="n5e-DD-mtE" secondAttribute="bottom" id="210-x7-21q"/>
+                                    <constraint firstItem="Job-B6-pM9" firstAttribute="top" secondItem="Vyj-gz-tC8" secondAttribute="bottom" id="7sT-uE-ShM"/>
+                                    <constraint firstItem="n5e-DD-mtE" firstAttribute="leading" secondItem="slh-Pq-Rm2" secondAttribute="leading" constant="8" id="8fs-KG-pEG"/>
+                                    <constraint firstAttribute="bottom" secondItem="Job-B6-pM9" secondAttribute="bottom" id="Fdj-fW-ilw"/>
+                                    <constraint firstItem="n5e-DD-mtE" firstAttribute="top" secondItem="slh-Pq-Rm2" secondAttribute="top" id="X5E-LS-Ac6"/>
+                                    <constraint firstItem="Job-B6-pM9" firstAttribute="leading" secondItem="slh-Pq-Rm2" secondAttribute="leading" constant="8" id="Xah-Fj-cvW"/>
+                                    <constraint firstAttribute="trailing" secondItem="Job-B6-pM9" secondAttribute="trailing" constant="8" id="hDI-3Q-Vxp"/>
+                                    <constraint firstItem="Vyj-gz-tC8" firstAttribute="leading" secondItem="slh-Pq-Rm2" secondAttribute="leading" constant="8" id="jmo-NQ-MPc"/>
+                                    <constraint firstItem="Vyj-gz-tC8" firstAttribute="height" secondItem="slh-Pq-Rm2" secondAttribute="height" multiplier="1:5" id="kNT-lC-u1b"/>
+                                    <constraint firstItem="n5e-DD-mtE" firstAttribute="height" secondItem="slh-Pq-Rm2" secondAttribute="height" multiplier="1:5" id="sFv-Nh-p6f"/>
+                                    <constraint firstAttribute="trailing" secondItem="n5e-DD-mtE" secondAttribute="trailing" constant="8" id="vvt-KQ-5hI"/>
+                                    <constraint firstAttribute="trailing" secondItem="Vyj-gz-tC8" secondAttribute="trailing" constant="8" id="yq9-Qh-nIh"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="W6h-tb-Tel" appends="YES" id="MZO-QB-MZq"/>
+                                </connections>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="x5r-V0-8no" firstAttribute="bottom" secondItem="c0w-vt-peo" secondAttribute="bottom" id="124-OQ-NPx"/>
+                            <constraint firstItem="slh-Pq-Rm2" firstAttribute="width" secondItem="x5r-V0-8no" secondAttribute="width" multiplier="8:10" id="1xJ-bl-rz4"/>
+                            <constraint firstItem="slh-Pq-Rm2" firstAttribute="centerX" secondItem="0se-cp-dA9" secondAttribute="centerX" id="AUE-Q5-T0K"/>
+                            <constraint firstItem="x5r-V0-8no" firstAttribute="leading" secondItem="c0w-vt-peo" secondAttribute="leading" id="GCy-jA-w5O"/>
+                            <constraint firstItem="slh-Pq-Rm2" firstAttribute="centerY" secondItem="0se-cp-dA9" secondAttribute="centerY" id="K6n-Na-u5l"/>
+                            <constraint firstItem="x5r-V0-8no" firstAttribute="trailing" secondItem="c0w-vt-peo" secondAttribute="trailing" id="KYW-7P-8dv"/>
+                            <constraint firstItem="x5r-V0-8no" firstAttribute="top" secondItem="0se-cp-dA9" secondAttribute="top" id="cMF-Od-Wta"/>
+                            <constraint firstItem="slh-Pq-Rm2" firstAttribute="height" secondItem="x5r-V0-8no" secondAttribute="height" multiplier="8:10" id="hdB-y1-UKg"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="c0w-vt-peo"/>
+                    </view>
+                    <connections>
+                        <outlet property="labelDetails" destination="Job-B6-pM9" id="9Ps-2G-Xdq"/>
+                        <outlet property="labelSubtitle" destination="Vyj-gz-tC8" id="DaJ-sD-K3B"/>
+                        <outlet property="labelTitle" destination="n5e-DD-mtE" id="Y1q-HU-AgO"/>
+                        <outlet property="viewBackground" destination="x5r-V0-8no" id="7NE-4x-XK7"/>
+                        <outlet property="viewContent" destination="slh-Pq-Rm2" id="0So-tJ-FVv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JbE-U9-JQg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="W6h-tb-Tel">
+                    <connections>
+                        <action selector="handleGesture:" destination="dCI-Kn-PBb" id="bmQ-4m-Qfd"/>
+                        <outlet property="delegate" destination="dCI-Kn-PBb" id="4KC-ta-Kj2"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="157.59999999999999" y="161.46926536731635"/>
+        </scene>
+    </scenes>
+</document>
