@@ -39,19 +39,43 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use the map to find a game near you. Sign up in order to join games and organize your own!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Job-B6-pM9">
-                                        <rect key="frame" x="8" y="214" width="284" height="320"/>
+                                        <rect key="frame" x="8" y="214" width="284" height="270"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="luz-oA-9Ef">
+                                        <rect key="frame" x="0.0" y="484" width="300" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JVD-vk-pYH">
+                                                <rect key="frame" x="0.0" y="0.0" width="300" height="50"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <state key="normal" title="GO!">
+                                                    <color key="titleColor" red="0.83921568629999999" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="didClickButton:" destination="dCI-Kn-PBb" eventType="touchUpInside" id="Ru0-1L-viA"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="Fig-Tw-n9Z"/>
+                                            <constraint firstAttribute="trailing" secondItem="JVD-vk-pYH" secondAttribute="trailing" id="GaJ-Xd-G3O"/>
+                                            <constraint firstItem="JVD-vk-pYH" firstAttribute="leading" secondItem="luz-oA-9Ef" secondAttribute="leading" id="KUe-lI-gzk"/>
+                                            <constraint firstAttribute="bottom" secondItem="JVD-vk-pYH" secondAttribute="bottom" id="eMZ-pH-dJV"/>
+                                            <constraint firstItem="JVD-vk-pYH" firstAttribute="top" secondItem="luz-oA-9Ef" secondAttribute="top" id="eP4-rE-Cbc"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="Vyj-gz-tC8" firstAttribute="top" secondItem="n5e-DD-mtE" secondAttribute="bottom" id="210-x7-21q"/>
+                                    <constraint firstAttribute="bottom" secondItem="luz-oA-9Ef" secondAttribute="bottom" id="7sR-Kc-4my"/>
                                     <constraint firstItem="Job-B6-pM9" firstAttribute="top" secondItem="Vyj-gz-tC8" secondAttribute="bottom" id="7sT-uE-ShM"/>
                                     <constraint firstItem="n5e-DD-mtE" firstAttribute="leading" secondItem="slh-Pq-Rm2" secondAttribute="leading" constant="8" id="8fs-KG-pEG"/>
-                                    <constraint firstAttribute="bottom" secondItem="Job-B6-pM9" secondAttribute="bottom" id="Fdj-fW-ilw"/>
+                                    <constraint firstAttribute="trailing" secondItem="luz-oA-9Ef" secondAttribute="trailing" id="CeP-cD-R47"/>
                                     <constraint firstItem="n5e-DD-mtE" firstAttribute="top" secondItem="slh-Pq-Rm2" secondAttribute="top" id="X5E-LS-Ac6"/>
                                     <constraint firstItem="Job-B6-pM9" firstAttribute="leading" secondItem="slh-Pq-Rm2" secondAttribute="leading" constant="8" id="Xah-Fj-cvW"/>
                                     <constraint firstAttribute="trailing" secondItem="Job-B6-pM9" secondAttribute="trailing" constant="8" id="hDI-3Q-Vxp"/>
@@ -59,6 +83,8 @@
                                     <constraint firstItem="Vyj-gz-tC8" firstAttribute="height" secondItem="slh-Pq-Rm2" secondAttribute="height" multiplier="1:5" id="kNT-lC-u1b"/>
                                     <constraint firstItem="n5e-DD-mtE" firstAttribute="height" secondItem="slh-Pq-Rm2" secondAttribute="height" multiplier="1:5" id="sFv-Nh-p6f"/>
                                     <constraint firstAttribute="trailing" secondItem="n5e-DD-mtE" secondAttribute="trailing" constant="8" id="vvt-KQ-5hI"/>
+                                    <constraint firstItem="luz-oA-9Ef" firstAttribute="leading" secondItem="slh-Pq-Rm2" secondAttribute="leading" id="vzR-ud-nVs"/>
+                                    <constraint firstItem="luz-oA-9Ef" firstAttribute="top" secondItem="Job-B6-pM9" secondAttribute="bottom" id="ySn-ZL-SqQ"/>
                                     <constraint firstAttribute="trailing" secondItem="Vyj-gz-tC8" secondAttribute="trailing" constant="8" id="yq9-Qh-nIh"/>
                                 </constraints>
                                 <connections>

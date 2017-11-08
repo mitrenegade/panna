@@ -33,14 +33,17 @@ class MapViewController: EventsViewController {
         super.viewDidLoad()
     }
     
-    private lazy var __once: () = {
+    fileprivate lazy var __once: () = {
         LocationService.shared.startLocation(from: self)
     }()
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        let _ = __once
+        if !previewMode {
+            // start location
+            let _ = __once
+        }
         
         if previewMode {
             self.showTutorialIfNeeded()
@@ -184,9 +187,16 @@ extension MapViewController: TutorialDelegate {
         controller.delegate = self
     }
     
-    func didDismissTutorial() {
+    func didTapTutorial() {
+        // do nothing on tap
+    }
+    
+    func didClickNext() {
         tutorialController?.view.removeFromSuperview()
         tutorialController = nil
         UserDefaults.standard.set(true, forKey: "showedTutorial")
+        
+        // only prompt for location after dismissing tutorial
+        let _ = __once
     }
 }

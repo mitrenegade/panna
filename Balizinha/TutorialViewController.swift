@@ -9,7 +9,8 @@
 import UIKit
 
 protocol TutorialDelegate: class {
-    func didDismissTutorial()
+    func didTapTutorial()
+    func didClickNext()
 }
 
 class TutorialViewController: UIViewController {
@@ -30,6 +31,10 @@ class TutorialViewController: UIViewController {
     
     @IBAction func handleGesture(_ gesture: UIGestureRecognizer) {
         print("tapped")
-        delegate?.didDismissTutorial()
+        delegate?.didTapTutorial()
+    }
+    
+    @IBAction func didClickButton(_ sender: UIButton) {
+        delegate?.didClickNext()
     }
 }
