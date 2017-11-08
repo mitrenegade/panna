@@ -170,18 +170,20 @@ class SplashViewController: UIViewController {
     func goToPreview() {
         guard let homeViewController = UIStoryboard(name: "Events", bundle: nil).instantiateInitialViewController() as? MapViewController else { return }
         
+        let nav = UINavigationController(rootViewController: homeViewController)
+        
         firAuth.signInAnonymously { (user, error) in
             print("sign in anonymously with result \(user) error \(error)")
         }
         
         if let presented = presentedViewController {
-            guard homeViewController != presented else { return }
+            guard nav != presented else { return }
             dismiss(animated: true, completion: {
                 self._homeViewController = nil
-                self.present(homeViewController, animated: true, completion: nil)
+                self.present(nav, animated: true, completion: nil)
             })
         } else {
-            present(homeViewController, animated: true, completion: nil)
+            present(nav, animated: true, completion: nil)
         }
 
         self.listenFor(NotificationType.LoginSuccess, action: #selector(SplashViewController.didLogin), object: nil)

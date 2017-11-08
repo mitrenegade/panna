@@ -30,6 +30,12 @@ class MapViewController: EventsViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if SettingsService.showPreview, PlayerService.isAnonymous {
+            self.navigationItem.title = "Balizinha"
+            
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign in", style: .done, target: self, action: #selector(didClickProfile(_:)))
+        }
     }
     
     fileprivate lazy var __once: () = {
@@ -201,10 +207,16 @@ extension MapViewController: TutorialDelegate {
     }
 }
 
-// MARK: - EventCellDelegate for preview
+// MARK: - Preview
 extension MapViewController {
+    // EventCellDelegate
     override func previewEvent(_ event: Event) {
         print("Preview")
         performSegue(withIdentifier: "toEventDetails", sender: event)
+    }
+    
+    // signup
+    func didClickProfile(_ sender: Any) {
+        print("Create profile")
     }
 }
