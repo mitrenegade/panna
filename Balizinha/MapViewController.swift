@@ -191,12 +191,13 @@ extension MapViewController: TutorialDelegate {
         guard shouldShowTutorial else { return false }
         guard let controller = UIStoryboard(name: "Tutorial", bundle: nil).instantiateInitialViewController() as? TutorialViewController else { return false }
         tutorialController = controller
-        var frame = self.view.frame
-        frame.origin.y = 0
-        //frame.origin.y = -self.view.frame.size.height
-        controller.view.frame = frame
-        controller.view.backgroundColor = .clear
-        self.view.addSubview(controller.view)
+        
+//        var frame = self.view.frame
+//        frame.origin.y = 0
+//        controller.view.frame = frame
+//        controller.view.backgroundColor = .clear
+//        self.view.addSubview(controller.view)
+        present(controller, animated: true, completion: nil)
         
         controller.delegate = self
         LoggingService.shared.log(event: "PreviewTutorialClicked", info: nil)
@@ -211,7 +212,8 @@ extension MapViewController: TutorialDelegate {
     func didClickNext() {
         LoggingService.shared.log(event: "PreviewTutorialClicked", info: nil)
         
-        tutorialController?.view.removeFromSuperview()
+//        tutorialController?.view.removeFromSuperview()
+        dismiss(animated: true, completion: nil)
         tutorialController = nil
         UserDefaults.standard.set(true, forKey: "showedTutorial")
         
