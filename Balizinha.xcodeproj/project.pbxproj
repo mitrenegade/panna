@@ -21,6 +21,8 @@
 		8E19A4AC1E6C9C9600D301EC /* PlayersScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4AB1E6C9C9600D301EC /* PlayersScrollViewController.swift */; };
 		8E19A4AE1E6C9CB300D301EC /* EventActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4AD1E6C9CB300D301EC /* EventActivityViewController.swift */; };
 		8E19A4B01E6C9CF200D301EC /* PaymentTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4AF1E6C9CF200D301EC /* PaymentTypesViewController.swift */; };
+		8E1B00541FC2CC8B00420256 /* TutoriaPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1B00531FC2CC8B00420256 /* TutoriaPageViewController.swift */; };
+		8E1B00561FC2E8FF00420256 /* TutorialButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1B00551FC2E8FF00420256 /* TutorialButtonViewModel.swift */; };
 		8E1F3CC01F8B9A95005186AD /* BalizinhaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1F3CBF1F8B9A95005186AD /* BalizinhaTests.swift */; };
 		8E1F3CC71F8B9A9D005186AD /* EventCellDonationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E59662C1F8B98BA007A814A /* EventCellDonationTests.swift */; };
 		8E1F3CC81F8B9B85005186AD /* FirebaseBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */; };
@@ -149,6 +151,8 @@
 		8E19A4AB1E6C9C9600D301EC /* PlayersScrollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayersScrollViewController.swift; sourceTree = "<group>"; };
 		8E19A4AD1E6C9CB300D301EC /* EventActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventActivityViewController.swift; sourceTree = "<group>"; };
 		8E19A4AF1E6C9CF200D301EC /* PaymentTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentTypesViewController.swift; sourceTree = "<group>"; };
+		8E1B00531FC2CC8B00420256 /* TutoriaPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutoriaPageViewController.swift; sourceTree = "<group>"; };
+		8E1B00551FC2E8FF00420256 /* TutorialButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialButtonViewModel.swift; sourceTree = "<group>"; };
 		8E1F3CBD1F8B9A95005186AD /* BalizinhaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BalizinhaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E1F3CBF1F8B9A95005186AD /* BalizinhaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalizinhaTests.swift; sourceTree = "<group>"; };
 		8E1F3CC11F8B9A95005186AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -354,6 +358,7 @@
 			isa = PBXGroup;
 			children = (
 				8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */,
+				8E1B00551FC2E8FF00420256 /* TutorialButtonViewModel.swift */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -440,6 +445,7 @@
 				8E72569B1CDF793200C9E054 /* LoginViewController.swift */,
 				8E7256AC1CDF7DB600C9E054 /* SignupViewController.swift */,
 				8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */,
+				8E1B00531FC2CC8B00420256 /* TutoriaPageViewController.swift */,
 			);
 			name = Login/Signup;
 			sourceTree = "<group>";
@@ -824,6 +830,7 @@
 				8EE5B3281E7F365200BC72A5 /* PlayerIcon.swift in Sources */,
 				8E19A4A41E6C67A500D301EC /* PlayerService.swift in Sources */,
 				8E7256AD1CDF7DB600C9E054 /* SignupViewController.swift in Sources */,
+				8E1B00541FC2CC8B00420256 /* TutoriaPageViewController.swift in Sources */,
 				F2F7C3C21CEE2CDD00350115 /* PushTableViewCell.swift in Sources */,
 				8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */,
 				8EDFB1BA1E3D3F00006DD187 /* LocationService.swift in Sources */,
@@ -874,6 +881,7 @@
 				8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */,
 				8E379F011CE57E8600C91A12 /* EventService.swift in Sources */,
 				8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */,
+				8E1B00561FC2E8FF00420256 /* TutorialButtonViewModel.swift in Sources */,
 				8E4D36721F8BA45900B8B0B5 /* NSObject+Utils.swift in Sources */,
 				8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */,
 				8E6AE53F1F8E5C550062DCF5 /* PaymentInfoViewController.swift in Sources */,

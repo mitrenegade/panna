@@ -28,8 +28,7 @@ class LoggingService: NSObject {
         return singleton!
     }
 
-    func log(event: String, info: [AnyHashable: Any]?) {
-        guard TESTING else { return }
+    func log(event: String, info: [String: Any]?) {
         guard let ref = loggingRef?.child(event).childByAutoId() else { return }
         var params = info ?? [:]
         params["timestamp"] = Date().timeIntervalSince1970
@@ -37,10 +36,13 @@ class LoggingService: NSObject {
             params["playerId"] = current.id
         }
         ref.updateChildValues(params)
+        
+        // native firebase analytics
+        Analytics.logEvent(event, parameters: info)
     }
     
-    func log(event: String, message: String?, info: [AnyHashable: Any]?, error: NSError?) {
-        var params: [AnyHashable: Any] = info ?? [:]
+    func log(event: String, message: String?, info: [String: Any]?, error: NSError?) {
+        var params: [String: Any] = info ?? [:]
         if let message = message {
             params["message"] = message
         }

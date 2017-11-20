@@ -611,6 +611,7 @@
                             <constraint firstItem="GA6-SQ-Hbp" firstAttribute="leading" secondItem="Sbg-gP-7E0" secondAttribute="leading" id="ufq-jL-Zde"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="mapView" destination="GA6-SQ-Hbp" id="LXa-IY-C2e"/>
                         <outlet property="tableView" destination="5l3-8z-tLh" id="bBo-Z9-z2y"/>

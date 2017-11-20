@@ -20,6 +20,14 @@ class SplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if AIRPLANE_MODE {
+            let time = DispatchTime.now() + 0.5
+            DispatchQueue.main.asyncAfter(deadline: time, execute: {
+                self.goToPreview()
+            })
+            SplashViewController.shared = self
+            return
+        }
         
         SettingsService.shared.observedSettings?.take(1).subscribe({[weak self]_ in
             self?.listenForUser()
