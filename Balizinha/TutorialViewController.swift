@@ -14,6 +14,27 @@ protocol TutorialDelegate: class {
     func didClickNext()
 }
 
+class TutorialButtonViewModel: NSObject {
+    
+    init(pages: Int) {
+        maxPages = pages
+    }
+    
+    private var maxPages: Int
+    var currentPage: Int = 0
+    
+    var skipButtonTitle: String {
+        return "SKIP"
+    }
+    
+    var goButtonTitle: String {
+        if currentPage == maxPages - 1 {
+            return "GO"
+        }
+        return "NEXT"
+    }
+}
+
 class TutorialViewController: UIViewController {
     
     @IBOutlet weak var viewBackground: UIView!
@@ -24,6 +45,7 @@ class TutorialViewController: UIViewController {
     @IBOutlet weak var buttonGo: UIButton!
     
     var pageViewController: UIPageViewController!
+    var viewModel: TutorialButtonViewModel?
     
     weak var delegate: TutorialDelegate?
 
@@ -38,6 +60,8 @@ class TutorialViewController: UIViewController {
                                                   completion: nil)
         }
         pageControl.numberOfPages = orderedViewControllers.count
+        viewModel = TutorialButtonViewModel(pages: orderedViewControllers.count)
+        refreshButtons()
     }
     
     @IBAction func handleGesture(_ gesture: UIGestureRecognizer) {
@@ -46,7 +70,23 @@ class TutorialViewController: UIViewController {
     }
     
     @IBAction func didClickButton(_ sender: UIButton) {
-        delegate?.didClickNext()
+        if sender == buttonGo {
+            guard let viewModel = viewModel else { return }
+            let index = viewModel.currentPage
+            if index == orderedViewControllers.count - 1 {
+                delegate?.didClickNext()
+            }
+            else {
+                let nextViewController = orderedViewControllers[index+1]
+                pageViewController.setViewControllers([nextViewController], direction: .forward, animated: true, completion: nil)
+                viewModel.currentPage = index + 1
+                pageControl.currentPage = viewModel.currentPage
+                refreshButtons()
+            }
+        }
+        else if sender == buttonSkip {
+            delegate?.didClickNext()
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -69,6 +109,13 @@ class TutorialViewController: UIViewController {
         return [TutorialViewController.pageAt(0), TutorialViewController.pageAt(1), TutorialViewController.pageAt(2)]
     }()
     
+    func refreshButtons() {
+        guard let viewModel = viewModel else {
+                return
+        }
+        buttonSkip.setTitle(viewModel.skipButtonTitle, for: .normal)
+        buttonGo.setTitle(viewModel.goButtonTitle, for: .normal)
+    }
 }
 
 extension TutorialViewController: UIPageViewControllerDataSource {
@@ -117,7 +164,9 @@ extension TutorialViewController: UIPageViewControllerDelegate {
                             transitionCompleted completed: Bool) {
         if let firstViewController = pageViewController.viewControllers?.first,
             let index = orderedViewControllers.index(of: firstViewController) {
+            viewModel?.currentPage = index
             pageControl.currentPage = index
+            refreshButtons()
         }
     }
 }
