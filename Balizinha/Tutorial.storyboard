@@ -186,7 +186,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EFg-Gh-PGP">
                                 <rect key="frame" x="0.0" y="200" width="375" height="467"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mVV-OA-jKU">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tutorialMap" translatesAutoresizingMaskIntoConstraints="NO" id="mVV-OA-jKU">
                                         <rect key="frame" x="62" y="108" width="250" height="250"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -256,7 +256,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AH9-AM-lXh">
                                 <rect key="frame" x="0.0" y="200" width="375" height="467"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eEd-P9-7wO">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tutorialDetails" translatesAutoresizingMaskIntoConstraints="NO" id="eEd-P9-7wO">
                                         <rect key="frame" x="62" y="108" width="250" height="250"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -326,7 +326,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IEj-l7-ceY">
                                 <rect key="frame" x="0.0" y="200" width="375" height="467"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mAe-BU-e2T">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tutorialPermission" translatesAutoresizingMaskIntoConstraints="NO" id="mAe-BU-e2T">
                                         <rect key="frame" x="62" y="108" width="250" height="250"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -368,4 +368,9 @@
             <point key="canvasLocation" x="2244" y="161"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="tutorialDetails" width="739" height="493"/>
+        <image name="tutorialMap" width="259" height="260"/>
+        <image name="tutorialPermission" width="300" height="300"/>
+    </resources>
 </document>
