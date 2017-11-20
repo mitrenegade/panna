@@ -190,6 +190,8 @@ extension MapViewController: TutorialDelegate {
         self.view.addSubview(controller.view)
         
         controller.delegate = self
+        LoggingService.shared.log(event: "PreviewTutorialClicked", info: nil)
+
         return true
     }
     
@@ -198,6 +200,8 @@ extension MapViewController: TutorialDelegate {
     }
     
     func didClickNext() {
+        LoggingService.shared.log(event: "PreviewTutorialClicked", info: nil)
+        
         tutorialController?.view.removeFromSuperview()
         tutorialController = nil
         UserDefaults.standard.set(true, forKey: "showedTutorial")
@@ -213,11 +217,13 @@ extension MapViewController {
     override func previewEvent(_ event: Event) {
         print("Preview")
         performSegue(withIdentifier: "toEventDetails", sender: event)
+        LoggingService.shared.log(event: "PreviewEventClicked", info: nil)
     }
     
     // signup
     func didClickProfile(_ sender: Any) {
         print("Create profile")
         SplashViewController.shared?.goToSignupLogin()
+        LoggingService.shared.log(event: "PreviewSignupClicked", info: nil)
     }
 }
