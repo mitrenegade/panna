@@ -98,6 +98,9 @@ class EventsViewController: UIViewController {
     
     fileprivate func filterByDistance(events: [Event]) -> [Event]{
         guard let location = LocationService.shared.lastLocation else { return events }
+        guard !TESTING else {
+            return events
+        }
         let filtered = events.filter { (event) -> Bool in
             guard let lat = event.lat, let lon = event.lon else {
                 print("filtered event \(event.name) no lat lon")

@@ -136,6 +136,9 @@ extension MapViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if filteredEventIds.isEmpty {
+            if allEvents.count == 0 {
+                return 1
+            }
             return allEvents.count
         }
         return filteredEvents.count
@@ -146,6 +149,10 @@ extension MapViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if filteredEventIds.isEmpty && allEvents.isEmpty {
+            return tableView.dequeueReusableCell(withIdentifier: "NoEventsCell", for: indexPath)
+        }
+        
         let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
         cell.delegate = self
         
@@ -192,11 +199,6 @@ extension MapViewController: TutorialDelegate {
         guard let controller = UIStoryboard(name: "Tutorial", bundle: nil).instantiateInitialViewController() as? TutorialViewController else { return false }
         tutorialController = controller
         
-//        var frame = self.view.frame
-//        frame.origin.y = 0
-//        controller.view.frame = frame
-//        controller.view.backgroundColor = .clear
-//        self.view.addSubview(controller.view)
         present(controller, animated: true, completion: nil)
         
         controller.delegate = self
@@ -212,7 +214,6 @@ extension MapViewController: TutorialDelegate {
     func didClickNext() {
         LoggingService.shared.log(event: "PreviewTutorialClicked", info: nil)
         
-//        tutorialController?.view.removeFromSuperview()
         dismiss(animated: true, completion: nil)
         tutorialController = nil
         UserDefaults.standard.set(true, forKey: "showedTutorial")
