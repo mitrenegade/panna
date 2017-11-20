@@ -20,6 +20,9 @@ class TutorialViewController: UIViewController {
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var pageControl: UIPageControl!
     
+    @IBOutlet weak var buttonSkip: UIButton!
+    @IBOutlet weak var buttonGo: UIButton!
+    
     var pageViewController: UIPageViewController!
     
     weak var delegate: TutorialDelegate?
@@ -31,9 +34,10 @@ class TutorialViewController: UIViewController {
         if let firstViewController = orderedViewControllers.first {
             pageViewController.setViewControllers([firstViewController],
                                                   direction: .forward,
-                                                  animated: true,
+                                                  animated: false,
                                                   completion: nil)
         }
+        pageControl.numberOfPages = orderedViewControllers.count
     }
     
     @IBAction func handleGesture(_ gesture: UIGestureRecognizer) {
@@ -49,6 +53,7 @@ class TutorialViewController: UIViewController {
         if let controller = segue.destination as? UIPageViewController {
             pageViewController = controller
             controller.dataSource = self
+            controller.delegate = self
         }
     }
 
@@ -103,17 +108,16 @@ extension TutorialViewController: UIPageViewControllerDataSource {
         
         return orderedViewControllers[nextIndex]
     }
-    
-    func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
-        return orderedViewControllers.count
-    }
-    
-    func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
-        guard let firstViewController = pageViewController.viewControllers?.first,
-            let firstViewControllerIndex = orderedViewControllers.index(of: firstViewController) else {
-                return 0
+}
+
+extension TutorialViewController: UIPageViewControllerDelegate {
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            didFinishAnimating finished: Bool,
+                            previousViewControllers: [UIViewController],
+                            transitionCompleted completed: Bool) {
+        if let firstViewController = pageViewController.viewControllers?.first,
+            let index = orderedViewControllers.index(of: firstViewController) {
+            pageControl.currentPage = index
         }
-        
-        return firstViewControllerIndex
     }
 }

@@ -37,7 +37,7 @@
                                                 <rect key="frame" x="10" y="5" width="135" height="35"/>
                                                 <color key="backgroundColor" white="1" alpha="0.25" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                                <state key="normal" title="GO!">
+                                                <state key="normal" title="SKIP">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -130,6 +130,8 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
+                        <outlet property="buttonGo" destination="QrP-Jz-GWF" id="o4r-Iw-X3h"/>
+                        <outlet property="buttonSkip" destination="JVD-vk-pYH" id="WB6-Ir-ZFN"/>
                         <outlet property="pageControl" destination="YiJ-PI-kzv" id="mbm-AN-uxd"/>
                         <outlet property="viewBackground" destination="x5r-V0-8no" id="7NE-4x-XK7"/>
                         <outlet property="viewContent" destination="slh-Pq-Rm2" id="0So-tJ-FVv"/>
@@ -148,7 +150,7 @@
         <!--Page View Controller-->
         <scene sceneID="nba-h0-VRJ">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="QCS-UX-YxX" sceneMemberID="viewController"/>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="QCS-UX-YxX" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EeV-Wf-wdh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="212" y="161"/>
