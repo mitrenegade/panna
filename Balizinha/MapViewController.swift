@@ -31,7 +31,7 @@ class MapViewController: EventsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if SettingsService.showPreview, PlayerService.isAnonymous {
+        if (SettingsService.showPreview && PlayerService.isAnonymous) || (AIRPLANE_MODE && TESTING) {
             self.navigationItem.title = "Balizinha"
             
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign in", style: .done, target: self, action: #selector(didClickProfile(_:)))
@@ -175,17 +175,26 @@ extension MapViewController {
 }
 
 extension MapViewController: TutorialDelegate {
-    func showTutorialIfNeeded() -> Bool {
-        guard UserDefaults.standard.bool(forKey: "showedTutorial") == false else {
+    fileprivate var shouldShowTutorial: Bool {
+        if AIRPLANE_MODE && TESTING {
+            return true
+        }
+        if UserDefaults.standard.bool(forKey: "showedTutorial") == true {
             return false
         }
-        guard tutorialController == nil else { return false }
-        
+        if tutorialController != nil {
+            return false
+        }
+        return true
+    }
+    func showTutorialIfNeeded() -> Bool {
+        guard shouldShowTutorial else { return false }
         guard let controller = UIStoryboard(name: "Tutorial", bundle: nil).instantiateInitialViewController() as? TutorialViewController else { return false }
         tutorialController = controller
         var frame = self.view.frame
+        frame.origin.y = 0
         //frame.origin.y = -self.view.frame.size.height
-        controller.view.frame = self.view.frame
+        controller.view.frame = frame
         controller.view.backgroundColor = .clear
         self.view.addSubview(controller.view)
         
