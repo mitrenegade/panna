@@ -14,27 +14,6 @@ protocol TutorialDelegate: class {
     func didClickNext()
 }
 
-class TutorialButtonViewModel: NSObject {
-    
-    init(pages: Int) {
-        maxPages = pages
-    }
-    
-    private var maxPages: Int
-    var currentPage: Int = 0
-    
-    var skipButtonTitle: String {
-        return "SKIP"
-    }
-    
-    var goButtonTitle: String {
-        if currentPage == maxPages - 1 {
-            return "GO"
-        }
-        return "NEXT"
-    }
-}
-
 class TutorialViewController: UIViewController {
     
     @IBOutlet weak var viewBackground: UIView!
@@ -58,6 +37,8 @@ class TutorialViewController: UIViewController {
                                                   direction: .forward,
                                                   animated: false,
                                                   completion: nil)
+            let info = ["page": 0]
+            LoggingService.shared.log(event: "TutorialPageViewed", info: info)
         }
         pageControl.numberOfPages = orderedViewControllers.count
         viewModel = TutorialButtonViewModel(pages: orderedViewControllers.count)
@@ -82,9 +63,13 @@ class TutorialViewController: UIViewController {
                 viewModel.currentPage = index + 1
                 pageControl.currentPage = viewModel.currentPage
                 refreshButtons()
+                let info: [String : Any] = ["page": viewModel.currentPage, "action": "button"]
+                LoggingService.shared.log(event: "TutorialPageViewed", info: info)
             }
         }
         else if sender == buttonSkip {
+            let info: [String : Any] = ["page": viewModel?.currentPage ?? 0]
+            LoggingService.shared.log(event: "TutorialSkipped", info: info)
             delegate?.didClickNext()
         }
     }
@@ -167,6 +152,8 @@ extension TutorialViewController: UIPageViewControllerDelegate {
             viewModel?.currentPage = index
             pageControl.currentPage = index
             refreshButtons()
+            let info: [String : Any] = ["page": index, "action": "swipe"]
+            LoggingService.shared.log(event: "TutorialPageViewed", info: info)
         }
     }
 }
