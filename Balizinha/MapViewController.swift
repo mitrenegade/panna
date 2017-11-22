@@ -1,3 +1,4 @@
+
 //
 //  MapViewController.swift
 //  Balizinha
@@ -31,7 +32,7 @@ class MapViewController: EventsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if (SettingsService.showPreview && PlayerService.isAnonymous) || (AIRPLANE_MODE && TESTING) {
+        if PlayerService.isAnonymous, SettingsService.showPreview {
             self.navigationItem.title = "Balizinha"
             
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign in", style: .done, target: self, action: #selector(didClickProfile(_:)))
