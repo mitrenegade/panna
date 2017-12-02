@@ -152,6 +152,7 @@ exports.sendPushForUserJoinedEvent = functions.database.ref('/eventUsers/{eventI
     var eventUserChanged = false;
     var eventUserCreated = false;
     var eventUserData = event.data.val();
+
     if (!event.data.previous.exists()) {
         eventUserCreated = true;
     }
@@ -160,16 +161,41 @@ exports.sendPushForUserJoinedEvent = functions.database.ref('/eventUsers/{eventI
     }
     console.log("event: " + eventId + " user: " + userId + " state: " + eventUserData)
 
-    return admin.database().ref(`/players/${userId}/deviceToken`).once('value').then(snapshot => {
+    return admin.database().ref(`/players/${userId}`).once('value').then(snapshot => {
         return snapshot.val();
-    }).then(token => {
-        var msg = "Update for event " + eventId 
-        var testToken = "duvn2V1qsbk:APA91bEEy7DylD9iZctBtaKz5nS9CVZxpaAdaPwhIauzQ2jw81BF-oE0nhgvN3U10mqClTue0siwDH41JZP2kLqU0CkThOoBBdFQYWOr8X_6qHIknBE-Oa195qOy8XSbJvXeQj4wQa9T"
-        return exports.sendPush(testToken, msg)
+    }).then(player => {
+        var name = player["name"]
+        var email = player["email"]
+        var joinedString = "joined"
+        if (!eventUserData) {
+            joinedString = "left"
+        }
+        var msg = name + " has " + joinedString + " your game"
+        var title = "Game update"
+        var topic = "event" + eventId
+        console.log("Sending push for user " + name + " " + email + " joined event " + topic + " with message: " + msg)
+        return exports.sendPushToTopic(title, topic, msg)
     })
 })
 
+exports.sendPushToTopic = function(title, topic, msg) {
+        var topicString = "/topics/" + topic
+        // topicString = topicString.replace(/-/g , '_');
+        console.log("send push to topic " + topicString)
+        var payload = {
+            notification: {
+                title: title,
+                body: msg,
+                sound: 'default',
+                badge: '1'
+            }
+        };
+        return admin.messaging().sendToTopic(topicString, payload);
+}
+
 exports.sendPush = function(token, msg) {
+        //var testToken = "duvn2V1qsbk:APA91bEEy7DylD9iZctBtaKz5nS9CVZxpaAdaPwhIauzQ2jw81BF-oE0nhgvN3U10mqClTue0siwDH41JZP2kLqU0CkThOoBBdFQYWOr8X_6qHIknBE-Oa195qOy8XSbJvXeQj4wQa9T"
+        
         var tokens = [token]
         console.log("send push to token " + token)
         var payload = {
@@ -177,7 +203,7 @@ exports.sendPush = function(token, msg) {
                 title: 'Firebase Notification',
                 body: msg,
                 sound: 'default',
-                badge: '1'
+                badge: "2"
             }
         };
         return admin.messaging().sendToDevice(tokens, payload);
