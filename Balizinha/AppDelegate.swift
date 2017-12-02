@@ -54,7 +54,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
-                completionHandler: {_, _ in })
+                completionHandler: {result, error in
+                    print("PUSH: request authorization result \(result) error \(error)")
+            })
         } else {
             let settings: UIUserNotificationSettings =
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
@@ -109,7 +111,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         // Store the deviceToken
         if #available(iOS 10.0, *) {
-            NotificationService.registerForPushNotifications(deviceToken, enabled:true)
+            NotificationService.shared.didRegisterForRemoteNotifications(deviceToken: deviceToken)
+        } else {
+            // Fallback on earlier versions
+            print("PUSH: TODO handle for ios9")
         }
     }
     

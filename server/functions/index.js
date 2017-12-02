@@ -164,7 +164,8 @@ exports.sendPushForUserJoinedEvent = functions.database.ref('/eventUsers/{eventI
         return snapshot.val();
     }).then(token => {
         var msg = "Update for event " + eventId 
-        return exports.sendPush(token)
+        var testToken = "duvn2V1qsbk:APA91bEEy7DylD9iZctBtaKz5nS9CVZxpaAdaPwhIauzQ2jw81BF-oE0nhgvN3U10mqClTue0siwDH41JZP2kLqU0CkThOoBBdFQYWOr8X_6qHIknBE-Oa195qOy8XSbJvXeQj4wQa9T"
+        return exports.sendPush(testToken, msg)
     })
 })
 

@@ -9,6 +9,7 @@
 import UIKit
 import UserNotifications
 import FirebaseMessaging
+import Firebase
 
 let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"
@@ -123,7 +124,7 @@ class NotificationService: NSObject {
 extension NotificationService {
     class func registerForPushNotifications(_ deviceToken: Data, enabled: Bool) {
         let token: String = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        print("registered for push with token \(token)")
+        print("PUSH: registered for push with token \(token)")
 
         PlayerService.shared.observedPlayer?.asObservable().take(1).subscribe(onNext: { (player) in
             player.deviceToken = token
@@ -177,3 +178,21 @@ extension NotificationService {
         
     }
 }
+
+// MARK: AppDelegate calls
+@available(iOS 10.0, *)
+extension NotificationService {
+    func didRegisterForRemoteNotifications(deviceToken: Data) {
+        if #available(iOS 10.0, *) {
+            NotificationService.registerForPushNotifications(deviceToken, enabled:true)
+        }
+        
+        // https://firebase.google.com/docs/cloud-messaging/ios/client
+        Messaging.messaging().apnsToken = deviceToken
+        
+        if let refreshedToken = InstanceID.instanceID().token() {
+            print("PUSH: InstanceID token: \(refreshedToken)")
+        }
+    }
+}
+
