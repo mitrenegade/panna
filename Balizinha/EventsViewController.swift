@@ -26,6 +26,7 @@ class EventsViewController: UIViewController {
     var joiningEvent: Event?
     
     let disposeBag = DisposeBag()
+    var recentLocation: CLLocation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +43,16 @@ class EventsViewController: UIViewController {
         LocationService.shared.observedLocation.subscribe(onNext: { locationState in
             switch locationState {
             case .located(let location):
-                self.refreshEvents()
+                print("location \(location)")
+                if let recent = self.recentLocation {
+                    if recent.distance(from: location) > 100 {
+                        self.refreshEvents()
+                    }
+                }
+                else {
+                    self.refreshEvents()
+                }
+                self.recentLocation = location
             default:
                 print("no location yet")
             }

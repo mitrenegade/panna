@@ -124,7 +124,7 @@ class NotificationService: NSObject {
 
 @available(iOS 10.0, *)
 extension NotificationService {
-    class func registerForPushNotifications(_ deviceToken: Data, enabled: Bool) {
+    class func enablePush(_ deviceToken: Data, enabled: Bool) {
         let token: String = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         print("PUSH: registered for push with token \(token)")
 
@@ -147,7 +147,7 @@ extension NotificationService {
         
         // toggle push notifications
         if let deviceToken = self.shared.pushDeviceToken {
-            self.registerForPushNotifications(deviceToken, enabled: enabled)
+            self.enablePush(deviceToken, enabled: enabled)
         }
         else {
             // reregister
@@ -162,14 +162,19 @@ extension NotificationService {
 // PUSH Notifications for pubsub
 @available(iOS 10.0, *)
 extension NotificationService {
-    fileprivate func subscribeToTopic(topic: String) {
-        Messaging.messaging().subscribe(toTopic: topic)
+    fileprivate func subscribeToTopic(topic: String, subscribed: Bool) {
+        if subscribed {
+            Messaging.messaging().subscribe(toTopic: topic)
+        } else {
+            Messaging.messaging().unsubscribe(fromTopic: topic)
+        }
     }
     
-    func registerForEventNotifications(event: Event) {
+    func registerForEventNotifications(event: Event, subscribed: Bool) {
         let key = event.id
-        let topic = "event:" + key
-        self.subscribeToTopic(topic: topic)
+        let topic = "event" + key
+        print("\(subscribed ? "" : "Un-")Subscribing to event topic \(topic)")
+        self.subscribeToTopic(topic: topic, subscribed: subscribed)
     }
     
     func sendForDelete(event: Event) {
@@ -185,15 +190,15 @@ extension NotificationService {
 @available(iOS 10.0, *)
 extension NotificationService {
     func didRegisterForRemoteNotifications(deviceToken: Data) {
-        if #available(iOS 10.0, *) {
-            NotificationService.registerForPushNotifications(deviceToken, enabled:true)
-        }
         
         // https://firebase.google.com/docs/cloud-messaging/ios/client
+        // this is for topics
         Messaging.messaging().apnsToken = deviceToken
         
+        // this is used for regular apn push, if a push notification was sent with a token
         if let refreshedToken = InstanceID.instanceID().token() {
             print("PUSH: InstanceID token: \(refreshedToken)")
+            NotificationService.enablePush(deviceToken, enabled:true)
         }
     }
 }
