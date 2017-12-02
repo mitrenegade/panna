@@ -15,6 +15,8 @@ let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"
 let kNotificationsDefaultsKey = "NotificationsDefaultsKey"
 
+let gcmMessageIDKey = "gcm.message_id"
+
 @available(iOS 10.0, *)
 fileprivate var singleton: NotificationService?
 
@@ -196,3 +198,51 @@ extension NotificationService {
     }
 }
 
+// MARK: UNUserNotificationCenterDelegate
+@available(iOS 10.0, *)
+extension NotificationService: UNUserNotificationCenterDelegate {
+    // Receive displayed notifications for iOS 10 devices.
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        // FCM: when a user receives a push notification while foregrounded
+        
+        let userInfo = notification.request.content.userInfo
+        
+        print("PUSH: willPresent notification with userInfo \(userInfo)")
+        
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        // Messaging.messaging().appDidReceiveMessage(userInfo)
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        
+        // Print full message.
+        print(userInfo)
+        
+        // Change this to your preferred presentation option
+        completionHandler([])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        
+        // FCM: when a user clicks on a notification while in the background
+        
+        print("PUSH: didReceive response")
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        
+        // Print full message.
+        print(userInfo)
+        
+        completionHandler()
+    }
+    
+}
