@@ -172,17 +172,12 @@ extension NotificationService {
     
     func registerForEventNotifications(event: Event, subscribed: Bool) {
         let key = event.id
-        let topic = "event" + key
+        var topic = "event" + key
+        if event.userIsOrganizer {
+            topic = "eventOwner" + key
+        }
         print("\(subscribed ? "" : "Un-")Subscribing to event topic \(topic)")
         self.subscribeToTopic(topic: topic, subscribed: subscribed)
-    }
-    
-    func sendForDelete(event: Event) {
-        
-    }
-    
-    fileprivate func sendNotificationHelper() {
-        
     }
 }
 

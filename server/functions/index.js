@@ -172,7 +172,7 @@ exports.sendPushForUserJoinedEvent = functions.database.ref('/eventUsers/{eventI
         }
         var msg = name + " has " + joinedString + " your game"
         var title = "Game update"
-        var topic = "event" + eventId
+        var topic = "eventOwner" + eventId // join/leave message only for owners
         console.log("Sending push for user " + name + " " + email + " joined event " + topic + " with message: " + msg)
         return exports.sendPushToTopic(title, topic, msg)
     })
