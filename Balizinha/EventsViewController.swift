@@ -423,9 +423,22 @@ extension EventsViewController {
             return eventIds.contains(event.id)
         }) ?? []
 
+        let subscribed: Bool
+        if UserDefaults.standard.value(forKey: kNotificationsDefaultsKey) == nil {
+            subscribed = true
+        } else {
+            subscribed = UserDefaults.standard.bool(forKey: kNotificationsDefaultsKey)
+        }
+        
+        if #available(iOS 10.0, *) {
+            NotificationService.shared.registerForGeneralNotification(subscribed: subscribed)
+        } else {
+            // Fallback on earlier versions
+        }
+        
         for event in userEvents {
             if #available(iOS 10.0, *) {
-                let shouldSubscribe = event.active && !event.isPast
+                let shouldSubscribe = event.active && !event.isPast && subscribed
                 NotificationService.shared.registerForEventNotifications(event: event, subscribed: shouldSubscribe)
             } else {
                 // Fallback on earlier versions

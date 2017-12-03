@@ -130,6 +130,7 @@ class NotificationService: NSObject {
 @available(iOS 10.0, *)
 extension NotificationService {
     func enablePush(_ deviceToken: Data, enabled: Bool) {
+        self.pushDeviceToken = deviceToken
         PlayerService.shared.observedPlayer?.asObservable().take(1).subscribe(onNext: { (player) in
             if let fcmToken = InstanceID.instanceID().token(), enabled {
                 print("PUSH: registered for push with FCM token \(fcmToken)")
@@ -150,7 +151,11 @@ extension NotificationService {
         // set and store user preference in NSUserDefaults
         UserDefaults.standard.set(enabled, forKey: kNotificationsDefaultsKey)
         UserDefaults.standard.synchronize()
-        
+
+        // TODO: this does not disable existing topics
+        // do some analytics
+        LoggingService.shared.log(event: "PushNotificationsToggled", info: ["value": enabled])
+
         // toggle push notifications
         if let deviceToken = self.pushDeviceToken {
             self.enablePush(deviceToken, enabled: enabled)
@@ -187,6 +192,13 @@ extension NotificationService {
             self.subscribeToTopic(topic: topic, subscribed: subscribed)
             print("\(subscribed ? "" : "Un-")Subscribing to event topic \(topic)")
         }
+    }
+    
+    func registerForGeneralNotification(subscribed: Bool) {
+        // register for general channel
+        let topic = "general"
+        self.subscribeToTopic(topic: topic, subscribed: subscribed)
+        print("\(subscribed ? "" : "Un-")Subscribing to topic \(topic)")
     }
 }
 

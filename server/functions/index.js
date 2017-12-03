@@ -158,8 +158,20 @@ exports.onEventChange = functions.database.ref('/events/{eventId}').onWrite(even
     if (!eventCreated && event.data.changed()) {
         eventChanged = true;
     }
-    return console.log("event: " + eventId + " created " + eventCreated + " changed " + eventChanged + " state: " + data)
 
+    if (eventCreated) {
+        var title = "New event available"
+        var topic = "general"
+        var name = data["name"]
+        var city = data["city"]
+        if (!city) {
+            city = data["place"]
+        }
+        var msg = "A new event, " + name + ", is available in " + city
+        return exports.sendPushToTopic(title, topic, msg)
+    } else {
+        return console.log("event: " + eventId + " created " + eventCreated + " changed " + eventChanged + " state: " + data)
+    }
     // return admin.database().ref(`/players/${userId}`).once('value').then(snapshot => {
     //     return snapshot.val();
     // }).then(player => {
