@@ -98,12 +98,12 @@ class Player: FirebaseBaseModel {
     }
 
     // MARK: - Push
-    var deviceToken: String? {
+    var fcmToken: String? {
         get {
-            return self.dict?["deviceToken"] as? String
+            return self.dict?["fcmToken"] as? String
         }
         set {
-            self.dict["deviceToken"] = newValue
+            self.dict["fcmToken"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }

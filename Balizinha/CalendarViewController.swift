@@ -69,7 +69,7 @@ class CalendarViewController: UITableViewController {
                     !event.isPast
                 }) ?? []
                 if #available(iOS 10.0, *) {
-                    NotificationService.refreshNotifications(self?.sortedUpcomingEvents)
+                    NotificationService.shared.refreshNotifications(self?.sortedUpcomingEvents)
                 }
                 self?.tableView.reloadData()
             })
@@ -186,8 +186,8 @@ extension CalendarViewController: EventCellDelegate {
     func leaveEvent(_ event: Event) {
         EventService.shared.leaveEvent(event)
         if #available(iOS 10.0, *) {
-            NotificationService.removeNotificationForEvent(event)
-            NotificationService.removeNotificationForDonation(event)
+            NotificationService.shared.removeNotificationForEvent(event)
+            NotificationService.shared.removeNotificationForDonation(event)
         }
     }
     

@@ -10,6 +10,7 @@ import UIKit
 import UserNotifications
 import FirebaseMessaging
 import Firebase
+import RxSwift
 
 let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"
@@ -24,6 +25,7 @@ fileprivate var singleton: NotificationService?
 class NotificationService: NSObject {
     var pushDeviceToken: Data?
     var scheduledEvents: [Event]?
+    let disposeBag = DisposeBag()
 
     static var shared: NotificationService {
         if let instance = singleton {
@@ -34,9 +36,9 @@ class NotificationService: NSObject {
     }
     
     // LOCAL NOTIFICAITONS
-    class func refreshNotifications(_ events: [Event]?) {
+    func refreshNotifications(_ events: [Event]?) {
         // store reference to events in case notifications are toggled
-        self.shared.scheduledEvents = events
+        self.scheduledEvents = events
         
         // remove old notifications
         self.clearAllNotifications()
@@ -51,7 +53,7 @@ class NotificationService: NSObject {
         
     }
     
-    class func scheduleNotificationForEvent(_ event: Event) {
+    func scheduleNotificationForEvent(_ event: Event) {
         //create local notification
         guard let startTime = event.startTime else { return }
         
@@ -71,7 +73,7 @@ class NotificationService: NSObject {
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
-    class func scheduleNotificationForDonation(_ event: Event) {
+    func scheduleNotificationForDonation(_ event: Event) {
         //create local notification
         guard let endTime = event.endTime else { return }
         guard !event.userIsOrganizer else { return }
@@ -94,21 +96,21 @@ class NotificationService: NSObject {
         print("notification scheduled")
     }
     
-    class func removeNotificationForEvent(_ event: Event) {
+    func removeNotificationForEvent(_ event: Event) {
         let identifier = "EventReminder\(event.id)"
         self.removeNotification(id: identifier)
     }
 
-    class func removeNotificationForDonation(_ event: Event) {
+    func removeNotificationForDonation(_ event: Event) {
         let identifier = "DonationRequest\(event.id)"
         self.removeNotification(id: identifier)
     }
 
-    class func clearAllNotifications() {
+    func clearAllNotifications() {
         UIApplication.shared.cancelAllLocalNotifications()
     }
     
-    class func removeNotification(id: String) {
+    func removeNotification(id: String) {
         UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
             var identifiers: [String] = []
             for notification:UNNotificationRequest in notificationRequests {
@@ -124,29 +126,30 @@ class NotificationService: NSObject {
 
 @available(iOS 10.0, *)
 extension NotificationService {
-    class func enablePush(_ deviceToken: Data, enabled: Bool) {
-        let token: String = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        print("PUSH: registered for push with token \(token)")
-
+    func enablePush(_ deviceToken: Data, enabled: Bool) {
         PlayerService.shared.observedPlayer?.asObservable().take(1).subscribe(onNext: { (player) in
-            player.deviceToken = token
-        })
-        self.shared.pushDeviceToken = deviceToken
+            if let fcmToken = InstanceID.instanceID().token(), enabled {
+                print("PUSH: registered for push with FCM token \(fcmToken)")
+                player.fcmToken = fcmToken
+            } else {
+                player.fcmToken = nil   
+            }
+        }).addDisposableTo(disposeBag)
     }
     
     // User notification preference
-    class func userReceivesNotifications() -> Bool {
+    func userReceivesNotifications() -> Bool {
         guard let notificationsDefaultValue = UserDefaults.standard.object(forKey: kNotificationsDefaultsKey) else { return true }
         return (notificationsDefaultValue as AnyObject).boolValue
     }
     
-    class func toggleUserReceivesNotifications(_ enabled: Bool) {
+    func toggleUserReceivesNotifications(_ enabled: Bool) {
         // set and store user preference in NSUserDefaults
         UserDefaults.standard.set(enabled, forKey: kNotificationsDefaultsKey)
         UserDefaults.standard.synchronize()
         
         // toggle push notifications
-        if let deviceToken = self.shared.pushDeviceToken {
+        if let deviceToken = self.pushDeviceToken {
             self.enablePush(deviceToken, enabled: enabled)
         }
         else {
@@ -155,7 +158,7 @@ extension NotificationService {
         }
         
         // toggle/reschedule events
-        self.refreshNotifications(self.shared.scheduledEvents)
+        self.refreshNotifications(self.scheduledEvents)
     }
 }
 
@@ -185,16 +188,7 @@ extension NotificationService {
 @available(iOS 10.0, *)
 extension NotificationService {
     func didRegisterForRemoteNotifications(deviceToken: Data) {
-        
-        // https://firebase.google.com/docs/cloud-messaging/ios/client
-        // this is for topics
-        Messaging.messaging().apnsToken = deviceToken
-        
-        // this is used for regular apn push, if a push notification was sent with a token
-        if let refreshedToken = InstanceID.instanceID().token() {
-            print("PUSH: InstanceID token: \(refreshedToken)")
-            NotificationService.enablePush(deviceToken, enabled:true)
-        }
+        NotificationService.shared.enablePush(deviceToken, enabled:true)
     }
 }
 

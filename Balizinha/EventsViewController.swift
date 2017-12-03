@@ -279,10 +279,10 @@ extension EventsViewController: EventCellDelegate {
         //add notification in case user doesn't return to MyEvents
         self.service.joinEvent(event)
         if #available(iOS 10.0, *) {
-            NotificationService.scheduleNotificationForEvent(event)
+            NotificationService.shared.scheduleNotificationForEvent(event)
             
             if SettingsService.donation() {
-                NotificationService.scheduleNotificationForDonation(event)
+                NotificationService.shared.scheduleNotificationForDonation(event)
             }
         }
         
