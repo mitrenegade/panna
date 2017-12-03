@@ -187,6 +187,11 @@ extension NotificationService {
             self.subscribeToTopic(topic: topic, subscribed: subscribed)
             print("\(subscribed ? "" : "Un-")Subscribing to event topic \(topic)")
         }
+        
+        // register everyone for general channel
+        topic = "general"
+        self.subscribeToTopic(topic: topic, subscribed: subscribed)
+        print("\(subscribed ? "" : "Un-")Subscribing to topic \(topic)")
     }
 }
 
