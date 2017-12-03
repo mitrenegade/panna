@@ -9,10 +9,14 @@
 import UIKit
 import UserNotifications
 import FirebaseMessaging
+import Firebase
+import RxSwift
 
 let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"
 let kNotificationsDefaultsKey = "NotificationsDefaultsKey"
+
+let gcmMessageIDKey = "gcm.message_id"
 
 @available(iOS 10.0, *)
 fileprivate var singleton: NotificationService?
@@ -21,6 +25,7 @@ fileprivate var singleton: NotificationService?
 class NotificationService: NSObject {
     var pushDeviceToken: Data?
     var scheduledEvents: [Event]?
+    let disposeBag = DisposeBag()
 
     static var shared: NotificationService {
         if let instance = singleton {
@@ -31,9 +36,9 @@ class NotificationService: NSObject {
     }
     
     // LOCAL NOTIFICAITONS
-    class func refreshNotifications(_ events: [Event]?) {
+    func refreshNotifications(_ events: [Event]?) {
         // store reference to events in case notifications are toggled
-        self.shared.scheduledEvents = events
+        self.scheduledEvents = events
         
         // remove old notifications
         self.clearAllNotifications()
@@ -48,7 +53,7 @@ class NotificationService: NSObject {
         
     }
     
-    class func scheduleNotificationForEvent(_ event: Event) {
+    func scheduleNotificationForEvent(_ event: Event) {
         //create local notification
         guard let startTime = event.startTime else { return }
         
@@ -68,7 +73,7 @@ class NotificationService: NSObject {
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
-    class func scheduleNotificationForDonation(_ event: Event) {
+    func scheduleNotificationForDonation(_ event: Event) {
         //create local notification
         guard let endTime = event.endTime else { return }
         guard !event.userIsOrganizer else { return }
@@ -91,21 +96,21 @@ class NotificationService: NSObject {
         print("notification scheduled")
     }
     
-    class func removeNotificationForEvent(_ event: Event) {
+    func removeNotificationForEvent(_ event: Event) {
         let identifier = "EventReminder\(event.id)"
         self.removeNotification(id: identifier)
     }
 
-    class func removeNotificationForDonation(_ event: Event) {
+    func removeNotificationForDonation(_ event: Event) {
         let identifier = "DonationRequest\(event.id)"
         self.removeNotification(id: identifier)
     }
 
-    class func clearAllNotifications() {
+    func clearAllNotifications() {
         UIApplication.shared.cancelAllLocalNotifications()
     }
     
-    class func removeNotification(id: String) {
+    func removeNotification(id: String) {
         UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
             var identifiers: [String] = []
             for notification:UNNotificationRequest in notificationRequests {
@@ -121,30 +126,31 @@ class NotificationService: NSObject {
 
 @available(iOS 10.0, *)
 extension NotificationService {
-    class func registerForPushNotifications(_ deviceToken: Data, enabled: Bool) {
-        let token: String = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        print("registered for push with token \(token)")
-
+    func enablePush(_ deviceToken: Data, enabled: Bool) {
         PlayerService.shared.observedPlayer?.asObservable().take(1).subscribe(onNext: { (player) in
-            player.deviceToken = token
-        })
-        self.shared.pushDeviceToken = deviceToken
+            if let fcmToken = InstanceID.instanceID().token(), enabled {
+                print("PUSH: registered for push with FCM token \(fcmToken)")
+                player.fcmToken = fcmToken
+            } else {
+                player.fcmToken = nil
+            }
+        }).addDisposableTo(disposeBag)
     }
     
     // User notification preference
-    class func userReceivesNotifications() -> Bool {
+    func userReceivesNotifications() -> Bool {
         guard let notificationsDefaultValue = UserDefaults.standard.object(forKey: kNotificationsDefaultsKey) else { return true }
         return (notificationsDefaultValue as AnyObject).boolValue
     }
     
-    class func toggleUserReceivesNotifications(_ enabled: Bool) {
+    func toggleUserReceivesNotifications(_ enabled: Bool) {
         // set and store user preference in NSUserDefaults
         UserDefaults.standard.set(enabled, forKey: kNotificationsDefaultsKey)
         UserDefaults.standard.synchronize()
         
         // toggle push notifications
-        if let deviceToken = self.shared.pushDeviceToken {
-            self.registerForPushNotifications(deviceToken, enabled: enabled)
+        if let deviceToken = self.pushDeviceToken {
+            self.enablePush(deviceToken, enabled: enabled)
         }
         else {
             // reregister
@@ -152,28 +158,85 @@ extension NotificationService {
         }
         
         // toggle/reschedule events
-        self.refreshNotifications(self.shared.scheduledEvents)
+        self.refreshNotifications(self.scheduledEvents)
     }
 }
 
 // PUSH Notifications for pubsub
 @available(iOS 10.0, *)
 extension NotificationService {
-    fileprivate func subscribeToTopic(topic: String) {
-        Messaging.messaging().subscribe(toTopic: topic)
+    fileprivate func subscribeToTopic(topic: String, subscribed: Bool) {
+        if subscribed {
+            Messaging.messaging().subscribe(toTopic: topic)
+        } else {
+            Messaging.messaging().unsubscribe(fromTopic: topic)
+        }
     }
     
-    func registerForEventNotifications(event: Event) {
+    func registerForEventNotifications(event: Event, subscribed: Bool) {
         let key = event.id
-        let topic = "event:" + key
-        self.subscribeToTopic(topic: topic)
+        var topic = "event" + key
+        if event.userIsOrganizer {
+            topic = "eventOwner" + key
+        }
+        print("\(subscribed ? "" : "Un-")Subscribing to event topic \(topic)")
+        self.subscribeToTopic(topic: topic, subscribed: subscribed)
+    }
+}
+
+// MARK: AppDelegate calls
+@available(iOS 10.0, *)
+extension NotificationService {
+    func didRegisterForRemoteNotifications(deviceToken: Data) {
+        NotificationService.shared.enablePush(deviceToken, enabled:true)
+    }
+}
+
+// MARK: UNUserNotificationCenterDelegate
+@available(iOS 10.0, *)
+extension NotificationService: UNUserNotificationCenterDelegate {
+    // Receive displayed notifications for iOS 10 devices.
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        // FCM: when a user receives a push notification while foregrounded
+        
+        let userInfo = notification.request.content.userInfo
+        
+        print("PUSH: willPresent notification with userInfo \(userInfo)")
+        
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        // Messaging.messaging().appDidReceiveMessage(userInfo)
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        
+        // Print full message.
+        print(userInfo)
+        
+        // Change this to your preferred presentation option
+        completionHandler([])
     }
     
-    func sendForDelete(event: Event) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
         
+        // FCM: when a user clicks on a notification while in the background
+        
+        print("PUSH: didReceive response")
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        
+        // Print full message.
+        print(userInfo)
+        
+        completionHandler()
     }
     
-    fileprivate func sendNotificationHelper() {
-        
-    }
 }

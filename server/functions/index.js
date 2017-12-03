@@ -146,12 +146,13 @@ exports.testJob = functions.pubsub.topic('on-demand-tick').onPublish((event) => 
 })
 
 // push stuff
-exports.sendPushForUserJoinedEvent = functions.database.ref('/eventUsers/{eventId}/{userId}').onWrite(event => {
+exports.onUserJoinOrLeaveEvent = functions.database.ref('/eventUsers/{eventId}/{userId}').onWrite(event => {
     const eventId = event.params.eventId
     const userId = event.params.userId
     var eventUserChanged = false;
     var eventUserCreated = false;
     var eventUserData = event.data.val();
+
     if (!event.data.previous.exists()) {
         eventUserCreated = true;
     }
@@ -160,15 +161,52 @@ exports.sendPushForUserJoinedEvent = functions.database.ref('/eventUsers/{eventI
     }
     console.log("event: " + eventId + " user: " + userId + " state: " + eventUserData)
 
-    return admin.database().ref(`/players/${userId}/deviceToken`).once('value').then(snapshot => {
+    return admin.database().ref(`/players/${userId}`).once('value').then(snapshot => {
         return snapshot.val();
-    }).then(token => {
-        var msg = "Update for event " + eventId 
-        return exports.sendPush(token)
+    }).then(player => {
+        var name = player["name"]
+        var email = player["email"]
+        var joinedString = "joined"
+        if (!eventUserData) {
+            joinedString = "left"
+        }
+        var msg = name + " has " + joinedString + " your game"
+        var title = "Game update"
+        var ownerTopic = "eventOwner" + eventId // join/leave message only for owners
+        console.log("Sending push for user " + name + " " + email + " joined event " + ownerTopic + " with message: " + msg)
+
+        var token = player["fcmToken"]
+        var eventTopic = "event" + eventId
+        if (token.length > 0) {
+            if (eventUserData) {
+                subscribeToTopic(token, topic)
+            } else {
+                unsubscribeFromTopic(token, topic)
+            }
+        }
+
+        return exports.sendPushToTopic(title, ownerTopic, msg)
     })
 })
 
+exports.sendPushToTopic = function(title, topic, msg) {
+        var topicString = "/topics/" + topic
+        // topicString = topicString.replace(/-/g , '_');
+        console.log("send push to topic " + topicString)
+        var payload = {
+            notification: {
+                title: title,
+                body: msg,
+                sound: 'default',
+                badge: '1'
+            }
+        };
+        return admin.messaging().sendToTopic(topicString, payload);
+}
+
 exports.sendPush = function(token, msg) {
+        //var testToken = "duvn2V1qsbk:APA91bEEy7DylD9iZctBtaKz5nS9CVZxpaAdaPwhIauzQ2jw81BF-oE0nhgvN3U10mqClTue0siwDH41JZP2kLqU0CkThOoBBdFQYWOr8X_6qHIknBE-Oa195qOy8XSbJvXeQj4wQa9T"
+        
         var tokens = [token]
         console.log("send push to token " + token)
         var payload = {
@@ -176,8 +214,34 @@ exports.sendPush = function(token, msg) {
                 title: 'Firebase Notification',
                 body: msg,
                 sound: 'default',
-                badge: '1'
+                badge: "2"
             }
         };
         return admin.messaging().sendToDevice(tokens, payload);
+}
+
+exports.subscribeToTopic = function(token, topic) {
+    admin.messaging().subscribeToTopic(token, topic)
+        .then(function(response) {
+        // See the MessagingTopicManagementResponse reference documentation
+        // for the contents of response.
+            console.log("Successfully subscribed " + token + " to topic: " + topic + " response " + response);
+        })
+        .catch(function(error) {
+            console.log("Error subscribing to topic:", error);
+        }
+    );
+}
+
+exports.unsubscribeFromTopic = function(token, topic) {
+    admin.messaging().unsubscribeFromTopic(registrationToken, topic)
+        .then(function(response) {
+        // See the MessagingTopicManagementResponse reference documentation
+        // for the contents of response.
+            console.log("Successfully unsubscribed " + token + " from topic: " + topic + " response " + response);
+        })
+        .catch(function(error) {
+            console.log("Error unsubscribing from topic:", error);
+        }
+    );
 }

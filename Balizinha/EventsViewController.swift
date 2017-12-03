@@ -26,6 +26,7 @@ class EventsViewController: UIViewController {
     var joiningEvent: Event?
     
     let disposeBag = DisposeBag()
+    var recentLocation: CLLocation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +43,16 @@ class EventsViewController: UIViewController {
         LocationService.shared.observedLocation.subscribe(onNext: { locationState in
             switch locationState {
             case .located(let location):
-                self.refreshEvents()
+                print("location \(location)")
+                if let recent = self.recentLocation {
+                    if recent.distance(from: location) > 100 {
+                        self.refreshEvents()
+                    }
+                }
+                else {
+                    self.refreshEvents()
+                }
+                self.recentLocation = location
             default:
                 print("no location yet")
             }
@@ -58,7 +68,6 @@ class EventsViewController: UIViewController {
     }
     
     func refreshEvents() {
-        
         service.getEvents(type: nil) { [weak self] (results) in
             // completion function will get called once at the start, and each time events change
             
@@ -72,12 +81,11 @@ class EventsViewController: UIViewController {
             self?.service.getEventsForUser(firAuth.currentUser!, completion: {[weak self] (eventIds) in
                 
                 print("eventsForUser \(firAuth.currentUser!): \(eventIds)")
-
-                for event in self?.allEvents ?? [] {
-                    print("event id \(event.id) date \(event.dateString(event.endTime ?? Date())) past \(event.isPast)")
-                }
                 print("all events count \(self?.allEvents.count)")
                 
+                // version 0.5.0: for users installing a notification-enabled app for the first time, make sure events they've joined or created in the past have the correct subscriptions
+                self?.updateSubscriptionsOnce(eventIds)
+
                 self?.allEvents = self?.allEvents.filter({ (event) -> Bool in
                     (!eventIds.contains(event.id) && !event.isPast)
                 }) ?? []
@@ -269,10 +277,10 @@ extension EventsViewController: EventCellDelegate {
         //add notification in case user doesn't return to MyEvents
         self.service.joinEvent(event)
         if #available(iOS 10.0, *) {
-            NotificationService.scheduleNotificationForEvent(event)
+            NotificationService.shared.scheduleNotificationForEvent(event)
             
             if SettingsService.donation() {
-                NotificationService.scheduleNotificationForDonation(event)
+                NotificationService.shared.scheduleNotificationForDonation(event)
             }
         }
         
@@ -390,5 +398,27 @@ extension EventsViewController {
 extension EventsViewController: CreateEventDelegate {
     func didCreateEvent() {
         self.tabBarController?.selectedIndex = 2
+    }
+}
+
+// TODO: delete this after 0.5.0 has been widely adopted
+fileprivate var subscriptionsUpdated: Bool = false
+extension EventsViewController {
+    func updateSubscriptionsOnce(_ eventIds: [String]) {
+        guard !subscriptionsUpdated else { return }
+        subscriptionsUpdated = true
+
+        let userEvents = self.allEvents.filter({ (event) -> Bool in
+            return eventIds.contains(event.id)
+        }) ?? []
+
+        for event in userEvents {
+            if #available(iOS 10.0, *) {
+                let shouldSubscribe = event.active && !event.isPast
+                NotificationService.shared.registerForEventNotifications(event: event, subscribed: shouldSubscribe)
+            } else {
+                // Fallback on earlier versions
+            }
+        }
     }
 }

@@ -24,7 +24,7 @@ class PushTableViewCell: UITableViewCell {
     }
     
     func refresh() {
-        if #available(iOS 10.0, *), NotificationService.userReceivesNotifications() {
+        if #available(iOS 10.0, *), NotificationService.shared.userReceivesNotifications() {
             self.pushSwitch.setOn(true, animated: true)
         } else {
             self.pushSwitch.setOn(false, animated: true)
@@ -34,7 +34,7 @@ class PushTableViewCell: UITableViewCell {
     @IBAction func switchState(_ sender: AnyObject) {
         print("Switch changed to \(self.pushSwitch.isOn)")
         if #available(iOS 10.0, *) {
-            NotificationService.toggleUserReceivesNotifications(self.pushSwitch.isOn)
+            NotificationService.shared.toggleUserReceivesNotifications(self.pushSwitch.isOn)
         }
     }
 }

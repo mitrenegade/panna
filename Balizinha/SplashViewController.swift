@@ -102,7 +102,7 @@ class SplashViewController: UIViewController {
         print("logged out")
         self.stopListeningFor(.LogoutSuccess)
         if #available(iOS 10.0, *) {
-            NotificationService.clearAllNotifications()
+            NotificationService.shared.clearAllNotifications()
         }
         
         if SettingsService.showPreview {
