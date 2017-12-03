@@ -67,6 +67,17 @@ class EventsViewController: UIViewController {
         print("eventsView deinit")
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if #available(iOS 10.0, *) {
+            NotificationService.shared.resetBadgeCount()
+        } else {
+            // Fallback on earlier versions
+            UIApplication.shared.applicationIconBadgeNumber = 0
+        }
+    }
+    
     func refreshEvents() {
         service.getEvents(type: nil) { [weak self] (results) in
             // completion function will get called once at the start, and each time events change
