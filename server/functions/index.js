@@ -163,7 +163,10 @@ exports.onEventChange = functions.database.ref('/events/{eventId}').onWrite(even
         var title = "New event available"
         var topic = "general"
         var name = data["name"]
-        var city = data["location"]
+        var city = data["city"]
+        if (!city) {
+            city = data["place"]
+        }
         var msg = "A new event, " + name + ", is available in " + city
         return exports.sendPushToTopic(title, topic, msg)
     } else {
