@@ -88,13 +88,6 @@ class EventService: NSObject {
                     if event.active {
                         results.append(event)
                     }
-                    
-                    // Notifications
-                    if #available(iOS 10.0, *) {
-                        NotificationService.shared.registerForEventNotifications(event: event, subscribed: event.active && !event.isPast)
-                    } else {
-                        // Fallback on earlier versions
-                    }
                 }
             }
             print("getEvents results count: \(results.count)")
@@ -178,12 +171,12 @@ class EventService: NSObject {
         // add an action
         ActionService.post(.joinEvent, eventId: event.id, message: nil)
         
-        // notifications
-        if #available(iOS 10.0, *) {
-            NotificationService.shared.registerForEventNotifications(event: event, subscribed: true)
-        } else {
-            // Fallback on earlier versions
-        }
+        // notifications - don't handle in app on join/leave; let server handle it
+//        if #available(iOS 10.0, *) {
+//            NotificationService.shared.registerForEventNotifications(event: event, subscribed: true)
+//        } else {
+//            // Fallback on earlier versions
+//        }
     }
     
     func leaveEvent(_ event: Event) {
@@ -194,12 +187,12 @@ class EventService: NSObject {
         // add an action
         ActionService.post(.leaveEvent, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
 
-        // notifications
-        if #available(iOS 10.0, *) {
-            NotificationService.shared.registerForEventNotifications(event: event, subscribed: false)
-        } else {
-            // Fallback on earlier versions
-        }
+        // notifications - let server handle notifications
+//        if #available(iOS 10.0, *) {
+//            NotificationService.shared.registerForEventNotifications(event: event, subscribed: false)
+//        } else {
+//            // Fallback on earlier versions
+//        }
     }
     
     // MARK: User's events helper

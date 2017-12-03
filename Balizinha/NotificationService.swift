@@ -132,7 +132,7 @@ extension NotificationService {
                 print("PUSH: registered for push with FCM token \(fcmToken)")
                 player.fcmToken = fcmToken
             } else {
-                player.fcmToken = nil   
+                player.fcmToken = nil
             }
         }).addDisposableTo(disposeBag)
     }

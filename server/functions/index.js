@@ -146,7 +146,7 @@ exports.testJob = functions.pubsub.topic('on-demand-tick').onPublish((event) => 
 })
 
 // push stuff
-exports.sendPushForUserJoinedEvent = functions.database.ref('/eventUsers/{eventId}/{userId}').onWrite(event => {
+exports.onUserJoinOrLeaveEvent = functions.database.ref('/eventUsers/{eventId}/{userId}').onWrite(event => {
     const eventId = event.params.eventId
     const userId = event.params.userId
     var eventUserChanged = false;
@@ -172,9 +172,20 @@ exports.sendPushForUserJoinedEvent = functions.database.ref('/eventUsers/{eventI
         }
         var msg = name + " has " + joinedString + " your game"
         var title = "Game update"
-        var topic = "eventOwner" + eventId // join/leave message only for owners
-        console.log("Sending push for user " + name + " " + email + " joined event " + topic + " with message: " + msg)
-        return exports.sendPushToTopic(title, topic, msg)
+        var ownerTopic = "eventOwner" + eventId // join/leave message only for owners
+        console.log("Sending push for user " + name + " " + email + " joined event " + ownerTopic + " with message: " + msg)
+
+        var token = player["fcmToken"]
+        var eventTopic = "event" + eventId
+        if (token.length > 0) {
+            if (eventUserData) {
+                subscribeToTopic(token, topic)
+            } else {
+                unsubscribeFromTopic(token, topic)
+            }
+        }
+
+        return exports.sendPushToTopic(title, ownerTopic, msg)
     })
 })
 
@@ -207,4 +218,30 @@ exports.sendPush = function(token, msg) {
             }
         };
         return admin.messaging().sendToDevice(tokens, payload);
+}
+
+exports.subscribeToTopic = function(token, topic) {
+    admin.messaging().subscribeToTopic(token, topic)
+        .then(function(response) {
+        // See the MessagingTopicManagementResponse reference documentation
+        // for the contents of response.
+            console.log("Successfully subscribed " + token + " to topic: " + topic + " response " + response);
+        })
+        .catch(function(error) {
+            console.log("Error subscribing to topic:", error);
+        }
+    );
+}
+
+exports.unsubscribeFromTopic = function(token, topic) {
+    admin.messaging().unsubscribeFromTopic(registrationToken, topic)
+        .then(function(response) {
+        // See the MessagingTopicManagementResponse reference documentation
+        // for the contents of response.
+            console.log("Successfully unsubscribed " + token + " from topic: " + topic + " response " + response);
+        })
+        .catch(function(error) {
+            console.log("Error unsubscribing from topic:", error);
+        }
+    );
 }
