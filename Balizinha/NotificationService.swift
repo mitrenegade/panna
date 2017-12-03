@@ -122,6 +122,9 @@ class NotificationService: NSObject {
         }
     }
     
+    func resetBadgeCount() {
+        UIApplication.shared.applicationIconBadgeNumber = 0
+    }
 }
 
 @available(iOS 10.0, *)
