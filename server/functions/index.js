@@ -220,7 +220,7 @@ exports.onUserJoinOrLeaveEvent = functions.database.ref('/eventUsers/{eventId}/{
 
         var token = player["fcmToken"]
         var eventTopic = "event" + eventId
-        if (token.length > 0) {
+        if (token && token.length > 0) {
             if (eventUserData) {
                 exports.subscribeToTopic(token, eventTopic)
             } else {

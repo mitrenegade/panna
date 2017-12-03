@@ -179,11 +179,14 @@ extension NotificationService {
     func registerForEventNotifications(event: Event, subscribed: Bool) {
         let key = event.id
         var topic = "event" + key
+        self.subscribeToTopic(topic: topic, subscribed: subscribed)
+        print("\(subscribed ? "" : "Un-")Subscribing to event topic \(topic)")
+
         if event.userIsOrganizer {
             topic = "eventOwner" + key
+            self.subscribeToTopic(topic: topic, subscribed: subscribed)
+            print("\(subscribed ? "" : "Un-")Subscribing to event topic \(topic)")
         }
-        print("\(subscribed ? "" : "Un-")Subscribing to event topic \(topic)")
-        self.subscribeToTopic(topic: topic, subscribed: subscribed)
     }
 }
 
