@@ -145,7 +145,7 @@ exports.testJob = functions.pubsub.topic('on-demand-tick').onPublish((event) => 
     exports.sendPush(testToken, msg)
 })
 
-// push stuff
+// join/leave event
 exports.onUserJoinOrLeaveEvent = functions.database.ref('/eventUsers/{eventId}/{userId}').onWrite(event => {
     const eventId = event.params.eventId
     const userId = event.params.userId
@@ -171,7 +171,7 @@ exports.onUserJoinOrLeaveEvent = functions.database.ref('/eventUsers/{eventId}/{
             joinedString = "left"
         }
         var msg = name + " has " + joinedString + " your game"
-        var title = "Game update"
+        var title = "Event update"
         var ownerTopic = "eventOwner" + eventId // join/leave message only for owners
         console.log("Sending push for user " + name + " " + email + " joined event " + ownerTopic + " with message: " + msg)
 
@@ -189,6 +189,42 @@ exports.onUserJoinOrLeaveEvent = functions.database.ref('/eventUsers/{eventId}/{
     })
 })
 
+// actions
+exports.onAction = functions.database.ref('/action/{actionId}').onWrite(event => {
+    const actionId = event.params.actionId
+    var data = event.data.val();
+
+    const eventId = data["event"]
+    const userId = data["user"]
+    const actionType = data["type"]
+
+    if (actionType == "chat") {
+        return exports.onChatAction(actionId, eventId, userId, data)
+    } else {
+        return
+    }
+})
+
+exports.onChatAction = function(actionId, eventId, userId, data) {
+    console.log("action: " + actionId + " event: " + eventId + " user: " + userId + " data: " + data)
+
+    var eventTopic = "event" + eventId
+    return admin.database().ref(`/players/${userId}`).once('value').then(snapshot => {
+        return snapshot.val();
+    }).then(player => {
+        var name = player["name"]
+        var email = player["email"]
+        var message = data["message"]
+        var msg = name + " said: " + message
+        var title = "Event chat"
+        var topic = "event" + eventId 
+        console.log("Sending push for user " + name + " " + email + " for chat to topic " + topic + " with message: " + msg)
+
+        return exports.sendPushToTopic(title, topic, msg)
+    })
+}
+
+// Push
 exports.sendPushToTopic = function(title, topic, msg) {
         var topicString = "/topics/" + topic
         // topicString = topicString.replace(/-/g , '_');
