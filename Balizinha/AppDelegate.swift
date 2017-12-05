@@ -44,30 +44,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Fabric.with([Crashlytics.self])
 
         // notifications
-        print("PUSH: registering for notifications")
         if #available(iOS 10.0, *) {
-            // For iOS 10 display notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = NotificationService.shared
-            
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: {result, error in
-                    print("PUSH: request authorization result \(result) error \(error)")
-            })
+            NotificationService.shared.registerForRemoteNotifications()
         } else {
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
+            // Fallback on earlier versions
         }
-        
-        application.registerForRemoteNotifications()
-        
-        // BOBBY TODO: handle this in NotificationService instead of using apple's device token
-        let token = Messaging.messaging().fcmToken
-        print("PUSH: FCM token: \(token ?? "")")
-        
-        Messaging.messaging().delegate = self
         
         // Background fetch
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
@@ -180,16 +161,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         completionHandler(UIBackgroundFetchResult.newData)
     }
 
-}
-
-extension AppDelegate: MessagingDelegate {
-    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
-        print("PUSH: Firebase registration token: \(fcmToken)")
-    }
-    
-    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        print("PUSH: Received data message: \(remoteMessage.appData)")
-    }
 }
 
 // MARK: - Background fetch
