@@ -193,6 +193,12 @@ extension NotificationService {
         }
     }
     
+    func refreshEventTopics() {
+        // TODO: move cached events to EventService
+        // have allEvents, userEvents(current/past)
+        // use userEvents(current) to refresh topics on toggle
+    }
+    
     func registerForEventNotifications(event: Event, subscribed: Bool) {
         let key = event.id
         var topic = "event" + key
@@ -239,6 +245,9 @@ extension NotificationService: UNUserNotificationCenterDelegate {
         // Print full message.
         print(userInfo)
         
+        // analytics
+        LoggingService.shared.log(event: "PushNotificationReceived", info: ["inApp": true])
+        
         // Change this to your preferred presentation option
         completionHandler([])
     }
@@ -259,6 +268,9 @@ extension NotificationService: UNUserNotificationCenterDelegate {
         // Print full message.
         print(userInfo)
         
+        // analytics
+        LoggingService.shared.log(event: "PushNotificationReceived", info: ["inApp": false])
+
         completionHandler()
     }
     
