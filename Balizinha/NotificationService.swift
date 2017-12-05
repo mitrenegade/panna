@@ -131,25 +131,19 @@ class NotificationService: NSObject {
 extension NotificationService {
     func registerForRemoteNotifications() {
         print("PUSH: registering for notifications")
-        if #available(iOS 10.0, *) {
-            // For iOS 10 display notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = self
-            
-            // Messaging service - analytics?
-            Messaging.messaging().delegate = singleton
-
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: {result, error in
-                    print("PUSH: request authorization result \(result) error \(error)")
-            })
-        } else {
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            UIApplication.shared.registerUserNotificationSettings(settings)
-        }
+        // For iOS 10 display notification (sent via APNS)
+        UNUserNotificationCenter.current().delegate = self
         
+        // Messaging service - analytics?
+        Messaging.messaging().delegate = singleton
+        
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: {result, error in
+                print("PUSH: request authorization result \(result) error \(String(describing: error))")
+        })
+
         UIApplication.shared.registerForRemoteNotifications()
     }
     
