@@ -88,13 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Push
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        // Store the deviceToken
-        if #available(iOS 10.0, *) {
-            NotificationService.shared.didRegisterForRemoteNotifications(deviceToken: deviceToken)
-        } else {
-            // Fallback on earlier versions
-            print("PUSH: TODO handle for ios9")
-        }
+        // let Messaging delegate handle token storage
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
