@@ -22,7 +22,7 @@ class SettingsService: NSObject {
         
         return singleton!
     }
-
+    
     // observable
     var observedSettings: Observable<Any>? {
         return Observable.create({ (observer) -> Disposable in
@@ -31,6 +31,8 @@ class SettingsService: NSObject {
                 self.remoteConfig.activateFetched()
                 print("featureAvailable donation \(SettingsService.donation())")
                 print("featureAvailable paymentRequired \(SettingsService.paymentRequired())")
+                print("featureAvailable organizerPaymentRequired \(SettingsService.organizerPaymentRequired())")
+                print("featureAvailable organizerTrialAvailable \(SettingsService.organizerTrialAvailable())")
                 print("paymentLocation \(SettingsService.shared.featureExperiment("paymentLocation")) testGroup \(SettingsService.paymentLocationTestGroup())")
                 print("featureAvailable maps \(SettingsService.usesMaps)")
                 print("showPreview \(SettingsService.shared.featureExperiment("showPreview")) testGroup \(SettingsService.showPreviewTestGroup())")
@@ -68,7 +70,11 @@ extension SettingsService {
     class func paymentRequired() -> Bool {
         return shared.featureAvailable("paymentRequired")
     }
-    
+
+    class func organizerPaymentRequired() -> Bool {
+        return shared.featureAvailable("organizerPayment")
+    }
+
     class var usesMaps: Bool {
         return shared.featureAvailable("maps")
     }
@@ -94,6 +100,12 @@ extension SettingsService {
         let result = shared.featureExperiment("showPreview")
         print("show preview = \(result)")
         return result == "true" // returns as string
+    }
+    
+    class func organizerTrialAvailable() -> Bool {
+        let result = shared.featureExperiment("organizerTrial")
+        print("organizer trial = \(result)")
+        return result == "true"
     }
 
     // MARK: - Analytics
