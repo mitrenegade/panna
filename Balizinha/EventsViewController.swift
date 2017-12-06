@@ -272,7 +272,7 @@ extension EventsViewController: EventCellDelegate {
         
         self.joiningEvent = event
         if event.paymentRequired && SettingsService.paymentRequired() {
-            self.checkStripe()
+            self.checkIfAlreadyPaid(for: event)
         }
         else {
             self.joinEvent(event)
@@ -309,9 +309,25 @@ extension EventsViewController: EventCellDelegate {
 
 // MARK: - Payments
 extension EventsViewController {
+    func checkIfAlreadyPaid(for event: Event) {
+        guard let current = PlayerService.shared.current else {
+            self.simpleAlert("Could not make payment", message: "Please update your player profile!")
+            return
+        }
+        self.activityIndicator.startAnimating()
+        PaymentService().checkForPayment(for: event.id, by: current.id) { (success) in
+            if success {
+                self.activityIndicator.stopAnimating()
+                self.joinEvent(event)
+            }
+            else {
+                self.checkStripe()
+            }
+        }
+    }
+    
     func checkStripe() {
         stripeService.loadPayment(host: nil)
-        self.activityIndicator.startAnimating()
         
         self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshStripeStatus), object: nil)
     }
