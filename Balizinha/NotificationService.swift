@@ -78,8 +78,8 @@ class NotificationService: NSObject {
         guard !event.userIsOrganizer else { return }
         let name = event.name ?? "the last game"
         let content = UNMutableNotificationContent()
-        content.title = NSString.localizedUserNotificationString(forKey: "Donate", arguments: nil)
-        content.body = NSString.localizedUserNotificationString(forKey: "Do you want to contribute for \(name)?", arguments: nil)
+        content.title = NSString.localizedUserNotificationString(forKey: "Send Payment", arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: "Do you want to pay for playing in \(name)?", arguments: nil)
         content.userInfo = ["type": "donationReminder", "eventId": event.id]
         
         // Configure the trigger for a 7am wakeup.

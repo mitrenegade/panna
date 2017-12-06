@@ -35,7 +35,7 @@ class EventCellDonationTests: XCTestCase {
 
         // past event, user joined
         status = (event.isPast, false, true)
-        XCTAssert(viewModel.buttonTitle(eventStatus: status) == "Donate", "Past joined events should show donate")
+        XCTAssert(viewModel.buttonTitle(eventStatus: status) == "Pay", "Past joined events should show pay instead of donate")
 
         // past event, user is not part of it
         status = (event.isPast, false, false)
