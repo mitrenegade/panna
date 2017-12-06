@@ -31,7 +31,7 @@ class EventCellViewModel: NSObject {
         switch eventStatus {
         case (true, false, true):
             if SettingsService.donation() {
-                return "Donate"
+                return "Pay" // donate
             }
             else {
                 return ""

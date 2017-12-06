@@ -123,7 +123,7 @@ extension Action {
         case .leaveEvent:
             return userString + " left this event"
         case .donation:
-            return userString + " donated to this event"
+            return userString + " paid for this event"
         default:
             // system message
             return "Admin says: hi"

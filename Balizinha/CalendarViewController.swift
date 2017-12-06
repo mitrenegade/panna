@@ -231,7 +231,7 @@ extension CalendarViewController: EventDonationDelegate {
         if let name = event.name {
             title = "Hope you enjoyed \(name)"
         }
-        let alert = UIAlertController(title: title, message: "Thank you for playing with us, it was great seeing you on the court. Help keep the community going (donate $1 or more) and growing.", preferredStyle: .alert)
+        let alert = UIAlertController(title: title, message: "Thank you for playing with us, it was great seeing you on the court. Help keep the community keep growing by helping space rental.", preferredStyle: .alert)
         alert.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "$1.00"
         }
@@ -253,7 +253,7 @@ extension CalendarViewController: EventDonationDelegate {
                         guard let user = firAuth.currentUser else { return }
                         ActionService.post(.donation, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
 
-                        self?.simpleAlert("Thank you for your donation", message: "Your donation of \(amountString) will go a long way to keep Balizinha a great community!")
+                        self?.simpleAlert("Thank you for your payment", message: "Your payment of \(amountString) will go a long way to keep Balizinha a great community!")
                     }
                     else if let error = error as? NSError {
                         self?.promptForInvalidPaymentMethod(error)
@@ -268,10 +268,10 @@ extension CalendarViewController: EventDonationDelegate {
     fileprivate func promptForInvalidPaymentMethod(_ error: NSError?) {
         if let error = error {
             if let msg = error.userInfo["error"] as? String, msg == "Cannot charge a customer that has no active card" {
-                self.simpleAlert("Could not donate", message: "No credit card available. Please add a payment method in your account settings!")
+                self.simpleAlert("Could not process payment", message: "No credit card available. Please add a payment method in your account settings!")
             }
             else {
-                self.simpleAlert("Could not donate", defaultMessage: "There was an issue with donating.", error: error)
+                self.simpleAlert("Could not process payment", defaultMessage: "There was an issue with payment.", error: error)
             }
         }
         else {
