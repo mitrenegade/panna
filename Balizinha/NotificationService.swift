@@ -23,7 +23,6 @@ fileprivate var singleton: NotificationService?
 
 @available(iOS 10.0, *)
 class NotificationService: NSObject {
-    var pushDeviceToken: Data?
     var scheduledEvents: [Event]?
     let disposeBag = DisposeBag()
 
@@ -65,7 +64,7 @@ class NotificationService: NSObject {
         
         // Configure the trigger
         let date = startTime.addingTimeInterval(kEventNotificationIntervalSeconds)
-        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
         // Create the request object.
@@ -86,7 +85,7 @@ class NotificationService: NSObject {
         // Configure the trigger for a 7am wakeup.
         let date = endTime.addingTimeInterval(30*60)
 //        let date = Date().addingTimeInterval(5)
-        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
         // Create the request object.
@@ -107,7 +106,7 @@ class NotificationService: NSObject {
     }
 
     func clearAllNotifications() {
-        UIApplication.shared.cancelAllLocalNotifications()
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
     
     func removeNotification(id: String) {
@@ -129,16 +128,34 @@ class NotificationService: NSObject {
 
 @available(iOS 10.0, *)
 extension NotificationService {
-    func enablePush(_ deviceToken: Data, enabled: Bool) {
-        self.pushDeviceToken = deviceToken
+    func registerForRemoteNotifications() {
+        print("PUSH: registering for notifications")
+        // For iOS 10 display notification (sent via APNS)
+        UNUserNotificationCenter.current().delegate = self
+        
+        // Messaging service delegate - for data messages
+        Messaging.messaging().delegate = self
+        
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: {result, error in
+                print("PUSH: request authorization result \(result) error \(String(describing: error))")
+        })
+
+        UIApplication.shared.registerForRemoteNotifications()
+    }
+    
+    func storeFCMToken(enabled: Bool) {
         PlayerService.shared.observedPlayer?.asObservable().take(1).subscribe(onNext: { (player) in
             if let fcmToken = InstanceID.instanceID().token(), enabled {
-                print("PUSH: registered for push with FCM token \(fcmToken)")
+                print("PUSH: storing FCM token \(fcmToken)")
                 player.fcmToken = fcmToken
             } else {
+                print("PUSH: clearing FCM token")
                 player.fcmToken = nil
             }
-        }).addDisposableTo(disposeBag)
+        }).disposed(by: disposeBag)
     }
     
     // User notification preference
@@ -157,13 +174,8 @@ extension NotificationService {
         LoggingService.shared.log(event: "PushNotificationsToggled", info: ["value": enabled])
 
         // toggle push notifications
-        if let deviceToken = self.pushDeviceToken {
-            self.enablePush(deviceToken, enabled: enabled)
-        }
-        else {
-            // reregister
-            UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil))
-        }
+        print("PUSH: enabling push notifications: \(enabled)")
+        storeFCMToken(enabled: enabled)
         
         // toggle/reschedule events
         self.refreshNotifications(self.scheduledEvents)
@@ -179,6 +191,12 @@ extension NotificationService {
         } else {
             Messaging.messaging().unsubscribe(fromTopic: topic)
         }
+    }
+    
+    func refreshEventTopics() {
+        // TODO: move cached events to EventService
+        // have allEvents, userEvents(current/past)
+        // use userEvents(current) to refresh topics on toggle
     }
     
     func registerForEventNotifications(event: Event, subscribed: Bool) {
@@ -202,14 +220,6 @@ extension NotificationService {
     }
 }
 
-// MARK: AppDelegate calls
-@available(iOS 10.0, *)
-extension NotificationService {
-    func didRegisterForRemoteNotifications(deviceToken: Data) {
-        NotificationService.shared.enablePush(deviceToken, enabled:true)
-    }
-}
-
 // MARK: UNUserNotificationCenterDelegate
 @available(iOS 10.0, *)
 extension NotificationService: UNUserNotificationCenterDelegate {
@@ -225,7 +235,8 @@ extension NotificationService: UNUserNotificationCenterDelegate {
         print("PUSH: willPresent notification with userInfo \(userInfo)")
         
         // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
+        
+        Messaging.messaging().appDidReceiveMessage(userInfo)
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
@@ -233,6 +244,9 @@ extension NotificationService: UNUserNotificationCenterDelegate {
         
         // Print full message.
         print(userInfo)
+        
+        // analytics
+        LoggingService.shared.log(event: "PushNotificationReceived", info: ["inApp": true])
         
         // Change this to your preferred presentation option
         completionHandler([])
@@ -254,7 +268,30 @@ extension NotificationService: UNUserNotificationCenterDelegate {
         // Print full message.
         print(userInfo)
         
+        // analytics
+        LoggingService.shared.log(event: "PushNotificationReceived", info: ["inApp": false])
+
         completionHandler()
     }
     
 }
+
+@available(iOS 10.0, *)
+extension NotificationService: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+        print("PUSH: Firebase registration token: \(fcmToken)")
+    }
+    
+    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+        print("PUSH: Received data message: \(remoteMessage.appData)")
+    }
+    
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        print("PUSH: Messaging did receive FCM token \(fcmToken)")
+        
+        // if user has push enabled but toggled notifications off in defaults, disable FCM token
+        let enabled = userReceivesNotifications()
+        storeFCMToken(enabled: enabled)
+    }
+}
+

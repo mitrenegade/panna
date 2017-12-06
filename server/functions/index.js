@@ -6,7 +6,7 @@ const moment = require('moment')
 admin.initializeApp(functions.config().firebase);
 
 // TO TOGGLE BETWEEN DEV AND PROD: change this to .dev or .prod for functions:config variables to be correct
-const config = functions.config().prod
+const config = functions.config().dev
 const stripe = require('stripe')(config.stripe.token)
 
 exports.createStripeCustomer = functions.auth.user().onCreate(event => {
@@ -159,7 +159,7 @@ exports.onEventChange = functions.database.ref('/events/{eventId}').onWrite(even
         eventChanged = true;
     }
 
-    if (eventCreated) {
+    if (eventCreated == true) {
         var title = "New event available"
         var topic = "general"
         var name = data["name"]
@@ -167,8 +167,30 @@ exports.onEventChange = functions.database.ref('/events/{eventId}').onWrite(even
         if (!city) {
             city = data["place"]
         }
+
+        // send push
         var msg = "A new event, " + name + ", is available in " + city
-        return exports.sendPushToTopic(title, topic, msg)
+        exports.sendPushToTopic(title, topic, msg)
+
+        // subscribe owner to event topic
+        var ownerId = data["owner"]
+        if (ownerId) {
+            return admin.database().ref(`/players/${ownerId}`).once('value').then(snapshot => {
+                return snapshot.val();
+            }).then(player => {
+                var token = player["fcmToken"]
+                var ownerTopic = "eventOwner" + eventId
+                if (token && token.length > 0) {
+                    exports.subscribeToTopic(token, ownerTopic)
+                    return console.log("event: " + eventId + " created " + eventCreated + " subscxribing " + ownerId + " to " + ownerTopic)
+                } else {
+                    return console.log("event: " + eventId + " created " + eventCreated + " user " + ownerId + " did not have fcm token")
+                }
+            })
+        }
+        else {
+        return console.log("event: " + eventId + " created " + eventCreated + " no owner id!")
+        }
     } else {
         return console.log("event: " + eventId + " created " + eventCreated + " changed " + eventChanged + " state: " + data)
     }
