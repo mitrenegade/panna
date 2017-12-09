@@ -115,7 +115,18 @@ class AccountViewController: UITableViewController {
         case "Logout":
             self.logout()
         case "Promo program":
-            if let player = PlayerService.shared.current, player.promotionId == nil {
+            guard let player = PlayerService.shared.current else { return }
+            if let promoId = player.promotionId {
+                PromotionService.shared.withId(id: promoId) { (promo, error) in
+                    if let promo = promo, promo.active {
+                        return
+                    }
+                    else {
+                        self.addPromotion()
+                    }
+                }
+            }
+            else {
                 self.addPromotion()
             }
         case "Payment options":

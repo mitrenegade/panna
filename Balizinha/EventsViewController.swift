@@ -145,30 +145,46 @@ class EventsViewController: UIViewController {
         else {
             // create organizer
             var message = "You must be an organizer to create a new game. Click now to start organizing games for free."
-            if SettingsService.paymentRequired() {
-                message = "You must be an organizer to create a new game. Click now to start a month long free trial."
+            if SettingsService.organizerPaymentRequired() {
+                if SettingsService.organizerTrialAvailable() {
+                    message = "You must be an organizer to create a new game. Click now to start a month long free trial."
+                } else {
+                    message = "You must be an organizer to create a new game. Click now to purchase an organizer subscription."
+                }
             }
             let alert = UIAlertController(title: "Become an Organizer?", message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Start", style: UIAlertActionStyle.default, handler: { (action) in
                 
                 // TODO: check for payment method before creating an organizer?
+                self.activityIndicator.startAnimating()
                 OrganizerService.shared.createOrganizer(completion: {[weak self] (organizer, error) in
                     if let error = error {
                         self?.simpleAlert("Could not become organizer", message: "There was an issue joining the organizer trial. \(error.localizedDescription)")
+                        self?.activityIndicator.stopAnimating()
                     }
                     else {
-                        // go directly to create event without payments
-                        guard SettingsService.paymentRequired() else {
+                        // go directly to create event without payments and no alert
+                        guard SettingsService.organizerPaymentRequired() else {
+                            self?.activityIndicator.stopAnimating()
                             self?.performSegue(withIdentifier: "toCreateEvent", sender: nil)
                             return
                         }
                         
                         // create
-                        self?.stripeService.createSubscription(completion: { [weak self] (success, error) in
+                        var isTrial: Bool = SettingsService.organizerTrialAvailable()
+                        self?.stripeService.createSubscription(isTrial: isTrial, completion: { [weak self] (success, error) in
+                            self?.activityIndicator.stopAnimating()
                             print("Success \(success) error \(error)")
-                            var title: String = "Free trial started"
-                            var message: String = "Good luck organizing games! You are now in the 30 day organizer trial."
+                            var title: String
+                            var message: String
+                            if SettingsService.organizerTrialAvailable() {
+                                title = "Free trial started"
+                                message = "Good luck organizing games! You are now in the 30 day organizer trial."
+                            } else {
+                                title = "Subscription created"
+                                message = "Good luck organizing games!"
+                            }
                             if let error = error {
                                 // TODO: handle credit card payment after organizer was created!
                                 // should allow users to organize for now, and ask to add a payment later
@@ -272,7 +288,7 @@ extension EventsViewController: EventCellDelegate {
         
         self.joiningEvent = event
         if event.paymentRequired && SettingsService.paymentRequired() {
-            self.checkStripe()
+            self.checkIfAlreadyPaid(for: event)
         }
         else {
             self.joinEvent(event)
@@ -309,9 +325,25 @@ extension EventsViewController: EventCellDelegate {
 
 // MARK: - Payments
 extension EventsViewController {
+    func checkIfAlreadyPaid(for event: Event) {
+        guard let current = PlayerService.shared.current else {
+            self.simpleAlert("Could not make payment", message: "Please update your player profile!")
+            return
+        }
+        self.activityIndicator.startAnimating()
+        PaymentService().checkForPayment(for: event.id, by: current.id) { (success) in
+            if success {
+                self.activityIndicator.stopAnimating()
+                self.joinEvent(event)
+            }
+            else {
+                self.checkStripe()
+            }
+        }
+    }
+    
     func checkStripe() {
         stripeService.loadPayment(host: nil)
-        self.activityIndicator.startAnimating()
         
         self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshStripeStatus), object: nil)
     }
@@ -393,6 +425,7 @@ extension EventsViewController {
         stripeService.createCharge(for: event, amount: amount, player: current, completion: {[weak self] (success, error) in
             self?.activityIndicator.stopAnimating()
             if success {
+                ActionService.post(.payForEvent, eventId: event.id, message: nil)
                 self?.joinEvent(event)
             }
             else if let error = error as? NSError {

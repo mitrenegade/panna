@@ -99,7 +99,11 @@ exports.createStripeSubscription = functions.database.ref(`/charges/organizers/{
     const val = event.data.val();
     const organizerId = event.params.organizerId
     const chargeId = event.params.id
-    console.log("createStripeSubscription for organizer " + organizerId + " charge id " + chargeId)
+    var isTrial = val["isTrial"]
+    if (!isTrial) {
+        isTrial = false
+    }
+    console.log("createStripeSubscription for organizer " + organizerId + " charge id " + chargeId + " isTrial " + isTrial)
     // This onWrite will trigger whenever anything is written to the path, so
     // noop if the charge was deleted, errored out, or the Stripe API returned a result (id exists) 
     if (val === null || val.id || val.error) return null;
@@ -108,11 +112,14 @@ exports.createStripeSubscription = functions.database.ref(`/charges/organizers/{
         return snapshot.val();
     }).then(customer => {
         // Create a charge using the chargeId as the idempotency key, protecting against double charges 
-        const trialMonths = 2
+        const trialMonths = 1
         const trialEnd = moment().add(trialMonths, 'months')
         const endDate = Math.floor(trialEnd.toDate().getTime()/1000) // to unix time
 
-        const plan = "balizinha.organizer.monthly"
+        var plan = "balizinha.organizer.monthly"
+        if (isTrial) {
+            plan = "balizinha.organizer.monthly.trial"
+        }
         console.log("createStripeSubscription customer " + customer + " trialEnd " + endDate + " plan " + plan)
         var subscription = {customer: customer, items:[{plan: plan}]};
 

@@ -153,7 +153,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         }
     }
     
-    func createSubscription(completion: ((_ success: Bool,_ error: Error?)->())?) {
+    func createSubscription(isTrial: Bool, completion: ((_ success: Bool,_ error: Error?)->())?) {
         guard let organizer = OrganizerService.shared.current else {
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Could not create subscription: no organizer"]))
             return
@@ -168,7 +168,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         print("Creating charge for organizer \(organizer.id)")
         
         // todo: set trial length here and send it into the cloud function?
-        let params = ["subscription": true]
+        let params = ["subscription": true, "isTrial": isTrial]
         
         ref.updateChildValues(params)
         ref.observe(.value) { (snapshot: DataSnapshot) in
