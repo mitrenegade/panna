@@ -145,23 +145,29 @@ class EventsViewController: UIViewController {
         else {
             // create organizer
             var message = "You must be an organizer to create a new game. Click now to start organizing games for free."
+            var paymentStatus = "free"
             if SettingsService.organizerPaymentRequired() {
                 if SettingsService.organizerTrialAvailable() {
                     message = "You must be an organizer to create a new game. Click now to start a month long free trial."
+                    paymentStatus = "trial"
                 } else {
                     message = "You must be an organizer to create a new game. Click now to purchase an organizer subscription."
+                    paymentStatus = "paid"
                 }
             }
             let alert = UIAlertController(title: "Become an Organizer?", message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "Start", style: UIAlertActionStyle.default, handler: { (action) in
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
+                LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": false, "paymentStatus": paymentStatus, "reason": "cancelled"])
+            }))
+            alert.addAction(UIAlertAction(title: "Start", style: UIAlertActionStyle.default, handler: { [weak self] (action) in
                 
                 // TODO: check for payment method before creating an organizer?
-                self.activityIndicator.startAnimating()
+                self?.activityIndicator.startAnimating()
                 OrganizerService.shared.createOrganizer(completion: {[weak self] (organizer, error) in
                     if let error = error {
                         self?.simpleAlert("Could not become organizer", message: "There was an issue joining the organizer trial. \(error.localizedDescription)")
                         self?.activityIndicator.stopAnimating()
+                        LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": false, "paymentStatus": paymentStatus, "error": error.localizedDescription])
                     }
                     else {
                         // go directly to create event without payments and no alert
@@ -172,7 +178,8 @@ class EventsViewController: UIViewController {
                         }
                         
                         // create
-                        var isTrial: Bool = SettingsService.organizerTrialAvailable()
+                        let isTrial: Bool = SettingsService.organizerTrialAvailable()
+                        
                         self?.stripeService.createSubscription(isTrial: isTrial, completion: { [weak self] (success, error) in
                             self?.activityIndicator.stopAnimating()
                             print("Success \(success) error \(error)")
@@ -191,6 +198,10 @@ class EventsViewController: UIViewController {
                                 // should stop allowing it once their trial is up
                                 title = "Payment needed"
                                 message = "You are in a free trial and can still organize games but please add a payment within 30 days."
+
+                                LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": true, "paymentStatus": paymentStatus, "error": error.localizedDescription])
+                            } else {
+                                LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": true, "paymentStatus": paymentStatus])
                             }
                             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in

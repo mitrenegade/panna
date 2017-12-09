@@ -24,6 +24,7 @@ enum LoggingEvent: String {
     case PreviewEventClicked
     case PreviewSignupClicked
     case AddPromoCode
+    case OrganizerSignupPrompt
 }
 
 class LoggingService: NSObject {
