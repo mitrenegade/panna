@@ -161,7 +161,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate {
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("PUSH: background fetch")
-        LoggingService.shared.log(event: "BackgroundFetch", info: nil)
+        LoggingService.shared.log(event: LoggingEvent.BackgroundFetch, info: nil)
         completionHandler(UIBackgroundFetchResult.newData)
     }
 }

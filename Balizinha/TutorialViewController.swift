@@ -38,7 +38,7 @@ class TutorialViewController: UIViewController {
                                                   animated: false,
                                                   completion: nil)
             let info = ["page": 0]
-            LoggingService.shared.log(event: "TutorialPageViewed", info: info)
+            LoggingService.shared.log(event: LoggingEvent.TutorialPageViewed, info: info)
         }
         pageControl.numberOfPages = orderedViewControllers.count
         viewModel = TutorialButtonViewModel(pages: orderedViewControllers.count)
@@ -64,12 +64,12 @@ class TutorialViewController: UIViewController {
                 pageControl.currentPage = viewModel.currentPage
                 refreshButtons()
                 let info: [String : Any] = ["page": viewModel.currentPage, "action": "button"]
-                LoggingService.shared.log(event: "TutorialPageViewed", info: info)
+                LoggingService.shared.log(event: LoggingEvent.TutorialPageViewed, info: info)
             }
         }
         else if sender == buttonSkip {
             let info: [String : Any] = ["page": viewModel?.currentPage ?? 0]
-            LoggingService.shared.log(event: "TutorialSkipped", info: info)
+            LoggingService.shared.log(event: LoggingEvent.TutorialSkipped, info: info)
             delegate?.didClickNext()
         }
     }
@@ -153,7 +153,7 @@ extension TutorialViewController: UIPageViewControllerDelegate {
             pageControl.currentPage = index
             refreshButtons()
             let info: [String : Any] = ["page": index, "action": "swipe"]
-            LoggingService.shared.log(event: "TutorialPageViewed", info: info)
+            LoggingService.shared.log(event: LoggingEvent.TutorialPageViewed, info: info)
         }
     }
 }

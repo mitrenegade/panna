@@ -127,7 +127,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         }
         guard SettingsService.paymentRequired() || SettingsService.donation() else {
             // this error prevents rampant charges, but does present an error message to the user
-            LoggingService.shared.log(event: "FeatureFlagError", info: ["feature": "paymentRequired", "function": "createCharge"])
+            LoggingService.shared.log(event: LoggingEvent.FeatureFlagError, info: ["feature": "paymentRequired", "function": "createCharge"])
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Payment not allowed for Balizinha"]))
             return
         }
@@ -160,7 +160,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         }
         guard SettingsService.paymentRequired() || SettingsService.donation() else {
             // this error prevents rampant charges, but does present an error message to the user
-            LoggingService.shared.log(event: "FeatureFlagError", info: ["feature": "paymentRequired", "function": "createCharge"])
+            LoggingService.shared.log(event: LoggingEvent.FeatureFlagError, info: ["feature": "paymentRequired", "function": "createCharge"])
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Payment not allowed for Balizinha"]))
             return
         }
