@@ -22,7 +22,7 @@ class AccountViewController: UITableViewController {
         if !SettingsService.paymentRequired() {
             menuOptions = menuOptions.filter({$0 != "Promo program"})
         }
-        if !SettingsService.donation() {
+        if !SettingsService.donation() && !SettingsService.paymentRequired() {
             menuOptions = menuOptions.filter({$0 != "Payment options"})
         }
         if !SettingsService.paymentLocationTestGroup() {
