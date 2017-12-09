@@ -103,6 +103,7 @@ exports.createStripeSubscription = functions.database.ref(`/charges/organizers/{
     if (!isTrial) {
         isTrial = false
     }
+    const trialMonths = 1
     console.log("createStripeSubscription for organizer " + organizerId + " charge id " + chargeId + " isTrial " + isTrial)
     // This onWrite will trigger whenever anything is written to the path, so
     // noop if the charge was deleted, errored out, or the Stripe API returned a result (id exists) 
@@ -112,7 +113,6 @@ exports.createStripeSubscription = functions.database.ref(`/charges/organizers/{
         return snapshot.val();
     }).then(customer => {
         // Create a charge using the chargeId as the idempotency key, protecting against double charges 
-        const trialMonths = 1
         const trialEnd = moment().add(trialMonths, 'months')
         const endDate = Math.floor(trialEnd.toDate().getTime()/1000) // to unix time
 
@@ -131,9 +131,10 @@ exports.createStripeSubscription = functions.database.ref(`/charges/organizers/{
     }, error => {
         // We want to capture errors and render them in a user-friendly way, while
         // still logging an exception with Stackdriver
-        console.log("createStripeSubscription error " + error.message)
         const trialEnd = moment().add(trialMonths, 'months')
-        return event.data.adminRef.update({"error": error.message, "status": error, "deadline": trialEnd})
+        const endDate = Math.floor(trialEnd.toDate().getTime()/1000) // to unix time
+        console.log("createStripeSubscription error " + error.message + " trial end " + endDate)
+        return event.data.adminRef.update({"error": error.message, "status": "error", "deadline": endDate})
     });
 });
 
