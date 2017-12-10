@@ -173,12 +173,22 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         ref.updateChildValues(params)
         ref.observe(.value) { (snapshot: DataSnapshot) in
             if let info = snapshot.value as? [String: AnyObject] {
-                if let status = info["status"] as? String, status == "active" {
+                if let status = info["status"] as? String, status == "active" || status == "trialing"{
                     print("status \(status)")
                     completion?(true, nil)
                 }
                 else if let error = info["error"] as? String {
-                    completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
+                    let code: Int
+                    if error == "This customer has no attached payment source" {
+                        code = 1001
+                    } else {
+                        code = 1000
+                    }
+                    var userInfo: [String: Any] = ["error": error]
+                    if let deadline = info["deadline"] as? Double {
+                        userInfo["deadline"] = deadline
+                    }
+                    completion?(false, NSError(domain: "stripe", code: code, userInfo: userInfo))
                 }
                 else {
 //                    completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": "Unknown status"]))

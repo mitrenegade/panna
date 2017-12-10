@@ -15,4 +15,24 @@ class Organizer: FirebaseBaseModel {
         guard let dict = self.dict else { return nil }
         return dict["paymentSourceId"] as? String
     }
+    
+    var paymentNeeded: Bool {
+        get {
+            return self.dict?["paymentNeeded"] as? Bool ?? false
+        }
+        set {
+            self.dict["paymentNeeded"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+
+    var deadline: Double? {
+        get {
+            return self.dict?["deadline"] as? Double
+        }
+        set {
+            self.dict["deadline"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
 }

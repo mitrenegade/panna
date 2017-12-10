@@ -192,14 +192,26 @@ class EventsViewController: UIViewController {
                                 title = "Subscription created"
                                 message = "Good luck organizing games!"
                             }
-                            if let error = error {
+                            if let error = error as? NSError {
                                 // TODO: handle credit card payment after organizer was created!
                                 // should allow users to organize for now, and ask to add a payment later
                                 // should stop allowing it once their trial is up
-                                title = "Payment needed"
-                                message = "You are in a free trial and can still organize games but please add a payment within 30 days."
+                                if error.code == 1001 {
+                                    // self generated error: no payment source
+                                    title = "Payment needed"
+                                    message = "You are in a free trial and can still organize games but please add a payment within 30 days."
+                                } else {
+                                    title = "Could create subscription"
+                                    message = "We could not charge your card. You can still organize games but please add a payment within 30 days."
+                                }
 
                                 LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": true, "paymentStatus": paymentStatus, "error": error.localizedDescription])
+                                
+                                OrganizerService.shared.current?.paymentNeeded = true
+                                
+                                if let deadline = error.userInfo["deadline"] as? Double{
+                                    OrganizerService.shared.current?.deadline = deadline
+                                }
                             } else {
                                 LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": true, "paymentStatus": paymentStatus])
                             }
