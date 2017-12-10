@@ -117,11 +117,12 @@ exports.createStripeSubscription = functions.database.ref(`/charges/organizers/{
         const endDate = Math.floor(trialEnd.toDate().getTime()/1000) // to unix time
 
         var plan = "balizinha.organizer.monthly"
+        var subscription = {customer: customer, items:[{plan: plan}]};
         if (isTrial) {
             plan = "balizinha.organizer.monthly.trial"
+            subscription["trial_end"] = endDate
         }
         console.log("createStripeSubscription customer " + customer + " trialEnd " + endDate + " plan " + plan)
-        var subscription = {customer: customer, items:[{plan: plan}]};
 
         return stripe.subscriptions.create(subscription);
     }).then(response => {
