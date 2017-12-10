@@ -171,7 +171,7 @@ extension NotificationService {
 
         // TODO: this does not disable existing topics
         // do some analytics
-        LoggingService.shared.log(event: "PushNotificationsToggled", info: ["value": enabled])
+        LoggingService.shared.log(event: LoggingEvent.PushNotificationsToggled, info: ["value": enabled])
 
         // toggle push notifications
         print("PUSH: enabling push notifications: \(enabled)")
@@ -246,7 +246,7 @@ extension NotificationService: UNUserNotificationCenterDelegate {
         print(userInfo)
         
         // analytics
-        LoggingService.shared.log(event: "PushNotificationReceived", info: ["inApp": true])
+        LoggingService.shared.log(event: LoggingEvent.PushNotificationReceived, info: ["inApp": true])
         
         // Change this to your preferred presentation option
         completionHandler([])
@@ -269,7 +269,7 @@ extension NotificationService: UNUserNotificationCenterDelegate {
         print(userInfo)
         
         // analytics
-        LoggingService.shared.log(event: "PushNotificationReceived", info: ["inApp": false])
+        LoggingService.shared.log(event: LoggingEvent.PushNotificationReceived, info: ["inApp": false])
 
         completionHandler()
     }

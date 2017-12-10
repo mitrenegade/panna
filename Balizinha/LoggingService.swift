@@ -12,6 +12,21 @@ import Firebase
 fileprivate var singleton: LoggingService?
 fileprivate var loggingRef: DatabaseReference?
 
+enum LoggingEvent: String {
+    case TutorialPageViewed
+    case TutorialSkipped
+    case show_payment_controller
+    case FeatureFlagError
+    case BackgroundFetch
+    case PushNotificationsToggled
+    case PushNotificationReceived
+    case PreviewTutorialClicked
+    case PreviewEventClicked
+    case PreviewSignupClicked
+    case AddPromoCode
+    case OrganizerSignupPrompt
+}
+
 class LoggingService: NSObject {
     private lazy var __once: () = {
         // firRef is the global firebase ref
@@ -28,8 +43,9 @@ class LoggingService: NSObject {
         return singleton!
     }
 
-    func log(event: String, info: [String: Any]?) {
-        guard let ref = loggingRef?.child(event).childByAutoId() else { return }
+    func log(event: LoggingEvent, info: [String: Any]?) {
+        let eventString = event.rawValue
+        guard let ref = loggingRef?.child(eventString).childByAutoId() else { return }
         var params = info ?? [:]
         params["timestamp"] = Date().timeIntervalSince1970
         if let current = PlayerService.shared.current {
@@ -38,10 +54,10 @@ class LoggingService: NSObject {
         ref.updateChildValues(params)
         
         // native firebase analytics
-        Analytics.logEvent(event, parameters: info)
+        Analytics.logEvent(eventString, parameters: info)
     }
     
-    func log(event: String, message: String?, info: [String: Any]?, error: NSError?) {
+    func log(event: LoggingEvent, message: String?, info: [String: Any]?, error: NSError?) {
         var params: [String: Any] = info ?? [:]
         if let message = message {
             params["message"] = message
