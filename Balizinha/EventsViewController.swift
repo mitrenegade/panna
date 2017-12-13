@@ -89,7 +89,8 @@ class EventsViewController: UIViewController {
             }
             
             // 2: Remove events the user has joined
-            self?.service.getEventsForUser(firAuth.currentUser!, completion: {[weak self] (eventIds) in
+            guard let user = firAuth.currentUser else { return }
+            self?.service.getEventsForUser(user, completion: {[weak self] (eventIds) in
                 print("all events count \(self?.allEvents.count)")
                 
                 // version 0.5.0: for users installing a notification-enabled app for the first time, make sure events they've joined or created in the past have the correct subscriptions
@@ -115,9 +116,8 @@ class EventsViewController: UIViewController {
     
     fileprivate func filterByDistance(events: [Event]) -> [Event]{
         guard let location = LocationService.shared.lastLocation else { return events }
-        guard !TESTING else {
-            return events
-        }
+        guard LocationService.shared.shouldFilterNearbyEvents else { return events }
+        
         let filtered = events.filter { (event) -> Bool in
             guard let lat = event.lat, let lon = event.lon else {
                 print("filtered event \(event.name) no lat lon")
