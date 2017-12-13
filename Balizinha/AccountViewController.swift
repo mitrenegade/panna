@@ -18,7 +18,7 @@ class AccountViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        menuOptions = ["Edit profile", "Push notifications", "Payment options", "Promo program", "Version", "Logout"]
+        menuOptions = ["Edit profile", "Push notifications", "Payment options", "Promo program", "Version", "Global view enabled", "Logout"]
         if !SettingsService.paymentRequired() {
             menuOptions = menuOptions.filter({$0 != "Promo program"})
         }
@@ -57,16 +57,17 @@ class AccountViewController: UITableViewController {
         switch menuOptions[indexPath.row] {
         case "Push notifications":
             let cell : PushTableViewCell = tableView.dequeueReusableCell(withIdentifier: "push", for: indexPath) as! PushTableViewCell
-            cell.labelPush.text = menuOptions[indexPath.row]
+            cell.delegate = self
+            cell.labelText.text = menuOptions[indexPath.row]
             cell.selectionStyle = .none
             cell.accessoryType = .none
-            cell.refresh()
+            cell.configure()
             return cell
             
         case "Edit profile", "Logout":
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             cell.textLabel?.text = menuOptions[indexPath.row]
-            cell.accessoryType = .disclosureIndicator
+            cell.accessoryType = .none
             return cell
             
         case "Version":
@@ -98,6 +99,13 @@ class AccountViewController: UITableViewController {
             else {
                 return UITableViewCell()
             }
+            
+        case "Global view enabled":
+            let cell = tableView.dequeueReusableCell(withIdentifier: "GlobalViewCell", for: indexPath) as! GlobalViewCell
+            cell.configure()
+            cell.labelText.text = menuOptions[indexPath.row]
+            cell.delegate = self
+            return cell
 
         default:
             return UITableViewCell()
@@ -180,5 +188,25 @@ class AccountViewController: UITableViewController {
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true)
+    }
+}
+
+extension AccountViewController: ToggleCellDelegate {
+    func didToggle(_ toggle: UISwitch, isOn: Bool) {
+        let isOn = toggle.isOn
+        print("Switch changed to \(isOn)")
+
+        if toggle.superview?.superview is PushTableViewCell {
+            if #available(iOS 10.0, *) {
+                NotificationService.shared.toggleUserReceivesNotifications(isOn)
+            }
+        } else if toggle.superview?.superview is GlobalViewCell {
+            LocationService.shared.shouldFilterNearbyEvents = !isOn
+            if #available(iOS 10.0, *) {
+                NotificationService.shared.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
+            } else {
+                // Fallback on earlier versions
+            }
+        }
     }
 }

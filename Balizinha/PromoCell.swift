@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class PromoCell: UITableViewCell {
-    
+
     var canAddPromotion: Bool = false
     func reset() {
         self.textLabel?.text = "No current promotion"

@@ -85,6 +85,7 @@
 		8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */; };
 		8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFF1F833969004EAE6A /* PromotionService.swift */; };
 		8E7CABFE1F8D8B8D0095084D /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */; };
+		8E9FED6E1FE0E5F600D983AE /* GlobalViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9FED6D1FE0E5F600D983AE /* GlobalViewCell.swift */; };
 		8EA23E2C1FD829E000324B82 /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA23E2B1FD829E000324B82 /* PaymentService.swift */; };
 		8EACC3B61F7B449C0091FBC5 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EACC3B51F7B449C0091FBC5 /* Payment.swift */; };
 		8EB90B391FB2B8D5007C60F0 /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */; };
@@ -188,6 +189,7 @@
 		8E7A2FFF1F833969004EAE6A /* PromotionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionService.swift; sourceTree = "<group>"; };
 		8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCell.swift; sourceTree = "<group>"; };
 		8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Balizinha-Bridging-Header.h"; sourceTree = "<group>"; };
+		8E9FED6D1FE0E5F600D983AE /* GlobalViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalViewCell.swift; sourceTree = "<group>"; };
 		8EA23E2B1FD829E000324B82 /* PaymentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
 		8EACC3B51F7B449C0091FBC5 /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tutorial.storyboard; sourceTree = "<group>"; };
@@ -456,7 +458,6 @@
 		F2F7C3BB1CEE10F700350115 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				F2F7C3C11CEE2CDD00350115 /* PushTableViewCell.swift */,
 				F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */,
 				F2048F7B1CED57170039F7BB /* EventCell.swift */,
 				F2F7C3B71CEE109000350115 /* DetailCell.swift */,
@@ -466,6 +467,8 @@
 				8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */,
 				8EF25BC41E88161A0079E90B /* ToggleCell.swift */,
 				8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */,
+				F2F7C3C11CEE2CDD00350115 /* PushTableViewCell.swift */,
+				8E9FED6D1FE0E5F600D983AE /* GlobalViewCell.swift */,
 				8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */,
 			);
 			name = Cells;
@@ -865,6 +868,7 @@
 				8EACC3B61F7B449C0091FBC5 /* Payment.swift in Sources */,
 				8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */,
 				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,
+				8E9FED6E1FE0E5F600D983AE /* GlobalViewCell.swift in Sources */,
 				8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */,
 				F2F7C3C01CEE296A00350115 /* AccountViewController.swift in Sources */,
 				8EC799271E35AA02004ACC52 /* MapViewController.swift in Sources */,
