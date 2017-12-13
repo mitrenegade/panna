@@ -157,13 +157,17 @@ exports.testJob = functions.pubsub.topic('on-demand-tick').onPublish((event) => 
 // event creation/change
 exports.onEventChange = functions.database.ref('/events/{eventId}').onWrite(event => {
     const eventId = event.params.eventId
-    var eventChanged = false;
-    var eventCreated = false;
+    var eventChanged = false
+    var eventCreated = false
+    var eventDeleted = false
     var data = event.data.val();
 
     if (!event.data.previous.exists()) {
-        eventCreated = true;
+        eventCreated = true
+    } else if (data["active"] == false) {
+        eventDeleted = true
     }
+
     if (!eventCreated && event.data.changed()) {
         eventChanged = true;
     }
@@ -196,10 +200,21 @@ exports.onEventChange = functions.database.ref('/events/{eventId}').onWrite(even
                     return console.log("event: " + eventId + " created " + eventCreated + " user " + ownerId + " did not have fcm token")
                 }
             })
+        } else {
+            return console.log("event: " + eventId + " created " + eventCreated + " no owner id!")
         }
-        else {
-        return console.log("event: " + eventId + " created " + eventCreated + " no owner id!")
+    } else if (eventDeleted == true) {
+        var title = "Event cancelled"
+        var topic = "event" + eventId
+        var name = data["name"]
+        var city = data["city"]
+        if (!city) {
+            city = data["place"]
         }
+
+        // send push
+        var msg = "An event you're going to, " + name + ", has been cancelled."
+        return exports.sendPushToTopic(title, topic, msg)
     } else {
         return console.log("event: " + eventId + " created " + eventCreated + " changed " + eventChanged + " state: " + data)
     }
