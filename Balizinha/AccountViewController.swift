@@ -202,6 +202,11 @@ extension AccountViewController: ToggleCellDelegate {
             }
         } else if toggle.superview?.superview is GlobalViewCell {
             LocationService.shared.shouldFilterNearbyEvents = !isOn
+            if #available(iOS 10.0, *) {
+                NotificationService.shared.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
+            } else {
+                // Fallback on earlier versions
+            }
         }
     }
 }
