@@ -8,33 +8,23 @@
 
 import UIKit
 
-class PushTableViewCell: UITableViewCell {
+class PushTableViewCell: ToggleCell {
 
-    @IBOutlet var pushSwitch: UISwitch!
-    @IBOutlet var labelPush: UILabel!
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
-    func refresh() {
+    override func configure() {
         if #available(iOS 10.0, *), NotificationService.shared.userReceivesNotifications() {
-            self.pushSwitch.setOn(true, animated: true)
+            self.switchToggle.setOn(true, animated: true)
         } else {
-            self.pushSwitch.setOn(false, animated: true)
+            self.switchToggle.setOn(false, animated: true)
         }
     }
-
-    @IBAction func switchState(_ sender: AnyObject) {
-        print("Switch changed to \(self.pushSwitch.isOn)")
+    
+    @IBAction override func didToggleSwitch(_ sender: UISwitch?) {
+        super.didToggleSwitch(sender)
+        
+        let isOn = switchToggle.isOn
+        print("Switch changed to \(isOn)")
         if #available(iOS 10.0, *) {
-            NotificationService.shared.toggleUserReceivesNotifications(self.pushSwitch.isOn)
+            NotificationService.shared.toggleUserReceivesNotifications(isOn)
         }
     }
 }

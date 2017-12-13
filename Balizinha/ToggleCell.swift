@@ -9,19 +9,23 @@
 import UIKit
 
 protocol ToggleCellDelegate: class {
-    func didToggleSwitch(isOn: Bool)
+    func didToggle(switch: UISwitch, isOn: Bool)
 }
 class ToggleCell: UITableViewCell {
     
     @IBOutlet var labelText: UILabel!
     @IBOutlet var switchToggle: UISwitch!
-    @IBOutlet weak var input: UITextField!
+    @IBOutlet weak var input: UITextField?
 
     weak var delegate: ToggleCellDelegate?
     
-    @IBAction func didToggleSwitch(sender: UISwitch?) {
+    @IBAction func didToggleSwitch(_ sender: UISwitch?) {
         if let toggle = sender {
-            self.delegate?.didToggleSwitch(isOn: toggle.isOn)
+            self.delegate?.didToggle(switch: toggle, isOn: toggle.isOn)
         }
+    }
+    
+    func configure() {
+        
     }
 }

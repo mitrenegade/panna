@@ -18,7 +18,7 @@ class AccountViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        menuOptions = ["Edit profile", "Push notifications", "Payment options", "Promo program", "Version", "Logout"]
+        menuOptions = ["Edit profile", "Push notifications", "Payment options", "Promo program", "Version", "Global view enabled", "Logout"]
         if !SettingsService.paymentRequired() {
             menuOptions = menuOptions.filter({$0 != "Promo program"})
         }
@@ -57,10 +57,10 @@ class AccountViewController: UITableViewController {
         switch menuOptions[indexPath.row] {
         case "Push notifications":
             let cell : PushTableViewCell = tableView.dequeueReusableCell(withIdentifier: "push", for: indexPath) as! PushTableViewCell
-            cell.labelPush.text = menuOptions[indexPath.row]
+            cell.labelText.text = menuOptions[indexPath.row]
             cell.selectionStyle = .none
             cell.accessoryType = .none
-            cell.refresh()
+            cell.configure()
             return cell
             
         case "Edit profile", "Logout":
@@ -98,6 +98,13 @@ class AccountViewController: UITableViewController {
             else {
                 return UITableViewCell()
             }
+            
+        case "Global view enabled":
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell", for: indexPath) as! ToggleCell
+            cell.configure()
+            cell.labelText.text = menuOptions[indexPath.row]
+            cell.delegate = self
+            return cell
 
         default:
             return UITableViewCell()
@@ -180,5 +187,11 @@ class AccountViewController: UITableViewController {
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true)
+    }
+}
+
+extension AccountViewController: ToggleCellDelegate {
+    func didToggle(switch: UISwitch, isOn: Bool) {
+        print("ho hum")
     }
 }

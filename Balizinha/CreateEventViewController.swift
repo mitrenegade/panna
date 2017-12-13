@@ -413,7 +413,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             }
             else if options[indexPath.row] == "Payment" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell", for: indexPath) as! ToggleCell
-                cell.input.inputAccessoryView = keyboardDoneButtonView
+                cell.input?.inputAccessoryView = keyboardDoneButtonView
                 cell.delegate = self
                 self.amountField = cell.input
                 self.paymentSwitch = cell.switchToggle
@@ -422,7 +422,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     self.paymentRequired = self.eventToEdit?.paymentRequired ?? false
                     self.amount = amount
                 }
-                self.didToggleSwitch(isOn: paymentRequired)
+                self.didToggle(switch: cell.switchToggle, isOn: paymentRequired)
                 return cell
             }
             else {
@@ -863,7 +863,7 @@ extension CreateEventViewController {
 
 // MARK: ToggleCell
 extension CreateEventViewController: ToggleCellDelegate {
-    func didToggleSwitch(isOn: Bool) {
+    func didToggle(switch: UISwitch, isOn: Bool) {
         paymentRequired = isOn
         self.paymentSwitch?.isOn = isOn
         self.amountField?.isEnabled = isOn
