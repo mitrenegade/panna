@@ -422,7 +422,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     self.paymentRequired = self.eventToEdit?.paymentRequired ?? false
                     self.amount = amount
                 }
-                self.didToggle(switch: cell.switchToggle, isOn: paymentRequired)
+                self.didToggle(cell.switchToggle, isOn: paymentRequired)
                 return cell
             }
             else {
@@ -863,7 +863,7 @@ extension CreateEventViewController {
 
 // MARK: ToggleCell
 extension CreateEventViewController: ToggleCellDelegate {
-    func didToggle(switch: UISwitch, isOn: Bool) {
+    func didToggle(_ toggle: UISwitch, isOn: Bool) {
         paymentRequired = isOn
         self.paymentSwitch?.isOn = isOn
         self.amountField?.isEnabled = isOn

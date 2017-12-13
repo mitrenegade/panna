@@ -57,6 +57,7 @@ class AccountViewController: UITableViewController {
         switch menuOptions[indexPath.row] {
         case "Push notifications":
             let cell : PushTableViewCell = tableView.dequeueReusableCell(withIdentifier: "push", for: indexPath) as! PushTableViewCell
+            cell.delegate = self
             cell.labelText.text = menuOptions[indexPath.row]
             cell.selectionStyle = .none
             cell.accessoryType = .none
@@ -66,7 +67,7 @@ class AccountViewController: UITableViewController {
         case "Edit profile", "Logout":
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             cell.textLabel?.text = menuOptions[indexPath.row]
-            cell.accessoryType = .disclosureIndicator
+            cell.accessoryType = .none
             return cell
             
         case "Version":
@@ -100,7 +101,7 @@ class AccountViewController: UITableViewController {
             }
             
         case "Global view enabled":
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell", for: indexPath) as! ToggleCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "GlobalViewCell", for: indexPath) as! GlobalViewCell
             cell.configure()
             cell.labelText.text = menuOptions[indexPath.row]
             cell.delegate = self
@@ -191,7 +192,16 @@ class AccountViewController: UITableViewController {
 }
 
 extension AccountViewController: ToggleCellDelegate {
-    func didToggle(switch: UISwitch, isOn: Bool) {
-        print("ho hum")
+    func didToggle(_ toggle: UISwitch, isOn: Bool) {
+        let isOn = toggle.isOn
+        print("Switch changed to \(isOn)")
+
+        if toggle.superview?.superview is PushTableViewCell {
+            if #available(iOS 10.0, *) {
+                NotificationService.shared.toggleUserReceivesNotifications(isOn)
+            }
+        } else if toggle.superview?.superview is GlobalViewCell {
+            LocationService.shared.shouldFilterNearbyEvents = !isOn
+        }
     }
 }

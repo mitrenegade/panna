@@ -17,14 +17,4 @@ class PushTableViewCell: ToggleCell {
             self.switchToggle.setOn(false, animated: true)
         }
     }
-    
-    @IBAction override func didToggleSwitch(_ sender: UISwitch?) {
-        super.didToggleSwitch(sender)
-        
-        let isOn = switchToggle.isOn
-        print("Switch changed to \(isOn)")
-        if #available(iOS 10.0, *) {
-            NotificationService.shared.toggleUserReceivesNotifications(isOn)
-        }
-    }
 }

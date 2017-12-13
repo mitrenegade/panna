@@ -105,6 +105,8 @@ class SplashViewController: UIViewController {
             NotificationService.shared.clearAllNotifications()
         }
         
+        UserDefaults.standard.set(nil, forKey: "shouldFilterNearbyEvents")
+        
         if SettingsService.showPreview {
             self.goToPreview()
         }

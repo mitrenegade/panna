@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ToggleCellDelegate: class {
-    func didToggle(switch: UISwitch, isOn: Bool)
+    func didToggle(_ toggle: UISwitch, isOn: Bool)
 }
 class ToggleCell: UITableViewCell {
     
@@ -21,7 +21,7 @@ class ToggleCell: UITableViewCell {
     
     @IBAction func didToggleSwitch(_ sender: UISwitch?) {
         if let toggle = sender {
-            self.delegate?.didToggle(switch: toggle, isOn: toggle.isOn)
+            self.delegate?.didToggle(toggle, isOn: toggle.isOn)
         }
     }
     

@@ -90,8 +90,6 @@ class EventsViewController: UIViewController {
             
             // 2: Remove events the user has joined
             self?.service.getEventsForUser(firAuth.currentUser!, completion: {[weak self] (eventIds) in
-                
-                print("eventsForUser \(firAuth.currentUser!): \(eventIds)")
                 print("all events count \(self?.allEvents.count)")
                 
                 // version 0.5.0: for users installing a notification-enabled app for the first time, make sure events they've joined or created in the past have the correct subscriptions

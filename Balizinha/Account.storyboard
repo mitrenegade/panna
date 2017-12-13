@@ -56,7 +56,7 @@
                                     <outlet property="switchToggle" destination="g6g-nF-lZr" id="4CQ-lB-GmD"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToggleCell" id="nr7-aX-oQl" customClass="ToggleCell" customModule="Balizinha" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="GlobalViewCell" id="nr7-aX-oQl" customClass="GlobalViewCell" customModule="Balizinha" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nr7-aX-oQl" id="74D-Di-2Ro">
