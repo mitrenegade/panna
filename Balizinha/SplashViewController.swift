@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import FirebaseAuth
+import Crashlytics
 
 class SplashViewController: UIViewController {
     var handle: AuthStateDidChangeListenerHandle?
@@ -94,6 +95,11 @@ class SplashViewController: UIViewController {
     
     func didLogin() {
         print("logged in")
+        if let user = PlayerService.shared.current {
+            let userId = user.id
+            Crashlytics.sharedInstance().setUserIdentifier(userId)
+        }
+        
         self.stopListeningFor(.LoginSuccess)
         self.goToMain()
     }
