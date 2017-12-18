@@ -18,6 +18,19 @@ let kNotificationsDefaultsKey = "NotificationsDefaultsKey"
 
 let gcmMessageIDKey = "gcm.message_id"
 
+enum NotificationType: String {
+    case LogoutSuccess
+    case LoginSuccess
+    case EventsChanged
+    case PaymentContextChanged
+    case GoToDonationForEvent
+    case LocationOptionsChanged
+    
+    func name() -> Notification.Name {
+        return Notification.Name(self.rawValue)
+    }
+}
+
 @available(iOS 10.0, *)
 fileprivate var singleton: NotificationService?
 

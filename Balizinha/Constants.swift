@@ -15,18 +15,6 @@ let joinColor = UIColor(red: 28/256.0, green: 71/256.0, blue: 131/256.0, alpha: 
 
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
-enum NotificationType: String {
-    case LogoutSuccess
-    case LoginSuccess
-    case EventsChanged
-    case PaymentContextChanged
-    case GoToDonationForEvent
-    
-    func name() -> Notification.Name {
-        return Notification.Name(self.rawValue)
-    }
-}
-
 enum UserSettings: String {
     case DisplayedJoinEventMessage
 }
