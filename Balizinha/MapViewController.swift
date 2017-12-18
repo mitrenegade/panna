@@ -24,7 +24,7 @@ class MapViewController: EventsViewController {
     // MARK: filtered events
     var filteredEventIds: [String] = []
     var filteredEvents: [Event] {
-        return self.allEvents.filter({ (event) -> Bool in
+        return allEvents.filter({ (event) -> Bool in
             return filteredEventIds.contains(event.id)
         })
     }
@@ -33,9 +33,9 @@ class MapViewController: EventsViewController {
         super.viewDidLoad()
         
         if PlayerService.isAnonymous, SettingsService.showPreview {
-            self.navigationItem.title = "Balizinha"
+            navigationItem.title = "Balizinha"
             
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign in", style: .done, target: self, action: #selector(didClickProfile(_:)))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign in", style: .done, target: self, action: #selector(didClickProfile(_:)))
         }
     }
     
@@ -48,7 +48,7 @@ class MapViewController: EventsViewController {
         
         var showedTutorial: Bool = false
         if PlayerService.isAnonymous {
-            showedTutorial = self.showTutorialIfNeeded()
+            showedTutorial = showTutorialIfNeeded()
         }
         if !showedTutorial {
             // start location
@@ -65,8 +65,8 @@ class MapViewController: EventsViewController {
     
     override func reloadData() {
         super.reloadData()
-        for event in self.allEvents {
-            self.addAnnotation(for: event)
+        for event in allEvents {
+            addAnnotation(for: event)
         }
     }
     
@@ -117,14 +117,14 @@ extension MapViewController: MKMapViewDelegate {
             }
         }
         guard let eventId = selectedId else { return }
-        self.filteredEventIds.removeAll()
-        self.filteredEventIds.append(eventId)
-        self.tableView.reloadData()
+        filteredEventIds.removeAll()
+        filteredEventIds.append(eventId)
+        tableView.reloadData()
     }
 
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        self.filteredEventIds.removeAll()
-        self.tableView.reloadData()
+        filteredEventIds.removeAll()
+        tableView.reloadData()
     }
 }
 
