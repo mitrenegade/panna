@@ -29,7 +29,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.navigationController?.isNavigationBarHidden = true
+        navigationController?.isNavigationBarHidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,20 +38,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func didClickButton(_ button: UIButton) {
-        if button == self.buttonFacebook {
-            self.handleFacebookUser()
+        if button == buttonFacebook {
+            handleFacebookUser()
         }
-        else if button == self.buttonSignup {
-            self.performSegue(withIdentifier: "GoToSignup", sender: button)
+        else if button == buttonSignup {
+            performSegue(withIdentifier: "GoToSignup", sender: button)
         }
-        else if button == self.buttonLogin {
-            self.loginUser()
+        else if button == buttonLogin {
+            loginUser()
         }
     }
     
     func loginUser() {
-        let email = self.inputEmail.text!
-        let password = self.inputPassword.text!
+        let email = inputEmail.text!
+        let password = inputPassword.text!
         
         if email.count == 0 {
             print("Invalid email")
@@ -63,18 +63,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        firAuth.signIn(withEmail: email, password: password, completion: { (user, error) in
+        firAuth.signIn(withEmail: email, password: password, completion: { [weak self] (user, error) in
             if let error: NSError = error as NSError? {
                 print("Error: \(error)")
                 if error.code == 17009 {
-                    self.simpleAlert("Could not log in", message: "Invalid password.")
+                    self?.simpleAlert("Could not log in", message: "Invalid password.")
                 }
                 else if error.code == 17011 {
                     // invalid user. firebase error message is too wordy
-                    self.simpleAlert("User not found", message: "Please sign up to create an account.")
+                    self?.simpleAlert("User not found", message: "Please sign up to create an account.")
                 }
                 else {
-                    self.simpleAlert("Could not log in", defaultMessage: nil,  error: error)
+                    self?.simpleAlert("Could not log in", defaultMessage: nil,  error: error)
                 }
             }
             else {
@@ -83,7 +83,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 //self.storeUserInfo(user!)
                 
                 let _ = PlayerService.shared.current // invoke listener
-                self.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
+                self?.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
             }
         })
     }
@@ -101,17 +101,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 let accessToken = FBSDKAccessToken.current().tokenString
                 
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken!)
-                firAuth.signIn(with: credential, completion: { (user, error) in
-                    if error != nil {
+                firAuth.signIn(with: credential, completion: { [weak self] (user, error) in
+                    if let error = error as NSError? {
                         // TODO: handle this. will give an error for facebook email already exists as an email user
                         print("Login failed. \(String(describing: error))")
+                        if error.code == 17012 {
+                            self?.simpleAlert("Email already in use", message: "There is already an account with the email associated with your Facebook account. Please log in using the email option.")
+                        }
                     } else {
                         print("Logged in! \(String(describing: user))")
                         guard let user = user else { return }
                         // store user data
-                        self.storeUserInfo(user)
-                        self.downloadFacebookPhoto(user)
-                        self.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
+                        self?.storeUserInfo(user)
+                        self?.downloadFacebookPhoto(user)
+                        self?.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
                     }
                 })
             }
