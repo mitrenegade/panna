@@ -587,7 +587,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         
     }
     
-    func done() {
+    @objc func done() {
         // on button click on toolbar for day, time pickers
         self.currentField?.resignFirstResponder()
         self.updateLabel()
@@ -706,7 +706,7 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
         currentField!.text = dateString
     }
     
-    func timePickerValueChanged(_ sender:UIDatePicker) {
+    @objc func timePickerValueChanged(_ sender:UIDatePicker) {
         currentField!.text = sender.date.timeStringForPicker()
         if (sender == startTimePickerView) {
             self.startTime = sender.clampedDate
@@ -778,7 +778,7 @@ extension CreateEventViewController: UITextFieldDelegate {
     }
     
     // MARK - Keyboard
-    func keyboardWillShow(_ notification: Notification) {
+    @objc func keyboardWillShow(_ notification: Notification) {
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
         let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue

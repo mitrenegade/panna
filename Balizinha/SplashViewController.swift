@@ -93,7 +93,7 @@ class SplashViewController: UIViewController {
         stopListeningFor(.LogoutSuccess)
     }
     
-    func didLogin() {
+    @objc func didLogin() {
         print("logged in")
         if let user = PlayerService.shared.current {
             let userId = user.id
@@ -104,7 +104,7 @@ class SplashViewController: UIViewController {
         self.goToMain()
     }
     
-    func didLogout() {
+    @objc func didLogout() {
         print("logged out")
         self.stopListeningFor(.LogoutSuccess)
         if #available(iOS 10.0, *) {
@@ -177,7 +177,7 @@ class SplashViewController: UIViewController {
         self.listenFor(NotificationType.LoginSuccess, action: #selector(SplashViewController.didLogin), object: nil)
     }
     
-    func goToCalendar(notification: Notification) {
+    @objc func goToCalendar(notification: Notification) {
         // TODO: this doesn't work if we're looking at something on top of the tab bar - need to dismiss?
         guard let homeViewController = presentedViewController as? UITabBarController else {
             return

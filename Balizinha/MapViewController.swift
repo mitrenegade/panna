@@ -234,7 +234,7 @@ extension MapViewController {
     }
     
     // signup
-    func didClickProfile(_ sender: Any) {
+    @objc func didClickProfile(_ sender: Any) {
         print("Create profile")
         SplashViewController.shared?.goToSignupLogin()
         LoggingService.shared.log(event: LoggingEvent.PreviewSignupClicked, info: nil)

@@ -78,7 +78,7 @@ class EventsViewController: UIViewController {
         }
     }
     
-    func refreshEvents() {
+    @objc func refreshEvents() {
         service.getEvents(type: nil) { [weak self] (results) in
             // completion function will get called once at the start, and each time events change
             
@@ -135,7 +135,7 @@ class EventsViewController: UIViewController {
         self.tableView.reloadData()
     }
     
-    func didClickAddEvent(sender: Any) {
+    @objc func didClickAddEvent(sender: Any) {
         if let _ = OrganizerService.shared.current {
             // create event
             self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
@@ -369,7 +369,7 @@ extension EventsViewController {
         self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshStripeStatus), object: nil)
     }
     
-    func refreshStripeStatus() {
+    @objc func refreshStripeStatus() {
         guard let paymentContext = stripeService.paymentContext else { return }
         if paymentContext.loading {
             self.activityIndicator.startAnimating()
