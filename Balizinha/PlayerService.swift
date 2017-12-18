@@ -64,7 +64,7 @@ class PlayerService: NSObject {
         }
         
         newPlayerRef.setValue(params) { (error, ref) in
-            if let error = error as? NSError {
+            if let error = error as NSError? {
                 print(error)
                 completion(nil, error)
             } else {

@@ -53,18 +53,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         let email = self.inputEmail.text!
         let password = self.inputPassword.text!
         
-        if email.characters.count == 0 {
+        if email.count == 0 {
             print("Invalid email")
             return
         }
         
-        if password.characters.count == 0 {
+        if password.count == 0 {
             print("Invalid password")
             return
         }
         
         firAuth.signIn(withEmail: email, password: password, completion: { (user, error) in
-            if let error: NSError = error as? NSError {
+            if let error: NSError = error as NSError? {
                 print("Error: \(error)")
                 if error.code == 17009 {
                     self.simpleAlert("Could not log in", message: "Invalid password.")
@@ -78,11 +78,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 }
             }
             else {
-                print("results: \(user)")
+                print("results: \(String(describing: user))")
                 // do not store userInfo on login. should be created on signup.
                 //self.storeUserInfo(user!)
                 
-                PlayerService.shared.current // invoke listener
+                let _ = PlayerService.shared.current // invoke listener
                 self.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
             }
         })
@@ -93,20 +93,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         FBSDKLoginManager().logOut() // in case user has switched accounts
         facebookLogin.logIn(withReadPermissions: permissions, from: self) { (result, error) in
             if error != nil {
-                print("Facebook login failed. Error \(error)")
+                print("Facebook login failed. Error \(String(describing: error))")
             } else if (result?.isCancelled)! {
                 print("Facebook login was cancelled.")
             } else {
-                print("Facebook login success: \(result)")
+                print("Facebook login success: \(String(describing: result))")
                 let accessToken = FBSDKAccessToken.current().tokenString
                 
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken!)
                 firAuth.signIn(with: credential, completion: { (user, error) in
                     if error != nil {
                         // TODO: handle this. will give an error for facebook email already exists as an email user
-                        print("Login failed. \(error)")
+                        print("Login failed. \(String(describing: error))")
                     } else {
-                        print("Logged in! \(user)")
+                        print("Logged in! \(String(describing: user))")
                         guard let user = user else { return }
                         // store user data
                         self.storeUserInfo(user)
@@ -119,9 +119,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func storeUserInfo(_ user: User) {
-        print("signIn results: \(user) profile \(user.photoURL) \(user.displayName)")
+        print("signIn results: \(user) profile \(String(describing: user.photoURL)) \(String(describing: user.displayName))")
         PlayerService.shared.createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { (player, error) in
-            PlayerService.shared.current // invoke listener
+            let _ = PlayerService.shared.current // invoke listener
         })
     }
     

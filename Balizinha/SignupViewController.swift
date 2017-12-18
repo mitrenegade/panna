@@ -53,12 +53,12 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         }
         
         firAuth.createUser(withEmail: email, password: password, completion: { (user, error) in
-            if let error = error as? NSError {
+            if let error = error as NSError? {
                 print("Error: \(error)")
                 self.simpleAlert("Could not sign up", defaultMessage: nil, error: error)
             }
             else {
-                print("createUser results: \(user)")
+                print("createUser results: \(String(describing: user))")
                 self.loginUser()
             }
         })
@@ -75,14 +75,14 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         }
         
         firAuth.signIn(withEmail: email, password: password, completion: { (user, error) in
-            if let error = error as? NSError {
+            if let error = error as NSError? {
                 print("Error: \(error)")
                 self.simpleAlert("Could not log in", defaultMessage: nil, error: error)
             }
             else {
-                print("signIn results: \(user) profile \(user?.photoURL) \(user?.displayName)")
+                print("signIn results: \(String(describing: user)) profile \(String(describing: user?.photoURL)) \(String(describing: user?.displayName))")
                 PlayerService.shared.createPlayer(name: nil, email: email, city: nil, info: nil, photoUrl: nil, completion: { (player, error) in
-                    PlayerService.shared.current // invoke listener
+                    let _ = PlayerService.shared.current // invoke listener
                     if let player = player {
                         self.goToEditPlayer(player)
                     }

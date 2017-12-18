@@ -26,7 +26,7 @@ class ActionCell: UITableViewCell {
         let actionId = action.id
         self.actionId = actionId
         PlayerService.shared.withId(id: userId) { (player) in
-            print("url: \(player?.photoUrl)")
+            print("url: \(String(describing: player?.photoUrl))")
             if let url = player?.photoUrl {
                 self.refreshPhoto(url: url, currentActionId: actionId)
             }
