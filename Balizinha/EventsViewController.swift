@@ -31,35 +31,35 @@ class EventsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "Events"
+        navigationItem.title = "Events"
         
         let addButton = UIButton(type: .custom)
         addButton.setImage(UIImage.init(named: "plusIcon30"), for: .normal)
         addButton.addTarget(self, action: #selector(self.didClickAddEvent(sender:)), for: .touchUpInside)
         addButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
         
-        self.listenFor(NotificationType.EventsChanged, action: #selector(self.refreshEvents), object: nil)
-        LocationService.shared.observedLocation.subscribe(onNext: { locationState in
+        listenFor(NotificationType.EventsChanged, action: #selector(self.refreshEvents), object: nil)
+        LocationService.shared.observedLocation.subscribe(onNext: {[weak self] locationState in
             switch locationState {
             case .located(let location):
                 print("location \(location)")
-                if let recent = self.recentLocation {
+                if let recent = self?.recentLocation {
                     if recent.distance(from: location) > 100 {
-                        self.refreshEvents()
+                        self?.refreshEvents()
                     }
                 }
                 else {
-                    self.refreshEvents()
+                    self?.refreshEvents()
                 }
-                self.recentLocation = location
+                self?.recentLocation = location
             default:
                 print("no location yet")
             }
-        }).addDisposableTo(disposeBag)
+        }).disposed(by: disposeBag)
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.center = self.view.center
-        self.view.addSubview(activityIndicator)
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
         activityIndicator.color = UIColor.red
     }
     
@@ -132,13 +132,13 @@ class EventsViewController: UIViewController {
     }
     
     func reloadData() {
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
     
     @objc func didClickAddEvent(sender: Any) {
         if let _ = OrganizerService.shared.current {
             // create event
-            self.performSegue(withIdentifier: "toCreateEvent", sender: nil)
+            performSegue(withIdentifier: "toCreateEvent", sender: nil)
         }
         else {
             // create organizer
@@ -222,7 +222,7 @@ class EventsViewController: UIViewController {
                     }
                 })
             }))
-            self.navigationController?.present(alert, animated: true, completion: nil)
+            navigationController?.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -250,12 +250,12 @@ class EventsViewController: UIViewController {
 extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
-        return self.sortedEvents.keys.count
+        return sortedEvents.keys.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let eventType = self.eventTypes[section]
-        let events = self.sortedEvents[eventType] ?? []
+        let eventType = eventTypes[section]
+        let events = sortedEvents[eventType] ?? []
         return events.count
     }
     
@@ -290,31 +290,31 @@ extension EventsViewController: EventCellDelegate {
     // MARK: EventCellDelegate
     func joinOrLeaveEvent(_ event: Event, join: Bool) {
         guard let current = PlayerService.shared.current else {
-            self.simpleAlert("Could not join event", message: "Please update your player profile!")
+            simpleAlert("Could not join event", message: "Please update your player profile!")
             return
         }
         guard current.name != nil else {
-            if let tab = self.tabBarController, let controllers = tab.viewControllers, let viewController = controllers[0] as? ConfigurableNavigationController {
+            if let tab = tabBarController, let controllers = tab.viewControllers, let viewController = controllers[0] as? ConfigurableNavigationController {
                 viewController.loadDefaultRootViewController()
             }
             let alert = UIAlertController(title: "Could not join event", message: "You need to add your name before joining a game. Update your profile now?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
-                self.tabBarController?.selectedIndex = 0
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {[weak self] (action) in
+                self?.tabBarController?.selectedIndex = 0
             }))
             alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
             
             return
         }
         
-        self.joiningEvent = event
+        joiningEvent = event
         if event.paymentRequired && SettingsService.paymentRequired() {
-            self.checkIfAlreadyPaid(for: event)
+            checkIfAlreadyPaid(for: event)
         }
         else {
-            self.joinEvent(event)
+            joinEvent(event)
         }
-        self.refreshEvents()
+        refreshEvents()
     }
     
     func editEvent(_ event: Event) {
@@ -323,7 +323,7 @@ extension EventsViewController: EventCellDelegate {
     
     fileprivate func joinEvent(_ event: Event) {
         //add notification in case user doesn't return to MyEvents
-        self.service.joinEvent(event)
+        service.joinEvent(event)
         if #available(iOS 10.0, *) {
             NotificationService.shared.scheduleNotificationForEvent(event)
             
@@ -333,7 +333,7 @@ extension EventsViewController: EventCellDelegate {
         }
         
         if UserDefaults.standard.bool(forKey: UserSettings.DisplayedJoinEventMessage.rawValue) == false {
-            self.simpleAlert("You've joined a game", message: "You can go to your Calendar to see upcoming events.")
+            simpleAlert("You've joined a game", message: "You can go to your Calendar to see upcoming events.")
             UserDefaults.standard.set(true, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
             UserDefaults.standard.synchronize()
         }
@@ -348,17 +348,17 @@ extension EventsViewController: EventCellDelegate {
 extension EventsViewController {
     func checkIfAlreadyPaid(for event: Event) {
         guard let current = PlayerService.shared.current else {
-            self.simpleAlert("Could not make payment", message: "Please update your player profile!")
+            simpleAlert("Could not make payment", message: "Please update your player profile!")
             return
         }
-        self.activityIndicator.startAnimating()
-        PaymentService().checkForPayment(for: event.id, by: current.id) { (success) in
+        activityIndicator.startAnimating()
+        PaymentService().checkForPayment(for: event.id, by: current.id) { [weak self] (success) in
             if success {
-                self.activityIndicator.stopAnimating()
-                self.joinEvent(event)
+                self?.activityIndicator.stopAnimating()
+                self?.joinEvent(event)
             }
             else {
-                self.checkStripe()
+                self?.checkStripe()
             }
         }
     }
@@ -366,27 +366,27 @@ extension EventsViewController {
     func checkStripe() {
         stripeService.loadPayment(host: nil)
         
-        self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshStripeStatus), object: nil)
+        listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshStripeStatus), object: nil)
     }
     
     @objc func refreshStripeStatus() {
         guard let paymentContext = stripeService.paymentContext else { return }
         if paymentContext.loading {
-            self.activityIndicator.startAnimating()
+            activityIndicator.startAnimating()
         }
         else {
-            self.activityIndicator.stopAnimating()
+            activityIndicator.stopAnimating()
             if let paymentMethod = paymentContext.selectedPaymentMethod {
-                guard let event = self.joiningEvent else {
+                guard let event = joiningEvent else {
                     simpleAlert("Invalid event", message: "Could not join event. Please try again.")
                     return
                 }
-                self.shouldCharge(for: event, payment: paymentMethod)
+                shouldCharge(for: event, payment: paymentMethod)
             }
             else {
-                self.paymentNeeded()
+                paymentNeeded()
             }
-            self.stopListeningFor(NotificationType.PaymentContextChanged)
+            stopListeningFor(NotificationType.PaymentContextChanged)
         }
     }
     
@@ -397,7 +397,7 @@ extension EventsViewController {
         }))
         alert.addAction(UIAlertAction(title: "Later", style: .cancel, handler: { (action) in
         }))
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
     fileprivate func calculateAmountForEvent(event: Event, completion:@escaping ((Double)->Void)) {
@@ -421,27 +421,27 @@ extension EventsViewController {
     }
     
     func shouldCharge(for event: Event, payment: STPPaymentMethod) {
-        calculateAmountForEvent(event: event) { (amount) in
+        calculateAmountForEvent(event: event) {[weak self] (amount) in
             guard let paymentString: String = EventService.amountString(from: NSNumber(value: amount)) else {
-                self.simpleAlert("Could not calculate payment", message: "Please let us know about this error.")
+                self?.simpleAlert("Could not calculate payment", message: "Please let us know about this error.")
                 return
             }
             let alert = UIAlertController(title: "Confirm payment", message: "Press Ok to pay \(paymentString) for this game.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
-                self.chargeAndWait(event: event, amount: amount)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { [weak self] (action) in
+                self?.chargeAndWait(event: event, amount: amount)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
             }))
-            self.present(alert, animated: true, completion: nil)
+            self?.present(alert, animated: true, completion: nil)
         }
     }
     
     func chargeAndWait(event: Event, amount: Double) {
         guard let current = PlayerService.shared.current else {
-            self.simpleAlert("Could not make payment", message: "Please update your player profile!")
+            simpleAlert("Could not make payment", message: "Please update your player profile!")
             return
         }
-        self.activityIndicator.startAnimating()
+        activityIndicator.startAnimating()
 
         stripeService.createCharge(for: event, amount: amount, player: current, completion: {[weak self] (success, error) in
             self?.activityIndicator.stopAnimating()
@@ -462,7 +462,7 @@ extension EventsViewController {
 
 extension EventsViewController: CreateEventDelegate {
     func didCreateEvent() {
-        self.tabBarController?.selectedIndex = 2
+        tabBarController?.selectedIndex = 2
     }
 }
 
@@ -473,7 +473,7 @@ extension EventsViewController {
         guard !subscriptionsUpdated else { return }
         subscriptionsUpdated = true
 
-        let userEvents = self.allEvents.filter({ (event) -> Bool in
+        let userEvents = allEvents.filter({ (event) -> Bool in
             return eventIds.contains(event.id)
         }) ?? []
 

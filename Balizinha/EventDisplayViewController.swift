@@ -22,9 +22,9 @@ class EventDisplayViewController: UIViewController {
 
     @IBOutlet var sportImageView: AsyncImageView!
     @IBOutlet weak var scrollView: UIScrollView!
-    var event : Event!
+    weak var event : Event?
     
-    var delegate : AnyObject!
+    weak var delegate : AnyObject?
     var alreadyJoined : Bool = false
     
     @IBOutlet var constraintWidth: NSLayoutConstraint!
@@ -52,23 +52,23 @@ class EventDisplayViewController: UIViewController {
        
         // Setup event details
         self.view.bringSubview(toFront: labelType.superview!)
-        let name = self.event.name ?? "Balizinha"
-        let type = self.event.type.rawValue
+        let name = self.event?.name ?? "Balizinha"
+        let type = self.event?.type.rawValue ?? ""
         self.labelType.text = "\(name) (\(type))"
         
-        if let startTime = self.event.startTime {
-            self.labelDate.text = "\(self.event.dateString(startTime)), \(self.event.timeString(startTime))"
+        if let startTime = self.event?.startTime {
+            self.labelDate.text = "\(self.event?.dateString(startTime) ?? ""), \(self.event?.timeString(startTime) ?? "")"
         }
         else {
             self.labelDate.text = "Start TBD"
         }
         
-        self.navigationItem.title = self.event.type.rawValue
+        self.navigationItem.title = self.event?.type.rawValue ?? ""
         
-        if self.event.info == ""{
+        if self.event?.info == "" {
             self.labelInfo.text = "No further event information at this time."
         }else {
-            self.labelInfo.text = "Description: \(self.event.info)"
+            self.labelInfo.text = "Description: \(self.event?.info ?? "")"
         }
         
         /*
@@ -129,7 +129,7 @@ class EventDisplayViewController: UIViewController {
         
         // update payment display
         if SettingsService.paymentRequired() {
-            self.constraintPaymentHeight.constant = self.event.paymentRequired ? 40 : 0
+            self.constraintPaymentHeight.constant = (self.event?.paymentRequired ?? false) ? 40 : 0
         }
         else {
             self.constraintPaymentHeight.constant = 0
