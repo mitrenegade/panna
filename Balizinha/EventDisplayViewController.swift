@@ -141,7 +141,7 @@ class EventDisplayViewController: UIViewController {
 //        }
     }
 
-    func close() {
+    @objc func close() {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
@@ -195,7 +195,7 @@ extension EventDisplayViewController: EventDisplayComponentDelegate {
 // MARK: Keyboard
 extension EventDisplayViewController {
     // MARK - Keyboard
-    func keyboardWillShow(_ notification: Notification) {
+    @objc func keyboardWillShow(_ notification: Notification) {
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
         let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
@@ -205,7 +205,7 @@ extension EventDisplayViewController {
         self.chatController.toggleButton(show: false)
     }
     // MARK - Keyboard
-    func keyboardWillHide(_ notification: Notification) {
+    @objc func keyboardWillHide(_ notification: Notification) {
         self.constraintInputBottomOffset.constant = 0
         self.chatController.toggleButton(show: true)
     }

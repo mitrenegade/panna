@@ -167,7 +167,7 @@ extension AppDelegate {
 }
 
 extension AppDelegate {
-    func logPlayerLogin() {
+    @objc func logPlayerLogin() {
         // TODO: FIX THIS BEFORE RELEASE - try new devices
         // TODO: on logout/login, this doesn't get triggered again
         guard let observable = PlayerService.shared.observedPlayer else {

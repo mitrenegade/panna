@@ -156,7 +156,7 @@ class PlayerInfoViewController: UIViewController {
         self.close()
     }
     
-    func save() {
+    @objc func save() {
         self.view.endEditing(true)
         
         player?.info = self.inputNotes.text
@@ -168,7 +168,7 @@ class PlayerInfoViewController: UIViewController {
         }
     }
 
-    func cancelEditing() {
+    @objc func cancelEditing() {
         self.view.endEditing(true)
         inputNotes.resignFirstResponder()
         

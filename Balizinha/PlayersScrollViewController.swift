@@ -80,7 +80,7 @@ class PlayersScrollViewController: UIViewController {
 
 // MARK: - tap to view player
 extension PlayersScrollViewController {
-    func didTap(_ gesture: UITapGestureRecognizer?) {
+    @objc func didTap(_ gesture: UITapGestureRecognizer?) {
         let point = gesture?.location(ofTouch: 0, in: self.scrollView)
         for icon in self.icons {
             if icon.view.frame.contains(point!) {

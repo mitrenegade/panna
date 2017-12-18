@@ -49,7 +49,7 @@ class PlaceSearchViewController: UIViewController {
         let _ = __once
     }
     
-    func cancel() {
+    @objc func cancel() {
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -77,7 +77,7 @@ class PlaceSearchViewController: UIViewController {
         mapView.setRegion(region, animated: true)
     }
     
-    func selectLocation() {
+    @objc func selectLocation() {
         guard selectedPlace != nil else { return }
         let name = selectedPlace?.name
         let street = selectedPlace?.addressDictionary?["Street"] as? String

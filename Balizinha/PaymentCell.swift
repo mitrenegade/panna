@@ -28,7 +28,7 @@ class PaymentCell: UITableViewCell {
         NotificationCenter.default.removeObserver(self)
     }
     
-    func refreshPayment() {
+    @objc func refreshPayment() {
         let viewModel = PaymentViewModel(paymentContext: stripeService.paymentContext, privacy: true)
         self.textLabel?.text = viewModel.labelTitle
         

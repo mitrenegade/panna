@@ -39,7 +39,7 @@ class CalendarViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    func refreshEvents() {
+    @objc func refreshEvents() {
         EventService.shared.getEvents(type: nil) { [weak self] (results) in
             // completion function will get called once at the start, and each time events change
             

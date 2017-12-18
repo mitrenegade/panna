@@ -49,7 +49,7 @@ class PaymentInfoViewController: UIViewController {
 
 // MARK: - Listeners for STPPaymentContext
 extension PaymentInfoViewController {
-    func refreshPayment() {
+    @objc func refreshPayment() {
         let viewModel = PaymentViewModel(paymentContext: stripeService.paymentContext)
         self.paymentLabel.text = viewModel.labelTitle
         self.constraintIconWidth.constant = viewModel.iconWidth
