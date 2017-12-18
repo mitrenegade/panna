@@ -18,7 +18,7 @@ class AccountViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        menuOptions = ["Edit profile", "Push notifications", "Payment options", "Promo program", "Version", "Global view enabled", "Logout"]
+        menuOptions = ["Edit profile", "Push notifications", "Payment options", "Promo program", "Version", "Use my location", "Logout"]
         if !SettingsService.paymentRequired() {
             menuOptions = menuOptions.filter({$0 != "Promo program"})
         }
@@ -30,17 +30,17 @@ class AccountViewController: UITableViewController {
         }
         
         self.navigationItem.title = "Account"
-
+        listenFor(NotificationType.LocationOptionsChanged, action: #selector(self.reloadTableData), object: nil)
     }
 
+    func reloadTableData() {
+        tableView.reloadData()
+    }
+    
     deinit {
-        print("accountview deinit")
+        NotificationCenter.default.removeObserver(self)
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -50,7 +50,6 @@ class AccountViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuOptions.count
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
@@ -100,8 +99,8 @@ class AccountViewController: UITableViewController {
                 return UITableViewCell()
             }
             
-        case "Global view enabled":
-            let cell = tableView.dequeueReusableCell(withIdentifier: "GlobalViewCell", for: indexPath) as! GlobalViewCell
+        case "Use my location":
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LocationSettingCell", for: indexPath) as! LocationSettingCell
             cell.configure()
             cell.labelText.text = menuOptions[indexPath.row]
             cell.delegate = self
@@ -200,12 +199,16 @@ extension AccountViewController: ToggleCellDelegate {
             if #available(iOS 10.0, *) {
                 NotificationService.shared.toggleUserReceivesNotifications(isOn)
             }
-        } else if toggle.superview?.superview is GlobalViewCell {
-            LocationService.shared.shouldFilterNearbyEvents = !isOn
+        } else if toggle.superview?.superview is LocationSettingCell {
+            LocationService.shared.shouldFilterNearbyEvents = isOn
             if #available(iOS 10.0, *) {
                 NotificationService.shared.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
             } else {
                 // Fallback on earlier versions
+            }
+            
+            if isOn {
+                LocationService.shared.startLocation(from: self)
             }
         }
     }

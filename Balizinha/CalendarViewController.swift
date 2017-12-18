@@ -34,9 +34,8 @@ class CalendarViewController: UITableViewController {
         stripeService.loadPayment(host: nil)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     @objc func refreshEvents() {

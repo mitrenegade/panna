@@ -59,6 +59,7 @@ class LocationService: NSObject {
             // refresh map
             if #available(iOS 10.0, *) {
                 NotificationService.shared.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
+                NotificationService.shared.notify(NotificationType.LocationOptionsChanged, object: nil, userInfo: nil)
             } else {
                 // Fallback on earlier versions
             }
@@ -124,6 +125,8 @@ extension LocationService {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "shouldFilterNearbyEvents")
+            UserDefaults.standard.set(false, forKey: "locationPermissionDeniedWarningShown")
+            UserDefaults.standard.synchronize()
         }
     }
 }

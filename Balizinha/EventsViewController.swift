@@ -69,9 +69,9 @@ class EventsViewController: UIViewController {
     }
     
     deinit {
-        print("eventsView deinit")
+        NotificationCenter.default.removeObserver(self)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         

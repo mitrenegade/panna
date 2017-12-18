@@ -1,5 +1,5 @@
 //
-//  GlobalViewCell.swift
+//  LocationSettingCell.swift
 //  Balizinha
 //
 //  Created by Bobby Ren on 12/12/17.
@@ -8,10 +8,10 @@
 
 import UIKit
 
-class GlobalViewCell: ToggleCell {
+class LocationSettingCell: ToggleCell {
 
     override func configure() {
         let filterEvents = LocationService.shared.shouldFilterNearbyEvents
-        switchToggle.isOn = !filterEvents
+        switchToggle.isOn = filterEvents
     }
 }
