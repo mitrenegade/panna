@@ -40,23 +40,28 @@ class EventsViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
         
         listenFor(NotificationType.EventsChanged, action: #selector(self.refreshEvents), object: nil)
-        LocationService.shared.observedLocation.subscribe(onNext: {[weak self] locationState in
-            switch locationState {
-            case .located(let location):
-                print("location \(location)")
-                if let recent = self?.recentLocation {
-                    if recent.distance(from: location) > 100 {
+        
+        if LocationService.shared.shouldFilterNearbyEvents {
+            LocationService.shared.observedLocation.subscribe(onNext: {[weak self] locationState in
+                switch locationState {
+                case .located(let location):
+                    print("location \(location)")
+                    if let recent = self?.recentLocation {
+                        if recent.distance(from: location) > 100 {
+                            self?.refreshEvents()
+                        }
+                    }
+                    else {
                         self?.refreshEvents()
                     }
+                    self?.recentLocation = location
+                default:
+                    print("no location yet")
                 }
-                else {
-                    self?.refreshEvents()
-                }
-                self?.recentLocation = location
-            default:
-                print("no location yet")
-            }
-        }).disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
+        } else {
+            refreshEvents()
+        }
         activityIndicator.hidesWhenStopped = true
         activityIndicator.center = view.center
         view.addSubview(activityIndicator)

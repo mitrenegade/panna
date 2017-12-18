@@ -44,10 +44,25 @@ class LocationService: NSObject {
     
     // MARK: location
     func warnForLocationPermission(from controller: UIViewController?) {
+        guard UserDefaults.standard.bool(forKey: "locationPermissionDeniedWarningShown") != true else {
+            return
+        }
         let message: String = "Balizina needs location access to find events near you. Please go to your phone settings to enable location access."
         
         let alert: UIAlertController = UIAlertController(title: "Could not access location", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Disable Location", style: .cancel, handler: {[weak self] action in
+            // disable location popup for the future, and turn on global view
+            UserDefaults.standard.set(true, forKey: "locationPermissionDeniedWarningShown")
+            UserDefaults.standard.set(false, forKey: "shouldFilterNearbyEvents")
+            UserDefaults.standard.synchronize()
+            
+            // refresh map
+            if #available(iOS 10.0, *) {
+                NotificationService.shared.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
+            } else {
+                // Fallback on earlier versions
+            }
+        }))
         if let url = URL(string: UIApplicationOpenSettingsURLString) {
             alert.addAction(UIAlertAction(title: "Go to Settings", style: .default, handler: { (action) -> Void in
                 if #available(iOS 10.0, *) {
@@ -77,7 +92,7 @@ extension LocationService: CLLocationManagerDelegate {
             locationManager.startUpdatingLocation()
         }
         else if status == .denied {
-            self.warnForLocationPermission(from: nil)
+            warnForLocationPermission(from: nil)
             print("Authorization is not available")
         }
         else {

@@ -112,7 +112,7 @@ class SplashViewController: UIViewController {
         }
         
         UserDefaults.standard.set(nil, forKey: "shouldFilterNearbyEvents")
-        
+        UserDefaults.standard.set(false, forKey: "locationPermissionDeniedWarningShown")
         if SettingsService.showPreview {
             self.goToPreview()
         }
