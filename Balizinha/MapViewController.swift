@@ -173,9 +173,11 @@ extension MapViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let event: Event
         if filteredEventIds.isEmpty {
+            guard indexPath.row < allEvents.count else { return }
             event = allEvents[indexPath.row]
         }
         else {
+            guard indexPath.row < filteredEvents.count else { return }
             event = filteredEvents[indexPath.row]
         }
         performSegue(withIdentifier: "toEventDetails", sender: event)

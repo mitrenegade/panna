@@ -73,14 +73,22 @@ class LocationService: NSObject {
                 }
             }))
         }
-        controller?.present(alert, animated: true, completion: nil)
+        if let controller = controller {
+            controller.present(alert, animated: true, completion: nil)
+        } else if let controller = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController {
+            controller.present(alert, animated: true, completion: nil)
+        }
     }
     
     func warnForLocationAvailability(from controller: UIViewController?) {
         let message: String = "Balizinha needs to pinpoint your location to find events. Please make sure your phone can receive accurate location information."
         let alert: UIAlertController = UIAlertController(title: "Accurate location not found", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
-        controller?.present(alert, animated: true, completion: nil)
+        if let controller = controller {
+            controller.present(alert, animated: true, completion: nil)
+        } else if let controller = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController {
+            controller.present(alert, animated: true, completion: nil)
+        }
     }
 }
 
