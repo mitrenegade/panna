@@ -151,7 +151,17 @@ extension MapViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if filteredEventIds.isEmpty && allEvents.isEmpty {
-            return tableView.dequeueReusableCell(withIdentifier: "NoEventsCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NoEventsCell", for: indexPath)
+            if LocationService.shared.shouldFilterNearbyEvents {
+                cell.textLabel?.text = "There are currently no events near you."
+            } else {
+                if OrganizerService.shared.current != nil {
+                    cell.textLabel?.text = "There are currently no events. Click the plus button to start one."
+                } else {
+                    cell.textLabel?.text = "There are currently no events."
+                }
+            }
+            return cell
         }
         
         let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
