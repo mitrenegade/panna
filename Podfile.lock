@@ -159,7 +159,7 @@ SPEC CHECKSUMS:
   FirebaseStorage: 0930e97994dc79b404179bdfafb6b16f59433a82
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
-  leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
+  leveldb-library: 4f9eedf84ab46b4fa3b7893bf30714b2a1a74022
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
   RandomKit: 380745911c4f7989707489b2ce297194bfcf5031
