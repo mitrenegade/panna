@@ -120,8 +120,8 @@ extension LocationService: CLLocationManagerDelegate {
 extension LocationService {
     var shouldFilterNearbyEvents: Bool {
         get {
-            // default is true for filtering nearby events
-            return UserDefaults.standard.value(forKey: "shouldFilterNearbyEvents") as? Bool ?? true
+            // default is false for filtering nearby events
+            return UserDefaults.standard.value(forKey: "shouldFilterNearbyEvents") as? Bool ?? false
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "shouldFilterNearbyEvents")
