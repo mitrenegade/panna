@@ -73,7 +73,7 @@ class AccountViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
             let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
-            cell.textLabel?.text = "Version: \(version ?? "unknown") (\(build ?? "unknown"))"
+            cell.textLabel?.text = "Version: \(version ?? "unknown") (\(build ?? "unknown"))\(TESTING ? "t" : "")"
             cell.accessoryType = .none
             return cell
             
