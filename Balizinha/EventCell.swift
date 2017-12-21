@@ -158,12 +158,12 @@ class EventCell: UITableViewCell {
         }
         else if !event.isPast {
             let join = !event.containsUser(firAuth.currentUser!)
-            self.delegate?.joinOrLeaveEvent(event, join: join)
+            delegate?.joinOrLeaveEvent(event, join: join)
         }
         else {
             // donate
             if SettingsService.donation() {
-                self.donationDelegate?.promptForDonation(event: event)
+                donationDelegate?.promptForDonation(event: event)
             }
         }
     }

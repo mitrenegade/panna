@@ -139,6 +139,16 @@ class EventDisplayViewController: UIViewController {
 //         if #available(iOS 10.0, *) {
 //            NotificationService.scheduleNotificationForDonation(event)
 //        }
+        
+        if let event = event, event.userIsOrganizer {
+            let button = UIButton(type: .custom)
+            button.addTarget(self, action: #selector(shareEvent(_:)), for: .touchUpInside)
+            button.setImage(UIImage(named: "share_icon"), for: .normal)
+            button.widthAnchor.constraint(equalToConstant: 25).isActive = true
+            button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            let rightBarButtonItem = UIBarButtonItem(customView: button)
+            navigationItem.rightBarButtonItems = [rightBarButtonItem]
+        }
     }
 
     @objc func close() {
@@ -177,6 +187,15 @@ class EventDisplayViewController: UIViewController {
     func hideChat() {
         self.constraintInputHeight.constant = 0
         self.constraintSpacerHeight.constant = 0
+    }
+    
+    func shareEvent(_ event: Event) {
+        let alert = UIAlertController(title: "Share event", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Send to contacts", style: .default, handler: { (action) in
+            print("sharing")
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 
