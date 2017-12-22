@@ -102,6 +102,7 @@
 		8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
 		8EDA009C1F6597060080F446 /* RemoteDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009B1F6597060080F446 /* RemoteDataService.swift */; };
 		8EDA009E1F6597BC0080F446 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009D1F6597BC0080F446 /* LoggingService.swift */; };
+		8EDD13E91FEB78C10039F1A7 /* ShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD13E81FEB78C10039F1A7 /* ShareService.swift */; };
 		8EDFB1BA1E3D3F00006DD187 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFB1B91E3D3F00006DD187 /* LocationService.swift */; };
 		8EE5B3231E7C17F100BC72A5 /* CameraOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3211E7C17F100BC72A5 /* CameraOverlayViewController.swift */; };
 		8EE5B3241E7C17F100BC72A5 /* CameraOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EE5B3221E7C17F100BC72A5 /* CameraOverlayViewController.xib */; };
@@ -207,6 +208,7 @@
 		8ED3DE761E330CB700947040 /* Balizinha.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Balizinha.entitlements; sourceTree = "<group>"; };
 		8EDA009B1F6597060080F446 /* RemoteDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteDataService.swift; sourceTree = "<group>"; };
 		8EDA009D1F6597BC0080F446 /* LoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
+		8EDD13E81FEB78C10039F1A7 /* ShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareService.swift; sourceTree = "<group>"; };
 		8EDFB1B91E3D3F00006DD187 /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventPhotoCell.swift; sourceTree = "<group>"; };
 		8EE5B3211E7C17F100BC72A5 /* CameraOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraOverlayViewController.swift; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 				8EA23E2B1FD829E000324B82 /* PaymentService.swift */,
 				8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */,
 				8E7A2FFF1F833969004EAE6A /* PromotionService.swift */,
+				8EDD13E81FEB78C10039F1A7 /* ShareService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -867,6 +870,7 @@
 				8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */,
 				8EACC3B61F7B449C0091FBC5 /* Payment.swift in Sources */,
 				8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */,
+				8EDD13E91FEB78C10039F1A7 /* ShareService.swift in Sources */,
 				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,
 				8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */,
 				8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */,
