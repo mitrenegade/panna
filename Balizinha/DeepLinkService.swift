@@ -5,16 +5,16 @@
 //  Created by Bobby Ren on 12/21/17.
 //  Copyright © 2017 Bobby Ren. All rights reserved.
 //
-
+// https://medium.com/@stasost/ios-how-to-open-deep-links-notifications-and-shortcuts-253fb38e1696
 import UIKit
 
 enum DeeplinkType {
     enum Messages {
         case root
-        case details(id: String)
+        case details(String)
     }
     case messages(Messages)
-    case event(id: String)
+    case event(String)
     
     // Event links shared should look like: balizinha://event/1
 }
@@ -24,23 +24,21 @@ class DeepLinkService: NSObject {
 
     override fileprivate init() {}
     private var deeplinkType: DeeplinkType?
-
+    
+    // opens any cached deeplinks on app startup
     func checkDeepLink() {
         guard let type = deeplinkType else { return }
         proceedToDeeplink(type)
         
         deeplinkType = nil
     }
-    
-    func proceedToDeeplink(_ type: DeeplinkType) {
-        switch type {
-        case .messages(.root):
-            displayAlert(title: "Messages Root")
-        case .messages(.details(id: let id)):
-            displayAlert(title: "Messages Details \(id)")
-        case .event(_):
-            displayAlert(title: "Event id \(id)")
-        }
+
+    // handles deeplinks sent through a click
+    func handle(url: URL) -> Bool{
+        deeplinkType = parseDeepLink(url)
+        guard let type = deeplinkType else { return false }
+        proceedToDeeplink(type)
+        return true
     }
     
     fileprivate func parseDeepLink(_ url: URL) -> DeeplinkType? {
@@ -53,11 +51,11 @@ class DeepLinkService: NSObject {
         switch host {
         case "messages":
             if let messageId = pathComponents.first {
-                return DeeplinkType.messages(.details(id: messageId))
+                return DeeplinkType.messages(.details(messageId))
             }
         case "events":
             if let eventId = pathComponents.first {
-                return DeeplinkType.event(id: eventId)
+                return DeeplinkType.event(eventId)
             }
         default:
             break
@@ -65,11 +63,15 @@ class DeepLinkService: NSObject {
         return nil
     }
     
-    func handle(url: URL) -> Bool{
-        deeplinkType = parseDeepLink(url)
-        guard let type = deeplinkType else { return false }
-        proceedToDeeplink(type)
-        return true
+    fileprivate func proceedToDeeplink(_ type: DeeplinkType) {
+        switch type {
+        case .messages(.root):
+            displayAlert(title: "Messages Root")
+        case .messages(.details(let id)):
+            displayAlert(title: "Messages Details \(id)")
+        case .event(let id):
+            displayAlert(title: "Event id \(id)")
+        }
     }
     
     fileprivate func displayAlert(title: String) {
