@@ -66,16 +66,15 @@ class DeepLinkService: NSObject {
     fileprivate func proceedToDeeplink(_ type: DeeplinkType) {
         switch type {
         case .messages(.root):
-            displayAlert(title: "Messages Root")
+            print("Todo: show Messages Root")
         case .messages(.details(let id)):
-            displayAlert(title: "Messages Details \(id)")
+            print("Todo: show Messages Details \(id)")
         case .event(let id):
-            displayAlert(title: "Event id \(id)")
+            loadAndShowEvent(id)
         }
     }
     
-    fileprivate func displayAlert(title: String) {
-        print(title)
+    func loadAndShowEvent(_ eventId: String) {
+        EventService.shared.featuredEventId = eventId
     }
-
 }

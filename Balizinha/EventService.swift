@@ -40,7 +40,21 @@ class EventService: NSObject {
     class func resetOnLogout() {
         singleton = nil
     }
+
+    var featuredEventId: String? {
+        didSet {
+            if let eventId = featuredEventId {
+                withId(id: eventId, completion: {[weak self] (event) in
+                    self?.featuredEvent = event
+                    self?.notify(.EventsChanged, object: nil, userInfo: nil)
+                })
+            } else {
+                featuredEvent = nil
+            }
+        }
+    }
     
+    var featuredEvent: Event?
 
     // MARK: - Global/constant listeners
     var usersForEvents: [String: AnyObject]? {

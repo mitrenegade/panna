@@ -234,7 +234,8 @@ extension EventDisplayViewController {
     func shareEvent() {
         guard ShareService.canSendText else {
             return }
-        shareService.share(from: self, message: nil)
+        guard let event = event else { return  }
+        shareService.share(event: event, from: self)
     }
 }
 /*
