@@ -45,6 +45,8 @@ class EventDisplayViewController: UIViewController {
     
     @IBOutlet weak var activityView: UIView!
     
+    lazy var shareService = ShareService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -135,14 +137,9 @@ class EventDisplayViewController: UIViewController {
             self.constraintPaymentHeight.constant = 0
         }
         
-//        // TEST
-//         if #available(iOS 10.0, *) {
-//            NotificationService.scheduleNotificationForDonation(event)
-//        }
-        
         if let event = event, event.userIsOrganizer {
             let button = UIButton(type: .custom)
-            button.addTarget(self, action: #selector(shareEvent(_:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(promptForShare), for: .touchUpInside)
             button.setImage(UIImage(named: "share_icon"), for: .normal)
             button.widthAnchor.constraint(equalToConstant: 25).isActive = true
             button.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -189,10 +186,10 @@ class EventDisplayViewController: UIViewController {
         self.constraintSpacerHeight.constant = 0
     }
     
-    func shareEvent(_ event: Event) {
+    func promptForShare() {
         let alert = UIAlertController(title: "Share event", message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Send to contacts", style: .default, handler: { (action) in
-            print("sharing")
+        alert.addAction(UIAlertAction(title: "Send to contacts", style: .default, handler: {[weak self] (action) in
+            self?.shareEvent()
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
@@ -233,6 +230,13 @@ extension EventDisplayViewController {
 }
 
 // MARK: Sharing
+extension EventDisplayViewController {
+    func shareEvent() {
+        guard ShareService.canSendText else {
+            return }
+        shareService.share(from: self, message: nil)
+    }
+}
 /*
 extension EventDisplayViewController: FBSDKSharingDelegate {
     // MARK: - FBShare
