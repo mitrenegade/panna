@@ -12,6 +12,7 @@
 		8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E4291E31B07900DB4B27 /* SplashViewController.swift */; };
 		8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E11E42B1E31B80800DB4B27 /* Main.storyboard */; };
 		8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */; };
+		8E16A59E1FECB34400D24D69 /* DeepLinkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E16A59D1FECB34400D24D69 /* DeepLinkService.swift */; };
 		8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */; };
 		8E19A49E1E6C61FE00D301EC /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A49D1E6C61FE00D301EC /* Player.swift */; };
 		8E19A4A21E6C658600D301EC /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A11E6C658600D301EC /* String+Utils.swift */; };
@@ -145,6 +146,7 @@
 		8E11E4291E31B07900DB4B27 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		8E11E42B1E31B80800DB4B27 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurableNavigationController.swift; sourceTree = "<group>"; };
+		8E16A59D1FECB34400D24D69 /* DeepLinkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkService.swift; sourceTree = "<group>"; };
 		8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerInfoViewController.swift; sourceTree = "<group>"; };
 		8E19A49D1E6C61FE00D301EC /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		8E19A4A11E6C658600D301EC /* String+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Utils.swift"; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 				8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */,
 				8E7A2FFF1F833969004EAE6A /* PromotionService.swift */,
 				8EDD13E81FEB78C10039F1A7 /* ShareService.swift */,
+				8E16A59D1FECB34400D24D69 /* DeepLinkService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -844,6 +847,7 @@
 				8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */,
 				8EDFB1BA1E3D3F00006DD187 /* LocationService.swift in Sources */,
 				8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */,
+				8E16A59E1FECB34400D24D69 /* DeepLinkService.swift in Sources */,
 				8E7A2FFA1F831411004EAE6A /* Organizer.swift in Sources */,
 				8EDA009C1F6597060080F446 /* RemoteDataService.swift in Sources */,
 				8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */,

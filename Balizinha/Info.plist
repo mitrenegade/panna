@@ -28,6 +28,16 @@
 				<string>fb123063264768667</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>io.renderapps.balizinha</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>balizinha</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>33</string>
