@@ -130,67 +130,145 @@ extension MapViewController: MKMapViewDelegate {
 
 // MARK: UITableViewDataSource, UITableViewDelegate
 extension MapViewController {
+    fileprivate var featuredEvent: (shouldShow: Bool, eventId: String, event: Event) {
+        if let eventId = EventService.shared.featuredEventId, let event = EventService.shared.featuredEvent {
+            if filteredEventIds.contains(eventId) {
+                return (true, eventId, event)
+            } else if allEvents.filter( {$0.id == eventId} ).count > 0 {
+                return (true, eventId, event)
+            }
+        }
+        return (false, "", Event())
+    }
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 3
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if filteredEventIds.isEmpty {
+        switch section {
+        case 0:
             if allEvents.count == 0 {
                 return 1
             }
-            return allEvents.count
+            return 0
+        case 1:
+            if featuredEvent.shouldShow {
+                return 1
+            }
+            return 0
+        default:
+            if filteredEventIds.isEmpty {
+                return allEvents.count
+            }
+            return filteredEvents.count
         }
-        return filteredEvents.count
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return nil
+        switch section {
+        case 0:
+            return nil
+        case 1:
+            if featuredEvent.shouldShow {
+                return "Recommended"
+            } else {
+                return nil
+            }
+        default:
+            if featuredEvent.shouldShow {
+                return "All events"
+            } else {
+                return nil
+            }
+        }
+    }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch section {
+        case 0:
+            return 0.1
+        case 1:
+            if featuredEvent.shouldShow {
+                return 30
+            } else {
+                return 0.1
+            }
+        default:
+            if featuredEvent.shouldShow {
+                return 30
+            } else {
+                return 0.1
+            }
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if filteredEventIds.isEmpty && allEvents.isEmpty {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "NoEventsCell", for: indexPath)
-            if LocationService.shared.shouldFilterNearbyEvents {
-                cell.textLabel?.text = "There are currently no events near you."
-            } else {
-                if OrganizerService.shared.current != nil {
-                    cell.textLabel?.text = "There are currently no events. Click the plus button to start one."
+
+        switch indexPath.section {
+        case 0:
+            if filteredEventIds.isEmpty && allEvents.isEmpty {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "NoEventsCell", for: indexPath)
+                if LocationService.shared.shouldFilterNearbyEvents {
+                    cell.textLabel?.text = "There are currently no events near you."
                 } else {
-                    cell.textLabel?.text = "There are currently no events."
+                    if OrganizerService.shared.current != nil {
+                        cell.textLabel?.text = "There are currently no events. Click the plus button to start one."
+                    } else {
+                        cell.textLabel?.text = "There are currently no events."
+                    }
                 }
+                return cell
             }
+            return UITableViewCell()
+
+        case 1:
+            if featuredEvent.shouldShow {
+                let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
+                cell.delegate = self
+                cell.setupWithEvent(featuredEvent.event)
+                return cell
+            }
+            return UITableViewCell()
+        default:
+            let event: Event
+            if filteredEventIds.isEmpty {
+                guard indexPath.row < allEvents.count else { return UITableViewCell() }
+                event = allEvents[indexPath.row]
+            }
+            else {
+                guard indexPath.row < filteredEvents.count else { return UITableViewCell() }
+                event = filteredEvents[indexPath.row]
+            }
+            let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
+            cell.delegate = self
+            cell.setupWithEvent(event)
+
             return cell
         }
-        
-        let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
-        cell.delegate = self
-        
-        let event: Event
-        if filteredEventIds.isEmpty {
-            event = allEvents[indexPath.row]
-        }
-        else {
-            event = filteredEvents[indexPath.row]
-        }
-        cell.setupWithEvent(event)
-
-        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let event: Event
-        if filteredEventIds.isEmpty {
-            guard indexPath.row < allEvents.count else { return }
-            event = allEvents[indexPath.row]
+        switch indexPath.section {
+        case 0:
+            return
+        case 1:
+            if featuredEvent.shouldShow {
+                performSegue(withIdentifier: "toEventDetails", sender: featuredEvent.event)
+            }
+        default:
+            let event: Event
+            if filteredEventIds.isEmpty {
+                guard indexPath.row < allEvents.count else { return }
+                event = allEvents[indexPath.row]
+            }
+            else {
+                guard indexPath.row < filteredEvents.count else { return }
+                event = filteredEvents[indexPath.row]
+            }
+            performSegue(withIdentifier: "toEventDetails", sender: event)
         }
-        else {
-            guard indexPath.row < filteredEvents.count else { return }
-            event = filteredEvents[indexPath.row]
-        }
-        performSegue(withIdentifier: "toEventDetails", sender: event)
     }
 }
 

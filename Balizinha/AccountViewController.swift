@@ -201,12 +201,8 @@ extension AccountViewController: ToggleCellDelegate {
             }
         } else if toggle.superview?.superview is LocationSettingCell {
             LocationService.shared.shouldFilterNearbyEvents = isOn
-            if #available(iOS 10.0, *) {
-                NotificationService.shared.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
-            } else {
-                // Fallback on earlier versions
-            }
-            
+            self.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
+
             if isOn {
                 LocationService.shared.startLocation(from: self)
             }

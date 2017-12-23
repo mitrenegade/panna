@@ -137,7 +137,7 @@ class EventDisplayViewController: UIViewController {
             self.constraintPaymentHeight.constant = 0
         }
         
-        if let event = event, event.userIsOrganizer {
+        if let event = event, let currentUser = firAuth.currentUser, event.containsUser(currentUser) {
             let button = UIButton(type: .custom)
             button.addTarget(self, action: #selector(promptForShare), for: .touchUpInside)
             button.setImage(UIImage(named: "share_icon"), for: .normal)
@@ -234,7 +234,8 @@ extension EventDisplayViewController {
     func shareEvent() {
         guard ShareService.canSendText else {
             return }
-        shareService.share(from: self, message: nil)
+        guard let event = event else { return  }
+        shareService.share(event: event, from: self)
     }
 }
 /*

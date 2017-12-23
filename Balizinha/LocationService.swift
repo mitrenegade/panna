@@ -57,12 +57,8 @@ class LocationService: NSObject {
             UserDefaults.standard.synchronize()
             
             // refresh map
-            if #available(iOS 10.0, *) {
-                NotificationService.shared.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
-                NotificationService.shared.notify(NotificationType.LocationOptionsChanged, object: nil, userInfo: nil)
-            } else {
-                // Fallback on earlier versions
-            }
+            self?.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
+            self?.notify(NotificationType.LocationOptionsChanged, object: nil, userInfo: nil)
         }))
         if let url = URL(string: UIApplicationOpenSettingsURLString) {
             alert.addAction(UIAlertAction(title: "Go to Settings", style: .default, handler: { (action) -> Void in

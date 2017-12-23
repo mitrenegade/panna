@@ -21,6 +21,17 @@ class ShareService: NSObject {
         messageComposeVC.body = message ?? "Come join me for a game of Balizinha! https://itunes.apple.com/us/app/balizinha/id1198807198?mt=8"
         controller.present(messageComposeVC, animated: true, completion: nil)
     }
+    
+    func share(event: Event, from controller: UIViewController) {
+        let eventId = event.id
+        let eventLink = shareLinkFor(event: eventId)
+        let message = "Come join me for a game of Balizinha! I'm playing in this game: \(eventLink). Download the app here: http://apple.co/2zeAZ9X"
+        share(from: controller, message: message)
+    }
+    
+    fileprivate func shareLinkFor(event eventId: String) -> String{
+        return "balizinha://events/\(eventId)"
+    }
 }
 
 extension ShareService: MFMessageComposeViewControllerDelegate {

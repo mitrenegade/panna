@@ -62,6 +62,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let _ = SettingsService.shared
 
+        // handle any deeplink
+        DeepLinkService.shared.checkDeepLink()
+
         return true
     }
     
@@ -83,6 +86,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true), components.scheme == "balizinha" {
+            return DeepLinkService.shared.handle(url: url)
+        }
         return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
