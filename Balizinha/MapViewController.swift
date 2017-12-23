@@ -227,6 +227,7 @@ extension MapViewController {
                 let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
                 cell.delegate = self
                 cell.setupWithEvent(featuredEvent.event)
+                LoggingService.shared.log(event: LoggingEvent.RecommendedEventCellViewed, info: nil)
                 return cell
             }
             return UITableViewCell()

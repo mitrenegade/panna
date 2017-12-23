@@ -77,5 +77,6 @@ class DeepLinkService: NSObject {
     func loadAndShowEvent(_ eventId: String) {
         EventService.shared.featuredEventId = eventId
         self.notify(NotificationType.GoToMapForSharedEvent, object: nil, userInfo: nil)
+        LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedEventOpened, info: nil)
     }
 }

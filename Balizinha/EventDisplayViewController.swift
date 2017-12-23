@@ -189,6 +189,7 @@ class EventDisplayViewController: UIViewController {
     func promptForShare() {
         let alert = UIAlertController(title: "Share event", message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Send to contacts", style: .default, handler: {[weak self] (action) in
+            LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "contacts"])
             self?.shareEvent()
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

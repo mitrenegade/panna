@@ -25,6 +25,12 @@ enum LoggingEvent: String {
     case PreviewSignupClicked
     case AddPromoCode
     case OrganizerSignupPrompt
+    
+    // sharing
+    case ShareEventClicked
+    case ShareEventCompleted
+    case DeepLinkForSharedEventOpened
+    case RecommendedEventCellViewed
 }
 
 class LoggingService: NSObject {

@@ -37,6 +37,13 @@ class ShareService: NSObject {
 extension ShareService: MFMessageComposeViewControllerDelegate {
     // MFMessageComposeViewControllerDelegate callback - dismisses the view controller when the user is finished with it
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        let resultString: String
+        switch result {
+        case .cancelled: resultString = "cancelled"
+        case .failed: resultString = "failed"
+        case .sent: resultString = "sent"
+        }
+        LoggingService.shared.log(event: LoggingEvent.ShareEventCompleted, info: ["method": "contacts", "result": resultString])
         controller.dismiss(animated: true, completion: nil)
     }
 }
