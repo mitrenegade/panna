@@ -172,7 +172,7 @@ extension MapViewController {
             return nil
         case 1:
             if featuredEvent.shouldShow {
-                return "Featured"
+                return "Recommended"
             } else {
                 return nil
             }
