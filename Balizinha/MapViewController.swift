@@ -164,7 +164,6 @@ extension MapViewController {
             }
             return filteredEvents.count
         }
-        return 0
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -251,7 +250,7 @@ extension MapViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        switch indexPath.row {
+        switch indexPath.section {
         case 0:
             return
         case 1:

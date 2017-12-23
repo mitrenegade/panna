@@ -152,10 +152,12 @@ class SplashViewController: UIViewController {
         self.listenFor(NotificationType.LogoutSuccess, action: #selector(SplashViewController.didLogout), object: nil)
         
         if SettingsService.donation() {
-            self.listenFor(NotificationType.GoToDonationForEvent, action: #selector(goToCalendar), object: nil)
+            self.listenFor(NotificationType.GoToDonationForEvent, action: #selector(goToCalendar(_:)), object: nil)
         }
+        self.listenFor(NotificationType.GoToMapForSharedEvent, action: #selector(goToMap(_:)), object: nil)
+
         EventService.shared.listenForEventUsers()
-        PlayerService.shared.current // invoke listener
+        let _ = PlayerService.shared.current // invoke listener
         let _ = OrganizerService.shared.current // trigger organizer loading
         let _ = PromotionService.shared
         SettingsService.shared.observedSettings?.take(1) // start observing, do nothing with the result
@@ -177,7 +179,7 @@ class SplashViewController: UIViewController {
         self.listenFor(NotificationType.LoginSuccess, action: #selector(SplashViewController.didLogin), object: nil)
     }
     
-    @objc func goToCalendar(notification: Notification) {
+    @objc func goToCalendar(_ notification: Notification) {
         // TODO: this doesn't work if we're looking at something on top of the tab bar - need to dismiss?
         guard let homeViewController = presentedViewController as? UITabBarController else {
             return
@@ -185,10 +187,25 @@ class SplashViewController: UIViewController {
         guard let info = notification.userInfo, let eventId = info["eventId"] as? String else {
             return
         }
+        if homeViewController.presentedViewController != nil {
+            homeViewController.dismiss(animated: true, completion: nil)
+        }
         let index = 2
         homeViewController.selectedIndex = index
         guard let nav: UINavigationController = homeViewController.viewControllers?[index] as? UINavigationController, let calendar: CalendarViewController = nav.viewControllers[0] as? CalendarViewController else { return }
         calendar.promptForDonation(eventId: eventId)
+    }
+    
+    @objc func goToMap(_ notification: Notification) {
+        // TODO: this doesn't work if we're looking at something on top of the tab bar - need to dismiss?
+        guard let homeViewController = presentedViewController as? UITabBarController else {
+            return
+        }
+        if homeViewController.presentedViewController != nil {
+            homeViewController.dismiss(animated: true, completion: nil)
+        }
+        let index = 1
+        homeViewController.selectedIndex = index
     }
     
     func goToPreview() {

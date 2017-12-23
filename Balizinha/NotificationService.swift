@@ -25,6 +25,7 @@ enum NotificationType: String {
     case PaymentContextChanged
     case GoToDonationForEvent
     case LocationOptionsChanged
+    case GoToMapForSharedEvent
     
     func name() -> Notification.Name {
         return Notification.Name(self.rawValue)
