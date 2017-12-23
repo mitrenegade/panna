@@ -94,7 +94,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.navigationItem.title = "Edit Event"
         }
         
-        options = ["Name", "Event Type", "Location", "Day", "Start Time", "End Time", "Max Players"]
+        options = ["Name", "Event Type", "Venue", "Day", "Start Time", "End Time", "Max Players"]
         if SettingsService.paymentRequired() {
             options.append("Payment")
         }
@@ -367,12 +367,12 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             return cell
         case Sections.details.rawValue:
             let cell : DetailCell
-            if options[indexPath.row] == "Location" || options[indexPath.row] == "City" || options[indexPath.row] == "Name" {
+            if options[indexPath.row] == "Venue" || options[indexPath.row] == "City" || options[indexPath.row] == "Name" {
                 cell = tableView.dequeueReusableCell(withIdentifier: "cityCell", for: indexPath) as! DetailCell
                 cell.valueTextField.delegate = self
                 cell.valueTextField.inputAccessoryView = nil
                 
-                if options[indexPath.row] == "Location" {
+                if options[indexPath.row] == "Venue" {
                     cell.valueTextField.placeholder = "Fenway Park"
                     self.placeField = cell.valueTextField
                     if let place = self.eventToEdit?.place {
@@ -555,7 +555,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             case "Event Type":
                 textField = self.typeField
                 typePickerView.reloadAllComponents()
-            case "Location":
+            case "Venue":
                 textField = self.placeField
             case "City":
                 textField = self.cityField
@@ -576,7 +576,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             textField?.becomeFirstResponder()
             currentField = textField
             
-            if options[indexPath.row] == "Location" {
+            if options[indexPath.row] == "Venue" {
                 performSegue(withIdentifier: "toLocationSearch", sender: nil)
             }
         case Sections.delete.rawValue:
