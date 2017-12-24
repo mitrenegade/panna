@@ -572,7 +572,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             default:
                 textField = nil
             }
-            textField?.isUserInteractionEnabled = true
+            if textField != self.placeField {
+                textField?.isUserInteractionEnabled = true
+            }
             textField?.becomeFirstResponder()
             currentField = textField
             
