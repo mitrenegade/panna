@@ -91,6 +91,10 @@ extension MapViewController: MKMapViewDelegate {
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         if first, let location = LocationService.shared.lastLocation {
             centerMapOnLocation(location: location)
+            
+            PlayerService.shared.current?.lat = location.coordinate.latitude
+            PlayerService.shared.current?.lon = location.coordinate.longitude
+            PlayerService.shared.current?.lastLocationTimestamp = Date()
         }
     }
     
