@@ -52,6 +52,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var cachedPlace: String?
     var cachedCity: String?
     var cachedState: String?
+    var cachedLat: Double?
+    var cachedLon: Double?
    
     var nameField: UITextField?
     var typeField: UITextField?
@@ -188,11 +190,13 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.place = place
             self.cachedPlace = place
         }
-        if let city = UserDefaults.standard.string(forKey: "organizerCachedCity") {
+        if let lat = UserDefaults.standard.value(forKey: "organizerCachedLat") as? Double, let lon = UserDefaults.standard.value(forKey: "organizerCachedLon") as? Double, let city = UserDefaults.standard.string(forKey: "organizerCachedCity"), let state = UserDefaults.standard.string(forKey: "organizerCachedState") {
+            self.lat = lat
+            self.cachedLat = lat
+            self.lon = lon
+            self.cachedLon = lon
             self.city = city
             self.cachedCity = city
-        }
-        if let state = UserDefaults.standard.string(forKey: "organizerCachedState") {
             self.state = state
             self.cachedState = state
         }
@@ -201,8 +205,17 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     fileprivate func cacheOrganizerFavorites() {
         UserDefaults.standard.set(self.name, forKey: "organizerCachedName")
         UserDefaults.standard.set(self.place, forKey: "organizerCachedPlace")
-        UserDefaults.standard.set(self.city, forKey: "organizerCachedCity")
-        UserDefaults.standard.set(self.state, forKey: "organizerCachedState")
+        if let city = self.city, let state = self.state, let lat = self.lat, let lon = self.lon {
+            UserDefaults.standard.set(city, forKey: "organizerCachedCity")
+            UserDefaults.standard.set(state, forKey: "organizerCachedState")
+            UserDefaults.standard.set(lat, forKey: "organizerCachedLat")
+            UserDefaults.standard.set(lon, forKey: "organizerCachedLon")
+        } else {
+            UserDefaults.standard.set(nil, forKey: "organizerCachedCity")
+            UserDefaults.standard.set(nil, forKey: "organizerCachedState")
+            UserDefaults.standard.set(nil, forKey: "organizerCachedLat")
+            UserDefaults.standard.set(nil, forKey: "organizerCachedLon")
+        }
     }
     
     @IBAction func didClickSave(_ sender: AnyObject) {
