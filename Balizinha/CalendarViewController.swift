@@ -47,8 +47,9 @@ class CalendarViewController: UITableViewController {
                 return event1.id < event2.id
             }
             
+            guard let user = firAuth.currentUser else { return }
             // 2: Remove events the user has joined
-            EventService.shared.getEventsForUser(firAuth.currentUser!, completion: {[weak self] (eventIds) in
+            EventService.shared.getEventsForUser(user, completion: {[weak self] (eventIds) in
                 self?.sortedUpcomingEvents = self?.sortedUpcomingEvents.filter({ (event) -> Bool in
                     eventIds.contains(event.id)
                 }) ?? []

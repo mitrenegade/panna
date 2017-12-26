@@ -24,7 +24,7 @@ class SplashViewController: UIViewController {
         if AIRPLANE_MODE {
             let time = DispatchTime.now() + 0.5
             DispatchQueue.main.asyncAfter(deadline: time, execute: {
-                self.goToPreview()
+                self.goToMain()
             })
             SplashViewController.shared = self
             return

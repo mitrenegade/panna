@@ -96,7 +96,13 @@ class EventCell: UITableViewCell {
             self.eventLogo.image = UIImage(named: "soccer")
         }
 
-        let title = EventCellViewModel().buttonTitle(eventStatus: (event.isPast, event.userIsOrganizer, event.containsUser(firAuth.currentUser!)))
+        let containsUser: Bool
+        if let user = firAuth.currentUser {
+            containsUser = event.containsUser(user)
+        } else {
+            containsUser = false
+        }
+        let title = EventCellViewModel().buttonTitle(eventStatus: (event.isPast, event.userIsOrganizer, containsUser))
         self.btnAction.setTitle(title, for: .normal)
         btnAction.isHidden = false
         self.btnAction.alpha = 1
@@ -108,7 +114,7 @@ class EventCell: UITableViewCell {
                 self.labelFull.text = "This is your event."
                 self.btnAction.isEnabled = true
             }
-            else if event.containsUser(firAuth.currentUser!) {
+            else if containsUser {
                 self.labelFull.text = "You're going!" //To-Do: Add functionality whether or not event is full
                 self.btnAction.isEnabled = true
             }
@@ -157,7 +163,13 @@ class EventCell: UITableViewCell {
             self.delegate?.editEvent(event)
         }
         else if !event.isPast {
-            let join = !event.containsUser(firAuth.currentUser!)
+            let containsUser: Bool
+            if let user = firAuth.currentUser {
+                containsUser = event.containsUser(user)
+            } else {
+                containsUser = false
+            }
+            let join = !containsUser
             delegate?.joinOrLeaveEvent(event, join: join)
         }
         else {

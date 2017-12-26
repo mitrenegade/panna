@@ -65,6 +65,10 @@ class ActionService: NSObject {
         // returns all current events of a certain type. Returns as snapshot
         // only gets events once, and removes observer afterwards
         
+        if AIRPLANE_MODE {
+            return
+        }
+        
         // sort by time
         let queryRef = firRef.child("eventActions").child(event.id)
         
