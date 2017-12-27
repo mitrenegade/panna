@@ -18,7 +18,7 @@ class PaymentService: NSObject {
                 return
             }
             for (_, info) in payments {
-                if let player_id = info["player_id"] as? String, playerId == player_id {
+                if let player_id = info["player_id"] as? String, playerId == player_id, let status = info["status"] as? String, status == "succeeded", let refund = info["refunded"] as? Double, refund == 0 {
                     completion(true)
                     return
                 }
