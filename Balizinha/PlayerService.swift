@@ -34,7 +34,7 @@ class PlayerService: NSObject {
 
     // not technically part of Player because anonymous auth should not create a player
     class var isAnonymous: Bool {
-        guard let user = firAuth.currentUser else { return true }
+//        guard let user = firAuth.currentUser else { return true }
         return user.isAnonymous
     }
 

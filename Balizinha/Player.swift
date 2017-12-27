@@ -107,5 +107,39 @@ class Player: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
+    
+    // MARK: - Location
+    var lat: Double? {
+        get {
+            return self.dict?["lat"] as? Double
+        }
+        set {
+            self.dict["lat"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+
+    var lon: Double? {
+        get {
+            return self.dict?["lon"] as? Double
+        }
+        set {
+            self.dict["lon"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+
+    var lastLocationTimestamp: Date? {
+        get {
+            if let val = self.dict["lastLocationTimestamp"] as? TimeInterval {
+                return Date(timeIntervalSince1970: val)
+            }
+            return nil
+        }
+        set {
+            self.dict["lastLocationTimestamp"] = newValue?.timeIntervalSince1970
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
 }
 
