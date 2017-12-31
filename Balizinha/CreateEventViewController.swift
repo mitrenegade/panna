@@ -521,10 +521,14 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel(frame: CGRect(x: 20, y: 0, width: self.view.frame.size.width - 20, height: 40))
+        let label = UILabel(frame: CGRect(x: 16, y: 0, width: self.view.frame.size.width - 16, height: 40))
         let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 40))
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.mediumGreen
         label.backgroundColor = UIColor.clear
+        label.font = UIFont.montserratMedium(size: 18)
+        label.textColor = UIColor.offWhite
+        view.clipsToBounds = true
+
         switch section {
         case Sections.photo.rawValue:
             return nil
@@ -538,7 +542,6 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         default:
             return nil;
         }
-        label.textColor = UIColor.white
         view.addSubview(label)
         return view
     }
@@ -548,6 +551,10 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             return 0.1
         }
         return 40
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.1
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
