@@ -109,6 +109,7 @@ extension CalendarViewController {
         view.addSubview(label)
         label.font = UIFont.montserratMedium(size: 18)
         label.textColor = UIColor.offWhite
+        view.clipsToBounds = true
         
         switch section {
         case 0:
@@ -116,7 +117,7 @@ extension CalendarViewController {
         case 1:
             label.text = "Past events"
         default:
-            break
+            label.text = nil
         }
         return view
     }
