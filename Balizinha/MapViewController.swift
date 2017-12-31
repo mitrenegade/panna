@@ -170,24 +170,35 @@ extension MapViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 30))
+        view.backgroundColor = UIColor.mediumGray
+        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: 30))
+        label.backgroundColor = .clear
+        view.addSubview(label)
+        label.font = UIFont.montserratMedium(size: 18)
+        label.textColor = UIColor.offWhite
+        view.clipsToBounds = true
+        
         switch section {
         case 0:
-            return nil
+            label.text = nil
         case 1:
             if featuredEvent.shouldShow {
-                return "Recommended"
+                label.text = "Recommended"
             } else {
-                return nil
+                label.text = nil
             }
         default:
             if featuredEvent.shouldShow {
-                return "All events"
+                label.text = "All events"
             } else {
-                return nil
+                label.text = nil
             }
         }
+        return view
     }
+
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case 0:

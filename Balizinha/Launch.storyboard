@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rd2-iB-Vky">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="oJ6-2w-dBn">
+            <objects>
+                <viewController id="Rd2-iB-Vky" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8B9-kl-QBu"/>
+                        <viewControllerLayoutGuide type="bottom" id="kfx-kf-9Op"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VSG-1E-Tdb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qgG-Sk-iNK">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="444.5"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo1024" translatesAutoresizingMaskIntoConstraints="NO" id="LEF-lA-Vth">
+                                        <rect key="frame" x="93.5" y="128" width="187.5" height="187.5"/>
+                                        <color key="backgroundColor" red="0.2273845971" green="0.22724241019999999" blue="0.23965293169999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="LEF-lA-Vth" secondAttribute="height" multiplier="1:1" id="eBv-T1-eaw"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="LEF-lA-Vth" firstAttribute="centerX" secondItem="qgG-Sk-iNK" secondAttribute="centerX" id="aM7-YL-1JV"/>
+                                    <constraint firstItem="LEF-lA-Vth" firstAttribute="centerY" secondItem="qgG-Sk-iNK" secondAttribute="centerY" id="acy-je-lCt"/>
+                                    <constraint firstItem="LEF-lA-Vth" firstAttribute="width" secondItem="qgG-Sk-iNK" secondAttribute="width" multiplier="0.5" id="g8L-cW-JM1"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.2274509804" green="0.22724241019999999" blue="0.23965293169999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="qgG-Sk-iNK" firstAttribute="leading" secondItem="VSG-1E-Tdb" secondAttribute="leading" id="EZf-F0-gGv"/>
+                            <constraint firstItem="qgG-Sk-iNK" firstAttribute="height" secondItem="VSG-1E-Tdb" secondAttribute="height" multiplier="2:3" id="Tee-5G-One"/>
+                            <constraint firstItem="qgG-Sk-iNK" firstAttribute="width" secondItem="VSG-1E-Tdb" secondAttribute="width" id="jWZ-TI-fZM"/>
+                            <constraint firstItem="qgG-Sk-iNK" firstAttribute="top" secondItem="VSG-1E-Tdb" secondAttribute="top" id="tGi-q2-TLk"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="f2e-bm-gAE"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="L5D-ps-n6d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="528.79999999999995" y="-12.143928035982009"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Logo1024" width="512" height="512"/>
+    </resources>
+</document>

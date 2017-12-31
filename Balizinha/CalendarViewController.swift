@@ -32,6 +32,9 @@ class CalendarViewController: UITableViewController {
         activityIndicator.color = UIColor.red
         
         stripeService.loadPayment(host: nil)
+        
+        self.navigationController?.navigationBar.backgroundColor = UIColor.darkGray
+        tableView.backgroundColor = UIColor.darkGray
     }
 
     deinit {
@@ -98,20 +101,27 @@ extension CalendarViewController {
         return 0
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 30))
+        view.backgroundColor = UIColor.mediumGray
+        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: 30))
+        label.backgroundColor = .clear
+        view.addSubview(label)
+        label.font = UIFont.montserratMedium(size: 18)
+        label.textColor = UIColor.offWhite
+        view.clipsToBounds = true
+        
         switch section {
         case 0:
-            return "Upcoming events"
+            label.text = "Upcoming events"
         case 1:
-            return "Past events"
+            label.text = "Past events"
         default:
-            break
+            label.text = nil
         }
-        
-        return nil
+        return view
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
         cell.delegate = self

@@ -65,6 +65,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // handle any deeplink
         DeepLinkService.shared.checkDeepLink()
 
+        if TESTING {
+            UIFont.printAvailableFonts()
+        }
+        
+        UINavigationBar.appearance().backgroundColor = UIColor.mediumBlue
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        UINavigationBar.appearance().tintColor = UIColor.white
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.montserratSemiBold(size: 20)]
+        UIApplication.shared.statusBarStyle = .lightContent
         return true
     }
     
