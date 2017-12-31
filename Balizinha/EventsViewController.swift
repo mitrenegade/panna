@@ -34,7 +34,7 @@ class EventsViewController: UIViewController {
         navigationItem.title = "Events"
         
         let addButton = UIButton(type: .custom)
-        addButton.setImage(UIImage.init(named: "plusIcon30"), for: .normal)
+        addButton.setImage(UIImage.init(named: "plusIcon30")?.withRenderingMode(.alwaysTemplate), for: .normal)
         addButton.addTarget(self, action: #selector(self.didClickAddEvent(sender:)), for: .touchUpInside)
         addButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)

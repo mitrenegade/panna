@@ -128,10 +128,10 @@ class EventCell: UITableViewCell {
                     self.btnAction.isEnabled = true
                 }
             }
-            self.labelAttendance.text = "\(self.event!.numPlayers) Attending"
+            self.labelAttendance.text = "\(self.event!.numPlayers)"
         } else {
             self.labelFull.isHidden = true
-            self.labelAttendance.text = "\(self.event!.numPlayers) Attended"
+            self.labelAttendance.text = "\(self.event!.numPlayers)"
             
             if !event.userIsOrganizer && SettingsService.donation() {
                 self.btnAction.isHidden = false
