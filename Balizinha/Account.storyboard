@@ -23,7 +23,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="YBa-Ex-hff">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.2419034243" green="0.32027676700000002" blue="0.3954539299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.87472492459999995" green="0.86275166270000003" blue="0.86250168090000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="Ynq-rI-nwr">
                             <rect key="frame" x="0.0" y="248" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -44,6 +44,7 @@
                                         </label>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g6g-nF-lZr">
                                             <rect key="frame" x="310" y="6" width="51" height="31"/>
+                                            <color key="onTintColor" red="0.46363681550000002" green="0.57266062500000003" blue="0.51082777980000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
                                                 <action selector="didToggleSwitch:" destination="1eS-7Y-Cuz" eventType="valueChanged" id="j2e-F0-mbB"/>
                                             </connections>
@@ -56,6 +57,7 @@
                                         <constraint firstItem="I6S-Wk-lwd" firstAttribute="leading" secondItem="oq1-H4-0UG" secondAttribute="leading" constant="16" id="vR8-fA-8hc"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.87472492459999995" green="0.86275166270000003" blue="0.86250168090000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="labelText" destination="I6S-Wk-lwd" id="4fO-JW-fYf"/>
                                     <outlet property="switchToggle" destination="g6g-nF-lZr" id="4CQ-lB-GmD"/>
@@ -76,6 +78,7 @@
                                         </label>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ug4-cm-tQG">
                                             <rect key="frame" x="310" y="6" width="51" height="31"/>
+                                            <color key="onTintColor" red="0.46363681550000002" green="0.57266062500000003" blue="0.51082777980000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
                                                 <action selector="didToggleSwitch:" destination="nr7-aX-oQl" eventType="valueChanged" id="iy4-fo-3qf"/>
                                             </connections>
@@ -88,6 +91,7 @@
                                         <constraint firstItem="ug4-cm-tQG" firstAttribute="centerY" secondItem="74D-Di-2Ro" secondAttribute="centerY" id="x52-Zd-GsJ"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.87472492459999995" green="0.86275166270000003" blue="0.86250168090000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="labelText" destination="Dkw-kP-Sd4" id="BER-xq-sBq"/>
                                     <outlet property="switchToggle" destination="ug4-cm-tQG" id="On6-kU-399"/>
@@ -114,6 +118,7 @@
                                         <constraint firstItem="Snw-DS-ruP" firstAttribute="leading" secondItem="gcP-VD-B2f" secondAttribute="leading" constant="8" id="nye-0d-xOu"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.87472492459999995" green="0.86275166270000003" blue="0.86250168090000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PromoCell" textLabel="NYf-OO-ObY" detailTextLabel="wKb-Gy-EgU" style="IBUITableViewCellStyleSubtitle" id="Zjg-yP-sYs" customClass="PromoCell" customModule="Balizinha" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="160" width="375" height="44"/>
@@ -138,6 +143,7 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.87472492459999995" green="0.86275166270000003" blue="0.86250168090000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PaymentCell" textLabel="Iey-NC-mYg" style="IBUITableViewCellStyleDefault" id="bsq-zW-VGY" customClass="PaymentCell" customModule="Balizinha" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="204" width="375" height="44"/>
@@ -155,6 +161,7 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.87472492459999995" green="0.86275166270000003" blue="0.86250168090000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -162,7 +169,7 @@
                             <outlet property="delegate" destination="KcH-jg-K0W" id="blx-Xl-fg0"/>
                         </connections>
                     </tableView>
-                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="8Id-M2-SrH"/>
                     <connections>
                         <segue destination="awv-Cv-vYB" kind="presentation" identifier="ToEditPlayerInfo" id="8iU-BJ-CHm"/>
