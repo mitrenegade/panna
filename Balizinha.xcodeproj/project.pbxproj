@@ -127,6 +127,7 @@
 		8EE5B3241E7C17F100BC72A5 /* CameraOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EE5B3221E7C17F100BC72A5 /* CameraOverlayViewController.xib */; };
 		8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */; };
 		8EE5B3281E7F365200BC72A5 /* PlayerIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */; };
+		8EE94E471FF93DB700129EC2 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE94E461FF93DB700129EC2 /* Launch.storyboard */; };
 		8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
 		8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */; };
 		9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */; };
@@ -253,6 +254,7 @@
 		8EE5B3221E7C17F100BC72A5 /* CameraOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraOverlayViewController.xib; sourceTree = "<group>"; };
 		8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizerViewController.swift; sourceTree = "<group>"; };
 		8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerIcon.swift; sourceTree = "<group>"; };
+		8EE94E461FF93DB700129EC2 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
 		A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.release.xcconfig"; sourceTree = "<group>"; };
 		AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -389,6 +391,7 @@
 		8E379F0D1CE593C300C91A12 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				8EE94E461FF93DB700129EC2 /* Launch.storyboard */,
 				8ECD58E01CDF853500AD2B13 /* Splash.storyboard */,
 				8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */,
 				8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */,
@@ -684,6 +687,7 @@
 				8E7398081FF921E500D48BA0 /* Montserrat-MediumItalic.ttf in Resources */,
 				8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */,
 				8EC7992F1E3636A0004ACC52 /* EventDetails.storyboard in Resources */,
+				8EE94E471FF93DB700129EC2 /* Launch.storyboard in Resources */,
 				8EC7992B1E3635A0004ACC52 /* Events.storyboard in Resources */,
 				8EE5B3241E7C17F100BC72A5 /* CameraOverlayViewController.xib in Resources */,
 				8E63160B1F5D9A60005CF114 /* GoogleService-Info-dev.plist in Resources */,
