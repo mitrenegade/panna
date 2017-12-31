@@ -46,6 +46,7 @@ extension UIColor {
     static let darkBlue = UIColor(red: 37.0/255.0, green: 51.0/255.0, blue: 62.0/255.0, alpha: 1)
     static let mediumBlue = UIColor(red: 62.0/255.0, green: 82.0/255.0, blue: 101.0/255.0, alpha: 1)
     static let lightBlue = UIColor(red: 152.0/255.0, green: 170.0/255.0, blue: 188.0/255.0, alpha: 1)
+    static let offWhite = UIColor(red: 217.0/255.0, green: 214.0/255.0, blue: 214.0/255.0, alpha: 1)
 }
 
 extension UIFont {
