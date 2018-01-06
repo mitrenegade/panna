@@ -107,8 +107,7 @@ class SplashViewController: UIViewController {
         // notifications
         if #available(iOS 10.0, *) {
             NotificationService.shared.registerForRemoteNotifications()
-        } else {
-            // Fallback on earlier versions
+            NotificationService.shared.toggleUserReceivesNotifications(true)
         }
     }
     
@@ -119,6 +118,9 @@ class SplashViewController: UIViewController {
         }
         
         clearUserDefaults()
+        if #available(iOS 10.0, *) {
+            NotificationService.shared.toggleUserReceivesNotifications(false)
+        }
         
         if SettingsService.showPreview {
             self.goToPreview()

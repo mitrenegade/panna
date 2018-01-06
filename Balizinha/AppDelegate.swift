@@ -110,7 +110,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Push
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         // let Messaging delegate handle token storage
-        print("PUSH: didRegisterForRemoteNotificationsWithDeviceToken called...shouldn't")
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
