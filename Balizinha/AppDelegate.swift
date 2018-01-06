@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let STRIPE_KEY = TESTING ? STRIPE_KEY_DEV : STRIPE_KEY_PROD
         STPPaymentConfiguration.shared().publishableKey = STRIPE_KEY
         
-        self.listenFor(NotificationType.LoginSuccess, action: #selector(logPlayerLogin), object: nil)
+        listenFor(NotificationType.LoginSuccess, action: #selector(logPlayerLogin), object: nil)
 
         let _ = SettingsService.shared
 
@@ -190,9 +190,6 @@ extension AppDelegate {
             return
         }
         observable.take(1).subscribe(onNext: { (player) in
-//            LoggingService.shared.log(event: "testWriteRemoteData", info: nil)
-//            RemoteDataService.shared.post(userId: player.id, message: "testing")
-            
             // checks for stripe customer
             StripeService().checkForStripeCustomer(player)
         }, onError: { (error) in
@@ -201,6 +198,6 @@ extension AppDelegate {
             print("completed")
         }, onDisposed: {
             print("disposed")
-        }).addDisposableTo(disposeBag)
+        }).disposed(by: disposeBag)
     }
 }

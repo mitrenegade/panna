@@ -13,7 +13,6 @@ import Crashlytics
 
 class SplashViewController: UIViewController {
     var handle: AuthStateDidChangeListenerHandle?
-    var loaded = false
     let disposeBag = DisposeBag()
     static var shared: SplashViewController?
 
@@ -29,24 +28,25 @@ class SplashViewController: UIViewController {
             SplashViewController.shared = self
             return
         }
-        
-        SettingsService.shared.observedSettings?.take(1).subscribe({[weak self]_ in
+
+        // start listening for user once settingsService returns. only do this once
+        SettingsService.shared.observedSettings?.take(1).subscribe(onNext: {[weak self]_ in
             self?.listenForUser()
-        }).addDisposableTo(self.disposeBag)
+        }).disposed(by: self.disposeBag)
         
         SplashViewController.shared = self
+
+        print("LoginLogout: listening for LoginSuccess")
+        listenFor(.LoginSuccess, action: #selector(didLogin), object: nil)
+        listenFor(.LogoutSuccess, action: #selector(didLogout), object: nil)
     }
     
     func listenForUser() {
+        print("LoginLogout: start listening for user")
         self.handle = firAuth.addStateDidChangeListener({ (auth, user) in
-            if self.loaded {
-                return
-            }
-            
-            print("auth: \(auth) user: \(user) current \(firAuth.currentUser)")
+            print("LoginLogout: auth state changed: \(auth) user: \(user) current \(firAuth.currentUser)")
             if let user = user, !user.isAnonymous {
-                // user is logged in
-                self.goToMain()
+                self.alreadyLoggedIn() // app started already logged in
 
                 // pull user data from facebook
                 // must be done after playerRef is created
@@ -71,16 +71,13 @@ class SplashViewController: UIViewController {
             }
             
             if self.handle != nil {
+                print("LoginLogout: removing state listener")
                 firAuth.removeStateDidChangeListener(self.handle!)
-                self.loaded = true
                 self.handle = nil
             }
             
             // TODO: firebase does not remove user on deletion of app
         })
-
-        listenFor(.LoginSuccess, action: #selector(didLogin), object: nil)
-        listenFor(.LogoutSuccess, action: #selector(didLogout), object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -93,32 +90,54 @@ class SplashViewController: UIViewController {
         stopListeningFor(.LogoutSuccess)
     }
     
+    func alreadyLoggedIn() {
+        // user is logged in
+        notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
+    }
+    
     @objc func didLogin() {
-        print("logged in")
+        print("LoginLogout: didLogin")
         if let user = PlayerService.shared.current {
             let userId = user.id
             Crashlytics.sharedInstance().setUserIdentifier(userId)
         }
         
-        self.stopListeningFor(.LoginSuccess)
         self.goToMain()
     }
     
     @objc func didLogout() {
-        print("logged out")
-        self.stopListeningFor(.LogoutSuccess)
+        print("LoginLogout: didLogout")
         if #available(iOS 10.0, *) {
             NotificationService.shared.clearAllNotifications()
         }
         
-        UserDefaults.standard.set(nil, forKey: "shouldFilterNearbyEvents")
-        UserDefaults.standard.set(false, forKey: "locationPermissionDeniedWarningShown")
+        clearUserDefaults()
+        
         if SettingsService.showPreview {
             self.goToPreview()
         }
         else {
             self.goToSignupLogin()
         }
+    }
+    
+    fileprivate func clearUserDefaults() {
+        UserDefaults.standard.set(nil, forKey: "shouldFilterNearbyEvents")
+        UserDefaults.standard.set(false, forKey: "locationPermissionDeniedWarningShown")
+        UserDefaults.standard.set(false, forKey: kNotificationsDefaultsKey)
+        
+        // create event cached values
+        UserDefaults.standard.set(nil, forKey: "organizerCachedName")
+        UserDefaults.standard.set(nil, forKey: "organizerCachedPlace")
+        UserDefaults.standard.set(nil, forKey: "organizerCachedCity")
+        UserDefaults.standard.set(nil, forKey: "organizerCachedState")
+        UserDefaults.standard.set(nil, forKey: "organizerCachedLat")
+        UserDefaults.standard.set(nil, forKey: "organizerCachedLon")
+
+        UserDefaults.standard.set(false, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
+
+        // don't reset showedTutorial
+        //UserDefaults.standard.set(true, forKey: "showedTutorial")
     }
     
     fileprivate var _homeViewController: UITabBarController?
@@ -149,8 +168,6 @@ class SplashViewController: UIViewController {
             })
         }
 
-        self.listenFor(NotificationType.LogoutSuccess, action: #selector(SplashViewController.didLogout), object: nil)
-        
         if SettingsService.donation() {
             self.listenFor(NotificationType.GoToDonationForEvent, action: #selector(goToCalendar(_:)), object: nil)
         }
@@ -160,7 +177,6 @@ class SplashViewController: UIViewController {
         let _ = PlayerService.shared.current // invoke listener
         let _ = OrganizerService.shared.current // trigger organizer loading
         let _ = PromotionService.shared
-        SettingsService.shared.observedSettings?.take(1) // start observing, do nothing with the result
     }
     
     func goToSignupLogin() {
@@ -175,8 +191,6 @@ class SplashViewController: UIViewController {
         } else {
             present(homeViewController, animated: true, completion: nil)
         }
-        
-        self.listenFor(NotificationType.LoginSuccess, action: #selector(SplashViewController.didLogin), object: nil)
     }
     
     @objc func goToCalendar(_ notification: Notification) {
@@ -226,8 +240,6 @@ class SplashViewController: UIViewController {
         } else {
             present(nav, animated: true, completion: nil)
         }
-
-        self.listenFor(NotificationType.LoginSuccess, action: #selector(SplashViewController.didLogin), object: nil)
     }
     
     fileprivate func testStuffOnLogin() {

@@ -78,7 +78,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 }
             }
             else {
-                print("results: \(String(describing: user))")
+                print("LoginLogout: LoginSuccess from email, results: \(String(describing: user))")
                 // do not store userInfo on login. should be created on signup.
                 //self.storeUserInfo(user!)
                 
@@ -109,7 +109,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                             self?.simpleAlert("Email already in use", message: "There is already an account with the email associated with your Facebook account. Please log in using the email option.")
                         }
                     } else {
-                        print("Logged in! \(String(describing: user))")
+                        print("LoginLogout: LoginSuccess from facebook, results: \(String(describing: user))")
                         guard let user = user else { return }
                         // store user data
                         self?.storeUserInfo(user)
