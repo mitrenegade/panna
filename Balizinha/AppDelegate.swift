@@ -43,13 +43,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Fabric.sharedSDK().debug = true
         Fabric.with([Crashlytics.self])
 
-        // notifications
-        if #available(iOS 10.0, *) {
-            NotificationService.shared.registerForRemoteNotifications()
-        } else {
-            // Fallback on earlier versions
-        }
-        
         // Background fetch
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
@@ -104,6 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Push
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         // let Messaging delegate handle token storage
+        print("PUSH: didRegisterForRemoteNotificationsWithDeviceToken called...shouldn't")
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

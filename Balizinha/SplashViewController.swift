@@ -103,6 +103,13 @@ class SplashViewController: UIViewController {
         }
         
         self.goToMain()
+        
+        // notifications
+        if #available(iOS 10.0, *) {
+            NotificationService.shared.registerForRemoteNotifications()
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     @objc func didLogout() {
