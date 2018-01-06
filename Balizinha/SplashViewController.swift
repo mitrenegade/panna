@@ -29,12 +29,16 @@ class SplashViewController: UIViewController {
             SplashViewController.shared = self
             return
         }
-        
+
+        // start listening for user once settingsService returns. only do this once
         SettingsService.shared.observedSettings?.take(1).subscribe({[weak self]_ in
             self?.listenForUser()
-        }).addDisposableTo(self.disposeBag)
+        }).disposed(by: self.disposeBag)
         
         SplashViewController.shared = self
+
+        listenFor(.LoginSuccess, action: #selector(didLogin), object: nil)
+        listenFor(.LogoutSuccess, action: #selector(didLogout), object: nil)
     }
     
     func listenForUser() {
@@ -45,8 +49,7 @@ class SplashViewController: UIViewController {
             
             print("auth: \(auth) user: \(user) current \(firAuth.currentUser)")
             if let user = user, !user.isAnonymous {
-                // user is logged in
-                self.goToMain()
+                self.alreadyLoggedIn() // app started already logged in
 
                 // pull user data from facebook
                 // must be done after playerRef is created
@@ -78,9 +81,6 @@ class SplashViewController: UIViewController {
             
             // TODO: firebase does not remove user on deletion of app
         })
-
-        listenFor(.LoginSuccess, action: #selector(didLogin), object: nil)
-        listenFor(.LogoutSuccess, action: #selector(didLogout), object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -91,6 +91,11 @@ class SplashViewController: UIViewController {
     deinit {
         stopListeningFor(.LoginSuccess)
         stopListeningFor(.LogoutSuccess)
+    }
+    
+    func alreadyLoggedIn() {
+        // user is logged in
+            notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
     }
     
     @objc func didLogin() {
