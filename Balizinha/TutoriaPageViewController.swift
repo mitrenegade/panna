@@ -13,20 +13,13 @@ class TutoriaPageViewController: UIViewController {
     @IBOutlet weak var labelSubtitle: UILabel!
     @IBOutlet weak var imageView: UIImageView!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        imageView.layer.cornerRadius = imageView.frame.size.width / 2
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         imageView.layer.cornerRadius = imageView.frame.size.width / 2
     }
 }
