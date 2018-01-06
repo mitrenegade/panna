@@ -107,7 +107,6 @@ class SplashViewController: UIViewController {
         // notifications
         if #available(iOS 10.0, *) {
             NotificationService.shared.registerForRemoteNotifications()
-            NotificationService.shared.toggleUserReceivesNotifications(true)
         }
     }
     
