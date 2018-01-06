@@ -177,7 +177,6 @@ class SplashViewController: UIViewController {
         let _ = PlayerService.shared.current // invoke listener
         let _ = OrganizerService.shared.current // trigger organizer loading
         let _ = PromotionService.shared
-        SettingsService.shared.observedSettings?.take(1) // start observing, do nothing with the result
     }
     
     func goToSignupLogin() {

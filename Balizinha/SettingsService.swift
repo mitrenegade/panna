@@ -25,17 +25,18 @@ class SettingsService: NSObject {
     
     // observable
     var observedSettings: Observable<Any>? {
+        print("Settings: created observedSettings")
         return Observable.create({ (observer) -> Disposable in
             self.remoteConfig.setDefaults(SettingsService.defaults as? [String : NSObject])
             self.remoteConfig.fetch(completionHandler: { (status, error) in
                 self.remoteConfig.activateFetched()
-                print("featureAvailable donation \(SettingsService.donation())")
-                print("featureAvailable paymentRequired \(SettingsService.paymentRequired())")
-                print("featureAvailable organizerPaymentRequired \(SettingsService.organizerPaymentRequired())")
-                print("featureAvailable organizerTrialAvailable \(SettingsService.organizerTrialAvailable())")
-                print("paymentLocation \(SettingsService.shared.featureExperiment("paymentLocation")) testGroup \(SettingsService.paymentLocationTestGroup())")
-                print("featureAvailable maps \(SettingsService.usesMaps)")
-                print("showPreview \(SettingsService.shared.featureExperiment("showPreview")) testGroup \(SettingsService.showPreviewTestGroup())")
+                print("Settings: * featureAvailable donation \(SettingsService.donation())")
+                print("Settings: * featureAvailable paymentRequired \(SettingsService.paymentRequired())")
+                print("Settings: * featureAvailable organizerPaymentRequired \(SettingsService.organizerPaymentRequired())")
+                print("Settings: * featureAvailable organizerTrialAvailable \(SettingsService.organizerTrialAvailable())")
+                print("Settings: * paymentLocation \(SettingsService.shared.featureExperiment("paymentLocation")) testGroup \(SettingsService.paymentLocationTestGroup())")
+                print("Settings: * featureAvailable maps \(SettingsService.usesMaps)")
+                print("Settings: * showPreview \(SettingsService.shared.featureExperiment("showPreview")) testGroup \(SettingsService.showPreviewTestGroup())")
                 self.recordExperimentGroups()
                 observer.onNext("done")
             })
