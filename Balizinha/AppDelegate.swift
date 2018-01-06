@@ -72,9 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             // Fallback on earlier versions
         }
-        
 
-        
         UINavigationBar.appearance().backgroundColor = UIColor.mediumBlue
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().tintColor = UIColor.white
