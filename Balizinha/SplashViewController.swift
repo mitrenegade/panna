@@ -111,14 +111,33 @@ class SplashViewController: UIViewController {
             NotificationService.shared.clearAllNotifications()
         }
         
-        UserDefaults.standard.set(nil, forKey: "shouldFilterNearbyEvents")
-        UserDefaults.standard.set(false, forKey: "locationPermissionDeniedWarningShown")
+        clearUserDefaults()
+        
         if SettingsService.showPreview {
             self.goToPreview()
         }
         else {
             self.goToSignupLogin()
         }
+    }
+    
+    fileprivate func clearUserDefaults() {
+        UserDefaults.standard.set(nil, forKey: "shouldFilterNearbyEvents")
+        UserDefaults.standard.set(false, forKey: "locationPermissionDeniedWarningShown")
+        UserDefaults.standard.set(false, forKey: kNotificationsDefaultsKey)
+        
+        // create event cached values
+        UserDefaults.standard.set(nil, forKey: "organizerCachedName")
+        UserDefaults.standard.set(nil, forKey: "organizerCachedPlace")
+        UserDefaults.standard.set(nil, forKey: "organizerCachedCity")
+        UserDefaults.standard.set(nil, forKey: "organizerCachedState")
+        UserDefaults.standard.set(nil, forKey: "organizerCachedLat")
+        UserDefaults.standard.set(nil, forKey: "organizerCachedLon")
+
+        UserDefaults.standard.set(false, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
+
+        // don't reset showedTutorial
+        //UserDefaults.standard.set(true, forKey: "showedTutorial")
     }
     
     fileprivate var _homeViewController: UITabBarController?
