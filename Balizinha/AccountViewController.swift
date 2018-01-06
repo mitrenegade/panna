@@ -153,6 +153,7 @@ class AccountViewController: UITableViewController {
     }
     
     private func logout() {
+        print("LoginLogout: logout called, trying firAuth.signout")
         try! firAuth.signOut()
         EventService.resetOnLogout() // force new listeners
         PlayerService.resetOnLogout()

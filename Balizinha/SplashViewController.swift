@@ -31,23 +31,25 @@ class SplashViewController: UIViewController {
         }
 
         // start listening for user once settingsService returns. only do this once
-        SettingsService.shared.observedSettings?.take(1).subscribe({[weak self]_ in
+        SettingsService.shared.observedSettings?.take(1).subscribe(onNext: {[weak self]_ in
             self?.listenForUser()
         }).disposed(by: self.disposeBag)
         
         SplashViewController.shared = self
 
+        print("LoginLogout: listening for .LoginSuccess")
         listenFor(.LoginSuccess, action: #selector(didLogin), object: nil)
         listenFor(.LogoutSuccess, action: #selector(didLogout), object: nil)
     }
     
     func listenForUser() {
+        print("LoginLogout: start listening for user")
         self.handle = firAuth.addStateDidChangeListener({ (auth, user) in
             if self.loaded {
                 return
             }
             
-            print("auth: \(auth) user: \(user) current \(firAuth.currentUser)")
+            print("LoginLogout: auth state changed: \(auth) user: \(user) current \(firAuth.currentUser)")
             if let user = user, !user.isAnonymous {
                 self.alreadyLoggedIn() // app started already logged in
 
@@ -74,6 +76,7 @@ class SplashViewController: UIViewController {
             }
             
             if self.handle != nil {
+                print("LoginLogout: removing state listener")
                 firAuth.removeStateDidChangeListener(self.handle!)
                 self.loaded = true
                 self.handle = nil
@@ -99,19 +102,17 @@ class SplashViewController: UIViewController {
     }
     
     @objc func didLogin() {
-        print("logged in")
+        print("LoginLogout: didLogin")
         if let user = PlayerService.shared.current {
             let userId = user.id
             Crashlytics.sharedInstance().setUserIdentifier(userId)
         }
         
-        self.stopListeningFor(.LoginSuccess)
         self.goToMain()
     }
     
     @objc func didLogout() {
-        print("logged out")
-        self.stopListeningFor(.LogoutSuccess)
+        print("LoginLogout: didLogout")
         if #available(iOS 10.0, *) {
             NotificationService.shared.clearAllNotifications()
         }
@@ -154,8 +155,6 @@ class SplashViewController: UIViewController {
             })
         }
 
-        self.listenFor(NotificationType.LogoutSuccess, action: #selector(SplashViewController.didLogout), object: nil)
-        
         if SettingsService.donation() {
             self.listenFor(NotificationType.GoToDonationForEvent, action: #selector(goToCalendar(_:)), object: nil)
         }
@@ -180,8 +179,6 @@ class SplashViewController: UIViewController {
         } else {
             present(homeViewController, animated: true, completion: nil)
         }
-        
-        self.listenFor(NotificationType.LoginSuccess, action: #selector(SplashViewController.didLogin), object: nil)
     }
     
     @objc func goToCalendar(_ notification: Notification) {
@@ -231,8 +228,6 @@ class SplashViewController: UIViewController {
         } else {
             present(nav, animated: true, completion: nil)
         }
-
-        self.listenFor(NotificationType.LoginSuccess, action: #selector(SplashViewController.didLogin), object: nil)
     }
     
     fileprivate func testStuffOnLogin() {
