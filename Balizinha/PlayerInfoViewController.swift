@@ -110,7 +110,8 @@ class PlayerInfoViewController: UIViewController {
                 return
             }
             
-            self.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
+            print("LoginLogout: LoginSuccess from sign up")
+            notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
             return
         }
         

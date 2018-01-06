@@ -13,7 +13,6 @@ import Crashlytics
 
 class SplashViewController: UIViewController {
     var handle: AuthStateDidChangeListenerHandle?
-    var loaded = false
     let disposeBag = DisposeBag()
     static var shared: SplashViewController?
 
@@ -37,7 +36,7 @@ class SplashViewController: UIViewController {
         
         SplashViewController.shared = self
 
-        print("LoginLogout: listening for .LoginSuccess")
+        print("LoginLogout: listening for LoginSuccess")
         listenFor(.LoginSuccess, action: #selector(didLogin), object: nil)
         listenFor(.LogoutSuccess, action: #selector(didLogout), object: nil)
     }
@@ -45,10 +44,6 @@ class SplashViewController: UIViewController {
     func listenForUser() {
         print("LoginLogout: start listening for user")
         self.handle = firAuth.addStateDidChangeListener({ (auth, user) in
-            if self.loaded {
-                return
-            }
-            
             print("LoginLogout: auth state changed: \(auth) user: \(user) current \(firAuth.currentUser)")
             if let user = user, !user.isAnonymous {
                 self.alreadyLoggedIn() // app started already logged in
@@ -78,7 +73,6 @@ class SplashViewController: UIViewController {
             if self.handle != nil {
                 print("LoginLogout: removing state listener")
                 firAuth.removeStateDidChangeListener(self.handle!)
-                self.loaded = true
                 self.handle = nil
             }
             
@@ -98,7 +92,7 @@ class SplashViewController: UIViewController {
     
     func alreadyLoggedIn() {
         // user is logged in
-            notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
+        notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
     }
     
     @objc func didLogin() {
