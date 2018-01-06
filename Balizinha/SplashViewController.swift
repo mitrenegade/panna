@@ -28,6 +28,13 @@ class SplashViewController: UIViewController {
             SplashViewController.shared = self
             return
         }
+        
+        if UserDefaults.standard.value(forKey: "appFirstTimeOpened") == nil {
+            //if app is first time opened, make sure no auth exists in keychain from previously deleted app
+            UserDefaults.standard.setValue(true, forKey: "appFirstTimeOpened")
+            // signOut from FIRAuth
+            try! firAuth.signOut()
+        }
 
         // start listening for user once settingsService returns. only do this once
         SettingsService.shared.observedSettings?.take(1).subscribe(onNext: {[weak self]_ in
@@ -103,6 +110,11 @@ class SplashViewController: UIViewController {
         }
         
         self.goToMain()
+        
+        // notifications
+        if #available(iOS 10.0, *) {
+            NotificationService.shared.registerForRemoteNotifications()
+        }
     }
     
     @objc func didLogout() {
@@ -112,6 +124,9 @@ class SplashViewController: UIViewController {
         }
         
         clearUserDefaults()
+        if #available(iOS 10.0, *) {
+            NotificationService.shared.toggleUserReceivesNotifications(false)
+        }
         
         if SettingsService.showPreview {
             self.goToPreview()

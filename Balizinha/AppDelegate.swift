@@ -43,13 +43,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Fabric.sharedSDK().debug = true
         Fabric.with([Crashlytics.self])
 
-        // notifications
-        if #available(iOS 10.0, *) {
-            NotificationService.shared.registerForRemoteNotifications()
-        } else {
-            // Fallback on earlier versions
-        }
-        
         // Background fetch
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
@@ -69,6 +62,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UIFont.printAvailableFonts()
         }
         
+        // push delegates - must be done before app finishes launching
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = NotificationService.shared
+            
+            // Messaging service delegate - for data messages
+            Messaging.messaging().delegate = NotificationService.shared
+        } else {
+            // Fallback on earlier versions
+        }
+
         UINavigationBar.appearance().backgroundColor = UIColor.mediumBlue
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().tintColor = UIColor.white

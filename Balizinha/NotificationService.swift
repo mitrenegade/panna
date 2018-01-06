@@ -144,11 +144,6 @@ class NotificationService: NSObject {
 extension NotificationService {
     func registerForRemoteNotifications() {
         print("PUSH: registering for notifications")
-        // For iOS 10 display notification (sent via APNS)
-        UNUserNotificationCenter.current().delegate = self
-        
-        // Messaging service delegate - for data messages
-        Messaging.messaging().delegate = self
         
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(
@@ -161,6 +156,8 @@ extension NotificationService {
     }
     
     func storeFCMToken(enabled: Bool) {
+        guard !PlayerService.isAnonymous else { return }
+        print("PUSH: calling storeFCMToken...")
         PlayerService.shared.observedPlayer?.asObservable().take(1).subscribe(onNext: { (player) in
             if let fcmToken = InstanceID.instanceID().token(), enabled {
                 print("PUSH: storing FCM token \(fcmToken)")
