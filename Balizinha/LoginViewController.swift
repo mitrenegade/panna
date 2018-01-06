@@ -24,6 +24,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+//        inputEmail.attributedPlaceholder = NSAttributedString(string:"Place holder text in here", attributes:[NSForegroundColorAttributeName: UIColor(red: 153.0/255.5, green: 153.0/255.5, blue: 153.0/255.5, alpha: 0.5)])
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
