@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 
 class Organizer: FirebaseBaseModel {
+    static let nilOrganizer: Organizer = Organizer() // if organizer is nil but needs to be an event in an observable
 
     var paymentSourceId: String? {
         guard let dict = self.dict else { return nil }

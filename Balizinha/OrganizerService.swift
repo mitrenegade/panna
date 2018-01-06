@@ -16,6 +16,7 @@ fileprivate var organizationRef: DatabaseReference?
 
 class OrganizerService: NSObject {
     // MARK: - Singleton
+    let disposeBag = DisposeBag()
     static var shared: OrganizerService {
         if singleton == nil {
             singleton = OrganizerService()
@@ -24,9 +25,7 @@ class OrganizerService: NSObject {
             organizerRef.keepSynced(true)
             
             // start observing and set _currentOrganizer
-            singleton!.observableOrganizer?.take(1).subscribe(onNext: { (organizer) in
-                _currentOrganizer = organizer
-            })
+            singleton!.startListeningForOrganizer()
         }
 
         return singleton!
@@ -51,11 +50,23 @@ class OrganizerService: NSObject {
             newOrganizerRef.observe(.value) { (snapshot: DataSnapshot!) in
                 if snapshot.exists() {
                     observer.onNext(Organizer(snapshot: snapshot))
+                } else {
+                    observer.onNext(Organizer.nilOrganizer)
                 }
             }
             
             return Disposables.create()
         })
+    }
+    
+    func startListeningForOrganizer() {
+        observableOrganizer?.subscribe(onNext: { (organizer) in
+            if organizer == Organizer.nilOrganizer {
+                _currentOrganizer = nil
+            } else {
+                _currentOrganizer = organizer
+            }
+        }).disposed(by: disposeBag)
     }
     
     func createOrganizer(completion: ((Organizer?, NSError?) -> Void)? ) {
