@@ -38,16 +38,16 @@ class ActionCell: UITableViewCell {
     }
     
     func refreshPhoto(url: String?, currentActionId: String) {
-        self.photoView?.layer.cornerRadius = self.photoView?.frame.size.width ?? 0 / 4
-        self.photoView?.clipsToBounds = true
-        self.photoView?.contentMode = .scaleAspectFill
+        guard let photoView = self.photoView else { return }
+        photoView.layer.cornerRadius = photoView.frame.size.width / 4
+        photoView.clipsToBounds = true
+        photoView.contentMode = .scaleAspectFill
         if let url = url, let URL = URL(string: url), self.actionId == currentActionId  {
-            self.photoView?.imageURL = URL
+            photoView.imageURL = URL
         }
         else {
-            self.photoView?.imageURL = nil
-            self.photoView?
-                .image = UIImage(named: "profile-img")
+            photoView.imageURL = nil
+            photoView.image = UIImage(named: "profile-img")
         }
     }
 

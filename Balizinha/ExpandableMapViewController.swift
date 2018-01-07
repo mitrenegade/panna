@@ -11,9 +11,17 @@ import MapKit
 
 class ExpandableMapViewController: UIViewController {
 
-    @IBOutlet var labelLocation: UILabel!
-    @IBOutlet var buttonExpand: UIButton!
-    @IBOutlet var mapView: MKMapView!
+    @IBOutlet weak var labelLocation: UILabel!
+    @IBOutlet weak var buttonExpand: UIButton!
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var constraintLabel: NSLayoutConstraint!
+    @IBOutlet weak var constraintMapHeight: NSLayoutConstraint!
+    
+    var shouldShowMap: Bool = false {
+        didSet {
+            toggleMap(show: shouldShowMap)
+        }
+    }
     
     var event: Event?
     weak var delegate: EventDisplayComponentDelegate?
@@ -21,11 +29,11 @@ class ExpandableMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.buttonExpand.isEnabled = false
+        buttonExpand.isEnabled = false
     
         let text: String
         if let place = event?.place, let locationString = event?.locationString {
-            text = "\(place), \(locationString)"
+            text = "\(place)\n\(locationString)"
         }
         else if let place = event?.place {
             text = "\(place)"
@@ -33,19 +41,27 @@ class ExpandableMapViewController: UIViewController {
         else {
             text = event?.locationString ?? "Location TBA"
         }
-        self.labelLocation.text = text
+        
+        let string = NSMutableAttributedString(string:text, attributes:[NSAttributedStringKey.font: UIFont.montserratMedium(size: 15)])
+        if let locationString = event?.locationString {
+            let range = (text as NSString).range(of: locationString)
+            string.addAttributes([NSAttributedStringKey.font : UIFont.montserrat(size: 14)], range: range)
+        }
+        labelLocation.attributedText = string
     }
 
     @IBAction func didClickButtonExpand(_ sender: Any?) {
-        print("none")
+        shouldShowMap = !shouldShowMap
     }
     
-    func toggleMap(show: Bool) {
+    fileprivate func toggleMap(show: Bool) {
         if show {
-            self.delegate?.componentHeightChanged(controller: self, newHeight: 80)
+            constraintMapHeight.constant = 200
+            self.delegate?.componentHeightChanged(controller: self, newHeight: buttonExpand.frame.size.height + constraintMapHeight.constant)
         }
         else {
-            self.delegate?.componentHeightChanged(controller: self, newHeight: 35)
+            constraintMapHeight.constant = 0
+            self.delegate?.componentHeightChanged(controller: self, newHeight: buttonExpand.frame.size.height)
         }
     }
 }

@@ -15,6 +15,10 @@ protocol EventDisplayComponentDelegate: class {
 }
 
 class EventDisplayViewController: UIViewController {
+    
+    @IBOutlet weak var buttonClose: UIButton!
+    @IBOutlet weak var buttonShare: UIButton!
+    @IBOutlet weak var imageShare: UIImageView!
 
     @IBOutlet var labelType: UILabel!
     @IBOutlet var labelDate: UILabel!
@@ -29,12 +33,15 @@ class EventDisplayViewController: UIViewController {
     
     @IBOutlet var constraintWidth: NSLayoutConstraint!
     @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
+    @IBOutlet weak var constraintReserveHeight: NSLayoutConstraint!
+    @IBOutlet weak var constraintDetailHeight: NSLayoutConstraint!
     @IBOutlet var constraintPlayersHeight: NSLayoutConstraint!
     @IBOutlet var constraintPaymentHeight: NSLayoutConstraint!
     @IBOutlet var constraintActivityHeight: NSLayoutConstraint!
     @IBOutlet var constraintInputBottomOffset: NSLayoutConstraint!
     @IBOutlet var constraintInputHeight: NSLayoutConstraint!
     @IBOutlet var constraintSpacerHeight: NSLayoutConstraint!
+    @IBOutlet weak var constraintScrollBottomOffset: NSLayoutConstraint!
     
     var organizerController: OrganizerViewController!
     var locationController: ExpandableMapViewController!
@@ -50,27 +57,28 @@ class EventDisplayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(self.close))
-       
+        self.navigationController?.isNavigationBarHidden = true
+
         // Setup event details
         self.view.bringSubview(toFront: labelType.superview!)
         let name = self.event?.name ?? "Balizinha"
         let type = self.event?.type.rawValue ?? ""
-        self.labelType.text = "\(name) (\(type))"
+        self.labelType.text = "\(name)\n\(type)"
         
         if let startTime = self.event?.startTime {
-            self.labelDate.text = "\(self.event?.dateString(startTime) ?? ""), \(self.event?.timeString(startTime) ?? "")"
+            self.labelDate.text = "\(self.event?.dateString(startTime) ?? "")\n\(self.event?.timeString(startTime) ?? "")"
         }
         else {
             self.labelDate.text = "Start TBD"
         }
         
-        self.navigationItem.title = self.event?.type.rawValue ?? ""
-        
-        if self.event?.info == "" {
-            self.labelInfo.text = "No further event information at this time."
-        }else {
-            self.labelInfo.text = "Description: \(self.event?.info ?? "")"
+        if let infoText = self.event?.info, infoText.count > 0 {
+            self.labelInfo.text = infoText
+            let size = (infoText as NSString).size(withAttributes: [NSAttributedStringKey.font: labelInfo.font])
+            constraintDetailHeight.constant = size.height
+        } else {
+            self.labelInfo.text = nil
+            constraintDetailHeight.constant = 0
         }
         
         /*
@@ -115,7 +123,7 @@ class EventDisplayViewController: UIViewController {
         self.constraintWidth.constant = UIScreen.main.bounds.size.width
         
         // hide map
-        self.locationController.toggleMap(show: false)
+        self.locationController.shouldShowMap = false
         
         // keyboard
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -138,14 +146,22 @@ class EventDisplayViewController: UIViewController {
         }
         
         if let event = event, let currentUser = firAuth.currentUser, event.containsUser(currentUser) {
-            let button = UIButton(type: .custom)
-            button.addTarget(self, action: #selector(promptForShare), for: .touchUpInside)
-            button.setImage(UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            button.widthAnchor.constraint(equalToConstant: 25).isActive = true
-            button.heightAnchor.constraint(equalToConstant: 30).isActive = true
-            let rightBarButtonItem = UIBarButtonItem(customView: button)
-            navigationItem.rightBarButtonItems = [rightBarButtonItem]
+            imageShare.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
+        } else {
+            imageShare.isHidden = true
+            buttonShare.isHidden = true
         }
+        
+        // reserve spot. TODO: enable this
+        constraintReserveHeight.constant = 0
+    }
+    
+    @IBAction func didClickClose(_ sender: Any?) {
+        close()
+    }
+    
+    @IBAction func didClickShare(_ sender: Any?) {
+        promptForShare()
     }
 
     @objc func close() {
@@ -184,6 +200,7 @@ class EventDisplayViewController: UIViewController {
     func hideChat() {
         self.constraintInputHeight.constant = 0
         self.constraintSpacerHeight.constant = 0
+        self.constraintScrollBottomOffset.constant = 0
     }
     
     func promptForShare() {
