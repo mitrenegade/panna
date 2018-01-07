@@ -71,7 +71,7 @@ class EventDisplayViewController: UIViewController {
             self.labelDate.text = "Start TBD"
         }
         
-        if let infoText = self.event?.info {
+        if let infoText = self.event?.info, infoText.count > 0 {
             self.labelInfo.text = infoText
             let size = (infoText as NSString).size(withAttributes: [NSAttributedStringKey.font: labelInfo.font])
             constraintDetailHeight.constant = size.height
