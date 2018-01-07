@@ -17,6 +17,7 @@ class MapViewController: EventsViewController {
     
     // MARK: MapView
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var constraintMapHeightRatio: NSLayoutConstraint!
     
     var tutorialController: TutorialViewController?
     var tutorialView: UIView?
@@ -67,6 +68,17 @@ class MapViewController: EventsViewController {
         super.reloadData()
         for event in allEvents {
             addAnnotation(for: event)
+        }
+        
+        if allEvents.isEmpty || allEvents.count == 1 {
+            let navBarHeight: CGFloat = 64
+            let cellHeight: CGFloat = 100
+            // leave only 1 cell height on. the ratio is 3/7 of the frame height to start
+            constraintMapHeightRatio.constant = (self.view.frame.size.height * 4.0 / 7.0) - navBarHeight - cellHeight
+            tableView.isScrollEnabled = false
+        } else {
+            constraintMapHeightRatio.constant = 0
+            tableView.isScrollEnabled = true
         }
     }
     
