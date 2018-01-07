@@ -140,7 +140,7 @@ class EventsViewController: UIViewController {
         tableView.reloadData()
     }
     
-    @objc func didClickAddEvent(sender: Any) {
+    @objc func didClickAddEvent(sender: Any?) {
         if let _ = OrganizerService.shared.current {
             // create event
             performSegue(withIdentifier: "toCreateEvent", sender: nil)
