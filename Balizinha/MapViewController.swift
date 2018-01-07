@@ -17,7 +17,7 @@ class MapViewController: EventsViewController {
     
     // MARK: MapView
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var constraintMapHeightRatio: NSLayoutConstraint!
+    @IBOutlet weak var constraintTableHeight: NSLayoutConstraint!
     
     var tutorialController: TutorialViewController?
     var tutorialView: UIView?
@@ -70,14 +70,13 @@ class MapViewController: EventsViewController {
             addAnnotation(for: event)
         }
         
+        let cellHeight: CGFloat = 100
         if allEvents.isEmpty || allEvents.count == 1 {
-            let navBarHeight: CGFloat = 64
-            let cellHeight: CGFloat = 100
             // leave only 1 cell height on. the ratio is 3/7 of the frame height to start
-            constraintMapHeightRatio.constant = (self.view.frame.size.height * 4.0 / 7.0) - navBarHeight - cellHeight
+            constraintTableHeight.constant = cellHeight
             tableView.isScrollEnabled = false
         } else {
-            constraintMapHeightRatio.constant = 0
+            constraintTableHeight.constant = cellHeight * 2.5
             tableView.isScrollEnabled = true
         }
     }
@@ -236,11 +235,18 @@ extension MapViewController {
         case 0:
             if filteredEventIds.isEmpty && allEvents.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "NoEventsCell", for: indexPath)
-                if LocationService.shared.shouldFilterNearbyEvents {
+                if PlayerService.isAnonymous {
+                    if SettingsService.showPreview {
+                        // showing preview
+                        cell.textLabel?.text = "There are currently no events near you. Sign up to organize a game!"
+                    } else {
+                        cell.textLabel?.text = "There are currently no events."
+                    }
+                } else if LocationService.shared.shouldFilterNearbyEvents {
                     cell.textLabel?.text = "There are currently no events near you."
                 } else {
                     if OrganizerService.shared.current != nil {
-                        cell.textLabel?.text = "There are currently no events. Click the plus button to start one."
+                        cell.textLabel?.text = "There are currently no events. Click the plus button to organize a game."
                     } else {
                         cell.textLabel?.text = "There are currently no events."
                     }
@@ -280,6 +286,14 @@ extension MapViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.section {
         case 0:
+            if PlayerService.isAnonymous {
+                if SettingsService.showPreview {
+                    // signup
+                    didClickProfile(nil)
+                }
+            } else {
+                didClickAddEvent(sender: nil)
+            }
             return
         case 1:
             if featuredEvent.shouldShow {
@@ -352,7 +366,7 @@ extension MapViewController {
     }
     
     // signup
-    @objc func didClickProfile(_ sender: Any) {
+    @objc func didClickProfile(_ sender: Any?) {
         print("Create profile")
         SplashViewController.shared?.goToSignupLogin()
         LoggingService.shared.log(event: LoggingEvent.PreviewSignupClicked, info: nil)
