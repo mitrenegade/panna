@@ -41,6 +41,7 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet var constraintInputBottomOffset: NSLayoutConstraint!
     @IBOutlet var constraintInputHeight: NSLayoutConstraint!
     @IBOutlet var constraintSpacerHeight: NSLayoutConstraint!
+    @IBOutlet weak var constraintScrollBottomOffset: NSLayoutConstraint!
     
     var organizerController: OrganizerViewController!
     var locationController: ExpandableMapViewController!
@@ -199,6 +200,7 @@ class EventDisplayViewController: UIViewController {
     func hideChat() {
         self.constraintInputHeight.constant = 0
         self.constraintSpacerHeight.constant = 0
+        self.constraintScrollBottomOffset.constant = 0
     }
     
     func promptForShare() {
