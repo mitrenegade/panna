@@ -115,7 +115,7 @@ class EventDisplayViewController: UIViewController {
         self.constraintWidth.constant = UIScreen.main.bounds.size.width
         
         // hide map
-        self.locationController.toggleMap(show: false)
+        self.locationController.shouldShowMap = false
         
         // keyboard
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
