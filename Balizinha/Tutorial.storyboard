@@ -191,7 +191,7 @@
                                         <rect key="frame" x="62" y="108" width="250" height="250"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="mVV-OA-jKU" secondAttribute="height" id="FSz-FJ-3UT"/>
+                                            <constraint firstAttribute="width" secondItem="mVV-OA-jKU" secondAttribute="height" multiplier="1:1" id="FSz-FJ-3UT"/>
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="wgV-FS-Fhz"/>
                                         </constraints>
                                     </imageView>
@@ -221,6 +221,7 @@
                         <viewLayoutGuide key="safeArea" id="8z1-Tp-4gh"/>
                     </view>
                     <connections>
+                        <outlet property="containerView" destination="EFg-Gh-PGP" id="wu2-rc-5Dh"/>
                         <outlet property="imageView" destination="mVV-OA-jKU" id="tXP-0t-x2k"/>
                         <outlet property="labelSubtitle" destination="5LE-mS-OAK" id="TsR-L1-QHK"/>
                         <outlet property="labelTitle" destination="t7W-4i-sJp" id="faB-ok-MId"/>
@@ -293,6 +294,7 @@
                         <viewLayoutGuide key="safeArea" id="xkZ-IB-EcG"/>
                     </view>
                     <connections>
+                        <outlet property="containerView" destination="AH9-AM-lXh" id="yaT-Uq-Ato"/>
                         <outlet property="imageView" destination="eEd-P9-7wO" id="Hq4-hL-Cpo"/>
                         <outlet property="labelSubtitle" destination="Xxb-I9-wrz" id="wOG-Pw-l1c"/>
                         <outlet property="labelTitle" destination="4Nj-DS-hDv" id="RRD-31-i1R"/>
@@ -365,6 +367,7 @@
                         <viewLayoutGuide key="safeArea" id="55F-2Q-m2R"/>
                     </view>
                     <connections>
+                        <outlet property="containerView" destination="IEj-l7-ceY" id="pIh-zH-Iky"/>
                         <outlet property="imageView" destination="mAe-BU-e2T" id="uQ3-2X-sQF"/>
                         <outlet property="labelSubtitle" destination="rsc-6m-r0c" id="vEI-qn-szl"/>
                         <outlet property="labelTitle" destination="zIa-46-Jap" id="f13-9v-qB0"/>
