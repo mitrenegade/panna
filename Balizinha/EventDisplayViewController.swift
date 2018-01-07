@@ -33,6 +33,7 @@ class EventDisplayViewController: UIViewController {
     
     @IBOutlet var constraintWidth: NSLayoutConstraint!
     @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
+    @IBOutlet weak var constraintReserveHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintDetailHeight: NSLayoutConstraint!
     @IBOutlet var constraintPlayersHeight: NSLayoutConstraint!
     @IBOutlet var constraintPaymentHeight: NSLayoutConstraint!
@@ -149,6 +150,9 @@ class EventDisplayViewController: UIViewController {
             imageShare.isHidden = true
             buttonShare.isHidden = true
         }
+        
+        // reserve spot. TODO: enable this
+        constraintReserveHeight.constant = 0
     }
     
     @IBAction func didClickClose(_ sender: Any?) {

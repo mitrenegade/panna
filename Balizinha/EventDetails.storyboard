@@ -67,6 +67,16 @@ Type</string>
                                         <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <size key="shadowOffset" width="1" height="1"/>
                                     </label>
+                                    <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XKL-LP-hIz" userLabel="Container View - location and map">
+                                        <rect key="frame" x="0.0" y="290" width="375" height="66"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="66" id="eVB-nQ-1Rw"/>
+                                        </constraints>
+                                        <connections>
+                                            <segue destination="heN-tZ-ESE" kind="embed" identifier="EmbedLocation" id="v2I-Ol-ZXP"/>
+                                        </connections>
+                                    </containerView>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y7x-2l-MZf" userLabel="detailView">
                                         <rect key="frame" x="0.0" y="412" width="375" height="100"/>
                                         <subviews>
@@ -86,6 +96,15 @@ Type</string>
                                             <constraint firstAttribute="height" constant="100" id="z9e-Ib-r5f"/>
                                         </constraints>
                                     </view>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nBh-qV-Eg0" userLabel="Container View - organizer">
+                                        <rect key="frame" x="0.0" y="512" width="375" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="86n-tI-D7g"/>
+                                        </constraints>
+                                        <connections>
+                                            <segue destination="z1j-ZZ-quw" kind="embed" identifier="EmbedOrganizer" id="3At-1D-E4N"/>
+                                        </connections>
+                                    </containerView>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AFl-cT-9PU" userLabel="Container View - attendees">
                                         <rect key="frame" x="0.0" y="562" width="375" height="80"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -115,15 +134,6 @@ Type</string>
                                             <segue destination="iuG-3b-Gq9" kind="embed" identifier="EmbedActivity" id="K6q-oN-di0"/>
                                         </connections>
                                     </containerView>
-                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nBh-qV-Eg0" userLabel="Container View - organizer">
-                                        <rect key="frame" x="0.0" y="512" width="375" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="86n-tI-D7g"/>
-                                        </constraints>
-                                        <connections>
-                                            <segue destination="z1j-ZZ-quw" kind="embed" identifier="EmbedOrganizer" id="3At-1D-E4N"/>
-                                        </connections>
-                                    </containerView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bhl-nn-68t" userLabel="View - spacer for chat">
                                         <rect key="frame" x="0.0" y="882" width="375" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -131,22 +141,32 @@ Type</string>
                                             <constraint firstAttribute="height" constant="50" id="UvV-ic-Vba"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ls4-8L-qBB">
-                                        <rect key="frame" x="8" y="364" width="359" height="40"/>
-                                        <color key="backgroundColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tGR-pq-uhO" userLabel="View - reserve spot">
+                                        <rect key="frame" x="0.0" y="356" width="375" height="56"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ls4-8L-qBB">
+                                                <rect key="frame" x="8" y="8" width="359" height="40"/>
+                                                <color key="backgroundColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="17"/>
+                                                <state key="normal" title="Reserve a spot">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="5"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="hpS-ME-RCq"/>
+                                            <constraint firstAttribute="trailing" secondItem="ls4-8L-qBB" secondAttribute="trailing" constant="8" id="81f-6r-gPQ"/>
+                                            <constraint firstAttribute="height" constant="56" id="E7Q-sJ-OXh"/>
+                                            <constraint firstItem="ls4-8L-qBB" firstAttribute="leading" secondItem="tGR-pq-uhO" secondAttribute="leading" constant="8" id="PP3-kP-Kda"/>
+                                            <constraint firstAttribute="bottom" secondItem="ls4-8L-qBB" secondAttribute="bottom" constant="8" id="YUP-d3-zQt"/>
+                                            <constraint firstItem="ls4-8L-qBB" firstAttribute="top" secondItem="tGR-pq-uhO" secondAttribute="top" constant="8" id="pBW-cx-Cvc"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="17"/>
-                                        <state key="normal" title="Reserve a spot">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="5"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </button>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6ey-OM-ElB" userLabel="View - nav bar">
                                         <rect key="frame" x="0.0" y="250" width="375" height="40"/>
                                         <subviews>
@@ -196,16 +216,6 @@ Type</string>
                                             <constraint firstAttribute="bottom" secondItem="es6-Zc-zYz" secondAttribute="bottom" constant="5" id="ySt-tU-0un"/>
                                         </constraints>
                                     </view>
-                                    <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XKL-LP-hIz" userLabel="Container View - location and map">
-                                        <rect key="frame" x="0.0" y="290" width="375" height="66"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="66" id="eVB-nQ-1Rw"/>
-                                        </constraints>
-                                        <connections>
-                                            <segue destination="heN-tZ-ESE" kind="embed" identifier="EmbedLocation" id="v2I-Ol-ZXP"/>
-                                        </connections>
-                                    </containerView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -213,13 +223,14 @@ Type</string>
                                     <constraint firstItem="Bhl-nn-68t" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="0Hx-Lt-nrr"/>
                                     <constraint firstAttribute="trailing" secondItem="rfV-G2-Hlb" secondAttribute="trailing" constant="16" id="2Kg-xc-3zn"/>
                                     <constraint firstAttribute="trailing" secondItem="do0-We-LXv" secondAttribute="trailing" id="30S-ig-rF4"/>
-                                    <constraint firstItem="ls4-8L-qBB" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" constant="8" id="4tl-yi-cel"/>
                                     <constraint firstItem="nBh-qV-Eg0" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="6cO-pg-Kd1"/>
                                     <constraint firstItem="nBh-qV-Eg0" firstAttribute="top" secondItem="y7x-2l-MZf" secondAttribute="bottom" id="A3B-oP-Naa"/>
                                     <constraint firstAttribute="trailing" secondItem="XKL-LP-hIz" secondAttribute="trailing" id="C15-BC-5Wt"/>
                                     <constraint firstItem="AFl-cT-9PU" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="D04-j9-jss"/>
+                                    <constraint firstItem="tGR-pq-uhO" firstAttribute="top" secondItem="XKL-LP-hIz" secondAttribute="bottom" id="Fcq-Aq-CDC"/>
                                     <constraint firstItem="y7x-2l-MZf" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="G17-hQ-TVJ"/>
                                     <constraint firstAttribute="trailing" secondItem="nBh-qV-Eg0" secondAttribute="trailing" id="Gfh-ly-b4Z"/>
+                                    <constraint firstAttribute="trailing" secondItem="tGR-pq-uhO" secondAttribute="trailing" id="Hzk-7g-Tfl"/>
                                     <constraint firstItem="nNh-T3-3nB" firstAttribute="top" secondItem="AFl-cT-9PU" secondAttribute="bottom" id="ICa-HW-rM9"/>
                                     <constraint firstItem="XKL-LP-hIz" firstAttribute="top" secondItem="6ey-OM-ElB" secondAttribute="bottom" id="IO3-LH-WWR"/>
                                     <constraint firstAttribute="trailing" secondItem="AFl-cT-9PU" secondAttribute="trailing" id="Iwf-fN-m9b"/>
@@ -239,19 +250,17 @@ Type</string>
                                     <constraint firstAttribute="trailing" secondItem="nBh-qV-Eg0" secondAttribute="trailing" id="ZBm-cj-3OY"/>
                                     <constraint firstItem="AFl-cT-9PU" firstAttribute="top" secondItem="nBh-qV-Eg0" secondAttribute="bottom" id="ZyN-1A-G2x"/>
                                     <constraint firstAttribute="bottom" secondItem="Bhl-nn-68t" secondAttribute="bottom" constant="-42" id="aaG-Ox-gCE"/>
-                                    <constraint firstItem="y7x-2l-MZf" firstAttribute="top" secondItem="ls4-8L-qBB" secondAttribute="bottom" constant="8" id="ayc-sN-APp"/>
                                     <constraint firstItem="nNh-T3-3nB" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="azC-QS-B1H"/>
                                     <constraint firstAttribute="trailing" secondItem="Bhl-nn-68t" secondAttribute="trailing" id="ddB-h5-Nb8"/>
-                                    <constraint firstItem="XKL-LP-hIz" firstAttribute="top" secondItem="E75-s4-H12" secondAttribute="bottom" constant="40" id="dqo-5q-8ZW"/>
-                                    <constraint firstAttribute="trailing" secondItem="ls4-8L-qBB" secondAttribute="trailing" constant="8" id="gpI-AU-hpS"/>
+                                    <constraint firstItem="tGR-pq-uhO" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="fqR-pw-bBe"/>
                                     <constraint firstItem="XKL-LP-hIz" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="i5y-vo-KB5"/>
                                     <constraint firstItem="Bhl-nn-68t" firstAttribute="top" secondItem="do0-We-LXv" secondAttribute="bottom" id="lPz-hu-Ik3"/>
+                                    <constraint firstItem="y7x-2l-MZf" firstAttribute="top" secondItem="tGR-pq-uhO" secondAttribute="bottom" id="mvZ-NM-0Nc"/>
                                     <constraint firstItem="nBh-qV-Eg0" firstAttribute="top" secondItem="y7x-2l-MZf" secondAttribute="bottom" id="nxM-gM-lv1"/>
                                     <constraint firstItem="6ey-OM-ElB" firstAttribute="top" secondItem="E75-s4-H12" secondAttribute="bottom" id="oh7-hE-4Xm"/>
                                     <constraint firstItem="0hR-vD-Xwe" firstAttribute="bottom" secondItem="E75-s4-H12" secondAttribute="bottom" constant="-16" id="pFf-xk-fUl"/>
                                     <constraint firstAttribute="trailing" secondItem="nNh-T3-3nB" secondAttribute="trailing" id="r3E-vB-vuB"/>
                                     <constraint firstItem="6ey-OM-ElB" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="uEW-O9-l6v"/>
-                                    <constraint firstItem="ls4-8L-qBB" firstAttribute="top" secondItem="XKL-LP-hIz" secondAttribute="bottom" constant="8" id="wKe-Ay-u6L"/>
                                     <constraint firstItem="do0-We-LXv" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="wcv-7b-wk9"/>
                                     <constraint firstItem="0hR-vD-Xwe" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" constant="16" id="wuO-MS-uMu"/>
                                     <constraint firstItem="do0-We-LXv" firstAttribute="top" secondItem="nNh-T3-3nB" secondAttribute="bottom" id="ymG-fp-jnd"/>
@@ -295,6 +304,7 @@ Type</string>
                         <outlet property="constraintLocationHeight" destination="eVB-nQ-1Rw" id="seM-6w-e4z"/>
                         <outlet property="constraintPaymentHeight" destination="j2B-AI-8En" id="i9t-TF-odf"/>
                         <outlet property="constraintPlayersHeight" destination="03K-Lp-YdI" id="Itn-a4-TNj"/>
+                        <outlet property="constraintReserveHeight" destination="E7Q-sJ-OXh" id="Ls8-rt-E6k"/>
                         <outlet property="constraintSpacerHeight" destination="UvV-ic-Vba" id="Uwh-X9-Xvt"/>
                         <outlet property="constraintWidth" destination="bxi-Tm-Ce3" id="fTJ-fs-yZN"/>
                         <outlet property="imageShare" destination="m28-12-C4h" id="HPl-2N-Poi"/>
@@ -384,7 +394,7 @@ City, State</string>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pbc-lD-oOA">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
-                                <color key="backgroundColor" red="0.83921568629999999" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.63972192999999999" green="0.70638650660000002" blue="0.67304807899999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="375" id="OVz-fs-bnc"/>
                                     <constraint firstAttribute="height" constant="80" id="dTZ-Tj-LSJ"/>
@@ -628,7 +638,7 @@ City, State</string>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.83921568629999999" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="Bdt-7B-jhF" secondAttribute="bottom" constant="10" id="9iQ-lj-pb1"/>
                             <constraint firstItem="Bdt-7B-jhF" firstAttribute="leading" secondItem="Dy8-Pi-Cln" secondAttribute="leading" constant="8" id="Ig8-fD-GYn"/>
