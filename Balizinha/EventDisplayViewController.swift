@@ -81,36 +81,6 @@ class EventDisplayViewController: UIViewController {
             constraintDetailHeight.constant = 0
         }
         
-        /*
-        self.labelNumAttending.text = "\(self.event.numPlayers) attending"
-        
-        if self.event.isFull{
-            self.labelSpotsAvailable.text = "Event full!"
-        } else {
-            let spots = self.event.maxPlayers - self.event.numPlayers
-            if spots == 1{
-                self.labelSpotsAvailable.text = "\(spots) spot available"
-            } else {
-                self.labelSpotsAvailable.text = "\(spots) spots available"
-            }
-        }
-        
-        //Setup buttons
-        self.btnShare.layer.cornerRadius = 4
-        self.btnJoin.layer.cornerRadius = 4
-        
-        if event.userIsOrganizer {
-            self.btnJoin.setTitle("Edit", for: .normal)
-        }
-        else if alreadyJoined {
-            self.btnJoin.setTitle("Leave", for: UIControlState())
-            self.btnJoin.backgroundColor = leaveColor
-        }
-        else if self.event.isFull{
-            self.btnJoin.isEnabled = false
-        }
-        */
-
         //Sport image
         if let url = event?.photoUrl, let URL = URL(string: url) {
             self.sportImageView.imageURL = URL

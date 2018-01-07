@@ -10,16 +10,13 @@ import UIKit
 import Foundation
 import Firebase
 
-let leaveColor = UIColor(red: 253/256.0, green: 172/256.0, blue: 146/256.0, alpha: 1.0)
-let joinColor = UIColor(red: 28/256.0, green: 71/256.0, blue: 131/256.0, alpha: 1.0)
-
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 enum UserSettings: String {
     case DisplayedJoinEventMessage
 }
 
-var TESTING = true
+var TESTING = false
 var AIRPLANE_MODE = false
 
 let STRIPE_KEY_DEV = "pk_test_YYNWvzYJi3bTyOJi2SNK3IkE"
