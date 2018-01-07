@@ -15,6 +15,10 @@ protocol EventDisplayComponentDelegate: class {
 }
 
 class EventDisplayViewController: UIViewController {
+    
+    @IBOutlet weak var buttonClose: UIButton!
+    @IBOutlet weak var buttonShare: UIButton!
+    @IBOutlet weak var imageShare: UIImageView!
 
     @IBOutlet var labelType: UILabel!
     @IBOutlet var labelDate: UILabel!
@@ -51,8 +55,8 @@ class EventDisplayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(self.close))
-       
+        self.navigationController?.isNavigationBarHidden = true
+
         // Setup event details
         self.view.bringSubview(toFront: labelType.superview!)
         let name = self.event?.name ?? "Balizinha"
@@ -65,8 +69,6 @@ class EventDisplayViewController: UIViewController {
         else {
             self.labelDate.text = "Start TBD"
         }
-        
-        self.navigationItem.title = self.event?.type.rawValue ?? ""
         
         if let infoText = self.event?.info {
             self.labelInfo.text = infoText
@@ -142,14 +144,19 @@ class EventDisplayViewController: UIViewController {
         }
         
         if let event = event, let currentUser = firAuth.currentUser, event.containsUser(currentUser) {
-            let button = UIButton(type: .custom)
-            button.addTarget(self, action: #selector(promptForShare), for: .touchUpInside)
-            button.setImage(UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            button.widthAnchor.constraint(equalToConstant: 25).isActive = true
-            button.heightAnchor.constraint(equalToConstant: 30).isActive = true
-            let rightBarButtonItem = UIBarButtonItem(customView: button)
-            navigationItem.rightBarButtonItems = [rightBarButtonItem]
+            imageShare.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
+        } else {
+            imageShare.isHidden = true
+            buttonShare.isHidden = true
         }
+    }
+    
+    @IBAction func didClickClose(_ sender: Any?) {
+        close()
+    }
+    
+    @IBAction func didClickShare(_ sender: Any?) {
+        promptForShare()
     }
 
     @objc func close() {
