@@ -27,7 +27,8 @@ class EventsViewController: UIViewController {
     
     let disposeBag = DisposeBag()
     var recentLocation: CLLocation?
-    
+    var firstLoaded: Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -86,6 +87,7 @@ class EventsViewController: UIViewController {
     @objc func refreshEvents() {
         service.getEvents(type: nil) { [weak self] (results) in
             // completion function will get called once at the start, and each time events change
+            self?.firstLoaded = true
             
             // 1: sort all events by time
             guard let strongself = self else { return }
