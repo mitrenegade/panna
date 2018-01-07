@@ -140,7 +140,7 @@ class EventDisplayViewController: UIViewController {
         if let event = event, let currentUser = firAuth.currentUser, event.containsUser(currentUser) {
             let button = UIButton(type: .custom)
             button.addTarget(self, action: #selector(promptForShare), for: .touchUpInside)
-            button.setImage(UIImage(named: "share_icon"), for: .normal)
+            button.setImage(UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate), for: .normal)
             button.widthAnchor.constraint(equalToConstant: 25).isActive = true
             button.heightAnchor.constraint(equalToConstant: 30).isActive = true
             let rightBarButtonItem = UIBarButtonItem(customView: button)
