@@ -56,10 +56,10 @@ class EventDisplayViewController: UIViewController {
         self.view.bringSubview(toFront: labelType.superview!)
         let name = self.event?.name ?? "Balizinha"
         let type = self.event?.type.rawValue ?? ""
-        self.labelType.text = "\(name) (\(type))"
+        self.labelType.text = "\(name)\n\(type)"
         
         if let startTime = self.event?.startTime {
-            self.labelDate.text = "\(self.event?.dateString(startTime) ?? ""), \(self.event?.timeString(startTime) ?? "")"
+            self.labelDate.text = "\(self.event?.dateString(startTime) ?? "")\n\(self.event?.timeString(startTime) ?? "")"
         }
         else {
             self.labelDate.text = "Start TBD"
