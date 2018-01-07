@@ -29,6 +29,7 @@ class EventDisplayViewController: UIViewController {
     
     @IBOutlet var constraintWidth: NSLayoutConstraint!
     @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
+    @IBOutlet weak var constraintDetailHeight: NSLayoutConstraint!
     @IBOutlet var constraintPlayersHeight: NSLayoutConstraint!
     @IBOutlet var constraintPaymentHeight: NSLayoutConstraint!
     @IBOutlet var constraintActivityHeight: NSLayoutConstraint!
@@ -67,10 +68,13 @@ class EventDisplayViewController: UIViewController {
         
         self.navigationItem.title = self.event?.type.rawValue ?? ""
         
-        if self.event?.info == "" {
-            self.labelInfo.text = "No further event information at this time."
-        }else {
-            self.labelInfo.text = "Description: \(self.event?.info ?? "")"
+        if let infoText = self.event?.info {
+            self.labelInfo.text = infoText
+            let size = (infoText as NSString).size(withAttributes: [NSAttributedStringKey.font: labelInfo.font])
+            constraintDetailHeight.constant = size.height
+        } else {
+            self.labelInfo.text = nil
+            constraintDetailHeight.constant = 0
         }
         
         /*
