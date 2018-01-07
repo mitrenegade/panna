@@ -74,7 +74,7 @@ class EventDisplayViewController: UIViewController {
         
         if let infoText = self.event?.info, infoText.count > 0 {
             self.labelInfo.text = infoText
-            let size = (infoText as NSString).size(withAttributes: [NSAttributedStringKey.font: labelInfo.font])
+            let size = (infoText as NSString).boundingRect(with: CGSize(width: labelInfo.frame.size.width, height: view.frame.size.height), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: labelInfo.font], context: nil)
             constraintDetailHeight.constant = size.height
         } else {
             self.labelInfo.text = nil
