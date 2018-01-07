@@ -116,7 +116,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="Pe5-QW-oGv"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
@@ -160,7 +160,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="6BD-ct-pbl"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
@@ -199,7 +199,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="160" id="J7L-Ju-iH7"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
                                             </subviews>
@@ -578,7 +578,7 @@
                                                         <constraint firstAttribute="width" constant="60" id="Zar-Ie-ZQa"/>
                                                         <constraint firstAttribute="height" constant="33" id="rXJ-EN-con"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
                                                     <state key="normal" title="Join">
                                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>

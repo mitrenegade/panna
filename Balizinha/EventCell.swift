@@ -46,6 +46,13 @@ class EventCellViewModel: NSObject {
             return containsUser ? "Leave" : "Join"
         }
     }
+    
+    var buttonFont: UIFont {
+        guard !PlayerService.isAnonymous else {
+            return UIFont.montserrat(size: 13)
+        }
+        return UIFont.montserrat(size: 16)
+    }
 }
 
 class EventCell: UITableViewCell {
@@ -102,10 +109,15 @@ class EventCell: UITableViewCell {
         } else {
             containsUser = false
         }
-        let title = EventCellViewModel().buttonTitle(eventStatus: (event.isPast, event.userIsOrganizer, containsUser))
-        self.btnAction.setTitle(title, for: .normal)
+        
+        let viewModel = EventCellViewModel()
+        let title = viewModel.buttonTitle(eventStatus: (event.isPast, event.userIsOrganizer, containsUser))
+        btnAction.setTitle(title, for: .normal)
         btnAction.isHidden = false
-        self.btnAction.alpha = 1
+        btnAction.alpha = 1
+
+        let font = viewModel.buttonFont
+        btnAction.titleLabel?.font = font
 
         if !event.isPast {
             // Button display and action

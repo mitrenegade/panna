@@ -57,7 +57,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
    
     var nameField: UITextField?
     var typeField: UITextField?
-    var cityField: UITextField?
     var placeField: UITextField?
     var dayField: UITextField?
     var startField: UITextField?
@@ -85,7 +84,16 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     weak var delegate: CreateEventDelegate?
     var cameraController: CameraOverlayViewController?
     
-    var eventToEdit: Event?
+    var eventToEdit: Event? {
+        didSet {
+            if let city = eventToEdit?.dict["city"] as? String{
+                self.city = city
+            }
+            if let state = eventToEdit?.dict["state"] as? String {
+                self.state = state
+            }
+        }
+    }
     var datesForPicker: [Date] = []
     
     override func viewDidLoad() {
@@ -225,7 +233,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         self.info = self.descriptionTextView?.text ?? eventToEdit?.info
         
         guard let place = self.place else {
-            self.simpleAlert("Invalid selection", message: "Please select a place")
+            self.simpleAlert("Invalid selection", message: "Please select a city")
             return
         }
         guard let city = self.city else {
@@ -277,8 +285,12 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             // event already exists: update/edit info
             dict["name"] = self.name ?? "Balizinha"
             dict["type"] = self.type?.rawValue
-            dict["city"] = city
-            dict["state"] = state
+            if let city = self.city {
+                dict["city"] = city
+            }
+            if let state = self.state {
+                dict["state"] = state
+            }
             dict["place"] = place
             dict["lat"] = lat
             dict["lon"] = lon
@@ -397,18 +409,6 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                         self.placeField?.text = cachedPlace
                     }
                     self.placeField?.isUserInteractionEnabled = false
-                } else if options[indexPath.row] == "City" {
-                    cell.valueTextField.placeholder = "Boston"
-                    self.cityField = cell.valueTextField
-                    if let city = self.eventToEdit?.city {
-                        self.city = city
-                        self.cityField?.text = city
-                    }
-                    else if let cachedCity = self.cachedCity {
-                        self.city = cachedCity
-                        self.cityField?.text = cachedCity
-                    }
-                    self.cityField?.isUserInteractionEnabled = false
                 } else if options[indexPath.row] == "Name" {
                     cell.valueTextField.placeholder = "Balizinha"
                     self.nameField = cell.valueTextField
@@ -577,8 +577,6 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 typePickerView.reloadAllComponents()
             case "Venue":
                 textField = self.placeField
-            case "City":
-                textField = self.cityField
             case "Day":
                 textField = self.dayField
             case "Start Time":
@@ -913,12 +911,10 @@ extension CreateEventViewController: PlaceSelectDelegate {
         }
         
         if let city = city {
-            self.cityField?.text = city
             self.city = city
         }
         
         if let state = state {
-            // none
             self.state = state
         }
         

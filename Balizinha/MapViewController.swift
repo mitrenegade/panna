@@ -29,7 +29,7 @@ class MapViewController: EventsViewController {
             return filteredEventIds.contains(event.id)
         })
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -235,6 +235,11 @@ extension MapViewController {
         case 0:
             if filteredEventIds.isEmpty && allEvents.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "NoEventsCell", for: indexPath)
+                if !firstLoaded {
+                    cell.textLabel?.text = "Loading..."
+                    return cell
+                }
+                
                 if PlayerService.isAnonymous {
                     if SettingsService.showPreview {
                         // showing preview
