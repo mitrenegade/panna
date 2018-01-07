@@ -49,7 +49,7 @@ class TutorialViewController: UIViewController {
         print("tapped")
         delegate?.didTapTutorial()
     }
-    
+
     @IBAction func didClickButton(_ sender: UIButton) {
         if sender == buttonGo {
             guard let viewModel = viewModel else { return }

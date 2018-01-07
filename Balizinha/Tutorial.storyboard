@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -190,14 +191,16 @@
                                         <rect key="frame" x="62" y="108" width="250" height="250"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="250" id="wgV-FS-Fhz"/>
-                                            <constraint firstAttribute="height" constant="250" id="z8K-hx-Psn"/>
+                                            <constraint firstAttribute="width" secondItem="mVV-OA-jKU" secondAttribute="height" multiplier="1:1" id="FSz-FJ-3UT"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="wgV-FS-Fhz"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="mVV-OA-jKU" secondAttribute="bottom" id="IN6-sl-4YI"/>
                                     <constraint firstItem="mVV-OA-jKU" firstAttribute="centerY" secondItem="EFg-Gh-PGP" secondAttribute="centerY" id="Ro0-ie-vRY"/>
+                                    <constraint firstItem="mVV-OA-jKU" firstAttribute="top" relation="greaterThanOrEqual" secondItem="EFg-Gh-PGP" secondAttribute="top" id="f4p-uc-QCN"/>
                                     <constraint firstItem="mVV-OA-jKU" firstAttribute="centerX" secondItem="EFg-Gh-PGP" secondAttribute="centerX" id="iYx-n7-uqd"/>
                                 </constraints>
                             </view>
@@ -218,6 +221,7 @@
                         <viewLayoutGuide key="safeArea" id="8z1-Tp-4gh"/>
                     </view>
                     <connections>
+                        <outlet property="containerView" destination="EFg-Gh-PGP" id="wu2-rc-5Dh"/>
                         <outlet property="imageView" destination="mVV-OA-jKU" id="tXP-0t-x2k"/>
                         <outlet property="labelSubtitle" destination="5LE-mS-OAK" id="TsR-L1-QHK"/>
                         <outlet property="labelTitle" destination="t7W-4i-sJp" id="faB-ok-MId"/>
@@ -260,15 +264,17 @@
                                         <rect key="frame" x="62" y="108" width="250" height="250"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="250" id="GDy-2H-R6j"/>
-                                            <constraint firstAttribute="height" constant="250" id="HrQ-pS-7PE"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="GDy-2H-R6j"/>
+                                            <constraint firstAttribute="width" secondItem="eEd-P9-7wO" secondAttribute="height" multiplier="1:1" id="oFc-Mv-AKn"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="eEd-P9-7wO" firstAttribute="centerY" secondItem="AH9-AM-lXh" secondAttribute="centerY" id="9M1-tB-xkQ"/>
+                                    <constraint firstItem="eEd-P9-7wO" firstAttribute="top" relation="greaterThanOrEqual" secondItem="AH9-AM-lXh" secondAttribute="top" id="RlR-fm-iaM"/>
                                     <constraint firstItem="eEd-P9-7wO" firstAttribute="centerX" secondItem="AH9-AM-lXh" secondAttribute="centerX" id="eKH-eh-Qmf"/>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="eEd-P9-7wO" secondAttribute="bottom" id="jGe-4d-RJV"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -288,6 +294,7 @@
                         <viewLayoutGuide key="safeArea" id="xkZ-IB-EcG"/>
                     </view>
                     <connections>
+                        <outlet property="containerView" destination="AH9-AM-lXh" id="yaT-Uq-Ato"/>
                         <outlet property="imageView" destination="eEd-P9-7wO" id="Hq4-hL-Cpo"/>
                         <outlet property="labelSubtitle" destination="Xxb-I9-wrz" id="wOG-Pw-l1c"/>
                         <outlet property="labelTitle" destination="4Nj-DS-hDv" id="RRD-31-i1R"/>
@@ -330,8 +337,8 @@
                                         <rect key="frame" x="62" y="108" width="250" height="250"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="250" id="3dE-ho-mHF"/>
-                                            <constraint firstAttribute="width" constant="250" id="vm7-Rg-bGl"/>
+                                            <constraint firstAttribute="width" secondItem="mAe-BU-e2T" secondAttribute="height" multiplier="1:1" id="Xm9-GK-UWs"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="vm7-Rg-bGl"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
@@ -339,6 +346,8 @@
                                 <constraints>
                                     <constraint firstItem="mAe-BU-e2T" firstAttribute="centerX" secondItem="IEj-l7-ceY" secondAttribute="centerX" id="0HT-aP-Gz8"/>
                                     <constraint firstItem="mAe-BU-e2T" firstAttribute="centerY" secondItem="IEj-l7-ceY" secondAttribute="centerY" id="D19-hn-qt1"/>
+                                    <constraint firstItem="mAe-BU-e2T" firstAttribute="top" relation="greaterThanOrEqual" secondItem="IEj-l7-ceY" secondAttribute="top" id="FK1-uf-UZy"/>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="mAe-BU-e2T" secondAttribute="bottom" id="zoV-no-4nr"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -358,6 +367,7 @@
                         <viewLayoutGuide key="safeArea" id="55F-2Q-m2R"/>
                     </view>
                     <connections>
+                        <outlet property="containerView" destination="IEj-l7-ceY" id="pIh-zH-Iky"/>
                         <outlet property="imageView" destination="mAe-BU-e2T" id="uQ3-2X-sQF"/>
                         <outlet property="labelSubtitle" destination="rsc-6m-r0c" id="vEI-qn-szl"/>
                         <outlet property="labelTitle" destination="zIa-46-Jap" id="f13-9v-qB0"/>

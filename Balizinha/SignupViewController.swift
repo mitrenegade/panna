@@ -25,6 +25,11 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         super.viewWillAppear(animated)
         
         self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.tintColor = .white
+        self.navigationController?.navigationBar.backgroundColor = .clear
+        self.navigationController?.navigationBar.barStyle = .default
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
     }
 
     override func didReceiveMemoryWarning() {
