@@ -32,9 +32,6 @@ class CalendarViewController: UITableViewController {
         activityIndicator.color = UIColor.red
         
         stripeService.loadPayment(host: nil)
-        
-        self.navigationController?.navigationBar.backgroundColor = UIColor.darkGray
-        tableView.backgroundColor = UIColor.darkGray
     }
 
     deinit {
@@ -103,7 +100,7 @@ extension CalendarViewController {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 30))
-        view.backgroundColor = UIColor.mediumGray
+        view.backgroundColor = UIColor.darkGreen
         let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: 30))
         label.backgroundColor = .clear
         view.addSubview(label)

@@ -495,7 +495,7 @@
                             </mapView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="101" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5l3-8z-tLh">
                                 <rect key="frame" x="0.0" y="567" width="375" height="100"/>
-                                <color key="backgroundColor" red="0.87472492459999995" green="0.86275166270000003" blue="0.86250168090000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="BUD-Sg-mRR"/>
                                 </constraints>
@@ -619,7 +619,7 @@
                                                 <constraint firstItem="fe4-ii-s0i" firstAttribute="centerX" secondItem="i8t-j7-RYK" secondAttribute="centerX" id="paw-gj-a8k"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87472492456436157" green="0.86275166273117065" blue="0.86250168085098267" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="activityIndicator" destination="xWz-Q5-Drq" id="sA2-mB-vQU"/>
                                             <outlet property="btnAction" destination="lST-1o-YD0" id="MqL-lc-m0P"/>
