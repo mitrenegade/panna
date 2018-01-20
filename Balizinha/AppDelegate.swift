@@ -194,8 +194,7 @@ extension AppDelegate {
             return
         }
         observable.take(1).subscribe(onNext: { (player) in
-            // checks for stripe customer
-            StripeService().checkForStripeCustomer(player)
+            print("player found - don't worry about legacy customer")
         }, onError: { (error) in
             print("error \(error)")
         }, onCompleted: { 
