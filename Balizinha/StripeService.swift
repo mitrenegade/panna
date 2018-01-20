@@ -65,7 +65,7 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         
         let ref = firRef.child("stripe_customers").child(player.id).child("customer_id")
         ref.observe(.value, with: { (snapshot) in
-            guard let customerId = snapshot.value as? String else {
+            guard snapshot.exists(), let customerId = snapshot.value as? String else {
                 // old player does not have a stripe customer, must create one
                 print("uh oh")
                 if let player = PlayerService.shared.current {
@@ -85,9 +85,10 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
     
     // for legacy users
     func checkForStripeCustomer(_ player: Player) {
+        guard !PlayerService.isAnonymous else { return }
         let ref = firRef.child("stripe_customers").child(player.id).child("customer_id")
         ref.observe(.value, with: { (snapshot) in
-            guard let customerId = snapshot.value as? String else {
+            guard snapshot.exists(), let customerId = snapshot.value as? String else {
                 // old player does not have a stripe customer, must create one
                 self.createCustomer()
                 return
@@ -139,16 +140,17 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         }
         print("Creating charge for event \(event.id) for \(cents) cents")
         ref.updateChildValues(params)
-        ref.observe(.value) { (snapshot: DataSnapshot) in
-            if let info = snapshot.value as? [String: AnyObject] {
-                if let status = info["status"] as? String, status == "succeeded" {
-                    print("status \(status)")
-                    completion?(true, nil)
-                }
-                else if let error = info["error"] as? String {
-                    completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
-                }
-//                completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": "Unknown status"]))
+        ref.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
+            guard snapshot.exists(), let info = snapshot.value as? [String: AnyObject] else {
+                completion?(false,  NSError(domain: "stripe", code: 0, userInfo: ["error": "Could not save charge for eventId \(event.id) for player \(player.id)"]))
+                return
+            }
+            if let status = info["status"] as? String, status == "succeeded" {
+                print("status \(status)")
+                completion?(true, nil)
+            }
+            else if let error = info["error"] as? String {
+                completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
             }
         }
     }
@@ -172,31 +174,29 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         
         ref.updateChildValues(params)
         ref.observe(.value) { (snapshot: DataSnapshot) in
-            if let info = snapshot.value as? [String: AnyObject] {
-                if let status = info["status"] as? String, status == "active" || status == "trialing"{
-                    print("status \(status)")
-                    completion?(true, nil)
+            guard snapshot.exists(), let info = snapshot.value as? [String: AnyObject] else {
+                completion?(false,  NSError(domain: "stripe", code: 0, userInfo: ["error": "Could not save subscription for organizer \(organizer.id)"]))
+                return
+            }
+            if let status = info["status"] as? String, status == "active" || status == "trialing"{
+                print("status \(status)")
+                completion?(true, nil)
+            }
+            else if let error = info["error"] as? String {
+                let code: Int
+                if error == "This customer has no attached payment source" {
+                    code = 1001
+                } else {
+                    code = 1000
                 }
-                else if let error = info["error"] as? String {
-                    let code: Int
-                    if error == "This customer has no attached payment source" {
-                        code = 1001
-                    } else {
-                        code = 1000
-                    }
-                    var userInfo: [String: Any] = ["error": error]
-                    if let deadline = info["deadline"] as? Double {
-                        userInfo["deadline"] = deadline
-                    }
-                    completion?(false, NSError(domain: "stripe", code: code, userInfo: userInfo))
+                var userInfo: [String: Any] = ["error": error]
+                if let deadline = info["deadline"] as? Double {
+                    userInfo["deadline"] = deadline
                 }
-                else {
-//                    completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": "Unknown status"]))
-                }
+                completion?(false, NSError(domain: "stripe", code: code, userInfo: userInfo))
             }
         }
     }
-
 }
 
 // MARK: - STPPaymentContextDelegate

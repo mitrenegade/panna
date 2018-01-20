@@ -12,8 +12,9 @@ import Firebase
 class PaymentService: NSObject {
     func checkForPayment(for eventId: String, by playerId: String, completion:@escaping ((Bool)->Void)) {
         let ref = firRef.child("charges/events/\(eventId)")
-        ref.observe(.value) { (snapshot: DataSnapshot) in
-            guard let payments = snapshot.value as? [String: [String: Any]] else {
+        print("checking for payment on \(ref)")
+        ref.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
+            guard snapshot.exists(), let payments = snapshot.value as? [String: [String: Any]] else {
                 completion(false)
                 return
             }

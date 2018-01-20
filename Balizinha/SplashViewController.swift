@@ -241,7 +241,7 @@ class SplashViewController: UIViewController {
         guard let homeViewController = UIStoryboard(name: "Events", bundle: nil).instantiateInitialViewController() as? MapViewController else { return }
         
         let nav = UINavigationController(rootViewController: homeViewController)
-        
+
         firAuth.signInAnonymously { (user, error) in
             print("sign in anonymously with result \(user) error \(error)")
         }

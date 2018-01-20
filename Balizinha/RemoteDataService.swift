@@ -34,7 +34,7 @@ class RemoteDataService: NSObject {
         guard let userId = userId else { return }
         guard let ref = loggingRef?.child(userId) else { return }
         ref.queryEqual(toValue: "true", childKey: "unread")
-        ref.observe(.value) { (snapshot: DataSnapshot!) in
+        ref.observe(.value) { (snapshot: DataSnapshot) in
             // this block is called for every result returned
         }
     }
