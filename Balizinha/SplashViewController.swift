@@ -51,7 +51,7 @@ class SplashViewController: UIViewController {
     func listenForUser() {
         print("LoginLogout: start listening for user")
         self.handle = firAuth.addStateDidChangeListener({ (auth, user) in
-            print("LoginLogout: auth state changed: \(auth) user: \(user) current \(firAuth.currentUser)")
+            print("LoginLogout: auth state changed: \(auth) user: \(user) current \(PlayerService.currentUser)")
             if let user = user, !user.isAnonymous {
                 self.alreadyLoggedIn() // app started already logged in
 
@@ -241,19 +241,18 @@ class SplashViewController: UIViewController {
         guard let homeViewController = UIStoryboard(name: "Events", bundle: nil).instantiateInitialViewController() as? MapViewController else { return }
         
         let nav = UINavigationController(rootViewController: homeViewController)
-        
-        firAuth.signInAnonymously { (user, error) in
+
+        firAuth.signInAnonymously {[weak self] (user, error) in
             print("sign in anonymously with result \(user) error \(error)")
-        }
-        
-        if let presented = presentedViewController {
-            guard nav != presented else { return }
-            dismiss(animated: true, completion: {
-                self._homeViewController = nil
-                self.present(nav, animated: true, completion: nil)
-            })
-        } else {
-            present(nav, animated: true, completion: nil)
+            if let presented = self?.presentedViewController {
+                guard nav != presented else { return }
+                self?.dismiss(animated: true, completion: {
+                    self?._homeViewController = nil
+                    self?.present(nav, animated: true, completion: nil)
+                })
+            } else {
+                self?.present(nav, animated: true, completion: nil)
+            }
         }
     }
     

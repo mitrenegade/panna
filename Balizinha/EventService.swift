@@ -20,8 +20,9 @@ class EventService: NSObject {
     private lazy var __once: () = {
             // firRef is the global firebase ref
             let queryRef = firRef.child("eventUsers") // this creates a query on the endpoint lotsports.firebase.com/events/
-            queryRef.observe(.value) { (snapshot: DataSnapshot!) in
+            queryRef.observe(.value) { (snapshot: DataSnapshot) in
                 // this block is called for every result returned
+                guard snapshot.exists() else { return }
                 _usersForEvents = snapshot.value as? [String: AnyObject]
                 
                 NotificationCenter.default.post(name: NotificationType.EventsChanged.name(), object: nil)
@@ -93,8 +94,11 @@ class EventService: NSObject {
         
         // do query
         var handle: UInt = 0
-        handle = eventQueryRef.observe(.value) { (snapshot: DataSnapshot!) in
+        handle = eventQueryRef.observe(.value) { (snapshot: DataSnapshot) in
             // this block is called for every result returned
+            guard snapshot.exists() else {
+                return
+            }
             var results: [Event] = []
             if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
                 for eventDict: DataSnapshot in allObjects {
@@ -118,7 +122,7 @@ class EventService: NSObject {
             return
         }
         
-        guard let user = firAuth.currentUser else { return }
+        guard let user = PlayerService.currentUser else { return }
         
         let eventRef = firRef.child("events") // this references the endpoint lotsports.firebase.com/events/
         let newEventRef = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
@@ -144,11 +148,19 @@ class EventService: NSObject {
                 completion(nil, error)
             } else {
                 ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                    guard snapshot.exists() else {
+                        completion(nil, nil)
+                        return
+                    }
+                    guard let user = PlayerService.currentUser else {
+                        completion(nil, nil)
+                        return
+                    }
                     let event = Event(snapshot: snapshot)
 
                     // TODO: completion blocks for these too
-                    self.addEvent(event: event, toUser: firAuth.currentUser!, join: true)
-                    self.addUser(firAuth.currentUser!, toEvent: event, join: true)
+                    self.addEvent(event: event, toUser: user, join: true)
+                    self.addUser(user, toEvent: event, join: true)
                     
                     // add an action
                     ActionService.post(.createEvent, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
@@ -178,7 +190,7 @@ class EventService: NSObject {
     
     }
     func joinEvent(_ event: Event) {
-        guard let user = firAuth.currentUser else { return }
+        guard let user = PlayerService.currentUser else { return }
         self.addEvent(event: event, toUser: user, join: true)
         self.addUser(user, toEvent: event, join: true)
         
@@ -187,7 +199,7 @@ class EventService: NSObject {
     }
     
     func leaveEvent(_ event: Event) {
-        guard let user = firAuth.currentUser else { return }
+        guard let user = PlayerService.currentUser else { return }
         self.addEvent(event: event, toUser: user, join: false)
         self.addUser(user, toEvent: event, join: false)
 
@@ -249,7 +261,11 @@ class EventService: NSObject {
         
         // do query
         var handle: UInt = 0
-        handle = eventQueryRef.observe(.value) { (snapshot: DataSnapshot!) in
+        handle = eventQueryRef.observe(.value) { (snapshot: DataSnapshot) in
+            guard snapshot.exists() else {
+                completion([])
+                return
+            }
             // this block is called for every result returned
             var results: [String] = []
             if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
@@ -328,7 +344,8 @@ class EventService: NSObject {
         let queryRef = firRef.child("eventUsers").child(event.id) // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // do query
-        queryRef.observe(.value) { (snapshot: DataSnapshot!) in
+        queryRef.observe(.value) { (snapshot: DataSnapshot) in
+            guard snapshot.exists() else { return }
             // this block is called for every result returned
             var results: [String] = []
             if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
@@ -346,7 +363,11 @@ class EventService: NSObject {
     
     func totalAmountPaid(for event: Event, completion: ((Double, Int)->())?) {
         let queryRef = firRef.child("charges/events").child(event.id)
-        queryRef.observe(.value) { (snapshot: DataSnapshot!) in
+        queryRef.observe(.value) { (snapshot: DataSnapshot) in
+            guard snapshot.exists() else {
+                completion?(0, 0)
+                return
+            }
             var total: Double = 0
             var count: Int = 0
             if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
@@ -407,6 +428,10 @@ extension EventService {
         
         let eventRef = firRef.child("events")
         eventRef.child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+            guard snapshot.exists() else {
+                completion(nil)
+                return
+            }
             let event = Event(snapshot: snapshot)
             completion(event)
         })

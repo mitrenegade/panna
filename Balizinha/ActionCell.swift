@@ -21,7 +21,7 @@ class ActionCell: UITableViewCell {
         self.labelText.sizeToFit()
         self.constraintLabelHeight.constant = max(40, self.labelText.frame.size.height)
         
-        guard let userId = action.user else { return }
+        guard let userId = action.userId else { return }
         
         let actionId = action.id
         self.actionId = actionId

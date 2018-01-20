@@ -96,7 +96,7 @@ class EventsViewController: UIViewController {
             }
             
             // 2: Remove events the user has joined
-            guard let user = firAuth.currentUser else { return }
+            guard let user = PlayerService.currentUser else { return }
             self?.service.getEventsForUser(user, completion: {[weak self] (eventIds) in
                 print("all events count \(self?.allEvents.count)")
                 
@@ -358,6 +358,10 @@ extension EventsViewController {
             simpleAlert("Could not make payment", message: "Please update your player profile!")
             return
         }
+        guard joiningEvent != nil else {
+            print("no longer joining event")
+            return
+        }
         activityIndicator.startAnimating()
         PaymentService().checkForPayment(for: event.id, by: current.id) { [weak self] (success) in
             if success {
@@ -455,6 +459,7 @@ extension EventsViewController {
             if success {
                 ActionService.post(.payForEvent, eventId: event.id, message: nil)
                 self?.joinEvent(event)
+                self?.joiningEvent = nil
             }
             else if let error = error as? NSError {
                 var errorMessage = ""

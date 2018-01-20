@@ -129,7 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          */
         guard let title = userInfo["title"] as? String else { return }
         guard let message = userInfo["message"] as? String else { return }
-        guard let sender = userInfo["sender"] as? String, sender != firAuth.currentUser!.uid else {
+        guard let sender = userInfo["sender"] as? String, sender != PlayerService.currentUser?.uid else {
             print("Own message, ignoring")
             return
         }
@@ -194,8 +194,7 @@ extension AppDelegate {
             return
         }
         observable.take(1).subscribe(onNext: { (player) in
-            // checks for stripe customer
-            StripeService().checkForStripeCustomer(player)
+            print("player found - don't worry about legacy customer")
         }, onError: { (error) in
             print("error \(error)")
         }, onCompleted: { 

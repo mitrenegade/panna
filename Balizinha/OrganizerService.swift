@@ -43,11 +43,11 @@ class OrganizerService: NSObject {
     var observableOrganizer: Observable<Organizer>? {
         
         // TODO: how to handle this
-        guard let existingUserId = firAuth.currentUser?.uid else { return nil }
+        guard let existingUserId = PlayerService.currentUser?.uid else { return nil }
         let newOrganizerRef: DatabaseReference = firRef.child("organizers").child(existingUserId)
 
         return Observable.create({ (observer) -> Disposable in
-            newOrganizerRef.observe(.value) { (snapshot: DataSnapshot!) in
+            newOrganizerRef.observe(.value) { (snapshot: DataSnapshot) in
                 if snapshot.exists() {
                     observer.onNext(Organizer(snapshot: snapshot))
                 } else {
@@ -69,9 +69,9 @@ class OrganizerService: NSObject {
         }).disposed(by: disposeBag)
     }
     
-    func createOrganizer(completion: ((Organizer?, NSError?) -> Void)? ) {
+    func createOrganizer(completion: ((Organizer?, Error?) -> Void)? ) {
         
-        guard let user = firAuth.currentUser else { return }
+        guard let user = PlayerService.currentUser else { return }
         guard let current = PlayerService.shared.current else { return }
         let organizerRef = firRef.child("organizers")
         
@@ -79,11 +79,15 @@ class OrganizerService: NSObject {
         let newOrganizerRef: DatabaseReference = organizerRef.child(existingUserId)
         let params: [AnyHashable: Any] = ["createdAt": Date().timeIntervalSince1970, "name": current.name ?? current.email ?? ""]
         newOrganizerRef.setValue(params) { (error, ref) in
-            if let error = error as? NSError {
+            if let error = error {
                 print(error)
                 completion?(nil, error)
             } else {
                 ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                    guard snapshot.exists() else {
+                        completion?(Organizer.nilOrganizer, nil)
+                        return
+                    }
                     let organizer = Organizer(snapshot: snapshot)
                     completion?(organizer, nil)
                 }, withCancel: { (error) in

@@ -23,7 +23,7 @@ class FirebaseBaseModel: NSObject {
     var dict: [String: Any]! // {key1: val1, key2: val2 ...}
     
     init(snapshot: DataSnapshot?) {
-        if let snapshot = snapshot {
+        if let snapshot = snapshot, snapshot.exists() {
             self.firebaseKey = snapshot.key
             self.firebaseRef = snapshot.ref
             self.dict = snapshot.value as? [String: AnyObject]

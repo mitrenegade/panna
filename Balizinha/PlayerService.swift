@@ -37,13 +37,13 @@ class PlayerService: NSObject {
         if AIRPLANE_MODE {
             return false
         }
-        guard let user = firAuth.currentUser else { return true }
+        guard let user = currentUser else { return true }
         return user.isAnonymous
     }
 
     func createPlayer(name: String?, email: String?, city: String?, info: String?, photoUrl: String?, completion:@escaping (Player?, NSError?) -> Void) {
         
-        guard let user = firAuth.currentUser, !user.isAnonymous else { return }
+        guard let user = PlayerService.currentUser, !PlayerService.isAnonymous else { return }
         guard let playersRef = playersRef else { return }
         
         let existingUserId = user.uid
@@ -72,6 +72,10 @@ class PlayerService: NSObject {
                 completion(nil, error)
             } else {
                 ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                    guard snapshot.exists() else {
+                        completion(nil, nil)
+                        return
+                    }
                     let player = Player(snapshot: snapshot)
                     PlayerService.cachedNames[player.id] = player.name
                     completion(player, nil)
@@ -88,6 +92,9 @@ class PlayerService: NSObject {
         playersRef!.keepSynced(true)
     }()
 
+    class var currentUser: User? {
+        return firAuth.currentUser
+    }
     var current: Player? {
         _ = self.__once
         return _currentPlayer
@@ -96,13 +103,16 @@ class PlayerService: NSObject {
     var observedPlayer: Observable<Player>? {
         _ = self.__once
         
-        // TODO: how to handle this
-        guard let existingUserId = firAuth.currentUser?.uid else { return nil }
+        guard let existingUserId = PlayerService.currentUser?.uid else { return nil }
         
         return Observable.create({ (observer) -> Disposable in
             let playerRef: DatabaseReference = playersRef!.child(existingUserId) // FIXME better optional unwrapping. what happens on logout?
             
-            playerRef.observe(.value) { (snapshot: DataSnapshot!) in
+            playerRef.observe(.value) { (snapshot: DataSnapshot) in
+                guard snapshot.exists() else {
+                    print("no player observed")
+                    return
+                }
                 _currentPlayer = Player(snapshot: snapshot)
                 if let player = _currentPlayer {
                     observer.onNext(player)
@@ -116,6 +126,11 @@ class PlayerService: NSObject {
     func withId(id: String, completion: @escaping ((Player?)->Void)) {
         guard let playersRef = playersRef else { return }
         playersRef.child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+            guard snapshot.exists() else {
+                completion(nil)
+                return
+            }
+            
             let player = Player(snapshot: snapshot)
             PlayerService.cachedNames[id] = player.name
             completion(player)

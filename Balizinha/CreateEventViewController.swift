@@ -828,7 +828,8 @@ extension CreateEventViewController: UITextFieldDelegate {
 
     // MARK: Push notifications
     func sendPushForCreatedEvent(_ event: Event) {
-        let userId = firAuth.currentUser!.uid
+        guard let user = PlayerService.currentUser else { return }
+        let userId = user.uid
         let title = "New event created"
         var dateString = ""
         if let startTime = event.startTime {

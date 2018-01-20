@@ -14,10 +14,9 @@ class ActionService: NSObject {
 
     class func post(_ type: ActionType, eventId: String, message: String?) {
         // convenience function to encapsulate player loading and displayName for an action that is relevant to the current player
-        guard let user = firAuth.currentUser else { return }
-        let userId = user.uid
-        PlayerService.shared.withId(id: userId) { (player) in
-            ActionService.post(type, userId: userId, username: player?.name ?? user.displayName, eventId: eventId, message: message)
+        guard let user = PlayerService.currentUser else { return }
+        PlayerService.shared.withId(id: user.uid) { (player) in
+            ActionService.post(type, userId: user.uid, username: player?.name ?? user.displayName, eventId: eventId, message: message)
         }
         
     }
