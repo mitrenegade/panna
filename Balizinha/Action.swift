@@ -35,7 +35,7 @@ class Action: FirebaseBaseModel {
         }
     }
     
-    var user: String? {
+    var userId: String? {
         // if user is nil, then it should be a system message
         get {
             return self.dict["user"] as? String
@@ -112,7 +112,7 @@ extension Action {
     }
     
     var displayString: String {
-        let uid = self.user ?? ""
+        let uid = self.userId ?? ""
         let userString = self.userIsOrganizer ? "You" : (self.username ?? (PlayerService.cachedNames[uid] ?? GENERIC_USERNAME) )
         switch self.type {
         case .chat:
@@ -135,9 +135,9 @@ extension Action {
     
     
     var userIsOrganizer: Bool {
-        guard let owner = self.user else { return false }
-        guard let user = firAuth.currentUser else { return false }
+        guard let owner = self.userId else { return false }
+        guard let currentUserId = PlayerService.currentUser?.uid else { return false }
         
-        return user.uid == owner
+        return currentUserId == owner
     }
 }

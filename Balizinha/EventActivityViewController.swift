@@ -78,7 +78,7 @@ extension EventActivityViewController: UITableViewDataSource {
         let cellIdentifier = action.userIsOrganizer ? "ActionCellUser": "ActionCellOthers"
         
         // make sure action has a name
-        if action.username == nil, let userId = action.user {
+        if action.username == nil, let userId = action.userId {
             // lazily request for next time
             PlayerService.shared.withId(id: userId, completion: { player in
                 if let name = player?.name {

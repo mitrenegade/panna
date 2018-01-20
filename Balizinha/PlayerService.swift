@@ -37,13 +37,13 @@ class PlayerService: NSObject {
         if AIRPLANE_MODE {
             return false
         }
-        guard let user = firAuth.currentUser else { return true }
+        guard let user = currentUser else { return true }
         return user.isAnonymous
     }
 
     func createPlayer(name: String?, email: String?, city: String?, info: String?, photoUrl: String?, completion:@escaping (Player?, NSError?) -> Void) {
         
-        guard let user = firAuth.currentUser, !user.isAnonymous else { return }
+        guard let user = PlayerService.currentUser, !PlayerService.isAnonymous else { return }
         guard let playersRef = playersRef else { return }
         
         let existingUserId = user.uid
@@ -92,6 +92,9 @@ class PlayerService: NSObject {
         playersRef!.keepSynced(true)
     }()
 
+    class var currentUser: User? {
+        return firAuth.currentUser
+    }
     var current: Player? {
         _ = self.__once
         return _currentPlayer
@@ -100,7 +103,7 @@ class PlayerService: NSObject {
     var observedPlayer: Observable<Player>? {
         _ = self.__once
         
-        guard let existingUserId = firAuth.currentUser?.uid else { return nil }
+        guard let existingUserId = PlayerService.currentUser?.uid else { return nil }
         
         return Observable.create({ (observer) -> Disposable in
             let playerRef: DatabaseReference = playersRef!.child(existingUserId) // FIXME better optional unwrapping. what happens on logout?

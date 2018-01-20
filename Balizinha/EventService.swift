@@ -122,7 +122,7 @@ class EventService: NSObject {
             return
         }
         
-        guard let user = firAuth.currentUser else { return }
+        guard let user = PlayerService.currentUser else { return }
         
         let eventRef = firRef.child("events") // this references the endpoint lotsports.firebase.com/events/
         let newEventRef = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
@@ -152,11 +152,15 @@ class EventService: NSObject {
                         completion(nil, nil)
                         return
                     }
+                    guard let user = PlayerService.currentUser else {
+                        completion(nil, nil)
+                        return
+                    }
                     let event = Event(snapshot: snapshot)
 
                     // TODO: completion blocks for these too
-                    self.addEvent(event: event, toUser: firAuth.currentUser!, join: true)
-                    self.addUser(firAuth.currentUser!, toEvent: event, join: true)
+                    self.addEvent(event: event, toUser: user, join: true)
+                    self.addUser(user, toEvent: event, join: true)
                     
                     // add an action
                     ActionService.post(.createEvent, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
@@ -186,7 +190,7 @@ class EventService: NSObject {
     
     }
     func joinEvent(_ event: Event) {
-        guard let user = firAuth.currentUser else { return }
+        guard let user = PlayerService.currentUser else { return }
         self.addEvent(event: event, toUser: user, join: true)
         self.addUser(user, toEvent: event, join: true)
         
@@ -195,7 +199,7 @@ class EventService: NSObject {
     }
     
     func leaveEvent(_ event: Event) {
-        guard let user = firAuth.currentUser else { return }
+        guard let user = PlayerService.currentUser else { return }
         self.addEvent(event: event, toUser: user, join: false)
         self.addUser(user, toEvent: event, join: false)
 

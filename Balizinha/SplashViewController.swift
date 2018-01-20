@@ -51,7 +51,7 @@ class SplashViewController: UIViewController {
     func listenForUser() {
         print("LoginLogout: start listening for user")
         self.handle = firAuth.addStateDidChangeListener({ (auth, user) in
-            print("LoginLogout: auth state changed: \(auth) user: \(user) current \(firAuth.currentUser)")
+            print("LoginLogout: auth state changed: \(auth) user: \(user) current \(PlayerService.currentUser)")
             if let user = user, !user.isAnonymous {
                 self.alreadyLoggedIn() // app started already logged in
 
