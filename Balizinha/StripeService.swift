@@ -140,8 +140,12 @@ class StripeService: NSObject, STPEphemeralKeyProvider {
         }
         print("Creating charge for event \(event.id) for \(cents) cents")
         ref.updateChildValues(params)
-        ref.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
-            guard snapshot.exists(), let info = snapshot.value as? [String: AnyObject] else {
+        ref.observe(.value) { (snapshot: DataSnapshot) in
+            guard snapshot.exists() else {
+                // this can happen if we've created a charge object and deleted it. observer returns on the reference being deleted. shouldn'd delete the object, but in this situation just ignore.
+                return
+            }
+            guard let info = snapshot.value as? [String: AnyObject] else {
                 completion?(false,  NSError(domain: "stripe", code: 0, userInfo: ["error": "Could not save charge for eventId \(event.id) for player \(player.id)"]))
                 return
             }
