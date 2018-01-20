@@ -136,6 +136,7 @@ class PlayerInfoViewController: UIViewController {
         self.view.endEditing(true)
 
         guard let player = self.player else {
+            close()
             return
         }
         
