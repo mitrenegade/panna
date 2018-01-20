@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class SignupViewController: UIViewController, UITextFieldDelegate {
 
@@ -14,6 +15,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var inputPassword: UITextField!
     @IBOutlet weak var inputConfirmation: UITextField!
     @IBOutlet weak var buttonSignup: UIButton!
+    fileprivate let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,22 +81,19 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        firAuth.signIn(withEmail: email, password: password, completion: { (user, error) in
+        firAuth.signIn(withEmail: email, password: password, completion: { [weak self] (user, error) in
             if let error = error as NSError? {
                 print("Error: \(error)")
-                self.simpleAlert("Could not log in", defaultMessage: nil, error: error)
+                self?.simpleAlert("Could not log in", defaultMessage: nil, error: error)
             }
             else {
                 print("signIn results: \(String(describing: user)) profile \(String(describing: user?.photoURL)) \(String(describing: user?.displayName))")
-                PlayerService.shared.createPlayer(name: nil, email: email, city: nil, info: nil, photoUrl: nil, completion: { (player, error) in
-                    let _ = PlayerService.shared.current // invoke listener
-                    if let player = player {
-                        self.goToEditPlayer(player)
-                    }
-                    else {
-                        self.simpleAlert("Could not sign up", defaultMessage: "There was an error creating your player profile.", error: error)
-                    }
-                })
+                
+                guard let disposeBag = self?.disposeBag else { return }
+                let _ = PlayerService.shared.current // invoke listener
+                PlayerService.shared.observedPlayer?.asObservable().take(1).subscribe(onNext: { (player) in
+                    self?.goToEditPlayer(player)
+                }).disposed(by: disposeBag)
             }
         })
     }
