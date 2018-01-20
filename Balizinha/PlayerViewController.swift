@@ -25,6 +25,11 @@ class PlayerViewController: UIViewController {
         self.refresh()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.isNavigationBarHidden = false
+    }
+
     func refresh() {
         guard let player = self.player else { return }
         

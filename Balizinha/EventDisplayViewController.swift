@@ -126,6 +126,11 @@ class EventDisplayViewController: UIViewController {
         constraintReserveHeight.constant = 0
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
     @IBAction func didClickClose(_ sender: Any?) {
         close()
     }
