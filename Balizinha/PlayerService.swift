@@ -145,7 +145,7 @@ extension PlayerService {
         guard let user = firAuth.currentUser else { return false }
         guard !user.providerData.isEmpty else { return false }
         for provider in user.providerData {
-            if let providerId: String = provider.providerID, providerId == "facebook.com" {
+            if provider.providerID == "facebook.com" {
                 return true
             }
         }
@@ -154,7 +154,8 @@ extension PlayerService {
 }
 // Profile and Facebook Photo
 extension PlayerService {
-    func storeUserInfo(_ user: User) {
+    func storeUserInfo() {
+        guard let user = PlayerService.currentUser else { return }
         print("signIn results: \(user) profile \(String(describing: user.photoURL)) \(String(describing: user.displayName))")
         createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { (player, error) in
             _ = self.__once // invoke listener

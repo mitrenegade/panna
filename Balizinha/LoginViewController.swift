@@ -83,8 +83,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             else {
                 print("LoginLogout: LoginSuccess from email, results: \(String(describing: user))")
                 // do not store userInfo on login. should be created on signup.
-                //self.storeUserInfo(user!)
-                
                 let _ = PlayerService.shared.current // invoke listener
                 self?.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
             }
@@ -113,10 +111,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         }
                     } else {
                         print("LoginLogout: LoginSuccess from facebook, results: \(String(describing: user))")
-                        guard let user = user else { return }
-                        // store user data
-                        
-                        PlayerService.shared.storeUserInfo(user)
                         self?.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
                     }
                 })

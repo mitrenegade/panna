@@ -54,19 +54,6 @@ class SplashViewController: UIViewController {
             print("LoginLogout: auth state changed: \(auth) user: \(user) current \(PlayerService.currentUser)")
             if let user = user, !user.isAnonymous {
                 self.alreadyLoggedIn() // app started already logged in
-
-                // pull user data from facebook
-                // must be done after playerRef is created
-                for provider in user.providerData {
-                    if provider.providerID == "facebook.com" {
-                        /*
-                         // do not always pull facebook info
-                        PlayerService.shared.createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { (player, error) in
-                            print("player \(player) error \(error)")
-                        })
-                        */
-                    }
-                }
             }
             else {
                 if SettingsService.showPreview {
@@ -82,8 +69,6 @@ class SplashViewController: UIViewController {
                 firAuth.removeStateDidChangeListener(self.handle!)
                 self.handle = nil
             }
-            
-            // TODO: firebase does not remove user on deletion of app
         })
     }
     
@@ -107,12 +92,16 @@ class SplashViewController: UIViewController {
         if let player = PlayerService.shared.current {
             let userId = player.id
             Crashlytics.sharedInstance().setUserIdentifier(userId)
+        } else {
+            // player does not exist, save/create it.
+            // this should have been done on signup
+            PlayerService.shared.storeUserInfo()
         }
         
         if PlayerService.shared.hasFacebookProvider {
             PlayerService.shared.downloadFacebookPhoto()
         }
-        
+
         self.goToMain()
         
         // notifications
