@@ -104,9 +104,13 @@ class SplashViewController: UIViewController {
     
     @objc func didLogin() {
         print("LoginLogout: didLogin")
-        if let user = PlayerService.shared.current {
-            let userId = user.id
+        if let player = PlayerService.shared.current {
+            let userId = player.id
             Crashlytics.sharedInstance().setUserIdentifier(userId)
+        }
+        
+        if PlayerService.shared.hasFacebookProvider {
+            PlayerService.shared.downloadFacebookPhoto()
         }
         
         self.goToMain()

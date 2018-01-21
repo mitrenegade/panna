@@ -115,33 +115,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         print("LoginLogout: LoginSuccess from facebook, results: \(String(describing: user))")
                         guard let user = user else { return }
                         // store user data
-                        self?.storeUserInfo(user)
-                        self?.downloadFacebookPhoto(user)
+                        
+                        PlayerService.shared.storeUserInfo(user)
                         self?.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
                     }
                 })
             }
-        }
-    }
-    
-    func storeUserInfo(_ user: User) {
-        print("signIn results: \(user) profile \(String(describing: user.photoURL)) \(String(describing: user.displayName))")
-        PlayerService.shared.createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { (player, error) in
-            let _ = PlayerService.shared.current // invoke listener
-        })
-    }
-    
-    fileprivate func downloadFacebookPhoto(_ user: User) {
-        guard let photoUrl = user.photoURL else { return }
-        guard let player = PlayerService.shared.current else { return }
-        DispatchQueue.global().async {
-            guard let data = try? Data(contentsOf: photoUrl) else { return }
-            guard let image = UIImage(data: data) else { return }
-            FirebaseImageService.uploadImage(image: image, type: "player", uid: user.uid, completion: { (url) in
-                if let url = url {
-                    player.photoUrl = url
-                }
-            })
         }
     }
 }

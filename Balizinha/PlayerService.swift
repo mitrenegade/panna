@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import RxSwift
+import FBSDKLoginKit
 
 fileprivate var singleton: PlayerService?
 var _currentPlayer: Player?
@@ -135,5 +136,45 @@ class PlayerService: NSObject {
             PlayerService.cachedNames[id] = player.name
             completion(player)
         })
+    }
+}
+
+// Provider helpers
+extension PlayerService {
+    var hasFacebookProvider: Bool {
+        guard let user = firAuth.currentUser else { return false }
+        guard !user.providerData.isEmpty else { return false }
+        for provider in user.providerData {
+            if let providerId: String = provider.providerID, providerId == "facebook.com" {
+                return true
+            }
+        }
+        return false
+    }
+}
+// Profile and Facebook Photo
+extension PlayerService {
+    func storeUserInfo(_ user: User) {
+        print("signIn results: \(user) profile \(String(describing: user.photoURL)) \(String(describing: user.displayName))")
+        createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { (player, error) in
+            _ = self.__once // invoke listener
+        })
+    }
+    
+    func downloadFacebookPhoto() {
+        guard let player = current else { return }
+        FBSDKProfile.loadCurrentProfile(completion: { (profile, error) in
+            guard let photoUrl = FBSDKProfile.current().imageURL(for: FBSDKProfilePictureMode.square, size: CGSize(width: 100, height: 100)) else { return }
+            DispatchQueue.global().async {
+                guard let data = try? Data(contentsOf: photoUrl) else { return }
+                guard let image = UIImage(data: data) else { return }
+                FirebaseImageService.uploadImage(image: image, type: "player", uid: player.id, completion: { (url) in
+                    if let url = url {
+                        player.photoUrl = url
+                    }
+                })
+            }
+        })
+        
     }
 }
