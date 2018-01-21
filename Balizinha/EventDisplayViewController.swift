@@ -143,6 +143,10 @@ class EventDisplayViewController: UIViewController {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EmbedOrganizer" {
             self.organizerController = segue.destination as? OrganizerViewController
@@ -211,11 +215,13 @@ extension EventDisplayViewController {
         let keyboardHeight = keyboardRectangle.height
         
         self.constraintInputBottomOffset.constant = keyboardHeight
+        self.constraintScrollBottomOffset.constant = keyboardHeight + constraintInputHeight.constant
         self.chatController.toggleButton(show: false)
     }
     // MARK - Keyboard
     @objc func keyboardWillHide(_ notification: Notification) {
         self.constraintInputBottomOffset.constant = 0
+        self.constraintScrollBottomOffset.constant = constraintInputHeight.constant
         self.chatController.toggleButton(show: true)
     }
     
