@@ -126,6 +126,11 @@ class EventDisplayViewController: UIViewController {
         constraintReserveHeight.constant = 0
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
     @IBAction func didClickClose(_ sender: Any?) {
         close()
     }
@@ -136,6 +141,10 @@ class EventDisplayViewController: UIViewController {
 
     @objc func close() {
         self.navigationController?.dismiss(animated: true, completion: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -206,11 +215,13 @@ extension EventDisplayViewController {
         let keyboardHeight = keyboardRectangle.height
         
         self.constraintInputBottomOffset.constant = keyboardHeight
+        self.constraintScrollBottomOffset.constant = keyboardHeight + constraintInputHeight.constant
         self.chatController.toggleButton(show: false)
     }
     // MARK - Keyboard
     @objc func keyboardWillHide(_ notification: Notification) {
         self.constraintInputBottomOffset.constant = 0
+        self.constraintScrollBottomOffset.constant = constraintInputHeight.constant
         self.chatController.toggleButton(show: true)
     }
     

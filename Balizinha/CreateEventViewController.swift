@@ -82,7 +82,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var eventImage: UIImage?
 
     weak var delegate: CreateEventDelegate?
-    var cameraController: CameraOverlayViewController?
     
     var eventToEdit: Event? {
         didSet {
@@ -309,38 +308,41 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
 
             // update photo if it has been changed
             if let photo = self.eventImage {
-                FirebaseImageService.uploadImage(image: photo, type: "event", uid: event.id, completion: { (url) in
-                    if let url = url {
-                        event.photoUrl = url
-                    }
+                savePhoto(photo: photo, event: event, completion: {
+                    self.navigationController?.dismiss(animated: true, completion: {
+                        // event updated
+                    })
+                })
+            } else {
+                self.navigationController?.dismiss(animated: true, completion: {
+                    // event updated
                 })
             }
-            
-            self.navigationController?.dismiss(animated: true, completion: {
-                // event updated
-            })
         }
         else {
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: numPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, completion: { (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: numPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, completion: { [weak self] (event, error) in
                 
                 if let event = event {
-                    self.sendPushForCreatedEvent(event)
+                    self?.sendPushForCreatedEvent(event)
                     
-                    if let photo = self.eventImage {
-                        FirebaseImageService.uploadImage(image: photo, type: "event", uid: event.id, completion: { (url) in
-                            if let url = url {
-                                event.photoUrl = url
-                            }
+                    // update photo if it has been changed
+                    if let photo = self?.eventImage {
+                        self?.savePhoto(photo: photo, event: event, completion: {
+                            self?.navigationController?.dismiss(animated: true, completion: {
+                                // event created
+                                self?.delegate?.didCreateEvent()
+                            })
+                        })
+                    } else {
+                        self?.navigationController?.dismiss(animated: true, completion: {
+                            // event created
+                            self?.delegate?.didCreateEvent()
                         })
                     }
-                    
-                    self.navigationController?.dismiss(animated: true, completion: {
-                        self.delegate?.didCreateEvent()
-                    })
                 }
                 else {
                     if let error = error {
-                        self.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
+                        self?.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
                     }
                 }
             })
@@ -383,11 +385,10 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         switch indexPath.section {
         case Sections.photo.rawValue:
             let cell: EventPhotoCell = tableView.dequeueReusableCell(withIdentifier: "EventPhotoCell", for: indexPath) as! EventPhotoCell
-            if let url = self.eventToEdit?.photoUrl {
-                cell.url = url
-            }
-            else if let photo = self.eventImage {
+            if let photo = self.eventImage {
                 cell.photo = photo
+            } else if let url = self.eventToEdit?.photoUrl {
+                cell.url = url
             }
             return cell
         case Sections.details.rawValue:
@@ -562,7 +563,18 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         
         switch indexPath.section {
         case Sections.photo.rawValue:
-            self.selectPhoto()
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action) in
+                    self.selectPhoto(camera: true)
+                }))
+            }
+            alert.addAction(UIAlertAction(title: "Photo album", style: .default, handler: { (action) in
+                self.selectPhoto(camera: false)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            })
+            self.present(alert, animated: true, completion: nil)
         case Sections.details.rawValue:
             if currentField != nil{
                 currentField!.resignFirstResponder()
@@ -844,20 +856,35 @@ extension CreateEventViewController: UITextFieldDelegate {
 }
 
 // photo
-extension CreateEventViewController: CameraControlsDelegate {
-    func selectPhoto() {
+extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func selectPhoto(camera: Bool) {
         self.view.endEditing(true)
         
-        let controller = CameraOverlayViewController(
-            nibName:"CameraOverlayViewController",
-            bundle: nil
-        )
-        controller.delegate = self
-        controller.view.frame = self.view.frame
-        controller.takePhoto(from: self)
-        self.cameraController = controller
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = true
+        
+        picker.view.backgroundColor = .blue
+        UIApplication.shared.isStatusBarHidden = false
+        
+        if camera, UIImagePickerController.isSourceTypeAvailable(.camera) {
+            picker.sourceType = .camera
+            picker.cameraCaptureMode = .photo
+            picker.showsCameraControls = true
+        } else {
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                picker.sourceType = .photoLibrary
+            }
+            else {
+                picker.sourceType = .savedPhotosAlbum
+            }
+            picker.navigationBar.isTranslucent = false
+            picker.navigationBar.barTintColor = UIColor.mediumBlue
+        }
+        
+        self.present(picker, animated: true)
     }
-    
+
     func didTakePhoto(image: UIImage) {
         self.eventImage = image
         let indexPath = IndexPath(row: 0, section: 0)
@@ -867,6 +894,33 @@ extension CreateEventViewController: CameraControlsDelegate {
     
     func dismissCamera() {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let img = info[UIImagePickerControllerEditedImage] ?? info[UIImagePickerControllerOriginalImage]
+        guard let photo = img as? UIImage else { return }
+        self.didTakePhoto(image: photo)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismissCamera()
+    }
+    
+    func savePhoto(photo: UIImage, event: Event, completion: @escaping (()->Void)) {
+        let alert = UIAlertController(title: "Progress", message: "Please wait until photo uploads", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
+        })
+        self.present(alert, animated: true, completion: nil)
+        
+        FirebaseImageService.uploadImage(image: photo, type: "event", uid: event.id, progressHandler: { (percent) in
+            alert.title = "Progress: \(Int(percent*100))%"
+        }, completion: { (url) in
+            if let url = url {
+                event.photoUrl = url
+            }
+            alert.dismiss(animated: true, completion: nil)
+            completion()
+        })
     }
 }
 

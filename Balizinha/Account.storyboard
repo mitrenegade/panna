@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="KcH-jg-K0W">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="WKC-Oj-i9z">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,162 +20,173 @@
     </customFonts>
     <scenes>
         <!--Account View Controller-->
-        <scene sceneID="8rH-HH-72d">
+        <scene sceneID="ize-OW-pTM">
             <objects>
-                <tableViewController id="KcH-jg-K0W" customClass="AccountViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="YBa-Ex-hff">
+                <viewController id="WKC-Oj-i9z" customClass="AccountViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="iF2-ex-wFr"/>
+                        <viewControllerLayoutGuide type="bottom" id="BPk-RK-og5"/>
+                    </layoutGuides>
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="les-yZ-Xd5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="31O-VN-mnm">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" red="0.2419034243" green="0.32027676700000002" blue="0.3954539299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="push" id="1eS-7Y-Cuz" customClass="PushTableViewCell" customModule="Balizinha" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1eS-7Y-Cuz" id="oq1-H4-0UG">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I6S-Wk-lwd">
+                                                    <rect key="frame" x="16" y="19.5" width="46.5" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g6g-nF-lZr">
+                                                    <rect key="frame" x="311" y="14.5" width="51" height="31"/>
+                                                    <color key="onTintColor" red="0.46363681550000002" green="0.57266062500000003" blue="0.51082777980000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <connections>
+                                                        <action selector="didToggleSwitch:" destination="1eS-7Y-Cuz" eventType="valueChanged" id="j2e-F0-mbB"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="g6g-nF-lZr" firstAttribute="centerY" secondItem="oq1-H4-0UG" secondAttribute="centerY" id="HHd-g0-SW4"/>
+                                                <constraint firstItem="I6S-Wk-lwd" firstAttribute="centerY" secondItem="oq1-H4-0UG" secondAttribute="centerY" id="Zjr-Be-Jmz"/>
+                                                <constraint firstItem="g6g-nF-lZr" firstAttribute="trailing" secondItem="oq1-H4-0UG" secondAttribute="trailingMargin" id="tLl-iD-oYg"/>
+                                                <constraint firstItem="I6S-Wk-lwd" firstAttribute="leading" secondItem="oq1-H4-0UG" secondAttribute="leading" constant="16" id="vR8-fA-8hc"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="labelText" destination="I6S-Wk-lwd" id="4fO-JW-fYf"/>
+                                            <outlet property="switchToggle" destination="g6g-nF-lZr" id="4CQ-lB-GmD"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationSettingCell" id="nr7-aX-oQl" customClass="LocationSettingCell" customModule="Balizinha" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="88" width="375" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nr7-aX-oQl" id="74D-Di-2Ro">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dkw-kP-Sd4">
+                                                    <rect key="frame" x="16" y="19.5" width="46.5" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ug4-cm-tQG">
+                                                    <rect key="frame" x="311" y="14.5" width="51" height="31"/>
+                                                    <color key="onTintColor" red="0.46363681550000002" green="0.57266062500000003" blue="0.51082777980000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <connections>
+                                                        <action selector="didToggleSwitch:" destination="nr7-aX-oQl" eventType="valueChanged" id="iy4-fo-3qf"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Dkw-kP-Sd4" firstAttribute="leading" secondItem="74D-Di-2Ro" secondAttribute="leading" constant="16" id="0wO-rL-P5y"/>
+                                                <constraint firstItem="Dkw-kP-Sd4" firstAttribute="centerY" secondItem="74D-Di-2Ro" secondAttribute="centerY" id="WvA-nx-QHd"/>
+                                                <constraint firstItem="ug4-cm-tQG" firstAttribute="trailing" secondItem="74D-Di-2Ro" secondAttribute="trailingMargin" id="mnC-EO-Fdz"/>
+                                                <constraint firstItem="ug4-cm-tQG" firstAttribute="centerY" secondItem="74D-Di-2Ro" secondAttribute="centerY" id="x52-Zd-GsJ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="labelText" destination="Dkw-kP-Sd4" id="BER-xq-sBq"/>
+                                            <outlet property="switchToggle" destination="ug4-cm-tQG" id="On6-kU-399"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="Pmv-jw-DBx" style="IBUITableViewCellStyleDefault" id="GTH-sO-Pgc">
+                                        <rect key="frame" x="0.0" y="148" width="375" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GTH-sO-Pgc" id="gcP-VD-B2f">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Pmv-jw-DBx">
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="59.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PromoCell" textLabel="NYf-OO-ObY" detailTextLabel="wKb-Gy-EgU" style="IBUITableViewCellStyleSubtitle" id="Zjg-yP-sYs" customClass="PromoCell" customModule="Balizinha" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="208" width="375" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zjg-yP-sYs" id="12u-Zo-Z0c">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NYf-OO-ObY">
+                                                    <rect key="frame" x="15" y="9" width="36" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wKb-Gy-EgU">
+                                                    <rect key="frame" x="15" y="33" width="47.5" height="15"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PaymentCell" textLabel="Iey-NC-mYg" style="IBUITableViewCellStyleDefault" id="bsq-zW-VGY" customClass="PaymentCell" customModule="Balizinha" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="268" width="375" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bsq-zW-VGY" id="esn-4b-j1G">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="59.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Iey-NC-mYg">
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="59.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="WKC-Oj-i9z" id="1Kx-Wz-3SG"/>
+                                    <outlet property="delegate" destination="WKC-Oj-i9z" id="aeR-Sm-Hwi"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" red="0.2419034243" green="0.32027676700000002" blue="0.3954539299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <view key="tableFooterView" contentMode="scaleToFill" id="Ynq-rI-nwr">
-                            <rect key="frame" x="0.0" y="328" width="375" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </view>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="push" id="1eS-7Y-Cuz" customClass="PushTableViewCell" customModule="Balizinha" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="60"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1eS-7Y-Cuz" id="oq1-H4-0UG">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I6S-Wk-lwd">
-                                            <rect key="frame" x="16" y="19.5" width="46.5" height="21"/>
-                                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g6g-nF-lZr">
-                                            <rect key="frame" x="310" y="14.5" width="51" height="31"/>
-                                            <color key="onTintColor" red="0.46363681550000002" green="0.57266062500000003" blue="0.51082777980000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <connections>
-                                                <action selector="didToggleSwitch:" destination="1eS-7Y-Cuz" eventType="valueChanged" id="j2e-F0-mbB"/>
-                                            </connections>
-                                        </switch>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="g6g-nF-lZr" firstAttribute="centerY" secondItem="oq1-H4-0UG" secondAttribute="centerY" id="HHd-g0-SW4"/>
-                                        <constraint firstItem="I6S-Wk-lwd" firstAttribute="centerY" secondItem="oq1-H4-0UG" secondAttribute="centerY" id="Zjr-Be-Jmz"/>
-                                        <constraint firstItem="g6g-nF-lZr" firstAttribute="trailing" secondItem="oq1-H4-0UG" secondAttribute="trailingMargin" id="tLl-iD-oYg"/>
-                                        <constraint firstItem="I6S-Wk-lwd" firstAttribute="leading" secondItem="oq1-H4-0UG" secondAttribute="leading" constant="16" id="vR8-fA-8hc"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="labelText" destination="I6S-Wk-lwd" id="4fO-JW-fYf"/>
-                                    <outlet property="switchToggle" destination="g6g-nF-lZr" id="4CQ-lB-GmD"/>
-                                </connections>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationSettingCell" id="nr7-aX-oQl" customClass="LocationSettingCell" customModule="Balizinha" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="88" width="375" height="60"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nr7-aX-oQl" id="74D-Di-2Ro">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dkw-kP-Sd4">
-                                            <rect key="frame" x="16" y="19.5" width="46.5" height="21"/>
-                                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ug4-cm-tQG">
-                                            <rect key="frame" x="310" y="14.5" width="51" height="31"/>
-                                            <color key="onTintColor" red="0.46363681550000002" green="0.57266062500000003" blue="0.51082777980000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <connections>
-                                                <action selector="didToggleSwitch:" destination="nr7-aX-oQl" eventType="valueChanged" id="iy4-fo-3qf"/>
-                                            </connections>
-                                        </switch>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="Dkw-kP-Sd4" firstAttribute="leading" secondItem="74D-Di-2Ro" secondAttribute="leading" constant="16" id="0wO-rL-P5y"/>
-                                        <constraint firstItem="Dkw-kP-Sd4" firstAttribute="centerY" secondItem="74D-Di-2Ro" secondAttribute="centerY" id="WvA-nx-QHd"/>
-                                        <constraint firstItem="ug4-cm-tQG" firstAttribute="trailing" secondItem="74D-Di-2Ro" secondAttribute="trailingMargin" id="mnC-EO-Fdz"/>
-                                        <constraint firstItem="ug4-cm-tQG" firstAttribute="centerY" secondItem="74D-Di-2Ro" secondAttribute="centerY" id="x52-Zd-GsJ"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="labelText" destination="Dkw-kP-Sd4" id="BER-xq-sBq"/>
-                                    <outlet property="switchToggle" destination="ug4-cm-tQG" id="On6-kU-399"/>
-                                </connections>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="Pmv-jw-DBx" style="IBUITableViewCellStyleDefault" id="GTH-sO-Pgc">
-                                <rect key="frame" x="0.0" y="148" width="375" height="60"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GTH-sO-Pgc" id="gcP-VD-B2f">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Pmv-jw-DBx">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="59.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PromoCell" textLabel="NYf-OO-ObY" detailTextLabel="wKb-Gy-EgU" style="IBUITableViewCellStyleSubtitle" id="Zjg-yP-sYs" customClass="PromoCell" customModule="Balizinha" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="208" width="375" height="60"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zjg-yP-sYs" id="12u-Zo-Z0c">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NYf-OO-ObY">
-                                            <rect key="frame" x="16" y="9" width="36" height="21"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wKb-Gy-EgU">
-                                            <rect key="frame" x="16" y="33" width="47.5" height="15"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PaymentCell" textLabel="Iey-NC-mYg" style="IBUITableViewCellStyleDefault" id="bsq-zW-VGY" customClass="PaymentCell" customModule="Balizinha" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="268" width="375" height="60"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bsq-zW-VGY" id="esn-4b-j1G">
-                                    <rect key="frame" x="0.0" y="0.0" width="341" height="59.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Iey-NC-mYg">
-                                            <rect key="frame" x="16" y="0.0" width="324" height="59.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="KcH-jg-K0W" id="QlW-OQ-xY4"/>
-                            <outlet property="delegate" destination="KcH-jg-K0W" id="blx-Xl-fg0"/>
-                        </connections>
-                    </tableView>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" id="8Id-M2-SrH"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="31O-VN-mnm" secondAttribute="trailing" id="eio-Qd-TFu"/>
+                            <constraint firstItem="BPk-RK-og5" firstAttribute="top" secondItem="31O-VN-mnm" secondAttribute="bottom" id="eoV-lQ-OKw"/>
+                            <constraint firstItem="31O-VN-mnm" firstAttribute="top" secondItem="les-yZ-Xd5" secondAttribute="topMargin" id="l42-Tc-lVy"/>
+                            <constraint firstItem="31O-VN-mnm" firstAttribute="leading" secondItem="les-yZ-Xd5" secondAttribute="leading" id="y0Z-oU-Zm1"/>
+                        </constraints>
+                    </view>
                     <connections>
-                        <segue destination="awv-Cv-vYB" kind="presentation" identifier="ToEditPlayerInfo" id="8iU-BJ-CHm"/>
+                        <outlet property="tableView" destination="31O-VN-mnm" id="Bfq-Tk-8FP"/>
+                        <segue destination="awv-Cv-vYB" kind="presentation" identifier="ToEditPlayerInfo" id="L07-ag-sVF"/>
                     </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4ub-gr-UQm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aXa-k0-7lO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="624.79999999999995" y="-514.09295352323841"/>
+            <point key="canvasLocation" x="604" y="-514.09295352323841"/>
         </scene>
         <!--Player Info View Controller-->
         <scene sceneID="a0o-cs-s8b">
@@ -250,7 +261,7 @@
                                 </connections>
                             </containerView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="XAo-AL-O26" firstAttribute="top" secondItem="0RW-JB-g2Y" secondAttribute="top" id="15B-da-wVF"/>
                             <constraint firstAttribute="trailing" secondItem="MRj-hu-XNM" secondAttribute="trailing" constant="8" id="2AM-xa-3dt"/>
@@ -352,12 +363,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About me" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YJA-OJ-Rok">
-                                <rect key="frame" x="16" y="226" width="343" height="19"/>
+                                <rect key="frame" x="16" y="226" width="343" height="20"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-ov-iNR">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-ov-iNR">
                                 <rect key="frame" x="126" y="28" width="122" height="122"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="nrg-ov-iNR" secondAttribute="height" multiplier="1:1" id="gSJ-d7-Ae0"/>
@@ -380,7 +391,6 @@
                             <constraint firstItem="0Gf-YB-3IP" firstAttribute="leading" secondItem="lZj-SH-qau" secondAttribute="leading" constant="16" id="pRQ-PA-usc"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="cityLabel" destination="0Gf-YB-3IP" id="i1r-TD-6Ng"/>
                         <outlet property="nameLabel" destination="exf-fk-CYN" id="hfR-zD-btP"/>
