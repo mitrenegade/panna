@@ -37,6 +37,10 @@ class MapViewController: EventsViewController {
             navigationItem.title = "Balizinha"
             
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign in", style: .done, target: self, action: #selector(didClickProfile(_:)))
+        } else {
+            if OrganizerService.shared.current == nil {
+                navigationItem.rightBarButtonItem = nil
+            }
         }
     }
     
