@@ -201,6 +201,14 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             let viewModel = OrganizerCellViewModel()
             if viewModel.canClick {
                 print("Clicked on organizer cell")
+                if OrganizerService.shared.current == nil || OrganizerService.shared.current?.status == Balizinha.OrganizerStatus.none {
+                    // click to join
+                    OrganizerService.shared.requestOrganizerAccess() { (organizer, error) in
+                        // do nothing, let organizer observer update the cell
+                    }
+                } else if OrganizerService.shared.current?.status == .approved {
+                    // add payment
+                }
             }
         default:
             break

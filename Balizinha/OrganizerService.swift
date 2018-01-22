@@ -98,4 +98,34 @@ class OrganizerService: NSObject {
             }
         }
     }
+    
+    func requestOrganizerAccess(completion: ((Organizer?, Error?) -> Void)? ) {
+        
+        guard let user = PlayerService.currentUser, let current = PlayerService.shared.current else {
+            completion?(nil, nil)
+            return
+        }
+        let organizerRef = firRef.child("organizers")
+        
+        let existingUserId = user.uid
+        let newOrganizerRef: DatabaseReference = organizerRef.child(existingUserId)
+        let params: [AnyHashable: Any] = ["createdAt": Date().timeIntervalSince1970, "name": current.name ?? current.email ?? "", "status": "pending"]
+        newOrganizerRef.setValue(params) { (error, ref) in
+            if let error = error {
+                print(error)
+                completion?(nil, error)
+            } else {
+                ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                    guard snapshot.exists() else {
+                        completion?(Organizer.nilOrganizer, nil)
+                        return
+                    }
+                    let organizer = Organizer(snapshot: snapshot)
+                    completion?(organizer, nil)
+                }, withCancel: { (error) in
+                    completion?(nil, nil)
+                })
+            }
+        }
+    }
 }

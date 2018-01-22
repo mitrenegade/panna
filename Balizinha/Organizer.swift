@@ -9,6 +9,30 @@
 import UIKit
 import Firebase
 
+enum OrganizerStatus: String, Equatable {
+    case none // default, but players who are not organizers won't have an organizer object
+    case pending
+    case approved // needs payment
+    case active
+}
+
+func ==(lhs: OrganizerStatus, rhs: OrganizerStatus) -> Bool {
+    switch (lhs, rhs) {
+    case (.none, .none):
+        return true
+    case (.pending, .pending):
+        return true
+    case (.approved, .approved):
+        return true
+    case (.active, .active):
+        return true
+
+    default:
+        return false
+    }
+}
+
+
 class Organizer: FirebaseBaseModel {
     static let nilOrganizer: Organizer = Organizer() // if organizer is nil but needs to be an event in an observable
 
@@ -35,5 +59,12 @@ class Organizer: FirebaseBaseModel {
             self.dict["deadline"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
+    }
+    
+    var status: OrganizerStatus {
+        if let statusString = self.dict?["status"] as? String, let organizerStatus = OrganizerStatus(rawValue: statusString) {
+            return organizerStatus
+        }
+        return .none
     }
 }
