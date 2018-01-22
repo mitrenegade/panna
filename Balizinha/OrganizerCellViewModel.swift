@@ -20,13 +20,38 @@ class OrganizerCellViewModel: NSObject {
 
         switch organizer.status {
         case .pending:
-            return "Your organizer status is pending approval"
+            return "Organizer approval pending"
         case .approved:
-            return "You have been approved to be an organizer. Click to join"
+            return "Organizer status approved"
+        case .trial:
+            return "You are a trial organizer"
         case .active:
             return "You are an organizer"
         case .none:
             return "Click to become an organizer"
+        }
+    }
+
+    var labelDetail: String? {
+        if OrganizerService.shared.loading {
+            return nil
+        }
+        
+        guard let organizer = OrganizerService.shared.current else {
+            return "Submit a request here"
+        }
+        
+        switch organizer.status {
+        case .pending:
+            return nil
+        case .approved:
+            return "Click to set up payment"
+        case .active:
+            return nil
+        case .trial:
+            return "The trial lasts a month"
+        case .none:
+            return "Submit a request here"
         }
     }
     
@@ -38,7 +63,7 @@ class OrganizerCellViewModel: NSObject {
             return true
         }
         switch organizer.status {
-        case .pending, .active:
+        case .pending, .active, .trial:
             return false
         case .approved, .none:
             return true

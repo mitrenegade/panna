@@ -14,7 +14,8 @@ class AccountViewController: UIViewController {
     var menuOptions: [String]!
     var service = EventService.shared
     var paymentCell: PaymentCell?
-    
+    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
@@ -30,9 +31,18 @@ class AccountViewController: UIViewController {
         if !SettingsService.paymentLocationTestGroup() {
             menuOptions = menuOptions.filter({$0 != "Payment options"})
         }
+        if !SettingsService.organizerPaymentRequired() {
+            menuOptions = menuOptions.filter({$0 != "Organizer options"})
+        }
         
         navigationItem.title = "Account"
         listenFor(NotificationType.LocationOptionsChanged, action: #selector(self.reloadTableData), object: nil)
+        
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
+        activityIndicator.color = UIColor.red
+
     }
 
     func reloadTableData() {
@@ -201,13 +211,14 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             let viewModel = OrganizerCellViewModel()
             if viewModel.canClick {
                 print("Clicked on organizer cell")
-                if OrganizerService.shared.current == nil || OrganizerService.shared.current?.status == Balizinha.OrganizerStatus.none {
+                if OrganizerService.shared.current == nil || OrganizerService.shared.current?.status == OrganizerStatus.none {
                     // click to join
                     OrganizerService.shared.requestOrganizerAccess() { (organizer, error) in
                         // do nothing, let organizer observer update the cell
                     }
                 } else if OrganizerService.shared.current?.status == .approved {
                     // add payment
+                    payForOrganizerService()
                 }
             }
         default:
@@ -237,5 +248,71 @@ extension AccountViewController: ToggleCellDelegate {
                 LocationService.shared.startLocation(from: self)
             }
         }
+    }
+}
+
+// Organizer service stuff
+extension AccountViewController {
+    func payForOrganizerService() {
+        guard let organizer = OrganizerService.shared.current else {
+            self.simpleAlert("Could not become organizer", message: "There was an issue joining as an organizer. No organizer found")
+            LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": false, "error": "There was an issue joining as an organizer. No organizer found"])
+            return
+        }
+        guard SettingsService.organizerPaymentRequired() else {
+            organizer.status = .active
+            return
+        }
+
+        // create organizer
+        let isTrial: Bool = SettingsService.organizerTrialAvailable()
+        let message = isTrial ? "You have been approved to become an organizer. Click now to start a month long free trial." : "You have been approved to become an organizer. Click now to purchase an organizer subscription."
+        
+        let alert = UIAlertController(title: "Become an Organizer?", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
+            LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": false, "reason": "cancelled"])
+        }))
+        alert.addAction(UIAlertAction(title: "Start", style: UIAlertActionStyle.default, handler: { [weak self] (action) in
+            
+            // TODO: check for payment method before creating an organizer?
+            self?.activityIndicator.startAnimating()
+            // go directly to create event without payments and no alert
+            
+            StripeService().createSubscription(isTrial: isTrial, completion: { [weak self] (success, error) in
+                self?.activityIndicator.stopAnimating()
+                print("Success \(success) error \(error)")
+                var title: String = isTrial ? "Free trial started" : "Subscription created"
+                var message: String = isTrial ? "Good luck organizing games! You are now in the 30 day organizer trial." : "Good luck organizing games!"
+                if let error = error as? NSError {
+                    // TODO: handle credit card payment after organizer was created!
+                    // should allow users to organize for now, and ask to add a payment later
+                    // should stop allowing it once their trial is up
+                    if error.code == 1001 {
+                        // self generated error: no payment source
+                        title = "Payment needed"
+                        message = "Please add a payment in order to become an organizer."
+                    } else {
+                        title = "Could create subscription"
+                        message = "We could not charge your card."
+                    }
+                    
+                    LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": false, "error": error.localizedDescription])
+                    
+                    if let deadline = error.userInfo["deadline"] as? Double{
+                        OrganizerService.shared.current?.deadline = deadline
+                    }
+                } else {
+                    let newStatus: OrganizerStatus = isTrial ? .trial : .active
+                    LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": true, "newStatus": newStatus.rawValue])
+                    OrganizerService.shared.current?.status = newStatus
+                }
+
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+                }))
+                self?.present(alert, animated: true, completion: nil)
+            })
+        }))
+        navigationController?.present(alert, animated: true, completion: nil)
     }
 }

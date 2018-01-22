@@ -22,5 +22,6 @@ class OrganizerCell: UITableViewCell {
     func refresh() {
         let viewModel = OrganizerCellViewModel()
         self.textLabel?.text = viewModel.labelTitle
+        self.detailTextLabel?.text = viewModel.labelDetail
     }
 }

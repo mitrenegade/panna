@@ -14,6 +14,7 @@ enum OrganizerStatus: String, Equatable {
     case pending
     case approved // needs payment
     case active
+    case trial
 }
 
 func ==(lhs: OrganizerStatus, rhs: OrganizerStatus) -> Bool {
@@ -26,7 +27,8 @@ func ==(lhs: OrganizerStatus, rhs: OrganizerStatus) -> Bool {
         return true
     case (.active, .active):
         return true
-
+    case (.trial, .trial):
+        return true
     default:
         return false
     }
@@ -62,9 +64,15 @@ class Organizer: FirebaseBaseModel {
     }
     
     var status: OrganizerStatus {
-        if let statusString = self.dict?["status"] as? String, let organizerStatus = OrganizerStatus(rawValue: statusString) {
-            return organizerStatus
+        get {
+            if let statusString = self.dict?["status"] as? String, let organizerStatus = OrganizerStatus(rawValue: statusString) {
+                return organizerStatus
+            }
+            return .none
         }
-        return .none
+        set {
+            self.dict["status"] = newValue.rawValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
     }
 }
