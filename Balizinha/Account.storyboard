@@ -368,7 +368,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-ov-iNR">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-ov-iNR">
                                 <rect key="frame" x="126" y="28" width="122" height="122"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="nrg-ov-iNR" secondAttribute="height" multiplier="1:1" id="gSJ-d7-Ae0"/>

@@ -23,6 +23,9 @@ class PlayerViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         self.refresh()
+        
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.barTintColor = UIColor.mediumBlue
     }
 
     override func viewWillAppear(_ animated: Bool) {
