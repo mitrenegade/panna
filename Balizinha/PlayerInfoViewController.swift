@@ -259,7 +259,8 @@ extension PlayerInfoViewController {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
         })
-        FirebaseImageService.uploadImage(image: image, type: "player", uid: id, progressHandler: { (percent) in
+        let smallerImage = FirebaseImageService.resizeImageForProfile(image: image)
+        FirebaseImageService.uploadImage(image: smallerImage ?? image, type: "player", uid: id, progressHandler: { (percent) in
             alert.title = "Upload progress: \(Int(percent*100))%"
         }) { (url) in
             if let url = url {
