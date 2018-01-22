@@ -308,38 +308,41 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
 
             // update photo if it has been changed
             if let photo = self.eventImage {
-                FirebaseImageService.uploadImage(image: photo, type: "event", uid: event.id, completion: { (url) in
-                    if let url = url {
-                        event.photoUrl = url
-                    }
+                savePhoto(photo: photo, event: event, completion: {
+                    self.navigationController?.dismiss(animated: true, completion: {
+                        // event updated
+                    })
+                })
+            } else {
+                self.navigationController?.dismiss(animated: true, completion: {
+                    // event updated
                 })
             }
-            
-            self.navigationController?.dismiss(animated: true, completion: {
-                // event updated
-            })
         }
         else {
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: numPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, completion: { (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: numPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, completion: { [weak self] (event, error) in
                 
                 if let event = event {
-                    self.sendPushForCreatedEvent(event)
+                    self?.sendPushForCreatedEvent(event)
                     
-                    if let photo = self.eventImage {
-                        FirebaseImageService.uploadImage(image: photo, type: "event", uid: event.id, completion: { (url) in
-                            if let url = url {
-                                event.photoUrl = url
-                            }
+                    // update photo if it has been changed
+                    if let photo = self?.eventImage {
+                        self?.savePhoto(photo: photo, event: event, completion: {
+                            self?.navigationController?.dismiss(animated: true, completion: {
+                                // event created
+                                self?.delegate?.didCreateEvent()
+                            })
+                        })
+                    } else {
+                        self?.navigationController?.dismiss(animated: true, completion: {
+                            // event created
+                            self?.delegate?.didCreateEvent()
                         })
                     }
-                    
-                    self.navigationController?.dismiss(animated: true, completion: {
-                        self.delegate?.didCreateEvent()
-                    })
                 }
                 else {
                     if let error = error {
-                        self.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
+                        self?.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
                     }
                 }
             })
@@ -382,11 +385,10 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         switch indexPath.section {
         case Sections.photo.rawValue:
             let cell: EventPhotoCell = tableView.dequeueReusableCell(withIdentifier: "EventPhotoCell", for: indexPath) as! EventPhotoCell
-            if let url = self.eventToEdit?.photoUrl {
-                cell.url = url
-            }
-            else if let photo = self.eventImage {
+            if let photo = self.eventImage {
                 cell.photo = photo
+            } else if let url = self.eventToEdit?.photoUrl {
+                cell.url = url
             }
             return cell
         case Sections.details.rawValue:
@@ -892,6 +894,33 @@ extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigati
     
     func dismissCamera() {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let img = info[UIImagePickerControllerEditedImage] ?? info[UIImagePickerControllerOriginalImage]
+        guard let photo = img as? UIImage else { return }
+        self.didTakePhoto(image: photo)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismissCamera()
+    }
+    
+    func savePhoto(photo: UIImage, event: Event, completion: @escaping (()->Void)) {
+        let alert = UIAlertController(title: "Progress", message: "Please wait until photo uploads", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
+        })
+        self.present(alert, animated: true, completion: nil)
+        
+        FirebaseImageService.uploadImage(image: photo, type: "event", uid: event.id, progressHandler: { (percent) in
+            alert.title = "Progress: \(Int(percent*100))%"
+        }, completion: { (url) in
+            if let url = url {
+                event.photoUrl = url
+            }
+            alert.dismiss(animated: true, completion: nil)
+            completion()
+        })
     }
 }
 
