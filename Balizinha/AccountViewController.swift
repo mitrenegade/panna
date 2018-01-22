@@ -20,7 +20,7 @@ class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        menuOptions = ["Edit profile", "Push notifications", "Payment options", "Promo program", "Version", "Use my location", "Logout"]
+        menuOptions = ["Edit profile", "Payment options", "Promo program", "Organizer options", "Push notifications", "Use my location", "Version", "Logout"]
         if !SettingsService.paymentRequired() {
             menuOptions = menuOptions.filter({$0 != "Promo program"})
         }
@@ -150,6 +150,14 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
                 return UITableViewCell()
             }
             
+        case "Organizer options":
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "OrganizerCell", for: indexPath) as? OrganizerCell {
+                return cell
+            }
+            else {
+                return UITableViewCell()
+            }
+            
         case "Use my location":
             let cell = tableView.dequeueReusableCell(withIdentifier: "LocationSettingCell", for: indexPath) as! LocationSettingCell
             cell.configure()
@@ -189,6 +197,11 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             }
         case "Payment options":
             self.paymentCell?.shouldShowPaymentController()
+        case "Organizer options":
+            let viewModel = OrganizerCellViewModel()
+            if viewModel.canClick {
+                print("Clicked on organizer cell")
+            }
         default:
             break
         }

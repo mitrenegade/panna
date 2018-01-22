@@ -17,6 +17,7 @@ fileprivate var organizationRef: DatabaseReference?
 class OrganizerService: NSObject {
     // MARK: - Singleton
     let disposeBag = DisposeBag()
+    var loading: Bool = true
     static var shared: OrganizerService {
         if singleton == nil {
             singleton = OrganizerService()
@@ -47,7 +48,8 @@ class OrganizerService: NSObject {
         let newOrganizerRef: DatabaseReference = firRef.child("organizers").child(existingUserId)
 
         return Observable.create({ (observer) -> Disposable in
-            newOrganizerRef.observe(.value) { (snapshot: DataSnapshot) in
+            newOrganizerRef.observe(.value) {[weak self] (snapshot: DataSnapshot) in
+                self?.loading = false
                 if snapshot.exists() {
                     observer.onNext(Organizer(snapshot: snapshot))
                 } else {
