@@ -261,7 +261,7 @@
                                 </connections>
                             </containerView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="XAo-AL-O26" firstAttribute="top" secondItem="0RW-JB-g2Y" secondAttribute="top" id="15B-da-wVF"/>
                             <constraint firstAttribute="trailing" secondItem="MRj-hu-XNM" secondAttribute="trailing" constant="8" id="2AM-xa-3dt"/>

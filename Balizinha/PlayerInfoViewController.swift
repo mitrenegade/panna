@@ -29,8 +29,6 @@ class PlayerInfoViewController: UIViewController {
     
     fileprivate var askedForPhoto = false
     
-    var cameraController: CameraOverlayViewController?
-    
     // Payment
     @IBOutlet weak var constraintPaymentHeight: NSLayoutConstraint!
 
@@ -55,6 +53,9 @@ class PlayerInfoViewController: UIViewController {
 
         self.setupInputs()
         self.refresh()
+        
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.barTintColor = UIColor.mediumBlue
     }
     
     func setupInputs() {
@@ -129,7 +130,18 @@ class PlayerInfoViewController: UIViewController {
 
     @IBAction func didClickAddPhoto(_ sender: AnyObject?) {
         self.view.endEditing(true)
-        self.selectPhoto()
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action) in
+                self.selectPhoto(camera: true)
+            }))
+        }
+        alert.addAction(UIAlertAction(title: "Photo album", style: .default, handler: { (action) in
+            self.selectPhoto(camera: false)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+        })
+        self.present(alert, animated: true, completion: nil)
     }
 
     @IBAction func didClickSave(_ sender: AnyObject?) {
@@ -210,18 +222,33 @@ extension PlayerInfoViewController: UITextFieldDelegate {
 
 // MARK: Camera
 // photo
-extension PlayerInfoViewController: CameraControlsDelegate {
-    func selectPhoto() {
+extension PlayerInfoViewController {
+    func selectPhoto(camera: Bool) {
         self.view.endEditing(true)
         
-        let controller = CameraOverlayViewController(
-            nibName:"CameraOverlayViewController",
-            bundle: nil
-        )
-        controller.delegate = self
-        controller.view.frame = self.view.frame
-        controller.takePhoto(from: self)
-        self.cameraController = controller
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = true
+
+        picker.view.backgroundColor = .blue
+        UIApplication.shared.isStatusBarHidden = false
+
+        if camera, UIImagePickerController.isSourceTypeAvailable(.camera) {
+            picker.sourceType = .camera
+            picker.cameraCaptureMode = .photo
+            picker.showsCameraControls = true
+        } else {
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                picker.sourceType = .photoLibrary
+            }
+            else {
+                picker.sourceType = .savedPhotosAlbum
+            }
+            picker.navigationBar.isTranslucent = false
+            picker.navigationBar.barTintColor = UIColor.mediumBlue
+        }
+
+        self.present(picker, animated: true)
     }
     
     func didTakePhoto(image: UIImage) {
@@ -248,7 +275,15 @@ extension PlayerInfoViewController: CameraControlsDelegate {
     }
 }
 
-// MARK: - Payment
-extension PlayerInfoViewController {
+extension PlayerInfoViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let img = info[UIImagePickerControllerEditedImage] ?? info[UIImagePickerControllerOriginalImage]
+        guard let photo = img as? UIImage else { return }
+        self.didTakePhoto(image: photo)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismissCamera()
+    }
     
 }

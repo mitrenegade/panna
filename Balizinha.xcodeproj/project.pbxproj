@@ -123,8 +123,6 @@
 		8EDA009E1F6597BC0080F446 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009D1F6597BC0080F446 /* LoggingService.swift */; };
 		8EDD13E91FEB78C10039F1A7 /* ShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD13E81FEB78C10039F1A7 /* ShareService.swift */; };
 		8EDFB1BA1E3D3F00006DD187 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFB1B91E3D3F00006DD187 /* LocationService.swift */; };
-		8EE5B3231E7C17F100BC72A5 /* CameraOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3211E7C17F100BC72A5 /* CameraOverlayViewController.swift */; };
-		8EE5B3241E7C17F100BC72A5 /* CameraOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EE5B3221E7C17F100BC72A5 /* CameraOverlayViewController.xib */; };
 		8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */; };
 		8EE5B3281E7F365200BC72A5 /* PlayerIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */; };
 		8EE94E471FF93DB700129EC2 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE94E461FF93DB700129EC2 /* Launch.storyboard */; };
@@ -250,8 +248,6 @@
 		8EDD13E81FEB78C10039F1A7 /* ShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareService.swift; sourceTree = "<group>"; };
 		8EDFB1B91E3D3F00006DD187 /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventPhotoCell.swift; sourceTree = "<group>"; };
-		8EE5B3211E7C17F100BC72A5 /* CameraOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraOverlayViewController.swift; sourceTree = "<group>"; };
-		8EE5B3221E7C17F100BC72A5 /* CameraOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraOverlayViewController.xib; sourceTree = "<group>"; };
 		8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizerViewController.swift; sourceTree = "<group>"; };
 		8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerIcon.swift; sourceTree = "<group>"; };
 		8EE94E461FF93DB700129EC2 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
@@ -448,7 +444,6 @@
 				8E19A4A71E6C7FCE00D301EC /* Account */,
 				F2F7C3BE1CEE11BE00350115 /* Events */,
 				8E19A4A81E6C933400D301EC /* Event Details */,
-				8EE5B3201E7C17E800BC72A5 /* Camera */,
 				F2F7C3BB1CEE10F700350115 /* Cells */,
 				F20AD03B1D26C0F500969990 /* Utils */,
 				8E7397E91FF921AA00D48BA0 /* Fonts */,
@@ -486,15 +481,6 @@
 			children = (
 			);
 			name = WorkoutWithMe;
-			sourceTree = "<group>";
-		};
-		8EE5B3201E7C17E800BC72A5 /* Camera */ = {
-			isa = PBXGroup;
-			children = (
-				8EE5B3211E7C17F100BC72A5 /* CameraOverlayViewController.swift */,
-				8EE5B3221E7C17F100BC72A5 /* CameraOverlayViewController.xib */,
-			);
-			name = Camera;
 			sourceTree = "<group>";
 		};
 		F20AD03B1D26C0F500969990 /* Utils */ = {
@@ -689,7 +675,6 @@
 				8EC7992F1E3636A0004ACC52 /* EventDetails.storyboard in Resources */,
 				8EE94E471FF93DB700129EC2 /* Launch.storyboard in Resources */,
 				8EC7992B1E3635A0004ACC52 /* Events.storyboard in Resources */,
-				8EE5B3241E7C17F100BC72A5 /* CameraOverlayViewController.xib in Resources */,
 				8E63160B1F5D9A60005CF114 /* GoogleService-Info-dev.plist in Resources */,
 				8E7398031FF921E500D48BA0 /* Montserrat-ExtraLightItalic.ttf in Resources */,
 				8EB90B391FB2B8D5007C60F0 /* Tutorial.storyboard in Resources */,
@@ -922,7 +907,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8EE5B3231E7C17F100BC72A5 /* CameraOverlayViewController.swift in Sources */,
 				8EE5B3281E7F365200BC72A5 /* PlayerIcon.swift in Sources */,
 				8E19A4A41E6C67A500D301EC /* PlayerService.swift in Sources */,
 				8E7256AD1CDF7DB600C9E054 /* SignupViewController.swift in Sources */,

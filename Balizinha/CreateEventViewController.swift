@@ -82,7 +82,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var eventImage: UIImage?
 
     weak var delegate: CreateEventDelegate?
-    var cameraController: CameraOverlayViewController?
     
     var eventToEdit: Event? {
         didSet {
@@ -562,7 +561,18 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         
         switch indexPath.section {
         case Sections.photo.rawValue:
-            self.selectPhoto()
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action) in
+                    self.selectPhoto(camera: true)
+                }))
+            }
+            alert.addAction(UIAlertAction(title: "Photo album", style: .default, handler: { (action) in
+                self.selectPhoto(camera: false)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            })
+            self.present(alert, animated: true, completion: nil)
         case Sections.details.rawValue:
             if currentField != nil{
                 currentField!.resignFirstResponder()
@@ -844,20 +854,35 @@ extension CreateEventViewController: UITextFieldDelegate {
 }
 
 // photo
-extension CreateEventViewController: CameraControlsDelegate {
-    func selectPhoto() {
+extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func selectPhoto(camera: Bool) {
         self.view.endEditing(true)
         
-        let controller = CameraOverlayViewController(
-            nibName:"CameraOverlayViewController",
-            bundle: nil
-        )
-        controller.delegate = self
-        controller.view.frame = self.view.frame
-        controller.takePhoto(from: self)
-        self.cameraController = controller
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = true
+        
+        picker.view.backgroundColor = .blue
+        UIApplication.shared.isStatusBarHidden = false
+        
+        if camera, UIImagePickerController.isSourceTypeAvailable(.camera) {
+            picker.sourceType = .camera
+            picker.cameraCaptureMode = .photo
+            picker.showsCameraControls = true
+        } else {
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                picker.sourceType = .photoLibrary
+            }
+            else {
+                picker.sourceType = .savedPhotosAlbum
+            }
+            picker.navigationBar.isTranslucent = false
+            picker.navigationBar.barTintColor = UIColor.mediumBlue
+        }
+        
+        self.present(picker, animated: true)
     }
-    
+
     func didTakePhoto(image: UIImage) {
         self.eventImage = image
         let indexPath = IndexPath(row: 0, section: 0)
