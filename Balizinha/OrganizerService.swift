@@ -17,6 +17,7 @@ fileprivate var organizationRef: DatabaseReference?
 class OrganizerService: NSObject {
     // MARK: - Singleton
     let disposeBag = DisposeBag()
+    var loading: Bool = true
     static var shared: OrganizerService {
         if singleton == nil {
             singleton = OrganizerService()
@@ -47,7 +48,8 @@ class OrganizerService: NSObject {
         let newOrganizerRef: DatabaseReference = firRef.child("organizers").child(existingUserId)
 
         return Observable.create({ (observer) -> Disposable in
-            newOrganizerRef.observe(.value) { (snapshot: DataSnapshot) in
+            newOrganizerRef.observe(.value) {[weak self] (snapshot: DataSnapshot) in
+                self?.loading = false
                 if snapshot.exists() {
                     observer.onNext(Organizer(snapshot: snapshot))
                 } else {
@@ -78,6 +80,36 @@ class OrganizerService: NSObject {
         let existingUserId = user.uid
         let newOrganizerRef: DatabaseReference = organizerRef.child(existingUserId)
         let params: [AnyHashable: Any] = ["createdAt": Date().timeIntervalSince1970, "name": current.name ?? current.email ?? ""]
+        newOrganizerRef.setValue(params) { (error, ref) in
+            if let error = error {
+                print(error)
+                completion?(nil, error)
+            } else {
+                ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                    guard snapshot.exists() else {
+                        completion?(Organizer.nilOrganizer, nil)
+                        return
+                    }
+                    let organizer = Organizer(snapshot: snapshot)
+                    completion?(organizer, nil)
+                }, withCancel: { (error) in
+                    completion?(nil, nil)
+                })
+            }
+        }
+    }
+    
+    func requestOrganizerAccess(completion: ((Organizer?, Error?) -> Void)? ) {
+        
+        guard let user = PlayerService.currentUser, let current = PlayerService.shared.current else {
+            completion?(nil, nil)
+            return
+        }
+        let organizerRef = firRef.child("organizers")
+        
+        let existingUserId = user.uid
+        let newOrganizerRef: DatabaseReference = organizerRef.child(existingUserId)
+        let params: [AnyHashable: Any] = ["createdAt": Date().timeIntervalSince1970, "name": current.name ?? current.email ?? "", "status": "pending"]
         newOrganizerRef.setValue(params) { (error, ref) in
             if let error = error {
                 print(error)

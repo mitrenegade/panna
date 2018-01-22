@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E0F5685201598CD001E8909 /* OrganizerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0F5684201598CD001E8909 /* OrganizerCell.swift */; };
+		8E0F568720159931001E8909 /* OrganizerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0F568620159931001E8909 /* OrganizerCellViewModel.swift */; };
 		8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D551F7209C40067B6F5 /* SettingsService.swift */; };
 		8E116D581F74A66C0067B6F5 /* StripeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D571F74A66C0067B6F5 /* StripeService.swift */; };
 		8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E4291E31B07900DB4B27 /* SplashViewController.swift */; };
@@ -158,6 +160,8 @@
 		5EEC7A03F1D4279355F0F9CC /* Pods-Balizinha.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.release.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.release.xcconfig"; sourceTree = "<group>"; };
 		72850730339D7BDEAC192B33 /* Pods-LotSportz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotSportz.release.xcconfig"; path = "Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz.release.xcconfig"; sourceTree = "<group>"; };
 		75AF04F244D31D4B039DF4B6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E0F5684201598CD001E8909 /* OrganizerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizerCell.swift; sourceTree = "<group>"; };
+		8E0F568620159931001E8909 /* OrganizerCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizerCellViewModel.swift; sourceTree = "<group>"; };
 		8E116D551F7209C40067B6F5 /* SettingsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
 		8E116D571F74A66C0067B6F5 /* StripeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripeService.swift; sourceTree = "<group>"; };
 		8E11E4291E31B07900DB4B27 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
@@ -405,6 +409,7 @@
 			children = (
 				8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */,
 				8E1B00551FC2E8FF00420256 /* TutorialButtonViewModel.swift */,
+				8E0F568620159931001E8909 /* OrganizerCellViewModel.swift */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -432,7 +437,6 @@
 		8E7256981CDF793200C9E054 /* Balizinha */ = {
 			isa = PBXGroup;
 			children = (
-				8E6AE5431F8E5DAD0062DCF5 /* ViewModels */,
 				8ED3DE761E330CB700947040 /* Balizinha.entitlements */,
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
 				8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */,
@@ -444,6 +448,7 @@
 				8E19A4A71E6C7FCE00D301EC /* Account */,
 				F2F7C3BE1CEE11BE00350115 /* Events */,
 				8E19A4A81E6C933400D301EC /* Event Details */,
+				8E6AE5431F8E5DAD0062DCF5 /* ViewModels */,
 				F2F7C3BB1CEE10F700350115 /* Cells */,
 				F20AD03B1D26C0F500969990 /* Utils */,
 				8E7397E91FF921AA00D48BA0 /* Fonts */,
@@ -527,6 +532,7 @@
 				F2F7C3C11CEE2CDD00350115 /* PushTableViewCell.swift */,
 				8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */,
 				8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */,
+				8E0F5684201598CD001E8909 /* OrganizerCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -919,6 +925,7 @@
 				8E7A2FFA1F831411004EAE6A /* Organizer.swift in Sources */,
 				8EDA009C1F6597060080F446 /* RemoteDataService.swift in Sources */,
 				8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */,
+				8E0F5685201598CD001E8909 /* OrganizerCell.swift in Sources */,
 				8E74E54B1FA9FB51005F72DA /* PlaceSearchViewController.swift in Sources */,
 				8EB90B3B1FB2BABE007C60F0 /* TutorialViewController.swift in Sources */,
 				8E27716E1E6E60D700B161ED /* Action.swift in Sources */,
@@ -930,6 +937,7 @@
 				F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */,
 				8E19A4B01E6C9CF200D301EC /* PaymentTypesViewController.swift in Sources */,
 				8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */,
+				8E0F568720159931001E8909 /* OrganizerCellViewModel.swift in Sources */,
 				8E4D36751F8BA47A00B8B0B5 /* Date+Utils.swift in Sources */,
 				8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
