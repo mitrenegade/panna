@@ -256,22 +256,31 @@ extension PlayerInfoViewController {
             self.simpleAlert("Invalid info", message: "We could not save your photo because your user is invalid. Please log out and log back in.")
             return
         }
-        FirebaseImageService.uploadImage(image: image, type: "player", uid: id, completion: { (url) in
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
+        })
+        FirebaseImageService.uploadImage(image: image, type: "player", uid: id, progressHandler: { (percent) in
+            alert.title = "Upload progress: \(Int(percent*100))%"
+        }) { (url) in
             if let url = url {
                 self.refreshPhoto(url: url)
                 if let player = PlayerService.shared.current {
                     player.photoUrl = url
                 }
             }
-        })
+            // dismiss
+            alert.dismiss(animated: true, completion: nil)
+        }
         self.photoView.image = image
         self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 2
         
-        self.dismissCamera()
+        self.dismissCamera {
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
-    func dismissCamera() {
-        self.dismiss(animated: true, completion: nil)
+    func dismissCamera(completion: (()->Void)? = nil) {
+        self.dismiss(animated: true, completion: completion)
     }
 }
 

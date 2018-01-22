@@ -15,7 +15,7 @@ fileprivate let storageRef = storage.reference()
 fileprivate let imageBaseRef = storageRef.child("images")
 
 class FirebaseImageService: NSObject {
-    class func uploadImage(image: UIImage, type: String, uid: String, completion: @escaping ((_ imageUrl: String?)->Void)) {
+    class func uploadImage(image: UIImage, type: String, uid: String, progressHandler: ((_ percent: Double)->Void)? = nil, completion: @escaping ((_ imageUrl: String?)->Void)) {
         guard let data = UIImageJPEGRepresentation(image, 1) else {
             completion(nil)
             return
@@ -29,6 +29,14 @@ class FirebaseImageService: NSObject {
             }
             let url = metadata.downloadURL()
             completion(url?.absoluteString)
+        }
+        
+        uploadTask.observe(.progress) { (storageTaskSnapshot) in
+            if let progress = storageTaskSnapshot.progress {
+                print("Progress \(progress)")
+                let percent = progress.fractionCompleted
+                progressHandler?(percent)
+            }
         }
     }
 }
