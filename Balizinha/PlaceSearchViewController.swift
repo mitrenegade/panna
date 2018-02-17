@@ -27,7 +27,7 @@ class PlaceSearchViewController: UIViewController {
         setupSearch()
         
         let button = UIButton(type: .custom)
-        button.setTitle("Cancel", for: .normal)
+        button.setTitle("Back", for: .normal)
         button.addTarget(self, action: #selector(cancel), for: .touchUpInside)
         let cancelButton = UIBarButtonItem(customView: button)
         self.navigationItem.leftBarButtonItem = cancelButton
@@ -59,11 +59,23 @@ class PlaceSearchViewController: UIViewController {
         locationSearchTable.delegate = self
         searchController = UISearchController(searchResultsController: locationSearchTable)
         searchController?.searchResultsUpdater = locationSearchTable
+        searchController?.delegate = self
         
         let searchBar = searchController!.searchBar
         searchBar.sizeToFit()
         searchBar.placeholder = "Search for locations"
+        searchBar.showsCancelButton = false
         navigationItem.titleView = searchBar
+        
+        let keyboardNextButtonView = UIToolbar()
+        keyboardNextButtonView.sizeToFit()
+        keyboardNextButtonView.barStyle = UIBarStyle.black
+        keyboardNextButtonView.isTranslucent = true
+        keyboardNextButtonView.tintColor = UIColor.white
+        let button: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.done, target: self, action: #selector(cancelSearch))
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        keyboardNextButtonView.setItems([flex, button], animated: true)
+        searchBar.inputAccessoryView = keyboardNextButtonView
         
         searchController?.hidesNavigationBarDuringPresentation = false
         searchController?.dimsBackgroundDuringPresentation = true
@@ -87,6 +99,16 @@ class PlaceSearchViewController: UIViewController {
         print("selected placemark \(name), \(street), \(city), \(state), \(coordinate)")
         
         delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
+    }
+    
+    @objc fileprivate func cancelSearch() {
+        searchController?.searchBar.resignFirstResponder()
+    }
+}
+
+extension PlaceSearchViewController: UISearchControllerDelegate {
+    func didPresentSearchController(_ searchController: UISearchController) {
+        searchController.searchBar.showsCancelButton = false
     }
 }
 
