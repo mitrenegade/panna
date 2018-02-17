@@ -65,8 +65,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             print("Invalid password")
             return
         }
-        
-        firAuth.signIn(withEmail: email, password: password, completion: { [weak self] (user, error) in
+        AuthService.shared.loginUser(email: email, password: password) { [weak self] (error) in
             if let error: NSError = error as NSError? {
                 print("Error: \(error)")
                 if error.code == 17009 {
@@ -81,12 +80,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 }
             }
             else {
-                print("LoginLogout: LoginSuccess from email, results: \(String(describing: user))")
-                // do not store userInfo on login. should be created on signup.
-                let _ = PlayerService.shared.current // invoke listener
-                self?.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
+                print("LoginLogout: LoginSuccess from email")
+                // let observer handle things
             }
-        })
+        }
     }
     
     func handleFacebookUser() {
@@ -111,7 +108,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         }
                     } else {
                         print("LoginLogout: LoginSuccess from facebook, results: \(String(describing: user))")
-                        self?.notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
+                        // let observer handle things
                     }
                 })
             }

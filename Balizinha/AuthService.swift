@@ -46,16 +46,6 @@ class AuthService: NSObject {
     }
 
     func loginUser(email: String, password: String, completion: ((Error?)->Void)?) {
-        if email.isEmpty {
-            print("Invalid email")
-            return
-        }
-        
-        if password.isEmpty {
-            print("Invalid password")
-            return
-        }
-        
         firAuth.signIn(withEmail: email, password: password, completion: { (user, error) in
             if let error: NSError = error as NSError? {
                 print("Error: \(error)")
@@ -77,6 +67,5 @@ class AuthService: NSObject {
         PlayerService.resetOnLogout()
         OrganizerService.resetOnLogout()
         FBSDKLoginManager().logOut()
-        self.notify(.LogoutSuccess, object: nil, userInfo: nil)
     }
 }

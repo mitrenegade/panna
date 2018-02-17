@@ -66,34 +66,21 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             }
             else {
                 print("createUser results: \(String(describing: user))")
-                self.loginUser()
-            }
-        })
-    }
-        
-    func loginUser() {
-        guard let email = self.inputEmail.text, !email.isEmpty else {
-            self.simpleAlert("Please enter your email", message: nil)
-            return
-        }
-        guard let password = self.inputPassword.text, !password.isEmpty else {
-            self.simpleAlert("Please enter your password", message: nil)
-            return
-        }
-        
-        firAuth.signIn(withEmail: email, password: password, completion: { [weak self] (user, error) in
-            if let error = error as NSError? {
-                print("Error: \(error)")
-                self?.simpleAlert("Could not log in", defaultMessage: nil, error: error)
-            }
-            else {
-                print("signIn results: \(String(describing: user)) profile \(String(describing: user?.photoURL)) \(String(describing: user?.displayName))")
-                
-                guard let disposeBag = self?.disposeBag else { return }
-                let _ = PlayerService.shared.current // invoke listener
-                PlayerService.shared.observedPlayer?.asObservable().take(1).subscribe(onNext: { (player) in
-                    self?.goToEditPlayer(player)
-                }).disposed(by: disposeBag)
+                AuthService.shared.loginUser(email: email, password: password, completion: { [weak self] (error) in
+                    if let error = error as NSError? {
+                        print("Error: \(error)")
+                        self?.simpleAlert("Could not log in", defaultMessage: nil, error: error)
+                    }
+                    else {
+                        print("signIn results: \(String(describing: user)) profile \(String(describing: user?.photoURL)) \(String(describing: user?.displayName))")
+                        
+                        guard let disposeBag = self?.disposeBag else { return }
+                        let _ = PlayerService.shared.current // invoke listener
+                        PlayerService.shared.observedPlayer?.asObservable().take(1).subscribe(onNext: { (player) in
+                            self?.goToEditPlayer(player)
+                        }).disposed(by: disposeBag)
+                    }
+                })
             }
         })
     }

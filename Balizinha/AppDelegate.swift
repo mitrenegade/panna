@@ -50,8 +50,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let STRIPE_KEY = TESTING ? STRIPE_KEY_DEV : STRIPE_KEY_PROD
         STPPaymentConfiguration.shared().publishableKey = STRIPE_KEY
-        
-        listenFor(NotificationType.LoginSuccess, action: #selector(logPlayerLogin), object: nil)
+
+        AuthService.shared.loginState.asObservable().subscribe(onNext: { [weak self] state in
+            if state == .loggedIn {
+                self?.logPlayerLogin()
+            }
+        }).disposed(by: disposeBag)
 
         let _ = SettingsService.shared
 
