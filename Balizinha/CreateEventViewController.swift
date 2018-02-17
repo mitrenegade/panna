@@ -47,14 +47,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var paymentRequired: Bool = false
     var amount: NSNumber?
     
-    // organizer cache
-    var cachedName: String?
-    var cachedPlace: String?
-    var cachedCity: String?
-    var cachedState: String?
-    var cachedLat: Double?
-    var cachedLon: Double?
-   
     var nameField: UITextField?
     var typeField: UITextField?
     var placeField: UITextField?
@@ -85,12 +77,22 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     
     var eventToEdit: Event? {
         didSet {
-            if let city = eventToEdit?.dict["city"] as? String{
-                self.city = city
+            name = eventToEdit?.name
+            type = eventToEdit?.type
+            city = eventToEdit?.city
+            state = eventToEdit?.state
+            place = eventToEdit?.place
+            lat = eventToEdit?.lat
+            lon = eventToEdit?.lon
+            date = eventToEdit?.startTime
+            startTime = eventToEdit?.startTime
+            endTime = eventToEdit?.endTime
+            if let event = eventToEdit {
+                numPlayers = UInt(event.numPlayers)
             }
-            if let state = eventToEdit?.dict["state"] as? String {
-                self.state = state
-            }
+            info = eventToEdit?.info
+            paymentRequired = eventToEdit?.paymentRequired ?? false
+            amount = eventToEdit?.amount
         }
     }
     var datesForPicker: [Date] = []
@@ -191,21 +193,15 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     fileprivate func loadCachedOrganizerFavorites() {
         if let name = UserDefaults.standard.string(forKey: "organizerCachedName") {
             self.name = name
-            self.cachedName = name
         }
         if let place = UserDefaults.standard.string(forKey: "organizerCachedPlace") {
             self.place = place
-            self.cachedPlace = place
         }
         if let lat = UserDefaults.standard.value(forKey: "organizerCachedLat") as? Double, let lon = UserDefaults.standard.value(forKey: "organizerCachedLon") as? Double, let city = UserDefaults.standard.string(forKey: "organizerCachedCity"), let state = UserDefaults.standard.string(forKey: "organizerCachedState") {
             self.lat = lat
-            self.cachedLat = lat
             self.lon = lon
-            self.cachedLon = lon
             self.city = city
-            self.cachedCity = city
             self.state = state
-            self.cachedState = state
         }
     }
     
@@ -228,7 +224,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     @IBAction func didClickSave(_ sender: AnyObject) {
         // in case user clicks save without clicking done first
         self.done()
-        
         self.info = self.descriptionTextView?.text ?? eventToEdit?.info
         
         guard let place = self.place else {
@@ -401,26 +396,12 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 if options[indexPath.row] == "Venue" {
                     cell.valueTextField.placeholder = "Fenway Park"
                     self.placeField = cell.valueTextField
-                    if let place = self.eventToEdit?.place {
-                        self.place = place
-                        self.placeField?.text = place
-                    }
-                    else if let cachedPlace = self.cachedPlace {
-                        self.place = cachedPlace
-                        self.placeField?.text = cachedPlace
-                    }
+                    self.placeField?.text = place
                     self.placeField?.isUserInteractionEnabled = false
                 } else if options[indexPath.row] == "Name" {
                     cell.valueTextField.placeholder = "Balizinha"
                     self.nameField = cell.valueTextField
-                    if let name = self.eventToEdit?.name {
-                        self.name = name
-                        self.nameField?.text = name
-                    }
-                    else if let cachedName = self.cachedName {
-                        self.name = cachedName
-                        self.nameField?.text = cachedName
-                    }
+                    self.nameField?.text = name
                     self.nameField?.isUserInteractionEnabled = true
                 }
                 
@@ -431,11 +412,6 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 cell.delegate = self
                 self.amountField = cell.input
                 self.paymentSwitch = cell.switchToggle
-                
-                if let amount = self.eventToEdit?.amount {
-                    self.paymentRequired = self.eventToEdit?.paymentRequired ?? false
-                    self.amount = amount
-                }
                 self.didToggle(cell.switchToggle, isOn: paymentRequired)
                 return cell
             }
@@ -451,32 +427,28 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     self.typeField?.inputView = self.typePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView2
                     
-                    if let event = self.eventToEdit, let index = self.eventTypes.index(of: event.type) {
-                        self.type = event.type
+                    if let type = type, let index = self.eventTypes.index(of: type) {
                         self.typeField?.text = self.sportTypes[index]
                     }
                 case "Day":
                     self.dayField = cell.valueTextField
                     self.dayField?.inputView = self.datePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
-                    if let date = self.eventToEdit?.startTime {
-                        self.date = date
+                    if let date = date {
                         self.dayField?.text = date.dateStringForPicker()
                     }
                 case "Start Time":
                     self.startField = cell.valueTextField
                     self.startField?.inputView = self.startTimePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
-                    if let date = self.eventToEdit?.startTime {
-                        self.startTime = date
+                    if let date = startTime {
                         self.startField?.text = date.timeStringForPicker()
                     }
                 case "End Time":
                     self.endField = cell.valueTextField
                     self.endField?.inputView = self.endTimePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
-                    if let date = self.eventToEdit?.endTime {
-                        self.endTime = date
+                    if let date = endTime {
                         self.endField?.text = date.timeStringForPicker()
                     }
                 case "Max Players":
@@ -484,8 +456,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     self.maxPlayersField?.inputView = self.numberPickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView2
 
-                    if let max = self.eventToEdit?.maxPlayers {
-                        self.numPlayers = UInt(max)
+                    if let max = numPlayers {
                         self.maxPlayersField?.text = "\(max)"
                     }
                 default:
@@ -504,8 +475,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             
             cell.descriptionTextView.inputAccessoryView = self.keyboardDoneButtonView2
             
-            if let notes = self.eventToEdit?.info {
-                self.info = notes
+            if let notes = info {
                 cell.descriptionTextView.text = notes
             }
 
