@@ -91,51 +91,71 @@ class Action: FirebaseBaseModel {
     }
     
     var createdAt: Date? {
-        if let timeInterval = self.dict["createdAt"] as? TimeInterval {
-            return Date(timeIntervalSince1970: timeInterval)
+        if let val = self.dict["createdAt"] as? TimeInterval {
+            let time1970: TimeInterval = 1517606802
+            if val > time1970 * 10.0 {
+                return Date(timeIntervalSince1970: (val / 1000.0))
+            } else {
+                return Date(timeIntervalSince1970: val)
+            }
         }
         return nil
     }
 }
 
-extension Action {
+
+class ActionViewModel {
+    var action: Action
+    var event: Event?
+    
+    init(action: Action) {
+        self.action = action
+        switch action.type {
+        case .createEvent, .joinEvent, .leaveEvent, .payForEvent:
+            if let eventId = action.event {
+                EventService.shared.withId(id: eventId, completion: { [weak self] (event) in
+                    self?.event = event
+                })
+            }
+        default:
+            return
+        }
+    }
+    
     var displayDate: String {
-        let createdAt: Date
-        if let val = self.dict["createdAt"] as? TimeInterval {
-            createdAt = Date(timeIntervalSince1970: val)
+        if let date = action.createdAt {
+            return date.dateString()
         }
-        else {
-            return "65 Billion BC"
-        }
-        
-        return createdAt.dateString()
+        return "65 Billion BC"
+    }
+    
+    var eventName: String {
+        return event?.name ?? "this event"
     }
     
     var displayString: String {
-        let uid = self.userId ?? ""
-        let userString = self.userIsOrganizer ? "You" : (self.username ?? (PlayerService.cachedNames[uid] ?? GENERIC_USERNAME) )
-        switch self.type {
+        let userString = self.userIsOrganizer ? "You" : (action.username ?? GENERIC_USERNAME)
+        switch action.type {
         case .chat:
-            return userString + " said: " + (self.message ?? GENERIC_CHAT)
+            return userString + " said: " + (action.message ?? GENERIC_CHAT)
         case .createEvent:
-            return userString + " created this event at " + self.displayDate
+            return userString + " created \(eventName) at " + self.displayDate
         case .joinEvent:
-            return userString + " joined this event"
+            return userString + " joined \(eventName)"
         case .leaveEvent:
-            return userString + " left this event"
+            return userString + " left \(eventName)"
         case .donation:
-            return userString + " paid for this event"
+            return userString + " paid for \(eventName)"
         case .payForEvent:
-            return userString + " paid for this event"
+            return userString + " paid for \(eventName)"
         default:
             // system message
             return "Admin says: hi"
         }
     }
     
-    
     var userIsOrganizer: Bool {
-        guard let owner = self.userId else { return false }
+        guard let owner = self.action.userId else { return false }
         guard let currentUserId = PlayerService.currentUser?.uid else { return false }
         
         return currentUserId == owner

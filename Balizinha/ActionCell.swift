@@ -17,7 +17,8 @@ class ActionCell: UITableViewCell {
     var actionId: String?
 
     func configureWith(action: Action) {
-        self.labelText.text = action.displayString
+        let viewModel = ActionViewModel(action: action)
+        self.labelText.text = viewModel.displayString
         self.labelText.sizeToFit()
         self.constraintLabelHeight.constant = max(40, self.labelText.frame.size.height)
         

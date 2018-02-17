@@ -165,6 +165,9 @@ extension PlayerService {
     func downloadFacebookPhoto() {
         guard let player = current else { return }
         FBSDKProfile.loadCurrentProfile(completion: { (profile, error) in
+            if let error = error {
+                print("error \(error)")
+            }
             guard let photoUrl = FBSDKProfile.current().imageURL(for: FBSDKProfilePictureMode.square, size: CGSize(width: 100, height: 100)) else { return }
             DispatchQueue.global().async {
                 guard let data = try? Data(contentsOf: photoUrl) else { return }
