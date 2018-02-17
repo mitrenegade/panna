@@ -52,6 +52,8 @@
 		8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */; };
 		8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F091CE58CEE00C91A12 /* Event.swift */; };
 		8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E39FE8D1D237C710030CB96 /* NotificationService.swift */; };
+		8E4AB9B720389D320089B464 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4AB9B620389D320089B464 /* AuthService.swift */; };
+		8E4AB9B82038A0D90089B464 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4AB9B620389D320089B464 /* AuthService.swift */; };
 		8E4D36641F8BA0D500B8B0B5 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F001CE57E8600C91A12 /* EventService.swift */; };
 		8E4D36651F8BA0D500B8B0B5 /* PlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A31E6C67A500D301EC /* PlayerService.swift */; };
 		8E4D36661F8BA0D500B8B0B5 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E39FE8D1D237C710030CB96 /* NotificationService.swift */; };
@@ -188,6 +190,7 @@
 		8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBaseModel.swift; sourceTree = "<group>"; };
 		8E379F091CE58CEE00C91A12 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		8E39FE8D1D237C710030CB96 /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		8E4AB9B620389D320089B464 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		8E4D36711F8BA45900B8B0B5 /* NSObject+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Utils.swift"; sourceTree = "<group>"; };
 		8E4D36741F8BA47900B8B0B5 /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
 		8E54213D1E70CEF100AE4F3A /* ChatInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputViewController.swift; sourceTree = "<group>"; };
@@ -369,6 +372,7 @@
 		8E379F0B1CE58F9400C91A12 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				8E4AB9B620389D320089B464 /* AuthService.swift */,
 				8EDFB1B91E3D3F00006DD187 /* LocationService.swift */,
 				8E379F001CE57E8600C91A12 /* EventService.swift */,
 				8E19A4A31E6C67A500D301EC /* PlayerService.swift */,
@@ -874,6 +878,7 @@
 				8E4D36731F8BA46700B8B0B5 /* NSObject+Utils.swift in Sources */,
 				8E4D36701F8BA36500B8B0B5 /* String+Utils.swift in Sources */,
 				8E4D366B1F8BA0D500B8B0B5 /* SettingsService.swift in Sources */,
+				8E4AB9B82038A0D90089B464 /* AuthService.swift in Sources */,
 				8E1F3CC71F8B9A9D005186AD /* EventCellDonationTests.swift in Sources */,
 				8E1F3CD71F8B9B8C005186AD /* ToggleCell.swift in Sources */,
 				8E4D366E1F8BA0D500B8B0B5 /* PromotionService.swift in Sources */,
@@ -937,6 +942,7 @@
 				F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */,
 				8E19A4B01E6C9CF200D301EC /* PaymentTypesViewController.swift in Sources */,
 				8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */,
+				8E4AB9B720389D320089B464 /* AuthService.swift in Sources */,
 				8E0F568720159931001E8909 /* OrganizerCellViewModel.swift in Sources */,
 				8E4D36751F8BA47A00B8B0B5 /* Date+Utils.swift in Sources */,
 				8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */,

@@ -62,16 +62,6 @@ class AccountViewController: UIViewController {
         }
     }
     
-    private func logout() {
-        print("LoginLogout: logout called, trying firAuth.signout")
-        try! firAuth.signOut()
-        EventService.resetOnLogout() // force new listeners
-        PlayerService.resetOnLogout()
-        OrganizerService.resetOnLogout()
-        FBSDKLoginManager().logOut()
-        self.notify(.LogoutSuccess, object: nil, userInfo: nil)
-    }
-    
     // MARK: - Promotions
     func addPromotion() {
         guard let current = PlayerService.shared.current else { return }
@@ -189,7 +179,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case "Push notifications":
             break
         case "Logout":
-            self.logout()
+            AuthService.shared.logout()
         case "Promo program":
             guard let player = PlayerService.shared.current else { return }
             if let promoId = player.promotionId {
