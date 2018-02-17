@@ -19,8 +19,6 @@ let kNotificationsDefaultsKey = "NotificationsDefaultsKey"
 let gcmMessageIDKey = "gcm.message_id"
 
 enum NotificationType: String {
-    case LogoutSuccess
-    case LoginSuccess
     case EventsChanged
     case PaymentContextChanged
     case GoToDonationForEvent

@@ -39,52 +39,25 @@ class SplashViewController: UIViewController {
         // start listening for user once settingsService returns. only do this once
         SettingsService.shared.observedSettings?.take(1).subscribe(onNext: {[weak self]_ in
             self?.listenForUser()
-        }).disposed(by: self.disposeBag)
+        }).disposed(by: disposeBag)
         
         SplashViewController.shared = self
-
-        print("LoginLogout: listening for LoginSuccess")
-        listenFor(.LoginSuccess, action: #selector(didLogin), object: nil)
-        listenFor(.LogoutSuccess, action: #selector(didLogout), object: nil)
     }
     
     func listenForUser() {
-        print("LoginLogout: start listening for user")
-        self.handle = firAuth.addStateDidChangeListener({ (auth, user) in
-            print("LoginLogout: auth state changed: \(auth) user: \(user) current \(PlayerService.currentUser)")
-            if let user = user, !user.isAnonymous {
-                self.alreadyLoggedIn() // app started already logged in
+        print("LoginLogout: listening for LoginSuccess")
+        AuthService.shared.loginState.asObservable().subscribe(onNext: { [weak self] state in
+            if state == .loggedIn {
+                self?.didLogin()
+            } else if state == .loggedOut {
+                self?.didLogout()
             }
-            else {
-                if SettingsService.showPreview {
-                    self.goToPreview()
-                }
-                else {
-                    self.goToSignupLogin()
-                }
-            }
-            
-            if self.handle != nil {
-                print("LoginLogout: removing state listener")
-                firAuth.removeStateDidChangeListener(self.handle!)
-                self.handle = nil
-            }
-        })
+        }).disposed(by: disposeBag)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-    }
-    
-    deinit {
-        stopListeningFor(.LoginSuccess)
-        stopListeningFor(.LogoutSuccess)
-    }
-    
-    func alreadyLoggedIn() {
-        // user is logged in
-        notify(NotificationType.LoginSuccess, object: nil, userInfo: nil)
     }
     
     @objc func didLogin() {

@@ -141,5 +141,13 @@ class Player: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
+    
+    
+    var createdAt: Date? {
+        if let val = self.dict["createdAt"] as? TimeInterval {
+            return Date(timeIntervalSince1970: val)
+        }
+        return nil
+    }
 }
 
