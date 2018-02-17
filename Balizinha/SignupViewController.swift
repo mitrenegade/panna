@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-class SignupViewController: UIViewController, UITextFieldDelegate {
+class SignupViewController: UIViewController {
 
     @IBOutlet weak var inputEmail: UITextField!
     @IBOutlet weak var inputPassword: UITextField!
@@ -17,10 +17,24 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var buttonSignup: UIButton!
     fileprivate let disposeBag = DisposeBag()
     
+    var shouldCancelInput: Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let keyboardNextButtonView = UIToolbar()
+        keyboardNextButtonView.sizeToFit()
+        keyboardNextButtonView.barStyle = UIBarStyle.black
+        keyboardNextButtonView.isTranslucent = true
+        keyboardNextButtonView.tintColor = UIColor.white
+        let button: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.done, target: self, action: #selector(cancelInput))
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        keyboardNextButtonView.setItems([flex, button], animated: true)
+        
+        inputEmail.inputAccessoryView = keyboardNextButtonView
+        inputPassword.inputAccessoryView = keyboardNextButtonView
+        inputConfirmation.inputAccessoryView = keyboardNextButtonView
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -92,5 +106,28 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             
             self.navigationController?.pushViewController(controller, animated: true)
         }
+    }
+}
+
+extension SignupViewController: UITextFieldDelegate {
+    @objc fileprivate func cancelInput() {
+        shouldCancelInput = true
+        view.endEditing(true)
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        shouldCancelInput = false
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard !shouldCancelInput else { return }
+        if textField == inputEmail {
+            inputPassword.becomeFirstResponder()
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

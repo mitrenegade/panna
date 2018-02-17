@@ -10,7 +10,7 @@ import UIKit
 import FBSDKLoginKit
 import Firebase
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController {
     
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var inputEmail: UITextField!
@@ -18,15 +18,24 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var buttonLogin: UIButton!
     @IBOutlet weak var buttonFacebook: UIButton!
     @IBOutlet weak var buttonSignup: UIButton!
-
+    var shouldCancelInput: Bool = false
+    
     let facebookLogin = FBSDKLoginManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-//        inputEmail.attributedPlaceholder = NSAttributedString(string:"Place holder text in here", attributes:[NSForegroundColorAttributeName: UIColor(red: 153.0/255.5, green: 153.0/255.5, blue: 153.0/255.5, alpha: 0.5)])
+        let keyboardNextButtonView = UIToolbar()
+        keyboardNextButtonView.sizeToFit()
+        keyboardNextButtonView.barStyle = UIBarStyle.black
+        keyboardNextButtonView.isTranslucent = true
+        keyboardNextButtonView.tintColor = UIColor.white
+        let button: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.done, target: self, action: #selector(cancelInput))
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        keyboardNextButtonView.setItems([flex, button], animated: true)
 
+        inputEmail.inputAccessoryView = keyboardNextButtonView
+        inputPassword.inputAccessoryView = keyboardNextButtonView
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -113,6 +122,29 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 })
             }
         }
+    }
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    @objc fileprivate func cancelInput() {
+        shouldCancelInput = true
+        view.endEditing(true)
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        shouldCancelInput = false
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard !shouldCancelInput else { return }
+        if textField == inputEmail {
+            inputPassword.becomeFirstResponder()
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 
