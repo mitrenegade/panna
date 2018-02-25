@@ -145,9 +145,24 @@ class Player: FirebaseBaseModel {
     
     var createdAt: Date? {
         if let val = self.dict["createdAt"] as? TimeInterval {
-            return Date(timeIntervalSince1970: val)
+            let time1970: TimeInterval = 1517606802
+            if val > time1970 * 10.0 {
+                return Date(timeIntervalSince1970: (val / 1000.0))
+            } else {
+                return Date(timeIntervalSince1970: val)
+            }
         }
         return nil
+    }
+    
+    var os: String? {
+        get {
+            return self.dict["OS"] as? String
+        }
+        set {
+            self.dict["OS"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
     }
 }
 
