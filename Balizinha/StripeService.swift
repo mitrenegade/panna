@@ -13,24 +13,10 @@ import Firebase
 fileprivate var singleton: StripeService?
 
 class StripeService: NSObject {
-//    static var shared: StripeService {
-//        if singleton == nil {
-//            singleton = StripeService()
-//        }
-//        
-//        return singleton!
-//        
-//    }
-    
     // payment method
     var paymentContext: STPPaymentContext?
     var hostController: UIViewController?
     
-    // variables for creating customer key
-    let opQueue = OperationQueue()
-    var urlSession: URLSession?
-    var dataTask: URLSessionTask?
-    var data: Data?
     var customerId: String?
 
     var completionHandler: STPJSONResponseCompletionBlock?
@@ -82,16 +68,13 @@ class StripeService: NSObject {
     
     func createCustomer() {
         guard let url = self.baseURL?.appendingPathComponent("createStripeCustomerForLegacyUser_v0_2") else { return }
-        urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: self.opQueue)
-        
-        let params = ["email": PlayerService.shared.current?.email, "id": PlayerService.shared.current?.id]
-        var request = URLRequest(url:url)
-        request.httpMethod = "POST"
-        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
-        
-        try! request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
-        let task = urlSession?.dataTask(with: request)
-        task?.resume()
+        guard let email = PlayerService.shared.current?.email else { return }
+        guard let id = PlayerService.shared.current?.id else { return }
+        let params: [String: Any] = ["email": email, "id": id]
+        let method = "POST"
+        FirebaseAPIService.shared.cloudFunction(url: url.absoluteString, method: method, params: params) { (result, error) in
+            
+        }
     }
     
     func savePaymentInfo(_ paymentMethod: STPPaymentMethod) {
@@ -225,75 +208,11 @@ extension StripeService: STPPaymentContextDelegate {
 extension StripeService: STPEphemeralKeyProvider {
     func createCustomerKey(withAPIVersion apiVersion: String, completion: @escaping STPJSONResponseCompletionBlock) {
         guard let url = self.baseURL?.appendingPathComponent("ephemeralKeys") else { return }
-        
-        urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: self.opQueue)
-        
-        let params = ["api_version": apiVersion, "customer_id": self.customerId]
-        var request = URLRequest(url:url)
-        request.httpMethod = "POST"
-        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
-        
-        try! request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
-        
-        self.completionHandler = completion
-        
-        let task = urlSession?.dataTask(with: request)
-        task?.resume()
+        guard let customerId = self.customerId else { return }
+        let params: [String: Any] = ["api_version": apiVersion, "customer_id": customerId]
+        let method = "POST"
+        FirebaseAPIService.shared.cloudFunction(url: url.absoluteString, method: method, params: params) { (result, error) in
+            completion(result as? [AnyHashable: Any], error)
+        }
     }
 }
-
-extension StripeService: URLSessionDelegate, URLSessionDataDelegate {
-    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        print("data received")
-        if let data = self.data {
-            self.data?.append(data)
-        }
-        else {
-            self.data = data
-        }
-    }
-    
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        print("completed")
-        defer {
-            self.data = nil
-            self.completionHandler = nil
-        }
-        
-        if let usableData = self.data {
-            do {
-                let json = try JSONSerialization.jsonObject(with: usableData, options: [])
-                print("StripeService: urlSession completed with json \(json)")
-                completionHandler?(json as? [String: AnyObject], nil)
-            } catch let error {
-                print("StripeService: JSON parsing resulted in error \(error)")
-//                let dataString = String.init(data: usableData, encoding: .utf8)
-//                print("StripeService: try reading data as string: \(dataString)")
-                completionHandler?(nil, error)
-            }
-        }
-        else if let error = error {
-            completionHandler?(nil, error)
-        }
-        else {
-            print("here")
-        }
-    }
-
-    func test() {
-        let urlString = "https://us-central1-balizinha-dev.cloudfunctions.net/testFunction"
-        guard let requestUrl = URL(string:urlString) else { return }
-        var request = URLRequest(url:requestUrl)
-
-        let params = ["uid": "123", "email": "test@gmail.com"]
-        request.httpMethod = "POST"
-        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
-        
-        try! request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
-
-        let task = URLSession.shared.dataTask(with: request)
-        task.resume()
-    }
-
-}
-

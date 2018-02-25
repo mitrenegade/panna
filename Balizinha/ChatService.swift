@@ -1,5 +1,5 @@
 //
-//  ActionService.swift
+//  ChatService.swift
 //  Balizinha
 //
 //  Created by Bobby Ren on 3/6/17.
@@ -10,20 +10,37 @@ import UIKit
 import Firebase
 
 typealias actionUpdateHandler = (Action, _ visible: Bool) -> (Void)
-class ActionService: NSObject {
+class ChatService: NSObject {
+    
+    fileprivate func getUniqueId(completion: (()->String)) {
+        guard let url = self.baseURL?.appendingPathComponent("getUniqueId") else { return }
+        
+        urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: self.opQueue)
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+        
+        try! request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
+        
+        self.completionHandler = completion
+        
+        let task = urlSession?.dataTask(with: request)
+        task?.resume()
+    }
 
-    class func post(_ type: ActionType, eventId: String, message: String?) {
+    class func post(eventId: String, message: String) {
         // convenience function to encapsulate player loading and displayName for an action that is relevant to the current player
         guard let user = PlayerService.currentUser else { return }
         PlayerService.shared.withId(id: user.uid) { (player) in
-            ActionService.post(type, userId: user.uid, username: player?.name ?? user.displayName, eventId: eventId, message: message)
+            post(userId: user.uid, username: player?.name ?? user.displayName, eventId: eventId, message: message)
         }
-        
     }
     
-    class func post(_ type: ActionType, userId: String?, username: String?, eventId: String, message: String?) {
-        let baseRef = firRef.child("action") // this references the endpoint lotsports.firebase.com/action/
-        let newObjectRef = baseRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/action/<uniqueId>
+    class func post(userId: String, username: String?, eventId: String, message: String) {
+        
+        let baseRef = firRef.child("action")
+        let newObjectRef = baseRef.childByAutoId()
         var params: [String: Any] = ["type": type.rawValue, "event": eventId, "createdAt": Date().timeIntervalSince1970]
         if let userId = userId { // userId is almost always Auth.current
             params["user"] = userId
