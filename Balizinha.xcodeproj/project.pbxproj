@@ -366,7 +366,6 @@
 				8E379F091CE58CEE00C91A12 /* Event.swift */,
 				8E19A49D1E6C61FE00D301EC /* Player.swift */,
 				8E27716D1E6E60D700B161ED /* Action.swift */,
-				8E6D06E12043652000C4041D /* ActionService.swift */,
 				8EACC3B51F7B449C0091FBC5 /* Payment.swift */,
 				8E7A2FFB1F83256E004EAE6A /* Promotion.swift */,
 			);
@@ -392,6 +391,7 @@
 				8E7A2FFF1F833969004EAE6A /* PromotionService.swift */,
 				8EDD13E81FEB78C10039F1A7 /* ShareService.swift */,
 				8E16A59D1FECB34400D24D69 /* DeepLinkService.swift */,
+				8E6D06E12043652000C4041D /* ActionService.swift */,
 				C6FDE5C520431F0100FE0C76 /* FirebaseAPIService.swift */,
 			);
 			name = Services;
