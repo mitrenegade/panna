@@ -373,7 +373,6 @@ extension EventsViewController {
         stripeService.createCharge(for: event, amount: amount, player: current, completion: {[weak self] (success, error) in
             self?.activityIndicator.stopAnimating()
             if success {
-                ActionService.post(.payForEvent, eventId: event.id, message: nil)
                 self?.joinEvent(event)
                 self?.joiningEvent = nil
             }

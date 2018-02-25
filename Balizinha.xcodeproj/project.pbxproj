@@ -75,6 +75,7 @@
 		8E63160C1F5D9A60005CF114 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E63160A1F5D9A60005CF114 /* GoogleService-Info.plist */; };
 		8E6AE53F1F8E5C550062DCF5 /* PaymentInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6AE53E1F8E5C550062DCF5 /* PaymentInfoViewController.swift */; };
 		8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */; };
+		8E6D06E22043652000C4041D /* ActionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D06E12043652000C4041D /* ActionService.swift */; };
 		8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256991CDF793200C9E054 /* AppDelegate.swift */; };
 		8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E72569B1CDF793200C9E054 /* LoginViewController.swift */; };
 		8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */; };
@@ -199,6 +200,7 @@
 		8E63160A1F5D9A60005CF114 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E6AE53E1F8E5C550062DCF5 /* PaymentInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentInfoViewController.swift; sourceTree = "<group>"; };
 		8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewModel.swift; sourceTree = "<group>"; };
+		8E6D06E12043652000C4041D /* ActionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionService.swift; sourceTree = "<group>"; };
 		8E7256961CDF793100C9E054 /* Balizinha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Balizinha.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7256991CDF793200C9E054 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E72569B1CDF793200C9E054 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 				8E379F091CE58CEE00C91A12 /* Event.swift */,
 				8E19A49D1E6C61FE00D301EC /* Player.swift */,
 				8E27716D1E6E60D700B161ED /* Action.swift */,
+				8E6D06E12043652000C4041D /* ActionService.swift */,
 				8EACC3B51F7B449C0091FBC5 /* Payment.swift */,
 				8E7A2FFB1F83256E004EAE6A /* Promotion.swift */,
 			);
@@ -774,7 +777,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Batch.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -947,6 +950,7 @@
 				8E0F568720159931001E8909 /* OrganizerCellViewModel.swift in Sources */,
 				8E4D36751F8BA47A00B8B0B5 /* Date+Utils.swift in Sources */,
 				8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */,
+				8E6D06E22043652000C4041D /* ActionService.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */,
