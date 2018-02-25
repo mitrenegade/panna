@@ -22,7 +22,7 @@ class ChatService: NSObject {
         }
     }
 
-    class func post(eventId: String, message: String) {
+    class func createChat(eventId: String, message: String) {
         // convenience function to encapsulate player loading and displayName for an action that is relevant to the current player
         guard let user = PlayerService.currentUser else { return }
         PlayerService.shared.withId(id: user.uid) { (player) in
@@ -37,8 +37,7 @@ class ChatService: NSObject {
             guard let uniqueId = id else { return }
             let newObjectRef = baseRef.child(uniqueId)
 
-            // Todo: remove createdAt, make sure it gets created on the server
-            var params: [String: Any] = ["type": ActionType.chat.rawValue, "event": eventId, "createdAt": Date().timeIntervalSince1970, "user": userId, "message": message]
+            var params: [String: Any] = ["type": ActionType.chat.rawValue, "event": eventId, "user": userId, "message": message]
             if let username = username {
                 params["username"] = username
             }

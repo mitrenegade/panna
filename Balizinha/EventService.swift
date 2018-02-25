@@ -135,7 +135,6 @@ class EventService: NSObject {
         if paymentRequired {
             params["amount"] = amount
         }
-        params["createdAt"] = Date().timeIntervalSince1970
         if info == nil {
             params["info"] = "No description available"
         } else {

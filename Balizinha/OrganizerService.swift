@@ -79,7 +79,7 @@ class OrganizerService: NSObject {
         
         let existingUserId = user.uid
         let newOrganizerRef: DatabaseReference = organizerRef.child(existingUserId)
-        let params: [AnyHashable: Any] = ["createdAt": Date().timeIntervalSince1970, "name": current.name ?? current.email ?? ""]
+        let params: [AnyHashable: Any] = ["name": current.name ?? current.email ?? ""]
         newOrganizerRef.setValue(params) { (error, ref) in
             if let error = error {
                 print(error)
@@ -109,7 +109,7 @@ class OrganizerService: NSObject {
         
         let existingUserId = user.uid
         let newOrganizerRef: DatabaseReference = organizerRef.child(existingUserId)
-        let params: [AnyHashable: Any] = ["createdAt": Date().timeIntervalSince1970, "name": current.name ?? current.email ?? "", "status": "pending"]
+        let params: [AnyHashable: Any] = ["name": current.name ?? current.email ?? "", "status": "pending"]
         newOrganizerRef.setValue(params) { (error, ref) in
             if let error = error {
                 print(error)

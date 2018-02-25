@@ -50,7 +50,7 @@ class PlayerService: NSObject {
         let existingUserId = user.uid
         let newPlayerRef: DatabaseReference = playersRef.child(existingUserId)
         
-        var params: [String: Any] = ["createdAt": Date().timeIntervalSince1970]
+        var params: [String: Any] = [:]
         if let name = name {
             params["name"] = name
         }
