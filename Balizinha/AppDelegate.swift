@@ -46,14 +46,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Background fetch
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
-        logPlayerLogin()
-        
         let STRIPE_KEY = TESTING ? STRIPE_KEY_DEV : STRIPE_KEY_PROD
         STPPaymentConfiguration.shared().publishableKey = STRIPE_KEY
 
         AuthService.shared.loginState.asObservable().subscribe(onNext: { [weak self] state in
             if state == .loggedIn {
-                self?.logPlayerLogin()
+                self?.handlePlayerLogin()
             }
         }).disposed(by: disposeBag)
 
@@ -190,15 +188,13 @@ extension AppDelegate {
 }
 
 extension AppDelegate {
-    @objc func logPlayerLogin() {
-        // TODO: FIX THIS BEFORE RELEASE - try new devices
-        // TODO: on logout/login, this doesn't get triggered again
+    @objc func handlePlayerLogin() {
         guard let observable = PlayerService.shared.observedPlayer else {
             print("doh")
             return
         }
         observable.take(1).subscribe(onNext: { (player) in
-            print("player found - don't worry about legacy customer")
+            player.os = "iOS"
         }, onError: { (error) in
             print("error \(error)")
         }, onCompleted: { 
