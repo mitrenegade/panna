@@ -11,22 +11,16 @@ import Firebase
 
 typealias actionUpdateHandler = (Action, _ visible: Bool) -> (Void)
 class ChatService: NSObject {
-    
-    fileprivate func getUniqueId(completion: (()->String)) {
-        guard let url = self.baseURL?.appendingPathComponent("getUniqueId") else { return }
-        
-        urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: self.opQueue)
-        
-        var request = URLRequest(url:url)
-        request.httpMethod = "POST"
-        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
-        
-        try! request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
-        
-        self.completionHandler = completion
-        
-        let task = urlSession?.dataTask(with: request)
-        task?.resume()
+
+    fileprivate class func getUniqueId(completion: @escaping ((String?)->())) {
+        let method = "POST"
+        FirebaseAPIService.shared.cloudFunction(functionName: "getUniqueId", method: method, params: nil) { (result, error) in
+            if let result = result as? [String: String], let id = result["id"] {
+                completion(id)
+                return
+            }
+            completion(nil)
+        }
     }
 
     class func post(eventId: String, message: String) {
@@ -40,31 +34,31 @@ class ChatService: NSObject {
     class func post(userId: String, username: String?, eventId: String, message: String) {
         
         let baseRef = firRef.child("action")
-        let newObjectRef = baseRef.childByAutoId()
-        var params: [String: Any] = ["type": type.rawValue, "event": eventId, "createdAt": Date().timeIntervalSince1970]
-        if let userId = userId { // userId is almost always Auth.current
-            params["user"] = userId
-        }
-        if let username = username {
-            params["username"] = username
-        }
-        if let message = message {
-            params["message"] = message
-        }
-        
-        newObjectRef.setValue(params) { (error, ref) in
-            print("post created for \(type.rawValue) user \(userId) event \(eventId) message \(message)")
+        getUniqueId { (id) in
+            guard let uniqueId = id else { return }
+            let newObjectRef = baseRef.child(uniqueId)
+
+            // Todo: remove createdAt, make sure it gets created on the server
+            var params: [String: Any] = ["type": ActionType.chat.rawValue, "event": eventId, "createdAt": Date().timeIntervalSince1970, "user": userId, "message": message]
+            if let username = username {
+                params["username"] = username
+            }
             
-            guard error == nil else { return }
-            
-            // add the entry [actionId: true] to eventActions/eventId
-            // should not need a transaction since we are not changing existing values under /eventId
-            let eventActionRef = firRef.child("eventActions").child(eventId)
-            let actionId = ref.key
-            let params: [String: Any] = [actionId: true]
-            eventActionRef.updateChildValues(params, withCompletionBlock: { (error, ref) in
-                print("ref \(ref)")
-            })
+            newObjectRef.setValue(params) { (error, ref) in
+                print("Chat created for user \(userId) event \(eventId) message \(message)")
+                
+                guard error == nil else { return }
+                
+                // add the entry [actionId: true] to eventActions/eventId
+                // should not need a transaction since we are not changing existing values under /eventId
+                let eventActionRef = firRef.child("eventActions").child(eventId)
+                let actionId = ref.key
+                let params: [String: Any] = [actionId: true]
+                // TODO: remove this, create this on server
+                eventActionRef.updateChildValues(params, withCompletionBlock: { (error, ref) in
+                    print("ref \(ref)")
+                })
+            }
         }
     }
     

@@ -21,11 +21,6 @@ class StripeService: NSObject {
 
     var completionHandler: STPJSONResponseCompletionBlock?
     
-    var baseURL: URL? {
-        let urlSuffix = TESTING ? "-dev" : "-c9cd7"
-        return URL(string: "https://us-central1-balizinha\(urlSuffix).cloudfunctions.net/")
-    }
-
     func loadPayment(host: UIViewController?) {
         guard let player = PlayerService.shared.current else {
             return
@@ -67,12 +62,11 @@ class StripeService: NSObject {
     }
     
     func createCustomer() {
-        guard let url = self.baseURL?.appendingPathComponent("createStripeCustomerForLegacyUser_v0_2") else { return }
         guard let email = PlayerService.shared.current?.email else { return }
         guard let id = PlayerService.shared.current?.id else { return }
         let params: [String: Any] = ["email": email, "id": id]
         let method = "POST"
-        FirebaseAPIService.shared.cloudFunction(url: url.absoluteString, method: method, params: params) { (result, error) in
+        FirebaseAPIService.shared.cloudFunction(functionName: "createStripeCustomerForLegacyUser_v0_2", method: method, params: params) { (result, error) in
             
         }
     }
@@ -207,11 +201,10 @@ extension StripeService: STPPaymentContextDelegate {
 // MARK: - Customer Key
 extension StripeService: STPEphemeralKeyProvider {
     func createCustomerKey(withAPIVersion apiVersion: String, completion: @escaping STPJSONResponseCompletionBlock) {
-        guard let url = self.baseURL?.appendingPathComponent("ephemeralKeys") else { return }
         guard let customerId = self.customerId else { return }
         let params: [String: Any] = ["api_version": apiVersion, "customer_id": customerId]
         let method = "POST"
-        FirebaseAPIService.shared.cloudFunction(url: url.absoluteString, method: method, params: params) { (result, error) in
+        FirebaseAPIService.shared.cloudFunction(functionName: "ephemeralKeys", method: method, params: params) { (result, error) in
             completion(result as? [AnyHashable: Any], error)
         }
     }

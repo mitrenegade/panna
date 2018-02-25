@@ -26,6 +26,11 @@ class FirebaseAPIService: NSObject {
         urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: self.opQueue)
     }
 
+    var baseURL: URL? {
+        let urlSuffix = TESTING ? "-dev" : "-c9cd7"
+        return URL(string: "https://us-central1-balizinha\(urlSuffix).cloudfunctions.net/")
+    }
+
     func test() {
         let urlString = "https://us-central1-balizinha-dev.cloudfunctions.net/testFunction"
         guard let requestUrl = URL(string:urlString) else { return }
@@ -41,9 +46,9 @@ class FirebaseAPIService: NSObject {
         task.resume()
     }
     
-    func cloudFunction(url: String, method: String, params: [String: Any]?, completion: cloudCompletionHandler?) {
-        guard let url = URL(string: url) else {
-            completion?(nil, nil)
+    func cloudFunction(functionName: String, method: String, params: [String: Any]?, completion: cloudCompletionHandler?) {
+        guard let url = self.baseURL?.appendingPathComponent(functionName) else {
+            completion?(nil, nil) // todo
             return
         }
         var request = URLRequest(url:url)

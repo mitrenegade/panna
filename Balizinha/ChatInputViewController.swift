@@ -50,7 +50,7 @@ class ChatInputViewController: UIViewController {
         }
         let eventId = event.id
         
-        ActionService.post(.chat, eventId: eventId, message: text)
+        ChatService.post(eventId: eventId, message: text)
     }
     
     @objc func clear() {
