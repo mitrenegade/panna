@@ -26,6 +26,17 @@ class FirebaseAPIService: NSObject {
         urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: self.opQueue)
     }
 
+    class func getUniqueId(completion: @escaping ((String?)->())) {
+        let method = "POST"
+        FirebaseAPIService.shared.cloudFunction(functionName: "getUniqueId", method: method, params: nil) { (result, error) in
+            guard let result = result as? [String: String], let id = result["id"] else {
+                completion(nil)
+                return
+            }
+            completion(id)
+        }
+    }
+
     var baseURL: URL? {
         let urlSuffix = TESTING ? "-dev" : "-c9cd7"
         return URL(string: "https://us-central1-balizinha\(urlSuffix).cloudfunctions.net/")

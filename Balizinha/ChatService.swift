@@ -10,18 +10,6 @@ import UIKit
 import Firebase
 
 class ChatService: NSObject {
-
-    fileprivate class func getUniqueId(completion: @escaping ((String?)->())) {
-        let method = "POST"
-        FirebaseAPIService.shared.cloudFunction(functionName: "getUniqueId", method: method, params: nil) { (result, error) in
-            if let result = result as? [String: String], let id = result["id"] {
-                completion(id)
-                return
-            }
-            completion(nil)
-        }
-    }
-
     class func createChat(eventId: String, message: String) {
         // convenience function to encapsulate player loading and displayName for an action that is relevant to the current player
         guard let user = PlayerService.currentUser else { return }
@@ -30,10 +18,9 @@ class ChatService: NSObject {
         }
     }
     
-    class func post(userId: String, username: String?, eventId: String, message: String) {
-        
-        let baseRef = firRef.child("action")
-        getUniqueId { (id) in
+    fileprivate class func post(userId: String, username: String?, eventId: String, message: String) {
+        let baseRef = firRef.child("actions")
+        FirebaseAPIService.getUniqueId { (id) in
             guard let uniqueId = id else { return }
             let newObjectRef = baseRef.child(uniqueId)
 

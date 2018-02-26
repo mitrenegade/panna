@@ -82,7 +82,7 @@ class Action: FirebaseBaseModel {
     
     var visible: Bool { // whether an action should appear in the feed
         get {
-            return self.dict["visible"] as? Bool ?? false
+            return self.dict["visible"] as? Bool ?? true
         }
         set {
             self.dict["visible"] = newValue

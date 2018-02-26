@@ -40,7 +40,7 @@ class ActionService: NSObject {
                     if let val = actionDict.value as? Bool {
                         
                         // query for the action
-                        let actionQueryRef = firRef.child("action").child(actionId)
+                        let actionQueryRef = firRef.child("actions").child(actionId)
                         actionQueryRef.observeSingleEvent(of: .value, with: { (actionSnapshot) in
                             let action = Action(snapshot: actionSnapshot)
                             completion(action, val)
