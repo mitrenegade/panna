@@ -31,18 +31,6 @@ class ChatService: NSObject {
             
             newObjectRef.setValue(params) { (error, ref) in
                 print("Chat created for user \(userId) event \(eventId) message \(message)")
-                
-                guard error == nil else { return }
-                
-                // add the entry [actionId: true] to eventActions/eventId
-                // should not need a transaction since we are not changing existing values under /eventId
-                let eventActionRef = firRef.child("eventActions").child(eventId)
-                let actionId = ref.key
-                let params: [String: Any] = [actionId: true]
-                // TODO: remove this, create this on server
-                eventActionRef.updateChildValues(params, withCompletionBlock: { (error, ref) in
-                    print("ref \(ref)")
-                })
             }
         }
     }
