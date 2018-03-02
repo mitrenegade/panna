@@ -194,7 +194,7 @@ extension AppDelegate {
             return
         }
         observable.take(1).subscribe(onNext: { (player) in
-            player.os = "iOS"
+            player.os = Player.Platform.ios.rawValue // fixme if there's already a value (android) this doesn't change it
         }, onError: { (error) in
             print("error \(error)")
         }, onCompleted: { 
