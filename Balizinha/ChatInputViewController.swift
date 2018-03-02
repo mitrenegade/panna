@@ -39,7 +39,7 @@ class ChatInputViewController: UIViewController {
     
     @objc func send() {
         print("sending text: \(self.inputText.text)")
-        guard let text = self.inputText.text, text.characters.count > 0 else {
+        guard let text = self.inputText.text, !text.isEmpty else {
             self.clear()
             return
         }
@@ -50,7 +50,7 @@ class ChatInputViewController: UIViewController {
         }
         let eventId = event.id
         
-        ActionService.post(.chat, eventId: eventId, message: text)
+        ChatService.createChat(eventId: eventId, message: text)
     }
     
     @objc func clear() {

@@ -82,24 +82,12 @@ class Action: FirebaseBaseModel {
     
     var visible: Bool { // whether an action should appear in the feed
         get {
-            return self.dict["visible"] as? Bool ?? false
+            return self.dict["visible"] as? Bool ?? true
         }
         set {
             self.dict["visible"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
-    }
-    
-    var createdAt: Date? {
-        if let val = self.dict["createdAt"] as? TimeInterval {
-            let time1970: TimeInterval = 1517606802
-            if val > time1970 * 10.0 {
-                return Date(timeIntervalSince1970: (val / 1000.0))
-            } else {
-                return Date(timeIntervalSince1970: val)
-            }
-        }
-        return nil
     }
 }
 

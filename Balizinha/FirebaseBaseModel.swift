@@ -49,5 +49,17 @@ class FirebaseBaseModel: NSObject {
     var id: String {
         return self.firebaseKey
     }
+    
+    var createdAt: Date? {
+        if let val = self.dict["createdAt"] as? TimeInterval {
+            let time1970: TimeInterval = 1517606802
+            if val > time1970 * 10.0 {
+                return Date(timeIntervalSince1970: (val / 1000.0))
+            } else {
+                return Date(timeIntervalSince1970: val)
+            }
+        }
+        return nil
+    }
 }
 

@@ -259,8 +259,6 @@ extension CalendarViewController: EventDonationDelegate {
                     if success {
                         // add an action
                         guard let user = PlayerService.currentUser else { return }
-                        ActionService.post(.donation, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
-
                         self?.simpleAlert("Thank you for your payment", message: "Your payment of \(amountString) will go a long way to keep Balizinha a great community!")
                     }
                     else if let error = error as? NSError {

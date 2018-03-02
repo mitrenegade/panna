@@ -46,7 +46,6 @@
 		8E1F3CD71F8B9B8C005186AD /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
 		8E1F3CD81F8B9B8C005186AD /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */; };
 		8E27716E1E6E60D700B161ED /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E27716D1E6E60D700B161ED /* Action.swift */; };
-		8E2771701E6E655A00B161ED /* ActionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E27716F1E6E655A00B161ED /* ActionService.swift */; };
 		8E291E621FA932D2005ECA46 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFB1B91E3D3F00006DD187 /* LocationService.swift */; };
 		8E379F011CE57E8600C91A12 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F001CE57E8600C91A12 /* EventService.swift */; };
 		8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */; };
@@ -58,7 +57,6 @@
 		8E4D36651F8BA0D500B8B0B5 /* PlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A31E6C67A500D301EC /* PlayerService.swift */; };
 		8E4D36661F8BA0D500B8B0B5 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E39FE8D1D237C710030CB96 /* NotificationService.swift */; };
 		8E4D36671F8BA0D500B8B0B5 /* FirebaseImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A51E6C793800D301EC /* FirebaseImageService.swift */; };
-		8E4D36681F8BA0D500B8B0B5 /* ActionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E27716F1E6E655A00B161ED /* ActionService.swift */; };
 		8E4D36691F8BA0D500B8B0B5 /* RemoteDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009B1F6597060080F446 /* RemoteDataService.swift */; };
 		8E4D366A1F8BA0D500B8B0B5 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009D1F6597BC0080F446 /* LoggingService.swift */; };
 		8E4D366B1F8BA0D500B8B0B5 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D551F7209C40067B6F5 /* SettingsService.swift */; };
@@ -77,6 +75,7 @@
 		8E63160C1F5D9A60005CF114 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E63160A1F5D9A60005CF114 /* GoogleService-Info.plist */; };
 		8E6AE53F1F8E5C550062DCF5 /* PaymentInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6AE53E1F8E5C550062DCF5 /* PaymentInfoViewController.swift */; };
 		8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */; };
+		8E6D06E22043652000C4041D /* ActionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D06E12043652000C4041D /* ActionService.swift */; };
 		8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256991CDF793200C9E054 /* AppDelegate.swift */; };
 		8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E72569B1CDF793200C9E054 /* LoginViewController.swift */; };
 		8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */; };
@@ -134,6 +133,8 @@
 		8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */; };
 		9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */; };
 		B4941729DDCB9B340512229F /* Pods_BalizinhaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E546CEAA00BF9DA1BE14363 /* Pods_BalizinhaTests.framework */; };
+		C6FDE5C420431ECB00FE0C76 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FDE5C320431ECB00FE0C76 /* ChatService.swift */; };
+		C6FDE5C620431F0100FE0C76 /* FirebaseAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FDE5C520431F0100FE0C76 /* FirebaseAPIService.swift */; };
 		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
 		F2048F7E1CED59A50039F7BB /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */; };
 		F21571F51D200B7C00D2F59A /* EventDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */; };
@@ -185,7 +186,6 @@
 		8E1F3CBF1F8B9A95005186AD /* BalizinhaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalizinhaTests.swift; sourceTree = "<group>"; };
 		8E1F3CC11F8B9A95005186AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E27716D1E6E60D700B161ED /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
-		8E27716F1E6E655A00B161ED /* ActionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionService.swift; sourceTree = "<group>"; };
 		8E379F001CE57E8600C91A12 /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		8E379F071CE58B1700C91A12 /* FirebaseBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBaseModel.swift; sourceTree = "<group>"; };
 		8E379F091CE58CEE00C91A12 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -200,6 +200,7 @@
 		8E63160A1F5D9A60005CF114 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E6AE53E1F8E5C550062DCF5 /* PaymentInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentInfoViewController.swift; sourceTree = "<group>"; };
 		8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewModel.swift; sourceTree = "<group>"; };
+		8E6D06E12043652000C4041D /* ActionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionService.swift; sourceTree = "<group>"; };
 		8E7256961CDF793100C9E054 /* Balizinha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Balizinha.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7256991CDF793200C9E054 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E72569B1CDF793200C9E054 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -261,6 +262,8 @@
 		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
 		A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.release.xcconfig"; sourceTree = "<group>"; };
 		AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6FDE5C320431ECB00FE0C76 /* ChatService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
+		C6FDE5C520431F0100FE0C76 /* FirebaseAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAPIService.swift; sourceTree = "<group>"; };
 		C779F650FFE1D803921FC3ED /* Pods-BalizinhaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED7C1F62DA3A7F54848AA802 /* Pods-Balizinha.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.debug.xcconfig"; sourceTree = "<group>"; };
 		F2048F7B1CED57170039F7BB /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
@@ -378,7 +381,7 @@
 				8E19A4A31E6C67A500D301EC /* PlayerService.swift */,
 				8E39FE8D1D237C710030CB96 /* NotificationService.swift */,
 				8E19A4A51E6C793800D301EC /* FirebaseImageService.swift */,
-				8E27716F1E6E655A00B161ED /* ActionService.swift */,
+				C6FDE5C320431ECB00FE0C76 /* ChatService.swift */,
 				8EDA009B1F6597060080F446 /* RemoteDataService.swift */,
 				8EDA009D1F6597BC0080F446 /* LoggingService.swift */,
 				8E116D551F7209C40067B6F5 /* SettingsService.swift */,
@@ -388,6 +391,8 @@
 				8E7A2FFF1F833969004EAE6A /* PromotionService.swift */,
 				8EDD13E81FEB78C10039F1A7 /* ShareService.swift */,
 				8E16A59D1FECB34400D24D69 /* DeepLinkService.swift */,
+				8E6D06E12043652000C4041D /* ActionService.swift */,
+				C6FDE5C520431F0100FE0C76 /* FirebaseAPIService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -907,7 +912,6 @@
 				8E4D366A1F8BA0D500B8B0B5 /* LoggingService.swift in Sources */,
 				8E1F3CCB1F8B9B85005186AD /* Player.swift in Sources */,
 				8E1F3CCD1F8B9B85005186AD /* Payment.swift in Sources */,
-				8E4D36681F8BA0D500B8B0B5 /* ActionService.swift in Sources */,
 				8E4D36691F8BA0D500B8B0B5 /* RemoteDataService.swift in Sources */,
 				8E1F3CCA1F8B9B85005186AD /* Event.swift in Sources */,
 				8E1F3CD41F8B9B8C005186AD /* DescriptionCell.swift in Sources */,
@@ -936,16 +940,17 @@
 				8E27716E1E6E60D700B161ED /* Action.swift in Sources */,
 				8E5421401E70DF8700AE4F3A /* ActionCell.swift in Sources */,
 				8EDA009E1F6597BC0080F446 /* LoggingService.swift in Sources */,
-				8E2771701E6E655A00B161ED /* ActionService.swift in Sources */,
 				8E19A49E1E6C61FE00D301EC /* Player.swift in Sources */,
 				F21571F51D200B7C00D2F59A /* EventDisplayViewController.swift in Sources */,
 				F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */,
 				8E19A4B01E6C9CF200D301EC /* PaymentTypesViewController.swift in Sources */,
+				C6FDE5C420431ECB00FE0C76 /* ChatService.swift in Sources */,
 				8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */,
 				8E4AB9B720389D320089B464 /* AuthService.swift in Sources */,
 				8E0F568720159931001E8909 /* OrganizerCellViewModel.swift in Sources */,
 				8E4D36751F8BA47A00B8B0B5 /* Date+Utils.swift in Sources */,
 				8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */,
+				8E6D06E22043652000C4041D /* ActionService.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */,
@@ -955,6 +960,7 @@
 				F2C0F1201CF3E8BB00CB98F1 /* EventsViewController.swift in Sources */,
 				8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */,
 				8EACC3B61F7B449C0091FBC5 /* Payment.swift in Sources */,
+				C6FDE5C620431F0100FE0C76 /* FirebaseAPIService.swift in Sources */,
 				8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */,
 				8EDD13E91FEB78C10039F1A7 /* ShareService.swift in Sources */,
 				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,

@@ -135,7 +135,6 @@ class EventService: NSObject {
         if paymentRequired {
             params["amount"] = amount
         }
-        params["createdAt"] = Date().timeIntervalSince1970
         if info == nil {
             params["info"] = "No description available"
         } else {
@@ -161,9 +160,6 @@ class EventService: NSObject {
                     // TODO: completion blocks for these too
                     self.addEvent(event: event, toUser: user, join: true)
                     self.addUser(user, toEvent: event, join: true)
-                    
-                    // add an action
-                    ActionService.post(.createEvent, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
                     
                     completion(event, nil)
                 })
@@ -193,18 +189,12 @@ class EventService: NSObject {
         guard let user = PlayerService.currentUser else { return }
         self.addEvent(event: event, toUser: user, join: true)
         self.addUser(user, toEvent: event, join: true)
-        
-        // add an action
-        ActionService.post(.joinEvent, eventId: event.id, message: nil)
     }
     
     func leaveEvent(_ event: Event) {
         guard let user = PlayerService.currentUser else { return }
         self.addEvent(event: event, toUser: user, join: false)
         self.addUser(user, toEvent: event, join: false)
-
-        // add an action
-        ActionService.post(.leaveEvent, userId: user.uid, username: user.displayName, eventId: event.id, message: nil)
     }
     
     // MARK: User's events helper
