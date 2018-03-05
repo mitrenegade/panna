@@ -11,6 +11,10 @@ import Firebase
 
 class Player: FirebaseBaseModel {
 //    var service = EventService.shared
+    enum Platform: String {
+        case ios
+        case android
+    }
 
     var name: String? {
         get {
@@ -145,10 +149,10 @@ class Player: FirebaseBaseModel {
     
     var os: String? {
         get {
-            return self.dict["OS"] as? String
+            return self.dict["os"] as? String
         }
         set {
-            self.dict["OS"] = newValue
+            self.dict["os"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
