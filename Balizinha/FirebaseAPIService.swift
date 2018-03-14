@@ -99,15 +99,22 @@ extension FirebaseAPIService: URLSessionDelegate, URLSessionDataDelegate {
             self.completionHandler = nil
         }
         
+        let response: HTTPURLResponse? = task.response as? HTTPURLResponse
+        let statusCode = response?.statusCode ?? 0
+        
         if let usableData = self.data {
             do {
-                let json = try JSONSerialization.jsonObject(with: usableData, options: [])
+                let json = try JSONSerialization.jsonObject(with: usableData, options: []) as? [String: Any]
                 print("FirebaseAPIService: urlSession completed with json \(json)")
-                completionHandler?(json as? [String: AnyObject], nil)
+                if statusCode >= 300 {
+                    completionHandler?(nil, NSError(domain: "balizinha", code: statusCode, userInfo: json))
+                } else {
+                    completionHandler?(json, nil)
+                }
             } catch let error {
                 print("FirebaseAPIService: JSON parsing resulted in error \(error)")
-                //                let dataString = String.init(data: usableData, encoding: .utf8)
-                //                print("StripeService: try reading data as string: \(dataString)")
+                let dataString = String.init(data: usableData, encoding: .utf8)
+                print("StripeService: try reading data as string: \(dataString)")
                 completionHandler?(nil, error)
             }
         }

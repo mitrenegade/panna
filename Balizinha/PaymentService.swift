@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Stripe
 
 class PaymentService: NSObject {
     func checkForPayment(for eventId: String, by playerId: String, completion:@escaping ((Bool)->Void)) {
@@ -25,6 +26,16 @@ class PaymentService: NSObject {
                 }
             }
             completion(false)
+        }
+    }
+    
+    class func savePaymentInfo(_ paymentMethod: STPPaymentMethod) {
+        guard let player = PlayerService.shared.current else { return }
+        guard let card = paymentMethod as? STPCard else { return }
+
+        let params: [String: Any] = ["userId": player.id, "source": card.stripeID, "last4":card.last4, "label": card.label]
+        FirebaseAPIService.shared.cloudFunction(functionName: "savePaymentInfo", method: "POST", params: params) { (result, error) in
+            print("FirebaseAPIService: savePaymentInfo result \(result) error \(error)")
         }
     }
 }

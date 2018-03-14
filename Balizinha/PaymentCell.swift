@@ -35,7 +35,7 @@ class PaymentCell: UITableViewCell {
         if let paymentMethod = stripeService.paymentContext?.selectedPaymentMethod {
             // always write card to firebase since it's an internal call
             print("updated card")
-            stripeService.savePaymentInfo(paymentMethod)
+            PaymentService.savePaymentInfo(paymentMethod)
         }
     }
     

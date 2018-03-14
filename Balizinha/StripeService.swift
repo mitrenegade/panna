@@ -67,16 +67,8 @@ class StripeService: NSObject {
         let params: [String: Any] = ["email": email, "id": id]
         let method = "POST"
         FirebaseAPIService.shared.cloudFunction(functionName: "createStripeCustomerForLegacyUser_v0_2", method: method, params: params) { (result, error) in
-            
+            print("CreateCustomer \(result) \(error)")
         }
-    }
-    
-    func savePaymentInfo(_ paymentMethod: STPPaymentMethod) {
-        // calls this function after a payment source has been created
-        guard let player = PlayerService.shared.current, let card = paymentMethod as? STPCard else { return }
-        let ref = firRef.child("stripe_customers").child(player.id)
-        let params: [String: Any] = ["source": card.stripeID, "last4":card.last4, "label": card.label]
-        ref.updateChildValues(params)
     }
     
     func createCharge(for event: Event, amount: Double, player: Player, isDonation: Bool = false, completion: ((_ success: Bool,_ error: Error?)->())?) {
