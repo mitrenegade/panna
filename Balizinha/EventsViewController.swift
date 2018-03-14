@@ -379,7 +379,7 @@ extension EventsViewController {
             else if let error = error as? NSError {
                 var errorMessage = ""
                 if let errorString = error.userInfo["error"] as? String {
-                    errorMessage = "Error \(errorString)"
+                    errorMessage = "Error: \(errorString)"
                 }
                 self?.simpleAlert("Could not join game", message: "There was an issue making a payment. \(errorMessage)")
             }
