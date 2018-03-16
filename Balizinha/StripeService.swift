@@ -19,8 +19,6 @@ class StripeService: NSObject {
     
     var customerId: String?
 
-    var completionHandler: STPJSONResponseCompletionBlock?
-    
     func loadPayment(host: UIViewController?) {
         guard let player = PlayerService.shared.current else {
             return
@@ -29,14 +27,14 @@ class StripeService: NSObject {
         let ref = firRef.child("stripe_customers").child(player.id).child("customer_id")
         ref.observe(.value, with: { (snapshot) in
             guard snapshot.exists(), let customerId = snapshot.value as? String else {
-                // old player does not have a stripe customer, must create one
-                print("uh oh")
-                if let player = PlayerService.shared.current {
-                    self.checkForStripeCustomer(player)
-                }
+                self.paymentContext = nil
                 return
             }
+            
             self.customerId = customerId
+            // TODO: customer must exist or paymentContext is stuck in a loading state
+            // but we shouldn't have to create a customer unless user has added a payment??
+            // TODO: don't use paymentContext's loading for loading state of PaymentCell
             let customerContext = STPCustomerContext(keyProvider: self)
             self.paymentContext = STPPaymentContext(customerContext: customerContext)
             self.paymentContext?.delegate = self
@@ -44,31 +42,6 @@ class StripeService: NSObject {
                 self.paymentContext?.hostViewController = host
             }
         })
-    }
-    
-    // for legacy users
-    func checkForStripeCustomer(_ player: Player) {
-        guard !PlayerService.isAnonymous else { return }
-        let ref = firRef.child("stripe_customers").child(player.id).child("customer_id")
-        ref.observe(.value, with: { (snapshot) in
-            guard snapshot.exists(), let customerId = snapshot.value as? String else {
-                // old player does not have a stripe customer, must create one
-                self.createCustomer()
-                return
-            }
-            // otherwise stripe customer exists and all is well
-            print("stripe_customer for player \(player.id) exists: \(customerId)")
-        })
-    }
-    
-    func createCustomer() {
-        guard let email = PlayerService.shared.current?.email else { return }
-        guard let id = PlayerService.shared.current?.id else { return }
-        let params: [String: Any] = ["email": email, "id": id]
-        let method = "POST"
-        FirebaseAPIService.shared.cloudFunction(functionName: "createStripeCustomerForLegacyUser_v0_2", method: method, params: params) { (result, error) in
-            print("CreateCustomer \(result) \(error)")
-        }
     }
     
     func createCharge(for event: Event, amount: Double, player: Player, isDonation: Bool = false, completion: ((_ success: Bool,_ error: Error?)->())?) {

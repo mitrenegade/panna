@@ -18,7 +18,7 @@ class PaymentViewModel: NSObject {
     }
     
     var labelTitle: String {
-        if paymentContext?.loading == true || paymentContext == nil {
+        if paymentContext?.loading == true {
             return "Loading your payment methods"
         }
         else if let method = paymentContext?.selectedPaymentMethod {
