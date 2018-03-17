@@ -34,7 +34,7 @@ class PaymentService: NSObject {
         guard let card = paymentMethod as? STPCard else { return }
 
         let params: [String: Any] = ["userId": player.id, "source": card.stripeID, "last4":card.last4, "label": card.label]
-        FirebaseAPIService.shared.cloudFunction(functionName: "savePaymentInfo", method: "POST", params: params) { (result, error) in
+        FirebaseAPIService().cloudFunction(functionName: "savePaymentInfo", method: "POST", params: params) { (result, error) in
             print("FirebaseAPIService: savePaymentInfo result \(result) error \(error)")
         }
     }

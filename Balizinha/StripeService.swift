@@ -28,6 +28,7 @@ class StripeService: NSObject {
         ref.observe(.value, with: { (snapshot) in
             guard snapshot.exists(), let customerId = snapshot.value as? String else {
                 self.paymentContext = nil
+                self.validateStripeCustomer(host: host)
                 return
             }
             
@@ -125,6 +126,22 @@ class StripeService: NSObject {
             }
         }
     }
+    
+    func validateStripeCustomer(host: UIViewController?) {
+        // kicks off a process to create a new customer, then create a new payment context
+        guard self.customerId == nil else { return }
+        guard let player = PlayerService.shared.current, let email = player.email else { return } // TODO: handle error
+        FirebaseAPIService().cloudFunction(functionName: "validateStripeCustomer", method: "POST", params: ["userId": player.id, "email": email], completion: { [weak self] (result, error) in
+            // TODO: parse customer id and store it
+            print("ValidateStripeCustomer result: \(result) error: \(error)")
+            if let json = result as? [String: Any], let customer_id = json["customer_id"] as? String {
+                self?.customerId = customer_id
+            }
+            if let host = host {
+                self?.loadPayment(host: host)
+            }
+        })
+    }
 }
 
 // MARK: - STPPaymentContextDelegate
@@ -169,7 +186,7 @@ extension StripeService: STPEphemeralKeyProvider {
         guard let customerId = self.customerId else { return }
         let params: [String: Any] = ["api_version": apiVersion, "customer_id": customerId]
         let method = "POST"
-        FirebaseAPIService.shared.cloudFunction(functionName: "ephemeralKeys", method: method, params: params) { (result, error) in
+        FirebaseAPIService().cloudFunction(functionName: "ephemeralKeys", method: method, params: params) { (result, error) in
             completion(result as? [AnyHashable: Any], error)
         }
     }

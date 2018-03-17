@@ -13,6 +13,7 @@ import Stripe
 class PaymentCell: UITableViewCell {
 
     let stripeService = StripeService()
+    var host: UIViewController?
 
     override func awakeFromNib() {
         self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshPayment), object: nil)
@@ -43,7 +44,11 @@ class PaymentCell: UITableViewCell {
         let viewModel = PaymentViewModel(paymentContext: stripeService.paymentContext)
         if viewModel.canAddPayment {
             LoggingService.shared.log(event: LoggingEvent.show_payment_controller, info: nil)
-            stripeService.paymentContext?.presentPaymentMethodsViewController()
+            if let context = stripeService.paymentContext {
+                context.presentPaymentMethodsViewController()
+            } else {
+                stripeService.validateStripeCustomer(host: host)
+            }
         }
     }
 }

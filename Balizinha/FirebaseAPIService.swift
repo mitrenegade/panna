@@ -28,7 +28,7 @@ class FirebaseAPIService: NSObject {
 
     class func getUniqueId(completion: @escaping ((String?)->())) {
         let method = "POST"
-        FirebaseAPIService.shared.cloudFunction(functionName: "getUniqueId", method: method, params: nil) { (result, error) in
+        FirebaseAPIService().cloudFunction(functionName: "getUniqueId", method: method, params: nil) { (result, error) in
             guard let result = result as? [String: String], let id = result["id"] else {
                 completion(nil)
                 return

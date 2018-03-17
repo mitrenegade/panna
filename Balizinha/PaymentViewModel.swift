@@ -56,8 +56,8 @@ class PaymentViewModel: NSObject {
     }
     
     var canAddPayment: Bool {
-        guard let context = paymentContext else { return false }
-        return !context.loading //&& context.selectedPaymentMethod == nil
+        guard let context = paymentContext else { return true }
+        return !context.loading
     }
     
     var icon: UIImage? {

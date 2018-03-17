@@ -156,7 +156,7 @@ extension PlayerService {
 extension PlayerService {
     func storeUserInfo() {
         guard let user = PlayerService.currentUser else { return }
-        print("signIn results: \(user) profile \(String(describing: user.photoURL)) \(String(describing: user.displayName))")
+        print("signIn results: \(user.uid) profile \(String(describing: user.photoURL)) \(String(describing: user.displayName))")
         createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { (player, error) in
             _ = self.__once // invoke listener
         })
