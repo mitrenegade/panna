@@ -31,7 +31,7 @@ class CalendarViewController: UITableViewController {
         self.view.addSubview(activityIndicator)
         activityIndicator.color = UIColor.red
         
-        stripeService.loadPayment(host: nil)
+//        stripeService.loadPayment(host: nil)
     }
 
     deinit {

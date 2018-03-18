@@ -25,8 +25,7 @@ class PaymentInfoViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshPayment), object: nil)
-        
-        stripeService.loadPayment(host: self)
+        stripeService.hostController = self
     }
 
     deinit {

@@ -9,15 +9,42 @@
 import UIKit
 import Stripe
 import Firebase
+import RxSwift
 
 fileprivate var singleton: StripeService?
+
+enum PaymentStatus {
+    case loading
+    case noCustomer // no customer_id exists
+    case noPayment // customer_id exists, no payment
+    case ready
+}
 
 class StripeService: NSObject {
     // payment method
     var paymentContext: STPPaymentContext?
-    var hostController: UIViewController?
     
-    var customerId: String?
+    // paymentContext reactive based on hostController and customerId
+    var hostController: UIViewController? {
+        didSet {
+            hostExists.value = hostController == nil ? false : true
+        }
+    }
+    
+    var hostExists: Variable<Bool> = Variable(false)
+    var customerId: Variable<String> = Variable("")
+    
+    let status: Observable<PaymentStatus>
+
+    override init() {
+        self.status = Observable.combineLatest(hostExists.asObservable(), customerId.asObservable()) {exists, id in
+            guard exists else { return .loading }
+            guard !id.isEmpty else {
+                return .loading
+            }
+            return .ready
+        }
+    }
 
     func loadPayment(host: UIViewController?) {
         guard let player = PlayerService.shared.current else {
@@ -32,7 +59,7 @@ class StripeService: NSObject {
                 return
             }
             
-            self.customerId = customerId
+            self.customerId.value = customerId
             // TODO: customer must exist or paymentContext is stuck in a loading state
             // but we shouldn't have to create a customer unless user has added a payment??
             // TODO: don't use paymentContext's loading for loading state of PaymentCell
@@ -40,6 +67,9 @@ class StripeService: NSObject {
             self.paymentContext = STPPaymentContext(customerContext: customerContext)
             self.paymentContext?.delegate = self
             if let host = host {
+                self.hostController = host
+                self.paymentContext?.hostViewController = host
+            } else if let host = self.hostController {
                 self.paymentContext?.hostViewController = host
             }
         })
@@ -129,13 +159,13 @@ class StripeService: NSObject {
     
     func validateStripeCustomer(host: UIViewController?) {
         // kicks off a process to create a new customer, then create a new payment context
-        guard self.customerId == nil else { return }
+        guard !self.customerId.value.isEmpty else { return }
         guard let player = PlayerService.shared.current, let email = player.email else { return } // TODO: handle error
         FirebaseAPIService().cloudFunction(functionName: "validateStripeCustomer", method: "POST", params: ["userId": player.id, "email": email], completion: { [weak self] (result, error) in
             // TODO: parse customer id and store it
             print("ValidateStripeCustomer result: \(result) error: \(error)")
             if let json = result as? [String: Any], let customer_id = json["customer_id"] as? String {
-                self?.customerId = customer_id
+                self?.customerId.value = customer_id
             }
             if let host = host {
                 self?.loadPayment(host: host)
@@ -183,7 +213,8 @@ extension StripeService: STPPaymentContextDelegate {
 // MARK: - Customer Key
 extension StripeService: STPEphemeralKeyProvider {
     func createCustomerKey(withAPIVersion apiVersion: String, completion: @escaping STPJSONResponseCompletionBlock) {
-        guard let customerId = self.customerId else { return }
+        let customerId = self.customerId.value
+        guard !customerId.isEmpty else { return }
         let params: [String: Any] = ["api_version": apiVersion, "customer_id": customerId]
         let method = "POST"
         FirebaseAPIService().cloudFunction(functionName: "ephemeralKeys", method: method, params: params) { (result, error) in

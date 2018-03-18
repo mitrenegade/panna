@@ -291,8 +291,6 @@ extension EventsViewController {
     }
     
     func checkStripe() {
-        stripeService.loadPayment(host: nil)
-        
         listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshStripeStatus), object: nil)
     }
     

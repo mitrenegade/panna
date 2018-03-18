@@ -9,9 +9,6 @@
 import UIKit
 
 class FirebaseAPIService: NSObject {
-    // TODO: should this not be shared? how will we handle multiple requests?
-    static let shared = FirebaseAPIService()
-    
     // variables for creating customer key
     let opQueue = OperationQueue()
     var urlSession: URLSession?

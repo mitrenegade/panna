@@ -22,7 +22,8 @@ class PaymentCell: UITableViewCell {
     }
     
     func configure(host: UIViewController?) {
-        stripeService.loadPayment(host: host)
+        stripeService.hostController = host
+//        stripeService.loadPayment(host: host)
     }
     
     deinit {
