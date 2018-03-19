@@ -10,58 +10,62 @@ import UIKit
 import Stripe
 
 class PaymentViewModel: NSObject {
-    let paymentContext: STPPaymentContext?
+    let status: PaymentStatus
     var privacy: Bool = false
-    init(paymentContext: STPPaymentContext?, privacy: Bool = false) {
-        self.paymentContext = paymentContext
+    init(status: PaymentStatus, privacy: Bool = false) {
+        self.status = status
         self.privacy = privacy
     }
     
     var labelTitle: String {
-        if paymentContext?.loading == true || paymentContext == nil {
+        switch status {
+        case .loading:
             return "Loading your payment methods"
-        }
-        else if let method = paymentContext?.selectedPaymentMethod {
+        case .ready(let paymentMethod):
+            guard let method = paymentMethod else {
+                return "Click to add a payment method"
+            }
+            
             if privacy {
                 return "Click to view payment methods"
             }
             else {
                 return "Payment method: \(method.label)"
             }
-        }
-        else {
+        case .none:
             return "Click to add a payment method"
         }
     }
     
     var iconWidth: CGFloat {
-        guard let context = paymentContext else { return 40 }
-        if context.loading {
+        switch status {
+        case .none:
+            return 0
+        case .loading:
             return 40
-        }
-        else if context.selectedPaymentMethod != nil {
-            return 60
-        }
-        else {
+        case .ready(let paymentMethod):
+            if paymentMethod != nil {
+                return 60
+            }
             return 0
         }
     }
     
     var activityIndicatorShouldAnimate: Bool {
-        guard let context = paymentContext else { return true }
-        if context.loading {
-            return true
-        }
-        return false
+        return status == PaymentStatus.loading
     }
     
     var canAddPayment: Bool {
-        guard let context = paymentContext else { return false }
-        return !context.loading //&& context.selectedPaymentMethod == nil
+        return !(status == PaymentStatus.loading)
     }
     
     var icon: UIImage? {
-        guard let method = paymentContext?.selectedPaymentMethod else { return nil }
-        return method.image
+        switch status {
+        case .ready(let paymentMethod):
+            guard let method = paymentMethod else { return nil }
+            return method.image
+        default:
+            return nil
+        }
     }
 }

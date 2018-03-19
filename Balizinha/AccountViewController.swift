@@ -42,7 +42,6 @@ class AccountViewController: UIViewController {
         activityIndicator.center = view.center
         view.addSubview(activityIndicator)
         activityIndicator.color = UIColor.red
-
     }
 
     func reloadTableData() {
@@ -61,7 +60,7 @@ class AccountViewController: UIViewController {
             }
         }
     }
-    
+
     // MARK: - Promotions
     func addPromotion() {
         guard let current = PlayerService.shared.current else { return }
@@ -143,7 +142,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case "Payment options":
             if let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCell", for: indexPath) as? PaymentCell {
                 self.paymentCell = cell
-                cell.configure(host: self)
+                StripeService.shared.hostController = self
                 return cell
             }
             else {
@@ -268,7 +267,7 @@ extension AccountViewController {
             self?.activityIndicator.startAnimating()
             // go directly to create event without payments and no alert
             
-            StripeService().createSubscription(isTrial: isTrial, completion: { [weak self] (success, error) in
+            StripeService.shared.createSubscription(isTrial: isTrial, completion: { [weak self] (success, error) in
                 self?.activityIndicator.stopAnimating()
                 print("Success \(success) error \(error)")
                 var title: String = isTrial ? "Free trial started" : "Subscription created"

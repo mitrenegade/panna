@@ -9,9 +9,6 @@
 import UIKit
 
 class FirebaseAPIService: NSObject {
-    // TODO: should this not be shared? how will we handle multiple requests?
-    static let shared = FirebaseAPIService()
-    
     // variables for creating customer key
     let opQueue = OperationQueue()
     var urlSession: URLSession?
@@ -28,7 +25,7 @@ class FirebaseAPIService: NSObject {
 
     class func getUniqueId(completion: @escaping ((String?)->())) {
         let method = "POST"
-        FirebaseAPIService.shared.cloudFunction(functionName: "getUniqueId", method: method, params: nil) { (result, error) in
+        FirebaseAPIService().cloudFunction(functionName: "getUniqueId", method: method, params: nil) { (result, error) in
             guard let result = result as? [String: String], let id = result["id"] else {
                 completion(nil)
                 return
@@ -99,15 +96,22 @@ extension FirebaseAPIService: URLSessionDelegate, URLSessionDataDelegate {
             self.completionHandler = nil
         }
         
+        let response: HTTPURLResponse? = task.response as? HTTPURLResponse
+        let statusCode = response?.statusCode ?? 0
+        
         if let usableData = self.data {
             do {
-                let json = try JSONSerialization.jsonObject(with: usableData, options: [])
+                let json = try JSONSerialization.jsonObject(with: usableData, options: []) as? [String: Any]
                 print("FirebaseAPIService: urlSession completed with json \(json)")
-                completionHandler?(json as? [String: AnyObject], nil)
+                if statusCode >= 300 {
+                    completionHandler?(nil, NSError(domain: "balizinha", code: statusCode, userInfo: json))
+                } else {
+                    completionHandler?(json, nil)
+                }
             } catch let error {
                 print("FirebaseAPIService: JSON parsing resulted in error \(error)")
-                //                let dataString = String.init(data: usableData, encoding: .utf8)
-                //                print("StripeService: try reading data as string: \(dataString)")
+                let dataString = String.init(data: usableData, encoding: .utf8)
+                print("StripeService: try reading data as string: \(dataString)")
                 completionHandler?(nil, error)
             }
         }

@@ -9,19 +9,19 @@
 import UIKit
 import Firebase
 import Stripe
+import RxSwift
 
 class PaymentCell: UITableViewCell {
 
-    let stripeService = StripeService()
+    var viewModel: PaymentViewModel?
 
-    override func awakeFromNib() {
-        self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshPayment), object: nil)
-        
-        self.refreshPayment()
-    }
+    fileprivate var disposeBag = DisposeBag()
     
-    func configure(host: UIViewController?) {
-        stripeService.loadPayment(host: host)
+    override func awakeFromNib() {
+        StripeService.shared.status.subscribe(onNext: { [weak self] status in
+            self?.viewModel = PaymentViewModel(status: status, privacy: true)
+            self?.refreshPayment()
+        }).disposed(by: disposeBag)
     }
     
     deinit {
@@ -29,21 +29,25 @@ class PaymentCell: UITableViewCell {
     }
     
     @objc func refreshPayment() {
-        let viewModel = PaymentViewModel(paymentContext: stripeService.paymentContext, privacy: true)
+        guard let viewModel = viewModel else { return }
         self.textLabel?.text = viewModel.labelTitle
         
-        if let paymentMethod = stripeService.paymentContext?.selectedPaymentMethod {
+        if let paymentMethod = StripeService.shared.paymentContext.value?.selectedPaymentMethod {
             // always write card to firebase since it's an internal call
             print("updated card")
-            stripeService.savePaymentInfo(paymentMethod)
+            PaymentService.savePaymentInfo(paymentMethod)
         }
     }
     
     func shouldShowPaymentController() {
-        let viewModel = PaymentViewModel(paymentContext: stripeService.paymentContext)
+        guard let viewModel = viewModel else { return }
         if viewModel.canAddPayment {
             LoggingService.shared.log(event: LoggingEvent.show_payment_controller, info: nil)
-            stripeService.paymentContext?.presentPaymentMethodsViewController()
+            if let context = StripeService.shared.paymentContext.value {
+                context.presentPaymentMethodsViewController()
+            } else {
+                StripeService.shared.validateStripeCustomer()
+            }
         }
     }
 }

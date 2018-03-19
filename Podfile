@@ -15,6 +15,7 @@ target 'Balizinha' do
 
     pod 'RxSwift'
     pod 'RxCocoa'
+    pod 'RxOptional'
 
     pod 'AFNetworking'
     pod 'AsyncImageView'

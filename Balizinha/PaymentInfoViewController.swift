@@ -18,15 +18,17 @@ class PaymentInfoViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var constraintIconWidth: NSLayoutConstraint!
     
-    let stripeService = StripeService()
+    var viewModel: PaymentViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshPayment), object: nil)
-        
-        stripeService.loadPayment(host: self)
+        StripeService.shared.hostController = self
+        StripeService.shared.status.asObservable().subscribe(onNext: { status in
+            self.viewModel = PaymentViewModel(status: status)
+        })
     }
 
     deinit {
@@ -39,10 +41,9 @@ class PaymentInfoViewController: UIViewController {
     }
     
     @IBAction func didClickAddPayment(_ sender: UIButton) {
-        let viewModel = PaymentViewModel(paymentContext: stripeService.paymentContext)
-        if viewModel.canAddPayment {
+        if viewModel?.canAddPayment == true {
             LoggingService.shared.log(event: LoggingEvent.show_payment_controller, info: nil)
-            stripeService.paymentContext?.presentPaymentMethodsViewController()
+            StripeService.shared.paymentContext.value?.presentPaymentMethodsViewController()
         }
     }
 }
@@ -50,7 +51,7 @@ class PaymentInfoViewController: UIViewController {
 // MARK: - Listeners for STPPaymentContext
 extension PaymentInfoViewController {
     @objc func refreshPayment() {
-        let viewModel = PaymentViewModel(paymentContext: stripeService.paymentContext)
+        guard let viewModel = viewModel else { return }
         self.paymentLabel.text = viewModel.labelTitle
         self.constraintIconWidth.constant = viewModel.iconWidth
         self.paymentIcon.image = viewModel.icon
@@ -61,10 +62,10 @@ extension PaymentInfoViewController {
             self.activityIndicator.stopAnimating()
         }
 
-        if let paymentMethod = stripeService.paymentContext?.selectedPaymentMethod {
+        if let paymentMethod = StripeService.shared.paymentContext.value?.selectedPaymentMethod {
             // always write card to firebase since it's an internal call
             print("updated card")
-            stripeService.savePaymentInfo(paymentMethod)
+            PaymentService.savePaymentInfo(paymentMethod)
         }
     }
 }

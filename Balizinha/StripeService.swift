@@ -9,74 +9,116 @@
 import UIKit
 import Stripe
 import Firebase
+import RxSwift
 
-fileprivate var singleton: StripeService?
+enum PaymentStatus {
+    case none // no customer_id exists
+    case loading // customer_id exists, loading payment
+    case ready(paymentMethod: STPPaymentMethod?)
+}
+
+func ==(lhs: PaymentStatus, rhs: PaymentStatus) -> Bool {
+    switch (lhs, rhs) {
+    case (.none, .none):
+        return true
+    case (.loading, .loading):
+        return true
+    case (.ready(let p1), .ready(let p2)):
+        if p1 == nil && p2 == nil {
+            return true
+        }
+        if p1 != nil && p2 != nil {
+            return true
+        }
+        return false
+    default:
+        return false
+    }
+}
+
+
 
 class StripeService: NSObject {
+    static let shared = StripeService()
+    
     // payment method
-    var paymentContext: STPPaymentContext?
-    var hostController: UIViewController?
+    var paymentContext: Variable<STPPaymentContext?> = Variable(nil)
+    var customerId: Variable<String?> = Variable(nil)
+    fileprivate var paymentContextLoading: Variable<Bool> = Variable(false) // when paymentContext loading state changes, we don't get a reactive notification
+    let status: Observable<PaymentStatus>
     
-    var customerId: String?
+    weak var hostController: UIViewController? {
+        didSet {
+            self.paymentContext.value?.hostViewController = hostController
+        }
+    }
+    
+    fileprivate let disposeBag = DisposeBag()
 
-    var completionHandler: STPJSONResponseCompletionBlock?
-    
-    func loadPayment(host: UIViewController?) {
+    override init() {
+        // status: no customer_id = none
+        // status: customer_id, no paymentContext = loading, should trigger creating payment context
+        // status: customer_id, paymentContext.loading = loading
+        // status: customer_id, !paymentContext.loading, paymentMethod is nil = Add a payment (none)
+        // status: customer_id, !paymentContext.loading, paymentMethod exists = View payments (ready)
+        print("StripeService: starting observing to update status")
+        self.status = Observable.combineLatest(paymentContext.asObservable(), customerId.asObservable(), paymentContextLoading.asObservable()) {context, customerId, loading in
+            guard let customerId = customerId else { return .none }
+            guard let context = context else {
+                return .loading
+            }
+            if context.loading { // use actual loading value; paymentContextLoading is only used as a trigger
+                // customer exists, context exists, loading payment method
+                print("StripeService: status update: \(PaymentStatus.loading)")
+                return .loading
+            }
+            else if let paymentMethod = context.selectedPaymentMethod {
+                // customer exists, context exists, payment exists
+                print("StripeService: status update: \(PaymentStatus.ready)")
+                return .ready(paymentMethod: paymentMethod)
+            } else {
+                // customer exists, context exists, no payment method
+                print("StripeService: status update: \(PaymentStatus.none)")
+                return .none
+            }
+        }
+        
+        // TODO: when customer ID is set, create context
+        super.init()
+
+        // listen for player object in order to get customer id
+        PlayerService.shared.observedPlayer?.asObservable().subscribe(onNext: {player in
+            let userId = player.id
+            let ref = firRef.child("stripe_customers").child(player.id).child("customer_id")
+            ref.observe(.value, with: { (snapshot) in
+                guard snapshot.exists(), let customerId = snapshot.value as? String else {
+                    self.paymentContext.value = nil
+                    self.validateStripeCustomer()
+                    return
+                }
+                
+                print("StripeService: updated customer id \(customerId) for player \(userId)")
+                self.customerId.value = customerId
+                self.loadPayment()
+            })
+        }).disposed(by: disposeBag)
+    }
+
+    func loadPayment() {
+        guard let customerId = self.customerId.value else { return }
+        guard self.paymentContext.value == nil else { return }
         guard let player = PlayerService.shared.current else {
             return
         }
         
-        let ref = firRef.child("stripe_customers").child(player.id).child("customer_id")
-        ref.observe(.value, with: { (snapshot) in
-            guard snapshot.exists(), let customerId = snapshot.value as? String else {
-                // old player does not have a stripe customer, must create one
-                print("uh oh")
-                if let player = PlayerService.shared.current {
-                    self.checkForStripeCustomer(player)
-                }
-                return
-            }
-            self.customerId = customerId
-            let customerContext = STPCustomerContext(keyProvider: self)
-            self.paymentContext = STPPaymentContext(customerContext: customerContext)
-            self.paymentContext?.delegate = self
-            if let host = host {
-                self.paymentContext?.hostViewController = host
-            }
-        })
-    }
-    
-    // for legacy users
-    func checkForStripeCustomer(_ player: Player) {
-        guard !PlayerService.isAnonymous else { return }
-        let ref = firRef.child("stripe_customers").child(player.id).child("customer_id")
-        ref.observe(.value, with: { (snapshot) in
-            guard snapshot.exists(), let customerId = snapshot.value as? String else {
-                // old player does not have a stripe customer, must create one
-                self.createCustomer()
-                return
-            }
-            // otherwise stripe customer exists and all is well
-            print("stripe_customer for player \(player.id) exists: \(customerId)")
-        })
-    }
-    
-    func createCustomer() {
-        guard let email = PlayerService.shared.current?.email else { return }
-        guard let id = PlayerService.shared.current?.id else { return }
-        let params: [String: Any] = ["email": email, "id": id]
-        let method = "POST"
-        FirebaseAPIService.shared.cloudFunction(functionName: "createStripeCustomerForLegacyUser_v0_2", method: method, params: params) { (result, error) in
-            
+        print("StripeService: loadPayment for customer \(customerId)")
+        let customerContext = STPCustomerContext(keyProvider: self)
+        let paymentContext = STPPaymentContext(customerContext: customerContext)
+        paymentContext.delegate = self
+        if let hostController = self.hostController {
+            paymentContext.hostViewController = hostController
         }
-    }
-    
-    func savePaymentInfo(_ paymentMethod: STPPaymentMethod) {
-        // calls this function after a payment source has been created
-        guard let player = PlayerService.shared.current, let card = paymentMethod as? STPCard else { return }
-        let ref = firRef.child("stripe_customers").child(player.id)
-        let params: [String: Any] = ["source": card.stripeID, "last4":card.last4, "label": card.label]
-        ref.updateChildValues(params)
+        self.paymentContext.value = paymentContext
     }
     
     func createCharge(for event: Event, amount: Double, player: Player, isDonation: Bool = false, completion: ((_ success: Bool,_ error: Error?)->())?) {
@@ -160,25 +202,40 @@ class StripeService: NSObject {
             }
         }
     }
+    
+    func validateStripeCustomer() {
+        // kicks off a process to create a new customer, then create a new payment context
+        guard let customerId = self.customerId.value else { return }
+        guard let player = PlayerService.shared.current, let email = player.email else { return } // TODO: handle error
+        print("StripeService: calling validateStripeCustomer")
+        FirebaseAPIService().cloudFunction(functionName: "validateStripeCustomer", method: "POST", params: ["userId": player.id, "email": email], completion: { [weak self] (result, error) in
+            // TODO: parse customer id and store it
+            print("StripeService: validateStripeCustomer result: \(result) error: \(error)")
+            if let json = result as? [String: Any], let customer_id = json["customer_id"] as? String {
+                self?.customerId.value = customer_id
+            }
+        })
+    }
 }
 
 // MARK: - STPPaymentContextDelegate
 extension StripeService: STPPaymentContextDelegate {
     func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
-        print("didChange. loading \(paymentContext.loading)")
+        print("StripeService: paymentContextDidChange. loading \(paymentContext.loading), selected payment \(paymentContext.selectedPaymentMethod)")
 
+        paymentContextLoading.value = paymentContext.loading
         self.notify(NotificationType.PaymentContextChanged, object: nil, userInfo: nil)
     }
     
     func paymentContext(_ paymentContext: STPPaymentContext,
                         didCreatePaymentResult paymentResult: STPPaymentResult,
                         completion: @escaping STPErrorBlock) {
-        print("didCreatePayment")
+        print("StripeService: paymentContext didCreatePayment with result \(paymentResult)")
     }
     
     
     func paymentContext(_ paymentContext: STPPaymentContext, didFinishWith status: STPPaymentStatus, error: Error?) {
-        print("didFinish")
+        print("StripeService: paymentContext didFinish")
         switch status {
         case .error: break
         //            self.showError(error)
@@ -191,7 +248,7 @@ extension StripeService: STPPaymentContextDelegate {
     
     func paymentContext(_ paymentContext: STPPaymentContext,
                         didFailToLoadWithError error: Error) {
-        print("didFailToLoad error \(error)")
+        print("StripeService: paymentContext didFailToLoad error \(error)")
         // Show the error to your user, etc.
     }
     
@@ -201,10 +258,10 @@ extension StripeService: STPPaymentContextDelegate {
 // MARK: - Customer Key
 extension StripeService: STPEphemeralKeyProvider {
     func createCustomerKey(withAPIVersion apiVersion: String, completion: @escaping STPJSONResponseCompletionBlock) {
-        guard let customerId = self.customerId else { return }
+        guard let customerId = self.customerId.value else { return }
         let params: [String: Any] = ["api_version": apiVersion, "customer_id": customerId]
         let method = "POST"
-        FirebaseAPIService.shared.cloudFunction(functionName: "ephemeralKeys", method: method, params: params) { (result, error) in
+        FirebaseAPIService().cloudFunction(functionName: "ephemeralKeys", method: method, params: params) { (result, error) in
             completion(result as? [AnyHashable: Any], error)
         }
     }
