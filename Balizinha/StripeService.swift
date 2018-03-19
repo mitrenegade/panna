@@ -44,6 +44,7 @@ class StripeService: NSObject {
     // payment method
     var paymentContext: Variable<STPPaymentContext?> = Variable(nil)
     var customerId: Variable<String?> = Variable(nil)
+    fileprivate var paymentContextLoading: Variable<Bool> = Variable(false) // when paymentContext loading state changes, we don't get a reactive notification
     let status: Observable<PaymentStatus>
     
     weak var hostController: UIViewController? {
@@ -61,12 +62,12 @@ class StripeService: NSObject {
         // status: customer_id, !paymentContext.loading, paymentMethod is nil = Add a payment (none)
         // status: customer_id, !paymentContext.loading, paymentMethod exists = View payments (ready)
         print("StripeService: starting observing to update status")
-        self.status = Observable.combineLatest(paymentContext.asObservable(), customerId.asObservable()) {context, customerId in
+        self.status = Observable.combineLatest(paymentContext.asObservable(), customerId.asObservable(), paymentContextLoading.asObservable()) {context, customerId, loading in
             guard let customerId = customerId else { return .none }
             guard let context = context else {
                 return .loading
             }
-            if context.loading {
+            if context.loading { // use actual loading value; paymentContextLoading is only used as a trigger
                 // customer exists, context exists, loading payment method
                 print("StripeService: status update: \(PaymentStatus.loading)")
                 return .loading
@@ -222,6 +223,7 @@ extension StripeService: STPPaymentContextDelegate {
     func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
         print("StripeService: paymentContextDidChange. loading \(paymentContext.loading), selected payment \(paymentContext.selectedPaymentMethod)")
 
+        paymentContextLoading.value = paymentContext.loading
         self.notify(NotificationType.PaymentContextChanged, object: nil, userInfo: nil)
     }
     
