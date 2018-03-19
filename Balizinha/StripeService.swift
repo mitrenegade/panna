@@ -53,7 +53,7 @@ class StripeService: NSObject {
         }
     }
     
-    fileprivate let disposeBag = DisposeBag()
+    fileprivate var disposeBag = DisposeBag()
 
     override init() {
         // status: no customer_id = none
@@ -63,7 +63,9 @@ class StripeService: NSObject {
         // status: customer_id, !paymentContext.loading, paymentMethod exists = View payments (ready)
         print("StripeService: starting observing to update status")
         self.status = Observable.combineLatest(paymentContext.asObservable(), customerId.asObservable(), paymentContextLoading.asObservable()) {context, customerId, loading in
-            guard let customerId = customerId else { return .none }
+            guard let customerId = customerId else {
+                return .none
+            }
             guard let context = context else {
                 return .loading
             }
@@ -82,11 +84,16 @@ class StripeService: NSObject {
                 return .none
             }
         }
-        
+
         // TODO: when customer ID is set, create context
         super.init()
 
+        startPlayerListener()
+    }
+    
+    fileprivate func startPlayerListener() {
         // listen for player object in order to get customer id
+        // TODO: make sure playerService restarts its observing on logout/login
         PlayerService.shared.observedPlayer?.asObservable().subscribe(onNext: {player in
             let userId = player.id
             let ref = firRef.child("stripe_customers").child(player.id).child("customer_id")
@@ -102,6 +109,17 @@ class StripeService: NSObject {
                 self.loadPayment()
             })
         }).disposed(by: disposeBag)
+    }
+    
+    class func resetOnLogout() {
+        print("StripeService: resetting on logout")
+        StripeService.shared.customerId.value = nil
+        StripeService.shared.paymentContextLoading.value = false
+        StripeService.shared.paymentContext.value = nil
+        StripeService.shared.hostController = nil
+        StripeService.shared.disposeBag = DisposeBag()
+        
+        StripeService.shared.startPlayerListener()
     }
 
     func loadPayment() {

@@ -67,5 +67,6 @@ class AuthService: NSObject {
         PlayerService.resetOnLogout()
         OrganizerService.resetOnLogout()
         FBSDKLoginManager().logOut()
+        StripeService.resetOnLogout()
     }
 }
