@@ -142,6 +142,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case "Payment options":
             if let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCell", for: indexPath) as? PaymentCell {
                 self.paymentCell = cell
+                StripeService.shared.hostController = self
                 return cell
             }
             else {
