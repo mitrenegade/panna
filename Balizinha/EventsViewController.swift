@@ -22,7 +22,6 @@ class EventsViewController: UIViewController {
     let eventTypes: [EventType] = [.event3v3, .event5v5, .event7v7, .event11v11, .other]
 
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
-    var stripeService: StripeService = StripeService()
     var joiningEvent: Event?
     
     let disposeBag = DisposeBag()
@@ -295,7 +294,7 @@ extension EventsViewController {
     }
     
     @objc func refreshStripeStatus() {
-        guard let paymentContext = stripeService.paymentContext else { return }
+        guard let paymentContext = StripeService.shared.paymentContext.value else { return }
         if paymentContext.loading {
             activityIndicator.startAnimating()
         }
@@ -368,7 +367,7 @@ extension EventsViewController {
         }
         activityIndicator.startAnimating()
 
-        stripeService.createCharge(for: event, amount: amount, player: current, completion: {[weak self] (success, error) in
+        StripeService.shared.createCharge(for: event, amount: amount, player: current, completion: {[weak self] (success, error) in
             self?.activityIndicator.stopAnimating()
             if success {
                 self?.joinEvent(event)

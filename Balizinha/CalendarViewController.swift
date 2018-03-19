@@ -16,8 +16,6 @@ class CalendarViewController: UITableViewController {
     
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
 
-    let stripeService = StripeService()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -244,7 +242,7 @@ extension CalendarViewController: EventDonationDelegate {
             textField.placeholder = "$1.00"
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-            guard let _ = self.stripeService.paymentContext?.selectedPaymentMethod else {
+            guard let _ = StripeService.shared.paymentContext.value?.selectedPaymentMethod else {
                 self.promptForInvalidPaymentMethod(nil)
                 return
             }
@@ -253,7 +251,7 @@ extension CalendarViewController: EventDonationDelegate {
                 
                 self.activityIndicator.startAnimating()
                 
-                self.stripeService.createCharge(for: event, amount: amount, player: player, isDonation: true, completion: {[weak self] (success, error) in
+                StripeService.shared.createCharge(for: event, amount: amount, player: player, isDonation: true, completion: {[weak self] (success, error) in
                     self?.activityIndicator.stopAnimating()
                     print("Donation completed \(success), has error \(error)")
                     if success {
