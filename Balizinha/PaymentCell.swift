@@ -14,11 +14,6 @@ import RxSwift
 class PaymentCell: UITableViewCell {
 
     var viewModel: PaymentViewModel?
-    var host: UIViewController? {
-        didSet {
-            StripeService.shared.hostController = host
-        }
-    }
 
     fileprivate var disposeBag = DisposeBag()
     

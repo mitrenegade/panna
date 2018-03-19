@@ -25,7 +25,7 @@ class PaymentInfoViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         self.listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshPayment), object: nil)
-//        StripeService.shared.hostController = self
+        StripeService.shared.hostController = self
         StripeService.shared.status.asObservable().subscribe(onNext: { status in
             self.viewModel = PaymentViewModel(status: status)
         })

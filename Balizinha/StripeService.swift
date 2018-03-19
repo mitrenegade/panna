@@ -44,8 +44,13 @@ class StripeService: NSObject {
     // payment method
     var paymentContext: Variable<STPPaymentContext?> = Variable(nil)
     var customerId: Variable<String?> = Variable(nil)
-    
     let status: Observable<PaymentStatus>
+    
+    weak var hostController: UIViewController? {
+        didSet {
+            self.paymentContext.value?.hostViewController = hostController
+        }
+    }
     
     fileprivate let disposeBag = DisposeBag()
 
@@ -55,18 +60,24 @@ class StripeService: NSObject {
         // status: customer_id, paymentContext.loading = loading
         // status: customer_id, !paymentContext.loading, paymentMethod is nil = Add a payment (none)
         // status: customer_id, !paymentContext.loading, paymentMethod exists = View payments (ready)
+        print("StripeService: starting observing to update status")
         self.status = Observable.combineLatest(paymentContext.asObservable(), customerId.asObservable()) {context, customerId in
             guard let customerId = customerId else { return .none }
-            guard let context = context else { return .loading }
+            guard let context = context else {
+                return .loading
+            }
             if context.loading {
                 // customer exists, context exists, loading payment method
+                print("StripeService: status update: \(PaymentStatus.loading)")
                 return .loading
             }
             else if let paymentMethod = context.selectedPaymentMethod {
                 // customer exists, context exists, payment exists
+                print("StripeService: status update: \(PaymentStatus.ready)")
                 return .ready(paymentMethod: paymentMethod)
             } else {
                 // customer exists, context exists, no payment method
+                print("StripeService: status update: \(PaymentStatus.none)")
                 return .none
             }
         }
@@ -85,35 +96,28 @@ class StripeService: NSObject {
                     return
                 }
                 
+                print("StripeService: updated customer id \(customerId) for player \(userId)")
                 self.customerId.value = customerId
+                self.loadPayment()
             })
         }).disposed(by: disposeBag)
     }
 
-    func loadPayment(host: UIViewController?) {
+    func loadPayment() {
+        guard let customerId = self.customerId.value else { return }
+        guard self.paymentContext.value == nil else { return }
         guard let player = PlayerService.shared.current else {
             return
         }
         
-        let ref = firRef.child("stripe_customers").child(player.id).child("customer_id")
-        ref.observe(.value, with: { (snapshot) in
-            guard snapshot.exists(), let customerId = snapshot.value as? String else {
-                self.paymentContext.value = nil
-                return
-            }
-            
-            self.customerId.value = customerId
-            // TODO: customer must exist or paymentContext is stuck in a loading state
-            // but we shouldn't have to create a customer unless user has added a payment??
-            // TODO: don't use paymentContext's loading for loading state of PaymentCell
-            let customerContext = STPCustomerContext(keyProvider: self)
-            let paymentContext = STPPaymentContext(customerContext: customerContext)
-            paymentContext.delegate = self
-            if let host = host {
-                paymentContext.hostViewController = host
-            }
-            self.paymentContext.value = paymentContext
-        })
+        print("StripeService: loadPayment for customer \(customerId)")
+        let customerContext = STPCustomerContext(keyProvider: self)
+        let paymentContext = STPPaymentContext(customerContext: customerContext)
+        paymentContext.delegate = self
+        if let hostController = self.hostController {
+            paymentContext.hostViewController = hostController
+        }
+        self.paymentContext.value = paymentContext
     }
     
     func createCharge(for event: Event, amount: Double, player: Player, isDonation: Bool = false, completion: ((_ success: Bool,_ error: Error?)->())?) {
@@ -202,9 +206,10 @@ class StripeService: NSObject {
         // kicks off a process to create a new customer, then create a new payment context
         guard let customerId = self.customerId.value else { return }
         guard let player = PlayerService.shared.current, let email = player.email else { return } // TODO: handle error
+        print("StripeService: calling validateStripeCustomer")
         FirebaseAPIService().cloudFunction(functionName: "validateStripeCustomer", method: "POST", params: ["userId": player.id, "email": email], completion: { [weak self] (result, error) in
             // TODO: parse customer id and store it
-            print("ValidateStripeCustomer result: \(result) error: \(error)")
+            print("StripeService: validateStripeCustomer result: \(result) error: \(error)")
             if let json = result as? [String: Any], let customer_id = json["customer_id"] as? String {
                 self?.customerId.value = customer_id
             }
@@ -215,7 +220,7 @@ class StripeService: NSObject {
 // MARK: - STPPaymentContextDelegate
 extension StripeService: STPPaymentContextDelegate {
     func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
-        print("didChange. loading \(paymentContext.loading)")
+        print("StripeService: paymentContextDidChange. loading \(paymentContext.loading), selected payment \(paymentContext.selectedPaymentMethod)")
 
         self.notify(NotificationType.PaymentContextChanged, object: nil, userInfo: nil)
     }
@@ -223,12 +228,12 @@ extension StripeService: STPPaymentContextDelegate {
     func paymentContext(_ paymentContext: STPPaymentContext,
                         didCreatePaymentResult paymentResult: STPPaymentResult,
                         completion: @escaping STPErrorBlock) {
-        print("didCreatePayment")
+        print("StripeService: paymentContext didCreatePayment with result \(paymentResult)")
     }
     
     
     func paymentContext(_ paymentContext: STPPaymentContext, didFinishWith status: STPPaymentStatus, error: Error?) {
-        print("didFinish")
+        print("StripeService: paymentContext didFinish")
         switch status {
         case .error: break
         //            self.showError(error)
@@ -241,7 +246,7 @@ extension StripeService: STPPaymentContextDelegate {
     
     func paymentContext(_ paymentContext: STPPaymentContext,
                         didFailToLoadWithError error: Error) {
-        print("didFailToLoad error \(error)")
+        print("StripeService: paymentContext didFailToLoad error \(error)")
         // Show the error to your user, etc.
     }
     

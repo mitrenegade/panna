@@ -42,7 +42,6 @@ class AccountViewController: UIViewController {
         activityIndicator.center = view.center
         view.addSubview(activityIndicator)
         activityIndicator.color = UIColor.red
-
     }
 
     func reloadTableData() {
@@ -61,7 +60,7 @@ class AccountViewController: UIViewController {
             }
         }
     }
-    
+
     // MARK: - Promotions
     func addPromotion() {
         guard let current = PlayerService.shared.current else { return }

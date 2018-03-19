@@ -28,8 +28,6 @@ class CalendarViewController: UITableViewController {
         activityIndicator.center = self.view.center
         self.view.addSubview(activityIndicator)
         activityIndicator.color = UIColor.red
-        
-//        stripeService.loadPayment(host: nil)
     }
 
     deinit {
