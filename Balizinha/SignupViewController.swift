@@ -89,8 +89,8 @@ class SignupViewController: UIViewController {
                         print("signIn results: \(user?.uid) \(user?.email) profile \(String(describing: user?.photoURL)) \(String(describing: user?.displayName))")
                         
                         guard let disposeBag = self?.disposeBag else { return }
-                        let _ = PlayerService.shared.current // invoke listener
-                        PlayerService.shared.observedPlayer?.asObservable().take(1).subscribe(onNext: { (player) in
+                        let _ = PlayerService.shared.current.value // invoke listener
+                        PlayerService.shared.current.asObservable().take(1).subscribe(onNext: { (player) in
                             self?.goToEditPlayer(player)
                         }).disposed(by: disposeBag)
                     }

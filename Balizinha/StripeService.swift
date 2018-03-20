@@ -95,19 +95,20 @@ class StripeService: NSObject {
     fileprivate func startPlayerListener() {
         // listen for player object in order to get customer id
         // TODO: make sure playerService restarts its observing on logout/login
-        PlayerService.shared.observedPlayer?.asObservable().subscribe(onNext: {player in
+        PlayerService.shared.current.asObservable().subscribe(onNext: {player in
+            guard let player = player else { return }
             let userId = player.id
             let ref = firRef.child("stripe_customers").child(player.id).child("customer_id")
             ref.observe(.value, with: { (snapshot) in
                 guard snapshot.exists(), let customerId = snapshot.value as? String else {
                     self.paymentContext.value = nil
-                    self.validateStripeCustomer()
+                    self.validateStripeCustomer(for: player)
                     return
                 }
                 
                 print("StripeService: updated customer id \(customerId) for player \(userId)")
                 self.customerId.value = customerId
-                self.loadPayment()
+                self.loadPayment(for: player)
             })
         }).disposed(by: disposeBag)
     }
@@ -123,12 +124,9 @@ class StripeService: NSObject {
         StripeService.shared.startPlayerListener()
     }
 
-    func loadPayment() {
+    func loadPayment(for player: Player) {
         guard let customerId = self.customerId.value else { return }
         guard self.paymentContext.value == nil else { return }
-        guard let player = PlayerService.shared.current else {
-            return
-        }
         
         print("StripeService: loadPayment for customer \(customerId)")
         let customerContext = STPCustomerContext(keyProvider: self)
@@ -222,10 +220,10 @@ class StripeService: NSObject {
         }
     }
     
-    func validateStripeCustomer() {
+    func validateStripeCustomer(for player: Player) {
         // kicks off a process to create a new customer, then create a new payment context
         guard let customerId = self.customerId.value else { return }
-        guard let player = PlayerService.shared.current, let email = player.email else { return } // TODO: handle error
+        guard let email = player.email else { return } // TODO: handle error
         print("StripeService: calling validateStripeCustomer")
         FirebaseAPIService().cloudFunction(functionName: "validateStripeCustomer", method: "POST", params: ["userId": player.id, "email": email], completion: { [weak self] (result, error) in
             // TODO: parse customer id and store it

@@ -74,7 +74,7 @@ class OrganizerService: NSObject {
     func createOrganizer(completion: ((Organizer?, Error?) -> Void)? ) {
         
         guard let user = AuthService.currentUser else { return }
-        guard let current = PlayerService.shared.current else { return }
+        guard let current = PlayerService.shared.current.value else { return }
         let organizerRef = firRef.child("organizers")
         
         let existingUserId = user.uid
@@ -101,7 +101,7 @@ class OrganizerService: NSObject {
     
     func requestOrganizerAccess(completion: ((Organizer?, Error?) -> Void)? ) {
         
-        guard let user = AuthService.currentUser, let current = PlayerService.shared.current else {
+        guard let user = AuthService.currentUser, let current = PlayerService.shared.current.value else {
             completion?(nil, nil)
             return
         }

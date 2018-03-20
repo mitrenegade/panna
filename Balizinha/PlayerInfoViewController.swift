@@ -264,7 +264,7 @@ extension PlayerInfoViewController {
         }) { (url) in
             if let url = url {
                 self.refreshPhoto(url: url)
-                if let player = PlayerService.shared.current {
+                if let player = PlayerService.shared.current.value {
                     player.photoUrl = url
                 }
             }

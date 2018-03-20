@@ -45,8 +45,6 @@ class PaymentCell: UITableViewCell {
             LoggingService.shared.log(event: LoggingEvent.show_payment_controller, info: nil)
             if let context = StripeService.shared.paymentContext.value {
                 context.presentPaymentMethodsViewController()
-            } else {
-                StripeService.shared.validateStripeCustomer()
             }
         }
     }

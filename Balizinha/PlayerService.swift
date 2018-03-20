@@ -19,7 +19,7 @@ class PlayerService: NSObject {
     
     fileprivate var disposeBag: DisposeBag
 
-    var current: Variable<Player?> = Variable(nil)
+    let current: Variable<Player?> = Variable(nil)
     fileprivate let playersRef: DatabaseReference
 
     override init() {
@@ -33,7 +33,7 @@ class PlayerService: NSObject {
             if state == .loggedIn, let user = AuthService.currentUser {
                 print("PlayerService: log in state triggering player request with logged in user \(user.uid)")
                 let playerRef: DatabaseReference = self.playersRef.child(user.uid)
-                playerRef.observe(.value, with: { (snapshot) in
+                playerRef.observeSingleEvent(of: .value, with: { (snapshot) in
                     guard snapshot.exists() else { return }
                     
                     let player = Player(snapshot: snapshot)
@@ -44,17 +44,21 @@ class PlayerService: NSObject {
         }).disposed(by: disposeBag)
     }
     
-    func resetOnLogout() {
+    class func resetOnLogout() {
+        print("PlayerService resetOnLogout")
+        PlayerService.shared.current.value = nil
         PlayerService.shared.disposeBag = DisposeBag()
     }
 
     
     func createPlayer(name: String?, email: String?, city: String?, info: String?, photoUrl: String?, completion:@escaping (Player?, NSError?) -> Void) {
-        
+
         guard let user = AuthService.currentUser, !AuthService.isAnonymous else { return }
         let existingUserId = user.uid
         let newPlayerRef: DatabaseReference = playersRef.child(existingUserId)
-        
+
+        print("PlayerService createPlayer")
+
         var params: [String: Any] = [:]
         if let name = name {
             params["name"] = name
@@ -77,7 +81,9 @@ class PlayerService: NSObject {
                 print(error)
                 completion(nil, error)
             } else {
-                // TODO: observe player
+                PlayerService.shared.current.asObservable().take(1).subscribe(onNext: { player in
+                    completion(player, nil)
+                })
             }
         }
     }

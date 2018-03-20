@@ -62,7 +62,7 @@ class SplashViewController: UIViewController {
     
     @objc func didLogin() {
         print("LoginLogout: didLogin")
-        if let player = PlayerService.shared.current {
+        if let player = PlayerService.shared.current.value {
             let userId = player.id
             Crashlytics.sharedInstance().setUserIdentifier(userId)
         } else {
@@ -155,7 +155,7 @@ class SplashViewController: UIViewController {
         self.listenFor(NotificationType.GoToMapForSharedEvent, action: #selector(goToMap(_:)), object: nil)
 
         EventService.shared.listenForEventUsers()
-        let _ = PlayerService.shared.current // invoke listener
+        let _ = PlayerService.shared.current.value // invoke listener
         let _ = OrganizerService.shared.current // trigger organizer loading
         let _ = PromotionService.shared
     }
