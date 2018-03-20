@@ -29,6 +29,10 @@ class PlayerService: NSObject {
         
         super.init()
 
+        startAuthListener()
+    }
+    
+    func startAuthListener() {
         AuthService.shared.loginState.asObservable().distinctUntilChanged().subscribe(onNext: {state in
             if state == .loggedIn, let user = AuthService.currentUser {
                 print("PlayerService: log in state triggering player request with logged in user \(user.uid)")
@@ -46,8 +50,9 @@ class PlayerService: NSObject {
     
     class func resetOnLogout() {
         print("PlayerService resetOnLogout")
-        PlayerService.shared.current.value = nil
         PlayerService.shared.disposeBag = DisposeBag()
+        PlayerService.shared.current.value = nil
+        PlayerService.shared.startAuthListener()
     }
 
     

@@ -115,11 +115,11 @@ class StripeService: NSObject {
     
     class func resetOnLogout() {
         print("StripeService: resetting on logout")
+        StripeService.shared.disposeBag = DisposeBag()
         StripeService.shared.customerId.value = nil
         StripeService.shared.paymentContextLoading.value = false
         StripeService.shared.paymentContext.value = nil
         StripeService.shared.hostController = nil
-        StripeService.shared.disposeBag = DisposeBag()
         
         StripeService.shared.startPlayerListener()
     }
