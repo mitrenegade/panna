@@ -28,9 +28,6 @@ class AccountViewController: UIViewController {
         if !SettingsService.donation() && !SettingsService.paymentRequired() {
             menuOptions = menuOptions.filter({$0 != "Payment options"})
         }
-        if !SettingsService.paymentLocationTestGroup() {
-            menuOptions = menuOptions.filter({$0 != "Payment options"})
-        }
         if !SettingsService.organizerPaymentRequired() {
             menuOptions = menuOptions.filter({$0 != "Organizer options"})
         }
