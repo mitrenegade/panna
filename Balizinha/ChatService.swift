@@ -12,7 +12,7 @@ import Firebase
 class ChatService: NSObject {
     class func createChat(eventId: String, message: String) {
         // convenience function to encapsulate player loading and displayName for an action that is relevant to the current player
-        guard let user = PlayerService.currentUser else { return }
+        guard let user = AuthService.currentUser else { return }
         PlayerService.shared.withId(id: user.uid) { (player) in
             post(userId: user.uid, eventId: eventId, message: message)
         }

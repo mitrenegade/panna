@@ -53,7 +53,7 @@ class StripeService: NSObject {
         }
     }
     
-    fileprivate let disposeBag = DisposeBag()
+    fileprivate var disposeBag: DisposeBag
 
     override init() {
         // status: no customer_id = none
@@ -61,9 +61,12 @@ class StripeService: NSObject {
         // status: customer_id, paymentContext.loading = loading
         // status: customer_id, !paymentContext.loading, paymentMethod is nil = Add a payment (none)
         // status: customer_id, !paymentContext.loading, paymentMethod exists = View payments (ready)
+        disposeBag = DisposeBag()
         print("StripeService: starting observing to update status")
         self.status = Observable.combineLatest(paymentContext.asObservable(), customerId.asObservable(), paymentContextLoading.asObservable()) {context, customerId, loading in
-            guard let customerId = customerId else { return .none }
+            guard let customerId = customerId else {
+                return .none
+            }
             guard let context = context else {
                 return .loading
             }
@@ -82,34 +85,48 @@ class StripeService: NSObject {
                 return .none
             }
         }
-        
+
         // TODO: when customer ID is set, create context
         super.init()
 
+        startPlayerListener()
+    }
+    
+    fileprivate func startPlayerListener() {
         // listen for player object in order to get customer id
-        PlayerService.shared.observedPlayer?.asObservable().subscribe(onNext: {player in
+        // TODO: make sure playerService restarts its observing on logout/login
+        PlayerService.shared.current.asObservable().subscribe(onNext: {player in
+            guard let player = player else { return }
             let userId = player.id
             let ref = firRef.child("stripe_customers").child(player.id).child("customer_id")
             ref.observe(.value, with: { (snapshot) in
                 guard snapshot.exists(), let customerId = snapshot.value as? String else {
                     self.paymentContext.value = nil
-                    self.validateStripeCustomer()
+                    self.validateStripeCustomer(for: player)
                     return
                 }
                 
                 print("StripeService: updated customer id \(customerId) for player \(userId)")
                 self.customerId.value = customerId
-                self.loadPayment()
+                self.loadPayment(for: player)
             })
         }).disposed(by: disposeBag)
     }
+    
+    class func resetOnLogout() {
+        print("StripeService: resetting on logout")
+        StripeService.shared.disposeBag = DisposeBag()
+        StripeService.shared.customerId.value = nil
+        StripeService.shared.paymentContextLoading.value = false
+        StripeService.shared.paymentContext.value = nil
+        StripeService.shared.hostController = nil
+        
+        StripeService.shared.startPlayerListener()
+    }
 
-    func loadPayment() {
+    func loadPayment(for player: Player) {
         guard let customerId = self.customerId.value else { return }
         guard self.paymentContext.value == nil else { return }
-        guard let player = PlayerService.shared.current else {
-            return
-        }
         
         print("StripeService: loadPayment for customer \(customerId)")
         let customerContext = STPCustomerContext(keyProvider: self)
@@ -203,10 +220,10 @@ class StripeService: NSObject {
         }
     }
     
-    func validateStripeCustomer() {
+    func validateStripeCustomer(for player: Player) {
         // kicks off a process to create a new customer, then create a new payment context
         guard let customerId = self.customerId.value else { return }
-        guard let player = PlayerService.shared.current, let email = player.email else { return } // TODO: handle error
+        guard let email = player.email else { return } // TODO: handle error
         print("StripeService: calling validateStripeCustomer")
         FirebaseAPIService().cloudFunction(functionName: "validateStripeCustomer", method: "POST", params: ["userId": player.id, "email": email], completion: { [weak self] (result, error) in
             // TODO: parse customer id and store it

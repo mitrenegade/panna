@@ -95,7 +95,7 @@ class EventsViewController: UIViewController {
             }
             
             // 2: Remove events the user has joined
-            guard let user = PlayerService.currentUser else { return }
+            guard let user = AuthService.currentUser else { return }
             self?.service.getEventsForUser(user, completion: {[weak self] (eventIds) in
                 print("all events count \(self?.allEvents.count)")
                 
@@ -211,7 +211,7 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
 extension EventsViewController: EventCellDelegate {
     // MARK: EventCellDelegate
     func joinOrLeaveEvent(_ event: Event, join: Bool) {
-        guard let current = PlayerService.shared.current else {
+        guard let current = PlayerService.shared.current.value else {
             simpleAlert("Could not join event", message: "Please update your player profile!")
             return
         }
@@ -269,7 +269,7 @@ extension EventsViewController: EventCellDelegate {
 // MARK: - Payments
 extension EventsViewController {
     func checkIfAlreadyPaid(for event: Event) {
-        guard let current = PlayerService.shared.current else {
+        guard let current = PlayerService.shared.current.value else {
             simpleAlert("Could not make payment", message: "Please update your player profile!")
             return
         }
@@ -326,7 +326,7 @@ extension EventsViewController {
     
     fileprivate func calculateAmountForEvent(event: Event, completion:@escaping ((Double)->Void)) {
         let amount = event.amount?.doubleValue ?? 0
-        if let promotionId = PlayerService.shared.current?.promotionId {
+        if let promotionId = PlayerService.shared.current.value?.promotionId {
             PromotionService.shared.withId(id: promotionId, completion: { (promotion, error) in
                 if let promotion = promotion, let discount = promotion.discountFactor {
                     print("Event cost with discount of \(discount) = \(amount * discount)")
@@ -361,7 +361,7 @@ extension EventsViewController {
     }
     
     func chargeAndWait(event: Event, amount: Double) {
-        guard let current = PlayerService.shared.current else {
+        guard let current = PlayerService.shared.current.value else {
             simpleAlert("Could not make payment", message: "Please update your player profile!")
             return
         }

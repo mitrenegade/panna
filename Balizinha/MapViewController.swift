@@ -32,7 +32,7 @@ class MapViewController: EventsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if PlayerService.isAnonymous, SettingsService.showPreview {
+        if AuthService.isAnonymous, SettingsService.showPreview {
             navigationItem.title = "Balizinha"
             
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign in", style: .done, target: self, action: #selector(didClickProfile(_:)))
@@ -51,7 +51,7 @@ class MapViewController: EventsViewController {
         super.viewDidAppear(animated)
         
         var showedTutorial: Bool = false
-        if PlayerService.isAnonymous {
+        if AuthService.isAnonymous {
             showedTutorial = showTutorialIfNeeded()
         }
         if !showedTutorial {
@@ -106,9 +106,9 @@ extension MapViewController: MKMapViewDelegate {
         if first, let location = LocationService.shared.lastLocation {
             centerMapOnLocation(location: location)
             
-            PlayerService.shared.current?.lat = location.coordinate.latitude
-            PlayerService.shared.current?.lon = location.coordinate.longitude
-            PlayerService.shared.current?.lastLocationTimestamp = Date()
+            PlayerService.shared.current.value?.lat = location.coordinate.latitude
+            PlayerService.shared.current.value?.lon = location.coordinate.longitude
+            PlayerService.shared.current.value?.lastLocationTimestamp = Date()
         }
     }
     
@@ -243,7 +243,7 @@ extension MapViewController {
                     return cell
                 }
                 
-                if PlayerService.isAnonymous {
+                if AuthService.isAnonymous {
                     if SettingsService.showPreview {
                         // showing preview
                         cell.textLabel?.text = "There are currently no events near you. Sign up to organize a game!"
@@ -294,7 +294,7 @@ extension MapViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.section {
         case 0:
-            if PlayerService.isAnonymous {
+            if AuthService.isAnonymous {
                 if SettingsService.showPreview {
                     // signup
                     didClickProfile(nil)

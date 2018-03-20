@@ -54,7 +54,7 @@ class LoggingService: NSObject {
         guard let ref = loggingRef?.child(eventString).childByAutoId() else { return }
         var params = info ?? [:]
         params["timestamp"] = Date().timeIntervalSince1970
-        if let current = PlayerService.shared.current {
+        if let current = PlayerService.shared.current.value {
             params["playerId"] = current.id
         }
         ref.updateChildValues(params)

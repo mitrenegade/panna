@@ -28,9 +28,6 @@ class AccountViewController: UIViewController {
         if !SettingsService.donation() && !SettingsService.paymentRequired() {
             menuOptions = menuOptions.filter({$0 != "Payment options"})
         }
-        if !SettingsService.paymentLocationTestGroup() {
-            menuOptions = menuOptions.filter({$0 != "Payment options"})
-        }
         if !SettingsService.organizerPaymentRequired() {
             menuOptions = menuOptions.filter({$0 != "Organizer options"})
         }
@@ -55,7 +52,7 @@ class AccountViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToEditPlayerInfo" {
             if let nav = segue.destination as? UINavigationController, let controller = nav.viewControllers[0] as? PlayerInfoViewController {
-                controller.player = PlayerService.shared.current
+                controller.player = PlayerService.shared.current.value
                 controller.isCreatingPlayer = false
             }
         }
@@ -63,7 +60,7 @@ class AccountViewController: UIViewController {
 
     // MARK: - Promotions
     func addPromotion() {
-        guard let current = PlayerService.shared.current else { return }
+        guard let current = PlayerService.shared.current.value else { return }
         let alert = UIAlertController(title: "Please enter a promo code", message: nil, preferredStyle: .alert)
         alert.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "Promo code"
@@ -180,7 +177,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case "Logout":
             AuthService.shared.logout()
         case "Promo program":
-            guard let player = PlayerService.shared.current else { return }
+            guard let player = PlayerService.shared.current.value else { return }
             if let promoId = player.promotionId {
                 PromotionService.shared.withId(id: promoId) { (promo, error) in
                     if let promo = promo, promo.active {

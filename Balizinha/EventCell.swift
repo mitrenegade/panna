@@ -24,7 +24,7 @@ typealias EventStatus = (isPast: Bool, userIsOwner: Bool, userJoined: Bool)
 
 class EventCellViewModel: NSObject {
     func buttonTitle(eventStatus: EventStatus) -> String {
-        guard !PlayerService.isAnonymous else {
+        guard !AuthService.isAnonymous else {
             return "Preview"
         }
         
@@ -48,7 +48,7 @@ class EventCellViewModel: NSObject {
     }
     
     var buttonFont: UIFont {
-        guard !PlayerService.isAnonymous else {
+        guard !AuthService.isAnonymous else {
             return UIFont.montserrat(size: 13)
         }
         return UIFont.montserrat(size: 16)
@@ -104,7 +104,7 @@ class EventCell: UITableViewCell {
         }
 
         let containsUser: Bool
-        if let user = PlayerService.currentUser {
+        if let user = AuthService.currentUser {
             containsUser = event.containsUser(user)
         } else {
             containsUser = false
@@ -165,7 +165,7 @@ class EventCell: UITableViewCell {
     @IBAction func didTapButton(_ sender: AnyObject) {
         print("Tapped Cancel/Join")
         guard let event = self.event else { return }
-        guard !PlayerService.isAnonymous else {
+        guard !AuthService.isAnonymous else {
             delegate?.previewEvent(event)
             return
         }
@@ -176,7 +176,7 @@ class EventCell: UITableViewCell {
         }
         else if !event.isPast {
             let containsUser: Bool
-            if let user = PlayerService.currentUser {
+            if let user = AuthService.currentUser {
                 containsUser = event.containsUser(user)
             } else {
                 containsUser = false

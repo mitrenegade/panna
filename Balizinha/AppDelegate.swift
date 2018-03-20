@@ -133,7 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          */
         guard let title = userInfo["title"] as? String else { return }
         guard let message = userInfo["message"] as? String else { return }
-        guard let sender = userInfo["sender"] as? String, sender != PlayerService.currentUser?.uid else {
+        guard let sender = userInfo["sender"] as? String, sender != AuthService.currentUser?.uid else {
             print("Own message, ignoring")
             return
         }
@@ -191,12 +191,8 @@ extension AppDelegate {
 
 extension AppDelegate {
     @objc func handlePlayerLogin() {
-        guard let observable = PlayerService.shared.observedPlayer else {
-            print("doh")
-            return
-        }
-        observable.take(1).subscribe(onNext: { (player) in
-            player.os = Player.Platform.ios.rawValue // fixme if there's already a value (android) this doesn't change it
+        PlayerService.shared.current.asObservable().take(1).subscribe(onNext: { (player) in
+            player?.os = Player.Platform.ios.rawValue // fixme if there's already a value (android) this doesn't change it
         }, onError: { (error) in
             print("error \(error)")
         }, onCompleted: { 

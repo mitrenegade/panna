@@ -30,7 +30,7 @@ class PaymentService: NSObject {
     }
     
     class func savePaymentInfo(_ paymentMethod: STPPaymentMethod) {
-        guard let player = PlayerService.shared.current else { return }
+        guard let player = PlayerService.shared.current.value else { return }
         guard let card = paymentMethod as? STPCard else { return }
 
         let params: [String: Any] = ["userId": player.id, "source": card.stripeID, "last4":card.last4, "label": card.label]

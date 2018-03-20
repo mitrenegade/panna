@@ -44,7 +44,7 @@ class OrganizerService: NSObject {
     var observableOrganizer: Observable<Organizer>? {
         
         // TODO: how to handle this
-        guard let existingUserId = PlayerService.currentUser?.uid else { return nil }
+        guard let existingUserId = AuthService.currentUser?.uid else { return nil }
         let newOrganizerRef: DatabaseReference = firRef.child("organizers").child(existingUserId)
 
         return Observable.create({ (observer) -> Disposable in
@@ -73,8 +73,8 @@ class OrganizerService: NSObject {
     
     func createOrganizer(completion: ((Organizer?, Error?) -> Void)? ) {
         
-        guard let user = PlayerService.currentUser else { return }
-        guard let current = PlayerService.shared.current else { return }
+        guard let user = AuthService.currentUser else { return }
+        guard let current = PlayerService.shared.current.value else { return }
         let organizerRef = firRef.child("organizers")
         
         let existingUserId = user.uid
@@ -101,7 +101,7 @@ class OrganizerService: NSObject {
     
     func requestOrganizerAccess(completion: ((Organizer?, Error?) -> Void)? ) {
         
-        guard let user = PlayerService.currentUser, let current = PlayerService.shared.current else {
+        guard let user = AuthService.currentUser, let current = PlayerService.shared.current.value else {
             completion?(nil, nil)
             return
         }

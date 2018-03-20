@@ -19,7 +19,7 @@ class PromoCell: UITableViewCell {
     }
     
     func configure() {
-        guard let current = PlayerService.shared.current, let promoId = current.promotionId else {
+        guard let current = PlayerService.shared.current.value, let promoId = current.promotionId else {
             self.reset()
             return
         }

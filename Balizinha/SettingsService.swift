@@ -34,7 +34,6 @@ class SettingsService: NSObject {
                 print("Settings: * featureAvailable paymentRequired \(SettingsService.paymentRequired())")
                 print("Settings: * featureAvailable organizerPaymentRequired \(SettingsService.organizerPaymentRequired())")
                 print("Settings: * featureAvailable organizerTrialAvailable \(SettingsService.organizerTrialAvailable())")
-                print("Settings: * paymentLocation \(SettingsService.shared.featureExperiment("paymentLocation")) testGroup \(SettingsService.paymentLocationTestGroup())")
                 print("Settings: * featureAvailable maps \(SettingsService.usesMaps)")
                 print("Settings: * showPreview \(SettingsService.shared.featureExperiment("showPreview")) testGroup \(SettingsService.showPreviewTestGroup())")
                 self.recordExperimentGroups()
@@ -91,12 +90,6 @@ extension SettingsService {
 
 // MARK: - Experiments
 extension SettingsService {
-    class func paymentLocationTestGroup() -> Bool {
-        let result = shared.featureExperiment("paymentLocation")
-        print("Payment location = \(result)")
-        return result != defaults["paymentLocation"] as! String
-    }
-    
     class func showPreviewTestGroup() -> Bool {
         let result = shared.featureExperiment("showPreview")
         print("show preview = \(result)")
@@ -111,9 +104,6 @@ extension SettingsService {
 
     // MARK: - Analytics
     func recordExperimentGroups() {
-        let paymentLocationGroup = self.featureExperiment("paymentLocation")
-        Analytics.setUserProperty(paymentLocationGroup, forName: "PaymentLocation")
-        
         let previewGroup = self.featureExperiment("showPreview")
         Analytics.setUserProperty(previewGroup, forName: "ShowPreview")
     }

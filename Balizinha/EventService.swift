@@ -122,7 +122,7 @@ class EventService: NSObject {
             return
         }
         
-        guard let user = PlayerService.currentUser else { return }
+        guard let user = AuthService.currentUser else { return }
         
         let eventRef = firRef.child("events") // this references the endpoint lotsports.firebase.com/events/
         let newEventRef = eventRef.childByAutoId() // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
@@ -151,7 +151,7 @@ class EventService: NSObject {
                         completion(nil, nil)
                         return
                     }
-                    guard let user = PlayerService.currentUser else {
+                    guard let user = AuthService.currentUser else {
                         completion(nil, nil)
                         return
                     }
@@ -186,13 +186,13 @@ class EventService: NSObject {
     
     }
     func joinEvent(_ event: Event) {
-        guard let user = PlayerService.currentUser else { return }
+        guard let user = AuthService.currentUser else { return }
         self.addEvent(event: event, toUser: user, join: true)
         self.addUser(user, toEvent: event, join: true)
     }
     
     func leaveEvent(_ event: Event) {
-        guard let user = PlayerService.currentUser else { return }
+        guard let user = AuthService.currentUser else { return }
         self.addEvent(event: event, toUser: user, join: false)
         self.addUser(user, toEvent: event, join: false)
     }

@@ -29,9 +29,6 @@ class PlayerInfoViewController: UIViewController {
     
     fileprivate var askedForPhoto = false
     
-    // Payment
-    @IBOutlet weak var constraintPaymentHeight: NSLayoutConstraint!
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -47,10 +44,6 @@ class PlayerInfoViewController: UIViewController {
             self.navigationItem.rightBarButtonItem = nil
         }
         
-        if (!SettingsService.paymentRequired() && !SettingsService.donation()) || SettingsService.paymentLocationTestGroup() {
-            constraintPaymentHeight.constant = 0
-        }
-
         self.setupInputs()
         self.refresh()
         
@@ -264,7 +257,7 @@ extension PlayerInfoViewController {
         }) { (url) in
             if let url = url {
                 self.refreshPhoto(url: url)
-                if let player = PlayerService.shared.current {
+                if let player = PlayerService.shared.current.value {
                     player.photoUrl = url
                 }
             }

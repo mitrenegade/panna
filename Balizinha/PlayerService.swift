@@ -11,45 +11,59 @@ import Firebase
 import RxSwift
 import FBSDKLoginKit
 
-fileprivate var singleton: PlayerService?
-var _currentPlayer: Player?
-fileprivate var playersRef: DatabaseReference?
-
 class PlayerService: NSObject {
     // MARK: - Singleton
-    static var shared: PlayerService {
-        if singleton == nil {
-            singleton = PlayerService()
-            singleton?.__once
-        }
-        
-        return singleton!
-    }
+    static var shared: PlayerService = PlayerService()
     
     static var cachedNames: [String: String] = [:]
+    
+    fileprivate var disposeBag: DisposeBag
 
+    let current: Variable<Player?> = Variable(nil)
+    fileprivate let playersRef: DatabaseReference
+
+    override init() {
+        disposeBag = DisposeBag()
+        playersRef = firRef.child("players") // this references the endpoint lotsports.firebase.com/players/
+        playersRef.keepSynced(true)
+        
+        super.init()
+
+        startAuthListener()
+    }
+    
+    func startAuthListener() {
+        AuthService.shared.loginState.asObservable().distinctUntilChanged().subscribe(onNext: {state in
+            if state == .loggedIn, let user = AuthService.currentUser {
+                print("PlayerService: log in state triggering player request with logged in user \(user.uid)")
+                let playerRef: DatabaseReference = self.playersRef.child(user.uid)
+                playerRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                    guard snapshot.exists() else { return }
+                    
+                    let player = Player(snapshot: snapshot)
+                    print("PlayerService: loaded player \(player.id)")
+                    self.current.value = player
+                })
+            }
+        }).disposed(by: disposeBag)
+    }
+    
     class func resetOnLogout() {
-        singleton = nil
-        _currentPlayer = nil
+        print("PlayerService resetOnLogout")
+        PlayerService.shared.disposeBag = DisposeBag()
+        PlayerService.shared.current.value = nil
+        PlayerService.shared.startAuthListener()
     }
 
-    // not technically part of Player because anonymous auth should not create a player
-    class var isAnonymous: Bool {
-        if AIRPLANE_MODE {
-            return false
-        }
-        guard let user = currentUser else { return true }
-        return user.isAnonymous
-    }
-
+    
     func createPlayer(name: String?, email: String?, city: String?, info: String?, photoUrl: String?, completion:@escaping (Player?, NSError?) -> Void) {
-        
-        guard let user = PlayerService.currentUser, !PlayerService.isAnonymous else { return }
-        guard let playersRef = playersRef else { return }
-        
+
+        guard let user = AuthService.currentUser, !AuthService.isAnonymous else { return }
         let existingUserId = user.uid
         let newPlayerRef: DatabaseReference = playersRef.child(existingUserId)
-        
+
+        print("PlayerService createPlayer")
+
         var params: [String: Any] = [:]
         if let name = name {
             params["name"] = name
@@ -72,60 +86,14 @@ class PlayerService: NSObject {
                 print(error)
                 completion(nil, error)
             } else {
-                ref.observeSingleEvent(of: .value, with: { (snapshot) in
-                    guard snapshot.exists() else {
-                        completion(nil, nil)
-                        return
-                    }
-                    let player = Player(snapshot: snapshot)
-                    PlayerService.cachedNames[player.id] = player.name
+                PlayerService.shared.current.asObservable().take(1).subscribe(onNext: { player in
                     completion(player, nil)
-                }, withCancel: { (error) in
-                    completion(nil, nil)
                 })
             }
         }
     }
-
-    private lazy var __once: () = {
-        // firRef is the global firebase ref
-        playersRef = firRef.child("players") // this references the endpoint lotsports.firebase.com/players/
-        playersRef!.keepSynced(true)
-    }()
-
-    class var currentUser: User? {
-        return firAuth.currentUser
-    }
-    var current: Player? {
-        _ = self.__once
-        return _currentPlayer
-    }
-    
-    var observedPlayer: Observable<Player>? {
-        _ = self.__once
-        
-        guard let existingUserId = PlayerService.currentUser?.uid else { return nil }
-        
-        return Observable.create({ (observer) -> Disposable in
-            let playerRef: DatabaseReference = playersRef!.child(existingUserId) // FIXME better optional unwrapping. what happens on logout?
-            
-            playerRef.observe(.value) { (snapshot: DataSnapshot) in
-                guard snapshot.exists() else {
-                    print("no player observed")
-                    return
-                }
-                _currentPlayer = Player(snapshot: snapshot)
-                if let player = _currentPlayer {
-                    observer.onNext(player)
-                }
-            }
-
-            return Disposables.create()
-        })
-    }
     
     func withId(id: String, completion: @escaping ((Player?)->Void)) {
-        guard let playersRef = playersRef else { return }
         playersRef.child(id).observeSingleEvent(of: .value, with: { (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
@@ -142,7 +110,7 @@ class PlayerService: NSObject {
 // Provider helpers
 extension PlayerService {
     var hasFacebookProvider: Bool {
-        guard let user = firAuth.currentUser else { return false }
+        guard let user = AuthService.currentUser else { return false }
         guard !user.providerData.isEmpty else { return false }
         for provider in user.providerData {
             if provider.providerID == "facebook.com" {
@@ -155,15 +123,15 @@ extension PlayerService {
 // Profile and Facebook Photo
 extension PlayerService {
     func storeUserInfo() {
-        guard let user = PlayerService.currentUser else { return }
+        guard let user = AuthService.currentUser else { return }
         print("signIn results: \(user.uid) profile \(String(describing: user.photoURL)) \(String(describing: user.displayName))")
         createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { (player, error) in
-            _ = self.__once // invoke listener
+            print("PlayerService storeUserInfo complete")
         })
     }
     
     func downloadFacebookPhoto() {
-        guard let player = current else { return }
+        guard let player = current.value else { return }
         FBSDKProfile.loadCurrentProfile(completion: { (profile, error) in
             guard let profile = profile else {
                 if let error = error as NSError?, error.code == 400 {

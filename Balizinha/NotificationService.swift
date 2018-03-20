@@ -154,15 +154,15 @@ extension NotificationService {
     }
     
     func storeFCMToken(enabled: Bool) {
-        guard !PlayerService.isAnonymous else { return }
+        guard !AuthService.isAnonymous else { return }
         print("PUSH: calling storeFCMToken...")
-        PlayerService.shared.observedPlayer?.asObservable().take(1).subscribe(onNext: { (player) in
+        PlayerService.shared.current.asObservable().take(1).subscribe(onNext: { (player) in
             if let fcmToken = InstanceID.instanceID().token(), enabled {
                 print("PUSH: storing FCM token \(fcmToken)")
-                player.fcmToken = fcmToken
+                player?.fcmToken = fcmToken
             } else {
                 print("PUSH: clearing FCM token")
-                player.fcmToken = nil
+                player?.fcmToken = nil
             }
         }).disposed(by: disposeBag)
     }
