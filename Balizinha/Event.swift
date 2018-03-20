@@ -248,7 +248,7 @@ extension Event {
     
     var userIsOrganizer: Bool {
         guard let owner = self.owner else { return false }
-        guard let user = PlayerService.currentUser else { return false }
+        guard let user = AuthService.currentUser else { return false }
         
         return user.uid == owner
     }

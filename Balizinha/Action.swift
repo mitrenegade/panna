@@ -144,7 +144,7 @@ class ActionViewModel {
     
     var userIsOrganizer: Bool {
         guard let owner = self.action.userId else { return false }
-        guard let currentUserId = PlayerService.currentUser?.uid else { return false }
+        guard let currentUserId = AuthService.currentUser?.uid else { return false }
         
         return currentUserId == owner
     }

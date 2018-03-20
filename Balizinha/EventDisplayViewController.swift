@@ -103,7 +103,7 @@ class EventDisplayViewController: UIViewController {
             self.hideChat()
         }
         
-        if let currentUser = PlayerService.currentUser, self.event?.containsUser(currentUser) == false {
+        if let currentUser = AuthService.currentUser, self.event?.containsUser(currentUser) == false {
             self.hideChat()
         }
         
@@ -115,7 +115,7 @@ class EventDisplayViewController: UIViewController {
             self.constraintPaymentHeight.constant = 0
         }
         
-        if let event = event, let currentUser = PlayerService.currentUser, event.containsUser(currentUser) {
+        if let event = event, let currentUser = AuthService.currentUser, event.containsUser(currentUser) {
             imageShare.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
         } else {
             imageShare.isHidden = true

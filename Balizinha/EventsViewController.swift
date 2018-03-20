@@ -95,7 +95,7 @@ class EventsViewController: UIViewController {
             }
             
             // 2: Remove events the user has joined
-            guard let user = PlayerService.currentUser else { return }
+            guard let user = AuthService.currentUser else { return }
             self?.service.getEventsForUser(user, completion: {[weak self] (eventIds) in
                 print("all events count \(self?.allEvents.count)")
                 

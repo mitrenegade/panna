@@ -104,7 +104,7 @@ class EventCell: UITableViewCell {
         }
 
         let containsUser: Bool
-        if let user = PlayerService.currentUser {
+        if let user = AuthService.currentUser {
             containsUser = event.containsUser(user)
         } else {
             containsUser = false
@@ -176,7 +176,7 @@ class EventCell: UITableViewCell {
         }
         else if !event.isPast {
             let containsUser: Bool
-            if let user = PlayerService.currentUser {
+            if let user = AuthService.currentUser {
                 containsUser = event.containsUser(user)
             } else {
                 containsUser = false

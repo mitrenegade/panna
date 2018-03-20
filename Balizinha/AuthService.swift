@@ -16,9 +16,32 @@ enum LoginState {
     case loggedIn
 }
 
+func ==(lhs: LoginState, rhs: LoginState) -> Bool {
+    switch (lhs, rhs) {
+    case (.loggedIn, .loggedIn):
+        return true
+    case (.loggedOut, .loggedOut):
+        return true
+    default:
+        return false
+    }
+}
+
 class AuthService: NSObject {
     static var shared: AuthService = AuthService()
     
+    class var currentUser: User? {
+        return firAuth.currentUser
+    }
+
+    class var isAnonymous: Bool {
+        if AIRPLANE_MODE {
+            return false
+        }
+        guard let user = AuthService.currentUser else { return true }
+        return user.isAnonymous
+    }
+
     class func startup() {
         if UserDefaults.standard.value(forKey: "appFirstTimeOpened") == nil {
             //if app is first time opened, make sure no auth exists in keychain from previously deleted app

@@ -53,7 +53,7 @@ class StripeService: NSObject {
         }
     }
     
-    fileprivate var disposeBag = DisposeBag()
+    fileprivate var disposeBag: DisposeBag
 
     override init() {
         // status: no customer_id = none
@@ -61,6 +61,7 @@ class StripeService: NSObject {
         // status: customer_id, paymentContext.loading = loading
         // status: customer_id, !paymentContext.loading, paymentMethod is nil = Add a payment (none)
         // status: customer_id, !paymentContext.loading, paymentMethod exists = View payments (ready)
+        disposeBag = DisposeBag()
         print("StripeService: starting observing to update status")
         self.status = Observable.combineLatest(paymentContext.asObservable(), customerId.asObservable(), paymentContextLoading.asObservable()) {context, customerId, loading in
             guard let customerId = customerId else {

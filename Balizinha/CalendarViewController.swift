@@ -43,7 +43,7 @@ class CalendarViewController: UITableViewController {
                 return event1.id < event2.id
             }
             
-            guard let user = PlayerService.currentUser else { return }
+            guard let user = AuthService.currentUser else { return }
             // 2: Remove events the user has joined
             EventService.shared.getEventsForUser(user, completion: {[weak self] (eventIds) in
                 self?.sortedUpcomingEvents = self?.sortedUpcomingEvents.filter({ (event) -> Bool in
@@ -215,7 +215,7 @@ extension CalendarViewController: EventDonationDelegate {
             self.promptForDonation(event: event)
         }
         else {
-            guard let user = PlayerService.currentUser else { return }
+            guard let user = AuthService.currentUser else { return }
             EventService.shared.getEventsForUser(user, completion: {[weak self] (eventIds) in
                 guard eventIds.contains(eventId) else { return }
                 EventService.shared.withId(id: eventId, completion: {[weak self] (event) in
@@ -254,7 +254,7 @@ extension CalendarViewController: EventDonationDelegate {
                     print("Donation completed \(success), has error \(error)")
                     if success {
                         // add an action
-                        guard let user = PlayerService.currentUser else { return }
+                        guard let user = AuthService.currentUser else { return }
                         self?.simpleAlert("Thank you for your payment", message: "Your payment of \(amountString) will go a long way to keep Balizinha a great community!")
                     }
                     else if let error = error as? NSError {
