@@ -15,6 +15,11 @@ enum DeeplinkType {
     }
     case messages(Messages)
     case event(String)
+    enum AccountActions: String {
+        case profile
+        case payments
+    }
+    case account(AccountActions)
     
     // Event links shared should look like: balizinha://event/1
 }
@@ -57,6 +62,14 @@ class DeepLinkService: NSObject {
             if let eventId = pathComponents.first {
                 return DeeplinkType.event(eventId)
             }
+        case "account":
+            if let first = pathComponents.first {
+                if first == DeeplinkType.AccountActions.profile.rawValue {
+                    return DeeplinkType.account(.profile)
+                } else if first == DeeplinkType.AccountActions.payments.rawValue {
+                    return DeeplinkType.account(.payments)
+                }
+            }
         default:
             break
         }
@@ -71,6 +84,12 @@ class DeepLinkService: NSObject {
             print("Todo: show Messages Details \(id)")
         case .event(let id):
             loadAndShowEvent(id)
+        case .account(.profile):
+            goToAccount()
+            print("profile")
+        case .account(.payments):
+            goToAccount()
+            print("payment")
         }
     }
     
@@ -78,5 +97,9 @@ class DeepLinkService: NSObject {
         EventService.shared.featuredEventId = eventId
         self.notify(NotificationType.GoToMapForSharedEvent, object: nil, userInfo: nil)
         LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedEventOpened, info: nil)
+    }
+    
+    func goToAccount() {
+        self.notify(NotificationType.GoToAccountDeepLink, object: nil, userInfo: nil)
     }
 }

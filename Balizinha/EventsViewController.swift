@@ -221,7 +221,7 @@ extension EventsViewController: EventCellDelegate {
             }
             let alert = UIAlertController(title: "Could not join event", message: "You need to add your name before joining a game. Update your profile now?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {[weak self] (action) in
-                self?.tabBarController?.selectedIndex = 0
+                self?.goToAddName()
             }))
             alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
@@ -317,10 +317,10 @@ extension EventsViewController {
     
     func paymentNeeded() {
         let alert = UIAlertController(title: "No payment method available", message: "This event has a fee. Please add a payment method in your profile.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
-            // todo: go to account
+        alert.addAction(UIAlertAction(title: "Edit Payments", style: .default, handler: { (action) in
+            self.goToAddPayment()
         }))
-        alert.addAction(UIAlertAction(title: "Later", style: .cancel, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
         }))
         present(alert, animated: true, completion: nil)
     }
@@ -382,6 +382,16 @@ extension EventsViewController {
                 self?.simpleAlert("Could not join game", message: "There was an issue making a payment. \(errorMessage)")
             }
         })
+    }
+    
+    fileprivate func goToAddName() {
+        guard let url = URL(string: "balizinha://account/profile") else { return }
+        DeepLinkService.shared.handle(url: url)
+    }
+    
+    fileprivate func goToAddPayment() {
+        guard let url = URL(string: "balizinha://account/payments") else { return }
+        DeepLinkService.shared.handle(url: url)
     }
 }
 

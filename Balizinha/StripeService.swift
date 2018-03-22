@@ -36,8 +36,6 @@ func ==(lhs: PaymentStatus, rhs: PaymentStatus) -> Bool {
     }
 }
 
-
-
 class StripeService: NSObject {
     static let shared = StripeService()
     
@@ -54,7 +52,7 @@ class StripeService: NSObject {
     }
     
     fileprivate var disposeBag: DisposeBag
-
+    
     override init() {
         // status: no customer_id = none
         // status: customer_id, no paymentContext = loading, should trigger creating payment context
