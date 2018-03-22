@@ -36,8 +36,6 @@ func ==(lhs: PaymentStatus, rhs: PaymentStatus) -> Bool {
     }
 }
 
-
-
 class StripeService: NSObject {
     static let shared = StripeService()
     
@@ -54,7 +52,7 @@ class StripeService: NSObject {
     }
     
     fileprivate var disposeBag: DisposeBag
-
+    
     override init() {
         // status: no customer_id = none
         // status: customer_id, no paymentContext = loading, should trigger creating payment context
@@ -150,7 +148,8 @@ class StripeService: NSObject {
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Payment not allowed for Balizinha"]))
             return
         }
-        let ref = firRef.child("charges/events").child(event.id).childByAutoId()
+        let id = FirebaseAPIService.uniqueId()
+        let ref = firRef.child("charges/events").child(event.id).child(id)
         let cents = ceil(amount * 100.0)
         var params:[AnyHashable: Any] = ["amount": cents, "player_id": player.id]
         if isDonation {
@@ -188,7 +187,8 @@ class StripeService: NSObject {
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Payment not allowed for Balizinha"]))
             return
         }
-        let ref = firRef.child("charges/organizers").child(organizer.id).childByAutoId()
+        let id = FirebaseAPIService.uniqueId()
+        let ref = firRef.child("charges/organizers").child(organizer.id).child(id)
         print("Creating charge for organizer \(organizer.id)")
         
         // todo: set trial length here and send it into the cloud function?
@@ -222,7 +222,6 @@ class StripeService: NSObject {
     
     func validateStripeCustomer(for player: Player) {
         // kicks off a process to create a new customer, then create a new payment context
-        guard let customerId = self.customerId.value else { return }
         guard let email = player.email else { return } // TODO: handle error
         print("StripeService: calling validateStripeCustomer")
         FirebaseAPIService().cloudFunction(functionName: "validateStripeCustomer", method: "POST", params: ["userId": player.id, "email": email], completion: { [weak self] (result, error) in

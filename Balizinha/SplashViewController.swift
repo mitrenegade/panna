@@ -153,6 +153,7 @@ class SplashViewController: UIViewController {
             self.listenFor(NotificationType.GoToDonationForEvent, action: #selector(goToCalendar(_:)), object: nil)
         }
         self.listenFor(NotificationType.GoToMapForSharedEvent, action: #selector(goToMap(_:)), object: nil)
+        self.listenFor(NotificationType.GoToAccountDeepLink, action: #selector(goToAccount(_:)), object: nil)
 
         EventService.shared.listenForEventUsers()
         let _ = PlayerService.shared.current.value // invoke listener
@@ -172,6 +173,18 @@ class SplashViewController: UIViewController {
         } else {
             present(homeViewController, animated: true, completion: nil)
         }
+    }
+    
+    @objc func goToAccount(_ notification: Notification) {
+        // TODO: this doesn't work if we're looking at something on top of the tab bar - need to dismiss?
+        guard let homeViewController = presentedViewController as? UITabBarController else {
+            return
+        }
+        if homeViewController.presentedViewController != nil {
+            homeViewController.dismiss(animated: true, completion: nil)
+        }
+        let index = 0
+        homeViewController.selectedIndex = index
     }
     
     @objc func goToCalendar(_ notification: Notification) {

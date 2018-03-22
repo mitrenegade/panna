@@ -33,6 +33,13 @@ class FirebaseAPIService: NSObject {
             completion(id)
         }
     }
+    
+    class func uniqueId() -> String {
+        // generates a unique id very similar to server's unique id, but doesn't make so many requests. matches API 1.1
+        let secondsSince1970 = Int(Date().timeIntervalSince1970)
+        let randomId = Int(arc4random_uniform(UInt32(899999))) + 100000
+        return "\(secondsSince1970)-\(randomId)"
+    }
 
     var baseURL: URL? {
         let urlSuffix = TESTING ? "-dev" : "-c9cd7"

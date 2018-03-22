@@ -15,6 +15,11 @@ enum DeeplinkType {
     }
     case messages(Messages)
     case event(String)
+    enum AccountActions: String {
+        case profile
+        case payments
+    }
+    case account(AccountActions)
     
     // Event links shared should look like: balizinha://event/1
 }
@@ -24,6 +29,9 @@ class DeepLinkService: NSObject {
 
     override fileprivate init() {}
     private var deeplinkType: DeeplinkType?
+    
+    // if going to account deeplink, use this for any follow up links
+    var accountDestination: DeeplinkType.AccountActions?
     
     // opens any cached deeplinks on app startup
     func checkDeepLink() {
@@ -57,6 +65,14 @@ class DeepLinkService: NSObject {
             if let eventId = pathComponents.first {
                 return DeeplinkType.event(eventId)
             }
+        case "account":
+            if let first = pathComponents.first {
+                if first == DeeplinkType.AccountActions.profile.rawValue {
+                    return DeeplinkType.account(.profile)
+                } else if first == DeeplinkType.AccountActions.payments.rawValue {
+                    return DeeplinkType.account(.payments)
+                }
+            }
         default:
             break
         }
@@ -71,12 +87,29 @@ class DeepLinkService: NSObject {
             print("Todo: show Messages Details \(id)")
         case .event(let id):
             loadAndShowEvent(id)
+        case .account(.profile):
+            goToAccount(.profile)
+            print("profile")
+        case .account(.payments):
+            goToAccount(.payments)
+            print("payment")
         }
     }
     
-    func loadAndShowEvent(_ eventId: String) {
+    fileprivate func loadAndShowEvent(_ eventId: String) {
         EventService.shared.featuredEventId = eventId
         self.notify(NotificationType.GoToMapForSharedEvent, object: nil, userInfo: nil)
         LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedEventOpened, info: nil)
+    }
+    
+    fileprivate func goToAccount(_ accountAction: DeeplinkType.AccountActions) {
+        self.accountDestination = accountAction
+        self.notify(NotificationType.GoToAccountDeepLink, object: nil, userInfo: nil)
+        
+        LoggingService.shared.log(event: .DeepLinkForAccountOpened, info: ["destination": accountAction.rawValue])
+    }
+    
+    func clearDestinations() {
+        accountDestination = nil
     }
 }

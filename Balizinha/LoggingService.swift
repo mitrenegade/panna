@@ -31,6 +31,9 @@ enum LoggingEvent: String {
     case ShareEventCompleted
     case DeepLinkForSharedEventOpened
     case RecommendedEventCellViewed
+    
+    // deep links
+    case DeepLinkForAccountOpened
 }
 
 class LoggingService: NSObject {
@@ -49,9 +52,10 @@ class LoggingService: NSObject {
         return singleton!
     }
 
-    func log(event: LoggingEvent, info: [String: Any]?) {
+    fileprivate func writeLog(event: LoggingEvent, info: [String: Any]?) {
         let eventString = event.rawValue
-        guard let ref = loggingRef?.child(eventString).childByAutoId() else { return }
+        let id = FirebaseAPIService.uniqueId()
+        guard let ref = loggingRef?.child(eventString).child(id) else { return }
         var params = info ?? [:]
         params["timestamp"] = Date().timeIntervalSince1970
         if let current = PlayerService.shared.current.value {
@@ -63,7 +67,7 @@ class LoggingService: NSObject {
         Analytics.logEvent(eventString, parameters: info)
     }
     
-    func log(event: LoggingEvent, message: String?, info: [String: Any]?, error: NSError?) {
+    func log(event: LoggingEvent, message: String? = nil, info: [String: Any]?, error: NSError? = nil) {
         var params: [String: Any] = info ?? [:]
         if let message = message {
             params["message"] = message
@@ -71,7 +75,6 @@ class LoggingService: NSObject {
         if let error = error {
             params["error"] = "\(error)"
         }
-        self.log(event: event, info: params)
+        writeLog(event: event, info: params)
     }
-
 }

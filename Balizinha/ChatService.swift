@@ -20,15 +20,13 @@ class ChatService: NSObject {
     
     fileprivate class func post(userId: String, eventId: String, message: String) {
         let baseRef = firRef.child("actions")
-        FirebaseAPIService.getUniqueId { (id) in
-            guard let uniqueId = id else { return }
-            let newObjectRef = baseRef.child(uniqueId)
+        let id = FirebaseAPIService.uniqueId()
+        let newObjectRef = baseRef.child(id)
 
-            var params: [String: Any] = ["type": ActionType.chat.rawValue, "event": eventId, "user": userId, "message": message]
-            
-            newObjectRef.setValue(params) { (error, ref) in
-                print("Chat created for user \(userId) event \(eventId) message \(message)")
-            }
+        var params: [String: Any] = ["type": ActionType.chat.rawValue, "event": eventId, "user": userId, "message": message]
+        
+        newObjectRef.setValue(params) { (error, ref) in
+            print("Chat created for user \(userId) event \(eventId) message \(message)")
         }
     }
 }

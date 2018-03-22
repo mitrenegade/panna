@@ -85,6 +85,21 @@ class AccountViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true)
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // came here from a deeplink; handle any other destination
+        if let accountDestination: DeeplinkType.AccountActions = DeepLinkService.shared.accountDestination {
+            DeepLinkService.shared.clearDestinations()
+            switch accountDestination {
+            case .profile:
+                self.performSegue(withIdentifier: "ToEditPlayerInfo", sender: nil)
+            case .payments:
+                self.paymentCell?.shouldShowPaymentController()
+            }
+        }
+    }
 }
 
 extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
