@@ -148,7 +148,8 @@ class StripeService: NSObject {
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Payment not allowed for Balizinha"]))
             return
         }
-        let ref = firRef.child("charges/events").child(event.id).childByAutoId()
+        let id = FirebaseAPIService.uniqueId()
+        let ref = firRef.child("charges/events").child(event.id).child(id)
         let cents = ceil(amount * 100.0)
         var params:[AnyHashable: Any] = ["amount": cents, "player_id": player.id]
         if isDonation {
@@ -186,7 +187,8 @@ class StripeService: NSObject {
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Payment not allowed for Balizinha"]))
             return
         }
-        let ref = firRef.child("charges/organizers").child(organizer.id).childByAutoId()
+        let id = FirebaseAPIService.uniqueId()
+        let ref = firRef.child("charges/organizers").child(organizer.id).child(id)
         print("Creating charge for organizer \(organizer.id)")
         
         // todo: set trial length here and send it into the cloud function?
