@@ -291,6 +291,7 @@ extension EventsViewController {
     
     func checkStripe() {
         listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshStripeStatus), object: nil)
+        refreshStripeStatus()
     }
     
     @objc func refreshStripeStatus() {

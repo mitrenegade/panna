@@ -222,7 +222,6 @@ class StripeService: NSObject {
     
     func validateStripeCustomer(for player: Player) {
         // kicks off a process to create a new customer, then create a new payment context
-        guard let customerId = self.customerId.value else { return }
         guard let email = player.email else { return } // TODO: handle error
         print("StripeService: calling validateStripeCustomer")
         FirebaseAPIService().cloudFunction(functionName: "validateStripeCustomer", method: "POST", params: ["userId": player.id, "email": email], completion: { [weak self] (result, error) in
