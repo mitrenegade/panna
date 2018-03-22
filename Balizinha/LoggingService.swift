@@ -31,6 +31,9 @@ enum LoggingEvent: String {
     case ShareEventCompleted
     case DeepLinkForSharedEventOpened
     case RecommendedEventCellViewed
+    
+    // deep links
+    case DeepLinkForAccountOpened
 }
 
 class LoggingService: NSObject {
@@ -63,7 +66,7 @@ class LoggingService: NSObject {
         Analytics.logEvent(eventString, parameters: info)
     }
     
-    func log(event: LoggingEvent, message: String?, info: [String: Any]?, error: NSError?) {
+    fileprivate func log(event: LoggingEvent, message: String?, info: [String: Any]?, error: NSError?) {
         var params: [String: Any] = info ?? [:]
         if let message = message {
             params["message"] = message
@@ -73,5 +76,4 @@ class LoggingService: NSObject {
         }
         self.log(event: event, info: params)
     }
-
 }

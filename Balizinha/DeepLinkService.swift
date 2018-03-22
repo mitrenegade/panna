@@ -102,9 +102,11 @@ class DeepLinkService: NSObject {
         LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedEventOpened, info: nil)
     }
     
-    fileprivate func goToAccount(_ accountAction: DeeplinkType.AccountActions?) {
+    fileprivate func goToAccount(_ accountAction: DeeplinkType.AccountActions) {
         self.accountDestination = accountAction
         self.notify(NotificationType.GoToAccountDeepLink, object: nil, userInfo: nil)
+        
+        LoggingService.shared.log(event: .DeepLinkForAccountOpened, info: ["destination": accountAction.rawValue])
     }
     
     func clearDestinations() {
