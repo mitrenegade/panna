@@ -30,6 +30,9 @@ class DeepLinkService: NSObject {
     override fileprivate init() {}
     private var deeplinkType: DeeplinkType?
     
+    // if going to account deeplink, use this for any follow up links
+    var accountDestination: DeeplinkType.AccountActions?
+    
     // opens any cached deeplinks on app startup
     func checkDeepLink() {
         guard let type = deeplinkType else { return }
@@ -85,21 +88,26 @@ class DeepLinkService: NSObject {
         case .event(let id):
             loadAndShowEvent(id)
         case .account(.profile):
-            goToAccount()
+            goToAccount(.profile)
             print("profile")
         case .account(.payments):
-            goToAccount()
+            goToAccount(.payments)
             print("payment")
         }
     }
     
-    func loadAndShowEvent(_ eventId: String) {
+    fileprivate func loadAndShowEvent(_ eventId: String) {
         EventService.shared.featuredEventId = eventId
         self.notify(NotificationType.GoToMapForSharedEvent, object: nil, userInfo: nil)
         LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedEventOpened, info: nil)
     }
     
-    func goToAccount() {
+    fileprivate func goToAccount(_ accountAction: DeeplinkType.AccountActions?) {
+        self.accountDestination = accountAction
         self.notify(NotificationType.GoToAccountDeepLink, object: nil, userInfo: nil)
+    }
+    
+    func clearDestinations() {
+        accountDestination = nil
     }
 }
