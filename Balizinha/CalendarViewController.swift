@@ -38,33 +38,33 @@ class CalendarViewController: UITableViewController {
         EventService.shared.getEvents(type: nil) { [weak self] (results) in
             // completion function will get called once at the start, and each time events change
             
-            // 1: sort all events by time
-            self?.sortedUpcomingEvents = results.sorted { (event1, event2) -> Bool in
-                return event1.id < event2.id
+            // 1: sort all events by time, ascending
+            let allEvents = results.sorted { (event1, event2) -> Bool in
+                guard let startTime1 = event1.startTime, let startTime2 = event2.startTime else { return true }
+                return startTime1.timeIntervalSince(startTime2) < 0
             }
             
-            guard let user = AuthService.currentUser else { return }
+            guard let user = AuthService.currentUser else {
+                self?.sortedUpcomingEvents = allEvents
+                return
+            }
             // 2: Remove events the user has joined
             EventService.shared.getEventsForUser(user, completion: {[weak self] (eventIds) in
-                self?.sortedUpcomingEvents = self?.sortedUpcomingEvents.filter({ (event) -> Bool in
+                let original = allEvents.filter({ (event) -> Bool in
                     eventIds.contains(event.id)
-                }) ?? []
+                })
                 
-                let original = self?.sortedUpcomingEvents
-                self?.sortedPastEvents = original?.filter({ (event) -> Bool in
+                self?.sortedPastEvents = original.filter({ (event) -> Bool in
                     event.isPast
                 }).sorted(by: { (e1, e2) -> Bool in
+                    // sort past events in descending time
                     guard let startTime1 = e1.startTime, let startTime2 = e2.startTime else { return true }
                     return startTime1.timeIntervalSince(startTime2) > 0
-                }) ?? []
-                
-                for event in self?.sortedPastEvents ?? [] {
-                    print("event \(event.id) owner \(event.userIsOrganizer)")
-                }
-                
-                self?.sortedUpcomingEvents = original?.filter({ (event) -> Bool in
+                })
+
+                self?.sortedUpcomingEvents = original.filter({ (event) -> Bool in
                     !event.isPast
-                }) ?? []
+                })
                 if #available(iOS 10.0, *) {
                     NotificationService.shared.refreshNotifications(self?.sortedUpcomingEvents)
                 }
