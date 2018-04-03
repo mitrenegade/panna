@@ -216,6 +216,9 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.city = city
             self.state = state
         }
+        if let url = UserDefaults.standard.string(forKey: "organizerCachedEventPhotoUrl") {
+            self.eventUrl = url
+        }
     }
     
     fileprivate func cacheOrganizerFavorites() {
@@ -232,6 +235,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             UserDefaults.standard.set(nil, forKey: "organizerCachedLat")
             UserDefaults.standard.set(nil, forKey: "organizerCachedLon")
         }
+        UserDefaults.standard.set(eventUrl, forKey: "organizerCachedEventPhotoUrl")
     }
     
     @IBAction func didClickSave(_ sender: AnyObject) {
@@ -315,7 +319,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             event.endTime = end
 
             // update photo if it has been changed
-            if let photo = self.eventImage, let url = self.eventUrl {
+            if let url = self.eventUrl {
                 event.photoUrl = url
                 self.navigationController?.dismiss(animated: true, completion: {
                     // event updated
@@ -333,7 +337,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                     self?.sendPushForCreatedEvent(event)
                     
                     // update photo if it has been changed
-                    if let photo = self?.eventImage, let url = self?.eventUrl {
+                    if let url = self?.eventUrl {
                         event.photoUrl = url
                         self?.navigationController?.dismiss(animated: true, completion: {
                             // event created
@@ -394,6 +398,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             if let photo = self.eventImage {
                 cell.photo = photo
             } else if let url = self.eventToEdit?.photoUrl {
+                cell.url = url
+            } else if let url = self.eventUrl {
+                // this comes from a new event that loaded a cached favorite url
                 cell.url = url
             }
             return cell
