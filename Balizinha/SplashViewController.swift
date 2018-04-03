@@ -132,20 +132,17 @@ class SplashViewController: UIViewController {
     }
     
     private func goToMain() {
-        let start = tabs.index(of: "Map") ?? 0
+        let index = tabs.index(of: "Map") ?? 0
+        self.homeViewController.selectedIndex = index
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
             dismiss(animated: true, completion: {
                 self.present(self.homeViewController, animated: true, completion: {
-                    let index = start
-                    self.homeViewController.selectedIndex = index
                 })
             })
         } else {
             self.present(homeViewController, animated: true, completion: {
                 //self.testStuffOnLogin()
-                let index = start
-                self.homeViewController.selectedIndex = index
             })
         }
 
@@ -183,7 +180,7 @@ class SplashViewController: UIViewController {
         if homeViewController.presentedViewController != nil {
             homeViewController.dismiss(animated: true, completion: nil)
         }
-        let index = 0
+        let index = tabs.index(of: "Account") ?? 0
         homeViewController.selectedIndex = index
     }
     
@@ -198,7 +195,7 @@ class SplashViewController: UIViewController {
         if homeViewController.presentedViewController != nil {
             homeViewController.dismiss(animated: true, completion: nil)
         }
-        let index = 2
+        let index = tabs.index(of: "Calendar") ?? 0
         homeViewController.selectedIndex = index
         guard let nav: UINavigationController = homeViewController.viewControllers?[index] as? UINavigationController, let calendar: CalendarViewController = nav.viewControllers[0] as? CalendarViewController else { return }
         calendar.promptForDonation(eventId: eventId)
@@ -212,7 +209,7 @@ class SplashViewController: UIViewController {
         if homeViewController.presentedViewController != nil {
             homeViewController.dismiss(animated: true, completion: nil)
         }
-        let index = 1
+        let index = tabs.index(of: "Map") ?? 0
         homeViewController.selectedIndex = index
     }
     
@@ -243,7 +240,7 @@ class SplashViewController: UIViewController {
         guard let homeViewController = presentedViewController as? UITabBarController else {
             return
         }
-        let index = 2
+        let index = tabs.index(of: "Calendar") ?? 0
         homeViewController.selectedIndex = index
         guard let nav: UINavigationController = homeViewController.viewControllers?[index] as? UINavigationController, let calendar: CalendarViewController = nav.viewControllers[0] as? CalendarViewController else { return }
         calendar.promptForDonation(eventId: eventId)
