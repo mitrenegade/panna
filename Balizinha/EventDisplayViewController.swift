@@ -149,26 +149,26 @@ class EventDisplayViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EmbedOrganizer" {
-            self.organizerController = segue.destination as? OrganizerViewController
-            self.organizerController.event = self.event
+            organizerController = segue.destination as? OrganizerViewController
+            organizerController.event = event
         }
         else if segue.identifier == "EmbedLocation" {
-            self.locationController = segue.destination as? ExpandableMapViewController
-            self.locationController.event = self.event
-            self.locationController.delegate = self
+            locationController = segue.destination as? ExpandableMapViewController
+            locationController.event = event
+            locationController.delegate = self
         }
         else if segue.identifier == "EmbedPlayers" {
-            self.playersController = segue.destination as? PlayersScrollViewController
-            self.playersController.event = self.event
-            self.playersController.delegate = self
+            playersController = segue.destination as? PlayersScrollViewController
+            playersController.event = event
+            playersController.delegate = self
         }
         else if segue.identifier == "EmbedPayment" {
-            self.paymentController = segue.destination as? PaymentTypesViewController
-            self.paymentController.event = self.event
+            paymentController = segue.destination as? PaymentTypesViewController
+            paymentController.event = event
         }
         else if segue.identifier == "EmbedActivity" {
-            self.activityController = segue.destination as? EventActivityViewController
-            self.activityController.event = self.event
+            activityController = segue.destination as? EventActivityViewController
+            activityController.event = event
         }
         else if segue.identifier == "EmbedChat" {
             self.chatController = segue.destination as? ChatInputViewController
@@ -202,6 +202,12 @@ extension EventDisplayViewController: EventDisplayComponentDelegate {
         else if controller == self.playersController {
             self.constraintPlayersHeight.constant = newHeight
         }
+        
+        if controller != activityController {
+            // if other components are small or hidden, increase the chat view
+            let height = scrollView.frame.origin.y + scrollView.frame.size.height - activityView.frame.origin.y
+            constraintActivityHeight.constant = max(constraintActivityHeight.constant, height)
+        }
     }
 }
 
@@ -224,8 +230,6 @@ extension EventDisplayViewController {
         self.constraintScrollBottomOffset.constant = constraintInputHeight.constant
         self.chatController.toggleButton(show: true)
     }
-    
-
 }
 
 // MARK: Sharing
