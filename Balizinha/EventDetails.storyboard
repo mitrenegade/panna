@@ -217,7 +217,7 @@ Type</string>
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="E75-s4-H12" firstAttribute="top" secondItem="v5N-mi-Yah" secondAttribute="top" id="0Hg-cz-9QX"/>
                                     <constraint firstItem="Bhl-nn-68t" firstAttribute="leading" secondItem="v5N-mi-Yah" secondAttribute="leading" id="0Hx-Lt-nrr"/>
