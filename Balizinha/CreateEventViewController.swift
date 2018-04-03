@@ -278,7 +278,9 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                 return
             }
         }
-        
+
+        navigationItem.rightBarButtonItem?.isEnabled = false
+
         if CACHE_ORGANIZER_FAVORITE_LOCATION {
             self.cacheOrganizerFavorites()
         }
@@ -354,6 +356,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                     if let error = error {
                         self?.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
                     }
+                    self?.navigationItem.rightBarButtonItem?.isEnabled = true
                 }
             })
         }
