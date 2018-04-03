@@ -42,7 +42,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var dateString: String?
     var startTime: Date?
     var endTime: Date?
-    var numPlayers : UInt?
+    var maxPlayers : UInt?
     var info : String?
     var paymentRequired: Bool = false
     var amount: NSNumber?
@@ -101,7 +101,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             startTime = eventToEdit?.startTime
             endTime = eventToEdit?.endTime
             if let event = eventToEdit {
-                numPlayers = UInt(event.numPlayers)
+                maxPlayers = UInt(event.maxPlayers)
             }
             info = eventToEdit?.info
             paymentRequired = eventToEdit?.paymentRequired ?? false
@@ -199,7 +199,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
 //            self.date = Date()
 //            self.startTime = Date()+1800
 //            self.endTime = Date()+3600
-//            self.numPlayers = 10
+//            maxPlayers = 10
 //        }
     }
     
@@ -267,7 +267,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.simpleAlert("Invalid selection", message: "Please select an end time")
             return
         }
-        guard let numPlayers = self.numPlayers else {
+        guard let maxPlayers = self.maxPlayers else {
             self.simpleAlert("Invalid selection", message: "Please select the number of players allowed")
             return
         }
@@ -307,7 +307,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             dict["place"] = place
             dict["lat"] = lat
             dict["lon"] = lon
-            dict["maxPlayers"] = numPlayers
+            dict["maxPlayers"] = maxPlayers
             dict["info"] = self.info
             dict["paymentRequired"] = self.paymentRequired
             if paymentRequired {
@@ -333,7 +333,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             }
         }
         else {
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: numPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, completion: { [weak self] (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, completion: { [weak self] (event, error) in
                 
                 if let event = event {
                     self?.sendPushForCreatedEvent(event)
@@ -477,7 +477,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     self.maxPlayersField?.inputView = self.numberPickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView2
 
-                    if let max = numPlayers {
+                    if let max = maxPlayers {
                         self.maxPlayersField?.text = "\(max)"
                     }
                 default:
@@ -624,9 +624,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             self.type = eventTypes[selectedRow]
             currentField!.text = self.sportTypes[selectedRow]
         } else if (currentField == self.maxPlayersField) { //selected max players
-            self.numPlayers = UInt(self.pickerView(self.numberPickerView, titleForRow: self.numberPickerView.selectedRow(inComponent: 0), forComponent: 0)!)
-            if let numPlayers = self.numPlayers {
-                currentField!.text = "\(numPlayers)"
+            self.maxPlayers = UInt(self.pickerView(self.numberPickerView, titleForRow: self.numberPickerView.selectedRow(inComponent: 0), forComponent: 0)!)
+            if let maxPlayers = self.maxPlayers {
+                currentField!.text = "\(maxPlayers)"
             }
         }
         // comes from clicking on done button. may not have the text yet
