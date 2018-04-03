@@ -255,8 +255,8 @@
                                     <outlet property="delegate" destination="doi-kI-W3c" id="3zo-d6-q8h"/>
                                 </connections>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="VSH-KF-Dam">
-                                <rect key="frame" x="16" y="206" width="343" height="321"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="VSH-KF-Dam">
+                                <rect key="frame" x="16" y="206" width="343" height="377"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
@@ -280,6 +280,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="XAo-AL-O26" firstAttribute="top" secondItem="0RW-JB-g2Y" secondAttribute="top" id="15B-da-wVF"/>
+                            <constraint firstItem="bhA-hx-EMp" firstAttribute="top" secondItem="VSH-KF-Dam" secondAttribute="bottom" constant="20" id="4wp-GL-VoR"/>
                             <constraint firstAttribute="trailing" secondItem="Qh9-5D-9kU" secondAttribute="trailing" constant="16" id="7jE-7k-nEi"/>
                             <constraint firstItem="Qh9-5D-9kU" firstAttribute="top" secondItem="FlA-eP-4TG" secondAttribute="bottom" constant="8" id="7tY-WI-h2O"/>
                             <constraint firstItem="FlA-eP-4TG" firstAttribute="top" secondItem="c0o-pC-RKU" secondAttribute="bottom" constant="8" id="Bbv-B7-Y5E"/>

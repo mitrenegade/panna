@@ -156,5 +156,15 @@ class Player: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
+    
+    var appVersion: String? {
+        get {
+            return self.dict["appVersion"] as? String
+        }
+        set {
+            self.dict["appVersion"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
 }
 

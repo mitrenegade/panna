@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import FirebaseAuth
 import Crashlytics
+import FirebaseDatabase
 
 class SplashViewController: UIViewController {
     var handle: AuthStateDidChangeListenerHandle?
@@ -46,7 +47,7 @@ class SplashViewController: UIViewController {
     
     func listenForUser() {
         print("LoginLogout: listening for LoginSuccess")
-        AuthService.shared.loginState.asObservable().subscribe(onNext: { [weak self] state in
+        AuthService.shared.loginState.distinctUntilChanged().asObservable().subscribe(onNext: { [weak self] state in
             if state == .loggedIn {
                 self?.didLogin()
             } else if state == .loggedOut {
@@ -62,16 +63,27 @@ class SplashViewController: UIViewController {
     
     @objc func didLogin() {
         print("LoginLogout: didLogin")
-        if let player = PlayerService.shared.current.value {
-            let userId = player.id
-            Crashlytics.sharedInstance().setUserIdentifier(userId)
-        } else {
-            // player does not exist, save/create it.
-            // this should have been done on signup
-            PlayerService.shared.storeUserInfo()
+        guard let user = AuthService.currentUser else {
+            return
+        }
+        Crashlytics.sharedInstance().setUserIdentifier(user.uid)
+        
+        // loads player from web or cache - don't use player.current yet
+        PlayerService.shared.withId(id: user.uid) { (player) in
+            if let player = player {
+                player.os = Player.Platform.ios.rawValue // fixme if there's already a value (android) this doesn't change it
+                
+                let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
+                let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "unknown"
+                player.appVersion = "\(version) (\(build))"
+            } else {
+                // player does not exist, save/create it.
+                // this should have been done on signup
+                PlayerService.shared.storeUserInfo()
+            }
         }
         
-        if PlayerService.shared.hasFacebookProvider {
+        if AuthService.shared.hasFacebookProvider {
             PlayerService.shared.downloadFacebookPhoto()
         }
 
@@ -132,20 +144,17 @@ class SplashViewController: UIViewController {
     }
     
     private func goToMain() {
-        let start = tabs.index(of: "Map") ?? 0
+        let index = tabs.index(of: "Map") ?? 0
+        self.homeViewController.selectedIndex = index
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
             dismiss(animated: true, completion: {
                 self.present(self.homeViewController, animated: true, completion: {
-                    let index = start
-                    self.homeViewController.selectedIndex = index
                 })
             })
         } else {
             self.present(homeViewController, animated: true, completion: {
                 //self.testStuffOnLogin()
-                let index = start
-                self.homeViewController.selectedIndex = index
             })
         }
 
@@ -183,7 +192,7 @@ class SplashViewController: UIViewController {
         if homeViewController.presentedViewController != nil {
             homeViewController.dismiss(animated: true, completion: nil)
         }
-        let index = 0
+        let index = tabs.index(of: "Account") ?? 0
         homeViewController.selectedIndex = index
     }
     
@@ -198,7 +207,7 @@ class SplashViewController: UIViewController {
         if homeViewController.presentedViewController != nil {
             homeViewController.dismiss(animated: true, completion: nil)
         }
-        let index = 2
+        let index = tabs.index(of: "Calendar") ?? 0
         homeViewController.selectedIndex = index
         guard let nav: UINavigationController = homeViewController.viewControllers?[index] as? UINavigationController, let calendar: CalendarViewController = nav.viewControllers[0] as? CalendarViewController else { return }
         calendar.promptForDonation(eventId: eventId)
@@ -212,7 +221,7 @@ class SplashViewController: UIViewController {
         if homeViewController.presentedViewController != nil {
             homeViewController.dismiss(animated: true, completion: nil)
         }
-        let index = 1
+        let index = tabs.index(of: "Map") ?? 0
         homeViewController.selectedIndex = index
     }
     
@@ -243,7 +252,7 @@ class SplashViewController: UIViewController {
         guard let homeViewController = presentedViewController as? UITabBarController else {
             return
         }
-        let index = 2
+        let index = tabs.index(of: "Calendar") ?? 0
         homeViewController.selectedIndex = index
         guard let nav: UINavigationController = homeViewController.viewControllers?[index] as? UINavigationController, let calendar: CalendarViewController = nav.viewControllers[0] as? CalendarViewController else { return }
         calendar.promptForDonation(eventId: eventId)

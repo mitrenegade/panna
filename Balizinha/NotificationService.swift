@@ -11,6 +11,7 @@ import UserNotifications
 import FirebaseMessaging
 import Firebase
 import RxSwift
+import RxOptional
 
 let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"
@@ -157,13 +158,13 @@ extension NotificationService {
     func storeFCMToken(enabled: Bool) {
         guard !AuthService.isAnonymous else { return }
         print("PUSH: calling storeFCMToken...")
-        PlayerService.shared.current.asObservable().take(1).subscribe(onNext: { (player) in
+        PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
             if let fcmToken = InstanceID.instanceID().token(), enabled {
                 print("PUSH: storing FCM token \(fcmToken)")
-                player?.fcmToken = fcmToken
+                player.fcmToken = fcmToken
             } else {
                 print("PUSH: clearing FCM token")
-                player?.fcmToken = nil
+                player.fcmToken = nil
             }
         }).disposed(by: disposeBag)
     }

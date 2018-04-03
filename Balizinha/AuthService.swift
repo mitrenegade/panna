@@ -83,6 +83,17 @@ class AuthService: NSObject {
         })
     }
     
+    var hasFacebookProvider: Bool {
+        guard let user = AuthService.currentUser else { return false }
+        guard !user.providerData.isEmpty else { return false }
+        for provider in user.providerData {
+            if provider.providerID == "facebook.com" {
+                return true
+            }
+        }
+        return false
+    }
+    
     func logout() {
         print("LoginLogout: logout called, trying firAuth.signout")
         try! firAuth.signOut()
