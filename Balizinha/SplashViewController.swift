@@ -47,7 +47,7 @@ class SplashViewController: UIViewController {
     
     func listenForUser() {
         print("LoginLogout: listening for LoginSuccess")
-        AuthService.shared.loginState.asObservable().subscribe(onNext: { [weak self] state in
+        AuthService.shared.loginState.distinctUntilChanged().asObservable().subscribe(onNext: { [weak self] state in
             if state == .loggedIn {
                 self?.didLogin()
             } else if state == .loggedOut {
