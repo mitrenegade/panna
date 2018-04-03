@@ -136,7 +136,9 @@ class EventCell: UITableViewCell {
                 if self.event!.isFull {
                     self.labelFull.text = "Event full"
                     self.btnAction.isEnabled = false
-                    btnAction.alpha = 0.5
+                    if !AuthService.isAnonymous {
+                        btnAction.alpha = 0.5
+                    }
                 }
                 else {
                     self.labelFull.text = "Available"
