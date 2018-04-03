@@ -15,6 +15,7 @@ import Fabric
 import Crashlytics
 import RxSwift
 import Stripe
+import RxOptional
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -191,8 +192,12 @@ extension AppDelegate {
 
 extension AppDelegate {
     @objc func handlePlayerLogin() {
-        PlayerService.shared.current.asObservable().take(1).subscribe(onNext: { (player) in
-            player?.os = Player.Platform.ios.rawValue // fixme if there's already a value (android) this doesn't change it
+        PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
+            player.os = Player.Platform.ios.rawValue // fixme if there's already a value (android) this doesn't change it
+            
+            let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
+            let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "unknown"
+            player.appVersion = "\(version) (\(build))"
         }, onError: { (error) in
             print("error \(error)")
         }, onCompleted: { 

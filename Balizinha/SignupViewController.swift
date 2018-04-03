@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxOptional
 
 class SignupViewController: UIViewController {
 
@@ -90,7 +91,7 @@ class SignupViewController: UIViewController {
                         
                         guard let disposeBag = self?.disposeBag else { return }
                         let _ = PlayerService.shared.current.value // invoke listener
-                        PlayerService.shared.current.asObservable().take(1).subscribe(onNext: { (player) in
+                        PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
                             self?.goToEditPlayer(player)
                         }).disposed(by: disposeBag)
                     }

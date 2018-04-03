@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import RxSwift
 import FBSDKLoginKit
+import RxOptional
 
 class PlayerService: NSObject {
     // MARK: - Singleton
@@ -86,7 +87,7 @@ class PlayerService: NSObject {
                 print(error)
                 completion(nil, error)
             } else {
-                PlayerService.shared.current.asObservable().take(1).subscribe(onNext: { player in
+                PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { player in
                     completion(player, nil)
                 })
             }
