@@ -125,19 +125,23 @@ class EventCell: UITableViewCell {
             if self.event!.userIsOrganizer {
                 self.labelFull.text = "This is your event."
                 self.btnAction.isEnabled = true
+                btnAction.alpha = 1
             }
             else if containsUser {
                 self.labelFull.text = "You're going!" //To-Do: Add functionality whether or not event is full
                 self.btnAction.isEnabled = true
+                btnAction.alpha = 1
             }
             else {
                 if self.event!.isFull {
                     self.labelFull.text = "Event full"
                     self.btnAction.isEnabled = false
+                    btnAction.alpha = 0.5
                 }
                 else {
                     self.labelFull.text = "Available"
                     self.btnAction.isEnabled = true
+                    btnAction.alpha = 1
                 }
             }
             self.labelAttendance.text = "\(self.event!.numPlayers)"
