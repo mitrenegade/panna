@@ -125,8 +125,11 @@ extension PlayerService {
     func storeUserInfo() {
         guard let user = AuthService.currentUser else { return }
         print("signIn results: \(user.uid) profile \(String(describing: user.photoURL)) \(String(describing: user.displayName))")
-        createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { (player, error) in
+        createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { [weak self] (player, error) in
             print("PlayerService storeUserInfo complete")
+            if self?.hasFacebookProvider == true {
+                self?.downloadFacebookPhoto()
+            }
         })
     }
     

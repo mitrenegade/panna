@@ -91,7 +91,9 @@ class EventsViewController: UIViewController {
             // 1: sort all events by time
             guard let strongself = self else { return }
             self?.allEvents = strongself.filterByDistance(events: results).sorted { (event1, event2) -> Bool in
-                return event1.id > event2.id
+                // ascending time
+                guard let startTime1 = event1.startTime, let startTime2 = event2.startTime else { return true }
+                return startTime1.timeIntervalSince(startTime2) < 0
             }
             
             // 2: Remove events the user has joined

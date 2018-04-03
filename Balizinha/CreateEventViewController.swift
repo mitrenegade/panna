@@ -71,7 +71,20 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var datePickerView: UIPickerView = UIPickerView()
     var startTimePickerView: UIDatePicker = UIDatePicker()
     var endTimePickerView: UIDatePicker = UIDatePicker()
-    var eventImage: UIImage?
+    var eventImage: UIImage? {
+        didSet {
+            if let image = eventImage {
+                savePhoto(photo: image, event: eventToEdit, completion: { url in
+                    // no callback action
+                    if let url = url {
+                        print("New photo url: \(url)")
+                        self.eventUrl = url
+                    }
+               })
+            }
+        }
+    }
+    fileprivate var eventUrl: String?
 
     weak var delegate: CreateEventDelegate?
     
@@ -203,6 +216,9 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.city = city
             self.state = state
         }
+        if let url = UserDefaults.standard.string(forKey: "organizerCachedEventPhotoUrl") {
+            self.eventUrl = url
+        }
     }
     
     fileprivate func cacheOrganizerFavorites() {
@@ -219,6 +235,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             UserDefaults.standard.set(nil, forKey: "organizerCachedLat")
             UserDefaults.standard.set(nil, forKey: "organizerCachedLon")
         }
+        UserDefaults.standard.set(eventUrl, forKey: "organizerCachedEventPhotoUrl")
     }
     
     @IBAction func didClickSave(_ sender: AnyObject) {
@@ -261,7 +278,9 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                 return
             }
         }
-        
+
+        navigationItem.rightBarButtonItem?.isEnabled = false
+
         if CACHE_ORGANIZER_FAVORITE_LOCATION {
             self.cacheOrganizerFavorites()
         }
@@ -302,11 +321,10 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             event.endTime = end
 
             // update photo if it has been changed
-            if let photo = self.eventImage {
-                savePhoto(photo: photo, event: event, completion: {
-                    self.navigationController?.dismiss(animated: true, completion: {
-                        // event updated
-                    })
+            if let url = self.eventUrl {
+                event.photoUrl = url
+                self.navigationController?.dismiss(animated: true, completion: {
+                    // event updated
                 })
             } else {
                 self.navigationController?.dismiss(animated: true, completion: {
@@ -321,12 +339,11 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                     self?.sendPushForCreatedEvent(event)
                     
                     // update photo if it has been changed
-                    if let photo = self?.eventImage {
-                        self?.savePhoto(photo: photo, event: event, completion: {
-                            self?.navigationController?.dismiss(animated: true, completion: {
-                                // event created
-                                self?.delegate?.didCreateEvent()
-                            })
+                    if let url = self?.eventUrl {
+                        event.photoUrl = url
+                        self?.navigationController?.dismiss(animated: true, completion: {
+                            // event created
+                            self?.delegate?.didCreateEvent()
                         })
                     } else {
                         self?.navigationController?.dismiss(animated: true, completion: {
@@ -339,6 +356,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                     if let error = error {
                         self?.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
                     }
+                    self?.navigationItem.rightBarButtonItem?.isEnabled = true
                 }
             })
         }
@@ -383,6 +401,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             if let photo = self.eventImage {
                 cell.photo = photo
             } else if let url = self.eventToEdit?.photoUrl {
+                cell.url = url
+            } else if let url = self.eventUrl {
+                // this comes from a new event that loaded a cached favorite url
                 cell.url = url
             }
             return cell
@@ -856,14 +877,15 @@ extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigati
     }
 
     func didTakePhoto(image: UIImage) {
-        self.eventImage = image
-        let indexPath = IndexPath(row: 0, section: 0)
-        self.tableView.reloadRows(at: [indexPath], with: .automatic)
-        self.dismissCamera()
+        dismissCamera {
+            self.eventImage = image
+            let indexPath = IndexPath(row: 0, section: 0)
+            self.tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
     }
     
-    func dismissCamera() {
-        self.dismiss(animated: true, completion: nil)
+    func dismissCamera(completion: (()->Void)? = nil){
+        self.dismiss(animated: true, completion: completion)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -876,20 +898,19 @@ extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigati
         self.dismissCamera()
     }
     
-    func savePhoto(photo: UIImage, event: Event, completion: @escaping (()->Void)) {
+    func savePhoto(photo: UIImage, event: Event?, completion: @escaping ((_ url: String?)->Void)) {
         let alert = UIAlertController(title: "Progress", message: "Please wait until photo uploads", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
         })
         self.present(alert, animated: true, completion: nil)
         
-        FirebaseImageService.uploadImage(image: photo, type: "event", uid: event.id, progressHandler: { (percent) in
+        let resized = FirebaseImageService.resizeImageForEvent(image: photo) ?? photo
+        let id = event?.id ?? FirebaseAPIService.uniqueId()
+        FirebaseImageService.uploadImage(image: resized, type: "event", uid: id, progressHandler: { (percent) in
             alert.title = "Progress: \(Int(percent*100))%"
         }, completion: { (url) in
-            if let url = url {
-                event.photoUrl = url
-            }
             alert.dismiss(animated: true, completion: nil)
-            completion()
+            completion(url)
         })
     }
 }

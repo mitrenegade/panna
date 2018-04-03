@@ -17,7 +17,7 @@ fileprivate let imageBaseRef = storageRef.child("images")
 class FirebaseImageService: NSObject {
 
     class func uploadImage(image: UIImage, type: String, uid: String, progressHandler: ((_ percent: Double)->Void)? = nil, completion: @escaping ((_ imageUrl: String?)->Void)) {
-        guard let data = UIImageJPEGRepresentation(image, 1) else {
+        guard let data = UIImageJPEGRepresentation(image, 0.9) else {
             completion(nil)
             return
         }
@@ -54,7 +54,7 @@ class FirebaseImageService: NSObject {
     
     class func resizeImageForProfile(image: UIImage) -> UIImage? {
         let size = image.size
-        if size.width < 500 || size.height < 500 {
+        if size.width <= 500 || size.height <= 500 {
             return image
         }
         var width = size.width
@@ -71,4 +71,8 @@ class FirebaseImageService: NSObject {
         return resizeImage(image: image, newSize: newSize)
     }
     
+    class func resizeImageForEvent(image: UIImage) -> UIImage? {
+        // same conditions/size
+        return resizeImageForProfile(image:image)
+    }
 }
