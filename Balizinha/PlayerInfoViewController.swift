@@ -152,10 +152,10 @@ class PlayerInfoViewController: UIViewController {
             return
         }
         
-        if let text = self.inputCity.text, text.characters.count > 0 {
+        if let text = self.inputCity.text, !text.isEmpty {
             player.city = text
         }
-        if let text = inputNotes.text, text.characters.count > 0 {
+        if let text = inputNotes.text, !text.isEmpty {
             player.info = text
         }
 
