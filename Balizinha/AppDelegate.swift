@@ -50,12 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let STRIPE_KEY = TESTING ? STRIPE_KEY_DEV : STRIPE_KEY_PROD
         STPPaymentConfiguration.shared().publishableKey = STRIPE_KEY
 
-        AuthService.shared.loginState.asObservable().subscribe(onNext: { [weak self] state in
-            if state == .loggedIn {
-                self?.handlePlayerLogin()
-            }
-        }).disposed(by: disposeBag)
-
         let _ = SettingsService.shared
 
         // handle any deeplink
@@ -187,23 +181,5 @@ extension AppDelegate {
         print("PUSH: background fetch")
         LoggingService.shared.log(event: LoggingEvent.BackgroundFetch, info: nil)
         completionHandler(UIBackgroundFetchResult.newData)
-    }
-}
-
-extension AppDelegate {
-    @objc func handlePlayerLogin() {
-        PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
-            player.os = Player.Platform.ios.rawValue // fixme if there's already a value (android) this doesn't change it
-            
-            let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
-            let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "unknown"
-            player.appVersion = "\(version) (\(build))"
-        }, onError: { (error) in
-            print("error \(error)")
-        }, onCompleted: { 
-            print("completed")
-        }, onDisposed: {
-            print("disposed")
-        }).disposed(by: disposeBag)
     }
 }

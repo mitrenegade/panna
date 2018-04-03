@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import FirebaseAuth
 import Crashlytics
+import FirebaseDatabase
 
 class SplashViewController: UIViewController {
     var handle: AuthStateDidChangeListenerHandle?
@@ -62,16 +63,27 @@ class SplashViewController: UIViewController {
     
     @objc func didLogin() {
         print("LoginLogout: didLogin")
-        if let player = PlayerService.shared.current.value {
-            let userId = player.id
-            Crashlytics.sharedInstance().setUserIdentifier(userId)
-        } else {
-            // player does not exist, save/create it.
-            // this should have been done on signup
-            PlayerService.shared.storeUserInfo()
+        guard let user = AuthService.currentUser else {
+            return
+        }
+        Crashlytics.sharedInstance().setUserIdentifier(user.uid)
+        
+        // loads player from web or cache - don't use player.current yet
+        PlayerService.shared.withId(id: user.uid) { (player) in
+            if let player = player {
+                player.os = Player.Platform.ios.rawValue // fixme if there's already a value (android) this doesn't change it
+                
+                let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
+                let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "unknown"
+                player.appVersion = "\(version) (\(build))"
+            } else {
+                // player does not exist, save/create it.
+                // this should have been done on signup
+                PlayerService.shared.storeUserInfo()
+            }
         }
         
-        if PlayerService.shared.hasFacebookProvider {
+        if AuthService.shared.hasFacebookProvider {
             PlayerService.shared.downloadFacebookPhoto()
         }
 

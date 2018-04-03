@@ -108,27 +108,16 @@ class PlayerService: NSObject {
     }
 }
 
-// Provider helpers
-extension PlayerService {
-    var hasFacebookProvider: Bool {
-        guard let user = AuthService.currentUser else { return false }
-        guard !user.providerData.isEmpty else { return false }
-        for provider in user.providerData {
-            if provider.providerID == "facebook.com" {
-                return true
-            }
-        }
-        return false
-    }
-}
 // Profile and Facebook Photo
 extension PlayerService {
     func storeUserInfo() {
         guard let user = AuthService.currentUser else { return }
+        return;
+        
         print("signIn results: \(user.uid) profile \(String(describing: user.photoURL)) \(String(describing: user.displayName))")
         createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { [weak self] (player, error) in
             print("PlayerService storeUserInfo complete")
-            if self?.hasFacebookProvider == true {
+            if AuthService.shared.hasFacebookProvider == true {
                 self?.downloadFacebookPhoto()
             }
         })
