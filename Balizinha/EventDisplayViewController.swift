@@ -188,6 +188,11 @@ class EventDisplayViewController: UIViewController {
             LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "contacts"])
             self?.shareEvent()
         }))
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad){
+            alert.popoverPresentationController?.sourceView = buttonShare.superview
+            alert.popoverPresentationController?.sourceRect = buttonShare.frame
+        }
+
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
