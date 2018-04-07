@@ -96,7 +96,7 @@ class LoginViewController: UIViewController {
     }
     
     func handleFacebookUser() {
-        let permissions = ["email", "public_profile", "user_about_me"]
+        let permissions = ["email", "public_profile"]
         FBSDKLoginManager().logOut() // in case user has switched accounts
         facebookLogin.logIn(withReadPermissions: permissions, from: self) { (result, error) in
             if error != nil {
