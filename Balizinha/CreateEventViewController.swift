@@ -565,6 +565,12 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             })
+            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad), let cell = self.tableView.cellForRow(at: indexPath) as? EventPhotoCell {
+                alert.popoverPresentationController?.sourceView = cell
+                alert.popoverPresentationController?.sourceRect = cell.imagePlus.frame
+            }
+
             self.present(alert, animated: true, completion: nil)
         case Sections.details.rawValue:
             if currentField != nil{
