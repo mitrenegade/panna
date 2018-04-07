@@ -554,7 +554,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         
         switch indexPath.section {
         case Sections.photo.rawValue:
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: "Select image", message: nil, preferredStyle: .actionSheet)
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action) in
                     self.selectPhoto(camera: true)
@@ -565,6 +565,12 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             })
+            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad), let cell = self.tableView.cellForRow(at: indexPath) as? EventPhotoCell {
+                alert.popoverPresentationController?.sourceView = cell
+                alert.popoverPresentationController?.sourceRect = cell.imagePlus.frame
+            }
+
             self.present(alert, animated: true, completion: nil)
         case Sections.details.rawValue:
             if currentField != nil{
