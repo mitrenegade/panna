@@ -122,7 +122,7 @@ class PlayerInfoViewController: UIViewController {
 
     @IBAction func didClickAddPhoto(_ sender: AnyObject?) {
         self.view.endEditing(true)
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Select image", message: nil, preferredStyle: .actionSheet)
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action) in
                 self.selectPhoto(camera: true)
