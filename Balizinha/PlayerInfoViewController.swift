@@ -133,6 +133,11 @@ class PlayerInfoViewController: UIViewController {
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) in
         })
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
+        {
+            alert.popoverPresentationController?.sourceView = self.view
+            alert.popoverPresentationController?.sourceRect = buttonPhoto.frame
+        }
         self.present(alert, animated: true, completion: nil)
     }
 
