@@ -82,6 +82,8 @@
 		8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */; };
 		8E6D06E22043652000C4041D /* ActionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D06E12043652000C4041D /* ActionService.swift */; };
 		8E7016D2207A9D0400A4C28C /* UpgradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7016D1207A9D0400A4C28C /* UpgradeService.swift */; };
+		8E7016D4207AA8A300A4C28C /* UpgradeServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7016D3207AA8A200A4C28C /* UpgradeServiceTests.swift */; };
+		8E7016D5207AABCE00A4C28C /* UpgradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7016D1207A9D0400A4C28C /* UpgradeService.swift */; };
 		8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256991CDF793200C9E054 /* AppDelegate.swift */; };
 		8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E72569B1CDF793200C9E054 /* LoginViewController.swift */; };
 		8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */; };
@@ -207,6 +209,7 @@
 		8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewModel.swift; sourceTree = "<group>"; };
 		8E6D06E12043652000C4041D /* ActionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionService.swift; sourceTree = "<group>"; };
 		8E7016D1207A9D0400A4C28C /* UpgradeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeService.swift; sourceTree = "<group>"; };
+		8E7016D3207AA8A200A4C28C /* UpgradeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeServiceTests.swift; sourceTree = "<group>"; };
 		8E7256961CDF793100C9E054 /* Balizinha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Balizinha.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7256991CDF793200C9E054 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E72569B1CDF793200C9E054 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -359,6 +362,7 @@
 				8E59662C1F8B98BA007A814A /* EventCellDonationTests.swift */,
 				8E1F3CBF1F8B9A95005186AD /* BalizinhaTests.swift */,
 				8E1F3CC11F8B9A95005186AD /* Info.plist */,
+				8E7016D3207AA8A200A4C28C /* UpgradeServiceTests.swift */,
 			);
 			path = BalizinhaTests;
 			sourceTree = "<group>";
@@ -907,6 +911,7 @@
 				8E04ED0A205E19650010A649 /* FirebaseAPIService.swift in Sources */,
 				8E1F3CD81F8B9B8C005186AD /* PromoCell.swift in Sources */,
 				8E1F3CD51F8B9B8C005186AD /* ActionCell.swift in Sources */,
+				8E7016D5207AABCE00A4C28C /* UpgradeService.swift in Sources */,
 				8E04ECFC205E19650010A649 /* PlayerService.swift in Sources */,
 				8E04ED06205E19650010A649 /* PromotionService.swift in Sources */,
 				8E04ECFD205E19650010A649 /* NotificationService.swift in Sources */,
@@ -926,6 +931,7 @@
 				8E1F3CCA1F8B9B85005186AD /* Event.swift in Sources */,
 				8E04ED00205E19650010A649 /* RemoteDataService.swift in Sources */,
 				8E04ECFB205E19650010A649 /* EventService.swift in Sources */,
+				8E7016D4207AA8A300A4C28C /* UpgradeServiceTests.swift in Sources */,
 				8E04ED09205E19650010A649 /* ActionService.swift in Sources */,
 				8E04ECFE205E19650010A649 /* FirebaseImageService.swift in Sources */,
 				8E1F3CD41F8B9B8C005186AD /* DescriptionCell.swift in Sources */,

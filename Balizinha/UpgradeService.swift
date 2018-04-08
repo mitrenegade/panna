@@ -9,23 +9,35 @@
 import UIKit
 
 class UpgradeService: NSObject {
+    fileprivate let currentVersion: String!
+    fileprivate let newestVersion: String?
+    fileprivate let upgradeInterval: TimeInterval!
+    fileprivate let defaults: UserDefaults!
+    init(currentVersion: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown", newestVersion: String = SettingsService.currentVersion, upgradeInterval: TimeInterval = SettingsService.softUpgradeInterval, defaults: UserDefaults = UserDefaults.standard) {
+        self.currentVersion = currentVersion
+        self.newestVersion = newestVersion
+        self.upgradeInterval = upgradeInterval
+        self.defaults = defaults
+        
+        super.init()
+    }
+    
     // condition 1: newer version is available
     var newerVersionAvailable: Bool {
-        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
-        let newestVersion = SettingsService.currentVersion
-        return version < newestVersion
+        guard let newestVersion = newestVersion else { return false }
+        return currentVersion < newestVersion
     }
     
     // condition 2: enough time has passed since last soft upgrade message
     var softUpgradeTimeElapsed: Bool {
-        guard let timestamp: Date = UserDefaults.standard.value(forKey: "softUpgradeLastViewTimestamp") as? Date else { return true }
-        let interval: TimeInterval = SettingsService.softUpgradeInterval
+        guard let timestamp: Date = defaults.value(forKey: "softUpgradeLastViewTimestamp") as? Date else { return true }
+        guard let interval: TimeInterval = upgradeInterval else { return true }
         return Date().timeIntervalSince(timestamp) > interval
     }
     
     // condition 3: user has not opted to never see soft upgrade message
     var neverShowSoftUpgrade: Bool {
-        return UserDefaults.standard.bool(forKey: "neverShowSoftUpgrade")
+        return defaults.bool(forKey: "neverShowSoftUpgrade")
     }
     
     var shouldShowSoftUpgrade: Bool {
@@ -38,7 +50,8 @@ class UpgradeService: NSObject {
     
     // after user dismisses Soft Upgrade, set default values as needed
     func softUpgradeDismissed(neverShowAgain: Bool) {
-        UserDefaults.standard.set(Date(), forKey: "softUpgradeLastViewTimestamp")
-        UserDefaults.standard.set(neverShowAgain, forKey: "neverShowSoftUpgrade")
+        defaults.set(Date(), forKey: "softUpgradeLastViewTimestamp")
+        defaults.set(neverShowAgain, forKey: "neverShowSoftUpgrade")
+        defaults.synchronize()
     }
 }
