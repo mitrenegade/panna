@@ -13,7 +13,7 @@ import RxSwift
 fileprivate var singleton: SettingsService?
 class SettingsService: NSObject {
     private var remoteConfig = RemoteConfig.remoteConfig()
-    static let defaults: [String: AnyObject] = ["paymentLocation":"profile" as AnyObject]
+    static let defaults: [String: Any] = ["currentVersion":"0.1.0", "eventRadius": EVENT_RADIUS_MILES_DEFAULT, "softUpgradeInterval": SOFT_UPGRADE_INTERVAL_DEFAULT]
 
     static var shared: SettingsService {
         if singleton == nil {
@@ -36,6 +36,7 @@ class SettingsService: NSObject {
                 print("Settings: * featureAvailable organizerTrialAvailable \(SettingsService.organizerTrialAvailable())")
                 print("Settings: * featureAvailable maps \(SettingsService.usesMaps)")
                 print("Settings: * showPreview \(SettingsService.shared.featureExperiment("showPreview")) testGroup \(SettingsService.showPreviewTestGroup())")
+                print("Settings: * currentVersion \(SettingsService.currentVersion ?? "none")")
                 self.recordExperimentGroups()
                 observer.onNext("done")
             })
@@ -49,15 +50,15 @@ class SettingsService: NSObject {
         // the feature flag should be removed from the next build. older builds with the feature flagged have to upgrade
         // or they will lose that feature when the config is removed.
         //guard let available = featureFlags[feature] as? Bool else { return true }
-        return self.remoteConfig[feature].boolValue
+        return remoteConfig[feature].boolValue
     }
     
     fileprivate func featureExperiment(_ parameter: String) -> String {
-        return self.remoteConfig[parameter].stringValue ?? ""
+        return remoteConfig[parameter].stringValue ?? ""
     }
     
-    fileprivate func featureValue(_ parameter: String) -> Any {
-        return self.remoteConfig[parameter]
+    fileprivate func featureValue(_ parameter: String) -> RemoteConfigValue {
+        return remoteConfig[parameter]
     }
 }
 
@@ -80,11 +81,19 @@ extension SettingsService {
     }
     
     class var eventFilterRadius: Double {
-        return shared.featureValue("eventRadius") as? Double ?? EVENT_RADIUS_MILES_DEFAULT
+        return shared.featureValue("eventRadius").numberValue?.doubleValue ?? defaults["eventRadius"] as! Double
     }
     
     class var showPreview: Bool {
         return showPreviewTestGroup()
+    }
+    
+    class var currentVersion: String {
+        return shared.featureValue("currentVersion").stringValue ?? defaults["currentVersion"] as! String
+    }
+    
+    class var softUpgradeInterval: TimeInterval {
+        return shared.featureValue("softUpgradeInterval").numberValue?.doubleValue ?? defaults["softUpgardeInterval"] as! TimeInterval
     }
 }
 
