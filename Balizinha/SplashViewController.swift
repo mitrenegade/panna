@@ -67,7 +67,7 @@ class SplashViewController: UIViewController {
             return
         }
         Crashlytics.sharedInstance().setUserIdentifier(user.uid)
-        
+
         // loads player from web or cache - don't use player.current yet
         PlayerService.shared.withId(id: user.uid) { (player) in
             if let player = player {
@@ -168,6 +168,8 @@ class SplashViewController: UIViewController {
         let _ = PlayerService.shared.current.value // invoke listener
         let _ = OrganizerService.shared.current // trigger organizer loading
         let _ = PromotionService.shared
+
+        let _ = UpgradeService.shared
     }
     
     func goToSignupLogin() {

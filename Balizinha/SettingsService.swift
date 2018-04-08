@@ -13,7 +13,7 @@ import RxSwift
 fileprivate var singleton: SettingsService?
 class SettingsService: NSObject {
     private var remoteConfig = RemoteConfig.remoteConfig()
-    static let defaults: [String: Any] = ["currentVersion":"0.1.0"]
+    static let defaults: [String: Any] = ["currentVersion":"0.1.0", "eventRadius": EVENT_RADIUS_MILES_DEFAULT]
 
     static var shared: SettingsService {
         if singleton == nil {
@@ -81,15 +81,15 @@ extension SettingsService {
     }
     
     class var eventFilterRadius: Double {
-        return shared.featureValue("eventRadius").numberValue?.doubleValue ?? EVENT_RADIUS_MILES_DEFAULT
+        return shared.featureValue("eventRadius").numberValue?.doubleValue ?? defaults["eventRadius"] as! Double
     }
     
     class var showPreview: Bool {
         return showPreviewTestGroup()
     }
     
-    class var currentVersion: String? {
-        return shared.featureValue("currentVersion").stringValue
+    class var currentVersion: String {
+        return shared.featureValue("currentVersion").stringValue ?? defaults["currentVersion"] as! String
     }
 }
 
