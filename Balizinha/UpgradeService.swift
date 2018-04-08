@@ -13,7 +13,7 @@ class UpgradeService: NSObject {
     fileprivate let newestVersion: String?
     fileprivate let upgradeInterval: TimeInterval!
     fileprivate let defaults: UserDefaults!
-    init(currentVersion: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown", newestVersion: String = SettingsService.currentVersion, upgradeInterval: TimeInterval = SettingsService.softUpgradeInterval, defaults: UserDefaults = UserDefaults.standard) {
+    init(currentVersion: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown", newestVersion: String = SettingsService.newestVersion, upgradeInterval: TimeInterval = SettingsService.softUpgradeInterval, defaults: UserDefaults = UserDefaults.standard) {
         self.currentVersion = currentVersion
         self.newestVersion = newestVersion
         self.upgradeInterval = upgradeInterval

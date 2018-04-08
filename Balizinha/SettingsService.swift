@@ -13,7 +13,7 @@ import RxSwift
 fileprivate var singleton: SettingsService?
 class SettingsService: NSObject {
     private var remoteConfig = RemoteConfig.remoteConfig()
-    static let defaults: [String: Any] = ["currentVersion":"0.1.0", "eventRadius": EVENT_RADIUS_MILES_DEFAULT, "softUpgradeInterval": SOFT_UPGRADE_INTERVAL_DEFAULT]
+    static let defaults: [String: Any] = ["newestVersionIOS":"0.1.0", "eventRadius": EVENT_RADIUS_MILES_DEFAULT, "softUpgradeInterval": SOFT_UPGRADE_INTERVAL_DEFAULT]
 
     static var shared: SettingsService {
         if singleton == nil {
@@ -36,7 +36,7 @@ class SettingsService: NSObject {
                 print("Settings: * featureAvailable organizerTrialAvailable \(SettingsService.organizerTrialAvailable())")
                 print("Settings: * featureAvailable maps \(SettingsService.usesMaps)")
                 print("Settings: * showPreview \(SettingsService.shared.featureExperiment("showPreview")) testGroup \(SettingsService.showPreviewTestGroup())")
-                print("Settings: * currentVersion \(SettingsService.currentVersion ?? "none")")
+                print("Settings: * newestVersion \(SettingsService.newestVersion)")
                 self.recordExperimentGroups()
                 observer.onNext("done")
             })
@@ -88,8 +88,8 @@ extension SettingsService {
         return showPreviewTestGroup()
     }
     
-    class var currentVersion: String {
-        return shared.featureValue("currentVersion").stringValue ?? defaults["currentVersion"] as! String
+    class var newestVersion: String {
+        return shared.featureValue("newestVersionIOS").stringValue ?? defaults["newestVersionIOS"] as! String
     }
     
     class var softUpgradeInterval: TimeInterval {
