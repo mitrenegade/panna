@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKShareKit
 import AsyncImageView
+import RxSwift
 
 protocol EventDisplayComponentDelegate: class {
     func componentHeightChanged(controller: UIViewController, newHeight: CGFloat)
@@ -24,6 +25,7 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var buttonShare: UIButton!
     @IBOutlet weak var imageShare: UIImageView!
     @IBOutlet weak var buttonJoin: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet var labelType: UILabel!
     @IBOutlet var labelDate: UILabel!
@@ -36,6 +38,8 @@ class EventDisplayViewController: UIViewController {
     
     var delegate : EventDisplayDelegate?
     var alreadyJoined : Bool = false
+    
+    fileprivate var disposeBag: DisposeBag = DisposeBag()
     
     @IBOutlet var constraintWidth: NSLayoutConstraint!
     @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
@@ -136,19 +140,8 @@ class EventDisplayViewController: UIViewController {
         }
         
         // reserve spot
-        if event.containsUser(currentUser) || event.userIsOrganizer {
-            constraintButtonJoinHeight.constant = 0
-            labelSpotsLeft.text = "\(event.numPlayers) are playing"
-        } else if event.isFull {
-//            buttonJoin.isEnabled = false // may want to add waitlist functionality
-//            buttonJoin.alpha = 0.5
-            constraintButtonJoinHeight.constant = 0
-            labelSpotsLeft.text = "Event is full"
-        } else {
-            let spotsLeft = event.maxPlayers - event.numPlayers
-            labelSpotsLeft.text = "\(spotsLeft) spots available"
-        }
-        
+        listenFor(NotificationType.EventsChanged, action: #selector(refreshJoin), object: nil)
+        refreshJoin()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -166,6 +159,9 @@ class EventDisplayViewController: UIViewController {
     
     @IBAction func didClickJoin(_ sender: Any?) {
         guard let event = event else { return }
+        activityIndicator.startAnimating()
+        buttonJoin.isEnabled = false
+        buttonJoin.alpha = 0.5
         delegate?.clickedJoinEvent(event)
     }
 
@@ -175,6 +171,25 @@ class EventDisplayViewController: UIViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc fileprivate func refreshJoin() {
+        activityIndicator.stopAnimating()
+        guard let event = event, let currentUser = AuthService.currentUser else { return }
+        if event.containsUser(currentUser) || event.userIsOrganizer {
+            constraintButtonJoinHeight.constant = 0
+            labelSpotsLeft.text = "\(event.numPlayers) are playing"
+        } else if event.isFull {
+            //            buttonJoin.isEnabled = false // may want to add waitlist functionality
+            //            buttonJoin.alpha = 0.5
+            constraintButtonJoinHeight.constant = 0
+            labelSpotsLeft.text = "Event is full"
+        } else {
+            buttonJoin.isEnabled = true
+            buttonJoin.alpha = 1
+            let spotsLeft = event.maxPlayers - event.numPlayers
+            labelSpotsLeft.text = "\(spotsLeft) spots available"
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
