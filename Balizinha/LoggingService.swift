@@ -34,6 +34,9 @@ enum LoggingEvent: String {
     
     // deep links
     case DeepLinkForAccountOpened
+    
+    // upgrade
+    case softUpgradeDismissed
 }
 
 class LoggingService: NSObject {

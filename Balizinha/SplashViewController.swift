@@ -264,14 +264,17 @@ class SplashViewController: UIViewController {
                 } else {
                     UIApplication.shared.openURL(url)
                 }
+                LoggingService.shared.log(event: .softUpgradeDismissed, info: ["action": "appStore"])
                 UpgradeService().softUpgradeDismissed(neverShowAgain: false)
             }))
         }
         alert.addAction(UIAlertAction(title: "Do not show again", style: .default, handler: { (action) in
             UpgradeService().softUpgradeDismissed(neverShowAgain: true)
+            LoggingService.shared.log(event: .softUpgradeDismissed, info: ["action": "neverShowAgain"])
         }))
         alert.addAction(UIAlertAction(title: "Later", style: .cancel, handler: { (action) in
             UpgradeService().softUpgradeDismissed(neverShowAgain: false)
+            LoggingService.shared.log(event: .softUpgradeDismissed, info: ["action": "later"])
         }))
         _homeViewController?.present(alert, animated: true)
     }
