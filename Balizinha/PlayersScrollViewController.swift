@@ -40,50 +40,47 @@ class PlayersScrollViewController: UIViewController {
         }
     }
     
-    fileprivate var icons: [PlayerIcon] = []
+    fileprivate var icons: [String: PlayerIcon] = [:]
     func addPlayer(player: Player) {
+        guard icons[player.id] == nil else { return }
         let icon = PlayerIcon()
         icon.player = player
-        icons.append(icon)
+        icons[player.id] = icon
         self.refresh()
     }
     
     private var borderWidth: CGFloat = 5
     private var cellPadding: CGFloat = 5
-    
+
     func refresh() {
-        self.clear()
+        // TODO: this does not refresh correctly when a user leaves
         var x: CGFloat = borderWidth
         var y: CGFloat = borderWidth
         var height: CGFloat = 0
-        for icon in icons {
+        scrollView.subviews.forEach() { $0.removeFromSuperview() }
+        for (id, icon) in icons {
             let view = icon.view!
             let frame = CGRect(x: x, y: y, width: iconSize, height: iconSize)
             view.frame = frame
-            self.scrollView.addSubview(view)
+            scrollView.addSubview(view)
             x += view.frame.size.width + cellPadding
             height = y + view.frame.size.height + borderWidth
             
-            self.constraintContentWidth.constant = x
-            self.constraintContentHeight.constant = height
+            constraintContentWidth.constant = CGFloat(icons.count) * (iconSize + cellPadding)
+            constraintContentHeight.constant = height
         }
         
-        self.delegate?.componentHeightChanged(controller: self, newHeight: self.constraintContentHeight.constant)
-    }
-    
-    private func clear() {
-        for icon in self.icons {
-            icon.remove()
-        }
+        scrollView.contentSize = CGSize(width: constraintContentWidth.constant, height: constraintContentHeight.constant)
+        delegate?.componentHeightChanged(controller: self, newHeight: self.constraintContentHeight.constant)
     }
 }
 
 // MARK: - tap to view player
 extension PlayersScrollViewController {
     @objc func didTap(_ gesture: UITapGestureRecognizer?) {
-        let point = gesture?.location(ofTouch: 0, in: self.scrollView)
-        for icon in self.icons {
-            if icon.view.frame.contains(point!) {
+        guard let point = gesture?.location(ofTouch: 0, in: self.scrollView) else { return }
+        for (id, icon) in self.icons {
+            if icon.view.frame.contains(point) {
                 self.didSelectPlayer(player: icon.player)
             }
         }
