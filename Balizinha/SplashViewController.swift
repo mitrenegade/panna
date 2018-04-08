@@ -126,11 +126,15 @@ class SplashViewController: UIViewController {
         UserDefaults.standard.set(nil, forKey: "organizerCachedState")
         UserDefaults.standard.set(nil, forKey: "organizerCachedLat")
         UserDefaults.standard.set(nil, forKey: "organizerCachedLon")
+        UserDefaults.standard.set(nil, forKey: "organizerCachedEventPhotoUrl")
 
         UserDefaults.standard.set(false, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
 
         // don't reset showedTutorial
         //UserDefaults.standard.set(true, forKey: "showedTutorial")
+        
+        // soft upgrade
+        UserDefaults.standard.set(nil, forKey: "softUpgradeLastViewTimestamp")
     }
     
     fileprivate var _homeViewController: UITabBarController?
@@ -145,16 +149,18 @@ class SplashViewController: UIViewController {
     
     private func goToMain() {
         let index = tabs.index(of: "Map") ?? 0
-        self.homeViewController.selectedIndex = index
+        homeViewController.selectedIndex = index
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
             dismiss(animated: true, completion: {
                 self.present(self.homeViewController, animated: true, completion: {
+                    self.promptForUpgradeIfNeeded()
                 })
             })
         } else {
-            self.present(homeViewController, animated: true, completion: {
+            present(homeViewController, animated: true, completion: {
                 //self.testStuffOnLogin()
+                self.promptForUpgradeIfNeeded()
             })
         }
 
@@ -168,8 +174,6 @@ class SplashViewController: UIViewController {
         let _ = PlayerService.shared.current.value // invoke listener
         let _ = OrganizerService.shared.current // trigger organizer loading
         let _ = PromotionService.shared
-
-        let _ = UpgradeService.shared
     }
     
     func goToSignupLogin() {
@@ -244,6 +248,32 @@ class SplashViewController: UIViewController {
                 self?.present(nav, animated: true, completion: nil)
             }
         }
+    }
+    
+    fileprivate func promptForUpgradeIfNeeded() {
+        guard UpgradeService().shouldShowSoftUpgrade else { return }
+
+        let title = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? "Balizinha"
+        let version = SettingsService.currentVersion
+        let alert = UIAlertController(title: "Upgrade available", message: "There is a newer version (\(version)) of \(title) available in the App Store.", preferredStyle: .alert)
+        if let url = URL(string: APP_STORE_URL), UIApplication.shared.canOpenURL(url)
+        {
+            alert.addAction(UIAlertAction(title: "Open in App Store", style: .default, handler: { (action) in
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+                UpgradeService().softUpgradeDismissed(neverShowAgain: false)
+            }))
+        }
+        alert.addAction(UIAlertAction(title: "Do not show again", style: .default, handler: { (action) in
+            UpgradeService().softUpgradeDismissed(neverShowAgain: true)
+        }))
+        alert.addAction(UIAlertAction(title: "Later", style: .cancel, handler: { (action) in
+            UpgradeService().softUpgradeDismissed(neverShowAgain: false)
+        }))
+        _homeViewController?.present(alert, animated: true)
     }
     
     fileprivate func testStuffOnLogin() {

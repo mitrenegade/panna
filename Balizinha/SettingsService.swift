@@ -13,7 +13,7 @@ import RxSwift
 fileprivate var singleton: SettingsService?
 class SettingsService: NSObject {
     private var remoteConfig = RemoteConfig.remoteConfig()
-    static let defaults: [String: Any] = ["currentVersion":"0.1.0", "eventRadius": EVENT_RADIUS_MILES_DEFAULT]
+    static let defaults: [String: Any] = ["currentVersion":"0.1.0", "eventRadius": EVENT_RADIUS_MILES_DEFAULT, "softUpgradeInterval": SOFT_UPGRADE_INTERVAL_DEFAULT]
 
     static var shared: SettingsService {
         if singleton == nil {
@@ -90,6 +90,10 @@ extension SettingsService {
     
     class var currentVersion: String {
         return shared.featureValue("currentVersion").stringValue ?? defaults["currentVersion"] as! String
+    }
+    
+    class var softUpgradeInterval: TimeInterval {
+        return shared.featureValue("softUpgradeInterval").numberValue?.doubleValue ?? defaults["softUpgardeInterval"] as! TimeInterval
     }
 }
 
