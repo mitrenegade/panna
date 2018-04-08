@@ -126,11 +126,23 @@ Type</string>
                                         </connections>
                                     </containerView>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tGR-pq-uhO" userLabel="View - reserve spot">
-                                        <rect key="frame" x="0.0" y="356" width="375" height="56"/>
+                                        <rect key="frame" x="0.0" y="356" width="375" height="59"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ls4-8L-qBB">
-                                                <rect key="frame" x="8" y="8" width="359" height="40"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mII-0a-gcT">
+                                                <rect key="frame" x="8" y="0.0" width="359" height="21"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="21" id="gle-xD-bte"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ls4-8L-qBB">
+                                                <rect key="frame" x="8" y="29" width="359" height="30"/>
                                                 <color key="backgroundColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="Frs-Wq-t0x"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="17"/>
                                                 <state key="normal" title="Reserve a spot">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -140,19 +152,24 @@ Type</string>
                                                         <integer key="value" value="5"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="didClickJoin:" destination="UdQ-h3-dPN" eventType="touchUpInside" id="hAs-OB-ppb"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="ls4-8L-qBB" secondAttribute="trailing" constant="8" id="81f-6r-gPQ"/>
-                                            <constraint firstAttribute="height" constant="56" id="E7Q-sJ-OXh"/>
                                             <constraint firstItem="ls4-8L-qBB" firstAttribute="leading" secondItem="tGR-pq-uhO" secondAttribute="leading" constant="8" id="PP3-kP-Kda"/>
-                                            <constraint firstAttribute="bottom" secondItem="ls4-8L-qBB" secondAttribute="bottom" constant="8" id="YUP-d3-zQt"/>
-                                            <constraint firstItem="ls4-8L-qBB" firstAttribute="top" secondItem="tGR-pq-uhO" secondAttribute="top" constant="8" id="pBW-cx-Cvc"/>
+                                            <constraint firstItem="ls4-8L-qBB" firstAttribute="top" secondItem="mII-0a-gcT" secondAttribute="bottom" constant="8" id="Yni-1w-i92"/>
+                                            <constraint firstAttribute="bottom" secondItem="ls4-8L-qBB" secondAttribute="bottom" id="edF-QC-MZb"/>
+                                            <constraint firstItem="mII-0a-gcT" firstAttribute="top" secondItem="tGR-pq-uhO" secondAttribute="top" id="f43-JL-KZV"/>
+                                            <constraint firstItem="mII-0a-gcT" firstAttribute="leading" secondItem="tGR-pq-uhO" secondAttribute="leading" constant="8" id="hz5-Yh-QmK"/>
+                                            <constraint firstAttribute="trailing" secondItem="mII-0a-gcT" secondAttribute="trailing" constant="8" id="xlw-EE-B0o"/>
                                         </constraints>
                                     </view>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y7x-2l-MZf" userLabel="detailView">
-                                        <rect key="frame" x="0.0" y="412" width="375" height="100"/>
+                                        <rect key="frame" x="0.0" y="415" width="375" height="100"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FCt-eO-A2r" userLabel="Label Info">
                                                 <rect key="frame" x="8" y="0.0" width="359" height="100"/>
@@ -171,7 +188,7 @@ Type</string>
                                         </constraints>
                                     </view>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nBh-qV-Eg0" userLabel="Container View - organizer">
-                                        <rect key="frame" x="0.0" y="512" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="515" width="375" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="86n-tI-D7g"/>
@@ -181,7 +198,7 @@ Type</string>
                                         </connections>
                                     </containerView>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AFl-cT-9PU" userLabel="Container View - attendees">
-                                        <rect key="frame" x="0.0" y="562" width="375" height="80"/>
+                                        <rect key="frame" x="0.0" y="565" width="375" height="80"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="80" id="03K-Lp-YdI"/>
@@ -191,7 +208,7 @@ Type</string>
                                         </connections>
                                     </containerView>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nNh-T3-3nB" userLabel="Container View - payment">
-                                        <rect key="frame" x="0.0" y="642" width="375" height="40"/>
+                                        <rect key="frame" x="0.0" y="645" width="375" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="j2B-AI-8En"/>
@@ -201,7 +218,7 @@ Type</string>
                                         </connections>
                                     </containerView>
                                     <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="do0-We-LXv" userLabel="Container View - chat">
-                                        <rect key="frame" x="0.0" y="682" width="375" height="200"/>
+                                        <rect key="frame" x="0.0" y="685" width="375" height="200"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="oQi-1b-Zgc"/>
                                         </constraints>
@@ -210,7 +227,7 @@ Type</string>
                                         </connections>
                                     </containerView>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bhl-nn-68t" userLabel="View - spacer for chat">
-                                        <rect key="frame" x="0.0" y="882" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="885" width="375" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="UvV-ic-Vba"/>
@@ -296,21 +313,23 @@ Type</string>
                     <connections>
                         <outlet property="activityView" destination="do0-We-LXv" id="BWG-Lk-K5v"/>
                         <outlet property="buttonClose" destination="es6-Zc-zYz" id="M1O-kr-nne"/>
+                        <outlet property="buttonJoin" destination="ls4-8L-qBB" id="3cJ-2A-wbX"/>
                         <outlet property="buttonShare" destination="hUX-Xd-fF5" id="dHz-02-Umm"/>
                         <outlet property="constraintActivityHeight" destination="oQi-1b-Zgc" id="cjl-bF-PAR"/>
+                        <outlet property="constraintButtonJoinHeight" destination="Frs-Wq-t0x" id="nS8-Q4-bVi"/>
                         <outlet property="constraintDetailHeight" destination="z9e-Ib-r5f" id="MVO-jB-aKQ"/>
                         <outlet property="constraintInputBottomOffset" destination="cEb-Ru-VOm" id="4ry-SA-oAV"/>
                         <outlet property="constraintInputHeight" destination="aGQ-UK-1Rq" id="DOp-mR-4ob"/>
                         <outlet property="constraintLocationHeight" destination="eVB-nQ-1Rw" id="seM-6w-e4z"/>
                         <outlet property="constraintPaymentHeight" destination="j2B-AI-8En" id="i9t-TF-odf"/>
                         <outlet property="constraintPlayersHeight" destination="03K-Lp-YdI" id="Itn-a4-TNj"/>
-                        <outlet property="constraintReserveHeight" destination="E7Q-sJ-OXh" id="Ls8-rt-E6k"/>
                         <outlet property="constraintScrollBottomOffset" destination="kd2-rg-DUt" id="Fre-Wr-hxG"/>
                         <outlet property="constraintSpacerHeight" destination="UvV-ic-Vba" id="Uwh-X9-Xvt"/>
                         <outlet property="constraintWidth" destination="bxi-Tm-Ce3" id="fTJ-fs-yZN"/>
                         <outlet property="imageShare" destination="m28-12-C4h" id="HPl-2N-Poi"/>
                         <outlet property="labelDate" destination="rfV-G2-Hlb" id="UBe-zJ-anu"/>
                         <outlet property="labelInfo" destination="FCt-eO-A2r" id="BzG-yc-KQU"/>
+                        <outlet property="labelSpotsLeft" destination="mII-0a-gcT" id="wlb-cf-rnn"/>
                         <outlet property="labelType" destination="0hR-vD-Xwe" id="xnW-kG-Kd7"/>
                         <outlet property="scrollView" destination="v5N-mi-Yah" id="WkI-ml-Q0s"/>
                         <outlet property="sportImageView" destination="E75-s4-H12" id="4Xl-f8-tSR"/>

@@ -19,10 +19,12 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var buttonClose: UIButton!
     @IBOutlet weak var buttonShare: UIButton!
     @IBOutlet weak var imageShare: UIImageView!
-
+    @IBOutlet weak var buttonJoin: UIButton!
+    
     @IBOutlet var labelType: UILabel!
     @IBOutlet var labelDate: UILabel!
     @IBOutlet var labelInfo: UILabel!
+    @IBOutlet var labelSpotsLeft: UILabel!
 
     @IBOutlet var sportImageView: AsyncImageView!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -33,7 +35,7 @@ class EventDisplayViewController: UIViewController {
     
     @IBOutlet var constraintWidth: NSLayoutConstraint!
     @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
-    @IBOutlet weak var constraintReserveHeight: NSLayoutConstraint!
+    @IBOutlet weak var constraintButtonJoinHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintDetailHeight: NSLayoutConstraint!
     @IBOutlet var constraintPlayersHeight: NSLayoutConstraint!
     @IBOutlet var constraintPaymentHeight: NSLayoutConstraint!
@@ -115,15 +117,34 @@ class EventDisplayViewController: UIViewController {
             self.constraintPaymentHeight.constant = 0
         }
         
-        if let event = event, let currentUser = AuthService.currentUser, event.containsUser(currentUser) {
+        guard let event = event, let currentUser = AuthService.currentUser else {
+            imageShare.isHidden = true
+            buttonShare.isHidden = true
+            constraintButtonJoinHeight.constant = 0
+            return
+        }
+        
+        if event.containsUser(currentUser) {
             imageShare.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
         } else {
             imageShare.isHidden = true
             buttonShare.isHidden = true
         }
         
-        // reserve spot. TODO: enable this
-        constraintReserveHeight.constant = 0
+        // reserve spot
+        if event.containsUser(currentUser) || event.userIsOrganizer {
+            constraintButtonJoinHeight.constant = 0
+            labelSpotsLeft.text = "\(event.numPlayers) are playing"
+        } else if event.isFull {
+//            buttonJoin.isEnabled = false // may want to add waitlist functionality
+//            buttonJoin.alpha = 0.5
+            constraintButtonJoinHeight.constant = 0
+            labelSpotsLeft.text = "Event is full"
+        } else {
+            let spotsLeft = event.maxPlayers - event.numPlayers
+            labelSpotsLeft.text = "\(spotsLeft) spots available"
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -137,6 +158,10 @@ class EventDisplayViewController: UIViewController {
     
     @IBAction func didClickShare(_ sender: Any?) {
         promptForShare()
+    }
+    
+    @IBAction func didClickJoin(_ sender: Any?) {
+        
     }
 
     @objc func close() {
