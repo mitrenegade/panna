@@ -154,7 +154,6 @@ extension CalendarViewController {
         guard let event = sender as? Event else { return }
         
         detailsController.alreadyJoined = true
-        detailsController.delegate = self
         
         detailsController.event = event
         

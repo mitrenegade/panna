@@ -14,6 +14,10 @@ protocol EventDisplayComponentDelegate: class {
     func componentHeightChanged(controller: UIViewController, newHeight: CGFloat)
 }
 
+protocol EventDisplayDelegate {
+    func clickedJoinEvent(_ event: Event)
+}
+
 class EventDisplayViewController: UIViewController {
     
     @IBOutlet weak var buttonClose: UIButton!
@@ -30,7 +34,7 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     weak var event : Event?
     
-    weak var delegate : AnyObject?
+    var delegate : EventDisplayDelegate?
     var alreadyJoined : Bool = false
     
     @IBOutlet var constraintWidth: NSLayoutConstraint!
@@ -161,7 +165,8 @@ class EventDisplayViewController: UIViewController {
     }
     
     @IBAction func didClickJoin(_ sender: Any?) {
-        
+        guard let event = event else { return }
+        delegate?.clickedJoinEvent(event)
     }
 
     @objc func close() {
