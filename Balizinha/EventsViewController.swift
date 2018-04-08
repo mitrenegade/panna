@@ -403,6 +403,12 @@ extension EventsViewController: CreateEventDelegate {
     }
 }
 
+extension EventsViewController: EventDisplayDelegate {
+    func clickedJoinEvent(_ event: Event) {
+        joinEvent(event)
+    }
+}
+
 // TODO: delete this after 0.5.0 has been widely adopted
 fileprivate var subscriptionsUpdated: Bool = false
 extension EventsViewController {

@@ -9,9 +9,14 @@
 import UIKit
 import FBSDKShareKit
 import AsyncImageView
+import RxSwift
 
 protocol EventDisplayComponentDelegate: class {
     func componentHeightChanged(controller: UIViewController, newHeight: CGFloat)
+}
+
+protocol EventDisplayDelegate {
+    func clickedJoinEvent(_ event: Event)
 }
 
 class EventDisplayViewController: UIViewController {
@@ -19,21 +24,26 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var buttonClose: UIButton!
     @IBOutlet weak var buttonShare: UIButton!
     @IBOutlet weak var imageShare: UIImageView!
-
+    @IBOutlet weak var buttonJoin: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     @IBOutlet var labelType: UILabel!
     @IBOutlet var labelDate: UILabel!
     @IBOutlet var labelInfo: UILabel!
+    @IBOutlet var labelSpotsLeft: UILabel!
 
     @IBOutlet var sportImageView: AsyncImageView!
     @IBOutlet weak var scrollView: UIScrollView!
     weak var event : Event?
     
-    weak var delegate : AnyObject?
+    var delegate : EventDisplayDelegate?
     var alreadyJoined : Bool = false
+    
+    fileprivate var disposeBag: DisposeBag = DisposeBag()
     
     @IBOutlet var constraintWidth: NSLayoutConstraint!
     @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
-    @IBOutlet weak var constraintReserveHeight: NSLayoutConstraint!
+    @IBOutlet weak var constraintButtonJoinHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintDetailHeight: NSLayoutConstraint!
     @IBOutlet var constraintPlayersHeight: NSLayoutConstraint!
     @IBOutlet var constraintPaymentHeight: NSLayoutConstraint!
@@ -115,15 +125,23 @@ class EventDisplayViewController: UIViewController {
             self.constraintPaymentHeight.constant = 0
         }
         
-        if let event = event, let currentUser = AuthService.currentUser, event.containsUser(currentUser) {
+        guard let event = event, let currentUser = AuthService.currentUser else {
+            imageShare.isHidden = true
+            buttonShare.isHidden = true
+            constraintButtonJoinHeight.constant = 0
+            return
+        }
+        
+        if event.containsUser(currentUser) {
             imageShare.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
         } else {
             imageShare.isHidden = true
             buttonShare.isHidden = true
         }
         
-        // reserve spot. TODO: enable this
-        constraintReserveHeight.constant = 0
+        // reserve spot
+        listenFor(NotificationType.EventsChanged, action: #selector(refreshJoin), object: nil)
+        refreshJoin()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -138,6 +156,14 @@ class EventDisplayViewController: UIViewController {
     @IBAction func didClickShare(_ sender: Any?) {
         promptForShare()
     }
+    
+    @IBAction func didClickJoin(_ sender: Any?) {
+        guard let event = event else { return }
+        activityIndicator.startAnimating()
+        buttonJoin.isEnabled = false
+        buttonJoin.alpha = 0.5
+        delegate?.clickedJoinEvent(event)
+    }
 
     @objc func close() {
         self.navigationController?.dismiss(animated: true, completion: nil)
@@ -145,6 +171,25 @@ class EventDisplayViewController: UIViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc fileprivate func refreshJoin() {
+        activityIndicator.stopAnimating()
+        guard let event = event, let currentUser = AuthService.currentUser else { return }
+        if event.containsUser(currentUser) || event.userIsOrganizer {
+            constraintButtonJoinHeight.constant = 0
+            labelSpotsLeft.text = "\(event.numPlayers) are playing"
+        } else if event.isFull {
+            //            buttonJoin.isEnabled = false // may want to add waitlist functionality
+            //            buttonJoin.alpha = 0.5
+            constraintButtonJoinHeight.constant = 0
+            labelSpotsLeft.text = "Event is full"
+        } else {
+            buttonJoin.isEnabled = true
+            buttonJoin.alpha = 1
+            let spotsLeft = event.maxPlayers - event.numPlayers
+            labelSpotsLeft.text = "\(spotsLeft) spots available"
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
