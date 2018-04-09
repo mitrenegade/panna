@@ -11,6 +11,7 @@
 
 import UIKit
 import Firebase
+import RxSwift
 
 fileprivate var singleton: EventService?
 var _usersForEvents: [String: AnyObject]?
@@ -347,6 +348,17 @@ class EventService: NSObject {
             print("getUsersForEvent \(event.id) results count: \(results.count)")
             completion(results)
         }
+    }
+
+    func usersObserver(for event: Event) -> Observable<[String]> {
+        // RX version - this allows us to stop observing
+        
+        return Observable.create({ (observer) -> Disposable in
+            self.observeUsers(forEvent: event, completion: { (userIds) in
+                observer.onNext(userIds)
+            })
+            return Disposables.create()
+        })
     }
     
     func totalAmountPaid(for event: Event, completion: ((Double, Int)->())?) {

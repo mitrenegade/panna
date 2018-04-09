@@ -78,6 +78,7 @@ class PlayersScrollViewController: UIViewController {
 // MARK: - tap to view player
 extension PlayersScrollViewController {
     @objc func didTap(_ gesture: UITapGestureRecognizer?) {
+        // open player info
         guard let point = gesture?.location(ofTouch: 0, in: self.scrollView) else { return }
         for (id, icon) in self.icons {
             if icon.view.frame.contains(point) {
@@ -93,5 +94,13 @@ extension PlayersScrollViewController {
         
         playerController.player = player
         self.navigationController?.pushViewController(playerController, animated: true)
+    }
+    
+    func goToAttendees() {
+        // open Attendees list. not used yet but can be used to view/edit attendances
+        if let nav = UIStoryboard(name: "Attendance", bundle: nil).instantiateInitialViewController() as? UINavigationController, let controller = nav.viewControllers[0] as? AttendeesViewController {
+            controller.event = event
+            present(nav, animated: true, completion: nil)
+        }
     }
 }
