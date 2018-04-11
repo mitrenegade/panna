@@ -437,3 +437,29 @@ extension EventService {
         })
     }
 }
+
+extension EventService {
+    func actions(for event: Event?, eventId: String? = nil, completion: @escaping ( ([Action])->() )) {
+        // returns all actions
+        guard let id = event?.id ?? eventId else {
+            completion([])
+            return
+        }
+        let queryRef = firRef.child("actions")
+        queryRef.queryOrdered(byChild: "event").queryEqual(toValue: id).observeSingleEvent(of: .value, with: { (snapshot) in
+            guard snapshot.exists() else {
+                completion([])
+                return
+            }
+            var results: [Action] = []
+            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
+                for snapshot: DataSnapshot in allObjects {
+                    let action = Action(snapshot: snapshot)
+                    results.append(action)
+                }
+            }
+            print("Actions retrieved: \(results.count) for event \(id)")
+            completion(results)
+        }, withCancel: nil)
+    }
+}

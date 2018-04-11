@@ -17,6 +17,9 @@
         <array key="Montserrat-Regular.ttf">
             <string>Montserrat-Regular</string>
         </array>
+        <array key="Montserrat-SemiBold.ttf">
+            <string>Montserrat-SemiBold</string>
+        </array>
     </customFonts>
     <scenes>
         <!--Account View Controller-->
@@ -234,10 +237,10 @@
                                 </connections>
                             </textField>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_user" translatesAutoresizingMaskIntoConstraints="NO" id="0RW-JB-g2Y" customClass="AsyncImageView">
-                                <rect key="frame" x="147" y="8" width="80" height="80"/>
+                                <rect key="frame" x="147.5" y="8" width="80" height="80"/>
                             </imageView>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XAo-AL-O26">
-                                <rect key="frame" x="147" y="8" width="80" height="80"/>
+                                <rect key="frame" x="147.5" y="8" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="XAo-AL-O26" secondAttribute="height" multiplier="1:1" id="6zO-yy-dpP"/>
                                     <constraint firstAttribute="width" constant="80" id="glB-1n-jah"/>
@@ -256,7 +259,7 @@
                                 </connections>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="VSH-KF-Dam">
-                                <rect key="frame" x="16" y="206" width="343" height="377"/>
+                                <rect key="frame" x="16" y="206" width="343" height="339"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
@@ -276,16 +279,31 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vrA-NT-n04">
+                                <rect key="frame" x="16" y="553" width="343" height="30"/>
+                                <color key="backgroundColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="cBV-ae-53r"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="18"/>
+                                <state key="normal" title="League">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="didClickLeague:" destination="doi-kI-W3c" eventType="touchUpInside" id="ea8-fs-ZWP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="XAo-AL-O26" firstAttribute="top" secondItem="0RW-JB-g2Y" secondAttribute="top" id="15B-da-wVF"/>
-                            <constraint firstItem="bhA-hx-EMp" firstAttribute="top" secondItem="VSH-KF-Dam" secondAttribute="bottom" constant="20" id="4wp-GL-VoR"/>
                             <constraint firstAttribute="trailing" secondItem="Qh9-5D-9kU" secondAttribute="trailing" constant="16" id="7jE-7k-nEi"/>
                             <constraint firstItem="Qh9-5D-9kU" firstAttribute="top" secondItem="FlA-eP-4TG" secondAttribute="bottom" constant="8" id="7tY-WI-h2O"/>
+                            <constraint firstItem="vrA-NT-n04" firstAttribute="top" secondItem="VSH-KF-Dam" secondAttribute="bottom" constant="8" id="96R-yK-dBp"/>
                             <constraint firstItem="FlA-eP-4TG" firstAttribute="top" secondItem="c0o-pC-RKU" secondAttribute="bottom" constant="8" id="Bbv-B7-Y5E"/>
                             <constraint firstItem="XAo-AL-O26" firstAttribute="leading" secondItem="0RW-JB-g2Y" secondAttribute="leading" id="CQi-aJ-kbR"/>
                             <constraint firstItem="FlA-eP-4TG" firstAttribute="leading" secondItem="te2-o2-KrN" secondAttribute="leading" constant="16" id="EzQ-3c-c1Z"/>
+                            <constraint firstAttribute="trailing" secondItem="vrA-NT-n04" secondAttribute="trailing" constant="16" id="GxS-5i-qFE"/>
                             <constraint firstItem="c0o-pC-RKU" firstAttribute="trailing" secondItem="te2-o2-KrN" secondAttribute="trailingMargin" id="Wic-hR-Cly"/>
                             <constraint firstItem="XAo-AL-O26" firstAttribute="trailing" secondItem="0RW-JB-g2Y" secondAttribute="trailing" id="bsc-AN-kiE"/>
                             <constraint firstItem="XAo-AL-O26" firstAttribute="centerX" secondItem="te2-o2-KrN" secondAttribute="centerX" id="dIa-n8-dYv"/>
@@ -299,6 +317,8 @@
                             <constraint firstItem="c0o-pC-RKU" firstAttribute="leading" secondItem="te2-o2-KrN" secondAttribute="leading" constant="16" id="lK5-1B-RrH"/>
                             <constraint firstItem="VSH-KF-Dam" firstAttribute="leading" secondItem="te2-o2-KrN" secondAttribute="leading" constant="16" id="pe0-MO-Vkv"/>
                             <constraint firstAttribute="trailing" secondItem="VSH-KF-Dam" secondAttribute="trailing" constant="16" id="u6j-64-zcR"/>
+                            <constraint firstItem="bhA-hx-EMp" firstAttribute="top" secondItem="vrA-NT-n04" secondAttribute="bottom" constant="20" id="um8-fQ-KhN"/>
+                            <constraint firstItem="vrA-NT-n04" firstAttribute="leading" secondItem="te2-o2-KrN" secondAttribute="leading" constant="16" id="ySj-Ns-EnB"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
@@ -315,6 +335,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="buttonLeague" destination="vrA-NT-n04" id="ZhA-3T-zCX"/>
                         <outlet property="buttonPhoto" destination="XAo-AL-O26" id="WdU-jy-SDV"/>
                         <outlet property="inputCity" destination="FlA-eP-4TG" id="lgX-O3-efa"/>
                         <outlet property="inputName" destination="c0o-pC-RKU" id="omt-ew-Acr"/>
@@ -381,7 +402,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-ov-iNR">
-                                <rect key="frame" x="126" y="28" width="122" height="122"/>
+                                <rect key="frame" x="126.5" y="28" width="122" height="122"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="nrg-ov-iNR" secondAttribute="height" multiplier="1:1" id="gSJ-d7-Ae0"/>
                                     <constraint firstAttribute="height" constant="122" id="j2o-V7-Vag"/>
