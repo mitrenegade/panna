@@ -300,42 +300,56 @@ extension PlayerInfoViewController: UIImagePickerControllerDelegate, UINavigatio
 // MARK: - Leagues
 extension PlayerInfoViewController {
     func refreshLeagueButton() {
-        guard let player = player else {
-            buttonLeague.isHidden = true
-            return
-        }
-        
-        guard let leagueId: String = player.leagues.first else {
-            buttonLeague.setTitle("Join a league", for: .normal)
-            return
-        }
-        
-        buttonLeague.setTitle("League", for: .normal)
-        LeagueService.shared.withId(id: leagueId) {[weak self] (league) in
-            guard let league = league else {
-                DispatchQueue.main.async {
-                    self?.buttonLeague.setTitle("Invalid league", for: .normal)
-                }
-                return
-            }
-            DispatchQueue.main.async {
-                self?.buttonLeague.setTitle("Leave \(league.name ?? "")", for: .normal)
-            }
-        }
+//        guard let player = player else {
+//            buttonLeague.isHidden = true
+//            return
+//        }
+//
+////        guard let leagueId: String = player.leagues.first else {
+////            buttonLeague.setTitle("Join a league", for: .normal)
+////            return
+////        }
+//
+//        buttonLeague.setTitle("League", for: .normal)
+//        LeagueService.shared.withId(id: leagueId) {[weak self] (league) in
+//            guard let league = league else {
+//                DispatchQueue.main.async {
+//                    self?.buttonLeague.setTitle("Invalid league", for: .normal)
+//                }
+//                return
+//            }
+//            DispatchQueue.main.async {
+//                self?.buttonLeague.setTitle("Leave \(league.name ?? "")", for: .normal)
+//            }
+//        }
     }
     
     @IBAction func didClickLeague(_ sender: Any?) {
         // FOR TESTING
-        let DEFAULT_LEAGUE_ID_DEV = "1523416155-990463"
+//        let leagueId = "1523416155-990463"
+        let leagueId = "1523426391-995740"
+        guard let player = player else { return }
         
-        let leagueId = DEFAULT_LEAGUE_ID_DEV
+        // test join league
         LeagueService.shared.withId(id: leagueId) { (league) in
             guard let league = league else { return }
+            
+            // test join league
             LeagueService.shared.join(league: league, completion: {[weak self] (result, error) in
                 DispatchQueue.main.async {
                     PlayerService.shared.refreshCurrentPlayer() // todo: this happens asynchronously
                     self?.refreshLeagueButton()
                 }
+            })
+            
+            // test player for league
+            LeagueService.shared.players(for: league, completion: { (results) in
+                print("Players in league \(league.id): \(results)")
+            })
+
+            // test league for player
+            LeagueService.shared.leagues(for: player, completion: { (results) in
+                print("Leagues for player \(player.id): \(results)")
             })
         }
     }

@@ -52,11 +52,4 @@ class League: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
-
-    var players: [String] {
-        let playersDict = self.dict["players"] as? [String: Bool] ?? [:]
-        return playersDict.filter({ (key, val) -> Bool in
-            return val
-        }).map() { return $0.key }
-    }
 }

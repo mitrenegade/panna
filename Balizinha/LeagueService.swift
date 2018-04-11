@@ -38,6 +38,44 @@ class LeagueService: NSObject {
         }
     }
     
+    func players(for league: League, completion: @escaping (([String]?)->Void)) {
+        FirebaseAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
+            guard error == nil else {
+                //print("Players for league error \(error)")
+                completion(nil)
+                return
+            }
+            //print("Players for league results \(result)")
+            if let dict = (result as? [String: Any])?["result"] as? [String: Bool] {
+                let userIds = dict.filter({ (key, val) -> Bool in
+                    return val
+                }).map({ (key, val) -> String in
+                    return key
+                })
+                completion(userIds)
+            } else {
+                completion([])
+            }
+        }
+    }
+    
+    func leagues(for player: Player, completion: @escaping (([String]?)->Void)) {
+        FirebaseAPIService().cloudFunction(functionName: "getLeaguesForPlayer", params: ["userId": player.id]) { (result, error) in
+            guard error == nil else {
+                //print("Leagues for player error \(error)")
+                completion(nil)
+                return
+            }
+            //print("Leagues for player results \(result)")
+            if let dict = (result as? [String: Any])?["result"] as? [String: Any] {
+                let userIds = Array(dict.keys)
+                completion(userIds)
+            } else {
+                completion([])
+            }
+        }
+    }
+    
     func withId(id: String, completion: @escaping ((League?)->Void)) {
         let ref = firRef.child("leagues")
         ref.child(id).observeSingleEvent(of: .value, with: { (snapshot) in
