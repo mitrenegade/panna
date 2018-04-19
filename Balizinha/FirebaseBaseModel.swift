@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-import RandomKit
 
 class FirebaseBaseModel: NSObject {
     // Firebase objects have structure:
@@ -37,7 +36,6 @@ class FirebaseBaseModel: NSObject {
     
     override convenience init() {
         self.init(snapshot: nil)
-        self.firebaseKey = String.random(using: &Xoroshiro.default)
     }
 
     // returns dict, or the value/contents of this object

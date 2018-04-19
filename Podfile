@@ -25,7 +25,6 @@ target 'Balizinha' do
     pod 'FBSDKShareKit'
     pod 'DateTools'
 
-    pod 'RandomKit'
     pod 'Batch'
 
     pod 'Stripe'
@@ -37,7 +36,6 @@ target 'Balizinha' do
     	pod 'Firebase/Auth'
     	pod 'Firebase/Storage'
     	pod 'AsyncImageView'
-    	pod 'RandomKit'
     	pod 'Stripe'
     	pod 'RxSwift'
     	pod 'RxCocoa'
