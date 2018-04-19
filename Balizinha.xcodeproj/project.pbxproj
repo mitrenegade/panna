@@ -597,7 +597,6 @@
 				8E1F3CBA1F8B9A95005186AD /* Frameworks */,
 				8E1F3CBB1F8B9A95005186AD /* Resources */,
 				ED6000F69221B9758C595F11 /* [CP] Embed Pods Frameworks */,
-				9F262E5A0C171CF77680963A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -618,7 +617,6 @@
 				8E7256931CDF793100C9E054 /* Frameworks */,
 				8E7256941CDF793100C9E054 /* Resources */,
 				0BFD9CCDEA2CF4A562C89699 /* [CP] Embed Pods Frameworks */,
-				9B74713E0CD8AFA78A38224E /* [CP] Copy Pods Resources */,
 				8E5CE7981D2CAE75001ADBA3 /* ShellScript */,
 			);
 			buildRules = (
@@ -793,39 +791,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" ";
-		};
-		9B74713E0CD8AFA78A38224E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha-resources.sh",
-				"${PODS_ROOT}/Batch/Batch.embeddedframework/Batch.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Batch.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9F262E5A0C171CF77680963A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		BD4034CDECCE5F82AD70949C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
