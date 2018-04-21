@@ -123,6 +123,7 @@
 		8EACC3B61F7B449C0091FBC5 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EACC3B51F7B449C0091FBC5 /* Payment.swift */; };
 		8EB34067207DB88900D4FDE0 /* League.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB34066207DB88900D4FDE0 /* League.swift */; };
 		8EB34069207DB89700D4FDE0 /* LeagueService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB34068207DB89700D4FDE0 /* LeagueService.swift */; };
+		8EB865FA208BE8440029079A /* PlayerLeaguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB865F9208BE8440029079A /* PlayerLeaguesViewController.swift */; };
 		8EB90B391FB2B8D5007C60F0 /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */; };
 		8EB90B3B1FB2BABE007C60F0 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */; };
 		8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBF1C381E7965BA0057871F /* PlayerViewController.swift */; };
@@ -142,6 +143,8 @@
 		8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */; };
 		8EE5B3281E7F365200BC72A5 /* PlayerIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */; };
 		8EE94E471FF93DB700129EC2 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE94E461FF93DB700129EC2 /* Launch.storyboard */; };
+		8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */; };
+		8EF167F9208BEE4A00257354 /* LeagueIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F8208BEE4A00257354 /* LeagueIcon.swift */; };
 		8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
 		8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */; };
 		9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */; };
@@ -257,6 +260,7 @@
 		8EACC3B51F7B449C0091FBC5 /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		8EB34066207DB88900D4FDE0 /* League.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = League.swift; sourceTree = "<group>"; };
 		8EB34068207DB89700D4FDE0 /* LeagueService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeagueService.swift; sourceTree = "<group>"; };
+		8EB865F9208BE8440029079A /* PlayerLeaguesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerLeaguesViewController.swift; sourceTree = "<group>"; };
 		8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tutorial.storyboard; sourceTree = "<group>"; };
 		8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		8EBF1C381E7965BA0057871F /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
@@ -278,6 +282,8 @@
 		8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizerViewController.swift; sourceTree = "<group>"; };
 		8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerIcon.swift; sourceTree = "<group>"; };
 		8EE94E461FF93DB700129EC2 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
+		8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModelIcon.swift; sourceTree = "<group>"; };
+		8EF167F8208BEE4A00257354 /* LeagueIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueIcon.swift; sourceTree = "<group>"; };
 		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
 		A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.release.xcconfig"; sourceTree = "<group>"; };
 		AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -348,6 +354,7 @@
 				F2F7C3BF1CEE296A00350115 /* AccountViewController.swift */,
 				8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */,
 				8EBF1C381E7965BA0057871F /* PlayerViewController.swift */,
+				8EB865F9208BE8440029079A /* PlayerLeaguesViewController.swift */,
 			);
 			name = Account;
 			sourceTree = "<group>";
@@ -437,6 +444,13 @@
 			name = Storyboards;
 			sourceTree = "<group>";
 		};
+		8E626F24208BEB5000A815A4 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
 		8E6AE5431F8E5DAD0062DCF5 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -470,6 +484,7 @@
 		8E7256981CDF793200C9E054 /* Balizinha */ = {
 			isa = PBXGroup;
 			children = (
+				8E626F24208BEB5000A815A4 /* New Group */,
 				8ED3DE761E330CB700947040 /* Balizinha.entitlements */,
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
 				8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */,
@@ -482,6 +497,7 @@
 				F2F7C3BE1CEE11BE00350115 /* Events */,
 				8E19A4A81E6C933400D301EC /* Event Details */,
 				8E6AE5431F8E5DAD0062DCF5 /* ViewModels */,
+				8E9F0CD9208BEB640000886E /* Views */,
 				F2F7C3BB1CEE10F700350115 /* Cells */,
 				F20AD03B1D26C0F500969990 /* Utils */,
 				8E7397E91FF921AA00D48BA0 /* Fonts */,
@@ -512,6 +528,17 @@
 				8E7397EE1FF921C500D48BA0 /* Montserrat-ThinItalic.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		8E9F0CD9208BEB640000886E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */,
+				8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */,
+				8EF167F8208BEE4A00257354 /* LeagueIcon.swift */,
+				F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		8EC799251E35A9EE004ACC52 /* WorkoutWithMe */ = {
@@ -553,13 +580,11 @@
 		F2F7C3BB1CEE10F700350115 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */,
 				F2048F7B1CED57170039F7BB /* EventCell.swift */,
 				F2F7C3B71CEE109000350115 /* DetailCell.swift */,
 				8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */,
 				F2F7C3B91CEE10E800350115 /* DescriptionCell.swift */,
 				8E54213F1E70DF8700AE4F3A /* ActionCell.swift */,
-				8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */,
 				8EF25BC41E88161A0079E90B /* ToggleCell.swift */,
 				8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */,
 				F2F7C3C11CEE2CDD00350115 /* PushTableViewCell.swift */,
@@ -949,6 +974,7 @@
 				8E74E54D1FA9FFF5005F72DA /* PlaceResultsViewController.swift in Sources */,
 				8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */,
 				8EA23E2C1FD829E000324B82 /* PaymentService.swift in Sources */,
+				8EB865FA208BE8440029079A /* PlayerLeaguesViewController.swift in Sources */,
 				F2C0F1201CF3E8BB00CB98F1 /* EventsViewController.swift in Sources */,
 				8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */,
 				8EACC3B61F7B449C0091FBC5 /* Payment.swift in Sources */,
@@ -973,12 +999,14 @@
 				8E7A2FFC1F83256E004EAE6A /* Promotion.swift in Sources */,
 				8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */,
 				8E7A2FF81F8313C6004EAE6A /* OrganizerService.swift in Sources */,
+				8EF167F9208BEE4A00257354 /* LeagueIcon.swift in Sources */,
 				8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */,
 				8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */,
 				8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */,
 				8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */,
 				8E379F011CE57E8600C91A12 /* EventService.swift in Sources */,
 				8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */,
+				8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */,
 				8E1B00561FC2E8FF00420256 /* TutorialButtonViewModel.swift in Sources */,
 				8E4D36721F8BA45900B8B0B5 /* NSObject+Utils.swift in Sources */,
 				8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */,

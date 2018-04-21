@@ -300,16 +300,16 @@ extension PlayerInfoViewController: UIImagePickerControllerDelegate, UINavigatio
 // MARK: - Leagues
 extension PlayerInfoViewController {
     func refreshLeagueButton() {
-//        guard let player = player else {
-//            buttonLeague.isHidden = true
+        guard let player = player else {
+            buttonLeague.isHidden = true
+            return
+        }
+
+//        guard let leagueId: String = player.leagues.first else {
+//            buttonLeague.setTitle("Join a league", for: .normal)
 //            return
 //        }
-//
-////        guard let leagueId: String = player.leagues.first else {
-////            buttonLeague.setTitle("Join a league", for: .normal)
-////            return
-////        }
-//
+
 //        buttonLeague.setTitle("League", for: .normal)
 //        LeagueService.shared.withId(id: leagueId) {[weak self] (league) in
 //            guard let league = league else {

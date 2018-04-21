@@ -7,9 +7,28 @@
 //
 
 import UIKit
+import RxSwift
 
 class LeagueService: NSObject {
     static let shared: LeagueService = LeagueService()
+    var disposeBag: DisposeBag
+    
+    override init() {
+        disposeBag = DisposeBag()
+        super.init()
+        
+        PlayerService.shared.current.asObservable().distinctUntilChanged().subscribe(onNext: { [weak self] player in
+            guard let player = player else { return }
+            
+            self?.leagues(for: player, completion: { (results) in
+                print("Player leagues: \(results)")
+            })
+        }).disposed(by: disposeBag)
+    }
+    
+    class func resetOnLogout() {
+        shared.disposeBag = DisposeBag()
+    }
     
     func create(name: String, city: String, info: String, completion: @escaping ((_ result: Any?, _ error: Error?)->Void)) {
         guard let user = AuthService.currentUser else { return }

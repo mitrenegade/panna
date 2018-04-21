@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="WKC-Oj-i9z">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="WKC-Oj-i9z">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,9 +16,6 @@
         </array>
         <array key="Montserrat-Regular.ttf">
             <string>Montserrat-Regular</string>
-        </array>
-        <array key="Montserrat-SemiBold.ttf">
-            <string>Montserrat-SemiBold</string>
         </array>
     </customFonts>
     <scenes>
@@ -259,7 +256,7 @@
                                 </connections>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="VSH-KF-Dam">
-                                <rect key="frame" x="16" y="206" width="343" height="339"/>
+                                <rect key="frame" x="16" y="206" width="343" height="289"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
@@ -279,31 +276,26 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vrA-NT-n04">
-                                <rect key="frame" x="16" y="553" width="343" height="30"/>
-                                <color key="backgroundColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rHs-WK-BWz">
+                                <rect key="frame" x="16" y="503" width="343" height="80"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="cBV-ae-53r"/>
+                                    <constraint firstAttribute="height" constant="80" id="y8S-74-fBB"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="18"/>
-                                <state key="normal" title="League">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
                                 <connections>
-                                    <action selector="didClickLeague:" destination="doi-kI-W3c" eventType="touchUpInside" id="ea8-fs-ZWP"/>
+                                    <segue destination="UB6-5R-7rp" kind="embed" id="g6T-MV-3Ye"/>
                                 </connections>
-                            </button>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="XAo-AL-O26" firstAttribute="top" secondItem="0RW-JB-g2Y" secondAttribute="top" id="15B-da-wVF"/>
                             <constraint firstAttribute="trailing" secondItem="Qh9-5D-9kU" secondAttribute="trailing" constant="16" id="7jE-7k-nEi"/>
                             <constraint firstItem="Qh9-5D-9kU" firstAttribute="top" secondItem="FlA-eP-4TG" secondAttribute="bottom" constant="8" id="7tY-WI-h2O"/>
-                            <constraint firstItem="vrA-NT-n04" firstAttribute="top" secondItem="VSH-KF-Dam" secondAttribute="bottom" constant="8" id="96R-yK-dBp"/>
                             <constraint firstItem="FlA-eP-4TG" firstAttribute="top" secondItem="c0o-pC-RKU" secondAttribute="bottom" constant="8" id="Bbv-B7-Y5E"/>
                             <constraint firstItem="XAo-AL-O26" firstAttribute="leading" secondItem="0RW-JB-g2Y" secondAttribute="leading" id="CQi-aJ-kbR"/>
                             <constraint firstItem="FlA-eP-4TG" firstAttribute="leading" secondItem="te2-o2-KrN" secondAttribute="leading" constant="16" id="EzQ-3c-c1Z"/>
-                            <constraint firstAttribute="trailing" secondItem="vrA-NT-n04" secondAttribute="trailing" constant="16" id="GxS-5i-qFE"/>
+                            <constraint firstItem="rHs-WK-BWz" firstAttribute="top" secondItem="VSH-KF-Dam" secondAttribute="bottom" constant="8" id="L5u-fa-lZL"/>
+                            <constraint firstItem="bhA-hx-EMp" firstAttribute="top" secondItem="rHs-WK-BWz" secondAttribute="bottom" constant="20" id="Os4-mw-Gvd"/>
                             <constraint firstItem="c0o-pC-RKU" firstAttribute="trailing" secondItem="te2-o2-KrN" secondAttribute="trailingMargin" id="Wic-hR-Cly"/>
                             <constraint firstItem="XAo-AL-O26" firstAttribute="trailing" secondItem="0RW-JB-g2Y" secondAttribute="trailing" id="bsc-AN-kiE"/>
                             <constraint firstItem="XAo-AL-O26" firstAttribute="centerX" secondItem="te2-o2-KrN" secondAttribute="centerX" id="dIa-n8-dYv"/>
@@ -316,9 +308,9 @@
                             <constraint firstItem="XAo-AL-O26" firstAttribute="bottom" secondItem="0RW-JB-g2Y" secondAttribute="bottom" id="kW6-mV-CrH"/>
                             <constraint firstItem="c0o-pC-RKU" firstAttribute="leading" secondItem="te2-o2-KrN" secondAttribute="leading" constant="16" id="lK5-1B-RrH"/>
                             <constraint firstItem="VSH-KF-Dam" firstAttribute="leading" secondItem="te2-o2-KrN" secondAttribute="leading" constant="16" id="pe0-MO-Vkv"/>
+                            <constraint firstAttribute="trailing" secondItem="rHs-WK-BWz" secondAttribute="trailing" constant="16" id="syZ-ce-Lms"/>
                             <constraint firstAttribute="trailing" secondItem="VSH-KF-Dam" secondAttribute="trailing" constant="16" id="u6j-64-zcR"/>
-                            <constraint firstItem="bhA-hx-EMp" firstAttribute="top" secondItem="vrA-NT-n04" secondAttribute="bottom" constant="20" id="um8-fQ-KhN"/>
-                            <constraint firstItem="vrA-NT-n04" firstAttribute="leading" secondItem="te2-o2-KrN" secondAttribute="leading" constant="16" id="ySj-Ns-EnB"/>
+                            <constraint firstItem="rHs-WK-BWz" firstAttribute="leading" secondItem="te2-o2-KrN" secondAttribute="leading" constant="16" id="vx8-gX-1MY"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
@@ -335,7 +327,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="buttonLeague" destination="vrA-NT-n04" id="ZhA-3T-zCX"/>
                         <outlet property="buttonPhoto" destination="XAo-AL-O26" id="WdU-jy-SDV"/>
                         <outlet property="inputCity" destination="FlA-eP-4TG" id="lgX-O3-efa"/>
                         <outlet property="inputName" destination="c0o-pC-RKU" id="omt-ew-Acr"/>
@@ -434,6 +425,33 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nGc-P8-2A7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2828" y="-479.01049475262374"/>
+        </scene>
+        <!--Player Leagues View Controller-->
+        <scene sceneID="qbW-f7-oB4">
+            <objects>
+                <viewController id="UB6-5R-7rp" customClass="PlayerLeaguesViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JGr-DI-ZUt">
+                        <rect key="frame" x="0.0" y="0.0" width="343" height="80"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TWB-4K-Lmy">
+                                <rect key="frame" x="0.0" y="0.0" width="343" height="80"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="TWB-4K-Lmy" firstAttribute="top" secondItem="JGr-DI-ZUt" secondAttribute="top" id="6n9-dg-YFJ"/>
+                            <constraint firstAttribute="trailing" secondItem="TWB-4K-Lmy" secondAttribute="trailing" id="A9q-xc-BTM"/>
+                            <constraint firstAttribute="bottom" secondItem="TWB-4K-Lmy" secondAttribute="bottom" id="Gvl-2g-6rX"/>
+                            <constraint firstItem="TWB-4K-Lmy" firstAttribute="leading" secondItem="JGr-DI-ZUt" secondAttribute="leading" id="bFC-HP-W8S"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="scrollView" destination="TWB-4K-Lmy" id="vE8-8x-MWc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T0A-5D-dmF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>
