@@ -44,14 +44,14 @@ class PlayersScrollViewController: UIViewController {
     func addPlayer(player: Player) {
         guard icons[player.id] == nil else { return }
         let icon = PlayerIcon()
-        icon.player = player
+        icon.object = player
         icons[player.id] = icon
         self.refresh()
     }
     
     private var borderWidth: CGFloat = 5
     private var cellPadding: CGFloat = 5
-
+    fileprivate var iconSize: CGFloat = 30
     func refresh() {
         // TODO: this does not refresh correctly when a user leaves
         var x: CGFloat = borderWidth
@@ -59,10 +59,11 @@ class PlayersScrollViewController: UIViewController {
         var height: CGFloat = 0
         scrollView.subviews.forEach() { $0.removeFromSuperview() }
         for (id, icon) in icons {
-            let view = icon.view!
+            let view = icon
             let frame = CGRect(x: x, y: y, width: iconSize, height: iconSize)
             view.frame = frame
             scrollView.addSubview(view)
+            view.refresh()
             x += view.frame.size.width + cellPadding
             height = y + view.frame.size.height + borderWidth
             
@@ -81,8 +82,8 @@ extension PlayersScrollViewController {
         // open player info
         guard let point = gesture?.location(ofTouch: 0, in: self.scrollView) else { return }
         for (id, icon) in self.icons {
-            if icon.view.frame.contains(point) {
-                self.didSelectPlayer(player: icon.player)
+            if icon.frame.contains(point) {
+                self.didSelectPlayer(player: icon.object as? Player)
             }
         }
     }

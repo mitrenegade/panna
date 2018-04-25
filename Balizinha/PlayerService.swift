@@ -37,23 +37,28 @@ class PlayerService: NSObject {
         AuthService.shared.loginState.asObservable().distinctUntilChanged().subscribe(onNext: {state in
             if state == .loggedIn, let user = AuthService.currentUser {
                 print("PlayerService: log in state triggering player request with logged in user \(user.uid)")
-                let playerRef: DatabaseReference = self.playersRef.child(user.uid)
-                playerRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                    guard snapshot.exists() else { return }
-                    
-                    let player = Player(snapshot: snapshot)
-                    print("PlayerService: loaded player \(player.id)")
-                    self.current.value = player
-                })
+                self.refreshCurrentPlayer()
             }
         }).disposed(by: disposeBag)
     }
     
+    func refreshCurrentPlayer() {
+        guard let user = AuthService.currentUser else { return }
+        let playerRef: DatabaseReference = self.playersRef.child(user.uid)
+        playerRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard snapshot.exists() else { return }
+            
+            let player = Player(snapshot: snapshot)
+            print("PlayerService: loaded player \(player.id)")
+            self.current.value = player
+        })
+    }
+    
     class func resetOnLogout() {
         print("PlayerService resetOnLogout")
-        PlayerService.shared.disposeBag = DisposeBag()
-        PlayerService.shared.current.value = nil
-        PlayerService.shared.startAuthListener()
+        shared.disposeBag = DisposeBag()
+        shared.current.value = nil
+        shared.startAuthListener()
     }
 
     

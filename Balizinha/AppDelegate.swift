@@ -71,6 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         let _ = StripeService.shared // trigger stripe loading customer
+        let _ = LeagueService.shared
         
         UINavigationBar.appearance().backgroundColor = UIColor.mediumBlue
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)

@@ -23,7 +23,7 @@ class OrganizerViewController: UIViewController {
         self.iconView.addSubview(playerIcon.imageView)
         if let event = event, let ownerId = event.owner {
             PlayerService.shared.withId(id: ownerId, completion: { (player) in
-                self.playerIcon.player = player
+                self.playerIcon.object = player
                 if let player = player {
                     self.label.text = "Organizer: \(player.name ?? player.email ?? "")"
                 }

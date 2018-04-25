@@ -61,7 +61,7 @@ class FirebaseAPIService: NSObject {
         task.resume()
     }
     
-    func cloudFunction(functionName: String, method: String, params: [String: Any]?, completion: cloudCompletionHandler?) {
+    func cloudFunction(functionName: String, method: String = "POST", params: [String: Any]?, completion: cloudCompletionHandler?) {
         guard let url = self.baseURL?.appendingPathComponent(functionName) else {
             completion?(nil, nil) // todo
             return
@@ -87,7 +87,7 @@ class FirebaseAPIService: NSObject {
 
 extension FirebaseAPIService: URLSessionDelegate, URLSessionDataDelegate {
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        print("FirebaseAPIService: data received")
+        //print("FirebaseAPIService: data received")
         if let data = self.data {
             self.data?.append(data)
         }
@@ -97,7 +97,7 @@ extension FirebaseAPIService: URLSessionDelegate, URLSessionDataDelegate {
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        print("FirebaseAPIService: completed")
+        //print("FirebaseAPIService: completed")
         defer {
             self.data = nil
             self.completionHandler = nil
@@ -109,7 +109,7 @@ extension FirebaseAPIService: URLSessionDelegate, URLSessionDataDelegate {
         if let usableData = self.data {
             do {
                 let json = try JSONSerialization.jsonObject(with: usableData, options: []) as? [String: Any]
-                print("FirebaseAPIService: urlSession completed with json \(json)")
+                //print("FirebaseAPIService: urlSession completed with json \(json)")
                 if statusCode >= 300 {
                     completionHandler?(nil, NSError(domain: "balizinha", code: statusCode, userInfo: json))
                 } else {
