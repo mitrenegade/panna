@@ -152,6 +152,7 @@
 		C651AB882096D6650046B03C /* read.me in Resources */ = {isa = PBXBuildFile; fileRef = C651AB872096D6650046B03C /* read.me */; };
 		C651AB8A2096D7FC0046B03C /* League.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C651AB892096D7FC0046B03C /* League.storyboard */; };
 		C651AB8D2096D82E0046B03C /* LeaguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C651AB8C2096D82E0046B03C /* LeaguesViewController.swift */; };
+		C69E4E832097543400F4D74B /* LeagueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69E4E822097543400F4D74B /* LeagueCell.swift */; };
 		C6FDE5C420431ECB00FE0C76 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FDE5C320431ECB00FE0C76 /* ChatService.swift */; };
 		C6FDE5C620431F0100FE0C76 /* FirebaseAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FDE5C520431F0100FE0C76 /* FirebaseAPIService.swift */; };
 		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
@@ -293,6 +294,7 @@
 		C651AB872096D6650046B03C /* read.me */ = {isa = PBXFileReference; lastKnownFileType = text; path = read.me; sourceTree = "<group>"; };
 		C651AB892096D7FC0046B03C /* League.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = League.storyboard; sourceTree = "<group>"; };
 		C651AB8C2096D82E0046B03C /* LeaguesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguesViewController.swift; sourceTree = "<group>"; };
+		C69E4E822097543400F4D74B /* LeagueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueCell.swift; sourceTree = "<group>"; };
 		C6FDE5C320431ECB00FE0C76 /* ChatService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
 		C6FDE5C520431F0100FE0C76 /* FirebaseAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAPIService.swift; sourceTree = "<group>"; };
 		C779F650FFE1D803921FC3ED /* Pods-BalizinhaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -601,6 +603,7 @@
 				8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */,
 				8E0F5684201598CD001E8909 /* OrganizerCell.swift */,
 				8E17907B207B043F004FF5D2 /* PlayerCell.swift */,
+				C69E4E822097543400F4D74B /* LeagueCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -961,6 +964,7 @@
 				8E7A2FFA1F831411004EAE6A /* Organizer.swift in Sources */,
 				8EDA009C1F6597060080F446 /* RemoteDataService.swift in Sources */,
 				8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */,
+				C69E4E832097543400F4D74B /* LeagueCell.swift in Sources */,
 				8E0F5685201598CD001E8909 /* OrganizerCell.swift in Sources */,
 				8E74E54B1FA9FB51005F72DA /* PlaceSearchViewController.swift in Sources */,
 				8EB90B3B1FB2BABE007C60F0 /* TutorialViewController.swift in Sources */,

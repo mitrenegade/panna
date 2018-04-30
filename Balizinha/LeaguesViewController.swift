@@ -49,18 +49,15 @@ extension LeaguesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //        guard let workout = workoutForIndexPath(indexPath: indexPath) else {
-            return UITableViewCell()
+//            return UITableViewCell()
 //        }
 //
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "WorkoutTypeCell") as! WorkoutTypeCell
-//        let selected = indexPath == selectedIndexPath
-//        cell.setup(type: workout, selected: selected)
-//        cell.setSelected(selected, animated: true)
-//        return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueCell") as! LeagueCell
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 65
+        return 80
     }
 }
 
