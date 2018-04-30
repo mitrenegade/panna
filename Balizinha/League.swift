@@ -53,3 +53,23 @@ class League: FirebaseBaseModel {
         }
     }
 }
+
+// MARK: - Rankings and info
+extension League {
+    var pointCount: Int {
+        // point calculation: number of active games * 2 + number of past games + number of players
+        return 12
+    }
+    
+    var playerCount: Int {
+        return 5
+    }
+    
+    var rating: Double {
+        return 4.5
+    }
+    
+    var eventCount: Int {
+        return 4
+    }
+}

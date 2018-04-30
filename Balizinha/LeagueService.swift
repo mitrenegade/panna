@@ -8,6 +8,9 @@
 
 import UIKit
 import RxSwift
+import Firebase
+
+fileprivate var _leagues: [League] = []
 
 class LeagueService: NSObject {
     static let shared: LeagueService = LeagueService()
@@ -57,6 +60,28 @@ class LeagueService: NSObject {
         }
     }
     
+    func getLeagues(completion: @escaping (_ results: [League]) -> Void) {
+        let queryRef = firRef.child("leagues")
+        
+        queryRef.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
+            // this block is called for every result returned
+            guard snapshot.exists() else {
+                completion([])
+                return
+            }
+            _leagues.removeAll()
+            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
+                for dict: DataSnapshot in allObjects {
+                    guard dict.exists() else { continue }
+                    let league = League(snapshot: dict)
+                    _leagues.append(league)
+                }
+            }
+            print("getLeagues results count: \(_leagues.count)")
+            completion(_leagues)
+        }
+    }
+    
     func players(for league: League, completion: @escaping (([String]?)->Void)) {
         FirebaseAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
@@ -96,6 +121,13 @@ class LeagueService: NSObject {
     }
     
     func withId(id: String, completion: @escaping ((League?)->Void)) {
+        if let found = _leagues.first(where: { (league) -> Bool in
+            return league.id == id
+        }) {
+            completion(found)
+            return
+        }
+
         let ref = firRef.child("leagues")
         ref.child(id).observeSingleEvent(of: .value, with: { (snapshot) in
             guard snapshot.exists() else {
@@ -104,6 +136,7 @@ class LeagueService: NSObject {
             }
             
             let league = League(snapshot: snapshot)
+            _leagues.append(league)
             completion(league)
         })
     }

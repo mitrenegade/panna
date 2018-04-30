@@ -11,6 +11,8 @@ import UIKit
 class LeaguesViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    var playerLeagues: [League] = []
+    var otherLeagues: [League] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +20,11 @@ class LeaguesViewController: UIViewController {
         // Do any additional setup after loading the view.
         let profileButton = UIBarButtonItem(image: UIImage(named: "menu"), style: .done, target: self, action: #selector(didClickProfile(_:)))
         navigationItem.leftBarButtonItem = profileButton
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 80
+
+        loadData()
     }
     
     @objc fileprivate func didClickProfile(_ sender: Any) {
@@ -32,6 +39,40 @@ class LeaguesViewController: UIViewController {
     @objc fileprivate func dismissProfile() {
         dismiss(animated: true, completion: nil)
     }
+    
+    fileprivate func loadData() {
+        guard let player = PlayerService.shared.current.value as? Player else { return }
+        let dispatchGroup = DispatchGroup()
+        
+        dispatchGroup.enter()
+        var leagueIds: [String] = []
+        LeagueService.shared.leagues(for: player) { (playerLeagueIds) in
+            if let ids = playerLeagueIds {
+                leagueIds.append(contentsOf: ids)
+            }
+            dispatchGroup.leave()
+            print("User leagues received: \(leagueIds)")
+        }
+        
+        dispatchGroup.enter()
+        LeagueService.shared.getLeagues { [weak self] (leagues) in
+            self?.otherLeagues.append(contentsOf: leagues)
+            dispatchGroup.leave()
+            print("All leagues received: \(leagues.count)")
+        }
+        
+        dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            guard let weakself = self else { return }
+            weakself.playerLeagues = weakself.otherLeagues.filter() {
+                return leagueIds.contains($0.id)
+            }
+            weakself.otherLeagues = weakself.otherLeagues.filter() {
+                return !leagueIds.contains($0.id)
+            }
+            
+            weakself.reloadTableData()
+        }
+    }
 }
 
 extension LeaguesViewController: UITableViewDataSource {
@@ -40,28 +81,56 @@ extension LeaguesViewController: UITableViewDataSource {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 0
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return playerLeagues.count
+        } else if section == 1 {
+            return otherLeagues.count
+        }
         return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let workout = workoutForIndexPath(indexPath: indexPath) else {
-//            return UITableViewCell()
-//        }
-//
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueCell") as! LeagueCell
+        let cell : LeagueCell = tableView.dequeueReusableCell(withIdentifier: "LeagueCell", for: indexPath) as! LeagueCell
+        let row = indexPath.row
+        let section = indexPath.section
+        if section == 0 {
+            let league = playerLeagues[row]
+            cell.setup(league: league)
+        } else if section == 1 {
+            let league = otherLeagues[row]
+            cell.setup(league: league)
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 80
+        if section == 0 && playerLeagues.isEmpty {
+            return 0
+        }
+        if section == 1 && otherLeagues.isEmpty {
+            return 0
+        }
+        
+        return 40
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return playerLeagues.isEmpty ? nil : "Your leagues"
+        }
+        if section == 1 {
+            return otherLeagues.isEmpty ? nil : "Other leagues"
+        }
+        return nil
     }
 }
 
 extension LeaguesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
