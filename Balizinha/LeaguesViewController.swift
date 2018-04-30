@@ -22,6 +22,15 @@ class LeaguesViewController: UIViewController {
     
     @objc fileprivate func didClickProfile(_ sender: Any) {
         print("Go to Account")
+        guard let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "AccountViewController") as? AccountViewController else { return }
+        let nav = UINavigationController(rootViewController: controller)
+        controller.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "iconClose30"), style: .plain, target: self, action: #selector(self.dismissProfile))
+        present(nav, animated: true) {
+        }
+    }
+    
+    @objc fileprivate func dismissProfile() {
+        dismiss(animated: true, completion: nil)
     }
 }
 

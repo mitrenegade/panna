@@ -27,7 +27,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.2419034243" green="0.32027676700000002" blue="0.3954539299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="faq-XZ-3Nx" secondAttribute="bottom" id="2dr-FA-KjY"/>
                             <constraint firstItem="faq-XZ-3Nx" firstAttribute="top" secondItem="TnS-Bd-muL" secondAttribute="top" id="Aop-eu-Fh0"/>
