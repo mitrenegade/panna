@@ -99,10 +99,10 @@ extension LeaguesViewController: UITableViewDataSource {
         let section = indexPath.section
         if section == 0 {
             let league = playerLeagues[row]
-            cell.setup(league: league)
+            cell.configure(league: league)
         } else if section == 1 {
             let league = otherLeagues[row]
-            cell.setup(league: league)
+            cell.configure(league: league)
         }
         return cell
     }
@@ -131,6 +131,6 @@ extension LeaguesViewController: UITableViewDataSource {
 
 extension LeaguesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: false)
     }
 }

@@ -11,6 +11,7 @@ import RxSwift
 import Firebase
 
 fileprivate var _leagues: [League] = []
+fileprivate var _playerLeagues: [String] = []
 
 class LeagueService: NSObject {
     static let shared: LeagueService = LeagueService()
@@ -25,6 +26,10 @@ class LeagueService: NSObject {
             
             self?.leagues(for: player, completion: { (results) in
                 print("Player leagues: \(results)")
+                if let ids = results as? [String] {
+                    _playerLeagues.removeAll()
+                    _playerLeagues.append(contentsOf: ids)
+                }
             })
         }).disposed(by: disposeBag)
     }
@@ -118,6 +123,10 @@ class LeagueService: NSObject {
                 completion([])
             }
         }
+    }
+    
+    func playerIsIn(league: League) -> Bool {
+        return _playerLeagues.contains(league.id)
     }
     
     func withId(id: String, completion: @escaping ((League?)->Void)) {

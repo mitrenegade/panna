@@ -52,6 +52,48 @@ class League: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
+    
+    var tags: [String] {
+        get {
+            return self.dict["tags"] as? [String] ?? []
+        }
+        set {
+            self.dict["tags"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+    
+    var isPrivate: Bool {
+        get {
+            return self.dict["private"] as? Bool ?? false
+        }
+        set {
+            self.dict["private"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+}
+
+// MARK: - Tags
+extension League {
+    var tagString: String {
+        var string: String = ""
+        tags.forEach { tag in
+            if string.isEmpty {
+                string = tag
+            } else {
+                string = string + ", " + tag
+            }
+        }
+        return string
+    }
+    
+    class func tags(from tagString: String) -> [String] {
+        let set = CharacterSet.alphanumerics.union([" "])
+        let filtered = String(tagString.unicodeScalars.filter { set.contains($0) })
+        let tokens = filtered.components(separatedBy: [" "])
+        return tokens
+    }
 }
 
 // MARK: - Rankings and info

@@ -17,20 +17,24 @@ class LeagueCell: UITableViewCell {
     @IBOutlet weak var labelPlayerCount: UILabel!
     @IBOutlet weak var labelGameCount: UILabel!
     @IBOutlet weak var labelRatingCount: UILabel!
+    @IBOutlet weak var labelCity: UILabel! // privacy also
+    @IBOutlet weak var labelTags: UILabel! // level and other status strings
+    @IBOutlet weak var labelInfo: UILabel! // catch phrase
 
-    func setup(league: League) {
+    func configure(league: League) {
         icon.image = nil
         if let url = league.photoUrl {
             icon.imageURL = URL(string: url)
         } else {
             icon.imageURL = nil
+            icon.image = UIImage(named: "crest30")?.withRenderingMode(.alwaysTemplate)
+            icon.tintColor = UIColor.white
+            icon.backgroundColor = UIColor.darkGreen
         }
-        var string = ""
-        if let name = league.name {
-            string = name + "\n\n"
-        }
-        string = "\(string)\(league.info)"
-        labelName.text = string
+        labelName.text = league.name ?? "Unknown league"
+        labelCity.text = league.city ?? "Location unspecified"
+        labelTags.text = league.tagString
+        labelInfo.text = "\"\(league.info)\""
         
         let pointCount = league.pointCount
         let playerCount = league.playerCount
@@ -41,5 +45,22 @@ class LeagueCell: UITableViewCell {
         labelPlayerCount.text = "\(playerCount)"
         labelGameCount.text = "\(eventCount)"
         labelRatingCount.text = String(format: "%1.1f", rating)
+        
+        // privacy
+        if league.isPrivate, !LeagueService.shared.playerIsIn(league: league) {
+            labelCity.text = "Private"
+            labelTags.isHidden = true
+            labelInfo.isHidden = true
+            
+            icon.alpha = 0.5
+            labelName.alpha = 0.5
+            labelCity.alpha = 0.5
+        } else {
+            labelTags.isHidden = false
+            labelInfo.isHidden = false
+            icon.alpha = 1
+            labelName.alpha = 1
+            labelCity.alpha = 1
+        }
     }
 }
