@@ -22,7 +22,7 @@
         <!--Account View Controller-->
         <scene sceneID="ize-OW-pTM">
             <objects>
-                <viewController id="WKC-Oj-i9z" customClass="AccountViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AccountViewController" id="WKC-Oj-i9z" customClass="AccountViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="iF2-ex-wFr"/>
                         <viewControllerLayoutGuide type="bottom" id="BPk-RK-og5"/>
@@ -430,6 +430,10 @@
         <scene sceneID="qbW-f7-oB4">
             <objects>
                 <viewController id="UB6-5R-7rp" customClass="PlayerLeaguesViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5Id-hs-xPS"/>
+                        <viewControllerLayoutGuide type="bottom" id="UV1-Bu-XUr"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="JGr-DI-ZUt">
                         <rect key="frame" x="0.0" y="0.0" width="343" height="80"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -452,6 +456,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T0A-5D-dmF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1961" y="17"/>
         </scene>
     </scenes>
     <resources>
