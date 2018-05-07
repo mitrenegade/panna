@@ -149,6 +149,10 @@
 		8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */; };
 		9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */; };
 		B4941729DDCB9B340512229F /* Pods_BalizinhaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E546CEAA00BF9DA1BE14363 /* Pods_BalizinhaTests.framework */; };
+		C651AB882096D6650046B03C /* read.me in Resources */ = {isa = PBXBuildFile; fileRef = C651AB872096D6650046B03C /* read.me */; };
+		C651AB8A2096D7FC0046B03C /* League.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C651AB892096D7FC0046B03C /* League.storyboard */; };
+		C651AB8D2096D82E0046B03C /* LeaguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C651AB8C2096D82E0046B03C /* LeaguesViewController.swift */; };
+		C69E4E832097543400F4D74B /* LeagueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69E4E822097543400F4D74B /* LeagueCell.swift */; };
 		C6FDE5C420431ECB00FE0C76 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FDE5C320431ECB00FE0C76 /* ChatService.swift */; };
 		C6FDE5C620431F0100FE0C76 /* FirebaseAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FDE5C520431F0100FE0C76 /* FirebaseAPIService.swift */; };
 		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
@@ -287,6 +291,10 @@
 		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
 		A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.release.xcconfig"; sourceTree = "<group>"; };
 		AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C651AB872096D6650046B03C /* read.me */ = {isa = PBXFileReference; lastKnownFileType = text; path = read.me; sourceTree = "<group>"; };
+		C651AB892096D7FC0046B03C /* League.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = League.storyboard; sourceTree = "<group>"; };
+		C651AB8C2096D82E0046B03C /* LeaguesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguesViewController.swift; sourceTree = "<group>"; };
+		C69E4E822097543400F4D74B /* LeagueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueCell.swift; sourceTree = "<group>"; };
 		C6FDE5C320431ECB00FE0C76 /* ChatService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
 		C6FDE5C520431F0100FE0C76 /* FirebaseAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAPIService.swift; sourceTree = "<group>"; };
 		C779F650FFE1D803921FC3ED /* Pods-BalizinhaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -440,15 +448,9 @@
 				8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */,
 				8EC7992E1E3636A0004ACC52 /* EventDetails.storyboard */,
 				8E179077207B0324004FF5D2 /* Attendance.storyboard */,
+				C651AB892096D7FC0046B03C /* League.storyboard */,
 			);
 			name = Storyboards;
-			sourceTree = "<group>";
-		};
-		8E626F24208BEB5000A815A4 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "New Group";
 			sourceTree = "<group>";
 		};
 		8E6AE5431F8E5DAD0062DCF5 /* ViewModels */ = {
@@ -484,7 +486,7 @@
 		8E7256981CDF793200C9E054 /* Balizinha */ = {
 			isa = PBXGroup;
 			children = (
-				8E626F24208BEB5000A815A4 /* New Group */,
+				C651AB8B2096D81F0046B03C /* Leagues */,
 				8ED3DE761E330CB700947040 /* Balizinha.entitlements */,
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
 				8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */,
@@ -548,6 +550,14 @@
 			name = WorkoutWithMe;
 			sourceTree = "<group>";
 		};
+		C651AB8B2096D81F0046B03C /* Leagues */ = {
+			isa = PBXGroup;
+			children = (
+				C651AB8C2096D82E0046B03C /* LeaguesViewController.swift */,
+			);
+			name = Leagues;
+			sourceTree = "<group>";
+		};
 		F20AD03B1D26C0F500969990 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -561,6 +571,7 @@
 				8E63160A1F5D9A60005CF114 /* GoogleService-Info.plist */,
 				8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */,
 				8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */,
+				C651AB872096D6650046B03C /* read.me */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -592,6 +603,7 @@
 				8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */,
 				8E0F5684201598CD001E8909 /* OrganizerCell.swift */,
 				8E17907B207B043F004FF5D2 /* PlayerCell.swift */,
+				C69E4E822097543400F4D74B /* LeagueCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -716,10 +728,12 @@
 				8E7398021FF921E500D48BA0 /* Montserrat-ExtraLight.ttf in Resources */,
 				8E7398001FF921E500D48BA0 /* Montserrat-ExtraBold.ttf in Resources */,
 				8EC7992D1E3635A8004ACC52 /* Calendar.storyboard in Resources */,
+				C651AB882096D6650046B03C /* read.me in Resources */,
 				8E7397FD1FF921E500D48BA0 /* Montserrat-BlackItalic.ttf in Resources */,
 				8E7256A11CDF793200C9E054 /* Assets.xcassets in Resources */,
 				8E179078207B0324004FF5D2 /* Attendance.storyboard in Resources */,
 				8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */,
+				C651AB8A2096D7FC0046B03C /* League.storyboard in Resources */,
 				8E73980A1FF921E500D48BA0 /* Montserrat-SemiBold.ttf in Resources */,
 				8E7398091FF921E500D48BA0 /* Montserrat-Regular.ttf in Resources */,
 				8E7398051FF921E500D48BA0 /* Montserrat-Light.ttf in Resources */,
@@ -950,6 +964,7 @@
 				8E7A2FFA1F831411004EAE6A /* Organizer.swift in Sources */,
 				8EDA009C1F6597060080F446 /* RemoteDataService.swift in Sources */,
 				8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */,
+				C69E4E832097543400F4D74B /* LeagueCell.swift in Sources */,
 				8E0F5685201598CD001E8909 /* OrganizerCell.swift in Sources */,
 				8E74E54B1FA9FB51005F72DA /* PlaceSearchViewController.swift in Sources */,
 				8EB90B3B1FB2BABE007C60F0 /* TutorialViewController.swift in Sources */,
@@ -997,6 +1012,7 @@
 				8E19A4AC1E6C9C9600D301EC /* PlayersScrollViewController.swift in Sources */,
 				8E116D581F74A66C0067B6F5 /* StripeService.swift in Sources */,
 				8E7A2FFC1F83256E004EAE6A /* Promotion.swift in Sources */,
+				C651AB8D2096D82E0046B03C /* LeaguesViewController.swift in Sources */,
 				8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */,
 				8E7A2FF81F8313C6004EAE6A /* OrganizerService.swift in Sources */,
 				8EF167F9208BEE4A00257354 /* LeagueIcon.swift in Sources */,

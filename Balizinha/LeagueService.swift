@@ -8,6 +8,10 @@
 
 import UIKit
 import RxSwift
+import Firebase
+
+fileprivate var _leagues: [League] = []
+fileprivate var _playerLeagues: [String] = []
 
 class LeagueService: NSObject {
     static let shared: LeagueService = LeagueService()
@@ -22,6 +26,10 @@ class LeagueService: NSObject {
             
             self?.leagues(for: player, completion: { (results) in
                 print("Player leagues: \(results)")
+                if let ids = results as? [String] {
+                    _playerLeagues.removeAll()
+                    _playerLeagues.append(contentsOf: ids)
+                }
             })
         }).disposed(by: disposeBag)
     }
@@ -54,6 +62,28 @@ class LeagueService: NSObject {
             }
             print("League join result \(result)")
             completion(result, nil)
+        }
+    }
+    
+    func getLeagues(completion: @escaping (_ results: [League]) -> Void) {
+        let queryRef = firRef.child("leagues")
+        
+        queryRef.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
+            // this block is called for every result returned
+            guard snapshot.exists() else {
+                completion([])
+                return
+            }
+            _leagues.removeAll()
+            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
+                for dict: DataSnapshot in allObjects {
+                    guard dict.exists() else { continue }
+                    let league = League(snapshot: dict)
+                    _leagues.append(league)
+                }
+            }
+            print("getLeagues results count: \(_leagues.count)")
+            completion(_leagues)
         }
     }
     
@@ -95,7 +125,18 @@ class LeagueService: NSObject {
         }
     }
     
+    func playerIsIn(league: League) -> Bool {
+        return _playerLeagues.contains(league.id)
+    }
+    
     func withId(id: String, completion: @escaping ((League?)->Void)) {
+        if let found = _leagues.first(where: { (league) -> Bool in
+            return league.id == id
+        }) {
+            completion(found)
+            return
+        }
+
         let ref = firRef.child("leagues")
         ref.child(id).observeSingleEvent(of: .value, with: { (snapshot) in
             guard snapshot.exists() else {
@@ -104,6 +145,7 @@ class LeagueService: NSObject {
             }
             
             let league = League(snapshot: snapshot)
+            _leagues.append(league)
             completion(league)
         })
     }

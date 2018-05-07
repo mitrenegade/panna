@@ -96,11 +96,13 @@ class EventService: NSObject {
         eventQueryRef.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
             // this block is called for every result returned
             guard snapshot.exists() else {
+                completion([])
                 return
             }
             var results: [Event] = []
             if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
                 for eventDict: DataSnapshot in allObjects {
+                    guard eventDict.exists() else { continue }
                     let event = Event(snapshot: eventDict)
                     if event.active {
                         results.append(event)
