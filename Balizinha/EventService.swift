@@ -335,7 +335,7 @@ class EventService: NSObject {
         let queryRef = firRef.child("eventUsers").child(event.id) // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // do query
-        queryRef.observe(.value) { (snapshot: DataSnapshot) in
+        queryRef.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
             guard snapshot.exists() else { return }
             // this block is called for every result returned
             var results: [String] = []

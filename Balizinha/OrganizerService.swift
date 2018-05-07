@@ -70,35 +70,7 @@ class OrganizerService: NSObject {
             }
         }).disposed(by: disposeBag)
     }
-    
-    func createOrganizer(completion: ((Organizer?, Error?) -> Void)? ) {
-        
-        guard let user = AuthService.currentUser else { return }
-        guard let current = PlayerService.shared.current.value else { return }
-        let organizerRef = firRef.child("organizers")
-        
-        let existingUserId = user.uid
-        let newOrganizerRef: DatabaseReference = organizerRef.child(existingUserId)
-        let params: [AnyHashable: Any] = ["name": current.name ?? current.email ?? ""]
-        newOrganizerRef.setValue(params) { (error, ref) in
-            if let error = error {
-                print(error)
-                completion?(nil, error)
-            } else {
-                ref.observeSingleEvent(of: .value, with: { (snapshot) in
-                    guard snapshot.exists() else {
-                        completion?(Organizer.nilOrganizer, nil)
-                        return
-                    }
-                    let organizer = Organizer(snapshot: snapshot)
-                    completion?(organizer, nil)
-                }, withCancel: { (error) in
-                    completion?(nil, nil)
-                })
-            }
-        }
-    }
-    
+
     func requestOrganizerAccess(completion: ((Organizer?, Error?) -> Void)? ) {
         
         guard let user = AuthService.currentUser, let current = PlayerService.shared.current.value else {
