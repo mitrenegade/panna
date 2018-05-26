@@ -273,6 +273,7 @@ extension Event {
         let event = Event()
         let hours: Int = Int(arc4random_uniform(72))
         event.dict = ["type": event.randomType() as AnyObject, "place": event.randomPlace() as AnyObject, "startTime": (Date().timeIntervalSince1970 + Double(hours * 3600)) as AnyObject, "info": "Randomly generated event" as AnyObject]
+        event.firebaseKey = FirebaseAPIService.uniqueId()
         return event
     }
     
