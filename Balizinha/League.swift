@@ -155,13 +155,26 @@ extension League {
     }
 }
 
+fileprivate var airplaneModeLeagues: [League]?
+let LEAGUE_ID_AIRPLANE_MODE = "5678"
 extension League {
     //***************** hack: for test purposes only
-    class func random() -> League {
-        let league = League()
-        league.dict = ["name": "My Awesome League", "city": league.randomPlace(), "tags": "fake, league", "info": "this is my airplane league"]
-        league.firebaseKey = FirebaseAPIService.uniqueId()
-        return league
+    class func randomLeagues() -> [League] {
+        guard airplaneModeLeagues == nil else {
+            return airplaneModeLeagues!
+        }
+        
+        let playerLeague = League()
+        playerLeague.dict = ["name": "Balizinha Airplane", "city": playerLeague.randomPlace(), "tags": "fake, league, member, default", "info": "this is my airplane league"]
+        playerLeague.firebaseKey = LEAGUE_ID_AIRPLANE_MODE
+
+        let otherLeague = League()
+        otherLeague.dict = ["name": "My Awesome League", "city": otherLeague.randomPlace(), "tags": "fake, league", "info": "this is another league in the sky"]
+        otherLeague.firebaseKey = FirebaseAPIService.uniqueId()
+        
+        let leagues = [playerLeague, otherLeague]
+        airplaneModeLeagues = leagues
+        return leagues
     }
     
     fileprivate func randomPlace() -> String {
