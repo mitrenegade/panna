@@ -11,10 +11,18 @@ import UIKit
 class LeagueTagsCell: UITableViewCell {
 
     @IBOutlet weak var tagsView: ResizableTagView!
+    @IBOutlet weak var constraintHeight: NSLayoutConstraint!
 
     func configure(league: League?) {
         guard let league = league else { return }
         let tags = league.tags
+        tagsView.delegate = self
         tagsView.configureWithTags(tagStrings: tags)
+    }
+}
+
+extension LeagueTagsCell: ResizableTagViewDelegate {
+    func didUpdateHeight(height: CGFloat) {
+        constraintHeight.constant = tagsView.frame.size.height
     }
 }

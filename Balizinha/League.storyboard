@@ -10,6 +10,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
         <array key="Montserrat-SemiBold.ttf">
             <string>Montserrat-SemiBold</string>
         </array>
@@ -302,28 +305,56 @@ Type</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sOM-aP-Il9" customClass="ResizableTagView" customModule="Balizinha" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="44"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="44" id="rf6-Te-hab"/>
+                                                    </constraints>
                                                 </view>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.30588235289999999" green="0.83921568629999999" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
-                                                <constraint firstItem="sOM-aP-Il9" firstAttribute="leading" secondItem="d8F-45-ox9" secondAttribute="leading" id="5La-Vm-tIs"/>
+                                                <constraint firstItem="sOM-aP-Il9" firstAttribute="leading" secondItem="d8F-45-ox9" secondAttribute="leading" constant="15" id="5La-Vm-tIs"/>
                                                 <constraint firstItem="sOM-aP-Il9" firstAttribute="top" secondItem="d8F-45-ox9" secondAttribute="top" id="iZF-m2-4Mc"/>
                                                 <constraint firstAttribute="bottom" secondItem="sOM-aP-Il9" secondAttribute="bottom" id="oAz-nh-IQ9"/>
-                                                <constraint firstAttribute="trailing" secondItem="sOM-aP-Il9" secondAttribute="trailing" id="qyp-WQ-9WW"/>
+                                                <constraint firstAttribute="trailing" secondItem="sOM-aP-Il9" secondAttribute="trailing" constant="15" id="qyp-WQ-9WW"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="constraintHeight" destination="rf6-Te-hab" id="PVc-ZE-ZHI"/>
                                             <outlet property="tagsView" destination="sOM-aP-Il9" id="fX2-lH-qm7"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Dgz-iM-uQa">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeagueInfoCell" id="Dgz-iM-uQa" customClass="LeagueInfoCell" customModule="Balizinha" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="322" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Dgz-iM-uQa" id="5HT-n4-Abc">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NoZ-lI-33M">
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="44"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="44" id="x9h-sF-I2h"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" red="0.83921568629999999" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstItem="NoZ-lI-33M" firstAttribute="top" secondItem="5HT-n4-Abc" secondAttribute="top" id="A4s-78-AeE"/>
+                                                <constraint firstAttribute="trailing" secondItem="NoZ-lI-33M" secondAttribute="trailing" constant="15" id="HlW-4S-q1s"/>
+                                                <constraint firstAttribute="bottom" secondItem="NoZ-lI-33M" secondAttribute="bottom" id="fWp-Oz-KVG"/>
+                                                <constraint firstItem="NoZ-lI-33M" firstAttribute="leading" secondItem="5HT-n4-Abc" secondAttribute="leading" constant="15" id="rYR-XT-9Wq"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="constraintHeight" destination="x9h-sF-I2h" id="cvJ-dH-A9h"/>
+                                            <outlet property="labelInfo" destination="NoZ-lI-33M" id="80W-me-sbf"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="f8f-lZ-WyF">
                                         <rect key="frame" x="0.0" y="366" width="375" height="44"/>

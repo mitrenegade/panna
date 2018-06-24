@@ -12,9 +12,10 @@ class LeagueViewController: UIViewController {
     fileprivate enum Row { // TODO: make CaseIterable
         case title
         case tags
+        case info
     }
     
-    fileprivate var rows: [Row] = [.title, .tags]
+    fileprivate var rows: [Row] = [.title, .tags, .info]
     
     @IBOutlet weak var tableView: UITableView!
     var tagView: ResizableTagView?
@@ -47,6 +48,10 @@ extension LeagueViewController: UITableViewDataSource {
             return cell
         case .tags:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTagsCell", for: indexPath) as! LeagueTagsCell
+            cell.configure(league: league)
+            return cell
+        case .info:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueInfoCell", for: indexPath) as! LeagueInfoCell
             cell.configure(league: league)
             return cell
         }

@@ -74,6 +74,7 @@
 		8E48AF7C20DFD62600D814BE /* ResizableTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF7B20DFD62500D814BE /* ResizableTagView.swift */; };
 		8E48AF7E20DFDA0C00D814BE /* LeagueTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF7D20DFDA0C00D814BE /* LeagueTitleCell.swift */; };
 		8E48AF8020DFDE1700D814BE /* LeagueTagsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF7F20DFDE1700D814BE /* LeagueTagsCell.swift */; };
+		8E48AF8220DFE21800D814BE /* LeagueInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF8120DFE21800D814BE /* LeagueInfoCell.swift */; };
 		8E4AB9B720389D320089B464 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4AB9B620389D320089B464 /* AuthService.swift */; };
 		8E4D366F1F8BA31B00B8B0B5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
 		8E4D36701F8BA36500B8B0B5 /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A11E6C658600D301EC /* String+Utils.swift */; };
@@ -220,6 +221,7 @@
 		8E48AF7B20DFD62500D814BE /* ResizableTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResizableTagView.swift; sourceTree = "<group>"; };
 		8E48AF7D20DFDA0C00D814BE /* LeagueTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueTitleCell.swift; sourceTree = "<group>"; };
 		8E48AF7F20DFDE1700D814BE /* LeagueTagsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueTagsCell.swift; sourceTree = "<group>"; };
+		8E48AF8120DFE21800D814BE /* LeagueInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueInfoCell.swift; sourceTree = "<group>"; };
 		8E4AB9B620389D320089B464 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		8E4D36711F8BA45900B8B0B5 /* NSObject+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Utils.swift"; sourceTree = "<group>"; };
 		8E4D36741F8BA47900B8B0B5 /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
@@ -616,6 +618,7 @@
 				C69E4E822097543400F4D74B /* LeagueCell.swift */,
 				8E48AF7D20DFDA0C00D814BE /* LeagueTitleCell.swift */,
 				8E48AF7F20DFDE1700D814BE /* LeagueTagsCell.swift */,
+				8E48AF8120DFE21800D814BE /* LeagueInfoCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -998,6 +1001,7 @@
 				8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */,
 				8E6D06E22043652000C4041D /* ActionService.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
+				8E48AF8220DFE21800D814BE /* LeagueInfoCell.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */,
 				8E74E54D1FA9FFF5005F72DA /* PlaceResultsViewController.swift in Sources */,
