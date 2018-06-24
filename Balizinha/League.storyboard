@@ -243,7 +243,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vfN-j7-LQ7">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeagueTitleCell" rowHeight="250" id="XlE-0Z-jgg" customClass="LeagueTitleCell" customModule="Balizinha" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="250"/>
@@ -305,16 +305,16 @@ Type</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sOM-aP-Il9" customClass="ResizableTagView" customModule="Balizinha" customModuleProvider="target">
-                                                    <rect key="frame" x="15" y="0.0" width="345" height="44"/>
+                                                    <rect key="frame" x="10" y="0.0" width="350" height="44"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="44" id="rf6-Te-hab"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
-                                            <color key="backgroundColor" red="0.30588235289999999" green="0.83921568629999999" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstItem="sOM-aP-Il9" firstAttribute="leading" secondItem="d8F-45-ox9" secondAttribute="leading" constant="15" id="5La-Vm-tIs"/>
+                                                <constraint firstItem="sOM-aP-Il9" firstAttribute="leading" secondItem="d8F-45-ox9" secondAttribute="leading" constant="10" id="5La-Vm-tIs"/>
                                                 <constraint firstItem="sOM-aP-Il9" firstAttribute="top" secondItem="d8F-45-ox9" secondAttribute="top" id="iZF-m2-4Mc"/>
                                                 <constraint firstAttribute="bottom" secondItem="sOM-aP-Il9" secondAttribute="bottom" id="oAz-nh-IQ9"/>
                                                 <constraint firstAttribute="trailing" secondItem="sOM-aP-Il9" secondAttribute="trailing" constant="15" id="qyp-WQ-9WW"/>
@@ -343,7 +343,7 @@ Type</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" red="0.83921568629999999" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="NoZ-lI-33M" firstAttribute="top" secondItem="5HT-n4-Abc" secondAttribute="top" id="A4s-78-AeE"/>
                                                 <constraint firstAttribute="trailing" secondItem="NoZ-lI-33M" secondAttribute="trailing" constant="15" id="HlW-4S-q1s"/>
@@ -356,31 +356,46 @@ Type</string>
                                             <outlet property="labelInfo" destination="NoZ-lI-33M" id="80W-me-sbf"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="80" id="f8f-lZ-WyF" customClass="LeaguePlayersCell" customModule="Balizinha" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="366" width="375" height="80"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeaguePlayersCell" rowHeight="40" id="f8f-lZ-WyF" customClass="LeaguePlayersCell" customModule="Balizinha" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="366" width="375" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="f8f-lZ-WyF" id="P6D-RX-mou">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sda-Bh-8Dx" customClass="PlayersScrollView" customModule="Balizinha" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QOc-7c-BWJ" customClass="PlayersScrollView" customModule="Balizinha" customModuleProvider="target">
+                                                    <rect key="frame" x="10" y="0.0" width="350" height="40"/>
+                                                    <subviews>
+                                                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nfM-fg-VLZ">
+                                                            <rect key="frame" x="0.0" y="0.0" width="350" height="40"/>
+                                                        </scrollView>
+                                                    </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="80" id="atY-KN-i8L"/>
+                                                        <constraint firstAttribute="trailing" secondItem="nfM-fg-VLZ" secondAttribute="trailing" id="9Ra-Sj-9Vk"/>
+                                                        <constraint firstAttribute="bottom" secondItem="nfM-fg-VLZ" secondAttribute="bottom" id="Mzh-VU-yu3"/>
+                                                        <constraint firstItem="nfM-fg-VLZ" firstAttribute="leading" secondItem="QOc-7c-BWJ" secondAttribute="leading" id="bEr-Hd-LPM"/>
+                                                        <constraint firstItem="nfM-fg-VLZ" firstAttribute="top" secondItem="QOc-7c-BWJ" secondAttribute="top" id="cRk-S6-zIT"/>
                                                     </constraints>
+                                                    <connections>
+                                                        <outlet property="scrollView" destination="nfM-fg-VLZ" id="UvD-ab-UVd"/>
+                                                    </connections>
                                                 </view>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstItem="sda-Bh-8Dx" firstAttribute="top" secondItem="P6D-RX-mou" secondAttribute="top" id="YJU-sx-T0y"/>
-                                                <constraint firstAttribute="bottom" secondItem="sda-Bh-8Dx" secondAttribute="bottom" id="Z7j-VE-itZ"/>
-                                                <constraint firstAttribute="trailing" secondItem="sda-Bh-8Dx" secondAttribute="trailing" id="d4u-Uv-qjj"/>
-                                                <constraint firstItem="sda-Bh-8Dx" firstAttribute="leading" secondItem="P6D-RX-mou" secondAttribute="leading" id="oqo-0c-qt6"/>
+                                                <constraint firstItem="QOc-7c-BWJ" firstAttribute="leading" secondItem="P6D-RX-mou" secondAttribute="leading" constant="10" id="6Yy-7d-hL1"/>
+                                                <constraint firstItem="QOc-7c-BWJ" firstAttribute="top" secondItem="P6D-RX-mou" secondAttribute="top" id="ACU-7P-Prc"/>
+                                                <constraint firstAttribute="trailing" secondItem="QOc-7c-BWJ" secondAttribute="trailing" constant="15" id="Rhn-jr-D1N"/>
+                                                <constraint firstAttribute="bottom" secondItem="QOc-7c-BWJ" secondAttribute="bottom" id="gHK-ZP-XQb"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="playersView" destination="QOc-7c-BWJ" id="DtZ-zk-rJe"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Dw1-0o-fSe">
-                                        <rect key="frame" x="0.0" y="446" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="406" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Dw1-0o-fSe" id="c8m-4B-wRo">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>

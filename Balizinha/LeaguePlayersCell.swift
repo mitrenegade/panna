@@ -14,8 +14,11 @@ class LeaguePlayersCell: UITableViewCell {
 
     func configure(players: [Player]?) {
         guard let players = players else { return }
+        playersView.reset()
         for player in players {
             playersView.addPlayer(player: player)
         }
+        
+        playersView.refresh()
     }
 }

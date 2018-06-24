@@ -95,11 +95,14 @@ class LeagueService: NSObject {
                 return
             }
             //print("Players for league results \(result)")
-            if let dict = (result as? [String: Any])?["result"] as? [String: Bool] {
-                let userIds = dict.filter({ (key, val) -> Bool in
-                    return val
-                }).map({ (key, val) -> String in
-                    return key
+            if let dict = (result as? [String: Any])?["result"] as? [String: Any] {
+                let userIds = dict.compactMap({ (arg) -> String? in
+                    let (key, val) = arg
+                    if let status = val as? String, (status == "member" || status == "owner" || status == "organizer") {
+                        return key
+                    } else {
+                        return nil
+                    }
                 })
                 completion(userIds)
             } else {

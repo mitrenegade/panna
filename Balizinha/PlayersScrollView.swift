@@ -14,15 +14,13 @@ class PlayersScrollView: UIView {
     private var cellPadding: CGFloat = 5
     fileprivate var iconSize: CGFloat = 30
 
-    var scrollView: UIScrollView!
+    @IBOutlet weak var scrollView: UIScrollView!
     
-    override func awakeFromNib() {
-        let frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height)
-        scrollView = UIScrollView(frame: frame)
-        scrollView.showsHorizontalScrollIndicator = true
-        scrollView.bounces = false
+    func reset() {
+        scrollView.subviews.forEach() { $0.removeFromSuperview() }
+        icons.removeAll()
     }
-
+    
     func addPlayer(player: Player) {
         guard icons[player.id] == nil else { return }
         print("Adding player \(player.id)")
@@ -30,7 +28,6 @@ class PlayersScrollView: UIView {
         icon.imageView.activityIndicatorColor = .white
         icon.object = player
         icons[player.id] = icon
-        self.refresh()
     }
     
     func refresh() {

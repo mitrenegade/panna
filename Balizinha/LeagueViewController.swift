@@ -16,12 +16,13 @@ class LeagueViewController: UIViewController {
         case players
     }
     
-    fileprivate var rows: [Row] = [.title, .tags, .info]
+    fileprivate var rows: [Row] = [.title, .tags, .info, .players]
     
     @IBOutlet weak var tableView: UITableView!
     var tagView: ResizableTagView?
-
+    
     var league: League?
+    var players: [Player] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,32 @@ class LeagueViewController: UIViewController {
         // Do any additional setup after loading the view.
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 80
+        
+        observePlayers()
+    }
+    
+    func observePlayers() {
+        guard let league = self.league else { return }
+        players.removeAll()
+        let dispatchGroup = DispatchGroup()
+        LeagueService.shared.players(for: league) { (playerIds) in
+            for playerId in playerIds ?? [] {
+                dispatchGroup.enter()
+                PlayerService.shared.withId(id: playerId, completion: {[weak self] (player) in
+                    if let player = player {
+                        self?.players.append(player)
+                        dispatchGroup.leave()
+                    }
+                })
+            }
+            dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+                if let index = self?.rows.index(of: .players) {
+                    DispatchQueue.main.async {
+                        self?.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -54,6 +81,10 @@ extension LeagueViewController: UITableViewDataSource {
         case .info:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueInfoCell", for: indexPath) as! LeagueInfoCell
             cell.configure(league: league)
+            return cell
+        case .players:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayersCell", for: indexPath) as! LeaguePlayersCell
+            cell.configure(players: players)
             return cell
         }
     }
