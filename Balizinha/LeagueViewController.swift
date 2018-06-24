@@ -13,6 +13,7 @@ class LeagueViewController: UIViewController {
         case title
         case tags
         case info
+        case players
     }
     
     fileprivate var rows: [Row] = [.title, .tags, .info]

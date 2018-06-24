@@ -75,6 +75,8 @@
 		8E48AF7E20DFDA0C00D814BE /* LeagueTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF7D20DFDA0C00D814BE /* LeagueTitleCell.swift */; };
 		8E48AF8020DFDE1700D814BE /* LeagueTagsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF7F20DFDE1700D814BE /* LeagueTagsCell.swift */; };
 		8E48AF8220DFE21800D814BE /* LeagueInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF8120DFE21800D814BE /* LeagueInfoCell.swift */; };
+		8E48AF8420DFE91C00D814BE /* LeaguePlayersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF8320DFE91C00D814BE /* LeaguePlayersCell.swift */; };
+		8E48AF8620DFEE9700D814BE /* PlayersScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF8520DFEE9700D814BE /* PlayersScrollView.swift */; };
 		8E4AB9B720389D320089B464 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4AB9B620389D320089B464 /* AuthService.swift */; };
 		8E4D366F1F8BA31B00B8B0B5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
 		8E4D36701F8BA36500B8B0B5 /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A11E6C658600D301EC /* String+Utils.swift */; };
@@ -222,6 +224,8 @@
 		8E48AF7D20DFDA0C00D814BE /* LeagueTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueTitleCell.swift; sourceTree = "<group>"; };
 		8E48AF7F20DFDE1700D814BE /* LeagueTagsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueTagsCell.swift; sourceTree = "<group>"; };
 		8E48AF8120DFE21800D814BE /* LeagueInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueInfoCell.swift; sourceTree = "<group>"; };
+		8E48AF8320DFE91C00D814BE /* LeaguePlayersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguePlayersCell.swift; sourceTree = "<group>"; };
+		8E48AF8520DFEE9700D814BE /* PlayersScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersScrollView.swift; sourceTree = "<group>"; };
 		8E4AB9B620389D320089B464 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		8E4D36711F8BA45900B8B0B5 /* NSObject+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Utils.swift"; sourceTree = "<group>"; };
 		8E4D36741F8BA47900B8B0B5 /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
@@ -550,6 +554,7 @@
 				8EF167F8208BEE4A00257354 /* LeagueIcon.swift */,
 				F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */,
 				8E48AF7B20DFD62500D814BE /* ResizableTagView.swift */,
+				8E48AF8520DFEE9700D814BE /* PlayersScrollView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -619,6 +624,7 @@
 				8E48AF7D20DFDA0C00D814BE /* LeagueTitleCell.swift */,
 				8E48AF7F20DFDE1700D814BE /* LeagueTagsCell.swift */,
 				8E48AF8120DFE21800D814BE /* LeagueInfoCell.swift */,
+				8E48AF8320DFE91C00D814BE /* LeaguePlayersCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1004,6 +1010,7 @@
 				8E48AF8220DFE21800D814BE /* LeagueInfoCell.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */,
+				8E48AF8420DFE91C00D814BE /* LeaguePlayersCell.swift in Sources */,
 				8E74E54D1FA9FFF5005F72DA /* PlaceResultsViewController.swift in Sources */,
 				8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */,
 				8EA23E2C1FD829E000324B82 /* PaymentService.swift in Sources */,
@@ -1042,6 +1049,7 @@
 				8E379F011CE57E8600C91A12 /* EventService.swift in Sources */,
 				8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */,
 				8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */,
+				8E48AF8620DFEE9700D814BE /* PlayersScrollView.swift in Sources */,
 				8E1B00561FC2E8FF00420256 /* TutorialButtonViewModel.swift in Sources */,
 				8E4D36721F8BA45900B8B0B5 /* NSObject+Utils.swift in Sources */,
 				8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */,

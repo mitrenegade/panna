@@ -356,16 +356,31 @@ Type</string>
                                             <outlet property="labelInfo" destination="NoZ-lI-33M" id="80W-me-sbf"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="f8f-lZ-WyF">
-                                        <rect key="frame" x="0.0" y="366" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="80" id="f8f-lZ-WyF" customClass="LeaguePlayersCell" customModule="Balizinha" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="366" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="f8f-lZ-WyF" id="P6D-RX-mou">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sda-Bh-8Dx" customClass="PlayersScrollView" customModule="Balizinha" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="80" id="atY-KN-i8L"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="sda-Bh-8Dx" firstAttribute="top" secondItem="P6D-RX-mou" secondAttribute="top" id="YJU-sx-T0y"/>
+                                                <constraint firstAttribute="bottom" secondItem="sda-Bh-8Dx" secondAttribute="bottom" id="Z7j-VE-itZ"/>
+                                                <constraint firstAttribute="trailing" secondItem="sda-Bh-8Dx" secondAttribute="trailing" id="d4u-Uv-qjj"/>
+                                                <constraint firstItem="sda-Bh-8Dx" firstAttribute="leading" secondItem="P6D-RX-mou" secondAttribute="leading" id="oqo-0c-qt6"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Dw1-0o-fSe">
-                                        <rect key="frame" x="0.0" y="410" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="446" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Dw1-0o-fSe" id="c8m-4B-wRo">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
