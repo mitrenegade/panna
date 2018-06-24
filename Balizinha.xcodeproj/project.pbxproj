@@ -72,6 +72,8 @@
 		8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E379F091CE58CEE00C91A12 /* Event.swift */; };
 		8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E39FE8D1D237C710030CB96 /* NotificationService.swift */; };
 		8E48AF7C20DFD62600D814BE /* ResizableTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF7B20DFD62500D814BE /* ResizableTagView.swift */; };
+		8E48AF7E20DFDA0C00D814BE /* LeagueTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF7D20DFDA0C00D814BE /* LeagueTitleCell.swift */; };
+		8E48AF8020DFDE1700D814BE /* LeagueTagsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF7F20DFDE1700D814BE /* LeagueTagsCell.swift */; };
 		8E4AB9B720389D320089B464 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4AB9B620389D320089B464 /* AuthService.swift */; };
 		8E4D366F1F8BA31B00B8B0B5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
 		8E4D36701F8BA36500B8B0B5 /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A11E6C658600D301EC /* String+Utils.swift */; };
@@ -216,6 +218,8 @@
 		8E379F091CE58CEE00C91A12 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		8E39FE8D1D237C710030CB96 /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		8E48AF7B20DFD62500D814BE /* ResizableTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResizableTagView.swift; sourceTree = "<group>"; };
+		8E48AF7D20DFDA0C00D814BE /* LeagueTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueTitleCell.swift; sourceTree = "<group>"; };
+		8E48AF7F20DFDE1700D814BE /* LeagueTagsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueTagsCell.swift; sourceTree = "<group>"; };
 		8E4AB9B620389D320089B464 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		8E4D36711F8BA45900B8B0B5 /* NSObject+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Utils.swift"; sourceTree = "<group>"; };
 		8E4D36741F8BA47900B8B0B5 /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
@@ -610,6 +614,8 @@
 				8E0F5684201598CD001E8909 /* OrganizerCell.swift */,
 				8E17907B207B043F004FF5D2 /* PlayerCell.swift */,
 				C69E4E822097543400F4D74B /* LeagueCell.swift */,
+				8E48AF7D20DFDA0C00D814BE /* LeagueTitleCell.swift */,
+				8E48AF7F20DFDE1700D814BE /* LeagueTagsCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1028,6 +1034,7 @@
 				8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */,
 				8E379F081CE58B1700C91A12 /* FirebaseBaseModel.swift in Sources */,
 				8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */,
+				8E48AF7E20DFDA0C00D814BE /* LeagueTitleCell.swift in Sources */,
 				8E379F011CE57E8600C91A12 /* EventService.swift in Sources */,
 				8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */,
 				8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */,
@@ -1036,6 +1043,7 @@
 				8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */,
 				8E7CABFE1F8D8B8D0095084D /* PaymentCell.swift in Sources */,
 				8E19A4A61E6C793800D301EC /* FirebaseImageService.swift in Sources */,
+				8E48AF8020DFDE1700D814BE /* LeagueTagsCell.swift in Sources */,
 				8EC2EFEB1F60D6F90081FF68 /* UIDatePickerHelper.swift in Sources */,
 				8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */,
 			);

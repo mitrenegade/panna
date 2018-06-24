@@ -25,6 +25,8 @@ class LeagueViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 80
     }
 }
 
@@ -40,10 +42,13 @@ extension LeagueViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch rows[indexPath.row] {
         case .title:
-//            return tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
-            return UITableViewCell()
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTitleCell", for: indexPath) as! LeagueTitleCell
+            cell.configure(league: league)
+            return cell
         case .tags:
-            return UITableViewCell()
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTagsCell", for: indexPath) as! LeagueTagsCell
+            cell.configure(league: league)
+            return cell
         }
     }
 }
