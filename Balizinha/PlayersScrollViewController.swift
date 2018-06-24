@@ -16,7 +16,7 @@ class PlayersScrollViewController: UIViewController {
     @IBOutlet weak var constraintContentHeight: NSLayoutConstraint!
 
     var event: Event?
-    weak var delegate: EventDisplayComponentDelegate?
+    weak var delegate: SectionComponentDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -10,7 +10,7 @@ import UIKit
 
 class PaymentTypesViewController: UIViewController {
     var event: Event?
-    weak var delegate: EventDisplayComponentDelegate?
+    weak var delegate: SectionComponentDelegate?
     
     @IBOutlet weak var labelAmount: UILabel!
 
