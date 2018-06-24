@@ -29,13 +29,8 @@ class SplashViewController: UIViewController {
             SplashViewController.shared = self
             return
         }
-        
-        if UserDefaults.standard.value(forKey: "appFirstTimeOpened") == nil {
-            //if app is first time opened, make sure no auth exists in keychain from previously deleted app
-            UserDefaults.standard.setValue(true, forKey: "appFirstTimeOpened")
-            // signOut from FIRAuth
-            try! firAuth.signOut()
-        }
+
+        AuthService.startup()
 
         // start listening for user once settingsService returns. only do this once
         SettingsService.shared.observedSettings?.take(1).subscribe(onNext: {[weak self]_ in

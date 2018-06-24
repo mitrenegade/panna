@@ -92,6 +92,12 @@ class LeaguesViewController: UIViewController {
             }
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toLeague", let league = sender as? League, let controller = segue.destination as? LeagueViewController {
+            controller.league = league
+        }
+    }
 }
 
 extension LeaguesViewController: UITableViewDataSource {
@@ -153,6 +159,9 @@ extension LeaguesViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: false)
         var message: String?
         var league: League?
+        
+        /*
+         // leave or join league from this table
         if indexPath.section == 0 {
             guard indexPath.row < playerLeagues.count else { return }
             league = playerLeagues[indexPath.row]
@@ -170,5 +179,17 @@ extension LeaguesViewController: UITableViewDelegate {
             self.joinOrLeave(selectedLeague)
         }))
         present(alert, animated: true, completion: nil)
+        */
+        
+        // go to league info
+        if indexPath.section == 0 {
+            guard indexPath.row < playerLeagues.count else { return }
+            league = playerLeagues[indexPath.row]
+        } else if indexPath.section == 1 {
+            guard indexPath.row < otherLeagues.count else { return }
+            league = otherLeagues[indexPath.row]
+        }
+
+        performSegue(withIdentifier: "toLeague", sender: league)
     }
 }

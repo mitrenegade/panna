@@ -11,7 +11,7 @@ import FBSDKShareKit
 import AsyncImageView
 import RxSwift
 
-protocol EventDisplayComponentDelegate: class {
+protocol SectionComponentDelegate: class {
     func componentHeightChanged(controller: UIViewController, newHeight: CGFloat)
 }
 
@@ -244,7 +244,7 @@ class EventDisplayViewController: UIViewController {
 }
 
 // MARK: EventDisplayComponentDelegate
-extension EventDisplayViewController: EventDisplayComponentDelegate {
+extension EventDisplayViewController: SectionComponentDelegate {
     func componentHeightChanged(controller: UIViewController, newHeight: CGFloat) {
         if controller == self.locationController {
             self.constraintLocationHeight.constant = newHeight

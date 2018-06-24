@@ -24,7 +24,7 @@ class ExpandableMapViewController: UIViewController {
     }
     
     var event: Event?
-    weak var delegate: EventDisplayComponentDelegate?
+    weak var delegate: SectionComponentDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
