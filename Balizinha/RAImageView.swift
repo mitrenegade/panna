@@ -46,6 +46,7 @@ class RAImageView: UIImageView {
         if let cached = RAImageView.imageCache[imageUrl] as? UIImage {
             DispatchQueue.main.async { // this seems to force a redraw
                 self.image = cached
+                self.activityIndicator?.stopAnimating()
             }
             return
         }
