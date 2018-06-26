@@ -7,10 +7,9 @@
 //
 
 import UIKit
-import AsyncImageView
 
 class PlayerCell: UITableViewCell {
-    @IBOutlet weak var imagePhoto: AsyncImageView!
+    @IBOutlet weak var imagePhoto: RAImageView!
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var labelId: UILabel!
     @IBOutlet weak var labelDate: UILabel!
@@ -77,8 +76,7 @@ class PlayerCell: UITableViewCell {
     
     func updatePhoto(urlString: String) {
         imagePhoto.image = nil
-        guard let url = URL(string: urlString) else { return }
-        imagePhoto.imageURL = url
+        imagePhoto.imageUrl = urlString
     }
     
     func reset() {

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AsyncImageView
 
 protocol PlayerDelegate: class {
     func didUpdatePlayer(player: Player)
@@ -19,7 +18,7 @@ class PlayerInfoViewController: UIViewController {
     @IBOutlet var inputName: UITextField!
     @IBOutlet var inputCity: UITextField!
     @IBOutlet var inputNotes: UITextView!
-    @IBOutlet var photoView: AsyncImageView!
+    @IBOutlet var photoView: RAImageView!
     @IBOutlet weak var buttonLeague: UIButton!
 
     weak var currentInput: UITextField?
@@ -79,17 +78,15 @@ class PlayerInfoViewController: UIViewController {
         if let notes = player.info {
             self.inputNotes.text = notes
         }
-        if let photoUrl = player.photoUrl {
-            self.refreshPhoto(url: photoUrl)
-        }
+        self.refreshPhoto(url: player.photoUrl)
         refreshLeagueButton()
     }
     
-    func refreshPhoto(url: String) {
-        if let URL = URL(string: url) {
+    func refreshPhoto(url: String?) {
+        if let url = url {
             photoView.image = nil
-            photoView.showActivityIndicator = true
-            photoView.imageURL = URL
+//            photoView.showActivityIndicator = true
+            photoView.imageUrl = url
             self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 2
         }
         else {
@@ -112,6 +109,9 @@ class PlayerInfoViewController: UIViewController {
         
         if let player = player {
             self.delegate?.didUpdatePlayer(player: player)
+        } else {
+            // BOBBY TODO create player? this shouldn't happen
+            // load player again? the server creates a player
         }
         if self.navigationController?.viewControllers[0] == self {
             self.navigationController?.dismiss(animated: true, completion: {

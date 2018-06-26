@@ -160,26 +160,24 @@ extension LeaguesViewController: UITableViewDelegate {
         var message: String?
         var league: League?
         
-        /*
-         // leave or join league from this table
-        if indexPath.section == 0 {
-            guard indexPath.row < playerLeagues.count else { return }
-            league = playerLeagues[indexPath.row]
-            message = "Do you want to leave \(league?.name ?? " this league")?"
-        } else if indexPath.section == 1 {
-            guard indexPath.row < otherLeagues.count else { return }
-            league = otherLeagues[indexPath.row]
-            message = "Do you want to join \(league?.name ?? " this league")?"
-        }
-        
-        guard let selectedLeague = league else { return }
-        let alert = UIAlertController(title: "Are you sure?", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
-            self.joinOrLeave(selectedLeague)
-        }))
-        present(alert, animated: true, completion: nil)
-        */
+//         // leave or join league from this table
+//        if indexPath.section == 0 {
+//            guard indexPath.row < playerLeagues.count else { return }
+//            league = playerLeagues[indexPath.row]
+//            message = "Do you want to leave \(league?.name ?? " this league")?"
+//        } else if indexPath.section == 1 {
+//            guard indexPath.row < otherLeagues.count else { return }
+//            league = otherLeagues[indexPath.row]
+//            message = "Do you want to join \(league?.name ?? " this league")?"
+//        }
+//        
+//        guard let selectedLeague = league else { return }
+//        let alert = UIAlertController(title: "Are you sure?", message: message, preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+//            self.joinOrLeave(selectedLeague)
+//        }))
+//        present(alert, animated: true, completion: nil)
         
         // go to league info
         if indexPath.section == 0 {

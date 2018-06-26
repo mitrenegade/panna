@@ -7,11 +7,10 @@
 //
 
 import UIKit
-import AsyncImageView
 
 class PlayerViewController: UIViewController {
     
-    @IBOutlet var photoView: AsyncImageView!
+    @IBOutlet var photoView: RAImageView!
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var cityLabel: UILabel!
     @IBOutlet var notesLabel: UILabel!
@@ -61,19 +60,17 @@ class PlayerViewController: UIViewController {
             self.notesLabel.text = nil
         }
         
-        if let photoUrl = player.photoUrl {
-            self.refreshPhoto(url: photoUrl)
-        }
-        
+        self.refreshPhoto(url: player.photoUrl)
+
         self.photoView.layer.cornerRadius = self.photoView.frame.size.height / 2
     }
     
-    func refreshPhoto(url: String) {
-        if let URL = URL(string: url) {
-            self.photoView.imageURL = URL
+    func refreshPhoto(url: String?) {
+        if let url = url {
+            self.photoView.imageUrl = url
         }
         else {
-            self.photoView.imageURL = nil
+            self.photoView.imageUrl = nil
             self.photoView.image = UIImage(named: "profile-img")
         }
     }

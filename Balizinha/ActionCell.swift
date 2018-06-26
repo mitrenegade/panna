@@ -7,12 +7,11 @@
 //
 
 import UIKit
-import AsyncImageView
 
 class ActionCell: UITableViewCell {
     
     @IBOutlet var labelText: UILabel!
-    @IBOutlet var photoView: AsyncImageView?
+    @IBOutlet var photoView: RAImageView?
     @IBOutlet var constraintLabelHeight: NSLayoutConstraint!
     var actionId: String?
 
@@ -43,11 +42,11 @@ class ActionCell: UITableViewCell {
         photoView.layer.cornerRadius = photoView.frame.size.width / 4
         photoView.clipsToBounds = true
         photoView.contentMode = .scaleAspectFill
-        if let url = url, let URL = URL(string: url), self.actionId == currentActionId  {
-            photoView.imageURL = URL
+        if let url = url, self.actionId == currentActionId  {
+            photoView.imageUrl = url
         }
         else {
-            photoView.imageURL = nil
+            photoView.imageUrl = nil
             photoView.image = UIImage(named: "profile-img")
         }
     }

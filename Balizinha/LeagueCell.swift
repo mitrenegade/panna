@@ -7,11 +7,10 @@
 //
 
 import UIKit
-import AsyncImageView
 
 class LeagueCell: UITableViewCell {
     
-    @IBOutlet weak var icon: AsyncImageView!
+    @IBOutlet weak var icon: RAImageView!
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var labelPointCount: UILabel!
     @IBOutlet weak var labelPlayerCount: UILabel!
@@ -24,9 +23,9 @@ class LeagueCell: UITableViewCell {
     func configure(league: League) {
         icon.image = nil
         if let url = league.photoUrl {
-            icon.imageURL = URL(string: url)
+            icon.imageUrl = url
         } else {
-            icon.imageURL = nil
+            icon.imageUrl = nil
             icon.image = UIImage(named: "crest30")?.withRenderingMode(.alwaysTemplate)
             icon.tintColor = UIColor.white
             icon.backgroundColor = UIColor.darkGreen

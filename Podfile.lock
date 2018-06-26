@@ -14,7 +14,6 @@ PODS:
   - AFNetworking/Serialization (3.2.0)
   - AFNetworking/UIKit (3.2.0):
     - AFNetworking/NSURLSession
-  - AsyncImageView (1.6)
   - Batch (1.11.0)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
@@ -117,7 +116,6 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
-  - AsyncImageView
   - Batch
   - Crashlytics
   - DateTools
@@ -139,7 +137,6 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AFNetworking
-    - AsyncImageView
     - Batch
     - Bolts
     - Crashlytics
@@ -170,7 +167,6 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: 8ac6017b94ea105479f7776e5288e48ae9c59bb4
-  AsyncImageView: 416e99402e5b1f20571de70ad619ced90f56a7d9
   Batch: 8ca64096951fd6e5fb875a234e5cd6677b531b9d
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Crashlytics: aee1a064cbbf99b32efa3f056a5f458d846bc8ff
@@ -199,6 +195,6 @@ SPEC CHECKSUMS:
   RxSwift: e49536837d9901277638493ea537394d4b55f570
   Stripe: 3230cdf8a8b0c04902e45e86f222fb82a926239c
 
-PODFILE CHECKSUM: 53d809fe9233d9d5a2643c5588e11f5444d974dc
+PODFILE CHECKSUM: 52b82b779c9669026a29670c3eccb1c07f6b8ddd
 
 COCOAPODS: 1.5.0
