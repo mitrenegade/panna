@@ -84,6 +84,7 @@ extension LeagueViewController: UITableViewDataSource {
             return cell
         case .players:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayersCell", for: indexPath) as! LeaguePlayersCell
+            cell.delegate = self
             cell.configure(players: players)
             return cell
         }
@@ -93,5 +94,14 @@ extension LeagueViewController: UITableViewDataSource {
 extension LeagueViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension LeagueViewController: PlayersScrollViewDelegate {
+    func didSelectPlayer(player: Player) {
+        guard let playerController = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as? PlayerViewController else { return }
+        
+        playerController.player = player
+        self.navigationController?.pushViewController(playerController, animated: true)
     }
 }

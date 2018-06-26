@@ -33,7 +33,11 @@ class LeagueCell: UITableViewCell {
         labelName.text = league.name ?? "Unknown league"
         labelCity.text = league.city ?? "Location unspecified"
         labelTags.text = league.tagString
-        labelInfo.text = "\"\(league.info)\""
+        if !league.info.isEmpty {
+            labelInfo.text = "\"\(league.info)\""
+        } else {
+            labelInfo.text = nil
+        }
         
         let pointCount = league.pointCount
         let playerCount = league.playerCount

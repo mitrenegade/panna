@@ -11,9 +11,10 @@ import UIKit
 class LeaguePlayersCell: UITableViewCell {
 
     @IBOutlet weak var playersView: PlayersScrollView!
+    weak var delegate: PlayersScrollViewDelegate?
 
     func configure(players: [Player]?) {
-        playersView.delegate = self
+        playersView.delegate = delegate
         
         guard let players = players else { return }
         for player in players {
@@ -21,10 +22,5 @@ class LeaguePlayersCell: UITableViewCell {
         }
         
         playersView.refresh()
-    }
-}
-
-extension LeaguePlayersCell: PlayersScrollViewDelegate {
-    func didSelectPlayer(player: Player) {
     }
 }
