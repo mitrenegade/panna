@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AsyncImageView
 
 protocol EventCellDelegate: class {
     func joinOrLeaveEvent(_ event: Event, join: Bool)
@@ -63,7 +62,7 @@ class EventCell: UITableViewCell {
     @IBOutlet var labelLocation: UILabel!
     @IBOutlet var labelName: UILabel!
     @IBOutlet var labelTimeDate: UILabel!
-    @IBOutlet var eventLogo: AsyncImageView!
+    @IBOutlet var eventLogo: RAImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var event: Event?
@@ -95,11 +94,11 @@ class EventCell: UITableViewCell {
         let place = event.place
         self.labelLocation.text = place
         
-        if let url = event.photoUrl, let URL = URL(string: url) {
-            self.eventLogo.imageURL = URL
+        if let url = event.photoUrl {
+            self.eventLogo.imageUrl = url
         }
         else {
-            self.eventLogo.imageURL = nil
+            self.eventLogo.imageUrl = nil
             self.eventLogo.image = UIImage(named: "soccer")
         }
 

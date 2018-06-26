@@ -36,7 +36,7 @@ class PlayersScrollView: UIView {
     func addPlayer(player: Player) {
         guard icons[player.id] == nil else { return }
         let icon = PlayerIcon()
-        icon.imageView.activityIndicatorColor = .white
+//        icon.imageView.activityIndicatorColor = .white
         icon.object = player
         icons[player.id] = icon
     }

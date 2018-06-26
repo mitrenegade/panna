@@ -12,6 +12,7 @@ class PlayerIcon: FirebaseModelIcon {
 
     override var photoUrl: String? {
         guard let player = object as? Player else { return nil }
+        print("PhotoUrl: \(player.photoUrl)")
         return player.photoUrl
     }
 

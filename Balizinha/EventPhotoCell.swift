@@ -7,12 +7,11 @@
 //
 
 import UIKit
-import AsyncImageView
 
 class EventPhotoCell: UITableViewCell {
     
     @IBOutlet var labelText: UILabel!
-    @IBOutlet var photoView: AsyncImageView!
+    @IBOutlet var photoView: RAImageView!
     @IBOutlet var constraintCellHeight: NSLayoutConstraint!
     @IBOutlet weak var imagePlus: UIImageView!
     
@@ -37,7 +36,7 @@ class EventPhotoCell: UITableViewCell {
         didSet {
             if let url = url {
                 self.constraintCellHeight.constant = 200
-                self.photoView.imageURL = URL(string: url)
+                self.photoView.imageUrl = url
                 UIView.animate(withDuration: 0.25, animations: {
                     self.photoView.alpha = 1
                 })
@@ -55,7 +54,7 @@ class EventPhotoCell: UITableViewCell {
     
     func clearPhoto() {
         self.constraintCellHeight.constant = 44
-        self.photoView.imageURL = nil
+        self.photoView.imageUrl = nil
         self.photoView.image = nil
         self.photoView.alpha = 0
     }

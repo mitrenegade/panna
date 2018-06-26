@@ -18,7 +18,6 @@ target 'Balizinha' do
     pod 'RxOptional'
 
     pod 'AFNetworking'
-    pod 'AsyncImageView'
 
     pod 'FBSDKCoreKit'
     pod 'FBSDKLoginKit'
@@ -35,7 +34,6 @@ target 'Balizinha' do
     	pod 'Firebase/Database'
     	pod 'Firebase/Auth'
     	pod 'Firebase/Storage'
-    	pod 'AsyncImageView'
     	pod 'Stripe'
     	pod 'RxSwift'
     	pod 'RxCocoa'

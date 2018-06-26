@@ -85,6 +85,7 @@
 		8E4D36761F8BA48500B8B0B5 /* Date+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4D36741F8BA47900B8B0B5 /* Date+Utils.swift */; };
 		8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54213D1E70CEF100AE4F3A /* ChatInputViewController.swift */; };
 		8E5421401E70DF8700AE4F3A /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54213F1E70DF8700AE4F3A /* ActionCell.swift */; };
+		8E571A0320E25E2B003AB202 /* RAImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E571A0220E25E2B003AB202 /* RAImageView.swift */; };
 		8E63160B1F5D9A60005CF114 /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E6316091F5D9A60005CF114 /* GoogleService-Info-dev.plist */; };
 		8E63160C1F5D9A60005CF114 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E63160A1F5D9A60005CF114 /* GoogleService-Info.plist */; };
 		8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */; };
@@ -229,6 +230,7 @@
 		8E4D36741F8BA47900B8B0B5 /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
 		8E54213D1E70CEF100AE4F3A /* ChatInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputViewController.swift; sourceTree = "<group>"; };
 		8E54213F1E70DF8700AE4F3A /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
+		8E571A0220E25E2B003AB202 /* RAImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAImageView.swift; sourceTree = "<group>"; };
 		8E59662C1F8B98BA007A814A /* EventCellDonationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCellDonationTests.swift; sourceTree = "<group>"; };
 		8E6316091F5D9A60005CF114 /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
 		8E63160A1F5D9A60005CF114 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -552,6 +554,7 @@
 				F250A7FB1CFF1588003A7DEA /* TransparentTextField.swift */,
 				8E48AF7B20DFD62500D814BE /* ResizableTagView.swift */,
 				8E48AF8520DFEE9700D814BE /* PlayersScrollView.swift */,
+				8E571A0220E25E2B003AB202 /* RAImageView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -790,7 +793,6 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
-				"${BUILT_PRODUCTS_DIR}/AsyncImageView/AsyncImageView.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -809,7 +811,6 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AsyncImageView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTools.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
@@ -886,7 +887,6 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AsyncImageView/AsyncImageView.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-f0850809/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
@@ -897,7 +897,6 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AsyncImageView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
@@ -1018,6 +1017,7 @@
 				C6FDE5C620431F0100FE0C76 /* FirebaseAPIService.swift in Sources */,
 				8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */,
 				8EDD13E91FEB78C10039F1A7 /* ShareService.swift in Sources */,
+				8E571A0320E25E2B003AB202 /* RAImageView.swift in Sources */,
 				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,
 				8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */,
 				8E7016D2207A9D0400A4C28C /* UpgradeService.swift in Sources */,

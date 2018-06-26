@@ -8,7 +8,6 @@
 
 import UIKit
 import FBSDKShareKit
-import AsyncImageView
 import RxSwift
 
 protocol SectionComponentDelegate: class {
@@ -32,7 +31,7 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet var labelInfo: UILabel!
     @IBOutlet var labelSpotsLeft: UILabel!
 
-    @IBOutlet var sportImageView: AsyncImageView!
+    @IBOutlet var sportImageView: RAImageView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var playersScrollView: PlayersScrollView!
     weak var event : Event?
@@ -91,11 +90,11 @@ class EventDisplayViewController: UIViewController {
         }
         
         //Sport image
-        if let url = event?.photoUrl, let URL = URL(string: url) {
-            self.sportImageView.imageURL = URL
+        if let url = event?.photoUrl {
+            self.sportImageView.imageUrl = url
         }
         else {
-            self.sportImageView.imageURL = nil
+            self.sportImageView.imageUrl = nil
             self.sportImageView.image = UIImage(named: "soccer")
         }
         
@@ -302,16 +301,16 @@ extension EventDisplayViewController: FBSDKSharingDelegate {
         let content: FBSDKShareLinkContent = FBSDKShareLinkContent()
         switch event.type {
         case .balizinha:
-            content.imageURL = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/soccer%403x.png")
+            content.imageUrl = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/soccer%403x.png")
             content.contentURL = URL(string: "http://lotsportz.herokuapp.com/soccer")
         case .flagFootball:
-            content.imageURL = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/football%403x.png")
+            content.imageUrl = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/football%403x.png")
             content.contentURL = URL(string: "http://lotsportz.herokuapp.com/football")
         case .basketball:
-            content.imageURL = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/basketball%403x.png")
+            content.imageUrl = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/basketball%403x.png")
             content.contentURL = URL(string: "http://lotsportz.herokuapp.com/basketball")
         default:
-            content.imageURL = nil
+            content.imageUrl = nil
         }
         
         content.contentTitle = "My event on LotSportz"

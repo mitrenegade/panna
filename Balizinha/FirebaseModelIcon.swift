@@ -7,10 +7,9 @@
 //
 
 import UIKit
-import AsyncImageView
 
 class FirebaseModelIcon: UIView {
-    var imageView: AsyncImageView = AsyncImageView()
+    var imageView: RAImageView = RAImageView()
 
     var object: FirebaseBaseModel? {
         didSet {
@@ -24,11 +23,11 @@ class FirebaseModelIcon: UIView {
     
     fileprivate func refreshPhoto(url: String?) {
         imageView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
-        if let url = url, let URL = URL(string: url) {
-            imageView.imageURL = URL
+        if let url = url {
+            imageView.imageUrl = url
         }
         else {
-            imageView.imageURL = nil
+            imageView.imageUrl = nil
             imageView.image = UIImage(named: "profile-img")
         }
     }

@@ -7,10 +7,9 @@
 //
 
 import UIKit
-import AsyncImageView
 
 class LeagueTitleCell: UITableViewCell {
-    @IBOutlet weak var logoView: AsyncImageView!
+    @IBOutlet weak var logoView: RAImageView!
     @IBOutlet weak var labelCity: UILabel!
     @IBOutlet weak var labelName: UILabel!
     
@@ -19,7 +18,7 @@ class LeagueTitleCell: UITableViewCell {
         labelCity.text = league.city
         labelName.text = league.name
         if let url = league.photoUrl {
-            logoView.imageURL = URL(string: url)
+            logoView.imageUrl = url
         }
     }
 }

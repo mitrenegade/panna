@@ -40,7 +40,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="R0L-k4-zzs" customClass="AsyncImageView">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="R0L-k4-zzs" customClass="RAImageView" customModule="Balizinha" customModuleProvider="target">
                                                     <rect key="frame" x="5" y="5" width="70" height="70"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="70" id="0xd-6K-HUP"/>
@@ -252,7 +252,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo1024" translatesAutoresizingMaskIntoConstraints="NO" id="kZO-Ph-Qbi" customClass="AsyncImageView">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo1024" translatesAutoresizingMaskIntoConstraints="NO" id="kZO-Ph-Qbi" customClass="RAImageView" customModule="Balizinha" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="250" id="A3G-9U-q2M"/>
