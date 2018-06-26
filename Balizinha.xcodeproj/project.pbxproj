@@ -42,7 +42,6 @@
 		8E19A4A41E6C67A500D301EC /* PlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A31E6C67A500D301EC /* PlayerService.swift */; };
 		8E19A4A61E6C793800D301EC /* FirebaseImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A51E6C793800D301EC /* FirebaseImageService.swift */; };
 		8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A91E6C9C7500D301EC /* ExpandableMapViewController.swift */; };
-		8E19A4AC1E6C9C9600D301EC /* PlayersScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4AB1E6C9C9600D301EC /* PlayersScrollViewController.swift */; };
 		8E19A4AE1E6C9CB300D301EC /* EventActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4AD1E6C9CB300D301EC /* EventActivityViewController.swift */; };
 		8E19A4B01E6C9CF200D301EC /* PaymentTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4AF1E6C9CF200D301EC /* PaymentTypesViewController.swift */; };
 		8E1B00541FC2CC8B00420256 /* TutoriaPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1B00531FC2CC8B00420256 /* TutoriaPageViewController.swift */; };
@@ -207,7 +206,6 @@
 		8E19A4A31E6C67A500D301EC /* PlayerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerService.swift; sourceTree = "<group>"; };
 		8E19A4A51E6C793800D301EC /* FirebaseImageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseImageService.swift; sourceTree = "<group>"; };
 		8E19A4A91E6C9C7500D301EC /* ExpandableMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableMapViewController.swift; sourceTree = "<group>"; };
-		8E19A4AB1E6C9C9600D301EC /* PlayersScrollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayersScrollViewController.swift; sourceTree = "<group>"; };
 		8E19A4AD1E6C9CB300D301EC /* EventActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventActivityViewController.swift; sourceTree = "<group>"; };
 		8E19A4AF1E6C9CF200D301EC /* PaymentTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentTypesViewController.swift; sourceTree = "<group>"; };
 		8E1B00531FC2CC8B00420256 /* TutoriaPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutoriaPageViewController.swift; sourceTree = "<group>"; };
@@ -387,7 +385,6 @@
 				F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */,
 				8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */,
 				8E19A4A91E6C9C7500D301EC /* ExpandableMapViewController.swift */,
-				8E19A4AB1E6C9C9600D301EC /* PlayersScrollViewController.swift */,
 				8E19A4AF1E6C9CF200D301EC /* PaymentTypesViewController.swift */,
 				8E19A4AD1E6C9CB300D301EC /* EventActivityViewController.swift */,
 				8E54213D1E70CEF100AE4F3A /* ChatInputViewController.swift */,
@@ -1034,7 +1031,6 @@
 				F2F7C3BD1CEE11B300350115 /* CreateEventViewController.swift in Sources */,
 				8E19A4A21E6C658600D301EC /* String+Utils.swift in Sources */,
 				F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */,
-				8E19A4AC1E6C9C9600D301EC /* PlayersScrollViewController.swift in Sources */,
 				8E116D581F74A66C0067B6F5 /* StripeService.swift in Sources */,
 				8E7A2FFC1F83256E004EAE6A /* Promotion.swift in Sources */,
 				C651AB8D2096D82E0046B03C /* LeaguesViewController.swift in Sources */,

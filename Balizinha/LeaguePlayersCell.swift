@@ -13,12 +13,18 @@ class LeaguePlayersCell: UITableViewCell {
     @IBOutlet weak var playersView: PlayersScrollView!
 
     func configure(players: [Player]?) {
+        playersView.delegate = self
+        
         guard let players = players else { return }
-        playersView.reset()
         for player in players {
             playersView.addPlayer(player: player)
         }
         
         playersView.refresh()
+    }
+}
+
+extension LeaguePlayersCell: PlayersScrollViewDelegate {
+    func didSelectPlayer(player: Player) {
     }
 }
