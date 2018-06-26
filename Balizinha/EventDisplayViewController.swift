@@ -34,6 +34,7 @@ class EventDisplayViewController: UIViewController {
 
     @IBOutlet var sportImageView: AsyncImageView!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var playersScrollView: PlayersScrollView!
     weak var event : Event?
     
     var delegate : EventDisplayDelegate?
@@ -45,7 +46,6 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintButtonJoinHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintDetailHeight: NSLayoutConstraint!
-    @IBOutlet var constraintPlayersHeight: NSLayoutConstraint!
     @IBOutlet var constraintPaymentHeight: NSLayoutConstraint!
     @IBOutlet var constraintActivityHeight: NSLayoutConstraint!
     @IBOutlet var constraintInputBottomOffset: NSLayoutConstraint!
@@ -55,7 +55,6 @@ class EventDisplayViewController: UIViewController {
     
     var organizerController: OrganizerViewController!
     var locationController: ExpandableMapViewController!
-    var playersController: PlayersScrollViewController!
     var paymentController: PaymentTypesViewController!
     var activityController: EventActivityViewController!
     var chatController: ChatInputViewController!
@@ -142,6 +141,19 @@ class EventDisplayViewController: UIViewController {
         // reserve spot
         listenFor(NotificationType.EventsChanged, action: #selector(refreshJoin), object: nil)
         refreshJoin()
+        
+        // players
+        playersScrollView.delegate = self
+        EventService.shared.observeUsers(forEvent: event) { (ids) in
+            for id: String in ids {
+                PlayerService.shared.withId(id: id, completion: {[weak self] (player) in
+                    if let player = player {
+                        self?.playersScrollView.addPlayer(player: player)
+                        self?.playersScrollView.refresh()
+                    }
+                })
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -202,11 +214,6 @@ class EventDisplayViewController: UIViewController {
             locationController.event = event
             locationController.delegate = self
         }
-        else if segue.identifier == "EmbedPlayers" {
-            playersController = segue.destination as? PlayersScrollViewController
-            playersController.event = event
-            playersController.delegate = self
-        }
         else if segue.identifier == "EmbedPayment" {
             paymentController = segue.destination as? PaymentTypesViewController
             paymentController.event = event
@@ -248,9 +255,6 @@ extension EventDisplayViewController: SectionComponentDelegate {
     func componentHeightChanged(controller: UIViewController, newHeight: CGFloat) {
         if controller == self.locationController {
             self.constraintLocationHeight.constant = newHeight
-        }
-        else if controller == self.playersController {
-            self.constraintPlayersHeight.constant = newHeight
         }
         
         if controller != activityController {
@@ -358,3 +362,20 @@ extension EventDisplayViewController: FBSDKSharingDelegate {
 
 }
  */
+
+extension EventDisplayViewController: PlayersScrollViewDelegate {
+    func didSelectPlayer(player: Player) {
+        guard let playerController = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as? PlayerViewController else { return }
+        
+        playerController.player = player
+        self.navigationController?.pushViewController(playerController, animated: true)
+    }
+    
+    func goToAttendees() {
+        // open Attendees list. not used yet but can be used to view/edit attendances
+        if let nav = UIStoryboard(name: "Attendance", bundle: nil).instantiateInitialViewController() as? UINavigationController, let controller = nav.viewControllers[0] as? AttendeesViewController {
+            controller.event = event
+            present(nav, animated: true, completion: nil)
+        }
+    }
+}

@@ -364,10 +364,11 @@ Type</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QOc-7c-BWJ" customClass="PlayersScrollView" customModule="Balizinha" customModuleProvider="target">
-                                                    <rect key="frame" x="10" y="0.0" width="350" height="40"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
                                                     <subviews>
                                                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nfM-fg-VLZ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="350" height="40"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                                                            <color key="backgroundColor" red="0.63972192999999999" green="0.70638650660000002" blue="0.67304807899999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </scrollView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -384,9 +385,9 @@ Type</string>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstItem="QOc-7c-BWJ" firstAttribute="leading" secondItem="P6D-RX-mou" secondAttribute="leading" constant="10" id="6Yy-7d-hL1"/>
+                                                <constraint firstItem="QOc-7c-BWJ" firstAttribute="leading" secondItem="P6D-RX-mou" secondAttribute="leading" id="6Yy-7d-hL1"/>
                                                 <constraint firstItem="QOc-7c-BWJ" firstAttribute="top" secondItem="P6D-RX-mou" secondAttribute="top" id="ACU-7P-Prc"/>
-                                                <constraint firstAttribute="trailing" secondItem="QOc-7c-BWJ" secondAttribute="trailing" constant="15" id="Rhn-jr-D1N"/>
+                                                <constraint firstAttribute="trailing" secondItem="QOc-7c-BWJ" secondAttribute="trailing" id="Rhn-jr-D1N"/>
                                                 <constraint firstAttribute="bottom" secondItem="QOc-7c-BWJ" secondAttribute="bottom" id="gHK-ZP-XQb"/>
                                             </constraints>
                                         </tableViewCellContentView>

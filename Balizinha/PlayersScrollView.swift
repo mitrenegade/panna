@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol PlayersScrollViewDelegate: class {
+    func didSelectPlayer(player: Player)
+}
+
 class PlayersScrollView: UIView {
     fileprivate var icons: [String: PlayerIcon] = [:]
     private var borderWidth: CGFloat = 5
@@ -15,6 +19,14 @@ class PlayersScrollView: UIView {
     fileprivate var iconSize: CGFloat = 30
 
     @IBOutlet weak var scrollView: UIScrollView!
+    weak var delegate: PlayersScrollViewDelegate?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTap(_:)))
+        scrollView.addGestureRecognizer(gesture)
+    }
     
     func reset() {
         scrollView.subviews.forEach() { $0.removeFromSuperview() }
@@ -48,5 +60,15 @@ class PlayersScrollView: UIView {
         }
         
         scrollView.contentSize = CGSize(width: width, height: scrollView.frame.size.height)
+    }
+    
+    @objc func didTap(_ gesture: UITapGestureRecognizer?) {
+        // open player info
+        guard let point = gesture?.location(ofTouch: 0, in: self.scrollView) else { return }
+        for (id, icon) in self.icons {
+            if icon.frame.contains(point), let player = icon.object as? Player {
+                delegate?.didSelectPlayer(player: player)
+            }
+        }
     }
 }
