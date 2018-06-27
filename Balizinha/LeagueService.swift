@@ -154,6 +154,18 @@ class LeagueService: NSObject {
         return _playerLeagues.contains(league.id)
     }
     
+    func changeLeaguePlayerStatus(playerId: String, league: League, status: String, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
+        FirebaseAPIService().cloudFunction(functionName: "changeLeaguePlayerStatus", method: "POST", params: ["userId": playerId, "leagueId": league.id, "status": status]) { (result, error) in
+            guard error == nil else {
+                print("Player status change error \(error)")
+                completion(nil, error)
+                return
+            }
+            print("Player status change result \(result)")
+            completion(result, nil)
+        }
+    }
+    
     func withId(id: String, completion: @escaping ((League?)->Void)) {
         if let found = _leagues.first(where: { (league) -> Bool in
             return league.id == id

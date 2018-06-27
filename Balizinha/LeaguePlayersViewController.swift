@@ -16,7 +16,7 @@ protocol LeaguePlayersDelegate: class {
 
 class LeaguePlayersViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-//    var roster: [Membership]?
+    var roster: [Membership]?
     var league: League?
     var isEditOrganizerMode: Bool {
         return false // TODO: return true if user is an organizer?
@@ -220,7 +220,7 @@ extension LeaguePlayersViewController: UITableViewDelegate {
                         self?.roster?.append(Membership(id: player.id, status: newStatus.rawValue))
                     }
                     DispatchQueue.main.async {
-                        self?.hideLoadingIndicator()
+//                        self?.hideLoadingIndicator()
                         self?.search(for: self?.searchTerm)
                         self?.delegate?.didUpdateRoster()
                     }
@@ -255,7 +255,7 @@ extension LeaguePlayersViewController: UITableViewDelegate {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
             print("Switching player \(playerId) to status \(newStatus)")
-            self.showLoadingIndicator()
+//            self.showLoadingIndicator()
             LeagueService.shared.changeLeaguePlayerStatus(playerId: playerId, league: league, status: newStatus, completion: { [weak self] (result, error) in
                 print("Result \(result) error \(error)")
                 if result != nil {
@@ -264,7 +264,7 @@ extension LeaguePlayersViewController: UITableViewDelegate {
                     self?.roster?.append(Membership(id: playerId, status: newStatus))
                 }
                 DispatchQueue.main.async {
-                    self?.hideLoadingIndicator()
+//                    self?.hideLoadingIndicator()
                     self?.search(for: self?.searchTerm)
                     self?.delegate?.didUpdateRoster()
                 }
