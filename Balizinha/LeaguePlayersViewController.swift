@@ -56,11 +56,11 @@ class LeaguePlayersViewController: UIViewController {
     }
     
     func load() {
-        showLoadingIndicator()
+//        showLoadingIndicator()
         let playerRef = firRef.child("players").queryOrdered(byChild: "createdAt")
         playerRef.observe(.value) {[weak self] (snapshot) in
             guard snapshot.exists() else {
-                self?.hideLoadingIndicator()
+//                self?.hideLoadingIndicator()
                 return
             }
             if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
@@ -191,7 +191,7 @@ extension LeaguePlayersViewController: UITableViewDelegate {
                 guard indexPath.row < roster.count else { return }
                 let newStatus: Membership.Status = .none
                 let member = roster[indexPath.row]
-                showLoadingIndicator()
+//                showLoadingIndicator()
                 LeagueService.shared.changeLeaguePlayerStatus(playerId: member.playerId, league: league, status: newStatus.rawValue, completion: { [weak self] (result, error) in
                     print("Result \(result) error \(error)")
                     if result != nil {
@@ -200,7 +200,7 @@ extension LeaguePlayersViewController: UITableViewDelegate {
                         self?.roster?.append(Membership(id: member.playerId, status: newStatus.rawValue))
                     }
                     DispatchQueue.main.async {
-                        self?.hideLoadingIndicator()
+//                        self?.hideLoadingIndicator()
                         self?.search(for: self?.searchTerm)
                         self?.delegate?.didUpdateRoster()
                     }
@@ -211,7 +211,7 @@ extension LeaguePlayersViewController: UITableViewDelegate {
                 guard indexPath.row < filteredPlayers.count else { return }
                 let player = filteredPlayers[indexPath.row]
                 let newStatus: Membership.Status = .member
-                showLoadingIndicator()
+//                showLoadingIndicator()
                 LeagueService.shared.changeLeaguePlayerStatus(playerId: player.id, league: league, status: newStatus.rawValue, completion: { [weak self] (result, error) in
                     print("Result \(result) error \(error)")
                     if result != nil {

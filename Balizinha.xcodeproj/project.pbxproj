@@ -155,6 +155,7 @@
 		8EF167F9208BEE4A00257354 /* LeagueIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F8208BEE4A00257354 /* LeagueIcon.swift */; };
 		8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
 		8EF7F9F520E339A30037962E /* LeaguePlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */; };
+		8EF7F9F720E33BAA0037962E /* PlayerSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF7F9F620E33BA90037962E /* PlayerSearchCell.swift */; };
 		8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */; };
 		9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */; };
 		B4941729DDCB9B340512229F /* Pods_BalizinhaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E546CEAA00BF9DA1BE14363 /* Pods_BalizinhaTests.framework */; };
@@ -307,6 +308,7 @@
 		8EF167F8208BEE4A00257354 /* LeagueIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueIcon.swift; sourceTree = "<group>"; };
 		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
 		8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaguePlayerCell.swift; sourceTree = "<group>"; };
+		8EF7F9F620E33BA90037962E /* PlayerSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerSearchCell.swift; sourceTree = "<group>"; };
 		A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.release.xcconfig"; sourceTree = "<group>"; };
 		AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C651AB872096D6650046B03C /* read.me */ = {isa = PBXFileReference; lastKnownFileType = text; path = read.me; sourceTree = "<group>"; };
@@ -631,6 +633,7 @@
 				8E48AF8120DFE21800D814BE /* LeagueInfoCell.swift */,
 				8E48AF8320DFE91C00D814BE /* LeaguePlayersCell.swift */,
 				8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */,
+				8EF7F9F620E33BA90037962E /* PlayerSearchCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -987,6 +990,7 @@
 				8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */,
 				8E16A59E1FECB34400D24D69 /* DeepLinkService.swift in Sources */,
 				8E7A2FFA1F831411004EAE6A /* Organizer.swift in Sources */,
+				8EF7F9F720E33BAA0037962E /* PlayerSearchCell.swift in Sources */,
 				8EDA009C1F6597060080F446 /* RemoteDataService.swift in Sources */,
 				8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */,
 				C69E4E832097543400F4D74B /* LeagueCell.swift in Sources */,
