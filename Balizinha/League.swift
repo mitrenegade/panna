@@ -103,15 +103,7 @@ extension League {
         return 12
     }
     
-    var playerCount: Int {
-        return 5
-    }
-    
     var rating: Double {
         return 4.5
-    }
-    
-    var eventCount: Int {
-        return 4
     }
 }

@@ -15,7 +15,7 @@ import RxSwift
 
 fileprivate var singleton: EventService?
 var _usersForEvents: [String: AnyObject]?
-var _events: [Event]?
+var _events: [String:Event]?
 
 class EventService: NSObject {
     private lazy var __once: () = {
@@ -110,7 +110,9 @@ class EventService: NSObject {
                 }
             }
             print("getEvents results count: \(results.count)")
-            _events = results
+            for event in results {
+                self.cacheEvent(event: event)
+            }
             completion(results)
         }
     }
@@ -421,9 +423,7 @@ extension EventService {
 
 extension EventService {
     func withId(id: String, completion: @escaping ((Event?)->Void)) {
-        if let foundEvent = _events?.first(where: { (event) -> Bool in
-            return event.id == id
-        }) {
+        if let foundEvent = _events?[id] {
             completion(foundEvent)
             return
         }
@@ -437,6 +437,10 @@ extension EventService {
             let event = Event(snapshot: snapshot)
             completion(event)
         })
+    }
+    
+    func cacheEvent(event: Event) {
+        _events?[event.id] = event
     }
 }
 

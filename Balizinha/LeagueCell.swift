@@ -40,13 +40,23 @@ class LeagueCell: UITableViewCell {
         }
         
         let pointCount = league.pointCount
-        let playerCount = league.playerCount
-        let rating = league.rating
-        let eventCount = league.eventCount
+        let rating = 0 //league.rating
+        
+        // player count
+        LeagueService.shared.players(for: league) { [weak self] (ids) in
+            DispatchQueue.main.async {
+                self?.labelPlayerCount.text = "\(ids?.count ?? 0)"
+            }
+        }
+        
+        // eventCount
+        LeagueService.shared.events(for: league) { [weak self] (ids) in
+            DispatchQueue.main.async {
+                self?.labelGameCount.text = "\(ids?.count ?? 0)"
+            }
+        }
         
         labelPointCount.text = "\(pointCount)"
-        labelPlayerCount.text = "\(playerCount)"
-        labelGameCount.text = "\(eventCount)"
         labelRatingCount.text = String(format: "%1.1f", rating)
         
         // privacy
