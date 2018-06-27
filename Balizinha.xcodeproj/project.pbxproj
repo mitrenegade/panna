@@ -143,6 +143,7 @@
 		8ECD58E11CDF853500AD2B13 /* Splash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ECD58E01CDF853500AD2B13 /* Splash.storyboard */; };
 		8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */; };
 		8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
+		8ED3FE5320E3325E00D43F7E /* LeaguePlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED3FE5220E3325E00D43F7E /* LeaguePlayersViewController.swift */; };
 		8EDA009C1F6597060080F446 /* RemoteDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009B1F6597060080F446 /* RemoteDataService.swift */; };
 		8EDA009E1F6597BC0080F446 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009D1F6597BC0080F446 /* LoggingService.swift */; };
 		8EDD13E91FEB78C10039F1A7 /* ShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD13E81FEB78C10039F1A7 /* ShareService.swift */; };
@@ -153,6 +154,7 @@
 		8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */; };
 		8EF167F9208BEE4A00257354 /* LeagueIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F8208BEE4A00257354 /* LeagueIcon.swift */; };
 		8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
+		8EF7F9F520E339A30037962E /* LeaguePlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */; };
 		8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */; };
 		9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */; };
 		B4941729DDCB9B340512229F /* Pods_BalizinhaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E546CEAA00BF9DA1BE14363 /* Pods_BalizinhaTests.framework */; };
@@ -292,6 +294,7 @@
 		8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
 		8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8ED3DE761E330CB700947040 /* Balizinha.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Balizinha.entitlements; sourceTree = "<group>"; };
+		8ED3FE5220E3325E00D43F7E /* LeaguePlayersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaguePlayersViewController.swift; sourceTree = "<group>"; };
 		8EDA009B1F6597060080F446 /* RemoteDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteDataService.swift; sourceTree = "<group>"; };
 		8EDA009D1F6597BC0080F446 /* LoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
 		8EDD13E81FEB78C10039F1A7 /* ShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareService.swift; sourceTree = "<group>"; };
@@ -303,6 +306,7 @@
 		8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModelIcon.swift; sourceTree = "<group>"; };
 		8EF167F8208BEE4A00257354 /* LeagueIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueIcon.swift; sourceTree = "<group>"; };
 		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
+		8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaguePlayerCell.swift; sourceTree = "<group>"; };
 		A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.release.xcconfig"; sourceTree = "<group>"; };
 		AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C651AB872096D6650046B03C /* read.me */ = {isa = PBXFileReference; lastKnownFileType = text; path = read.me; sourceTree = "<group>"; };
@@ -571,6 +575,7 @@
 			children = (
 				C651AB8C2096D82E0046B03C /* LeaguesViewController.swift */,
 				8EBEDDBF20DFD13800FD8BCE /* LeagueViewController.swift */,
+				8ED3FE5220E3325E00D43F7E /* LeaguePlayersViewController.swift */,
 			);
 			name = Leagues;
 			sourceTree = "<group>";
@@ -625,6 +630,7 @@
 				8E48AF7F20DFDE1700D814BE /* LeagueTagsCell.swift */,
 				8E48AF8120DFE21800D814BE /* LeagueInfoCell.swift */,
 				8E48AF8320DFE91C00D814BE /* LeaguePlayersCell.swift */,
+				8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -977,6 +983,7 @@
 				8E17907A207B03C9004FF5D2 /* AttendeesViewController.swift in Sources */,
 				8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */,
 				8EDFB1BA1E3D3F00006DD187 /* LocationService.swift in Sources */,
+				8ED3FE5320E3325E00D43F7E /* LeaguePlayersViewController.swift in Sources */,
 				8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */,
 				8E16A59E1FECB34400D24D69 /* DeepLinkService.swift in Sources */,
 				8E7A2FFA1F831411004EAE6A /* Organizer.swift in Sources */,
@@ -1017,6 +1024,7 @@
 				C6FDE5C620431F0100FE0C76 /* FirebaseAPIService.swift in Sources */,
 				8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */,
 				8EDD13E91FEB78C10039F1A7 /* ShareService.swift in Sources */,
+				8EF7F9F520E339A30037962E /* LeaguePlayerCell.swift in Sources */,
 				8E571A0320E25E2B003AB202 /* RAImageView.swift in Sources */,
 				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,
 				8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */,

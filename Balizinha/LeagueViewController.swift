@@ -57,6 +57,13 @@ class LeagueViewController: UIViewController {
             }
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toAddPlayers", let controller = segue.destination as? LeaguePlayersViewController {
+            controller.league = league
+            controller.delegate = self
+        }
+    }
 }
 
 extension LeagueViewController: UITableViewDataSource {
@@ -85,6 +92,9 @@ extension LeagueViewController: UITableViewDataSource {
         case .players:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayersCell", for: indexPath) as! LeaguePlayersCell
             cell.delegate = self
+            cell.handleAddPlayers = {
+                goToAddPlayers()
+            }()
             cell.configure(players: players)
             return cell
         }
@@ -103,5 +113,15 @@ extension LeagueViewController: PlayersScrollViewDelegate {
         
         playerController.player = player
         self.navigationController?.pushViewController(playerController, animated: true)
+    }
+}
+
+extension LeagueViewController: LeaguePlayersDelegate {
+    func didUpdateRoster() {
+//        observeUsers()
+    }
+
+    func goToAddPlayers() {
+        performSegue(withIdentifier: "toAddPlayers", sender: nil)
     }
 }

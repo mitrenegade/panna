@@ -12,6 +12,7 @@ class LeaguePlayersCell: UITableViewCell {
 
     @IBOutlet weak var playersView: PlayersScrollView!
     weak var delegate: PlayersScrollViewDelegate?
+    var handleAddPlayers: (()->Void)?
 
     func configure(players: [Player]?) {
         playersView.delegate = delegate
@@ -22,5 +23,9 @@ class LeaguePlayersCell: UITableViewCell {
         }
         
         playersView.refresh()
+    }
+    
+    @IBAction func didClickAddPlayers(_ sender: Any?) {
+        handleAddPlayers?()
     }
 }
