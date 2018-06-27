@@ -33,6 +33,12 @@ class FirebaseBaseModel: NSObject {
             }
         }
     }
+
+    init(key: String, dict: [String: Any]?) {
+        self.firebaseKey = key
+        self.firebaseRef = nil // no ref from a dict
+        self.dict = dict ?? [:]
+    }
     
     override convenience init() {
         self.init(snapshot: nil)

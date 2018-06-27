@@ -111,6 +111,28 @@ class LeagueService: NSObject {
         }
     }
     
+    func events(for league: League, completion: @escaping (([Event]?)->Void)) {
+        FirebaseAPIService().cloudFunction(functionName: "getEventsForLeague", params: ["leagueId": league.id]) { (result, error) in
+            guard error == nil else {
+                print("Events for league error \(error)")
+                completion(nil)
+                return
+            }
+            print("Events for league results \(result)")
+            if let resultDict = result as? [String: Any], let eventDicts = resultDict["result"] as? [String:[String: Any]] {
+                var events = [Event]()
+                for (key, value) in eventDicts {
+                    let event = Event(key: key, dict: value)
+                    EventService.shared.cacheEvent(event: event)
+                    events.append(event)
+                }
+                completion(events)
+            } else {
+                completion([])
+            }
+        }
+    }
+    
     func leagues(for player: Player, completion: @escaping (([String]?)->Void)) {
         FirebaseAPIService().cloudFunction(functionName: "getLeaguesForPlayer", params: ["userId": player.id]) { (result, error) in
             guard error == nil else {
