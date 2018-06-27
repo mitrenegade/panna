@@ -391,6 +391,9 @@ Type</string>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                                     <state key="normal" title="Edit Players"/>
+                                                    <connections>
+                                                        <action selector="didClickAddPlayers:" destination="f8f-lZ-WyF" eventType="touchUpInside" id="dUM-qf-KoB"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -59,7 +59,7 @@ class LeagueViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toAddPlayers", let controller = segue.destination as? LeaguePlayersViewController {
+        if segue.identifier == "toLeaguePlayers", let controller = segue.destination as? LeaguePlayersViewController {
             controller.league = league
             controller.delegate = self
         }
@@ -122,6 +122,6 @@ extension LeagueViewController: LeaguePlayersDelegate {
     }
 
     func goToAddPlayers() {
-        performSegue(withIdentifier: "toAddPlayers", sender: nil)
+        performSegue(withIdentifier: "toLeaguePlayers", sender: nil)
     }
 }
