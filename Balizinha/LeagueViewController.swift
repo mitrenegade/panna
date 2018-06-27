@@ -92,9 +92,9 @@ extension LeagueViewController: UITableViewDataSource {
         case .players:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayersCell", for: indexPath) as! LeaguePlayersCell
             cell.delegate = self
-            cell.handleAddPlayers = {
-                goToAddPlayers()
-            }()
+            cell.handleAddPlayers = { [weak self] in
+                self?.goToAddPlayers()
+            }
             cell.configure(players: players)
             return cell
         }
