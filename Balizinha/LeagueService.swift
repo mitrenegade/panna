@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import Firebase
 
-fileprivate var _leagues: [League] = []
+fileprivate var _leagues: [String: League] = [:]
 fileprivate var _playerLeagues: [String] = []
 
 class LeagueService: NSObject {
@@ -79,11 +79,11 @@ class LeagueService: NSObject {
                 for dict: DataSnapshot in allObjects {
                     guard dict.exists() else { continue }
                     let league = League(snapshot: dict)
-                    _leagues.append(league)
+                    _leagues[league.id] = league
                 }
             }
             print("getLeagues results count: \(_leagues.count)")
-            completion(_leagues)
+            completion(Array(_leagues.values))
         }
     }
     
@@ -191,9 +191,7 @@ class LeagueService: NSObject {
     }
     
     func withId(id: String, completion: @escaping ((League?)->Void)) {
-        if let found = _leagues.first(where: { (league) -> Bool in
-            return league.id == id
-        }) {
+        if let found = _leagues[id] {
             completion(found)
             return
         }
@@ -206,7 +204,7 @@ class LeagueService: NSObject {
             }
             
             let league = League(snapshot: snapshot)
-            _leagues.append(league)
+            _leagues[id] = league
             completion(league)
         })
     }
