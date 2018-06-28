@@ -19,6 +19,8 @@ class LeaguePlayersCell: UITableViewCell {
     func configure(players: [Player]?) {
         playersView.delegate = delegate
         
+        playersView.reset()
+        
         guard let players = players else { return }
         for player in players {
             playersView.addPlayer(player: player)
