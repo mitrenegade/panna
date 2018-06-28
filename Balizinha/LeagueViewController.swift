@@ -23,6 +23,7 @@ class LeagueViewController: UIViewController {
     
     var league: League?
     var players: [Player] = []
+    var roster: [Membership]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,30 +32,46 @@ class LeagueViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 80
         
-        observePlayers()
+        loadRoster()
+    }
+    
+    func loadRoster() {
+        guard let league = league else { return }
+        LeagueService.shared.memberships(for: league) { [weak self] (results) in
+            self?.roster = results
+            self?.observePlayers()
+        }
     }
     
     func observePlayers() {
         guard let league = self.league else { return }
         players.removeAll()
         let dispatchGroup = DispatchGroup()
-        LeagueService.shared.players(for: league) { (playerIds) in
-            for playerId in playerIds ?? [] {
-                dispatchGroup.enter()
-                PlayerService.shared.withId(id: playerId, completion: {[weak self] (player) in
-                    if let player = player {
-                        self?.players.append(player)
-                        dispatchGroup.leave()
-                    }
-                })
-            }
-            dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
-                if let index = self?.rows.index(of: .players) {
-                    DispatchQueue.main.async {
-                        self?.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
-                    }
+        for membership in roster ?? [] {
+            let playerId = membership.playerId
+            guard membership.isActive else { continue }
+            dispatchGroup.enter()
+            PlayerService.shared.withId(id: playerId, completion: {[weak self] (player) in
+                if let player = player {
+                    self?.players.append(player)
+                    dispatchGroup.leave()
+                }
+            })
+        }
+        dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            if let index = self?.rows.index(of: .players) {
+                DispatchQueue.main.async {
+                    self?.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
                 }
             }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toLeaguePlayers", let controller = segue.destination as? LeaguePlayersViewController {
+            controller.league = league
+            controller.delegate = self
+            controller.roster = roster
         }
     }
 }
@@ -85,6 +102,10 @@ extension LeagueViewController: UITableViewDataSource {
         case .players:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayersCell", for: indexPath) as! LeaguePlayersCell
             cell.delegate = self
+            cell.handleAddPlayers = { [weak self] in
+                self?.goToAddPlayers()
+            }
+            cell.roster = roster
             cell.configure(players: players)
             return cell
         }
@@ -103,5 +124,16 @@ extension LeagueViewController: PlayersScrollViewDelegate {
         
         playerController.player = player
         self.navigationController?.pushViewController(playerController, animated: true)
+    }
+}
+
+extension LeagueViewController: LeaguePlayersDelegate {
+    func didUpdateRoster(_ roster: [Membership]?) {
+        self.roster = roster
+        observePlayers()
+    }
+
+    func goToAddPlayers() {
+        performSegue(withIdentifier: "toLeaguePlayers", sender: nil)
     }
 }

@@ -56,7 +56,9 @@ class RAImageView: UIImageView {
         activityIndicator?.startAnimating()
         task = defaultSession.dataTask(with: url, completionHandler: { [weak self] (data, response, error) in
             defer {
-                self?.cancel()
+                DispatchQueue.main.async {
+                    self?.cancel()
+                }
             }
             
             if nil != error {

@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import Firebase
 
-fileprivate var _leagues: [League] = []
+fileprivate var _leagues: [String: League] = [:]
 fileprivate var _playerLeagues: [String] = []
 
 class LeagueService: NSObject {
@@ -79,11 +79,35 @@ class LeagueService: NSObject {
                 for dict: DataSnapshot in allObjects {
                     guard dict.exists() else { continue }
                     let league = League(snapshot: dict)
-                    _leagues.append(league)
+                    _leagues[league.id] = league
                 }
             }
             print("getLeagues results count: \(_leagues.count)")
-            completion(_leagues)
+            completion(Array(_leagues.values))
+        }
+    }
+    
+    func memberships(for league: League, completion: @escaping (([Membership]?)->Void)) {
+        FirebaseAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
+            guard error == nil else {
+                //print("Players for league error \(error)")
+                completion(nil)
+                return
+            }
+            //print("Players for league results \(result)")
+            if let dict = (result as? [String: Any])?["result"] as? [String: Any] {
+                let roster = dict.compactMap({ (arg) -> Membership? in
+                    let (key, val) = arg
+                    if let status = val as? String {
+                        return Membership(id: key, status: status)
+                    } else {
+                        return nil
+                    }
+                })
+                completion(roster)
+            } else {
+                completion([])
+            }
         }
     }
     
@@ -154,10 +178,20 @@ class LeagueService: NSObject {
         return _playerLeagues.contains(league.id)
     }
     
+    func changeLeaguePlayerStatus(playerId: String, league: League, status: String, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
+        FirebaseAPIService().cloudFunction(functionName: "changeLeaguePlayerStatus", method: "POST", params: ["userId": playerId, "leagueId": league.id, "status": status]) { (result, error) in
+            guard error == nil else {
+                print("Player status change error \(error)")
+                completion(nil, error)
+                return
+            }
+            print("Player status change result \(result)")
+            completion(result, nil)
+        }
+    }
+    
     func withId(id: String, completion: @escaping ((League?)->Void)) {
-        if let found = _leagues.first(where: { (league) -> Bool in
-            return league.id == id
-        }) {
+        if let found = _leagues[id] {
             completion(found)
             return
         }
@@ -170,7 +204,7 @@ class LeagueService: NSObject {
             }
             
             let league = League(snapshot: snapshot)
-            _leagues.append(league)
+            _leagues[id] = league
             completion(league)
         })
     }
