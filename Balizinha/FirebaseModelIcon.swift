@@ -23,6 +23,9 @@ class FirebaseModelIcon: UIView {
     
     fileprivate func refreshPhoto(url: String?) {
         imageView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = imageView.frame.size.height / 4
+        imageView.contentMode = .scaleAspectFill
         if let url = url {
             imageView.imageUrl = url
         }
@@ -33,11 +36,6 @@ class FirebaseModelIcon: UIView {
     }
     
     func refresh() {
-        // FIXME: imageView must be explicitly sized, and cannot just be the same size is view
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = imageView.frame.size.height / 4
-        
         refreshPhoto(url: photoUrl)
         
         if imageView.superview == nil {
