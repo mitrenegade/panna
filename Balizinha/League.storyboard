@@ -12,6 +12,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="Montserrat-MediumItalic.ttf">
+            <string>Montserrat-MediumItalic</string>
+        </array>
         <array key="Montserrat-Regular.ttf">
             <string>Montserrat-Regular</string>
         </array>
@@ -384,12 +387,12 @@ Type</string>
                                                         <outlet property="scrollView" destination="nfM-fg-VLZ" id="UvD-ab-UVd"/>
                                                     </connections>
                                                 </view>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lrh-3d-Og7">
-                                                    <rect key="frame" x="0.0" y="40" width="375" height="30"/>
+                                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lrh-3d-Og7">
+                                                    <rect key="frame" x="15" y="40" width="345" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="6KS-Pd-XGH"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-MediumItalic" family="Montserrat" pointSize="12"/>
                                                     <state key="normal" title="Edit Players"/>
                                                     <connections>
                                                         <action selector="didClickAddPlayers:" destination="f8f-lZ-WyF" eventType="touchUpInside" id="dUM-qf-KoB"/>
@@ -399,15 +402,16 @@ Type</string>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="QOc-7c-BWJ" firstAttribute="top" secondItem="P6D-RX-mou" secondAttribute="top" id="5mI-g0-2cJ"/>
-                                                <constraint firstItem="QOc-7c-BWJ" firstAttribute="trailing" secondItem="Lrh-3d-Og7" secondAttribute="trailing" id="FzX-eA-9uP"/>
-                                                <constraint firstAttribute="trailing" secondItem="Lrh-3d-Og7" secondAttribute="trailing" id="JD2-rT-CjT"/>
-                                                <constraint firstItem="Lrh-3d-Og7" firstAttribute="leading" secondItem="P6D-RX-mou" secondAttribute="leading" id="LC2-qu-7Qc"/>
+                                                <constraint firstItem="QOc-7c-BWJ" firstAttribute="trailing" secondItem="Lrh-3d-Og7" secondAttribute="trailing" constant="15" id="FzX-eA-9uP"/>
+                                                <constraint firstAttribute="trailing" secondItem="Lrh-3d-Og7" secondAttribute="trailing" constant="15" id="JD2-rT-CjT"/>
+                                                <constraint firstItem="Lrh-3d-Og7" firstAttribute="leading" secondItem="P6D-RX-mou" secondAttribute="leading" constant="15" id="LC2-qu-7Qc"/>
                                                 <constraint firstItem="Lrh-3d-Og7" firstAttribute="top" secondItem="QOc-7c-BWJ" secondAttribute="bottom" id="LhO-eV-wVp"/>
                                                 <constraint firstAttribute="bottom" secondItem="Lrh-3d-Og7" secondAttribute="bottom" id="Sbe-su-U5T"/>
-                                                <constraint firstItem="QOc-7c-BWJ" firstAttribute="leading" secondItem="Lrh-3d-Og7" secondAttribute="leading" id="jCd-bm-01S"/>
+                                                <constraint firstItem="QOc-7c-BWJ" firstAttribute="leading" secondItem="Lrh-3d-Og7" secondAttribute="leading" constant="-15" id="jCd-bm-01S"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="constraintEditPlayerHeight" destination="6KS-Pd-XGH" id="sm6-UY-EA3"/>
                                             <outlet property="playersView" destination="QOc-7c-BWJ" id="DtZ-zk-rJe"/>
                                         </connections>
                                     </tableViewCell>
@@ -442,7 +446,7 @@ Type</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rSu-IK-jAy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="800.5" y="138.5"/>
+            <point key="canvasLocation" x="799.20000000000005" y="138.0809595202399"/>
         </scene>
         <!--League Players View Controller-->
         <scene sceneID="i0E-AD-ef2">

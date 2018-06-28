@@ -12,7 +12,9 @@ class LeaguePlayersCell: UITableViewCell {
 
     @IBOutlet weak var playersView: PlayersScrollView!
     weak var delegate: PlayersScrollViewDelegate?
+    @IBOutlet weak var constraintEditPlayerHeight: NSLayoutConstraint!
     var handleAddPlayers: (()->Void)?
+    var roster: [Membership]?
 
     func configure(players: [Player]?) {
         playersView.delegate = delegate
@@ -23,6 +25,10 @@ class LeaguePlayersCell: UITableViewCell {
         }
         
         playersView.refresh()
+        
+        // organizer is allowed to edit players
+        let isOrganizer = roster?.filter() { $0.playerId == PlayerService.shared.current.value?.id }.first?.isOrganizer ?? false
+        constraintEditPlayerHeight.constant = isOrganizer ? 30 : 0
     }
     
     @IBAction func didClickAddPlayers(_ sender: Any?) {

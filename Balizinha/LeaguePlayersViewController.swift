@@ -11,7 +11,7 @@ import UIKit
 import Firebase
 
 protocol LeaguePlayersDelegate: class {
-    func didUpdateRoster()
+    func didUpdateRoster(_ roster: [Membership]?)
 }
 
 class LeaguePlayersViewController: UIViewController {
@@ -26,9 +26,9 @@ class LeaguePlayersViewController: UIViewController {
     
     fileprivate let sections = ["Organizers", "Members", "Add a Player", "Players"]
     
-    fileprivate var members: [Membership] { // all members including organizers
+    fileprivate var members: [Membership] { // all members not including organizers
         guard let players = roster else { return [] }
-        return players.filter() { $0.isActive }
+        return players.filter() { $0.isActive && !$0.isOrganizer }
     }
     fileprivate var organizers: [Membership] {
         guard let players = roster else { return [] }
@@ -48,24 +48,13 @@ class LeaguePlayersViewController: UIViewController {
             navigationItem.title = "Players"
         }
         
-        loadRoster()
+        loadFromRef()
     }
     
     func reloadTableData() {
         tableView.reloadData()
     }
-    
-    
-    func loadRoster() {
-        guard let league = league else { return }
-        LeagueService.shared.memberships(for: league) { [weak self] (results) in
-            self?.roster = results
-            
-            self?.loadFromRef()
-        }
-    }
-    
-    
+
     func loadLeaguePlayers() { // only loads league players, using LeagueService cloud call
         guard let league = league else { return }
         LeagueService.shared.players(for: league) { [weak self] (results) in
@@ -229,17 +218,22 @@ extension LeaguePlayersViewController: UITableViewDelegate {
                 let newStatus: Membership.Status = .none
                 let member = members[indexPath.row]
 //                showLoadingIndicator()
+                
+                // immediate update
+                let oldRoster = roster
+                self.roster = (roster.filter() { $0.playerId != member.playerId })
+                self.roster?.append(Membership(id: member.playerId, status: newStatus.rawValue))
+                search(for: searchTerm)
+
                 LeagueService.shared.changeLeaguePlayerStatus(playerId: member.playerId, league: league, status: newStatus.rawValue, completion: { [weak self] (result, error) in
                     print("Result \(result) error \(error)")
-                    if result != nil {
-                        guard let roster = self?.roster else { return }
-                        self?.roster = (roster.filter() { $0.playerId != member.playerId })
-                        self?.roster?.append(Membership(id: member.playerId, status: newStatus.rawValue))
+                    if error != nil {
+                        self?.roster = oldRoster
                     }
                     DispatchQueue.main.async {
 //                        self?.hideLoadingIndicator()
                         self?.search(for: self?.searchTerm)
-                        self?.delegate?.didUpdateRoster()
+                        self?.delegate?.didUpdateRoster(self?.roster)
                     }
                 })
                 break
@@ -249,17 +243,22 @@ extension LeaguePlayersViewController: UITableViewDelegate {
                 let player = filteredPlayers[indexPath.row]
                 let newStatus: Membership.Status = .member
 //                showLoadingIndicator()
+                
+                // immediate update
+                let oldRoster = roster
+                self.roster = (roster.filter() { $0.playerId != player.id })
+                self.roster?.append(Membership(id: player.id, status: newStatus.rawValue))
+                search(for: searchTerm)
+                
                 LeagueService.shared.changeLeaguePlayerStatus(playerId: player.id, league: league, status: newStatus.rawValue, completion: { [weak self] (result, error) in
                     print("Result \(result) error \(error)")
-                    if result != nil {
-                        guard let roster = self?.roster else { return }
-                        self?.roster = (roster.filter() { $0.playerId != player.id })
-                        self?.roster?.append(Membership(id: player.id, status: newStatus.rawValue))
+                    if error != nil {
+                        self?.roster = oldRoster
                     }
                     DispatchQueue.main.async {
 //                        self?.hideLoadingIndicator()
                         self?.search(for: self?.searchTerm)
-                        self?.delegate?.didUpdateRoster()
+                        self?.delegate?.didUpdateRoster(self?.roster)
                     }
                 })
             default:
@@ -303,7 +302,7 @@ extension LeaguePlayersViewController: UITableViewDelegate {
                 DispatchQueue.main.async {
 //                    self?.hideLoadingIndicator()
                     self?.search(for: self?.searchTerm)
-                    self?.delegate?.didUpdateRoster()
+                    self?.delegate?.didUpdateRoster(self?.roster)
                 }
             })
         }))
@@ -331,6 +330,8 @@ extension LeaguePlayersViewController: PlayerSearchDelegate {
         // filter for membership
         filteredPlayers = filteredPlayers.filter({ (p) -> Bool in
             return (members.filter() { $0.playerId == p.id }).isEmpty
+        }).filter({ (p) -> Bool in
+            return (organizers.filter() { $0.playerId == p.id }).isEmpty
         })
         
         reloadTableData()
