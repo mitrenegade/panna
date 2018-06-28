@@ -9,31 +9,6 @@
 import UIKit
 import Firebase
 
-struct Membership {
-    enum Status: String {
-        case organizer
-        case organizerRequested
-        case member
-        case memberRequested
-        case none
-    }
-    
-    let playerId: String
-    let status: Status
-    
-    init(id: String, status: String) {
-        playerId = id
-        self.status = Status(rawValue: status) ?? .none
-    }
-    
-    var isActive: Bool { // returns if member OR organizer
-        return status != .none && status != .memberRequested
-    }
-    var isOrganizer: Bool {
-        return status == .organizer
-    }
-}
-
 class League: FirebaseBaseModel {
     var name: String? {
         get {

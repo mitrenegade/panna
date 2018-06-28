@@ -20,7 +20,6 @@ class PlayerSearchCell: UITableViewCell {
     weak var delegate: PlayerSearchDelegate?
 
     @IBAction func didClickSearch(_ sender: Any?) {
-        guard let text = inputSearch.text, !text.isEmpty else { return }
-        delegate?.search(for: text)
+        delegate?.search(for: inputSearch.text)
     }
 }

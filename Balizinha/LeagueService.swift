@@ -87,6 +87,30 @@ class LeagueService: NSObject {
         }
     }
     
+    func memberships(for league: League, completion: @escaping (([Membership]?)->Void)) {
+        FirebaseAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
+            guard error == nil else {
+                //print("Players for league error \(error)")
+                completion(nil)
+                return
+            }
+            //print("Players for league results \(result)")
+            if let dict = (result as? [String: Any])?["result"] as? [String: Any] {
+                let roster = dict.compactMap({ (arg) -> Membership? in
+                    let (key, val) = arg
+                    if let status = val as? String {
+                        return Membership(id: key, status: status)
+                    } else {
+                        return nil
+                    }
+                })
+                completion(roster)
+            } else {
+                completion([])
+            }
+        }
+    }
+    
     func players(for league: League, completion: @escaping (([String]?)->Void)) {
         FirebaseAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {

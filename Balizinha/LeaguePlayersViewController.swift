@@ -26,16 +26,16 @@ class LeaguePlayersViewController: UIViewController {
     
     fileprivate let sections = ["Organizers", "Members", "Add a Player", "Players"]
     
-    fileprivate var members: [Membership] {
+    fileprivate var members: [Membership] { // all members including organizers
         guard let players = roster else { return [] }
-        return players.filter() { $0.isActive && !$0.isOrganizer }
+        return players.filter() { $0.isActive }
     }
     fileprivate var organizers: [Membership] {
         guard let players = roster else { return [] }
         return players.filter() { return $0.isOrganizer }
     }
     fileprivate var allPlayers: [Player] = []
-    fileprivate var filteredPlayers: [Player] = []
+    fileprivate var filteredPlayers: [Player] = [] // players filtered based on search
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,14 +48,51 @@ class LeaguePlayersViewController: UIViewController {
             navigationItem.title = "Players"
         }
         
-        load()
+        loadRoster()
     }
     
     func reloadTableData() {
         tableView.reloadData()
     }
     
-    func load() {
+    
+    func loadRoster() {
+        guard let league = league else { return }
+        LeagueService.shared.memberships(for: league) { [weak self] (results) in
+            self?.roster = results
+            
+            self?.loadFromRef()
+        }
+    }
+    
+    
+    func loadLeaguePlayers() { // only loads league players, using LeagueService cloud call
+        guard let league = league else { return }
+        LeagueService.shared.players(for: league) { [weak self] (results) in
+            guard let playerIds = results, let weakself = self else { return }
+            weakself.allPlayers.removeAll()
+            for playerId in playerIds {
+                print("BOBBYTEST loading player \(playerId)")
+                PlayerService.shared.withId(id: playerId, completion: { (player) in
+                    if let player = player {
+                        weakself.allPlayers.append(player)
+                        // BOBBY TODO efficiency needed
+                        self?.allPlayers.sort(by: { (p1, p2) -> Bool in
+                            guard let t1 = p1.createdAt else { return false }
+                            guard let t2 = p2.createdAt else { return true}
+                            return t1 > t2
+                        })
+                        self?.search(for: nil)
+                        //                self?.hideLoadingIndicator()
+                        print("BOBBYTEST reloading after loaded player \(playerId)")
+                        self?.reloadTableData()
+                    }
+                })
+            }
+        }
+    }
+    
+    func loadFromRef() { // loads all players, using observed player endpoint
 //        showLoadingIndicator()
         let playerRef = firRef.child("players").queryOrdered(byChild: "createdAt")
         playerRef.observe(.value) {[weak self] (snapshot) in
@@ -188,9 +225,9 @@ extension LeaguePlayersViewController: UITableViewDelegate {
 
             switch sections[indexPath.section] {
             case "Members" :
-                guard indexPath.row < roster.count else { return }
+                guard indexPath.row < members.count else { return }
                 let newStatus: Membership.Status = .none
-                let member = roster[indexPath.row]
+                let member = members[indexPath.row]
 //                showLoadingIndicator()
                 LeagueService.shared.changeLeaguePlayerStatus(playerId: member.playerId, league: league, status: newStatus.rawValue, completion: { [weak self] (result, error) in
                     print("Result \(result) error \(error)")
@@ -280,7 +317,7 @@ extension LeaguePlayersViewController: PlayerSearchDelegate {
         
         // filter for search string; if string is nil, uses all players
         searchTerm = string
-        if let currentSearch = searchTerm {
+        if let currentSearch = searchTerm, !currentSearch.isEmpty {
             filteredPlayers = allPlayers.filter() {
                 let nameMatch = $0.name?.contains(currentSearch) ?? false
                 let emailMatch = $0.email?.contains(currentSearch) ?? false
@@ -293,10 +330,7 @@ extension LeaguePlayersViewController: PlayerSearchDelegate {
         
         // filter for membership
         filteredPlayers = filteredPlayers.filter({ (p) -> Bool in
-            let contains = members.filter({ (m) -> Bool in
-                return m.playerId == p.id
-            })
-            return contains.first == nil
+            return (members.filter() { $0.playerId == p.id }).isEmpty
         })
         
         reloadTableData()
