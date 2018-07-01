@@ -32,8 +32,7 @@ class SettingsService: NSObject {
                 self.remoteConfig.activateFetched()
                 print("Settings: * featureAvailable donation \(SettingsService.donation())")
                 print("Settings: * featureAvailable paymentRequired \(SettingsService.paymentRequired())")
-                print("Settings: * featureAvailable organizerPaymentRequired \(SettingsService.organizerPaymentRequired())")
-                print("Settings: * featureAvailable organizerTrialAvailable \(SettingsService.organizerTrialAvailable())")
+                print("Settings: * featureAvailable ownerPaymentRequired \(SettingsService.ownerPaymentRequired())")
                 print("Settings: * featureAvailable maps \(SettingsService.usesMaps)")
                 print("Settings: * showPreview \(SettingsService.shared.featureExperiment("showPreview")) testGroup \(SettingsService.showPreviewTestGroup())")
                 print("Settings: * newestVersion \(SettingsService.newestVersion)")
@@ -74,6 +73,10 @@ extension SettingsService {
 
     class func organizerPaymentRequired() -> Bool {
         return shared.featureAvailable("organizerPayment")
+    }
+    
+    class func ownerPaymentRequired() -> Bool {
+        return shared.featureAvailable("ownerPayment")
     }
 
     class var usesMaps: Bool {
