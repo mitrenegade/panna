@@ -120,19 +120,6 @@ class LeagueService: NSObject {
             }
         }
     }
-    
-    func observeUsers(for league: League, completion: ((_ result: [Membership]?, _ error: Error?) -> Void)?) {
-        let queryRef = firRef.child("leaguePlayers").child(league.id)
-        queryRef.observeSingleEvent(of: .value) { (snapshot) in
-            guard snapshot.exists() else { return }
-            // return value should be [playerId: status]
-            guard let dict = snapshot.value as? [String: String] else { return }
-            let roster = dict.compactMap({ (id, status) -> Membership? in
-                return Membership(id: id, status: status)
-            })
-            completion?(roster, nil)
-        }
-    }
 
     func players(for league: League, completion: @escaping (([String]?)->Void)) {
         guard !AIRPLANE_MODE else {

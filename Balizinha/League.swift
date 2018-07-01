@@ -10,29 +10,6 @@ import UIKit
 import Firebase
 import RxSwift
 
-struct Membership {
-    enum Status: String {
-        case organizer
-        case member
-        case none
-    }
-    
-    let playerId: String
-    let status: Status
-    
-    init(id: String, status: String) {
-        playerId = id
-        self.status = Status(rawValue: status) ?? .none
-    }
-    
-    var isActive: Bool { // returns if member OR organizer
-        return status != .none
-    }
-    var isOrganizer: Bool {
-        return status == .organizer
-    }
-}
-
 class League: FirebaseBaseModel {
     var name: String? {
         get {
@@ -103,19 +80,6 @@ class League: FirebaseBaseModel {
                 return val
             }
             return nil
-        }
-    }
-    
-    // RX
-    var playerCount: Variable<Int> = Variable(0)
-    func countPlayers() {
-        LeagueService.shared.observeUsers(for: self) { [weak self] (result, error) in
-            guard let roster = result else { return }
-            // count players
-            let members = roster.filter() {
-                return $0.isActive
-            }
-            self?.playerCount.value = members.count
         }
     }
 }
