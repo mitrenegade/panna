@@ -57,10 +57,10 @@ class SplashViewController: UIViewController {
     }
     
     @objc func didLogin() {
-        print("LoginLogout: didLogin")
         guard let user = AuthService.currentUser else {
             return
         }
+        print("LoginLogout: didLogin userId \(user.uid)")
         Crashlytics.sharedInstance().setUserIdentifier(user.uid)
 
         // loads player from web or cache - don't use player.current yet

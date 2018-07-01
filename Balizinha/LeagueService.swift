@@ -21,6 +21,10 @@ class LeagueService: NSObject {
         disposeBag = DisposeBag()
         super.init()
         
+        guard !AIRPLANE_MODE else {
+            return
+        }
+        
         PlayerService.shared.current.asObservable().distinctUntilChanged().subscribe(onNext: { [weak self] player in
             guard let player = player else { return }
             
@@ -66,6 +70,12 @@ class LeagueService: NSObject {
     }
     
     func getLeagues(completion: @escaping (_ results: [League]) -> Void) {
+        guard !AIRPLANE_MODE else {
+            let results = League.randomLeagues()
+            completion(results)
+            return
+        }
+        
         let queryRef = firRef.child("leagues")
         
         queryRef.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
@@ -110,8 +120,17 @@ class LeagueService: NSObject {
             }
         }
     }
-    
+
     func players(for league: League, completion: @escaping (([String]?)->Void)) {
+        guard !AIRPLANE_MODE else {
+            if league.id == LEAGUE_ID_AIRPLANE_MODE {
+                completion([LEAGUE_ID_AIRPLANE_MODE])
+            } else {
+                completion(nil)
+            }
+            return
+        }
+
         FirebaseAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
                 //print("Players for league error \(error)")
@@ -158,6 +177,10 @@ class LeagueService: NSObject {
     }
     
     func leagues(for player: Player, completion: @escaping (([String]?)->Void)) {
+        guard !AIRPLANE_MODE else {
+            completion([LEAGUE_ID_AIRPLANE_MODE])
+            return
+        }
         FirebaseAPIService().cloudFunction(functionName: "getLeaguesForPlayer", params: ["userId": player.id]) { (result, error) in
             guard error == nil else {
                 //print("Leagues for player error \(error)")

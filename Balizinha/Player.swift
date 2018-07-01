@@ -168,3 +168,20 @@ class Player: FirebaseBaseModel {
     }
 }
 
+let PLAYER_ID_AIRPLANE_MODE = "1234"
+extension Player {
+    //***************** hack: for test purposes only
+    class func random() -> Player {
+        let player = Player()
+        player.dict = ["name": "Bobby", "email": "test@renderapps.io", "city": player.randomPlace()]
+        player.firebaseKey = PLAYER_ID_AIRPLANE_MODE
+        return player
+    }
+    
+    fileprivate func randomPlace() -> String {
+        let places = ["Boston", "New York", "Philadelphia", "Florida"]
+        let random = Int(arc4random_uniform(UInt32(places.count)))
+        return places[random]
+    }
+}
+
