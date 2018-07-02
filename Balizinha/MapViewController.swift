@@ -36,10 +36,6 @@ class MapViewController: EventsViewController {
             navigationItem.title = "Balizinha"
             
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign in", style: .done, target: self, action: #selector(didClickProfile(_:)))
-        } else {
-            if OrganizerService.shared.current == nil {
-                navigationItem.rightBarButtonItem = nil
-            }
         }
     }
     
@@ -253,11 +249,7 @@ extension MapViewController {
                 } else if LocationService.shared.shouldFilterNearbyEvents {
                     cell.textLabel?.text = "There are currently no events near you."
                 } else {
-                    if OrganizerService.shared.current != nil {
-                        cell.textLabel?.text = "There are currently no events. Click the plus button to organize a game."
-                    } else {
-                        cell.textLabel?.text = "There are currently no events."
-                    }
+                    cell.textLabel?.text = "There are currently no events."
                 }
                 return cell
             }

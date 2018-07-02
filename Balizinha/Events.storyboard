@@ -13,6 +13,9 @@
         <array key="Montserrat-Light.ttf">
             <string>Montserrat-Light</string>
         </array>
+        <array key="Montserrat-LightItalic.ttf">
+            <string>Montserrat-LightItalic</string>
+        </array>
         <array key="Montserrat-Regular.ttf">
             <string>Montserrat-Regular</string>
         </array>
@@ -343,7 +346,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3DI-kB-aAv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2277.5999999999999" y="113.79310344827587"/>
+            <point key="canvasLocation" x="2425" y="114"/>
         </scene>
         <!--Place Search View Controller-->
         <scene sceneID="Imu-oP-O0b">
@@ -451,12 +454,109 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="iE0-Lk-oSS" kind="relationship" relationship="rootViewController" id="eER-fX-4wp"/>
+                        <segue destination="imi-fd-pOt" kind="relationship" relationship="rootViewController" id="stF-LO-qIY"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U30-pg-sew" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1556" y="114"/>
+            <point key="canvasLocation" x="1100" y="114"/>
+        </scene>
+        <!--Event League Selector View Controller-->
+        <scene sceneID="ktB-uj-rD9">
+            <objects>
+                <viewController id="imi-fd-pOt" customClass="EventLeagueSelectorViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="z9f-nV-cZp"/>
+                        <viewControllerLayoutGuide type="bottom" id="FQx-eR-j1X"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0pR-G4-b0N">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ia0-ED-6pk">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="info" textLabel="YNo-0Q-5Yu" style="IBUITableViewCellStyleDefault" id="joC-yu-Ya3">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="joC-yu-Ya3" id="V3c-Qd-Dpe">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YNo-0Q-5Yu">
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-LightItalic" family="Montserrat" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeagueCell" rowHeight="100" id="EkA-Nh-Ae0" customClass="LeagueCell" customModule="Balizinha" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="72" width="375" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EkA-Nh-Ae0" id="EzD-dt-qi0">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Kh-2X-1pg" customClass="RAImageView" customModule="Balizinha" customModuleProvider="target">
+                                                    <rect key="frame" x="152" y="4" width="70" height="70"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="70" id="eIh-1D-5j1"/>
+                                                        <constraint firstAttribute="width" constant="70" id="jzN-KG-0Gv"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cvu-eG-g8t">
+                                                    <rect key="frame" x="166" y="79" width="43.5" height="20.5"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="Cvu-eG-g8t" secondAttribute="bottom" id="6F1-m5-Vgm"/>
+                                                <constraint firstItem="1Kh-2X-1pg" firstAttribute="centerX" secondItem="EzD-dt-qi0" secondAttribute="centerX" id="AeG-s4-kSh"/>
+                                                <constraint firstItem="Cvu-eG-g8t" firstAttribute="centerX" secondItem="EzD-dt-qi0" secondAttribute="centerX" id="XJ7-c0-2Ff"/>
+                                                <constraint firstItem="1Kh-2X-1pg" firstAttribute="top" secondItem="EzD-dt-qi0" secondAttribute="top" constant="4" id="j6C-FA-qXC"/>
+                                                <constraint firstItem="Cvu-eG-g8t" firstAttribute="top" secondItem="1Kh-2X-1pg" secondAttribute="bottom" constant="5" id="wEE-2r-Dah"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="icon" destination="1Kh-2X-1pg" id="y4s-ux-EMu"/>
+                                            <outlet property="labelName" destination="Cvu-eG-g8t" id="5Yy-11-dxp"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="imi-fd-pOt" id="fH6-88-anU"/>
+                                    <outlet property="delegate" destination="imi-fd-pOt" id="RgT-1j-yry"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ia0-ED-6pk" firstAttribute="top" secondItem="z9f-nV-cZp" secondAttribute="bottom" id="XOw-U4-so6"/>
+                            <constraint firstItem="ia0-ED-6pk" firstAttribute="leading" secondItem="0pR-G4-b0N" secondAttribute="leading" id="fh6-an-Cd2"/>
+                            <constraint firstItem="FQx-eR-j1X" firstAttribute="top" secondItem="ia0-ED-6pk" secondAttribute="bottom" id="pti-yL-Xvp"/>
+                            <constraint firstAttribute="trailing" secondItem="ia0-ED-6pk" secondAttribute="trailing" id="qOO-B5-fym"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="r24-2q-0IR"/>
+                    <connections>
+                        <outlet property="tableView" destination="ia0-ED-6pk" id="CzV-wo-7t0"/>
+                        <segue destination="iE0-Lk-oSS" kind="show" identifier="toCreateEvent" id="nns-VG-RJO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hyH-MG-gkh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1768.8" y="113.79310344827587"/>
         </scene>
         <!--Configurable Navigation Controller-->
         <scene sceneID="kbQ-GD-5hu">
@@ -678,7 +778,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YeQ-UV-OsF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="493.60000000000002" y="96.7016491754123"/>
+            <point key="canvasLocation" x="406" y="114"/>
         </scene>
     </scenes>
     <resources>

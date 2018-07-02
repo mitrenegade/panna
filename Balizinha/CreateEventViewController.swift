@@ -85,6 +85,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
     }
     fileprivate var eventUrl: String?
+    var league: League?
 
     weak var delegate: CreateEventDelegate?
     
@@ -134,11 +135,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(CreateEventViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
     }
