@@ -357,10 +357,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             })
         }
     }
-
-    @IBAction func didClickCancel(_ sender: AnyObject?) {
-        self.navigationController?.dismiss(animated: true, completion: nil)
-    }
 }
 
 extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate {
@@ -668,7 +664,7 @@ extension CreateEventViewController {
         let alert = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Yes, delete this event", style: .default, handler: { (action) in
             EventService.shared.deleteEvent(event)
-            self.didClickCancel(nil)
+            self.navigationController?.dismiss(animated: true, completion: nil)
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)

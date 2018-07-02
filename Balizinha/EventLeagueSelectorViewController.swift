@@ -23,6 +23,9 @@ class EventLeagueSelectorViewController: UIViewController {
 
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(didClickCancel(_:)))
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "League", style: .done, target: self, action: #selector(didClickBack(_:)))
     }
 
     fileprivate func loadData() {
@@ -61,6 +64,14 @@ class EventLeagueSelectorViewController: UIViewController {
         guard segue.identifier == "toCreateEvent", let controller = segue.destination as? CreateEventViewController else { return }
         guard let league = sender as? League else { return }
         controller.league = league
+    }
+    
+    @IBAction func didClickCancel(_ sender: AnyObject?) {
+        self.navigationController?.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func didClickBack(_ sender: AnyObject?) {
+        navigationController?.popToRootViewController(animated: true)
     }
 }
 

@@ -37,13 +37,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="ce4-r9-zhg">
-                                <rect key="frame" x="-4" y="387" width="383" height="216"/>
+                                <rect key="frame" x="-4" y="343" width="383" height="216"/>
                                 <date key="date" timeIntervalSinceReferenceDate="486354411.52228302">
                                     <!--2016-05-31 02:26:51 +0000-->
                                 </date>
                             </datePicker>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2v7-oO-UHN">
-                                <rect key="frame" x="-4" y="387" width="383" height="216"/>
+                                <rect key="frame" x="-4" y="343" width="383" height="216"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="216" id="yP5-cb-nCe"/>
                                 </constraints>
@@ -53,7 +53,7 @@
                                 </connections>
                             </pickerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="av1-CO-Jha">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                                 <color key="backgroundColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EventPhotoCell" rowHeight="100" id="jdx-BC-yFx" customClass="EventPhotoCell" customModule="Balizinha" customModuleProvider="target">
@@ -322,24 +322,9 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <navigationItem key="navigationItem" id="zfn-L9-HLI">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="MBF-jI-gUk">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="didClickCancel:" destination="iE0-Lk-oSS" id="GxI-3R-qWP"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="uEu-QL-VaY">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="didClickSave:" destination="iE0-Lk-oSS" id="DeW-eT-cee"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="667"/>
                     <connections>
-                        <outlet property="saveButton" destination="uEu-QL-VaY" id="G6r-FD-ZRg"/>
                         <outlet property="tableView" destination="av1-CO-Jha" id="tjc-oW-9mk"/>
                         <segue destination="4nl-da-X7N" kind="show" identifier="toLocationSearch" id="HEV-mg-FiE"/>
                     </connections>
@@ -361,7 +346,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" rotateEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" showsCompass="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fSD-iN-M8Z">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <connections>
                                     <outlet property="delegate" destination="4nl-da-X7N" id="xhG-95-lqE"/>
                                 </connections>
@@ -474,7 +459,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ia0-ED-6pk">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="info" textLabel="YNo-0Q-5Yu" style="IBUITableViewCellStyleDefault" id="joC-yu-Ya3">
@@ -548,7 +533,9 @@
                             <constraint firstAttribute="trailing" secondItem="ia0-ED-6pk" secondAttribute="trailing" id="qOO-B5-fym"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="r24-2q-0IR"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="ia0-ED-6pk" id="CzV-wo-7t0"/>
                         <segue destination="iE0-Lk-oSS" kind="show" identifier="toCreateEvent" id="nns-VG-RJO"/>
