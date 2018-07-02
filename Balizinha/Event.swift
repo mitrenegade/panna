@@ -22,6 +22,16 @@ fileprivate let formatter = DateFormatter()
 class Event: FirebaseBaseModel {
     var service = EventService.shared
     
+    var league: String? {
+        get {
+            return self.dict["league"] as? String
+        }
+        set {
+            self.dict["league"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+    
     var name: String? {
         get {
             return self.dict["name"] as? String

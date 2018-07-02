@@ -130,6 +130,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         self.setupPickers()
         self.setupTextFields()
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didClickSave(_:)))
+        
         if CACHE_ORGANIZER_FAVORITE_LOCATION {
             self.loadCachedOrganizerFavorites()
         }
@@ -188,15 +190,15 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         save2.tintColor = self.view.tintColor
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
-//        if TESTING {
-//            self.place = "Rittenhouse"
-//            self.city = "Philadelphia"
-//            self.state = "Pennsylvania"
-//            self.date = Date()
-//            self.startTime = Date()+1800
-//            self.endTime = Date()+3600
-//            maxPlayers = 10
-//        }
+        if TESTING {
+            self.place = "Rittenhouse"
+            self.city = "Philadelphia"
+            self.state = "Pennsylvania"
+            self.date = Date()
+            self.startTime = Date()+1800
+            self.endTime = Date()+3600
+            maxPlayers = 10
+        }
     }
     
     fileprivate func loadCachedOrganizerFavorites() {
@@ -329,7 +331,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             }
         }
         else {
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, completion: { [weak self] (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
                 
                 if let event = event {
                     self?.sendPushForCreatedEvent(event)
