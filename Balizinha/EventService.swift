@@ -15,12 +15,12 @@ import RxSwift
 
 fileprivate var singleton: EventService?
 var _usersForEvents: [String: AnyObject]?
-var _events: [String:Event]?
 
 class EventService: NSObject {
+    var _events: [String:Event]?
     private lazy var __once: () = {
             // firRef is the global firebase ref
-            let queryRef = firRef.child("eventUsers") // this creates a query on the endpoint lotsports.firebase.com/events/
+            let queryRef = firRef.child("eventUsers")
             queryRef.observe(.value) { (snapshot: DataSnapshot) in
                 // this block is called for every result returned
                 guard snapshot.exists() else { return }
@@ -28,6 +28,7 @@ class EventService: NSObject {
                 
                 NotificationCenter.default.post(name: NotificationType.EventsChanged.name(), object: nil)
             }
+        _events = [:]
         }()
     
     // MARK: - Singleton
@@ -166,49 +167,6 @@ class EventService: NSObject {
                 }
             }
         }
-//        let eventRef = firRef.child("events") // this references the endpoint lotsports.firebase.com/events/
-//        let id = FirebaseAPIService.uniqueId()
-//        let newEventRef = eventRef.child(id) // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
-//
-//        var params: [String: Any] = ["name": name, "type": type.rawValue, "city": city, "state": state, "place": place, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "maxPlayers": maxPlayers, "owner": user.uid, "paymentRequired": paymentRequired]
-//        if let lat = lat, let lon = lon {
-//            params["lat"] = lat
-//            params["lon"] = lon
-//        }
-//        if paymentRequired {
-//            params["amount"] = amount
-//        }
-//        if info == nil {
-//            params["info"] = "No description available"
-//        } else {
-//            params["info"] = info as AnyObject?
-//        }
-//
-//        newEventRef.setValue(params) { (error, ref) in
-//            if let error = error as? NSError {
-//                print(error)
-//                completion(nil, error)
-//            } else {
-//                ref.observeSingleEvent(of: .value, with: { (snapshot) in
-//                    guard snapshot.exists() else {
-//                        completion(nil, nil)
-//                        return
-//                    }
-//                    guard let user = AuthService.currentUser else {
-//                        completion(nil, nil)
-//                        return
-//                    }
-//                    let event = Event(snapshot: snapshot)
-//
-//                    // TODO: completion blocks for these too
-//                    self.addEvent(event: event, toUser: user, join: true)
-//                    self.addUser(user, toEvent: event, join: true)
-//
-//                    completion(event, nil)
-//                })
-//            }
-//        }
-        
     }
     
     func deleteEvent(_ event: Event) {
@@ -468,15 +426,18 @@ extension EventService {
             return
         }
         
-        let eventRef = firRef.child("events")
-        eventRef.child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+        let eventRef = firRef.child("events").child(id)
+        eventRef.observe(.value) { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
             }
             let event = Event(snapshot: snapshot)
+            self?.cacheEvent(event: event)
             completion(event)
-        })
+            
+            eventRef.removeAllObservers()
+        }
     }
     
     func cacheEvent(event: Event) {
