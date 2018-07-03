@@ -156,10 +156,6 @@ class EventService: NSObject {
                             completion(nil, nil)
                             return
                         }
-                        // TODO: completion blocks for these too
-                        self.addEvent(event: event, toUser: user, join: true)
-                        self.addUser(user, toEvent: event, join: true)
-                        
                         completion(event, nil)
                     })
                 } else {
@@ -271,7 +267,6 @@ class EventService: NSObject {
             }
             print("getEventsForUser \(user.uid) results count: \(results.count)")
             completion(results)
-            //eventQueryRef.removeObserver(withHandle: handle)
         }
     }
     
