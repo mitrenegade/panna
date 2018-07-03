@@ -100,16 +100,17 @@ class PlayerService: NSObject {
     }
     
     func withId(id: String, completion: @escaping ((Player?)->Void)) {
-        playersRef.child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+        let ref = playersRef.child(id)
+        ref.observe(.value) { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
             }
-            
+            ref.removeAllObservers()
             let player = Player(snapshot: snapshot)
             PlayerService.cachedNames[id] = player.name
             completion(player)
-        })
+        }
     }
 }
 

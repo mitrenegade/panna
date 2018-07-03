@@ -29,14 +29,14 @@ class PromotionService: NSObject {
     }()
 
     func withId(id: String, completion: @escaping ((Promotion?, NSError?)->Void)) {
-        let ref = firRef.child("promotions/\(id)")
-        
-        ref.observeSingleEvent(of: .value, with: { (snapshot: DataSnapshot) in
+        let ref = firRef.child("promotions").child(id)
+        ref.observe(.value) { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil, NSError(domain: "balizinha.promo", code: 0, userInfo: ["reason": "Does not exist"]))
                 return
             }
 
+            ref.removeAllObservers()
             let promotion = Promotion(snapshot: snapshot)
             if promotion.active {
                 completion(promotion, nil)
@@ -44,6 +44,6 @@ class PromotionService: NSObject {
             else {
                 completion(nil, NSError(domain: "balizinha.promo", code: 1, userInfo: ["reason": "No longer active", "id": id]))
             }
-        })
+        }
     }
 }
