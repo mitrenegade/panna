@@ -398,6 +398,9 @@ extension EventsViewController {
 extension EventsViewController: CreateEventDelegate {
     func didCreateEvent() {
         tabBarController?.selectedIndex = 2
+        if let nav = tabBarController?.viewControllers?[2] as? UINavigationController, let controller = nav.viewControllers[0] as? CalendarViewController {
+            controller.refreshEvents()
+        }
     }
 }
 

@@ -217,7 +217,6 @@ extension Event {
     
     var numPlayers: Int {
         let users = self.users
-        print("users: \(users.count)")
         return users.count
     }
     
