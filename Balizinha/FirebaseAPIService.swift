@@ -12,7 +12,7 @@ class FirebaseAPIService: NSObject {
     // variables for creating customer key
     let opQueue = OperationQueue()
     var urlSession: URLSession?
-    var dataTask: URLSessionTask?
+    var dataTask: URLSessionDataTask?
     var data: Data?
     
     typealias cloudCompletionHandler = ((_ response: Any?, _ error: Error?) -> ())
@@ -80,8 +80,40 @@ class FirebaseAPIService: NSObject {
         
         self.completionHandler = completion
         
-        let task = urlSession?.dataTask(with: request)
-        task?.resume()
+//        dataTask = urlSession?.dataTask(with: request, completionHandler: { (data, response, error) in
+        dataTask = urlSession?.dataTask(with: request) { data, response, error in
+            defer {
+                self.dataTask = nil
+                self.data = nil
+                self.completionHandler = nil
+            }
+            let response: HTTPURLResponse? = response as? HTTPURLResponse
+            let statusCode = response?.statusCode ?? 0
+            
+            if let usableData = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: usableData, options: .allowFragments) as? [String: Any]
+                    //print("FirebaseAPIService: urlSession completed with json \(json)")
+                    if statusCode >= 300 {
+                        completion?(nil, NSError(domain: "balizinha", code: statusCode, userInfo: json))
+                    } else {
+                        completion?(json, nil)
+                    }
+                } catch let error {
+                    print("FirebaseAPIService \(url.absoluteString ?? ""): JSON parsing resulted in code \(statusCode) error \(error)")
+                    let dataString = String.init(data: usableData, encoding: .utf8)
+                    print("StripeService: try reading data as string: \(dataString)")
+                    completion?(nil, error)
+                }
+            }
+            else if let error = error {
+                completion?(nil, error)
+            }
+            else {
+                print("here")
+            }
+        }
+        dataTask?.resume()
     }
 }
 
@@ -108,7 +140,7 @@ extension FirebaseAPIService: URLSessionDelegate, URLSessionDataDelegate {
         
         if let usableData = self.data {
             do {
-                let json = try JSONSerialization.jsonObject(with: usableData, options: []) as? [String: Any]
+                let json = try JSONSerialization.jsonObject(with: usableData, options: .allowFragments) as? [String: Any]
                 //print("FirebaseAPIService: urlSession completed with json \(json)")
                 if statusCode >= 300 {
                     completionHandler?(nil, NSError(domain: "balizinha", code: statusCode, userInfo: json))
@@ -116,7 +148,8 @@ extension FirebaseAPIService: URLSessionDelegate, URLSessionDataDelegate {
                     completionHandler?(json, nil)
                 }
             } catch let error {
-                print("FirebaseAPIService: JSON parsing resulted in error \(error)")
+                let url = task.currentRequest?.url?.absoluteString
+                print("FirebaseAPIService \(url ?? ""): JSON parsing resulted in code \(statusCode) error \(error)")
                 let dataString = String.init(data: usableData, encoding: .utf8)
                 print("StripeService: try reading data as string: \(dataString)")
                 completionHandler?(nil, error)
