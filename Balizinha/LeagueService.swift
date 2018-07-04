@@ -219,16 +219,16 @@ class LeagueService: NSObject {
             return
         }
 
-        let ref = firRef.child("leagues")
-        ref.child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+        let ref = firRef.child("leagues").child(id)
+        ref.observe(.value) { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
             }
-            
+            ref.removeAllObservers()
             let league = League(snapshot: snapshot)
             _leagues[id] = league
             completion(league)
-        })
+        }
     }
 }

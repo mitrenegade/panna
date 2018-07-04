@@ -15,12 +15,12 @@ import RxSwift
 
 fileprivate var singleton: EventService?
 var _usersForEvents: [String: AnyObject]?
-var _events: [String:Event]?
 
 class EventService: NSObject {
+    var _events: [String:Event]?
     private lazy var __once: () = {
             // firRef is the global firebase ref
-            let queryRef = firRef.child("eventUsers") // this creates a query on the endpoint lotsports.firebase.com/events/
+            let queryRef = firRef.child("eventUsers")
             queryRef.observe(.value) { (snapshot: DataSnapshot) in
                 // this block is called for every result returned
                 guard snapshot.exists() else { return }
@@ -28,6 +28,7 @@ class EventService: NSObject {
                 
                 NotificationCenter.default.post(name: NotificationType.EventsChanged.name(), object: nil)
             }
+        _events = [:]
         }()
     
     // MARK: - Singleton
@@ -117,7 +118,7 @@ class EventService: NSObject {
         }
     }
     
-    func createEvent(_ name: String, type: EventType, city: String, state: String, lat: Double?, lon: Double?, place: String, startTime: Date, endTime: Date, maxPlayers: UInt, info: String?, paymentRequired: Bool, amount: NSNumber? = 0, completion:@escaping (Event?, NSError?) -> Void) {
+    func createEvent(_ name: String, type: EventType, city: String, state: String, lat: Double?, lon: Double?, place: String, startTime: Date, endTime: Date, maxPlayers: UInt, info: String?, paymentRequired: Bool, amount: NSNumber? = 0, leagueId: String?, completion:@escaping (Event?, NSError?) -> Void) {
         
         print ("Create events")
         
@@ -127,46 +128,39 @@ class EventService: NSObject {
         
         guard let user = AuthService.currentUser else { return }
         
-        let eventRef = firRef.child("events") // this references the endpoint lotsports.firebase.com/events/
-        let id = FirebaseAPIService.uniqueId()
-        let newEventRef = eventRef.child(id) // this generates an autoincremented event endpoint like lotsports.firebase.com/events/<uniqueId>
-        
-        var params: [String: Any] = ["name": name, "type": type.rawValue, "city": city, "state": state, "place": place, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "maxPlayers": maxPlayers, "owner": user.uid, "paymentRequired": paymentRequired]
+        var params: [String: Any] = ["name": name, "type": type.rawValue, "city": city, "state": state, "place": place, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "maxPlayers": maxPlayers, "userId": user.uid, "paymentRequired": paymentRequired]
         if let lat = lat, let lon = lon {
             params["lat"] = lat
             params["lon"] = lon
         }
         if paymentRequired {
+            params["paymentRequired"] = true
             params["amount"] = amount
         }
-        if info == nil {
-            params["info"] = "No description available"
-        } else {
-            params["info"] = info as AnyObject?
+        if let leagueId = leagueId {
+            params["league"] = leagueId
         }
-        
-        newEventRef.setValue(params) { (error, ref) in
+        if let info = info {
+            params["info"] = info
+        }
+        FirebaseAPIService().cloudFunction(functionName: "createEvent1_4", params: params) { (result, error) in
             if let error = error as? NSError {
-                print(error)
+                print("CreateEvent v1.4 failed with error \(error)")
                 completion(nil, error)
             } else {
-                ref.observeSingleEvent(of: .value, with: { (snapshot) in
-                    guard snapshot.exists() else {
-                        completion(nil, nil)
-                        return
-                    }
-                    guard let user = AuthService.currentUser else {
-                        completion(nil, nil)
-                        return
-                    }
-                    let event = Event(snapshot: snapshot)
-
-                    // TODO: completion blocks for these too
-                    self.addEvent(event: event, toUser: user, join: true)
-                    self.addUser(user, toEvent: event, join: true)
-                    
-                    completion(event, nil)
-                })
+                print("CreateEvent v1.4 success with result \(result)")
+                if let dict = result as? [String: Any], let eventId = dict["eventId"] as? String {
+                    self.withId(id: eventId, completion: { (event) in
+                        // TODO: the event returned is always nil?
+                        guard let event = event else {
+                            completion(nil, nil)
+                            return
+                        }
+                        completion(event, nil)
+                    })
+                } else {
+                    completion(nil, nil)
+                }
             }
         }
     }
@@ -273,7 +267,6 @@ class EventService: NSObject {
             }
             print("getEventsForUser \(user.uid) results count: \(results.count)")
             completion(results)
-            //eventQueryRef.removeObserver(withHandle: handle)
         }
     }
     
@@ -428,15 +421,18 @@ extension EventService {
             return
         }
         
-        let eventRef = firRef.child("events")
-        eventRef.child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+        let eventRef = firRef.child("events").child(id)
+        eventRef.observe(.value) { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
             }
             let event = Event(snapshot: snapshot)
+            self?.cacheEvent(event: event)
             completion(event)
-        })
+            
+            eventRef.removeAllObservers()
+        }
     }
     
     func cacheEvent(event: Event) {

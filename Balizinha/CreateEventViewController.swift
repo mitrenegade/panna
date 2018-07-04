@@ -85,6 +85,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
     }
     fileprivate var eventUrl: String?
+    var league: League?
 
     weak var delegate: CreateEventDelegate?
     
@@ -129,16 +130,13 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         self.setupPickers()
         self.setupTextFields()
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didClickSave(_:)))
+        
         if CACHE_ORGANIZER_FAVORITE_LOCATION {
             self.loadCachedOrganizerFavorites()
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(CreateEventViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
     }
@@ -192,15 +190,15 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         save2.tintColor = self.view.tintColor
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
-//        if TESTING {
-//            self.place = "Rittenhouse"
-//            self.city = "Philadelphia"
-//            self.state = "Pennsylvania"
-//            self.date = Date()
-//            self.startTime = Date()+1800
-//            self.endTime = Date()+3600
-//            maxPlayers = 10
-//        }
+        if TESTING {
+            self.place = "Rittenhouse"
+            self.city = "Philadelphia"
+            self.state = "Pennsylvania"
+            self.date = Date()
+            self.startTime = Date()+1800
+            self.endTime = Date()+3600
+            maxPlayers = 10
+        }
     }
     
     fileprivate func loadCachedOrganizerFavorites() {
@@ -333,7 +331,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             }
         }
         else {
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, completion: { [weak self] (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
                 
                 if let event = event {
                     self?.sendPushForCreatedEvent(event)
@@ -360,10 +358,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                 }
             })
         }
-    }
-
-    @IBAction func didClickCancel(_ sender: AnyObject?) {
-        self.navigationController?.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -672,7 +666,7 @@ extension CreateEventViewController {
         let alert = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Yes, delete this event", style: .default, handler: { (action) in
             EventService.shared.deleteEvent(event)
-            self.didClickCancel(nil)
+            self.navigationController?.dismiss(animated: true, completion: nil)
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
