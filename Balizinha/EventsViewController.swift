@@ -163,7 +163,7 @@ class EventsViewController: UIViewController {
             detailsController.event = event
         }
         else if segue.identifier == "toCreateEvent" {
-            guard let controller = nav.viewControllers[0] as? CreateEventViewController else { return }
+            guard let controller = nav.viewControllers[0] as? EventLeagueSelectorViewController else { return }
             controller.delegate = self
         }
     }
@@ -398,6 +398,9 @@ extension EventsViewController {
 extension EventsViewController: CreateEventDelegate {
     func didCreateEvent() {
         tabBarController?.selectedIndex = 2
+        if let nav = tabBarController?.viewControllers?[2] as? UINavigationController, let controller = nav.viewControllers[0] as? CalendarViewController {
+            controller.refreshEvents()
+        }
     }
 }
 

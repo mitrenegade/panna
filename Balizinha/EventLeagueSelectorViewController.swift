@@ -12,6 +12,8 @@ class EventLeagueSelectorViewController: UIViewController {
     @IBOutlet weak fileprivate var tableView: UITableView!
     var playerLeagues: [League] = []
     var loading: Bool = true
+    
+    weak var delegate: CreateEventDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +66,7 @@ class EventLeagueSelectorViewController: UIViewController {
         guard segue.identifier == "toCreateEvent", let controller = segue.destination as? CreateEventViewController else { return }
         guard let league = sender as? League else { return }
         controller.league = league
+        controller.delegate = delegate
     }
     
     @IBAction func didClickCancel(_ sender: AnyObject?) {

@@ -334,8 +334,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
                 
                 if let event = event {
-                    self?.sendPushForCreatedEvent(event)
-                    
                     // update photo if it has been changed
                     if let url = self?.eventUrl {
                         event.photoUrl = url
@@ -827,22 +825,6 @@ extension CreateEventViewController: UITextFieldDelegate {
         
         let newDate = calendar.date(from: components)!
         return newDate
-    }
-
-    // MARK: Push notifications
-    func sendPushForCreatedEvent(_ event: Event) {
-        guard let user = AuthService.currentUser else { return }
-        let userId = user.uid
-        let title = "New event created"
-        var dateString = ""
-        if let startTime = event.startTime {
-            dateString = " on \(event.timeString(startTime))"
-        }
-        let message = "A game of \(event.type.rawValue) now available in \(event.place), \(event.city)\(dateString)"
-        let params = ["channel": "eventsGlobal", "message": message, "title": title, "sender": userId]
-//        PFCloud.callFunction(inBackground: "sendPushFromDevice", withParameters: params) { (results, error) in
-//            print("results \(results) error \(error)")
-//        }
     }
 }
 

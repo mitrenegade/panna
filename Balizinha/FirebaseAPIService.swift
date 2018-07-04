@@ -10,17 +10,14 @@ import UIKit
 
 class FirebaseAPIService: NSObject {
     // variables for creating customer key
-    let opQueue = OperationQueue()
     var urlSession: URLSession?
-    var dataTask: URLSessionTask?
-    var data: Data?
+    var dataTask: URLSessionDataTask?
     
     typealias cloudCompletionHandler = ((_ response: Any?, _ error: Error?) -> ())
-    var completionHandler: cloudCompletionHandler?
     
     override init() {
         super.init()
-        urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: self.opQueue)
+        urlSession = URLSession(configuration: .default)
     }
 
     class func getUniqueId(completion: @escaping ((String?)->())) {
@@ -78,55 +75,37 @@ class FirebaseAPIService: NSObject {
             }
         }
         
-        self.completionHandler = completion
-        
-        let task = urlSession?.dataTask(with: request)
-        task?.resume()
+        dataTask = urlSession?.dataTask(with: request) { data, response, error in
+            defer {
+                self.dataTask = nil
+            }
+            let response: HTTPURLResponse? = response as? HTTPURLResponse
+            let statusCode = response?.statusCode ?? 0
+            
+            if let usableData = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: usableData, options: .allowFragments) as? [String: Any]
+                    //print("FirebaseAPIService: urlSession completed with json \(json)")
+                    if statusCode >= 300 {
+                        completion?(nil, NSError(domain: "balizinha", code: statusCode, userInfo: json))
+                    } else {
+                        completion?(json, nil)
+                    }
+                } catch let error {
+                    print("FirebaseAPIService \(url.absoluteString ?? ""): JSON parsing resulted in code \(statusCode) error \(error)")
+                    let dataString = String.init(data: usableData, encoding: .utf8)
+                    print("StripeService: try reading data as string: \(dataString)")
+                    completion?(nil, error)
+                }
+            }
+            else if let error = error {
+                completion?(nil, error)
+            }
+            else {
+                print("here")
+            }
+        }
+        dataTask?.resume()
     }
 }
 
-extension FirebaseAPIService: URLSessionDelegate, URLSessionDataDelegate {
-    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        //print("FirebaseAPIService: data received")
-        if let data = self.data {
-            self.data?.append(data)
-        }
-        else {
-            self.data = data
-        }
-    }
-    
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        //print("FirebaseAPIService: completed")
-        defer {
-            self.data = nil
-            self.completionHandler = nil
-        }
-        
-        let response: HTTPURLResponse? = task.response as? HTTPURLResponse
-        let statusCode = response?.statusCode ?? 0
-        
-        if let usableData = self.data {
-            do {
-                let json = try JSONSerialization.jsonObject(with: usableData, options: []) as? [String: Any]
-                //print("FirebaseAPIService: urlSession completed with json \(json)")
-                if statusCode >= 300 {
-                    completionHandler?(nil, NSError(domain: "balizinha", code: statusCode, userInfo: json))
-                } else {
-                    completionHandler?(json, nil)
-                }
-            } catch let error {
-                print("FirebaseAPIService: JSON parsing resulted in error \(error)")
-                let dataString = String.init(data: usableData, encoding: .utf8)
-                print("StripeService: try reading data as string: \(dataString)")
-                completionHandler?(nil, error)
-            }
-        }
-        else if let error = error {
-            completionHandler?(nil, error)
-        }
-        else {
-            print("here")
-        }
-    }
-}
