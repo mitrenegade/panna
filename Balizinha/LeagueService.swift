@@ -176,9 +176,9 @@ class LeagueService: NSObject {
         }
     }
     
-    func leagues(for player: Player, completion: @escaping (([String]?)->Void)) {
+    func leagues(for player: Player, completion: @escaping (([String: Membership]?)->Void)) {
         guard !AIRPLANE_MODE else {
-            completion([LEAGUE_ID_AIRPLANE_MODE])
+            completion([LEAGUE_ID_AIRPLANE_MODE: Membership(id: player.id, status: "member")])
             return
         }
         FirebaseAPIService().cloudFunction(functionName: "getLeaguesForPlayer", params: ["userId": player.id]) { (result, error) in
@@ -189,10 +189,14 @@ class LeagueService: NSObject {
             }
             //print("Leagues for player results \(result)")
             if let dict = (result as? [String: Any])?["result"] as? [String: Any] {
-                let userIds = Array(dict.keys)
-                completion(userIds)
+                var result = [String:Membership]()
+                for (leagueId, statusString) in dict {
+                    let status = statusString as? String ?? "none"
+                    result[leagueId] = Membership(id: player.id, status: status)
+                }
+                completion(result)
             } else {
-                completion([])
+                completion([:])
             }
         }
     }

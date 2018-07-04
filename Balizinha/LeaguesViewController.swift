@@ -50,8 +50,14 @@ class LeaguesViewController: UIViewController {
         
         dispatchGroup.enter()
         var leagueIds: [String] = []
-        LeagueService.shared.leagues(for: player) { (playerLeagueIds) in
-            if let ids = playerLeagueIds {
+        LeagueService.shared.leagues(for: player) { (leagues) in
+            if let leagues = leagues {
+                let ids = leagues.compactMap({ (id, membership) -> String? in
+                    if membership.isActive {
+                        return id
+                    }
+                    return nil
+                })
                 leagueIds.append(contentsOf: ids)
             }
             dispatchGroup.leave()

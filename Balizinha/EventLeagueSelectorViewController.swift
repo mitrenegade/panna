@@ -45,7 +45,8 @@ class EventLeagueSelectorViewController: UIViewController {
                 return
             }
             
-            for leagueId in ids {
+            for (leagueId, membership) in ids {
+                guard membership.isOrganizer else { continue }
                 LeagueService.shared.withId(id: leagueId, completion: { [weak self] (league) in
                     if let league = league {
                         self?.playerLeagues.append(league)
