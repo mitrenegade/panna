@@ -163,7 +163,7 @@ class EventsViewController: UIViewController {
             detailsController.event = event
         }
         else if segue.identifier == "toCreateEvent" {
-            guard let controller = nav.viewControllers[0] as? CreateEventViewController else { return }
+            guard let controller = nav.viewControllers[0] as? EventLeagueSelectorViewController else { return }
             controller.delegate = self
         }
     }
