@@ -153,7 +153,6 @@ class EventService: NSObject {
                     self.withId(id: eventId, completion: { (event) in
                         // TODO: the event returned is always nil?
                         guard let event = event else {
-                            completion(nil, nil)
                             return
                         }
                         completion(event, nil)
@@ -245,15 +244,14 @@ class EventService: NSObject {
         // only gets events once, and removes observer afterwards
         print("Get events for user \(user.uid)")
         
-        let eventQueryRef = firRef.child("userEvents").child(user.uid) // this creates a query on the endpoint lotsports.firebase.com/events/
+        let eventQueryRef = firRef.child("userEvents").child(user.uid)
         
         // do query
-        eventQueryRef.observeSingleEvent(of: .value) { (snapshot) in
+        eventQueryRef.observe(.value) { (snapshot) in
             guard snapshot.exists() else {
                 completion([])
                 return
             }
-            // this block is called for every result returned
             var results: [String] = []
             if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
                 for snapshot: DataSnapshot in allObjects {
@@ -267,6 +265,7 @@ class EventService: NSObject {
             }
             print("getEventsForUser \(user.uid) results count: \(results.count)")
             completion(results)
+            eventQueryRef.removeAllObservers()
         }
     }
     
