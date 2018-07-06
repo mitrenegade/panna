@@ -12,10 +12,16 @@ import Foundation
 import UIKit
 
 class Tag: NSObject {
+    enum Action {
+        case info
+        case add
+    }
+    
     var view: UIView!
+    let action: Tag.Action
     
     // can contain other attributes like color, font, clickable, etc
-    init(tag: String) {
+    init(tag: String, action: Tag.Action = .info) {
         let label = UILabel()
         label.numberOfLines = 1
         let font = UIFont(name: "Helvetica", size: 14.0)
@@ -31,11 +37,14 @@ class Tag: NSObject {
         label.layer.borderColor = UIColor.lightGray.cgColor
         label.layer.cornerRadius = label.frame.size.height / 4
         self.view = label
+        self.action = action
     }
     
     func remove() {
         self.view.removeFromSuperview()
     }
+    
+    static let adder = Tag(tag: "Add a tag", action: .add)
 }
 
 protocol ResizableTagViewDelegate {
@@ -83,6 +92,7 @@ class ResizableTagView: UIView {
                 arr.append(tag)
             }
         }
+        arr.append(Tag.adder)
         self.tags = arr
     }
 
