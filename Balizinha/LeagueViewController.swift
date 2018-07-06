@@ -33,6 +33,10 @@ class LeagueViewController: UIViewController {
         tableView.estimatedRowHeight = 80
         
         loadRoster()
+        
+        if league?.info.isEmpty == true, let index = rows.index(of: .info){
+            rows.remove(at: index)
+        }
     }
     
     func loadRoster() {
@@ -115,6 +119,10 @@ extension LeagueViewController: UITableViewDataSource {
 extension LeagueViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        if let index = rows.index(of: .tags), index == indexPath.row {
+            inputTag()
+        }
     }
 }
 
@@ -135,5 +143,26 @@ extension LeagueViewController: LeaguePlayersDelegate {
 
     func goToAddPlayers() {
         performSegue(withIdentifier: "toLeaguePlayers", sender: nil)
+    }
+}
+
+extension LeagueViewController {
+    func inputTag() {
+        let alert = UIAlertController(title: "Add a tag", message: nil, preferredStyle: .alert)
+        alert.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "i.e. awesome"
+        }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (action) in
+            if let textField = alert.textFields?[0], let tag = textField.text {
+                print("adding tag \(tag)")
+                var tags = self?.league?.tags ?? []
+                guard !tag.isEmpty, !tags.contains(tag) else { return }
+                tags.append(tag)
+                self?.league?.tags = tags
+                self?.tableView.reloadData()
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
     }
 }

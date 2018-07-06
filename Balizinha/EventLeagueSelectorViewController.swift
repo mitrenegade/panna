@@ -27,7 +27,7 @@ class EventLeagueSelectorViewController: UIViewController {
         tableView.estimatedRowHeight = 100
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(didClickCancel(_:)))
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "League", style: .done, target: self, action: #selector(didClickBack(_:)))
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: self, action: #selector(didClickBack(_:)))
     }
 
     fileprivate func loadData() {
@@ -45,7 +45,10 @@ class EventLeagueSelectorViewController: UIViewController {
                 return
             }
             
-            for leagueId in ids {
+            var organizerCount = 0
+            for (leagueId, membership) in ids {
+                guard membership.isOrganizer else { continue }
+                organizerCount += 1
                 LeagueService.shared.withId(id: leagueId, completion: { [weak self] (league) in
                     if let league = league {
                         self?.playerLeagues.append(league)
@@ -54,6 +57,14 @@ class EventLeagueSelectorViewController: UIViewController {
                         }
                     }
                 })
+            }
+            if organizerCount == 0 {
+                DispatchQueue.main.async {
+                    self?.loading = false
+                    self?.reloadTableData()
+                    self?.simpleAlert("You're not an organizer", message: "You currently can't organize games for any leagues. Please contact the league owners to become an organizer.")
+                }
+                return
             }
         }
     }
