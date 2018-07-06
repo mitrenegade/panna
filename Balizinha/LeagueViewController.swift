@@ -34,7 +34,7 @@ class LeagueViewController: UIViewController {
         
         loadRoster()
         
-        if league?.info == nil, let index = rows.index(of: .info){
+        if league?.info.isEmpty == true, let index = rows.index(of: .info){
             rows.remove(at: index)
         }
     }
