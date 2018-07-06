@@ -114,7 +114,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "Create Event"
+        self.navigationItem.title = league?.name ?? "Create Event"
         if let _ = self.eventToEdit {
             self.navigationItem.title = "Edit Event"
         }
@@ -504,6 +504,26 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
 
     }
     
+    fileprivate func photoHeaderView() -> UIView {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 100))
+        view.backgroundColor = UIColor.mediumGreen
+        view.clipsToBounds = true
+        let photoView = RAImageView(frame: CGRect(x: view.frame.size.width / 2 - 40, y: 10, width: 80, height: 80))
+        photoView.layer.cornerRadius = 5
+        photoView.backgroundColor = .clear
+        photoView.image = nil
+        photoView.clipsToBounds = true
+        if let url = league?.photoUrl {
+            photoView.imageUrl = url
+        } else {
+            photoView.imageUrl = nil
+            photoView.image = UIImage(named: "crest30")?.withRenderingMode(.alwaysTemplate)
+            photoView.tintColor = UIColor.white
+        }
+        view.addSubview(photoView)
+        return view
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel(frame: CGRect(x: 16, y: 0, width: self.view.frame.size.width - 16, height: 40))
         let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 40))
@@ -515,7 +535,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
 
         switch section {
         case Sections.photo.rawValue:
-            return nil
+            return photoHeaderView()
         case Sections.details.rawValue:
             label.text = "Details"
         case Sections.notes.rawValue:
@@ -531,6 +551,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == Sections.photo.rawValue {
+            return 100
+        }
         if section == Sections.delete.rawValue {
             return 0.1
         }

@@ -27,7 +27,7 @@ class EventLeagueSelectorViewController: UIViewController {
         tableView.estimatedRowHeight = 100
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(didClickCancel(_:)))
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "League", style: .done, target: self, action: #selector(didClickBack(_:)))
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: self, action: #selector(didClickBack(_:)))
     }
 
     fileprivate func loadData() {
