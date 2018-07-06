@@ -96,6 +96,15 @@ class EventCell: UITableViewCell {
         
         if let url = event.photoUrl {
             self.eventLogo.imageUrl = url
+        } else if let leagueId = event.league {
+            LeagueService.shared.withId(id: leagueId) { (league) in
+                if let url = league?.photoUrl {
+                    self.eventLogo.imageUrl = url
+                } else {
+                    self.eventLogo.imageUrl = nil
+                    self.eventLogo.image = UIImage(named: "soccer")
+                }
+            }
         }
         else {
             self.eventLogo.imageUrl = nil
