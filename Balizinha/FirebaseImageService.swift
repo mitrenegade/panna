@@ -28,8 +28,9 @@ class FirebaseImageService: NSObject {
                 completion(nil)
                 return
             }
-            let url = metadata.downloadURL()
-            completion(url?.absoluteString)
+            imageRef.downloadURL(completion: { (url, error) in
+                completion(url?.absoluteString)
+            })
         }
         
         uploadTask.observe(.progress) { (storageTaskSnapshot) in
