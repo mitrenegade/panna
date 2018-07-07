@@ -69,14 +69,14 @@ class AuthService: NSObject {
     }
 
     func loginUser(email: String, password: String, completion: ((Error?)->Void)?) {
-        firAuth.signIn(withEmail: email, password: password, completion: { (user, error) in
+        firAuth.signIn(withEmail: email, password: password, completion: { (result, error) in
             if let error: NSError = error as NSError? {
                 print("Error: \(error)")
                 // let observer handle things
                 completion?(error)
             }
             else {
-                print("LoginLogout: LoginSuccess from email, results: \(String(describing: user))")
+                print("LoginLogout: LoginSuccess from email, results: \(String(describing: result))")
                 // let observer handle things
                 completion?(nil)
             }

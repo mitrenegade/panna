@@ -96,7 +96,7 @@ class LoginViewController: UIViewController {
     }
     
     func handleFacebookUser() {
-        let permissions = ["email", "public_profile"]
+        let permissions = ["email", "public_profile"/*, "user_photos", "user_hometown", "user_location"*/]
         FBSDKLoginManager().logOut() // in case user has switched accounts
         facebookLogin.logIn(withReadPermissions: permissions, from: self) { (result, error) in
             if error != nil {
@@ -108,7 +108,7 @@ class LoginViewController: UIViewController {
                 let accessToken = FBSDKAccessToken.current().tokenString
                 
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken!)
-                firAuth.signIn(with: credential, completion: { [weak self] (user, error) in
+                firAuth.signInAndRetrieveData(with: credential, completion: { [weak self] (result, error) in
                     if let error = error as NSError? {
                         // TODO: handle this. will give an error for facebook email already exists as an email user
                         print("Login failed. \(String(describing: error))")
@@ -116,7 +116,7 @@ class LoginViewController: UIViewController {
                             self?.simpleAlert("Email already in use", message: "There is already an account with the email associated with your Facebook account. Please log in using the email option.")
                         }
                     } else {
-                        print("LoginLogout: LoginSuccess from facebook, results: \(String(describing: user))")
+                        print("LoginLogout: LoginSuccess from facebook, results: \(String(describing: result))")
                         // let observer handle things
                     }
                 })
