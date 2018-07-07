@@ -130,6 +130,7 @@ extension PlayerService {
     
     func downloadFacebookPhoto() {
         guard let player = current.value else { return }
+        guard player.photoUrl == nil || player.name == nil else { return }
         FBSDKProfile.loadCurrentProfile(completion: { (profile, error) in
             guard let profile = profile else {
                 if let error = error as NSError?, error.code == 400 {

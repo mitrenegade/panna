@@ -64,6 +64,7 @@ class SplashViewController: UIViewController {
         Crashlytics.sharedInstance().setUserIdentifier(user.uid)
 
         // loads player from web or cache - don't use player.current yet
+        let isFirstLogin = PlayerService.shared.current.value == nil
         PlayerService.shared.withId(id: user.uid) { (player) in
             if let player = player {
                 player.os = Player.Platform.ios.rawValue // fixme if there's already a value (android) this doesn't change it
@@ -71,6 +72,12 @@ class SplashViewController: UIViewController {
                 let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
                 let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "unknown"
                 player.appVersion = "\(version) (\(build))"
+                
+                // on first login, downloadFacebookPhoto gets skipped the first time because player has not been created yet
+                if isFirstLogin, AuthService.shared.hasFacebookProvider {
+                    PlayerService.shared.current.value = player
+                    PlayerService.shared.downloadFacebookPhoto()
+                }
             } else {
                 // player does not exist, save/create it.
                 // this should have been done on signup
