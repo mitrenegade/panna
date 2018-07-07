@@ -16,6 +16,8 @@ protocol LeaguePlayersDelegate: class {
 
 class LeaguePlayersViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
+
     var roster: [Membership]?
     var league: League?
     var isEditOrganizerMode: Bool {
@@ -49,6 +51,9 @@ class LeaguePlayersViewController: UIViewController {
         }
         
         loadFromRef()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     func reloadTableData() {
@@ -192,6 +197,18 @@ extension LeaguePlayersViewController: UITableViewDataSource {
         default:
             return UITableViewCell()
         }
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let keyboardHeight = keyboardRectangle.height
+        constraintBottomOffset.constant = keyboardHeight
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        self.constraintBottomOffset.constant = 0
     }
 }
 
