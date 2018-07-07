@@ -141,7 +141,7 @@ extension PlayerService {
             
             // update photoUrl if it doesn't already exist
             if player.photoUrl == nil, let photoUrl = profile.imageURL(for: FBSDKProfilePictureMode.square, size: CGSize(width: 100, height: 100)) {
-                DispatchQueue.global().async {
+                DispatchQueue.main.async {
                     guard let data = try? Data(contentsOf: photoUrl) else { return }
                     guard let image = UIImage(data: data) else { return }
                     FirebaseImageService.uploadImage(image: image, type: "player", uid: player.id, completion: { (url) in
