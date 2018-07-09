@@ -55,6 +55,7 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func didClickButton(_ button: UIButton) {
+        cancelInput()
         if button == buttonFacebook {
             handleFacebookUser()
         }
@@ -134,7 +135,7 @@ class LoginViewController: UIViewController {
         let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height
-        constraintTopOffset.constant = keyboardHeight
+        constraintTopOffset.constant = -keyboardHeight
         constraintBottomOffset.constant = keyboardHeight
     }
     
@@ -142,7 +143,6 @@ class LoginViewController: UIViewController {
         self.constraintTopOffset.constant = 0
         self.constraintBottomOffset.constant = 0
     }
-
 }
 
 extension LoginViewController: UITextFieldDelegate {
