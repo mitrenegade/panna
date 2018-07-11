@@ -187,11 +187,15 @@ class LeagueService: NSObject {
                 completion(nil)
                 return
             }
-            //print("Leagues for player results \(result)")
+            print("Leagues for player results \(result)")
             if let dict = (result as? [String: Any])?["result"] as? [String: Any] {
                 var result = [String:Membership]()
                 for (leagueId, statusString) in dict {
-                    let status = statusString as? String ?? "none"
+                    var status = statusString as? String ?? "none"
+                    // for api v1.4, some users were set to true
+                    if let legacyValue = statusString as? Bool, legacyValue == true {
+                        status = "member"
+                    }
                     result[leagueId] = Membership(id: player.id, status: status)
                 }
                 completion(result)
