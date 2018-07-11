@@ -12,7 +12,6 @@ import Firebase
 
 class LoginViewController: UIViewController {
     
-    @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var inputEmail: UITextField!
     @IBOutlet weak var inputPassword: UITextField!
     @IBOutlet weak var buttonLogin: UIButton!
@@ -21,6 +20,9 @@ class LoginViewController: UIViewController {
     var shouldCancelInput: Bool = false
     
     let facebookLogin = FBSDKLoginManager()
+    
+    @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
+    @IBOutlet weak var constraintTopOffset: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +38,9 @@ class LoginViewController: UIViewController {
 
         inputEmail.inputAccessoryView = keyboardNextButtonView
         inputPassword.inputAccessoryView = keyboardNextButtonView
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,6 +55,7 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func didClickButton(_ button: UIButton) {
+        cancelInput()
         if button == buttonFacebook {
             handleFacebookUser()
         }
@@ -122,6 +128,20 @@ class LoginViewController: UIViewController {
                 })
             }
         }
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let keyboardHeight = keyboardRectangle.height
+        constraintTopOffset.constant = -keyboardHeight
+        constraintBottomOffset.constant = keyboardHeight
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        self.constraintTopOffset.constant = 0
+        self.constraintBottomOffset.constant = 0
     }
 }
 

@@ -24,7 +24,7 @@ class FirebaseImageService: NSObject {
         
         let imageRef: StorageReference = imageBaseRef.child(type).child(uid)
         let uploadTask = imageRef.putData(data, metadata: nil) { (meta, error) in
-            guard let metadata = meta else {
+            if error != nil {
                 completion(nil)
                 return
             }

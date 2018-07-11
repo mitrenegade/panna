@@ -776,6 +776,10 @@ extension CreateEventViewController: UITextFieldDelegate {
             }
             endTimePickerView.date = endTimePickerView.futureClampedDate
         }
+        
+        if textField == amountField, let index = options.index(of: "Payment") {
+            tableView.scrollToRow(at: IndexPath(row: index, section: Sections.details.rawValue), at: .top, animated: true)
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {

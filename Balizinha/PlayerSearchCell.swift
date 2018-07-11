@@ -23,3 +23,11 @@ class PlayerSearchCell: UITableViewCell {
         delegate?.search(for: inputSearch.text)
     }
 }
+
+extension PlayerSearchCell: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        didClickSearch(nil)
+        return true
+    }
+}
