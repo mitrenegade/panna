@@ -23,6 +23,7 @@ class PlayerService: NSObject {
 
     let current: Variable<Player?> = Variable(nil)
     fileprivate let playersRef: DatabaseReference
+    fileprivate var currentPlayerRef: DatabaseReference?
 
     override init() {
         disposeBag = DisposeBag()
@@ -45,13 +46,17 @@ class PlayerService: NSObject {
     
     func refreshCurrentPlayer() {
         guard let user = AuthService.currentUser else { return }
-        let playerRef: DatabaseReference = self.playersRef.child(user.uid)
-        playerRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        currentPlayerRef?.removeAllObservers()
+        currentPlayerRef = self.playersRef.child(user.uid)
+        currentPlayerRef?.observe(.value, with: { [weak self] (snapshot) in
             guard snapshot.exists() else { return }
             
             let player = Player(snapshot: snapshot)
             print("PlayerService: loaded player \(player.id)")
-            self.current.value = player
+            self?.current.value = player
+            
+            self?.currentPlayerRef?.removeAllObservers()
+            self?.currentPlayerRef = nil
         })
     }
     
@@ -60,6 +65,7 @@ class PlayerService: NSObject {
         shared.disposeBag = DisposeBag()
         shared.current.value = nil
         shared.startAuthListener()
+        shared.currentPlayerRef?.removeAllObservers()
     }
 
     
