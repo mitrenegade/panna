@@ -16,7 +16,7 @@ class LeaguePlayerCell: UITableViewCell {
 
     @IBOutlet weak var labelStatus: UILabel!
     
-    func configure(player: Player, status: String) {
+    func configure(player: Player, status: Membership.Status) {
         labelName.text = player.name ?? "Anon"
         labelEmail.text = player.email
         labelCreated.text = player.createdAt?.dateString()
@@ -25,7 +25,7 @@ class LeaguePlayerCell: UITableViewCell {
             self.updatePhoto(urlString: urlString)
         }
         
-        labelStatus.text = status
+        labelStatus.text = status.rawValue
     }
     
     func updatePhoto(urlString: String) {
