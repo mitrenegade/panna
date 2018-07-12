@@ -36,11 +36,10 @@ class FirebaseModelIcon: UIView {
     }
     
     func refresh() {
-        refreshPhoto(url: photoUrl)
-        
         if imageView.superview == nil {
             self.addSubview(imageView)
         }
+        refreshPhoto(url: photoUrl)
     }
     
     func remove() {

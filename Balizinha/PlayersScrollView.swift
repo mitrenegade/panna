@@ -36,7 +36,6 @@ class PlayersScrollView: UIView {
     func addPlayer(player: Player) {
         guard icons[player.id] == nil else { return }
         let icon = PlayerIcon()
-//        icon.imageView.activityIndicatorColor = .white
         icon.object = player
         icons[player.id] = icon
     }
@@ -52,7 +51,7 @@ class PlayersScrollView: UIView {
             let frame = CGRect(x: x, y: y, width: iconSize, height: iconSize)
             view.frame = frame
             scrollView.addSubview(view)
-            view.refresh()
+            icon.refresh()
             x += view.frame.size.width + cellPadding
             
             width = CGFloat(icons.count) * (iconSize + cellPadding)
