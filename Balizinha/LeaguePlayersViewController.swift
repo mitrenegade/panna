@@ -126,7 +126,17 @@ extension LeaguePlayersViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section]
+        let name = sections[section]
+        switch sections[section] {
+        case "Organizers":
+            return "\(name) - \(organizers.count)"
+        case "Members":
+            return "\(name) - \(members.count)"
+        case "Players":
+            return "\(name) - \(players.count)"
+        default:
+            return nil
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
