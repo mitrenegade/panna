@@ -80,13 +80,13 @@ class SignupViewController: UIViewController {
                 self.simpleAlert("Could not sign up", defaultMessage: nil, error: error)
             }
             else {
-                print("createUser results: \(String(describing: result?.user))")
+                print("createUser results: \(String(describing: result))")
                 AuthService.shared.loginUser(email: email, password: password, completion: { [weak self] (error) in
                     if let error = error as NSError? {
                         print("Error: \(error)")
                         self?.simpleAlert("Could not log in", defaultMessage: nil, error: error)
                     }
-                    else if let user = result?.user {
+                    else if let user = result {
                         print("signIn results: \(user.uid) \(user.email) profile \(String(describing: user.photoURL)) \(String(describing: user.displayName))")
                         
                         guard let disposeBag = self?.disposeBag else { return }

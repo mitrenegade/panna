@@ -20,6 +20,13 @@ class RAImageView: UIImageView {
         }
     }
     
+    override var frame: CGRect {
+        didSet {
+            super.frame = frame
+            activityIndicator?.center = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+        }
+    }
+    
     var activityIndicator: UIActivityIndicatorView?
     
     fileprivate func cancel() {
@@ -38,11 +45,10 @@ class RAImageView: UIImageView {
         if activityIndicator == nil {
             let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
             activityIndicator.hidesWhenStopped = true
-            activityIndicator.center = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
             addSubview(activityIndicator)
             self.activityIndicator = activityIndicator
         }
-        
+
         if let cached = RAImageView.imageCache[imageUrl] as? UIImage {
             DispatchQueue.main.async { // this seems to force a redraw
                 self.image = cached

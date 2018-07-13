@@ -457,7 +457,7 @@ Type</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bNB-4e-Cx3">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="70" width="375" height="597"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeaguePlayerCell" rowHeight="99" id="6qr-hC-ce2" customClass="LeaguePlayerCell" customModule="Balizinha" customModuleProvider="target">
@@ -535,71 +535,72 @@ Type</string>
                                             <outlet property="labelStatus" destination="Vw1-ec-pqR" id="u9r-U2-YZc"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlayerSearchCell" id="j5d-gT-JMj" customClass="PlayerSearchCell" customModule="Balizinha" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="127" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="j5d-gT-JMj" id="0md-Et-F3i">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name, email, or id" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Nc-Ff-Zmo">
-                                                    <rect key="frame" x="15" y="6" width="288" height="30"/>
-                                                    <nil key="textColor"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="j5d-gT-JMj" id="LBy-1U-cyN"/>
-                                                    </connections>
-                                                </textField>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3JN-tE-inX">
-                                                    <rect key="frame" x="311" y="6" width="50" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="50" id="oOS-Jj-I00"/>
-                                                    </constraints>
-                                                    <state key="normal" title="Search"/>
-                                                    <connections>
-                                                        <action selector="didClickSearch:" destination="j5d-gT-JMj" eventType="touchUpInside" id="SKl-nM-Kyd"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="5Nc-Ff-Zmo" firstAttribute="centerY" secondItem="0md-Et-F3i" secondAttribute="centerY" id="GrK-dx-EY6"/>
-                                                <constraint firstAttribute="trailing" secondItem="3JN-tE-inX" secondAttribute="trailing" constant="14" id="NcY-lR-RFj"/>
-                                                <constraint firstItem="3JN-tE-inX" firstAttribute="centerY" secondItem="0md-Et-F3i" secondAttribute="centerY" id="Qbf-dQ-S1D"/>
-                                                <constraint firstItem="3JN-tE-inX" firstAttribute="leading" secondItem="5Nc-Ff-Zmo" secondAttribute="trailing" constant="8" id="a6c-el-DKg"/>
-                                                <constraint firstItem="5Nc-Ff-Zmo" firstAttribute="leading" secondItem="0md-Et-F3i" secondAttribute="leading" constant="15" id="gOw-d7-PUd"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="buttonSearch" destination="3JN-tE-inX" id="UQy-7e-DbL"/>
-                                            <outlet property="inputSearch" destination="5Nc-Ff-Zmo" id="R44-2E-QWp"/>
-                                        </connections>
-                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="atd-IV-8n2" id="6vW-vE-S2I"/>
                                     <outlet property="delegate" destination="atd-IV-8n2" id="Bsq-B9-qBX"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="js3-zT-74I">
+                                <rect key="frame" x="0.0" y="20" width="375" height="50"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name, email, or id" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R1R-Dy-dNi">
+                                        <rect key="frame" x="13" y="10" width="288" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="atd-IV-8n2" id="Rzb-36-aU3"/>
+                                        </connections>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YFa-yP-pTS">
+                                        <rect key="frame" x="309" y="7" width="50" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="SpU-Rs-1rP"/>
+                                        </constraints>
+                                        <state key="normal" title="Search"/>
+                                        <connections>
+                                            <action selector="didClickSearch:" destination="atd-IV-8n2" eventType="touchUpInside" id="wqP-CL-uJw"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="R1R-Dy-dNi" firstAttribute="centerY" secondItem="js3-zT-74I" secondAttribute="centerY" id="25X-hS-lT0"/>
+                                    <constraint firstAttribute="trailing" secondItem="YFa-yP-pTS" secondAttribute="trailing" constant="16" id="86e-Xk-Euf"/>
+                                    <constraint firstAttribute="height" constant="50" id="I6X-Tk-rpF"/>
+                                    <constraint firstItem="YFa-yP-pTS" firstAttribute="top" secondItem="js3-zT-74I" secondAttribute="top" constant="7" id="g6d-44-9yX"/>
+                                    <constraint firstItem="YFa-yP-pTS" firstAttribute="leading" secondItem="R1R-Dy-dNi" secondAttribute="trailing" constant="8" symbolic="YES" id="k02-EK-4HH"/>
+                                    <constraint firstItem="R1R-Dy-dNi" firstAttribute="leading" secondItem="js3-zT-74I" secondAttribute="leading" constant="13" id="pjd-yw-I5f"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="bNB-4e-Cx3" firstAttribute="top" secondItem="7zF-KC-wb4" secondAttribute="top" id="afB-ld-cPG"/>
+                            <constraint firstItem="js3-zT-74I" firstAttribute="leading" secondItem="7cg-Sw-7Aa" secondAttribute="leading" id="M01-eZ-AKR"/>
+                            <constraint firstItem="js3-zT-74I" firstAttribute="top" secondItem="7cg-Sw-7Aa" secondAttribute="top" id="MQZ-5H-H4B"/>
                             <constraint firstItem="bNB-4e-Cx3" firstAttribute="trailing" secondItem="7cg-Sw-7Aa" secondAttribute="trailing" id="beU-eL-PL9"/>
+                            <constraint firstItem="js3-zT-74I" firstAttribute="leading" secondItem="7cg-Sw-7Aa" secondAttribute="leading" id="eBw-5R-o9i"/>
                             <constraint firstAttribute="bottom" secondItem="bNB-4e-Cx3" secondAttribute="bottom" id="eRX-hi-UAI"/>
                             <constraint firstItem="bNB-4e-Cx3" firstAttribute="leading" secondItem="7cg-Sw-7Aa" secondAttribute="leading" id="phK-Ol-DN9"/>
+                            <constraint firstItem="bNB-4e-Cx3" firstAttribute="top" secondItem="js3-zT-74I" secondAttribute="bottom" id="qdf-el-v1z"/>
+                            <constraint firstAttribute="trailing" secondItem="js3-zT-74I" secondAttribute="trailing" id="vjA-Ok-zRu"/>
+                            <constraint firstItem="js3-zT-74I" firstAttribute="trailing" secondItem="7cg-Sw-7Aa" secondAttribute="trailing" id="zPm-ol-qtj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="7cg-Sw-7Aa"/>
                     </view>
                     <navigationItem key="navigationItem" id="XZr-ed-8cT"/>
                     <connections>
+                        <outlet property="buttonSearch" destination="YFa-yP-pTS" id="p1v-Jy-h6v"/>
                         <outlet property="constraintBottomOffset" destination="eRX-hi-UAI" id="nbr-op-bhX"/>
+                        <outlet property="containerSearch" destination="js3-zT-74I" id="76h-3t-2zn"/>
+                        <outlet property="inputSearch" destination="R1R-Dy-dNi" id="o3Z-S5-OrZ"/>
                         <outlet property="tableView" destination="bNB-4e-Cx3" id="jKX-Ps-0iF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nAl-DH-HL2" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1594" y="139"/>
+            <point key="canvasLocation" x="1592.8" y="138.98050974512745"/>
         </scene>
     </scenes>
     <resources>

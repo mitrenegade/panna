@@ -136,9 +136,8 @@ extension LeagueViewController: PlayersScrollViewDelegate {
 }
 
 extension LeagueViewController: LeaguePlayersDelegate {
-    func didUpdateRoster(_ roster: [Membership]?) {
-        self.roster = roster
-        observePlayers()
+    func didUpdateRoster() {
+        loadRoster()
     }
 
     func goToAddPlayers() {
