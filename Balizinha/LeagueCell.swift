@@ -22,13 +22,17 @@ class LeagueCell: UITableViewCell {
 
     func configure(league: League) {
         icon.image = nil
-        if let url = league.photoUrl {
-            icon.imageUrl = url
-        } else {
-            icon.imageUrl = nil
-            icon.image = UIImage(named: "crest30")?.withRenderingMode(.alwaysTemplate)
-            icon.tintColor = UIColor.white
-            icon.backgroundColor = UIColor.darkGreen
+        FirebaseImageService().leaguePhotoUrl(for: league.id) {[weak self] (url) in
+            DispatchQueue.main.async {
+                if let urlString = url?.absoluteString {
+                    self?.icon.imageUrl = urlString
+                } else {
+                    self?.icon.imageUrl = nil
+                    self?.icon.image = UIImage(named: "crest30")?.withRenderingMode(.alwaysTemplate)
+                    self?.icon.tintColor = UIColor.white
+                    self?.icon.backgroundColor = UIColor.darkGreen
+                }
+            }
         }
         labelName?.text = league.name ?? "Unknown league"
         labelCity?.text = league.city ?? "Location unspecified"

@@ -169,15 +169,4 @@ extension PlayerService {
             }
         })
     }
-    
-    func profileUrl(for userId: String, completion: @escaping ((URL?)->Void)) {
-        let ref = FirebaseImageService.referenceForProfileImage(userId: userId)
-        ref?.downloadURL(completion: { (url, error) in
-            if let url = url {
-                completion(url)
-            } else {
-                completion(nil)
-            }
-        })
-    }
 }

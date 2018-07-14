@@ -60,18 +60,20 @@ class PlayerViewController: UIViewController {
             self.notesLabel.text = nil
         }
         
-        self.refreshPhoto(url: player.photoUrl)
-
         self.photoView.layer.cornerRadius = self.photoView.frame.size.height / 2
     }
     
-    func refreshPhoto(url: String?) {
-        if let url = url {
-            self.photoView.imageUrl = url
-        }
-        else {
-            self.photoView.imageUrl = nil
-            self.photoView.image = UIImage(named: "profile-img")
+    func refreshPhoto() {
+        FirebaseImageService().profileUrl(for: player?.id) { (url) in
+            DispatchQueue.main.async {
+                if let url = url {
+                    self.photoView.imageUrl = url.absoluteString
+                }
+                else {
+                    self.photoView.imageUrl = nil
+                    self.photoView.image = UIImage(named: "profile-img")
+                }
+            }
         }
     }
     

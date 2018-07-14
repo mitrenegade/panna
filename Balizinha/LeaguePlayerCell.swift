@@ -21,22 +21,24 @@ class LeaguePlayerCell: UITableViewCell {
         labelEmail.text = player.email
         labelCreated.text = player.createdAt?.dateString()
         
-        if let urlString = player.photoUrl {
-            self.updatePhoto(urlString: urlString)
-        }
-        
         labelStatus.text = status.rawValue
-    }
-    
-    func updatePhoto(urlString: String) {
+
         imagePhoto.image = nil
-        imagePhoto.imageUrl = urlString
         imagePhoto.layer.cornerRadius = imagePhoto.frame.size.height / 2
+        FirebaseImageService().profileUrl(for: player.id) {[weak self] (url) in
+            if let url = url {
+                DispatchQueue.main.async {
+                    self?.imagePhoto.imageUrl = url.absoluteString
+                }
+            }
+        }
     }
-    
+
     func reset() {
         labelName.text = nil
         labelEmail.text = nil
         labelCreated.text = nil
+        imagePhoto.image = nil
+        imagePhoto.imageUrl = nil
     }
 }

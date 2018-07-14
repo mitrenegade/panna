@@ -78,7 +78,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                     // no callback action
                     if let url = url {
                         print("New photo url: \(url)")
-                        self.eventUrl = url
+                        self.eventUrl = url // legacy
                     }
                })
             }
@@ -214,9 +214,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.city = city
             self.state = state
         }
-        if let url = UserDefaults.standard.string(forKey: "organizerCachedEventPhotoUrl") {
-            self.eventUrl = url
-        }
     }
     
     fileprivate func cacheOrganizerFavorites() {
@@ -233,7 +230,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             UserDefaults.standard.set(nil, forKey: "organizerCachedLat")
             UserDefaults.standard.set(nil, forKey: "organizerCachedLon")
         }
-        UserDefaults.standard.set(eventUrl, forKey: "organizerCachedEventPhotoUrl")
     }
     
     @IBAction func didClickSave(_ sender: AnyObject) {
@@ -320,7 +316,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
 
             // update photo if it has been changed
             if let url = self.eventUrl {
-                event.photoUrl = url
+                event.photoUrl = url // legacy
                 self.navigationController?.dismiss(animated: true, completion: {
                     // event updated
                 })
@@ -333,26 +329,26 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         else {
             EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
                 
-                if let event = event {
-                    // update photo if it has been changed
-                    if let url = self?.eventUrl {
-                        event.photoUrl = url
-                        self?.navigationController?.dismiss(animated: true, completion: {
-                            // event created
-                            self?.delegate?.didCreateEvent()
-                        })
-                    } else {
-                        self?.navigationController?.dismiss(animated: true, completion: {
-                            // event created
-                            self?.delegate?.didCreateEvent()
-                        })
-                    }
-                }
-                else {
+                guard let event = event else {
                     if let error = error {
                         self?.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
                     }
                     self?.navigationItem.rightBarButtonItem?.isEnabled = true
+                    return
+                }
+                
+                // update photo if it has been changed
+                if let url = self?.eventUrl {
+                    event.photoUrl = url
+                    self?.navigationController?.dismiss(animated: true, completion: {
+                        // event created
+                        self?.delegate?.didCreateEvent()
+                    })
+                } else {
+                    self?.navigationController?.dismiss(animated: true, completion: {
+                        // event created
+                        self?.delegate?.didCreateEvent()
+                    })
                 }
             })
         }
@@ -513,12 +509,16 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         photoView.backgroundColor = .clear
         photoView.image = nil
         photoView.clipsToBounds = true
-        if let url = league?.photoUrl {
-            photoView.imageUrl = url
-        } else {
-            photoView.imageUrl = nil
-            photoView.image = UIImage(named: "crest30")?.withRenderingMode(.alwaysTemplate)
-            photoView.tintColor = UIColor.white
+        FirebaseImageService().leaguePhotoUrl(for: league?.id) {[weak self] (url) in
+            DispatchQueue.main.async {
+                if let url = url {
+                    photoView.imageUrl = url.absoluteString
+                } else {
+                    photoView.imageUrl = nil
+                    photoView.image = UIImage(named: "crest30")?.withRenderingMode(.alwaysTemplate)
+                    photoView.tintColor = UIColor.white
+                }
+            }
         }
         view.addSubview(photoView)
         return view

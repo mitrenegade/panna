@@ -90,14 +90,16 @@ class EventDisplayViewController: UIViewController {
         }
         
         //Sport image
-        if let url = event?.photoUrl {
-            self.sportImageView.imageUrl = url
+        FirebaseImageService().eventPhotoUrl(for: event?.id) { [weak self] (url) in
+            if let urlString = url?.absoluteString {
+                self?.sportImageView.imageUrl = urlString
+            }
+            else {
+                self?.sportImageView.imageUrl = nil
+                self?.sportImageView.image = UIImage(named: "soccer")
+            }
         }
-        else {
-            self.sportImageView.imageUrl = nil
-            self.sportImageView.image = UIImage(named: "soccer")
-        }
-        
+
         self.constraintWidth.constant = UIScreen.main.bounds.size.width
         
         // hide map

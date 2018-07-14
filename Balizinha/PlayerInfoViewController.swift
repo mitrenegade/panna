@@ -78,20 +78,22 @@ class PlayerInfoViewController: UIViewController {
         if let notes = player.info {
             self.inputNotes.text = notes
         }
-        self.refreshPhoto(url: player.photoUrl)
+        self.refreshPhoto()
         refreshLeagueButton()
     }
     
-    func refreshPhoto(url: String?) {
-        if let url = url {
-            photoView.image = nil
-//            photoView.showActivityIndicator = true
-            photoView.imageUrl = url
-            self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 2
-        }
-        else {
-            self.photoView.image = UIImage(named: "add_user")
-            self.photoView.layer.cornerRadius = 0
+    func refreshPhoto() {
+        FirebaseImageService().profileUrl(for: player?.id) { (url) in
+            DispatchQueue.main.async {
+                if let url = url {
+                    photoView.image = nil
+                    photoView.imageUrl = url.absoluteString
+                    self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 2
+                } else {
+                    self.photoView.image = UIImage(named: "add_user")
+                    self.photoView.layer.cornerRadius = 0
+                }
+            }
         }
     }
     
@@ -265,7 +267,7 @@ extension PlayerInfoViewController {
             if let url = url {
                 self.refreshPhoto(url: url)
                 if let player = PlayerService.shared.current.value {
-                    player.photoUrl = url
+                    player.photoUrl = url // legacy apps need this url
                 }
             }
             // dismiss
