@@ -15,14 +15,23 @@ fileprivate let storageRef = storage.reference()
 fileprivate let imageBaseRef = storageRef.child("images")
 
 class FirebaseImageService: NSObject {
+    
+    enum ImageType: String {
+        case player
+        case event
+    }
 
-    class func uploadImage(image: UIImage, type: String, uid: String, progressHandler: ((_ percent: Double)->Void)? = nil, completion: @escaping ((_ imageUrl: String?)->Void)) {
+    class func referenceForProfileImage(userId: String) -> StorageReference? {
+        return imageBaseRef.child(ImageType.player.rawValue).child(userId)
+    }
+    
+    class func uploadImage(image: UIImage, type: ImageType, uid: String, progressHandler: ((_ percent: Double)->Void)? = nil, completion: @escaping ((_ imageUrl: String?)->Void)) {
         guard let data = UIImageJPEGRepresentation(image, 0.9) else {
             completion(nil)
             return
         }
         
-        let imageRef: StorageReference = imageBaseRef.child(type).child(uid)
+        let imageRef: StorageReference = imageBaseRef.child(ImageType.player.rawValue).child(uid)
         let uploadTask = imageRef.putData(data, metadata: nil) { (meta, error) in
             if error != nil {
                 completion(nil)

@@ -137,7 +137,7 @@ extension PlayerService {
     
     func downloadFacebookPhoto() {
         guard let player = current.value else { return }
-        guard player.photoUrl == nil || player.name == nil else { return }
+//        guard player.photoUrl == nil || player.name == nil else { return }
         FBSDKProfile.loadCurrentProfile(completion: { (profile, error) in
             guard let profile = profile else {
                 if let error = error as NSError?, error.code == 400 {
@@ -148,11 +148,11 @@ extension PlayerService {
             }
             
             // update photoUrl if it doesn't already exist
-            if player.photoUrl == nil, let photoUrl = profile.imageURL(for: FBSDKProfilePictureMode.square, size: CGSize(width: 100, height: 100)) {
+            if /*player.photoUrl == nil,*/ let photoUrl = profile.imageURL(for: FBSDKProfilePictureMode.square, size: CGSize(width: 100, height: 100)) {
                 DispatchQueue.main.async {
                     guard let data = try? Data(contentsOf: photoUrl) else { return }
                     guard let image = UIImage(data: data) else { return }
-                    FirebaseImageService.uploadImage(image: image, type: "player", uid: player.id, completion: { (url) in
+                    FirebaseImageService.uploadImage(image: image, type: .player, uid: player.id, completion: { (url) in
                         if let url = url {
                             player.photoUrl = url
                         }
@@ -168,6 +168,16 @@ extension PlayerService {
                 }
             }
         })
-        
+    }
+    
+    func profileUrl(for userId: String, completion: @escaping ((URL?)->Void)) {
+        let ref = FirebaseImageService.referenceForProfileImage(userId: userId)
+        ref?.downloadURL(completion: { (url, error) in
+            if let url = url {
+                completion(url)
+            } else {
+                completion(nil)
+            }
+        })
     }
 }

@@ -915,7 +915,7 @@ extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigati
         
         let resized = FirebaseImageService.resizeImageForEvent(image: photo) ?? photo
         let id = event?.id ?? FirebaseAPIService.uniqueId()
-        FirebaseImageService.uploadImage(image: resized, type: "event", uid: id, progressHandler: { (percent) in
+        FirebaseImageService.uploadImage(image: resized, type: .event, uid: id, progressHandler: { (percent) in
             alert.title = "Progress: \(Int(percent*100))%"
         }, completion: { (url) in
             alert.dismiss(animated: true, completion: nil)
