@@ -131,9 +131,9 @@ extension LeaguePlayersViewController: UITableViewDataSource {
         case "Organizers":
             return "\(name) - \(organizers.count)"
         case "Members":
-            return "\(name) - \(members.count)"
+            return "\(name) - \(members.count) (tap to remove)"
         case "Players":
-            return "\(name) - \(players.count)"
+            return "\(name) - \(players.count) (tap to add)"
         default:
             return nil
         }
