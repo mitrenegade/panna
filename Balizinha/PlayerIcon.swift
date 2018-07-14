@@ -10,11 +10,13 @@ import UIKit
 
 class PlayerIcon: FirebaseModelIcon {
 
-    override var photoUrl: String? {
-        guard let player = object as? Player else { return nil }
-        print("PhotoUrl: \(player.photoUrl)")
-        return player.photoUrl
+    override func photoUrl(id: String?, completion: @escaping ((URL?) -> Void)) {
+        FirebaseImageService().profileUrl(for: id) { (url) in
+            print("PlayerIcon photoUrl: \(url)")
+            DispatchQueue.main.async {
+                completion(url)
+            }
+        }
     }
-
 }
 

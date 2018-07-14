@@ -83,15 +83,15 @@ class PlayerInfoViewController: UIViewController {
     }
     
     func refreshPhoto() {
-        FirebaseImageService().profileUrl(for: player?.id) { (url) in
+        photoView.layer.cornerRadius = photoView.frame.size.width / 2
+        FirebaseImageService().profileUrl(for: player?.id) { [weak self] (url) in
             DispatchQueue.main.async {
                 if let url = url {
-                    photoView.image = nil
-                    photoView.imageUrl = url.absoluteString
-                    self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 2
+                    self?.photoView.image = nil
+                    self?.photoView.imageUrl = url.absoluteString
                 } else {
-                    self.photoView.image = UIImage(named: "add_user")
-                    self.photoView.layer.cornerRadius = 0
+                    self?.photoView.image = UIImage(named: "add_user")
+                    self?.photoView.layer.cornerRadius = 0
                 }
             }
         }
@@ -265,7 +265,7 @@ extension PlayerInfoViewController {
             alert.title = "Upload progress: \(Int(percent*100))%"
         }) { (url) in
             if let url = url {
-                self.refreshPhoto(url: url)
+                self.refreshPhoto()
                 if let player = PlayerService.shared.current.value {
                     player.photoUrl = url // legacy apps need this url
                 }

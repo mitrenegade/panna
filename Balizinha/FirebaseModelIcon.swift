@@ -17,21 +17,23 @@ class FirebaseModelIcon: UIView {
         }
     }
     
-    internal var photoUrl: String? {
-        return nil
+    internal func photoUrl(id: String?, completion: @escaping ((URL?)->Void)) {
+        completion(nil)
     }
     
-    fileprivate func refreshPhoto(url: String?) {
+    fileprivate func refreshPhoto() {
         imageView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = imageView.frame.size.height / 4
         imageView.contentMode = .scaleAspectFill
-        if let url = url {
-            imageView.imageUrl = url
-        }
-        else {
-            imageView.imageUrl = nil
-            imageView.image = UIImage(named: "profile-img")
+        photoUrl(id: object?.id) { (url) in
+            if let urlString = url?.absoluteString {
+                self.imageView.imageUrl = urlString
+            }
+            else {
+                self.imageView.imageUrl = nil
+                self.imageView.image = UIImage(named: "profile-img")
+            }
         }
     }
     
@@ -39,7 +41,7 @@ class FirebaseModelIcon: UIView {
         if imageView.superview == nil {
             self.addSubview(imageView)
         }
-        refreshPhoto(url: photoUrl)
+        refreshPhoto()
     }
     
     func remove() {
