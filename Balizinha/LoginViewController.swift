@@ -137,7 +137,7 @@ class LoginViewController: UIViewController {
         let keyboardHeight = keyboardRectangle.height
         
         let maxHeight = view.frame.size.height - keyboardHeight
-        let bottomVisiblePosition = inputPassword.frame.origin.y + inputPassword.frame.size.height + 44
+        let bottomVisiblePosition = inputPassword.frame.origin.y + inputPassword.frame.size.height + 60
 
         if bottomVisiblePosition > maxHeight {
             let offset = bottomVisiblePosition - maxHeight
