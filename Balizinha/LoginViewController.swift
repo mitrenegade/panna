@@ -130,18 +130,31 @@ class LoginViewController: UIViewController {
         }
     }
     
-    @objc func keyboardWillShow(_ notification: Notification) {
+    func keyboardWillShow(_ notification: Notification) {
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
         let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height
-        constraintTopOffset.constant = -keyboardHeight
-        constraintBottomOffset.constant = keyboardHeight
+        
+        let maxHeight = view.frame.size.height - keyboardHeight
+        let bottomVisiblePosition = inputPassword.frame.origin.y + inputPassword.frame.size.height + 44
+
+        if bottomVisiblePosition > maxHeight {
+            let offset = bottomVisiblePosition - maxHeight
+            self.constraintTopOffset.constant = -offset
+            self.constraintBottomOffset.constant = offset
+            UIView.animate(withDuration: 0.25) {
+                self.view.layoutIfNeeded()
+            }
+        }
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
         self.constraintTopOffset.constant = 0
         self.constraintBottomOffset.constant = 0
+        UIView.animate(withDuration: 0.25) {
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
