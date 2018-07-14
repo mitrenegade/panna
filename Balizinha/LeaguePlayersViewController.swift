@@ -131,9 +131,13 @@ extension LeaguePlayersViewController: UITableViewDataSource {
         case "Organizers":
             return "\(name) - \(organizers.count)"
         case "Members":
-            return "\(name) - \(members.count)"
+            if isEditOrganizerMode {
+                return "\(name) - \(members.count) (tap to become organizer)"
+            } else {
+                return "\(name) - \(members.count) (tap to remove)"
+            }
         case "Players":
-            return "\(name) - \(players.count)"
+            return "\(name) - \(players.count) (tap to become member)"
         default:
             return nil
         }

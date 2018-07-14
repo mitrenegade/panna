@@ -18,6 +18,8 @@ class LeaguesViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        navigationItem.title = "Leagues"
+        
         let profileButton = UIBarButtonItem(image: UIImage(named: "menu"), style: .done, target: self, action: #selector(didClickProfile(_:)))
         navigationItem.leftBarButtonItem = profileButton
         
