@@ -30,9 +30,16 @@ class LeagueService: NSObject {
             
             self?.leagueMemberships(for: player, completion: { (results) in
                 print("Player leagues: \(results)")
-                if let ids = results?.keys {
+                if let roster = results {
                     _playerLeagues.removeAll()
-                    _playerLeagues.append(contentsOf: Array(ids))
+                    let filtered = roster.compactMap({ (key, status) -> String? in
+                        if status != .none {
+                            return key
+                        } else {
+                            return nil
+                        }
+                    })
+                    _playerLeagues.append(contentsOf: filtered)
                 }
             })
         }).disposed(by: disposeBag)
