@@ -61,9 +61,11 @@ class JoinLeagueCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func configure(league: League) {
+    func configure(league: League?) {
         self.league = league
-        self.viewModel = JoinLeagueViewModel(league: league)
+        if let league = league {
+            self.viewModel = JoinLeagueViewModel(league: league)
+        }
         refresh()
     }
     
@@ -72,7 +74,7 @@ class JoinLeagueCell: UITableViewCell {
         buttonJoin.setTitle(viewModel.buttonText, for: .normal)
         
         buttonJoin.isEnabled = !requestInProgress && viewModel.buttonEnabled
-        buttonJoin.alpha = requestInProgress ? 0.5 : 1.0
+        buttonJoin.alpha = (!requestInProgress && viewModel.buttonEnabled) ? 1.0 : 0.5
         if requestInProgress {
             activityIndicator.startAnimating()
         } else {

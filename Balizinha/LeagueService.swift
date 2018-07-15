@@ -77,11 +77,8 @@ class LeagueService: NSObject {
         }
         
         let queryRef = firRef.child("leagues")
-        
-        queryRef.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
-            // this block is called for every result returned
+        queryRef.observeSingleEvent(of: .value) { (snapshot) in
             guard snapshot.exists() else {
-                completion([])
                 return
             }
             _leagues.removeAll()
@@ -92,7 +89,6 @@ class LeagueService: NSObject {
                     _leagues[league.id] = league
                 }
             }
-            print("getLeagues results count: \(_leagues.count)")
             completion(Array(_leagues.values))
         }
     }

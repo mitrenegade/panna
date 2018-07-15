@@ -96,11 +96,14 @@ extension LeagueViewController: UITableViewDataSource {
         switch rows[indexPath.row] {
         case .title:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTitleCell", for: indexPath) as! LeagueTitleCell
+            cell.selectionStyle = .none
             cell.configure(league: league)
             return cell
         case .join:
             let cell = tableView.dequeueReusableCell(withIdentifier: "JoinLeagueCell", for: indexPath) as! JoinLeagueCell
+            cell.selectionStyle = .none
             cell.delegate = self
+            cell.configure(league: league)
             joinLeagueCell = cell
             return cell
         case .tags:
@@ -109,6 +112,7 @@ extension LeagueViewController: UITableViewDataSource {
             return cell
         case .info:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueInfoCell", for: indexPath) as! LeagueInfoCell
+            cell.selectionStyle = .none
             cell.configure(league: league)
             return cell
         case .players:
