@@ -340,28 +340,27 @@ Type</string>
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NoZ-lI-33M">
-                                                    <rect key="frame" x="15" y="0.0" width="345" height="44"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="asdf" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Bu8-uA-TMs">
+                                                    <rect key="frame" x="8" y="0.0" width="359" height="36"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="44" id="x9h-sF-I2h"/>
+                                                        <constraint firstAttribute="height" constant="36" id="bIt-e9-FOh"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstItem="NoZ-lI-33M" firstAttribute="top" secondItem="5HT-n4-Abc" secondAttribute="top" id="A4s-78-AeE"/>
-                                                <constraint firstAttribute="trailing" secondItem="NoZ-lI-33M" secondAttribute="trailing" constant="15" id="HlW-4S-q1s"/>
-                                                <constraint firstAttribute="bottom" secondItem="NoZ-lI-33M" secondAttribute="bottom" id="fWp-Oz-KVG"/>
-                                                <constraint firstItem="NoZ-lI-33M" firstAttribute="leading" secondItem="5HT-n4-Abc" secondAttribute="leading" constant="15" id="rYR-XT-9Wq"/>
+                                                <constraint firstItem="Bu8-uA-TMs" firstAttribute="top" secondItem="5HT-n4-Abc" secondAttribute="top" id="ERF-TH-L4q"/>
+                                                <constraint firstAttribute="bottom" secondItem="Bu8-uA-TMs" secondAttribute="bottom" constant="8" id="PDR-yT-tzQ"/>
+                                                <constraint firstAttribute="trailing" secondItem="Bu8-uA-TMs" secondAttribute="trailing" constant="8" id="PgF-Vh-AlB"/>
+                                                <constraint firstItem="Bu8-uA-TMs" firstAttribute="leading" secondItem="5HT-n4-Abc" secondAttribute="leading" constant="8" id="o0D-Ta-Cqa"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="constraintHeight" destination="x9h-sF-I2h" id="cvJ-dH-A9h"/>
-                                            <outlet property="labelInfo" destination="NoZ-lI-33M" id="80W-me-sbf"/>
+                                            <outlet property="constraintHeight" destination="bIt-e9-FOh" id="x0L-2a-ESV"/>
+                                            <outlet property="textViewInfo" destination="Bu8-uA-TMs" id="3mD-pV-bur"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeaguePlayersCell" rowHeight="70" id="f8f-lZ-WyF" customClass="LeaguePlayersCell" customModule="Balizinha" customModuleProvider="target">
