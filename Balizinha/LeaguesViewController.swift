@@ -92,20 +92,7 @@ class LeaguesViewController: UIViewController {
             }
         }
     }
-    
-    fileprivate func joinOrLeave(_ league: League) {
-        if LeagueService.shared.playerIsIn(league: league) {
-            // leave league
-            print("You cannot leave league! muhahaha")
-        } else {
-            // join league
-            LeagueService.shared.join(league: league) { [weak self] (result, error) in
-                print("Join league result \(result) error \(error)")
-                self?.loadData()
-            }
-        }
-    }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toLeague", let league = sender as? League, let controller = segue.destination as? LeagueViewController {
             controller.league = league
