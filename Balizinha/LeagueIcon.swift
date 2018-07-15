@@ -19,4 +19,10 @@ class LeagueIcon: FirebaseModelIcon {
         }
     }
 
+    override var initials: String? {
+        guard let league = object as? League else { return nil }
+        guard let name = league.name else { return nil }
+        guard let char = name.uppercased().first else { return nil }
+        return String(char)
+    }
 }

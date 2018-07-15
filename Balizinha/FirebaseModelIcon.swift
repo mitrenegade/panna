@@ -10,6 +10,7 @@ import UIKit
 
 class FirebaseModelIcon: UIView {
     var imageView: RAImageView = RAImageView()
+    var labelName: UILabel = UILabel()
 
     var object: FirebaseBaseModel? {
         didSet {
@@ -21,25 +22,51 @@ class FirebaseModelIcon: UIView {
         completion(nil)
     }
     
+    internal var initials: String? {
+        return nil
+    }
+    
     fileprivate func refreshPhoto() {
         imageView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = imageView.frame.size.height / 4
         imageView.contentMode = .scaleAspectFill
-        photoUrl(id: object?.id) { (url) in
+        
+        labelName.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
+        labelName.clipsToBounds = true
+        labelName.layer.cornerRadius = imageView.frame.size.height / 4
+        labelName.font = UIFont.montserratSemiBold(size: frame.size.width / 2)
+//        labelName.backgroundColor = UIColor.red
+        
+        labelName.textColor = UIColor.darkGreen
+        labelName.layer.borderWidth = 1
+        labelName.layer.borderColor = UIColor.darkGreen.cgColor
+        labelName.textAlignment = .center
+
+        photoUrl(id: object?.id) { [weak self] (url) in
             if let urlString = url?.absoluteString {
-                self.imageView.imageUrl = urlString
-            }
-            else {
-                self.imageView.imageUrl = nil
-                self.imageView.image = UIImage(named: "profile-img")
+                self?.imageView.imageUrl = urlString
+                self?.imageView.isHidden = false
+                self?.labelName.isHidden = true
+            } else if let strings = self?.initials {
+                self?.labelName.text = strings
+                self?.imageView.isHidden = true
+                self?.labelName.isHidden = false
+            } else {
+                self?.imageView.imageUrl = nil
+                self?.imageView.image = UIImage(named: "profile-img")
+                self?.imageView.isHidden = false
+                self?.labelName.isHidden = true
             }
         }
     }
     
     func refresh() {
-        if imageView.superview == nil {
+        if labelName.superview == nil {
             self.addSubview(imageView)
+        }
+        if labelName.superview == nil {
+            self.addSubview(labelName)
         }
         refreshPhoto()
     }

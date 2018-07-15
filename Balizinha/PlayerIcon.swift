@@ -18,5 +18,12 @@ class PlayerIcon: FirebaseModelIcon {
             }
         }
     }
+    
+    override var initials: String? {
+        guard let player = object as? Player else { return nil }
+        guard let name = player.name else { return nil }
+        guard let char = name.uppercased().first else { return nil }
+        return String(char)
+    }
 }
 
