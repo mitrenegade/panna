@@ -26,6 +26,7 @@ enum NotificationType: String {
     case LocationOptionsChanged
     case GoToMapForSharedEvent
     case GoToAccountDeepLink
+    case PlayerLeaguesChanged // on join or leave
     
     func name() -> Notification.Name {
         return Notification.Name(self.rawValue)

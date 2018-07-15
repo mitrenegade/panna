@@ -40,6 +40,8 @@ class LeagueViewController: UIViewController {
         if league?.info.isEmpty == true, let index = rows.index(of: .info){
             rows.remove(at: index)
         }
+        
+        listenFor(.PlayerLeaguesChanged, action: #selector(loadPlayerLeagues), object: nil)
     }
     
     func loadRoster() {
@@ -48,6 +50,16 @@ class LeagueViewController: UIViewController {
             self?.roster = results
             self?.observePlayers()
         }
+    }
+    
+    @objc func loadPlayerLeagues() {
+        // on join or leave, update the join button and also update player roster
+        LeagueService.shared.refreshPlayerLeagues { [weak self] (results) in
+            DispatchQueue.main.async {
+                self?.joinLeagueCell?.reset()
+            }
+        }
+        loadRoster()
     }
     
     func observePlayers() {
@@ -183,6 +195,7 @@ extension LeagueViewController: JoinLeagueDelegate {
         print("Joining league \(league)")
         if LeagueService.shared.playerIsIn(league: league) {
             // leave league
+            // BOBBY TODO: add join league
             print("You cannot leave league! muhahaha")
             joinLeagueCell?.reset()
         } else {
@@ -190,8 +203,7 @@ extension LeagueViewController: JoinLeagueDelegate {
             LeagueService.shared.join(league: league) { [weak self] (result, error) in
                 print("Join league result \(result) error \(error)")
                 DispatchQueue.main.async {
-                    self?.joinLeagueCell?.reset()
-                    self?.loadRoster()
+                    self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
                 }
             }
         }

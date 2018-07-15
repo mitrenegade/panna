@@ -26,23 +26,26 @@ class LeagueService: NSObject {
         }
         
         PlayerService.shared.current.asObservable().distinctUntilChanged().subscribe(onNext: { [weak self] player in
-            guard let player = player else { return }
-            
-            self?.leagueMemberships(for: player, completion: { (results) in
-                print("Player leagues: \(results)")
-                if let roster = results {
-                    _playerLeagues.removeAll()
-                    let filtered = roster.compactMap({ (key, status) -> String? in
-                        if status != .none {
-                            return key
-                        } else {
-                            return nil
-                        }
-                    })
-                    _playerLeagues.append(contentsOf: filtered)
-                }
-            })
+            self?.refreshPlayerLeagues(completion: nil)
         }).disposed(by: disposeBag)
+    }
+    
+    func refreshPlayerLeagues(completion: (([String]?)->Void)?) {
+        // loads current player's leagues
+        guard let player = PlayerService.shared.current.value else { return }
+        leagueMemberships(for: player, completion: { (results) in
+            print("Player leagues: \(results)")
+            if let roster = results {
+                _playerLeagues = roster.compactMap({ (key, status) -> String? in
+                    if status != .none {
+                        return key
+                    } else {
+                        return nil
+                    }
+                })
+            }
+            completion?(_playerLeagues)
+        })
     }
     
     class func resetOnLogout() {
