@@ -19,7 +19,6 @@ class PlayerInfoViewController: UIViewController {
     @IBOutlet weak var inputCity: UITextField!
     @IBOutlet weak var inputNotes: UITextView!
     @IBOutlet weak var photoView: RAImageView!
-    @IBOutlet weak var imagePlus: UIImageView!
     @IBOutlet weak var buttonLeague: UIButton!
 
     weak var currentInput: UITextField?
@@ -90,11 +89,11 @@ class PlayerInfoViewController: UIViewController {
                 if let url = url {
                     self?.photoView.image = nil
                     self?.photoView.imageUrl = url.absoluteString
-                    self?.imagePlus.isHidden = true
+                    self?.buttonPhoto.setTitle("Update Photo", for: .normal)
                 } else {
                     self?.photoView.layer.cornerRadius = 0
                     self?.photoView.image = UIImage(named: "profile-img")
-                    self?.imagePlus.isHidden = false
+                    self?.buttonPhoto.setTitle("Add Photo", for: .normal)
                 }
             }
         }
@@ -278,7 +277,6 @@ extension PlayerInfoViewController {
         }
         self.photoView.image = image
         self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 2
-        imagePlus.isHidden = true
         
         self.dismissCamera {
             self.present(alert, animated: true, completion: nil)
