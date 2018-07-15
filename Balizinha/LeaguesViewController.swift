@@ -75,10 +75,15 @@ class LeaguesViewController: UIViewController {
         
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
             guard let weakself = self else { return }
-            weakself.playerLeagues = weakself.otherLeagues.filter() {
+            let sorted = weakself.otherLeagues.sorted() {
+                guard let c1 = $0.createdAt else { return false }
+                guard let c2 = $1.createdAt else { return true }
+                return c1 < c2
+            }
+            weakself.playerLeagues = sorted.filter() {
                 return leagueIds.contains($0.id)
             }
-            weakself.otherLeagues = weakself.otherLeagues.filter() {
+            weakself.otherLeagues = sorted.filter() {
                 return !leagueIds.contains($0.id)
             }
             
