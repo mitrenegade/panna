@@ -36,7 +36,6 @@ class FirebaseModelIcon: UIView {
         labelName.clipsToBounds = true
         labelName.layer.cornerRadius = imageView.frame.size.height / 4
         labelName.font = UIFont.montserratSemiBold(size: frame.size.width / 2)
-//        labelName.backgroundColor = UIColor.red
         
         labelName.textColor = UIColor.darkGreen
         labelName.layer.borderWidth = 1
