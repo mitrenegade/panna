@@ -191,6 +191,7 @@ extension LeagueViewController: JoinLeagueDelegate {
                 print("Join league result \(result) error \(error)")
                 DispatchQueue.main.async {
                     self?.joinLeagueCell?.reset()
+                    self?.loadRoster()
                 }
             }
         }

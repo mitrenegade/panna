@@ -352,7 +352,7 @@ extension PlayerInfoViewController {
             })
 
             // test league for player
-            LeagueService.shared.leagues(for: player, completion: { (results) in
+            LeagueService.shared.leagueMemberships(for: player, completion: { (results) in
                 print("Leagues for player \(player.id): \(results)")
             })
         }

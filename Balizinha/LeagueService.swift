@@ -28,11 +28,11 @@ class LeagueService: NSObject {
         PlayerService.shared.current.asObservable().distinctUntilChanged().subscribe(onNext: { [weak self] player in
             guard let player = player else { return }
             
-            self?.leagues(for: player, completion: { (results) in
+            self?.leagueMemberships(for: player, completion: { (results) in
                 print("Player leagues: \(results)")
-                if let ids = results as? [String] {
+                if let ids = results?.keys {
                     _playerLeagues.removeAll()
-                    _playerLeagues.append(contentsOf: ids)
+                    _playerLeagues.append(contentsOf: Array(ids))
                 }
             })
         }).disposed(by: disposeBag)
@@ -173,9 +173,9 @@ class LeagueService: NSObject {
         }
     }
     
-    func leagues(for player: Player, completion: @escaping (([String: Membership]?)->Void)) {
+    func leagueMemberships(for player: Player, completion: @escaping (([String: Membership.Status]?)->Void)) {
         guard !AIRPLANE_MODE else {
-            completion([LEAGUE_ID_AIRPLANE_MODE: Membership(id: player.id, status: "member")])
+            completion([LEAGUE_ID_AIRPLANE_MODE: Membership.Status.member])
             return
         }
         FirebaseAPIService().cloudFunction(functionName: "getLeaguesForPlayer", params: ["userId": player.id]) { (result, error) in
@@ -184,16 +184,18 @@ class LeagueService: NSObject {
                 completion(nil)
                 return
             }
-            print("Leagues for player results \(result)")
+            print("Leagues for player \(player.id) results \(result)")
             if let dict = (result as? [String: Any])?["result"] as? [String: Any] {
-                var result = [String:Membership]()
+                var result = [String:Membership.Status]()
                 for (leagueId, statusString) in dict {
                     var status = statusString as? String ?? "none"
                     // for api v1.4, some users were set to true
                     if let legacyValue = statusString as? Bool, legacyValue == true {
                         status = "member"
                     }
-                    result[leagueId] = Membership(id: player.id, status: status)
+                    if let membershipStatus = Membership.Status(rawValue: status) {
+                        result[leagueId] = membershipStatus
+                    }
                 }
                 completion(result)
             } else {
