@@ -14,11 +14,12 @@ protocol PlayerDelegate: class {
 
 class PlayerInfoViewController: UIViewController {
     
-    @IBOutlet var buttonPhoto: UIButton!
-    @IBOutlet var inputName: UITextField!
-    @IBOutlet var inputCity: UITextField!
-    @IBOutlet var inputNotes: UITextView!
-    @IBOutlet var photoView: RAImageView!
+    @IBOutlet weak var buttonPhoto: UIButton!
+    @IBOutlet weak var inputName: UITextField!
+    @IBOutlet weak var inputCity: UITextField!
+    @IBOutlet weak var inputNotes: UITextView!
+    @IBOutlet weak var photoView: RAImageView!
+    @IBOutlet weak var imagePlus: UIImageView!
     @IBOutlet weak var buttonLeague: UIButton!
 
     weak var currentInput: UITextField?
@@ -89,9 +90,11 @@ class PlayerInfoViewController: UIViewController {
                 if let url = url {
                     self?.photoView.image = nil
                     self?.photoView.imageUrl = url.absoluteString
+                    self?.imagePlus.isHidden = true
                 } else {
-                    self?.photoView.image = UIImage(named: "add_user")
                     self?.photoView.layer.cornerRadius = 0
+                    self?.photoView.image = UIImage(named: "profile-img")
+                    self?.imagePlus.isHidden = false
                 }
             }
         }
@@ -275,6 +278,7 @@ extension PlayerInfoViewController {
         }
         self.photoView.image = image
         self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 2
+        imagePlus.isHidden = true
         
         self.dismissCamera {
             self.present(alert, animated: true, completion: nil)

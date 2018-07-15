@@ -233,8 +233,24 @@
                                     <outlet property="delegate" destination="doi-kI-W3c" id="c7x-GW-gHH"/>
                                 </connections>
                             </textField>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_user" translatesAutoresizingMaskIntoConstraints="NO" id="0RW-JB-g2Y" customClass="RAImageView" customModule="Balizinha" customModuleProvider="target">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="0RW-JB-g2Y" customClass="RAImageView" customModule="Balizinha" customModuleProvider="target">
                                 <rect key="frame" x="147.5" y="8" width="80" height="80"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plusIcon30" translatesAutoresizingMaskIntoConstraints="NO" id="JYh-Tz-S4W">
+                                <rect key="frame" x="197" y="58" width="30" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="L9V-vC-qBH"/>
+                                    <constraint firstAttribute="width" constant="30" id="bsM-t2-CrO"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </imageView>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XAo-AL-O26">
                                 <rect key="frame" x="147.5" y="8" width="80" height="80"/>
@@ -289,6 +305,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="XAo-AL-O26" firstAttribute="top" secondItem="0RW-JB-g2Y" secondAttribute="top" id="15B-da-wVF"/>
+                            <constraint firstItem="JYh-Tz-S4W" firstAttribute="trailing" secondItem="XAo-AL-O26" secondAttribute="trailing" id="3Yu-Kb-4uH"/>
                             <constraint firstAttribute="trailing" secondItem="Qh9-5D-9kU" secondAttribute="trailing" constant="16" id="7jE-7k-nEi"/>
                             <constraint firstItem="Qh9-5D-9kU" firstAttribute="top" secondItem="FlA-eP-4TG" secondAttribute="bottom" constant="8" id="7tY-WI-h2O"/>
                             <constraint firstItem="FlA-eP-4TG" firstAttribute="top" secondItem="c0o-pC-RKU" secondAttribute="bottom" constant="8" id="Bbv-B7-Y5E"/>
@@ -304,6 +321,7 @@
                             <constraint firstItem="VSH-KF-Dam" firstAttribute="top" secondItem="Qh9-5D-9kU" secondAttribute="bottom" constant="8" id="egg-79-8Ej"/>
                             <constraint firstAttribute="trailing" secondItem="FlA-eP-4TG" secondAttribute="trailing" constant="16" id="eyk-cX-MwF"/>
                             <constraint firstItem="c0o-pC-RKU" firstAttribute="top" secondItem="XAo-AL-O26" secondAttribute="bottom" constant="8" id="fi9-lB-S7T"/>
+                            <constraint firstItem="JYh-Tz-S4W" firstAttribute="bottom" secondItem="XAo-AL-O26" secondAttribute="bottom" id="iAv-37-fpA"/>
                             <constraint firstItem="XAo-AL-O26" firstAttribute="top" secondItem="7YW-eJ-mYm" secondAttribute="bottom" constant="8" id="jxP-pm-m3K"/>
                             <constraint firstItem="XAo-AL-O26" firstAttribute="bottom" secondItem="0RW-JB-g2Y" secondAttribute="bottom" id="kW6-mV-CrH"/>
                             <constraint firstItem="c0o-pC-RKU" firstAttribute="leading" secondItem="te2-o2-KrN" secondAttribute="leading" constant="16" id="lK5-1B-RrH"/>
@@ -328,6 +346,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="buttonPhoto" destination="XAo-AL-O26" id="WdU-jy-SDV"/>
+                        <outlet property="imagePlus" destination="JYh-Tz-S4W" id="vG1-Wy-nCO"/>
                         <outlet property="inputCity" destination="FlA-eP-4TG" id="lgX-O3-efa"/>
                         <outlet property="inputName" destination="c0o-pC-RKU" id="omt-ew-Acr"/>
                         <outlet property="inputNotes" destination="VSH-KF-Dam" id="p73-h6-ggb"/>
@@ -460,7 +479,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="add_user" width="256" height="256"/>
+        <image name="plusIcon30" width="30" height="30"/>
         <image name="profile-img" width="256" height="256"/>
     </resources>
 </document>
