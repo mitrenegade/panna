@@ -14,11 +14,11 @@ protocol PlayerDelegate: class {
 
 class PlayerInfoViewController: UIViewController {
     
-    @IBOutlet var buttonPhoto: UIButton!
-    @IBOutlet var inputName: UITextField!
-    @IBOutlet var inputCity: UITextField!
-    @IBOutlet var inputNotes: UITextView!
-    @IBOutlet var photoView: RAImageView!
+    @IBOutlet weak var buttonPhoto: UIButton!
+    @IBOutlet weak var inputName: UITextField!
+    @IBOutlet weak var inputCity: UITextField!
+    @IBOutlet weak var inputNotes: UITextView!
+    @IBOutlet weak var photoView: RAImageView!
     @IBOutlet weak var buttonLeague: UIButton!
 
     weak var currentInput: UITextField?
@@ -78,20 +78,24 @@ class PlayerInfoViewController: UIViewController {
         if let notes = player.info {
             self.inputNotes.text = notes
         }
-        self.refreshPhoto(url: player.photoUrl)
+        self.refreshPhoto()
         refreshLeagueButton()
     }
     
-    func refreshPhoto(url: String?) {
-        if let url = url {
-            photoView.image = nil
-//            photoView.showActivityIndicator = true
-            photoView.imageUrl = url
-            self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 2
-        }
-        else {
-            self.photoView.image = UIImage(named: "add_user")
-            self.photoView.layer.cornerRadius = 0
+    func refreshPhoto() {
+        photoView.layer.cornerRadius = photoView.frame.size.width / 2
+        FirebaseImageService().profileUrl(for: player?.id) { [weak self] (url) in
+            DispatchQueue.main.async {
+                if let url = url {
+                    self?.photoView.image = nil
+                    self?.photoView.imageUrl = url.absoluteString
+                    self?.buttonPhoto.setTitle("Update Photo", for: .normal)
+                } else {
+                    self?.photoView.layer.cornerRadius = 0
+                    self?.photoView.image = UIImage(named: "profile-img")
+                    self?.buttonPhoto.setTitle("Add Photo", for: .normal)
+                }
+            }
         }
     }
     
@@ -259,13 +263,13 @@ extension PlayerInfoViewController {
         alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
         })
         let smallerImage = FirebaseImageService.resizeImageForProfile(image: image)
-        FirebaseImageService.uploadImage(image: smallerImage ?? image, type: "player", uid: id, progressHandler: { (percent) in
+        FirebaseImageService.uploadImage(image: smallerImage ?? image, type: .player, uid: id, progressHandler: { (percent) in
             alert.title = "Upload progress: \(Int(percent*100))%"
         }) { (url) in
             if let url = url {
-                self.refreshPhoto(url: url)
+                self.refreshPhoto()
                 if let player = PlayerService.shared.current.value {
-                    player.photoUrl = url
+                    player.photoUrl = url // legacy apps need this url
                 }
             }
             // dismiss

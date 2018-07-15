@@ -25,29 +25,24 @@ class ActionCell: UITableViewCell {
         
         let actionId = action.id
         self.actionId = actionId
-        PlayerService.shared.withId(id: userId) { (player) in
-            print("url: \(String(describing: player?.photoUrl))")
-            if let url = player?.photoUrl {
-                self.refreshPhoto(url: url, currentActionId: actionId)
-            }
-            else {
-                self.refreshPhoto(url: nil, currentActionId: actionId)
-            }
-        }
-
+        self.refreshPhoto(userId: userId, currentActionId: actionId)
     }
     
-    func refreshPhoto(url: String?, currentActionId: String) {
+    func refreshPhoto(userId: String, currentActionId: String) {
         guard let photoView = self.photoView else { return }
         photoView.layer.cornerRadius = photoView.frame.size.width / 4
         photoView.clipsToBounds = true
         photoView.contentMode = .scaleAspectFill
-        if let url = url, self.actionId == currentActionId  {
-            photoView.imageUrl = url
-        }
-        else {
-            photoView.imageUrl = nil
-            photoView.image = UIImage(named: "profile-img")
+        FirebaseImageService().profileUrl(for: userId) { (url) in
+            DispatchQueue.main.async {
+                if let urlString = url?.absoluteString, self.actionId == currentActionId  {
+                    photoView.imageUrl = urlString
+                }
+                else {
+                    photoView.imageUrl = nil
+                    photoView.image = UIImage(named: "profile-img")
+                }
+            }
         }
     }
 

@@ -10,10 +10,10 @@ import UIKit
 
 class PlayerViewController: UIViewController {
     
-    @IBOutlet var photoView: RAImageView!
-    @IBOutlet var nameLabel: UILabel!
-    @IBOutlet var cityLabel: UILabel!
-    @IBOutlet var notesLabel: UILabel!
+    @IBOutlet weak var photoView: RAImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var notesLabel: UILabel!
     
     var player: Player?
 
@@ -60,18 +60,22 @@ class PlayerViewController: UIViewController {
             self.notesLabel.text = nil
         }
         
-        self.refreshPhoto(url: player.photoUrl)
-
-        self.photoView.layer.cornerRadius = self.photoView.frame.size.height / 2
+        refreshPhoto()
     }
     
-    func refreshPhoto(url: String?) {
-        if let url = url {
-            self.photoView.imageUrl = url
-        }
-        else {
-            self.photoView.imageUrl = nil
-            self.photoView.image = UIImage(named: "profile-img")
+    func refreshPhoto() {
+        photoView.layer.cornerRadius = photoView.frame.size.height / 2
+        FirebaseImageService().profileUrl(for: player?.id) {[weak self] (url) in
+            DispatchQueue.main.async {
+                if let url = url {
+                    self?.photoView.imageUrl = url.absoluteString
+                }
+                else {
+                    self?.photoView.layer.cornerRadius = 0
+                    self?.photoView.imageUrl = nil
+                    self?.photoView.image = UIImage(named: "profile-img")
+                }
+            }
         }
     }
     

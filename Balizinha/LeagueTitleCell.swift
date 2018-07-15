@@ -17,8 +17,13 @@ class LeagueTitleCell: UITableViewCell {
         guard let league = league else { return }
         labelCity.text = league.city
         labelName.text = league.name
-        if let url = league.photoUrl {
-            logoView.imageUrl = url
+        logoView.image = nil
+        FirebaseImageService().leaguePhotoUrl(for: league.id) {[weak self] (url) in
+            if let url = url {
+                DispatchQueue.main.async {
+                    self?.logoView.imageUrl = url.absoluteString
+                }
+            }
         }
     }
 }

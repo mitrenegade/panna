@@ -10,9 +10,19 @@ import UIKit
 
 class LeagueIcon: FirebaseModelIcon {
 
-    override var photoUrl: String? {
-        guard let league = object as? League else { return nil }
-        return league.photoUrl
+    override func photoUrl(id: String?, completion: @escaping ((URL?)->Void)) {
+        FirebaseImageService().leaguePhotoUrl(for: id) { (url) in
+            print("PlayerIcon photoUrl: \(url)")
+            DispatchQueue.main.async {
+                completion(url)
+            }
+        }
     }
 
+    override var initials: String? {
+        guard let league = object as? League else { return nil }
+        guard let name = league.name else { return nil }
+        guard let char = name.uppercased().first else { return nil }
+        return String(char)
+    }
 }

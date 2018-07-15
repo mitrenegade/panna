@@ -94,21 +94,27 @@ class EventCell: UITableViewCell {
         let place = event.place
         self.labelLocation.text = place
         
-        if let url = event.photoUrl {
-            self.eventLogo.imageUrl = url
-        } else if let leagueId = event.league {
-            LeagueService.shared.withId(id: leagueId) { (league) in
-                if let url = league?.photoUrl {
-                    self.eventLogo.imageUrl = url
+        // TODO this is too layered, how to check for either url without doing so many web requests? so many if/else?
+        FirebaseImageService().eventPhotoUrl(for: event.id) { [weak self] (url) in
+            DispatchQueue.main.async {
+                if let urlString = url?.absoluteString {
+                    self?.eventLogo.imageUrl = urlString
+                } else if let leagueId = event.league {
+                    FirebaseImageService().leaguePhotoUrl(for: leagueId) { [weak self] (url) in
+                        DispatchQueue.main.async {
+                            if let urlString = url?.absoluteString {
+                                self?.eventLogo.imageUrl = urlString
+                            } else {
+                                self?.eventLogo.imageUrl = nil
+                                self?.eventLogo.image = UIImage(named: "soccer")
+                            }
+                        }
+                    }
                 } else {
-                    self.eventLogo.imageUrl = nil
-                    self.eventLogo.image = UIImage(named: "soccer")
+                    self?.eventLogo.imageUrl = nil
+                    self?.eventLogo.image = UIImage(named: "soccer")
                 }
             }
-        }
-        else {
-            self.eventLogo.imageUrl = nil
-            self.eventLogo.image = UIImage(named: "soccer")
         }
 
         let containsUser: Bool
