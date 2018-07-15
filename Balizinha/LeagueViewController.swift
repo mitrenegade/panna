@@ -11,12 +11,13 @@ import UIKit
 class LeagueViewController: UIViewController {
     fileprivate enum Row { // TODO: make CaseIterable
         case title
+        case join
         case tags
         case info
         case players
     }
     
-    fileprivate var rows: [Row] = [.title, .tags, .info, .players]
+    fileprivate var rows: [Row] = [.title, .join, .tags, .info, .players]
     
     @IBOutlet weak var tableView: UITableView!
     var tagView: ResizableTagView?
@@ -24,6 +25,8 @@ class LeagueViewController: UIViewController {
     var league: League?
     var players: [Player] = []
     var roster: [Membership]?
+    
+    weak var joinLeagueCell: JoinLeagueCell?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,7 +96,15 @@ extension LeagueViewController: UITableViewDataSource {
         switch rows[indexPath.row] {
         case .title:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTitleCell", for: indexPath) as! LeagueTitleCell
+            cell.selectionStyle = .none
             cell.configure(league: league)
+            return cell
+        case .join:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "JoinLeagueCell", for: indexPath) as! JoinLeagueCell
+            cell.selectionStyle = .none
+            cell.delegate = self
+            cell.configure(league: league)
+            joinLeagueCell = cell
             return cell
         case .tags:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTagsCell", for: indexPath) as! LeagueTagsCell
@@ -101,6 +112,7 @@ extension LeagueViewController: UITableViewDataSource {
             return cell
         case .info:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueInfoCell", for: indexPath) as! LeagueInfoCell
+            cell.selectionStyle = .none
             cell.configure(league: league)
             return cell
         case .players:
@@ -163,5 +175,24 @@ extension LeagueViewController {
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true)
+    }
+}
+
+extension LeagueViewController: JoinLeagueDelegate {
+    func clickedJoinLeague(_ league: League) {
+        print("Joining league \(league)")
+        if LeagueService.shared.playerIsIn(league: league) {
+            // leave league
+            print("You cannot leave league! muhahaha")
+            joinLeagueCell?.reset()
+        } else {
+            // join league
+            LeagueService.shared.join(league: league) { [weak self] (result, error) in
+                print("Join league result \(result) error \(error)")
+                DispatchQueue.main.async {
+                    self?.joinLeagueCell?.reset()
+                }
+            }
+        }
     }
 }

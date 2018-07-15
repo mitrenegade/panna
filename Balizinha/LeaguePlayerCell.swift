@@ -13,8 +13,17 @@ class LeaguePlayerCell: UITableViewCell {
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var labelEmail: UILabel!
     @IBOutlet weak var labelCreated: UILabel!
+    @IBOutlet weak var labelInitials: UILabel!
 
     @IBOutlet weak var labelStatus: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        labelInitials.textColor = UIColor.darkGreen
+        labelInitials.layer.borderWidth = 2
+        labelInitials.layer.borderColor = UIColor.darkGreen.cgColor
+        labelInitials.textAlignment = .center
+    }
     
     func configure(player: Player, status: Membership.Status) {
         labelName.text = player.name ?? "Anon"
@@ -25,10 +34,18 @@ class LeaguePlayerCell: UITableViewCell {
 
         imagePhoto.image = nil
         imagePhoto.layer.cornerRadius = imagePhoto.frame.size.height / 2
+        labelInitials.layer.cornerRadius = labelInitials.frame.size.height / 2
+        labelInitials.font = UIFont.montserratSemiBold(size: imagePhoto.frame.size.width / 2)
         FirebaseImageService().profileUrl(for: player.id) {[weak self] (url) in
-            if let url = url {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if let url = url {
                     self?.imagePhoto.imageUrl = url.absoluteString
+                    self?.imagePhoto.isHidden = false
+                    self?.labelInitials.isHidden = true
+                } else if let name = player.name, let char = name.uppercased().first {
+                    self?.labelInitials.text = String(char)
+                    self?.imagePhoto.isHidden = true
+                    self?.labelInitials.isHidden = false
                 }
             }
         }

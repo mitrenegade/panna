@@ -164,6 +164,7 @@
 		C651AB8A2096D7FC0046B03C /* League.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C651AB892096D7FC0046B03C /* League.storyboard */; };
 		C651AB8D2096D82E0046B03C /* LeaguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C651AB8C2096D82E0046B03C /* LeaguesViewController.swift */; };
 		C69E4E832097543400F4D74B /* LeagueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69E4E822097543400F4D74B /* LeagueCell.swift */; };
+		C6B7412720FAD88B00B0FA00 /* JoinLeagueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B7412620FAD88B00B0FA00 /* JoinLeagueCell.swift */; };
 		C6FDE5C420431ECB00FE0C76 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FDE5C320431ECB00FE0C76 /* ChatService.swift */; };
 		C6FDE5C620431F0100FE0C76 /* FirebaseAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FDE5C520431F0100FE0C76 /* FirebaseAPIService.swift */; };
 		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
@@ -317,6 +318,7 @@
 		C651AB892096D7FC0046B03C /* League.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = League.storyboard; sourceTree = "<group>"; };
 		C651AB8C2096D82E0046B03C /* LeaguesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguesViewController.swift; sourceTree = "<group>"; };
 		C69E4E822097543400F4D74B /* LeagueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueCell.swift; sourceTree = "<group>"; };
+		C6B7412620FAD88B00B0FA00 /* JoinLeagueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinLeagueCell.swift; sourceTree = "<group>"; };
 		C6FDE5C320431ECB00FE0C76 /* ChatService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
 		C6FDE5C520431F0100FE0C76 /* FirebaseAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAPIService.swift; sourceTree = "<group>"; };
 		C779F650FFE1D803921FC3ED /* Pods-BalizinhaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -636,6 +638,7 @@
 				8E48AF8120DFE21800D814BE /* LeagueInfoCell.swift */,
 				8E48AF8320DFE91C00D814BE /* LeaguePlayersCell.swift */,
 				8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */,
+				C6B7412620FAD88B00B0FA00 /* JoinLeagueCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1037,6 +1040,7 @@
 				8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */,
 				8E7016D2207A9D0400A4C28C /* UpgradeService.swift in Sources */,
 				8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */,
+				C6B7412720FAD88B00B0FA00 /* JoinLeagueCell.swift in Sources */,
 				8E17907C207B043F004FF5D2 /* PlayerCell.swift in Sources */,
 				F2F7C3C01CEE296A00350115 /* AccountViewController.swift in Sources */,
 				8EC799271E35AA02004ACC52 /* MapViewController.swift in Sources */,

@@ -75,10 +75,15 @@ class LeaguesViewController: UIViewController {
         
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
             guard let weakself = self else { return }
-            weakself.playerLeagues = weakself.otherLeagues.filter() {
+            let sorted = weakself.otherLeagues.sorted() {
+                guard let c1 = $0.createdAt else { return false }
+                guard let c2 = $1.createdAt else { return true }
+                return c1 < c2
+            }
+            weakself.playerLeagues = sorted.filter() {
                 return leagueIds.contains($0.id)
             }
-            weakself.otherLeagues = weakself.otherLeagues.filter() {
+            weakself.otherLeagues = sorted.filter() {
                 return !leagueIds.contains($0.id)
             }
             
@@ -87,20 +92,7 @@ class LeaguesViewController: UIViewController {
             }
         }
     }
-    
-    fileprivate func joinOrLeave(_ league: League) {
-        if LeagueService.shared.playerIsIn(league: league) {
-            // leave league
-            print("You cannot leave league! muhahaha")
-        } else {
-            // join league
-            LeagueService.shared.join(league: league) { [weak self] (result, error) in
-                print("Join league result \(result) error \(error)")
-                self?.loadData()
-            }
-        }
-    }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toLeague", let league = sender as? League, let controller = segue.destination as? LeagueViewController {
             controller.league = league

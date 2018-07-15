@@ -34,7 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let path = filePath, let fileopts = FirebaseOptions.init(contentsOfFile: path) {
             FirebaseApp.configure(options: fileopts)
         }
-        Database.database().isPersistenceEnabled = true
         
         // Facebook
         FBSDKAppEvents.activateApp()
