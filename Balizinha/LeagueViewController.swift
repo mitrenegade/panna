@@ -59,6 +59,8 @@ class LeagueViewController: UIViewController {
                 self?.joinLeagueCell?.reset()
             }
         }
+//        BOBBY TODO: roster is not showing correctly after user joins league
+//        BOBBY TODO: leaguesViewController needs to listen and update too
         loadRoster()
     }
     
@@ -195,7 +197,7 @@ extension LeagueViewController: JoinLeagueDelegate {
         print("Joining league \(league)")
         if LeagueService.shared.playerIsIn(league: league) {
             // leave league
-            // BOBBY TODO: add join league
+            // BOBBY TODO: add leave league
             print("You cannot leave league! muhahaha")
             joinLeagueCell?.reset()
         } else {
