@@ -206,7 +206,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="31O-VN-mnm" id="Bfq-Tk-8FP"/>
-                        <segue destination="awv-Cv-vYB" kind="presentation" identifier="ToEditPlayerInfo" id="L07-ag-sVF"/>
+                        <segue destination="doi-kI-W3c" kind="show" identifier="ToEditPlayerInfo" id="ewM-0E-rtb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aXa-k0-7lO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -222,11 +222,11 @@
                         <viewControllerLayoutGuide type="bottom" id="bhA-hx-EMp"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="te2-o2-KrN">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="c0o-pC-RKU">
-                                <rect key="frame" x="16" y="134" width="343" height="30"/>
+                                <rect key="frame" x="16" y="154" width="343" height="30"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                 <connections>
@@ -234,14 +234,14 @@
                                 </connections>
                             </textField>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="0RW-JB-g2Y" customClass="RAImageView" customModule="Balizinha" customModuleProvider="target">
-                                <rect key="frame" x="147" y="8" width="80" height="80"/>
+                                <rect key="frame" x="147" y="28" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="lbP-c6-Nw7"/>
                                     <constraint firstAttribute="height" constant="80" id="vOY-wB-uxS"/>
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FlA-eP-4TG">
-                                <rect key="frame" x="16" y="172" width="343" height="30"/>
+                                <rect key="frame" x="16" y="192" width="343" height="30"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                 <connections>
@@ -249,7 +249,7 @@
                                 </connections>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="VSH-KF-Dam">
-                                <rect key="frame" x="16" y="244" width="343" height="251"/>
+                                <rect key="frame" x="16" y="264" width="343" height="295"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
@@ -261,7 +261,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qh9-5D-9kU">
-                                <rect key="frame" x="16" y="210" width="343" height="26"/>
+                                <rect key="frame" x="16" y="230" width="343" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="aeN-Hq-UGm"/>
                                 </constraints>
@@ -270,7 +270,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rHs-WK-BWz">
-                                <rect key="frame" x="16" y="503" width="343" height="80"/>
+                                <rect key="frame" x="16" y="567" width="343" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="y8S-74-fBB"/>
                                 </constraints>
@@ -279,7 +279,7 @@
                                 </connections>
                             </containerView>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XAo-AL-O26">
-                                <rect key="frame" x="87" y="88" width="200" height="30"/>
+                                <rect key="frame" x="87" y="108" width="200" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="NM7-KR-JDU"/>
                                     <constraint firstAttribute="width" constant="200" id="daO-Z8-Yja"/>
@@ -342,23 +342,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F0q-J5-pK7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2093.5999999999999" y="-514.09295352323841"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="eQD-CJ-4HC">
-            <objects>
-                <navigationController storyboardIdentifier="PlayerInfoNavigationController" id="awv-Cv-vYB" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="lLr-TY-3Sy">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="doi-kI-W3c" kind="relationship" relationship="rootViewController" id="J8B-TB-D1D"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="T4F-Jc-wMv" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1372" y="-514"/>
+            <point key="canvasLocation" x="1359" y="-510"/>
         </scene>
         <!--Player View Controller-->
         <scene sceneID="qlb-YM-5Pd">
@@ -430,7 +414,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nGc-P8-2A7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2828" y="-479.01049475262374"/>
+            <point key="canvasLocation" x="2118" y="-505"/>
         </scene>
         <!--Player Leagues View Controller-->
         <scene sceneID="qbW-f7-oB4">

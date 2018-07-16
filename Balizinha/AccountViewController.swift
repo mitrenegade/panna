@@ -38,7 +38,7 @@ class AccountViewController: UIViewController {
         activityIndicator.color = UIColor.red
     }
 
-    func reloadTableData() {
+    @objc func reloadTableData() {
         tableView.reloadData()
     }
     
@@ -48,7 +48,7 @@ class AccountViewController: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToEditPlayerInfo" {
-            if let nav = segue.destination as? UINavigationController, let controller = nav.viewControllers[0] as? PlayerInfoViewController {
+            if let controller = segue.destination as? PlayerInfoViewController {
                 controller.player = PlayerService.shared.current.value
                 controller.isCreatingPlayer = false
             }

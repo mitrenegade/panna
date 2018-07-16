@@ -170,7 +170,7 @@ class PlayerInfoViewController: UIViewController {
             player.info = text
         }
 
-        self.close()
+        close()
     }
     
     @objc func save() {
