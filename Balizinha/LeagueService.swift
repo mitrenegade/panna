@@ -68,7 +68,7 @@ class LeagueService: NSObject {
     
     func join(league: League, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
         guard let user = AuthService.currentUser else { return }
-        FirebaseAPIService().cloudFunction(functionName: "joinLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id]) { (result, error) in
+        FirebaseAPIService().cloudFunction(functionName: "joinLeagueV1_4", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": true]) { (result, error) in
             guard error == nil else {
                 print("League join error \(error)")
                 completion(nil, error)
@@ -79,6 +79,19 @@ class LeagueService: NSObject {
         }
     }
     
+    func leave(league: League, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
+        guard let user = AuthService.currentUser else { return }
+        FirebaseAPIService().cloudFunction(functionName: "joinLeaveLeagueV1_4", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": false]) { (result, error) in
+            guard error == nil else {
+                print("League leave error \(error)")
+                completion(nil, error)
+                return
+            }
+            print("League leave result \(result)")
+            completion(result, nil)
+        }
+    }
+
     func getLeagues(completion: @escaping (_ results: [League]) -> Void) {
         guard !AIRPLANE_MODE else {
             let results = League.randomLeagues()

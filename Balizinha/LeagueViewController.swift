@@ -194,18 +194,29 @@ extension LeagueViewController {
 
 extension LeagueViewController: JoinLeagueDelegate {
     func clickedJoinLeague(_ league: League) {
-        print("Joining league \(league)")
         if LeagueService.shared.playerIsIn(league: league) {
             // leave league
-            // BOBBY TODO: add leave league
-            print("You cannot leave league! muhahaha")
+            LeagueService.shared.leave(league: league) { [weak self] (result, error) in
+                print("Leave league result \(result) error \(error)")
+                DispatchQueue.main.async {
+                    if let error = error as NSError? {
+                        self?.simpleAlert("Could not join league", defaultMessage: nil, error: error)
+                    } else {
+                        self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
+                    }
+                }
+            }
             joinLeagueCell?.reset()
         } else {
             // join league
             LeagueService.shared.join(league: league) { [weak self] (result, error) in
                 print("Join league result \(result) error \(error)")
                 DispatchQueue.main.async {
-                    self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
+                    if let error = error as NSError? {
+                        self?.simpleAlert("Could not join league", defaultMessage: nil, error: error)
+                    } else {
+                        self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
+                    }
                 }
             }
         }
