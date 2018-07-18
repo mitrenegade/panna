@@ -200,7 +200,7 @@ extension LeagueViewController: JoinLeagueDelegate {
                 print("Leave league result \(result) error \(error)")
                 DispatchQueue.main.async {
                     if let error = error as NSError? {
-                        self?.simpleAlert("Could not join league", defaultMessage: nil, error: error)
+                        self?.simpleAlert("Could not leave league", defaultMessage: nil, error: error)
                     } else {
                         self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
                     }

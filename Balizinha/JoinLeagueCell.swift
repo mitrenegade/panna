@@ -22,7 +22,7 @@ class JoinLeagueViewModel {
     var buttonText: String? {
         if LeagueService.shared.playerIsIn(league: league) {
             // leave league
-            return "You are in this league"
+            return "Leave league"
         } else {
             // join league
             if league.isPrivate {
@@ -36,7 +36,7 @@ class JoinLeagueViewModel {
     var buttonEnabled: Bool {
         if LeagueService.shared.playerIsIn(league: league) {
             // leave league
-            return false
+            return true
         } else {
             // join league
             if league.isPrivate {
