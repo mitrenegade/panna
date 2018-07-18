@@ -26,6 +26,8 @@ class LeaguesViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 80
 
+        listenFor(.PlayerLeaguesChanged, action: #selector(loadData), object: nil)
+
         loadData()
     }
     
@@ -42,7 +44,7 @@ class LeaguesViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    fileprivate func loadData() {
+    @objc fileprivate func loadData() {
         guard let player = PlayerService.shared.current.value as? Player else { return }
         
         otherLeagues.removeAll()
