@@ -39,15 +39,15 @@ class EventLeagueSelectorViewController: UIViewController {
         loading = true
         playerLeagues.removeAll()
 
-        LeagueService.shared.leagues(for: player) { [weak self] (playerLeagueIds) in
-            guard let ids = playerLeagueIds else {
+        LeagueService.shared.leagueMemberships(for: player) { [weak self] (roster) in
+            guard let ids = roster else {
                 self?.loading = false
                 return
             }
             
             var organizerCount = 0
-            for (leagueId, membership) in ids {
-                guard membership.isOrganizer else { continue }
+            for (leagueId, status) in ids {
+                guard status == Membership.Status.organizer else { continue }
                 organizerCount += 1
                 LeagueService.shared.withId(id: leagueId, completion: { [weak self] (league) in
                     if let league = league {

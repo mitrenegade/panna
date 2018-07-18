@@ -26,6 +26,8 @@ class LeaguesViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 80
 
+        listenFor(.PlayerLeaguesChanged, action: #selector(loadData), object: nil)
+
         loadData()
     }
     
@@ -42,7 +44,7 @@ class LeaguesViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    fileprivate func loadData() {
+    @objc fileprivate func loadData() {
         guard let player = PlayerService.shared.current.value as? Player else { return }
         
         otherLeagues.removeAll()
@@ -52,10 +54,10 @@ class LeaguesViewController: UIViewController {
         
         dispatchGroup.enter()
         var leagueIds: [String] = []
-        LeagueService.shared.leagues(for: player) { (leagues) in
-            if let leagues = leagues {
-                let ids = leagues.compactMap({ (id, membership) -> String? in
-                    if membership.isActive {
+        LeagueService.shared.leagueMemberships(for: player) { (roster) in
+            if let roster = roster {
+                let ids = roster.compactMap({ (id, membership) -> String? in
+                    if membership != Membership.Status.none {
                         return id
                     }
                     return nil

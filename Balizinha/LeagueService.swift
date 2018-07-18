@@ -26,16 +26,26 @@ class LeagueService: NSObject {
         }
         
         PlayerService.shared.current.asObservable().distinctUntilChanged().subscribe(onNext: { [weak self] player in
-            guard let player = player else { return }
-            
-            self?.leagues(for: player, completion: { (results) in
-                print("Player leagues: \(results)")
-                if let ids = results as? [String] {
-                    _playerLeagues.removeAll()
-                    _playerLeagues.append(contentsOf: ids)
-                }
-            })
+            self?.refreshPlayerLeagues(completion: nil)
         }).disposed(by: disposeBag)
+    }
+    
+    func refreshPlayerLeagues(completion: (([String]?)->Void)?) {
+        // loads current player's leagues
+        guard let player = PlayerService.shared.current.value else { return }
+        leagueMemberships(for: player, completion: { (results) in
+            print("Player leagues: \(results)")
+            if let roster = results {
+                _playerLeagues = roster.compactMap({ (key, status) -> String? in
+                    if status != .none {
+                        return key
+                    } else {
+                        return nil
+                    }
+                })
+            }
+            completion?(_playerLeagues)
+        })
     }
     
     class func resetOnLogout() {
@@ -58,7 +68,7 @@ class LeagueService: NSObject {
     
     func join(league: League, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
         guard let user = AuthService.currentUser else { return }
-        FirebaseAPIService().cloudFunction(functionName: "joinLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id]) { (result, error) in
+        FirebaseAPIService().cloudFunction(functionName: "joinLeaveLeagueV1_4", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": true]) { (result, error) in
             guard error == nil else {
                 print("League join error \(error)")
                 completion(nil, error)
@@ -69,6 +79,19 @@ class LeagueService: NSObject {
         }
     }
     
+    func leave(league: League, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
+        guard let user = AuthService.currentUser else { return }
+        FirebaseAPIService().cloudFunction(functionName: "joinLeaveLeagueV1_4", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": false]) { (result, error) in
+            guard error == nil else {
+                print("League leave error \(error)")
+                completion(nil, error)
+                return
+            }
+            print("League leave result \(result)")
+            completion(result, nil)
+        }
+    }
+
     func getLeagues(completion: @escaping (_ results: [League]) -> Void) {
         guard !AIRPLANE_MODE else {
             let results = League.randomLeagues()
@@ -173,9 +196,9 @@ class LeagueService: NSObject {
         }
     }
     
-    func leagues(for player: Player, completion: @escaping (([String: Membership]?)->Void)) {
+    func leagueMemberships(for player: Player, completion: @escaping (([String: Membership.Status]?)->Void)) {
         guard !AIRPLANE_MODE else {
-            completion([LEAGUE_ID_AIRPLANE_MODE: Membership(id: player.id, status: "member")])
+            completion([LEAGUE_ID_AIRPLANE_MODE: Membership.Status.member])
             return
         }
         FirebaseAPIService().cloudFunction(functionName: "getLeaguesForPlayer", params: ["userId": player.id]) { (result, error) in
@@ -184,16 +207,18 @@ class LeagueService: NSObject {
                 completion(nil)
                 return
             }
-            print("Leagues for player results \(result)")
+            print("Leagues for player \(player.id) results \(result)")
             if let dict = (result as? [String: Any])?["result"] as? [String: Any] {
-                var result = [String:Membership]()
+                var result = [String:Membership.Status]()
                 for (leagueId, statusString) in dict {
                     var status = statusString as? String ?? "none"
                     // for api v1.4, some users were set to true
                     if let legacyValue = statusString as? Bool, legacyValue == true {
                         status = "member"
                     }
-                    result[leagueId] = Membership(id: player.id, status: status)
+                    if let membershipStatus = Membership.Status(rawValue: status) {
+                        result[leagueId] = membershipStatus
+                    }
                 }
                 completion(result)
             } else {

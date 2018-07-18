@@ -40,6 +40,8 @@ class LeagueViewController: UIViewController {
         if league?.info.isEmpty == true, let index = rows.index(of: .info){
             rows.remove(at: index)
         }
+        
+        listenFor(.PlayerLeaguesChanged, action: #selector(loadPlayerLeagues), object: nil)
     }
     
     func loadRoster() {
@@ -48,6 +50,18 @@ class LeagueViewController: UIViewController {
             self?.roster = results
             self?.observePlayers()
         }
+    }
+    
+    @objc func loadPlayerLeagues() {
+        // on join or leave, update the join button and also update player roster
+        LeagueService.shared.refreshPlayerLeagues { [weak self] (results) in
+            DispatchQueue.main.async {
+                self?.joinLeagueCell?.reset()
+            }
+        }
+//        BOBBY TODO: roster is not showing correctly after user joins league
+//        BOBBY TODO: leaguesViewController needs to listen and update too
+        loadRoster()
     }
     
     func observePlayers() {
@@ -180,17 +194,29 @@ extension LeagueViewController {
 
 extension LeagueViewController: JoinLeagueDelegate {
     func clickedJoinLeague(_ league: League) {
-        print("Joining league \(league)")
         if LeagueService.shared.playerIsIn(league: league) {
             // leave league
-            print("You cannot leave league! muhahaha")
+            LeagueService.shared.leave(league: league) { [weak self] (result, error) in
+                print("Leave league result \(result) error \(error)")
+                DispatchQueue.main.async {
+                    if let error = error as NSError? {
+                        self?.simpleAlert("Could not leave league", defaultMessage: nil, error: error)
+                    } else {
+                        self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
+                    }
+                }
+            }
             joinLeagueCell?.reset()
         } else {
             // join league
             LeagueService.shared.join(league: league) { [weak self] (result, error) in
                 print("Join league result \(result) error \(error)")
                 DispatchQueue.main.async {
-                    self?.joinLeagueCell?.reset()
+                    if let error = error as NSError? {
+                        self?.simpleAlert("Could not join league", defaultMessage: nil, error: error)
+                    } else {
+                        self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
+                    }
                 }
             }
         }
