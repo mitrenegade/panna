@@ -406,7 +406,7 @@ extension EventsViewController: CreateEventDelegate {
 
 extension EventsViewController: EventDisplayDelegate {
     func clickedJoinEvent(_ event: Event) {
-        joinEvent(event)
+        joinOrLeaveEvent(event, join: true)
     }
 }
 
