@@ -22,7 +22,6 @@ class EventsViewController: UIViewController {
     let eventTypes: [EventType] = [.event3v3, .event5v5, .event7v7, .event11v11, .other]
 
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
-    var joiningEvent: Event?
     
     let disposeBag = DisposeBag()
     var recentLocation: CLLocation?
@@ -157,9 +156,7 @@ class EventsViewController: UIViewController {
             guard let detailsController = nav.viewControllers[0] as? EventDisplayViewController else { return }
             guard let event = sender as? Event else { return }
             
-            detailsController.alreadyJoined = false
-            detailsController.delegate = self
-            
+            detailsController.alreadyJoined = false            
             detailsController.event = event
         }
         else if segue.identifier == "toCreateEvent" {
@@ -229,7 +226,6 @@ extension EventsViewController: EventCellDelegate {
             return
         }
         
-        joiningEvent = event
         joinHelper.event = event
         joinHelper.rootViewController = self
         joinHelper.checkIfAlreadyPaid(for: event)
@@ -259,12 +255,6 @@ extension EventsViewController: CreateEventDelegate {
         if let nav = tabBarController?.viewControllers?[2] as? UINavigationController, let controller = nav.viewControllers[0] as? CalendarViewController {
             controller.refreshEvents()
         }
-    }
-}
-
-extension EventsViewController: EventDisplayDelegate {
-    func clickedJoinEvent(_ event: Event) {
-        joinOrLeaveEvent(event, join: true)
     }
 }
 

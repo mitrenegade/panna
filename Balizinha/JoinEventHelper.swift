@@ -9,9 +9,14 @@
 import UIKit
 import Stripe
 
+protocol JoinEventDelegate: class {
+    func didCancelPayment()
+}
+
 class JoinEventHelper: NSObject {
     var rootViewController: UIViewController?
     var event: Event?
+    weak var delegate: JoinEventDelegate?
     
     func checkIfAlreadyPaid(for event: Event) {
         guard event.paymentRequired && SettingsService.paymentRequired() else {
