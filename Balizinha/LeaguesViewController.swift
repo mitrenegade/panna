@@ -31,6 +31,20 @@ class LeaguesViewController: UIViewController {
         loadData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // came here from a deeplink; handle any other destination
+        if let accountDestination: DeeplinkType.AccountActions = DeepLinkService.shared.accountDestination {
+            switch accountDestination {
+            case .profile:
+                didClickProfile(self)
+            case .payments:
+                didClickProfile(self)
+            }
+        }
+    }
+    
     @objc fileprivate func didClickProfile(_ sender: Any) {
         print("Go to Account")
         guard let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "AccountViewController") as? AccountViewController else { return }
