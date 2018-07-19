@@ -35,6 +35,7 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var playersScrollView: PlayersScrollView!
     weak var event : Event?
+    let joinHelper = JoinEventHelper()
     
     var delegate : EventDisplayDelegate?
     var alreadyJoined : Bool = false
@@ -175,7 +176,10 @@ class EventDisplayViewController: UIViewController {
         activityIndicator.startAnimating()
         buttonJoin.isEnabled = false
         buttonJoin.alpha = 0.5
-        delegate?.clickedJoinEvent(event)
+//        delegate?.clickedJoinEvent(event)
+        joinHelper.event = event
+        joinHelper.rootViewController = self
+        joinHelper.checkIfAlreadyPaid(for: event)
     }
 
     @objc func close() {

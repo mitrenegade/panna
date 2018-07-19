@@ -76,6 +76,7 @@
 		8E48AF8220DFE21800D814BE /* LeagueInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF8120DFE21800D814BE /* LeagueInfoCell.swift */; };
 		8E48AF8420DFE91C00D814BE /* LeaguePlayersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF8320DFE91C00D814BE /* LeaguePlayersCell.swift */; };
 		8E48AF8620DFEE9700D814BE /* PlayersScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF8520DFEE9700D814BE /* PlayersScrollView.swift */; };
+		8E49E7292100B847009F1B5D /* JoinEventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E49E7282100B847009F1B5D /* JoinEventHelper.swift */; };
 		8E4AB9B720389D320089B464 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4AB9B620389D320089B464 /* AuthService.swift */; };
 		8E4D366F1F8BA31B00B8B0B5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
 		8E4D36701F8BA36500B8B0B5 /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A11E6C658600D301EC /* String+Utils.swift */; };
@@ -230,6 +231,7 @@
 		8E48AF8120DFE21800D814BE /* LeagueInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueInfoCell.swift; sourceTree = "<group>"; };
 		8E48AF8320DFE91C00D814BE /* LeaguePlayersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguePlayersCell.swift; sourceTree = "<group>"; };
 		8E48AF8520DFEE9700D814BE /* PlayersScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersScrollView.swift; sourceTree = "<group>"; };
+		8E49E7282100B847009F1B5D /* JoinEventHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinEventHelper.swift; sourceTree = "<group>"; };
 		8E4AB9B620389D320089B464 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		8E4D36711F8BA45900B8B0B5 /* NSObject+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Utils.swift"; sourceTree = "<group>"; };
 		8E4D36741F8BA47900B8B0B5 /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 				8E7016D1207A9D0400A4C28C /* UpgradeService.swift */,
 				8EDFB1B91E3D3F00006DD187 /* LocationService.swift */,
 				8E379F001CE57E8600C91A12 /* EventService.swift */,
+				8E49E7282100B847009F1B5D /* JoinEventHelper.swift */,
 				8E19A4A31E6C67A500D301EC /* PlayerService.swift */,
 				8EB34068207DB89700D4FDE0 /* LeagueService.swift */,
 				8E39FE8D1D237C710030CB96 /* NotificationService.swift */,
@@ -1038,6 +1041,7 @@
 				8E571A0320E25E2B003AB202 /* RAImageView.swift in Sources */,
 				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,
 				8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */,
+				8E49E7292100B847009F1B5D /* JoinEventHelper.swift in Sources */,
 				8E7016D2207A9D0400A4C28C /* UpgradeService.swift in Sources */,
 				8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */,
 				C6B7412720FAD88B00B0FA00 /* JoinLeagueCell.swift in Sources */,
