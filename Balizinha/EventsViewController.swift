@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Stripe
 import Firebase
 import CoreLocation
 import RxSwift
@@ -17,12 +16,12 @@ class EventsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var service = EventService.shared
+    var joinHelper = JoinEventHelper()
     var allEvents : [Event] = []
     var sortedEvents: [EventType: [Event]] = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .other: []]
     let eventTypes: [EventType] = [.event3v3, .event5v5, .event7v7, .event11v11, .other]
 
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
-    var joiningEvent: Event?
     
     let disposeBag = DisposeBag()
     var recentLocation: CLLocation?
@@ -157,9 +156,7 @@ class EventsViewController: UIViewController {
             guard let detailsController = nav.viewControllers[0] as? EventDisplayViewController else { return }
             guard let event = sender as? Event else { return }
             
-            detailsController.alreadyJoined = false
-            detailsController.delegate = self
-            
+            detailsController.alreadyJoined = false            
             detailsController.event = event
         }
         else if segue.identifier == "toCreateEvent" {
@@ -229,13 +226,9 @@ extension EventsViewController: EventCellDelegate {
             return
         }
         
-        joiningEvent = event
-        if event.paymentRequired && SettingsService.paymentRequired() {
-            checkIfAlreadyPaid(for: event)
-        }
-        else {
-            joinEvent(event)
-        }
+        joinHelper.event = event
+        joinHelper.rootViewController = self
+        joinHelper.checkIfAlreadyPaid(for: event)
         refreshEvents()
     }
     
@@ -243,154 +236,15 @@ extension EventsViewController: EventCellDelegate {
         // does not implement this
     }
     
-    fileprivate func joinEvent(_ event: Event) {
-        //add notification in case user doesn't return to MyEvents
-        service.joinEvent(event)
-        if #available(iOS 10.0, *) {
-            NotificationService.shared.scheduleNotificationForEvent(event)
-            
-            if SettingsService.donation() {
-                NotificationService.shared.scheduleNotificationForDonation(event)
-            }
-        }
-        
-        if UserDefaults.standard.bool(forKey: UserSettings.DisplayedJoinEventMessage.rawValue) == false {
-            simpleAlert("You've joined a game", message: "You can go to your Calendar to see upcoming events.")
-            UserDefaults.standard.set(true, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
-            UserDefaults.standard.synchronize()
-        }
-    }
-    
     func previewEvent(_ event: Event) {
         // nothing
     }
 }
 
-// MARK: - Payments
+// MARK: - Profile
 extension EventsViewController {
-    func checkIfAlreadyPaid(for event: Event) {
-        guard let current = PlayerService.shared.current.value else {
-            simpleAlert("Could not make payment", message: "Please update your player profile!")
-            return
-        }
-        guard joiningEvent != nil else {
-            print("no longer joining event")
-            return
-        }
-        activityIndicator.startAnimating()
-        PaymentService().checkForPayment(for: event.id, by: current.id) { [weak self] (success) in
-            if success {
-                self?.activityIndicator.stopAnimating()
-                self?.joinEvent(event)
-            }
-            else {
-                self?.checkStripe()
-            }
-        }
-    }
-    
-    func checkStripe() {
-        listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshStripeStatus), object: nil)
-        refreshStripeStatus()
-    }
-    
-    @objc func refreshStripeStatus() {
-        guard let paymentContext = StripeService.shared.paymentContext.value else { return }
-        if paymentContext.loading {
-            activityIndicator.startAnimating()
-        }
-        else {
-            activityIndicator.stopAnimating()
-            if let paymentMethod = paymentContext.selectedPaymentMethod {
-                guard let event = joiningEvent else {
-                    simpleAlert("Invalid event", message: "Could not join event. Please try again.")
-                    return
-                }
-                shouldCharge(for: event, payment: paymentMethod)
-            }
-            else {
-                paymentNeeded()
-            }
-            stopListeningFor(NotificationType.PaymentContextChanged)
-        }
-    }
-    
-    func paymentNeeded() {
-        let alert = UIAlertController(title: "No payment method available", message: "This event has a fee. Please add a payment method in your profile.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Edit Payments", style: .default, handler: { (action) in
-            self.goToAddPayment()
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
-        }))
-        present(alert, animated: true, completion: nil)
-    }
-    
-    fileprivate func calculateAmountForEvent(event: Event, completion:@escaping ((Double)->Void)) {
-        let amount = event.amount?.doubleValue ?? 0
-        if let promotionId = PlayerService.shared.current.value?.promotionId {
-            PromotionService.shared.withId(id: promotionId, completion: { (promotion, error) in
-                if let promotion = promotion, let discount = promotion.discountFactor {
-                    print("Event cost with discount of \(discount) = \(amount * discount)")
-                    completion(amount * discount)
-                }
-                else {
-                    print("Event cost either has no promotion or no discount. Error: \(error)")
-                    completion(amount)
-                }
-            })
-        }
-        else {
-            print("Event cost has no promotion")
-            completion(amount)
-        }
-    }
-    
-    func shouldCharge(for event: Event, payment: STPPaymentMethod) {
-        calculateAmountForEvent(event: event) {[weak self] (amount) in
-            guard let paymentString: String = EventService.amountString(from: NSNumber(value: amount)) else {
-                self?.simpleAlert("Could not calculate payment", message: "Please let us know about this error.")
-                return
-            }
-            let alert = UIAlertController(title: "Confirm payment", message: "Press Ok to pay \(paymentString) for this game.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { [weak self] (action) in
-                self?.chargeAndWait(event: event, amount: amount)
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
-            }))
-            self?.present(alert, animated: true, completion: nil)
-        }
-    }
-    
-    func chargeAndWait(event: Event, amount: Double) {
-        guard let current = PlayerService.shared.current.value else {
-            simpleAlert("Could not make payment", message: "Please update your player profile!")
-            return
-        }
-        activityIndicator.startAnimating()
-
-        StripeService.shared.createCharge(for: event, amount: amount, player: current, completion: {[weak self] (success, error) in
-            self?.activityIndicator.stopAnimating()
-            if success {
-                self?.joinEvent(event)
-                self?.joiningEvent = nil
-            }
-            else if let error = error as? NSError {
-                var errorMessage = ""
-                if let errorString = error.userInfo["error"] as? String {
-                    errorMessage = "Error: \(errorString)"
-                }
-                self?.simpleAlert("Could not join game", message: "There was an issue making a payment. \(errorMessage)")
-            }
-        })
-    }
-    
     fileprivate func goToAddName() {
         guard let url = URL(string: "balizinha://account/profile") else { return }
-        DeepLinkService.shared.handle(url: url)
-    }
-    
-    fileprivate func goToAddPayment() {
-        guard let url = URL(string: "balizinha://account/payments") else { return }
         DeepLinkService.shared.handle(url: url)
     }
 }
@@ -401,12 +255,6 @@ extension EventsViewController: CreateEventDelegate {
         if let nav = tabBarController?.viewControllers?[2] as? UINavigationController, let controller = nav.viewControllers[0] as? CalendarViewController {
             controller.refreshEvents()
         }
-    }
-}
-
-extension EventsViewController: EventDisplayDelegate {
-    func clickedJoinEvent(_ event: Event) {
-        joinEvent(event)
     }
 }
 

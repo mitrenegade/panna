@@ -14,10 +14,6 @@ protocol SectionComponentDelegate: class {
     func componentHeightChanged(controller: UIViewController, newHeight: CGFloat)
 }
 
-protocol EventDisplayDelegate {
-    func clickedJoinEvent(_ event: Event)
-}
-
 class EventDisplayViewController: UIViewController {
     
     @IBOutlet weak var buttonClose: UIButton!
@@ -35,8 +31,8 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var playersScrollView: PlayersScrollView!
     weak var event : Event?
+    let joinHelper = JoinEventHelper()
     
-    var delegate : EventDisplayDelegate?
     var alreadyJoined : Bool = false
     
     fileprivate var disposeBag: DisposeBag = DisposeBag()
@@ -175,7 +171,11 @@ class EventDisplayViewController: UIViewController {
         activityIndicator.startAnimating()
         buttonJoin.isEnabled = false
         buttonJoin.alpha = 0.5
-        delegate?.clickedJoinEvent(event)
+
+        joinHelper.delegate = self
+        joinHelper.event = event
+        joinHelper.rootViewController = self
+        joinHelper.checkIfAlreadyPaid(for: event)
     }
 
     @objc func close() {
@@ -378,5 +378,13 @@ extension EventDisplayViewController: PlayersScrollViewDelegate {
             controller.event = event
             present(nav, animated: true, completion: nil)
         }
+    }
+}
+
+extension EventDisplayViewController: JoinEventDelegate {
+    func didCancelPayment() {
+        activityIndicator.stopAnimating()
+        buttonJoin.isEnabled = true
+        buttonJoin.alpha = 1
     }
 }
