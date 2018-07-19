@@ -77,6 +77,7 @@ class JoinEventHelper: NSObject {
             DeepLinkService.shared.handle(url: url)
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+            self.delegate?.didCancelPayment()
         }))
         rootViewController?.present(alert, animated: true, completion: nil)
     }
@@ -112,6 +113,7 @@ class JoinEventHelper: NSObject {
                 self?.chargeAndWait(event: event, amount: amount)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+                self?.delegate?.didCancelPayment()
             }))
             self?.rootViewController?.present(alert, animated: true, completion: nil)
         }
