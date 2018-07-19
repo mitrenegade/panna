@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -49,14 +50,14 @@
                                     <constraint firstItem="vNr-h7-TlG" firstAttribute="width" secondItem="XUG-v1-jCh" secondAttribute="width" multiplier="0.5" id="oHF-Xp-hwG"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Panna Leagues" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Geo-tU-UyN">
-                                <rect key="frame" x="69" y="404.5" width="237" height="37"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Panna Social Leagues" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Geo-tU-UyN">
+                                <rect key="frame" x="24" y="404.5" width="327" height="37"/>
                                 <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="30"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Experience the beautiful game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rry-kD-qtt">
-                                <rect key="frame" x="57" y="449.5" width="261" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Passion.Connection.Respect" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rry-kD-qtt">
+                                <rect key="frame" x="24" y="449.5" width="327" height="21"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -64,14 +65,18 @@
                         </subviews>
                         <color key="backgroundColor" red="0.22745098039215686" green="0.22724241018295288" blue="0.23965293169021606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Geo-tU-UyN" secondAttribute="trailing" constant="8" id="2Un-c4-Ujz"/>
                             <constraint firstItem="XUG-v1-jCh" firstAttribute="height" secondItem="hyk-yI-PnZ" secondAttribute="height" multiplier="2:3" id="381-Dc-8P9"/>
                             <constraint firstItem="Geo-tU-UyN" firstAttribute="top" secondItem="XUG-v1-jCh" secondAttribute="bottom" constant="-40" id="Cjh-Si-Em4"/>
                             <constraint firstItem="XUG-v1-jCh" firstAttribute="leading" secondItem="hyk-yI-PnZ" secondAttribute="leading" id="DOW-ba-Kp6"/>
                             <constraint firstItem="XUG-v1-jCh" firstAttribute="top" secondItem="hyk-yI-PnZ" secondAttribute="top" id="G3i-0n-u5P"/>
                             <constraint firstItem="rry-kD-qtt" firstAttribute="top" secondItem="Geo-tU-UyN" secondAttribute="bottom" constant="8" id="KnH-yU-PdI"/>
+                            <constraint firstItem="Geo-tU-UyN" firstAttribute="leading" secondItem="hyk-yI-PnZ" secondAttribute="leadingMargin" constant="8" id="Lyv-WF-9E9"/>
                             <constraint firstItem="rry-kD-qtt" firstAttribute="centerX" secondItem="hyk-yI-PnZ" secondAttribute="centerX" id="eAz-ao-Sq1"/>
                             <constraint firstItem="XUG-v1-jCh" firstAttribute="width" secondItem="hyk-yI-PnZ" secondAttribute="width" id="g1b-fJ-TqY"/>
+                            <constraint firstItem="rry-kD-qtt" firstAttribute="leading" secondItem="hyk-yI-PnZ" secondAttribute="leadingMargin" constant="8" id="hnA-i5-Ytn"/>
                             <constraint firstItem="Geo-tU-UyN" firstAttribute="centerX" secondItem="hyk-yI-PnZ" secondAttribute="centerX" id="siN-qt-oZg"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="rry-kD-qtt" secondAttribute="trailing" constant="8" id="tQu-xI-VOy"/>
                         </constraints>
                     </view>
                 </viewController>
