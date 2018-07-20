@@ -39,8 +39,9 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v5N-mi-Yah">
                                 <rect key="frame" x="0.0" y="-20" width="375" height="880"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="soccer" translatesAutoresizingMaskIntoConstraints="NO" id="E75-s4-H12" customClass="RAImageView" customModule="Balizinha" customModuleProvider="target">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E75-s4-H12" customClass="RAImageView" customModule="Balizinha" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
+                                        <color key="backgroundColor" red="0.24433648590000001" green="0.32035863399999998" blue="0.39528042079999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="375" id="bxi-Tm-Ce3"/>
                                             <constraint firstAttribute="height" constant="250" id="hVk-GI-CwH"/>
@@ -707,6 +708,5 @@ City, State</string>
     <resources>
         <image name="profile-img" width="256" height="256"/>
         <image name="share_icon" width="357" height="491"/>
-        <image name="soccer" width="375" height="192"/>
     </resources>
 </document>

@@ -74,17 +74,19 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var eventImage: UIImage? {
         didSet {
             if let image = eventImage {
-                savePhoto(photo: image, event: eventToEdit, completion: { url in
+                savePhoto(photo: image, event: eventToEdit, completion: { url, id in
                     // no callback action
                     if let url = url {
                         print("New photo url: \(url)")
                         self.eventUrl = url // legacy
+                        self.eventPhotoId = id
                     }
                })
             }
         }
     }
     fileprivate var eventUrl: String?
+    fileprivate var eventPhotoId: String?
     var league: League?
 
     weak var delegate: CreateEventDelegate?
@@ -317,14 +319,14 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             // update photo if it has been changed
             if let url = self.eventUrl {
                 event.photoUrl = url // legacy
-                self.navigationController?.dismiss(animated: true, completion: {
-                    // event updated
-                })
-            } else {
-                self.navigationController?.dismiss(animated: true, completion: {
-                    // event updated
-                })
             }
+            if let id = self.eventPhotoId {
+                event.photoId = id
+            }
+            
+            self.navigationController?.dismiss(animated: true, completion: {
+                // event updated
+            })
         }
         else {
             EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
@@ -339,17 +341,15 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                 
                 // update photo if it has been changed
                 if let url = self?.eventUrl {
-                    event.photoUrl = url
-                    self?.navigationController?.dismiss(animated: true, completion: {
-                        // event created
-                        self?.delegate?.didCreateEvent()
-                    })
-                } else {
-                    self?.navigationController?.dismiss(animated: true, completion: {
-                        // event created
-                        self?.delegate?.didCreateEvent()
-                    })
+                    event.photoUrl = url // legacy
                 }
+                if let id = self?.eventPhotoId {
+                    event.photoId = id
+                }
+                self?.navigationController?.dismiss(animated: true, completion: {
+                    // event created
+                    self?.delegate?.didCreateEvent()
+                })
             })
         }
     }
@@ -907,7 +907,7 @@ extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigati
         self.dismissCamera()
     }
     
-    func savePhoto(photo: UIImage, event: Event?, completion: @escaping ((_ url: String?)->Void)) {
+    func savePhoto(photo: UIImage, event: Event?, completion: @escaping ((_ url: String?, _ photoId: String?)->Void)) {
         let alert = UIAlertController(title: "Progress", message: "Please wait until photo uploads", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
         })
@@ -919,7 +919,7 @@ extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigati
             alert.title = "Progress: \(Int(percent*100))%"
         }, completion: { (url) in
             alert.dismiss(animated: true, completion: nil)
-            completion(url)
+            completion(url, id) // returns url for photoUrl, and id for photoId
         })
     }
 }
