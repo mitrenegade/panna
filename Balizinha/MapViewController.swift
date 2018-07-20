@@ -37,6 +37,9 @@ class MapViewController: EventsViewController {
             
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign in", style: .done, target: self, action: #selector(didClickProfile(_:)))
         }
+        
+        // start listening for users so anonymous/preview users can see player counts
+        EventService.shared.listenForEventUsers()
     }
     
     fileprivate lazy var __once: () = {
