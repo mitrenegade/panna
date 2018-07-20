@@ -117,11 +117,12 @@ class FirebaseImageService: NSObject {
         })
     }
 
-    func eventPhotoUrl(for id: String?, completion: @escaping ((URL?)->Void)) {
-        guard let id = id else {
+    func eventPhotoUrl(for event: Event?, completion: @escaping ((URL?)->Void)) {
+        guard let event = event else {
             completion(nil)
             return
         }
+        let id = event.photoId ?? event.id
         let ref = FirebaseImageService.referenceForImage(type: .event, id: id)
         ref?.downloadURL(completion: { (url, error) in
             if let url = url {
