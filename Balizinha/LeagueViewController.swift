@@ -72,11 +72,13 @@ class LeagueViewController: UIViewController {
             let playerId = membership.playerId
             guard membership.isActive else { continue }
             dispatchGroup.enter()
+            print("Loading player id \(playerId)")
             PlayerService.shared.withId(id: playerId, completion: {[weak self] (player) in
                 if let player = player {
+                    print("Finished player id \(playerId)")
                     self?.players.append(player)
-                    dispatchGroup.leave()
                 }
+                dispatchGroup.leave()
             })
         }
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
@@ -84,6 +86,8 @@ class LeagueViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
                 }
+            } else {
+                print("BOBBYTEST here")
             }
         }
     }
