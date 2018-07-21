@@ -9,9 +9,16 @@
 import UIKit
 
 class LocationSettingCell: ToggleCell {
-
+    @IBOutlet weak var labelInfo: UILabel!
+    
     override func configure() {
         let filterEvents = LocationService.shared.shouldFilterNearbyEvents
         switchToggle.isOn = filterEvents
+        
+        if switchToggle.isOn {
+            labelInfo.text = "You will only see games near you"
+        } else {
+            labelInfo.text = "You will see all games"
+        }
     }
 }

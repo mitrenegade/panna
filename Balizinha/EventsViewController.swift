@@ -30,7 +30,7 @@ class EventsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Events"
+        navigationItem.title = "Games"
         
         let addButton = UIButton(type: .custom)
         addButton.setImage(UIImage.init(named: "plusIcon30")?.withRenderingMode(.alwaysTemplate), for: .normal)
