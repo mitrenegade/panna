@@ -184,61 +184,24 @@ class EventService: NSObject {
     }
     func joinEvent(_ event: Event) {
         guard let user = AuthService.currentUser else { return }
-        self.addEvent(event: event, toUser: user, join: true)
-        self.addUser(user, toEvent: event, join: true)
+        let params: [String: Any] = ["userId": user.uid, "eventId": event.id, "join": true]
+        FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEventV1_5", params: params) { (result, error) in
+            if let error = error {
+                print("JoinEvent error \(error)")
+            }
+        }
     }
     
     func leaveEvent(_ event: Event) {
         guard let user = AuthService.currentUser else { return }
-        self.addEvent(event: event, toUser: user, join: false)
-        self.addUser(user, toEvent: event, join: false)
-    }
-    
-    // MARK: User's events helper
-    func addEvent(event: Event, toUser user: User, join: Bool) {
-        // adds eventId to user's events list
-        // use transactions: https://firebase.google.com/docs/database/ios/save-data#save_data_as_transactions
-        // join: whether or not to join. Can use this method to leave an event
-
-        let userId = user.uid
-        let eventId = event.id
-        let userEventRef = firRef.child("userEvents").child(userId)
-        let params: [String: Any] = [eventId: join]
-        userEventRef.updateChildValues(params, withCompletionBlock: { (error, ref) in
-            print("ref \(ref)")
-        })
-        /*
-        usersRef.runTransactionBlock({ (currentData: FIRMutableData) -> FIRTransactionResult in
-            var allUserEvents: [String: AnyObject] = [:]
-            if currentData.hasChildren() {
-                print("has children: \(currentData.hasChildren()))")
-                allUserEvents = currentData.value as! [String : AnyObject] // results of /userEvents
-            }
-            // create or get events for given user
-            var userEvents : [String: Bool] = allUserEvents[userId] as? [String: Bool] ?? [:]
-            if join {
-                // add event to list of events for user
-                userEvents[eventId] = true
-            }
-            else {
-                // remove event from events for user
-                userEvents.removeValue(forKey: eventId)
-            }
-            allUserEvents[userId] = userEvents as AnyObject?
-            
-            // Set value and report transaction success
-            currentData.value = allUserEvents
-            
-            return FIRTransactionResult.success(withValue: currentData)
-        }) { (error, committed, snapshot) in
-            if (error != nil) {
-                print("Join event failure: \(error)")
-                print(error?.localizedDescription)
+        let params: [String: Any] = ["userId": user.uid, "eventId": event.id, "join": false]
+        FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEventV1_5", params: params) { (result, error) in
+            if let error = error {
+                print("JoinEvent error \(error)")
             }
         }
-        */
     }
-    
+
     func getEventsForUser(_ user: User, completion: @escaping (_ eventIds: [String]) -> Void) {
         // returns all current events for a user. Returns as snapshot
         // only gets events once, and removes observer afterwards
@@ -267,51 +230,6 @@ class EventService: NSObject {
             completion(results)
             eventQueryRef.removeAllObservers()
         }
-    }
-    
-    // MARK: - Event's users helper
-    func addUser(_ user: User, toEvent event: Event, join: Bool) {
-        // adds eventId to user's events list
-        // use transactions: https://firebase.google.com/docs/database/ios/save-data#save_data_as_transactions
-        // join: whether or not to join. Can use this method to leave an event
-        
-        let userId = user.uid
-        let eventId = event.id
-        let eventUserRef = firRef.child("eventUsers").child(eventId)
-        let params: [String: Any] = [userId: join]
-        eventUserRef.updateChildValues(params, withCompletionBlock: { (error, ref) in
-            print("ref \(ref)")
-        })
-        /*
-        eventsRef.runTransactionBlock({ (currentData: FIRMutableData) -> FIRTransactionResult in
-            var allEventUsers: [String: AnyObject] = [:]
-            if currentData.hasChildren() {
-                print("has children: \(currentData.hasChildren()))")
-                allEventUsers = currentData.value as! [String : AnyObject] // results of /userEvents
-            }
-            // create or get users for given event
-            var eventUsers : [String: Bool] = allEventUsers[eventId] as? [String: Bool] ?? [:]
-            if join {
-                // add user to users for event
-                eventUsers[userId] = true
-            }
-            else {
-                // remove user from list of users
-                eventUsers.removeValue(forKey: userId)
-            }
-            allEventUsers[eventId] = eventUsers as AnyObject?
-            
-            // Set value and report transaction success
-            currentData.value = allEventUsers
-            
-            return FIRTransactionResult.success(withValue: currentData)
-        }) { (error, committed, snapshot) in
-            if (error != nil) {
-                print("Join event failure: \(error)")
-                print(error?.localizedDescription)
-            }
-        }
-        */
     }
     
     func observeUsers(forEvent event: Event, completion: @escaping (_ userIds: [String]) -> Void) {
