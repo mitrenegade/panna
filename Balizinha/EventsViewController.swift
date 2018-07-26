@@ -21,7 +21,7 @@ class EventsViewController: UIViewController {
     var sortedEvents: [EventType: [Event]] = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .other: []]
     let eventTypes: [EventType] = [.event3v3, .event5v5, .event7v7, .event11v11, .other]
 
-    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
     
     let disposeBag = DisposeBag()
     var recentLocation: CLLocation?
@@ -61,10 +61,9 @@ class EventsViewController: UIViewController {
         } else {
             refreshEvents()
         }
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.center = view.center
-        view.addSubview(activityIndicator)
-        activityIndicator.color = UIColor.red
+        
+        activityOverlay.setup(frame: self.view.frame)
+        view.addSubview(activityOverlay)
     }
     
     deinit {
@@ -80,6 +79,12 @@ class EventsViewController: UIViewController {
             // Fallback on earlier versions
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        activityOverlay.setup(frame: self.view.frame)
     }
     
     @objc func refreshEvents() {
@@ -296,14 +301,14 @@ extension EventsViewController {
 
 extension EventsViewController: JoinEventDelegate {
     func startActivityIndicator() {
-        activityIndicator.startAnimating()
+        activityOverlay.show()
     }
     
     func stopActivityIndicator() {
-        activityIndicator.stopAnimating()
+        activityOverlay.hide()
     }
     
     func didCancelPayment() {
-        activityIndicator.stopAnimating()
+        stopActivityIndicator()
     }
 }

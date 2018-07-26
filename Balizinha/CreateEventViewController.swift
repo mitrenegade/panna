@@ -66,6 +66,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var menuButton: UIBarButtonItem!
     @IBOutlet var saveButton: UIBarButtonItem!
 
+    fileprivate let activityIndicatorView: UIView = UIView()
+
     var typePickerView: UIPickerView = UIPickerView()
     var numberPickerView: UIPickerView = UIPickerView()
     var datePickerView: UIPickerView = UIPickerView()
@@ -142,7 +144,23 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(CreateEventViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        activityIndicatorView.frame = self.view.frame
+    }
     
+    func setupActivityIndicatorView() {
+        let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.center = view.center
+        activityIndicator.color = UIColor.red
+        
+        activityIndicatorView.addSubview(activityIndicator)
+        activityIndicatorView.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        activityIndicatorView.isHidden = true
+    }
+
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
     }
