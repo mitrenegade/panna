@@ -66,7 +66,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var menuButton: UIBarButtonItem!
     @IBOutlet var saveButton: UIBarButtonItem!
 
-    fileprivate let activityIndicatorView: UIView = UIView()
+    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
     var typePickerView: UIPickerView = UIPickerView()
     var numberPickerView: UIPickerView = UIPickerView()
@@ -139,30 +139,20 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         if CACHE_ORGANIZER_FAVORITE_LOCATION {
             self.loadCachedOrganizerFavorites()
         }
+        
+        view.addSubview(activityOverlay)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(CreateEventViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        activityIndicatorView.frame = self.view.frame
-    }
-    
-    func setupActivityIndicatorView() {
-        let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.center = view.center
-        activityIndicator.color = UIColor.red
-        
-        activityIndicatorView.addSubview(activityIndicator)
-        activityIndicatorView.backgroundColor = UIColor(white: 1, alpha: 0.5)
-        activityIndicatorView.isHidden = true
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        activityOverlay.setup(frame: view.frame)
     }
     
     func setupPickers() {
@@ -347,7 +337,10 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             })
         }
         else {
+            activityOverlay.show()
             EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
+                
+                self?.activityOverlay.hide()
                 
                 guard let event = event else {
                     if let error = error {
