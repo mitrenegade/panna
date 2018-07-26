@@ -182,23 +182,25 @@ class EventService: NSObject {
 
     
     }
-    func joinEvent(_ event: Event) {
+    func joinEvent(_ event: Event, completion: ((Error?)->Void)? = nil) {
         guard let user = AuthService.currentUser else { return }
         let params: [String: Any] = ["userId": user.uid, "eventId": event.id, "join": true]
         FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEventV1_5", params: params) { (result, error) in
             if let error = error {
                 print("JoinEvent error \(error)")
             }
+            completion?(error)
         }
     }
     
-    func leaveEvent(_ event: Event) {
+    func leaveEvent(_ event: Event, completion: ((Error?)->Void)? = nil) {
         guard let user = AuthService.currentUser else { return }
         let params: [String: Any] = ["userId": user.uid, "eventId": event.id, "join": false]
         FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEventV1_5", params: params) { (result, error) in
             if let error = error {
                 print("JoinEvent error \(error)")
             }
+            completion?(error)
         }
     }
 

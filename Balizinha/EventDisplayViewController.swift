@@ -384,6 +384,14 @@ extension EventDisplayViewController: PlayersScrollViewDelegate {
 }
 
 extension EventDisplayViewController: JoinEventDelegate {
+    func startActivityIndicator() {
+        activityIndicator.startAnimating()
+    }
+    
+    func stopActivityIndicator() {
+        activityIndicator.stopAnimating()
+    }
+    
     func didCancelPayment() {
         activityIndicator.stopAnimating()
         buttonJoin.isEnabled = true
