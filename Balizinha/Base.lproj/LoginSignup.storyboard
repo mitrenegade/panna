@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Erc-EE-iCw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14295.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Erc-EE-iCw">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14270.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -51,7 +49,7 @@
                                 <rect key="frame" x="-20" y="64" width="415" height="603"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bqA-M3-Fan">
-                                        <rect key="frame" x="40" y="262.5" width="335" height="30"/>
+                                        <rect key="frame" x="40" y="315.5" width="335" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="ZBg-fg-6A4"/>
                                         </constraints>
@@ -68,7 +66,7 @@
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kjr-9d-vwD">
-                                        <rect key="frame" x="40" y="300.5" width="335" height="30"/>
+                                        <rect key="frame" x="40" y="353.5" width="335" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="OVS-YX-P5P"/>
                                         </constraints>
@@ -85,7 +83,7 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hJT-1u-kd9">
-                                        <rect key="frame" x="36" y="338.5" width="343" height="40"/>
+                                        <rect key="frame" x="36" y="391.5" width="343" height="40"/>
                                         <color key="backgroundColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="LPq-1C-5R9"/>
@@ -104,7 +102,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DTn-gK-jXE">
-                                        <rect key="frame" x="36" y="394.5" width="343" height="40"/>
+                                        <rect key="frame" x="36" y="447.5" width="343" height="40"/>
                                         <color key="backgroundColor" red="0.22533249855041504" green="0.34250050783157349" blue="0.60813486576080322" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="Cf6-3y-MiT"/>
@@ -124,7 +122,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W6N-eV-qRC">
-                                        <rect key="frame" x="20" y="450.5" width="375" height="40"/>
+                                        <rect key="frame" x="20" y="503.5" width="375" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="pJX-Bw-f5U"/>
@@ -136,8 +134,8 @@
                                             <action selector="didClickButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="waO-yr-vP3"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Balizinha" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Brw-OG-AQZ">
-                                        <rect key="frame" x="20" y="166" width="375" height="52.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Panna Social Leagues" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Brw-OG-AQZ">
+                                        <rect key="frame" x="20" y="166" width="375" height="105"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="5t3-Bc-iG7"/>
@@ -147,7 +145,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" image="Logo1024" translatesAutoresizingMaskIntoConstraints="NO" id="sVw-i7-Fez">
-                                        <rect key="frame" x="132" y="8" width="150" height="150"/>
+                                        <rect key="frame" x="132.5" y="8" width="150" height="150"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="150" id="asp-Ge-SKe"/>
                                             <constraint firstAttribute="width" constant="150" id="fdg-6A-MfW"/>
@@ -323,7 +321,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Logo1024" width="512" height="512"/>
+        <image name="Logo1024" width="1024" height="1024"/>
         <image name="facebookWhite" width="30" height="30"/>
     </resources>
 </document>

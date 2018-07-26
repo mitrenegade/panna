@@ -10,6 +10,8 @@ import UIKit
 import Stripe
 
 protocol JoinEventDelegate: class {
+    func startActivityIndicator()
+    func stopActivityIndicator()
     func didCancelPayment()
 }
 
@@ -23,19 +25,14 @@ class JoinEventHelper: NSObject {
             joinEvent(event)
             return
         }
-        
         guard let current = PlayerService.shared.current.value else {
             rootViewController?.simpleAlert("Could not make payment", message: "Please update your player profile!")
             return
         }
-        guard event != nil else {
-            print("no longer joining event")
-            return
-        }
-//        activityIndicator.startAnimating()
+        delegate?.startActivityIndicator()
         PaymentService().checkForPayment(for: event.id, by: current.id) { [weak self] (success) in
+            self?.delegate?.stopActivityIndicator()
             if success {
-//                self?.activityIndicator.stopAnimating()
                 self?.joinEvent(event)
             }
             else {
@@ -52,10 +49,10 @@ class JoinEventHelper: NSObject {
     @objc func refreshStripeStatus() {
         guard let paymentContext = StripeService.shared.paymentContext.value else { return }
         if paymentContext.loading {
-//            activityIndicator.startAnimating()
+            delegate?.startActivityIndicator()
         }
         else {
-//            activityIndicator.stopAnimating()
+            delegate?.stopActivityIndicator()
             if let paymentMethod = paymentContext.selectedPaymentMethod {
                 guard let event = event else {
                     rootViewController?.simpleAlert("Invalid event", message: "Could not join event. Please try again.")
@@ -85,7 +82,9 @@ class JoinEventHelper: NSObject {
     fileprivate func calculateAmountForEvent(event: Event, completion:@escaping ((Double)->Void)) {
         let amount = event.amount?.doubleValue ?? 0
         if let promotionId = PlayerService.shared.current.value?.promotionId {
-            PromotionService.shared.withId(id: promotionId, completion: { (promotion, error) in
+            delegate?.startActivityIndicator()
+            PromotionService.shared.withId(id: promotionId, completion: { [weak self] (promotion, error) in
+                self?.delegate?.stopActivityIndicator()
                 if let promotion = promotion, let discount = promotion.discountFactor {
                     print("Event cost with discount of \(discount) = \(amount * discount)")
                     completion(amount * discount)
@@ -124,10 +123,9 @@ class JoinEventHelper: NSObject {
             rootViewController?.simpleAlert("Could not make payment", message: "Please update your player profile!")
             return
         }
-//        activityIndicator.startAnimating()
-        
+        delegate?.startActivityIndicator()
         StripeService.shared.createCharge(for: event, amount: amount, player: current, completion: {[weak self] (success, error) in
-//            self?.activityIndicator.stopAnimating()
+            self?.delegate?.stopActivityIndicator()
             if success {
                 self?.joinEvent(event)
                 self?.event = nil
@@ -144,7 +142,12 @@ class JoinEventHelper: NSObject {
     
     fileprivate func joinEvent(_ event: Event) {
         //add notification in case user doesn't return to MyEvents
-        EventService.shared.joinEvent(event)
+        delegate?.startActivityIndicator()
+        EventService.shared.joinEvent(event) { [weak self] (error) in
+            DispatchQueue.main.async {
+                self?.delegate?.stopActivityIndicator()
+            }
+        }
         if #available(iOS 10.0, *) {
             NotificationService.shared.scheduleNotificationForEvent(event)
             
@@ -153,11 +156,22 @@ class JoinEventHelper: NSObject {
             }
         }
         
+        let title: String
+        let message: String
         if UserDefaults.standard.bool(forKey: UserSettings.DisplayedJoinEventMessage.rawValue) == false {
-            rootViewController?.simpleAlert("You've joined a game", message: "You can go to your Calendar to see upcoming events.")
+            title = "You've joined a game!"
+            message = "You can go to your Calendar to see upcoming events."
             UserDefaults.standard.set(true, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
             UserDefaults.standard.synchronize()
+        } else {
+            if let name = event.name {
+                title = "You've joined \(name)"
+            } else {
+                title = "You've joined a game!"
+            }
+            message = ""
         }
+        rootViewController?.simpleAlert(title, message: message)
     }
 
 }
