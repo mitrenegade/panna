@@ -245,14 +245,14 @@ extension MapViewController {
                 if AuthService.isAnonymous {
                     if SettingsService.showPreview {
                         // showing preview
-                        cell.textLabel?.text = "There are currently no events near you. Sign up to organize a game!"
+                        cell.textLabel?.text = "There are currently no games near you. Sign up to organize a game!"
                     } else {
-                        cell.textLabel?.text = "There are currently no events."
+                        cell.textLabel?.text = "There are currently no games."
                     }
                 } else if LocationService.shared.shouldFilterNearbyEvents {
-                    cell.textLabel?.text = "There are currently no events near you."
+                    cell.textLabel?.text = "There are currently no games near you."
                 } else {
-                    cell.textLabel?.text = "There are currently no events."
+                    cell.textLabel?.text = "There are currently no games."
                 }
                 return cell
             }
