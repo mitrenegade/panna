@@ -23,9 +23,14 @@ class ToggleCell: UITableViewCell {
         if let toggle = sender {
             self.delegate?.didToggle(toggle, isOn: toggle.isOn)
         }
+        refresh()
     }
     
     func configure() {
+        refresh()
+    }
+    
+    func refresh() {
         
     }
 }
