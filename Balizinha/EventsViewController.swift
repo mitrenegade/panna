@@ -228,6 +228,7 @@ extension EventsViewController: EventCellDelegate {
         
         joinHelper.event = event
         joinHelper.rootViewController = self
+        joinHelper.delegate = self
         joinHelper.checkIfAlreadyPaid(for: event)
         refreshEvents()
     }
@@ -290,5 +291,19 @@ extension EventsViewController {
                 // Fallback on earlier versions
             }
         }
+    }
+}
+
+extension EventsViewController: JoinEventDelegate {
+    func startActivityIndicator() {
+        activityIndicator.startAnimating()
+    }
+    
+    func stopActivityIndicator() {
+        activityIndicator.stopAnimating()
+    }
+    
+    func didCancelPayment() {
+        activityIndicator.stopAnimating()
     }
 }
