@@ -152,6 +152,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     }
     
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         activityOverlay.setup(frame: view.frame)
     }
     

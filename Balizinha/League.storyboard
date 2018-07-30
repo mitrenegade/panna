@@ -443,24 +443,15 @@ Type</string>
                                                         <action selector="didClickJoin:" destination="Dw1-0o-fSe" eventType="touchUpInside" id="Tap-dA-OE1"/>
                                                     </connections>
                                                 </button>
-                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="VWy-Ix-cIr">
-                                                    <rect key="frame" x="169" y="4" width="37" height="37"/>
-                                                    <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="VWy-Ix-cIr" firstAttribute="centerY" secondItem="c8m-4B-wRo" secondAttribute="centerY" id="6Vt-LG-oy7"/>
                                                 <constraint firstAttribute="trailing" secondItem="2b1-b2-mar" secondAttribute="trailing" constant="8" id="7qn-UE-YQm"/>
-                                                <constraint firstItem="VWy-Ix-cIr" firstAttribute="centerY" secondItem="2b1-b2-mar" secondAttribute="centerY" id="7ze-Yd-RHX"/>
                                                 <constraint firstItem="2b1-b2-mar" firstAttribute="leading" secondItem="c8m-4B-wRo" secondAttribute="leading" constant="8" id="RjA-zt-Xlu"/>
-                                                <constraint firstItem="VWy-Ix-cIr" firstAttribute="centerX" secondItem="2b1-b2-mar" secondAttribute="centerX" id="WJ3-ce-zLu"/>
                                                 <constraint firstItem="2b1-b2-mar" firstAttribute="centerX" secondItem="c8m-4B-wRo" secondAttribute="centerX" id="WQf-K3-hHq"/>
                                                 <constraint firstItem="2b1-b2-mar" firstAttribute="centerY" secondItem="c8m-4B-wRo" secondAttribute="centerY" id="bEQ-ua-iZH"/>
-                                                <constraint firstItem="VWy-Ix-cIr" firstAttribute="centerX" secondItem="c8m-4B-wRo" secondAttribute="centerX" id="nLq-yl-zM1"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="activityIndicator" destination="VWy-Ix-cIr" id="A64-nA-dQu"/>
                                             <outlet property="buttonJoin" destination="2b1-b2-mar" id="1RU-b7-O57"/>
                                         </connections>
                                     </tableViewCell>

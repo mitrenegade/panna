@@ -50,7 +50,6 @@ class JoinLeagueViewModel {
 }
 class JoinLeagueCell: UITableViewCell {
     @IBOutlet weak var buttonJoin: UIButton!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     weak var league: League?
     var viewModel: JoinLeagueViewModel?
     
@@ -75,11 +74,6 @@ class JoinLeagueCell: UITableViewCell {
         
         buttonJoin.isEnabled = !requestInProgress && viewModel.buttonEnabled
         buttonJoin.alpha = (!requestInProgress && viewModel.buttonEnabled) ? 1.0 : 0.5
-        if requestInProgress {
-            activityIndicator.startAnimating()
-        } else {
-            activityIndicator.stopAnimating()
-        }
     }
 
     @IBAction func didClickJoin(_ sender: Any?) {
