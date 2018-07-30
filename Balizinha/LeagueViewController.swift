@@ -213,31 +213,33 @@ extension LeagueViewController {
 
 extension LeagueViewController: JoinLeagueDelegate {
     func clickedJoinLeague(_ league: League) {
-        activityOverlay.show()
         if LeagueService.shared.playerIsIn(league: league) {
             // leave league
+            activityOverlay.show()
             LeagueService.shared.leave(league: league) { [weak self] (result, error) in
                 print("Leave league result \(result) error \(error)")
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
                     if let error = error as NSError? {
                         self?.simpleAlert("Could not leave league", defaultMessage: nil, error: error)
-                    } else {
-                        self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
                     }
+                    // forces cell/button    to reload
+                    self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
                 }
             }
             joinLeagueCell?.reset()
         } else {
             // join league
+            activityOverlay.show()
             LeagueService.shared.join(league: league) { [weak self] (result, error) in
                 print("Join league result \(result) error \(error)")
                 DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
                     if let error = error as NSError? {
                         self?.simpleAlert("Could not join league", defaultMessage: nil, error: error)
-                    } else {
-                        self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
                     }
+                    // forces cell/button to reload
+                    self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
                 }
             }
         }
