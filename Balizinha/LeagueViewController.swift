@@ -28,6 +28,8 @@ class LeagueViewController: UIViewController {
     
     weak var joinLeagueCell: JoinLeagueCell?
     
+    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,20 +37,31 @@ class LeagueViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 80
         
-        loadRoster()
-        
         if league?.info.isEmpty == true, let index = rows.index(of: .info){
             rows.remove(at: index)
         }
         
+        activityOverlay.setup(frame: view.frame)
+        view.addSubview(activityOverlay)
+        loadRoster()
         listenFor(.PlayerLeaguesChanged, action: #selector(loadPlayerLeagues), object: nil)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        activityOverlay.setup(frame: view.frame)
+    }
+
     func loadRoster() {
+        activityOverlay.show()
+
         guard let league = league else { return }
         LeagueService.shared.memberships(for: league) { [weak self] (results) in
             self?.roster = results
             self?.observePlayers()
+            DispatchQueue.main.async {
+                self?.activityOverlay.hide()
+            }
         }
     }
     
@@ -66,6 +79,7 @@ class LeagueViewController: UIViewController {
     
     func observePlayers() {
         guard let league = self.league else { return }
+        activityOverlay.show()
         players.removeAll()
         let dispatchGroup = DispatchGroup()
         for membership in roster ?? [] {
@@ -85,6 +99,7 @@ class LeagueViewController: UIViewController {
             if let index = self?.rows.index(of: .players) {
                 DispatchQueue.main.async {
                     self?.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                    self?.activityOverlay.hide()
                 }
             } else {
                 print("BOBBYTEST here")
@@ -200,27 +215,31 @@ extension LeagueViewController: JoinLeagueDelegate {
     func clickedJoinLeague(_ league: League) {
         if LeagueService.shared.playerIsIn(league: league) {
             // leave league
+            activityOverlay.show()
             LeagueService.shared.leave(league: league) { [weak self] (result, error) in
                 print("Leave league result \(result) error \(error)")
                 DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
                     if let error = error as NSError? {
                         self?.simpleAlert("Could not leave league", defaultMessage: nil, error: error)
-                    } else {
-                        self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
                     }
+                    // forces cell/button    to reload
+                    self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
                 }
             }
             joinLeagueCell?.reset()
         } else {
             // join league
+            activityOverlay.show()
             LeagueService.shared.join(league: league) { [weak self] (result, error) in
                 print("Join league result \(result) error \(error)")
                 DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
                     if let error = error as NSError? {
                         self?.simpleAlert("Could not join league", defaultMessage: nil, error: error)
-                    } else {
-                        self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
                     }
+                    // forces cell/button to reload
+                    self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
                 }
             }
         }

@@ -8,6 +8,8 @@
 
 import UIKit
 
+fileprivate let API_VERSION: String = "1.6"
+
 class FirebaseAPIService: NSObject {
     // variables for creating customer key
     var urlSession: URLSession?
@@ -67,14 +69,19 @@ class FirebaseAPIService: NSObject {
         request.httpMethod = method
         request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
         
-        if let params = params {
-            do {
-                try request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
-            } catch let error {
-                print("FirebaseAPIService: cloudFunction could not serialize params: \(params) with error \(error)")
-            }
+        var body: [String: Any]? = params
+        if body == nil {
+            body = ["apiVersion": API_VERSION]
+        } else {
+            body?["apiVersion"] = API_VERSION
         }
         
+        do {
+            try request.httpBody = JSONSerialization.data(withJSONObject: body, options: [])
+        } catch let error {
+            print("FirebaseAPIService: cloudFunction could not serialize params: \(params) with error \(error)")
+        }
+
         dataTask = urlSession?.dataTask(with: request) { data, response, error in
             defer {
                 self.dataTask = nil
