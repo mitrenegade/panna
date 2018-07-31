@@ -111,10 +111,6 @@ class EventDisplayViewController: UIViewController {
             self.hideChat()
         }
         
-        if let currentUser = AuthService.currentUser, self.event?.containsUser(currentUser) == false {
-            self.hideChat()
-        }
-        
         // update payment display
         if SettingsService.paymentRequired() {
             self.constraintPaymentHeight.constant = (self.event?.paymentRequired ?? false) ? 40 : 0
@@ -123,18 +119,20 @@ class EventDisplayViewController: UIViewController {
             self.constraintPaymentHeight.constant = 0
         }
         
-        guard let event = event, let currentUser = AuthService.currentUser else {
+        guard let event = event, let player = PlayerService.shared.current.value else {
             imageShare.isHidden = true
             buttonShare.isHidden = true
             constraintButtonJoinHeight.constant = 0
+            self.hideChat()
             return
         }
         
-        if event.containsUser(currentUser) {
+        if event.containsPlayer(player) {
             imageShare.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
         } else {
             imageShare.isHidden = true
             buttonShare.isHidden = true
+            self.hideChat()
         }
         
         // reserve spot
@@ -196,8 +194,13 @@ class EventDisplayViewController: UIViewController {
     
     @objc fileprivate func refreshJoin() {
         activityOverlay.hide()
-        guard let event = event, let currentUser = AuthService.currentUser else { return }
-        if event.containsUser(currentUser) || event.userIsOrganizer {
+        guard let event = event else { return }
+        guard let player = PlayerService.shared.current.value else {
+            constraintButtonJoinHeight.constant = 0
+            labelSpotsLeft.text = "\(event.numPlayers) are playing"
+            return
+        }
+        if event.containsPlayer(player) || event.userIsOrganizer {
             constraintButtonJoinHeight.constant = 0
             labelSpotsLeft.text = "\(event.numPlayers) are playing"
         } else if event.isFull {

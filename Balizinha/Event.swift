@@ -249,8 +249,8 @@ extension Event {
         return []
     }
     
-    func containsUser(_ user: User) -> Bool {
-        return self.users.contains(user.uid)
+    func containsPlayer(_ player: Player) -> Bool {
+        return self.users.contains(player.id)
     }
     
     var isFull: Bool {
