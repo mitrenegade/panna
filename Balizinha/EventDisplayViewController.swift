@@ -20,7 +20,6 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var buttonShare: UIButton!
     @IBOutlet weak var imageShare: UIImageView!
     @IBOutlet weak var buttonJoin: UIButton!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet var labelType: UILabel!
     @IBOutlet var labelDate: UILabel!
@@ -57,7 +56,8 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var activityView: UIView!
     
     lazy var shareService = ShareService()
-    
+    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -111,10 +111,6 @@ class EventDisplayViewController: UIViewController {
             self.hideChat()
         }
         
-        if let currentUser = AuthService.currentUser, self.event?.containsUser(currentUser) == false {
-            self.hideChat()
-        }
-        
         // update payment display
         if SettingsService.paymentRequired() {
             self.constraintPaymentHeight.constant = (self.event?.paymentRequired ?? false) ? 40 : 0
@@ -123,18 +119,28 @@ class EventDisplayViewController: UIViewController {
             self.constraintPaymentHeight.constant = 0
         }
         
-        guard let event = event, let currentUser = AuthService.currentUser else {
+        guard let event = event else {
             imageShare.isHidden = true
             buttonShare.isHidden = true
             constraintButtonJoinHeight.constant = 0
             return
         }
         
-        if event.containsUser(currentUser) {
+        guard let player = PlayerService.shared.current.value else {
+            imageShare.isHidden = true
+            buttonShare.isHidden = true
+            constraintButtonJoinHeight.constant = 0
+            labelSpotsLeft.text = "\(event.numPlayers) are playing"
+            self.hideChat()
+            return
+        }
+        
+        if event.containsPlayer(player) {
             imageShare.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
         } else {
             imageShare.isHidden = true
             buttonShare.isHidden = true
+            self.hideChat()
         }
         
         // reserve spot
@@ -153,8 +159,15 @@ class EventDisplayViewController: UIViewController {
                 })
             }
         }
+        
+        view.addSubview(activityOverlay)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        activityOverlay.setup(frame: view.frame)
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.isNavigationBarHidden = true
@@ -170,7 +183,6 @@ class EventDisplayViewController: UIViewController {
     
     @IBAction func didClickJoin(_ sender: Any?) {
         guard let event = event else { return }
-        activityIndicator.startAnimating()
         buttonJoin.isEnabled = false
         buttonJoin.alpha = 0.5
 
@@ -189,9 +201,14 @@ class EventDisplayViewController: UIViewController {
     }
     
     @objc fileprivate func refreshJoin() {
-        activityIndicator.stopAnimating()
-        guard let event = event, let currentUser = AuthService.currentUser else { return }
-        if event.containsUser(currentUser) || event.userIsOrganizer {
+        activityOverlay.hide()
+        guard let event = event else { return }
+        guard let player = PlayerService.shared.current.value else {
+            constraintButtonJoinHeight.constant = 0
+            labelSpotsLeft.text = "\(event.numPlayers) are playing"
+            return
+        }
+        if event.containsPlayer(player) || event.userIsOrganizer {
             constraintButtonJoinHeight.constant = 0
             labelSpotsLeft.text = "\(event.numPlayers) are playing"
         } else if event.isFull {
@@ -385,15 +402,15 @@ extension EventDisplayViewController: PlayersScrollViewDelegate {
 
 extension EventDisplayViewController: JoinEventDelegate {
     func startActivityIndicator() {
-        activityIndicator.startAnimating()
+        activityOverlay.show()
     }
     
     func stopActivityIndicator() {
-        activityIndicator.stopAnimating()
+        activityOverlay.hide()
     }
     
     func didCancelPayment() {
-        activityIndicator.stopAnimating()
+        activityOverlay.hide()
         buttonJoin.isEnabled = true
         buttonJoin.alpha = 1
     }
