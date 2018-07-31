@@ -146,6 +146,26 @@ class JoinEventHelper: NSObject {
         EventService.shared.joinEvent(event) { [weak self] (error) in
             DispatchQueue.main.async {
                 self?.delegate?.stopActivityIndicator()
+                if let error = error as? NSError {
+                    self?.rootViewController?.simpleAlert("Could not join game", defaultMessage: "You were unable to join the game.", error: error)
+                } else {
+                    let title: String
+                    let message: String
+                    if UserDefaults.standard.bool(forKey: UserSettings.DisplayedJoinEventMessage.rawValue) == false {
+                        title = "You've joined a game!"
+                        message = "You can go to your Calendar to see upcoming events."
+                        UserDefaults.standard.set(true, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
+                        UserDefaults.standard.synchronize()
+                    } else {
+                        if let name = event.name {
+                            title = "You've joined \(name)"
+                        } else {
+                            title = "You've joined a game!"
+                        }
+                        message = ""
+                    }
+                    self?.rootViewController?.simpleAlert(title, message: message)
+                }
             }
         }
         if #available(iOS 10.0, *) {
@@ -155,23 +175,6 @@ class JoinEventHelper: NSObject {
                 NotificationService.shared.scheduleNotificationForDonation(event)
             }
         }
-        
-        let title: String
-        let message: String
-        if UserDefaults.standard.bool(forKey: UserSettings.DisplayedJoinEventMessage.rawValue) == false {
-            title = "You've joined a game!"
-            message = "You can go to your Calendar to see upcoming events."
-            UserDefaults.standard.set(true, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
-            UserDefaults.standard.synchronize()
-        } else {
-            if let name = event.name {
-                title = "You've joined \(name)"
-            } else {
-                title = "You've joined a game!"
-            }
-            message = ""
-        }
-        rootViewController?.simpleAlert(title, message: message)
     }
 
 }
