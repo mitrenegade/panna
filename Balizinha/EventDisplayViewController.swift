@@ -119,10 +119,18 @@ class EventDisplayViewController: UIViewController {
             self.constraintPaymentHeight.constant = 0
         }
         
-        guard let event = event, let player = PlayerService.shared.current.value else {
+        guard let event = event else {
             imageShare.isHidden = true
             buttonShare.isHidden = true
             constraintButtonJoinHeight.constant = 0
+            return
+        }
+        
+        guard let player = PlayerService.shared.current.value else {
+            imageShare.isHidden = true
+            buttonShare.isHidden = true
+            constraintButtonJoinHeight.constant = 0
+            labelSpotsLeft.text = "\(event.numPlayers) are playing"
             self.hideChat()
             return
         }
