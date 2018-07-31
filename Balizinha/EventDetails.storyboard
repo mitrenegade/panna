@@ -157,23 +157,15 @@ Type</string>
                                                     <action selector="didClickJoin:" destination="UdQ-h3-dPN" eventType="touchUpInside" id="hAs-OB-ppb"/>
                                                 </connections>
                                             </button>
-                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="j6z-uX-aMm">
-                                                <rect key="frame" x="169" y="26" width="37" height="37"/>
-                                                <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </activityIndicatorView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="ls4-8L-qBB" secondAttribute="trailing" constant="8" id="81f-6r-gPQ"/>
                                             <constraint firstItem="ls4-8L-qBB" firstAttribute="leading" secondItem="tGR-pq-uhO" secondAttribute="leading" constant="8" id="PP3-kP-Kda"/>
-                                            <constraint firstItem="j6z-uX-aMm" firstAttribute="centerY" secondItem="ls4-8L-qBB" secondAttribute="centerY" id="RbX-KV-1cl"/>
                                             <constraint firstItem="ls4-8L-qBB" firstAttribute="top" secondItem="mII-0a-gcT" secondAttribute="bottom" constant="8" id="Yni-1w-i92"/>
-                                            <constraint firstItem="j6z-uX-aMm" firstAttribute="centerX" secondItem="ls4-8L-qBB" secondAttribute="centerX" id="ZNr-FW-bMh"/>
                                             <constraint firstAttribute="bottom" secondItem="ls4-8L-qBB" secondAttribute="bottom" id="edF-QC-MZb"/>
                                             <constraint firstItem="mII-0a-gcT" firstAttribute="top" secondItem="tGR-pq-uhO" secondAttribute="top" id="f43-JL-KZV"/>
                                             <constraint firstItem="mII-0a-gcT" firstAttribute="leading" secondItem="tGR-pq-uhO" secondAttribute="leading" constant="8" id="hz5-Yh-QmK"/>
-                                            <constraint firstItem="j6z-uX-aMm" firstAttribute="centerX" secondItem="tGR-pq-uhO" secondAttribute="centerX" id="lAu-VH-8NH"/>
-                                            <constraint firstItem="j6z-uX-aMm" firstAttribute="centerY" secondItem="tGR-pq-uhO" secondAttribute="centerY" constant="15" id="p0h-kN-Bxl"/>
                                             <constraint firstAttribute="trailing" secondItem="mII-0a-gcT" secondAttribute="trailing" constant="8" id="xlw-EE-B0o"/>
                                         </constraints>
                                     </view>
@@ -330,7 +322,6 @@ Type</string>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="910"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="j6z-uX-aMm" id="w7V-89-Wqr"/>
                         <outlet property="activityView" destination="do0-We-LXv" id="BWG-Lk-K5v"/>
                         <outlet property="buttonClose" destination="es6-Zc-zYz" id="M1O-kr-nne"/>
                         <outlet property="buttonJoin" destination="ls4-8L-qBB" id="3cJ-2A-wbX"/>

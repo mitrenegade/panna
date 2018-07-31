@@ -20,7 +20,6 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var buttonShare: UIButton!
     @IBOutlet weak var imageShare: UIImageView!
     @IBOutlet weak var buttonJoin: UIButton!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet var labelType: UILabel!
     @IBOutlet var labelDate: UILabel!
@@ -57,7 +56,8 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var activityView: UIView!
     
     lazy var shareService = ShareService()
-    
+    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -153,8 +153,15 @@ class EventDisplayViewController: UIViewController {
                 })
             }
         }
+        
+        view.addSubview(activityOverlay)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        activityOverlay.setup(frame: view.frame)
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.isNavigationBarHidden = true
@@ -170,7 +177,6 @@ class EventDisplayViewController: UIViewController {
     
     @IBAction func didClickJoin(_ sender: Any?) {
         guard let event = event else { return }
-        activityIndicator.startAnimating()
         buttonJoin.isEnabled = false
         buttonJoin.alpha = 0.5
 
@@ -189,7 +195,7 @@ class EventDisplayViewController: UIViewController {
     }
     
     @objc fileprivate func refreshJoin() {
-        activityIndicator.stopAnimating()
+        activityOverlay.hide()
         guard let event = event, let currentUser = AuthService.currentUser else { return }
         if event.containsUser(currentUser) || event.userIsOrganizer {
             constraintButtonJoinHeight.constant = 0
@@ -385,15 +391,15 @@ extension EventDisplayViewController: PlayersScrollViewDelegate {
 
 extension EventDisplayViewController: JoinEventDelegate {
     func startActivityIndicator() {
-        activityIndicator.startAnimating()
+        activityOverlay.show()
     }
     
     func stopActivityIndicator() {
-        activityIndicator.stopAnimating()
+        activityOverlay.hide()
     }
     
     func didCancelPayment() {
-        activityIndicator.stopAnimating()
+        activityOverlay.hide()
         buttonJoin.isEnabled = true
         buttonJoin.alpha = 1
     }
