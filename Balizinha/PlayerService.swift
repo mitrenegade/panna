@@ -24,6 +24,9 @@ class PlayerService: NSObject {
     let current: Variable<Player?> = Variable(nil)
     fileprivate let playersRef: DatabaseReference
     fileprivate var currentPlayerRef: DatabaseReference?
+    
+    // for a new user, set this flag on the first time they log in
+    var needsToCreateProfile: Bool = false
 
     override init() {
         disposeBag = DisposeBag()

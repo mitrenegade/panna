@@ -92,22 +92,13 @@ class SignupViewController: UIViewController {
                         guard let disposeBag = self?.disposeBag else { return }
                         let _ = PlayerService.shared.current.value // invoke listener
                         PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
-                            self?.goToEditPlayer(player)
+                            PlayerService.shared.needsToCreateProfile = true
                         }).disposed(by: disposeBag)
                     } else {
                         self?.simpleAlert("Could not log in", message: "Unknown error. Result: \(result)")
                     }
                 })
             }
-        }
-    }
-
-    func goToEditPlayer(_ player: Player?) {
-        if let controller = UIStoryboard.init(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerInfoViewController") as? PlayerInfoViewController {
-            controller.player = player
-            controller.isCreatingPlayer = true
-            
-            self.navigationController?.pushViewController(controller, animated: true)
         }
     }
 }
