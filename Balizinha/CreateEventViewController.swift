@@ -720,7 +720,7 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
             return sportTypes.count
         }
         else if pickerView == self.numberPickerView {
-            return 30
+            return 64
         }
         return FUTURE_DAYS // datePickerView: default 3 months
     }
