@@ -21,7 +21,7 @@ enum DeeplinkType {
     }
     case account(AccountActions)
     
-    // Event links shared should look like: balizinha://event/1
+    // Deep links should look like: balizinha://event/1 or panna://event/1
 }
 
 class DeepLinkService: NSObject {

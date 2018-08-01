@@ -70,7 +70,7 @@ class JoinEventHelper: NSObject {
     func paymentNeeded() {
         let alert = UIAlertController(title: "No payment method available", message: "This event has a fee. Please add a payment method in your profile.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Edit Payments", style: .default, handler: { (action) in
-            guard let url = URL(string: "balizinha://account/payments") else { return }
+            guard let url = URL(string: "panna://account/payments") else { return }
             DeepLinkService.shared.handle(url: url)
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
