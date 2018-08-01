@@ -250,7 +250,7 @@ extension EventsViewController: EventCellDelegate {
 // MARK: - Profile
 extension EventsViewController {
     fileprivate func goToAddName() {
-        guard let url = URL(string: "balizinha://account/profile") else { return }
+        guard let url = URL(string: "panna://account/profile") else { return }
         DeepLinkService.shared.handle(url: url)
     }
 }

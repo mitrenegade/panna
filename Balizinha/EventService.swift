@@ -143,7 +143,7 @@ class EventService: NSObject {
         if let info = info {
             params["info"] = info
         }
-        FirebaseAPIService().cloudFunction(functionName: "createEvent1_4", params: params) { (result, error) in
+        FirebaseAPIService().cloudFunction(functionName: "createEvent", params: params) { (result, error) in
             if let error = error as? NSError {
                 print("CreateEvent v1.4 failed with error \(error)")
                 completion(nil, error)
@@ -185,7 +185,7 @@ class EventService: NSObject {
     func joinEvent(_ event: Event, completion: ((Error?)->Void)? = nil) {
         guard let user = AuthService.currentUser else { return }
         let params: [String: Any] = ["userId": user.uid, "eventId": event.id, "join": true]
-        FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEventV1_5", params: params) { (result, error) in
+        FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
             if let error = error {
                 print("JoinEvent error \(error)")
             }
@@ -196,7 +196,7 @@ class EventService: NSObject {
     func leaveEvent(_ event: Event, completion: ((Error?)->Void)? = nil) {
         guard let user = AuthService.currentUser else { return }
         let params: [String: Any] = ["userId": user.uid, "eventId": event.id, "join": false]
-        FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEventV1_5", params: params) { (result, error) in
+        FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
             if let error = error {
                 print("JoinEvent error \(error)")
             }

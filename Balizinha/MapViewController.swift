@@ -35,11 +35,17 @@ class MapViewController: EventsViewController {
         if AuthService.isAnonymous, SettingsService.showPreview {
             navigationItem.title = "Balizinha"
             
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign in", style: .done, target: self, action: #selector(didClickProfile(_:)))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign in", style: .done, target: self, action: #selector(didClickSignUp(_:)))
+        } else {
+            let profileButton = UIBarButtonItem(image: UIImage(named: "menu"), style: .done, target: self, action: #selector(didClickProfile(_:)))
+            navigationItem.leftBarButtonItem = profileButton
         }
         
         // start listening for users so anonymous/preview users can see player counts
         EventService.shared.listenForEventUsers()
+        
+        // deeplink actions available from this controller
+        self.listenFor(NotificationType.GoToAccountDeepLink, action: #selector(didClickProfile(_:)), object: nil)
     }
     
     fileprivate lazy var __once: () = {
@@ -56,6 +62,12 @@ class MapViewController: EventsViewController {
         if !showedTutorial {
             // start location
             let _ = __once
+        }
+        
+        // user's first signup, needs to create profile
+        if PlayerService.shared.needsToCreateProfile {
+            PlayerService.shared.needsToCreateProfile = false
+            didClickProfile(self)
         }
     }
     
@@ -142,6 +154,20 @@ extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         filteredEventIds.removeAll()
         tableView.reloadData()
+    }
+    
+    // MARK: - First time user edit account
+    @objc fileprivate func didClickProfile(_ sender: Any) {
+        print("Go to Account")
+        guard let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "AccountViewController") as? AccountViewController else { return }
+        let nav = UINavigationController(rootViewController: controller)
+        controller.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "iconClose30"), style: .plain, target: self, action: #selector(self.dismissProfile))
+        present(nav, animated: true) {
+        }
+    }
+
+    @objc fileprivate func dismissProfile() {
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -292,7 +318,7 @@ extension MapViewController {
             if AuthService.isAnonymous {
                 if SettingsService.showPreview {
                     // signup
-                    didClickProfile(nil)
+                    didClickSignUp(nil)
                 }
             } else {
                 didClickAddEvent(sender: nil)
@@ -369,7 +395,7 @@ extension MapViewController {
     }
     
     // signup
-    @objc func didClickProfile(_ sender: Any?) {
+    @objc func didClickSignUp(_ sender: Any?) {
         print("Create profile")
         SplashViewController.shared?.goToSignupLogin()
         LoggingService.shared.log(event: LoggingEvent.PreviewSignupClicked, info: nil)

@@ -36,6 +36,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>balizinha</string>
+				<string>panna</string>
 			</array>
 		</dict>
 	</array>
@@ -58,7 +59,7 @@
 	<key>FacebookAppID</key>
 	<string>123063264768667</string>
 	<key>FacebookDisplayName</key>
-	<string>Balizinha</string>
+	<string>Panna Social Leagues</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -71,13 +72,13 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Balizinha needs camera access so you can take profile photos.</string>
+	<string>Panna needs camera access so you can take profile photos.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Balizinha needs access to your location to find events.</string>
+	<string>Panna needs access to your location to find events.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Balizinha needs access to your location to find events.</string>
+	<string>Panna needs access to your location to find events.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Balizinha needs photo library access so you can take profile photos.</string>
+	<string>Panna needs photo library access so you can take profile photos.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Regular.ttf</string>

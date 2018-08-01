@@ -30,7 +30,7 @@ class ShareService: NSObject {
     }
     
     fileprivate func shareLinkFor(event eventId: String) -> String{
-        return "balizinha://events/\(eventId)"
+        return "panna://events/\(eventId)"
     }
 }
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate let API_VERSION: String = "1.6"
+fileprivate let API_VERSION: String = "1.0"
 
 class FirebaseAPIService: NSObject {
     // variables for creating customer key
