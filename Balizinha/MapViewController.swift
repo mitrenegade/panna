@@ -67,7 +67,7 @@ class MapViewController: EventsViewController {
         // user's first signup, needs to create profile
         if PlayerService.shared.needsToCreateProfile {
             PlayerService.shared.needsToCreateProfile = false
-            didClickProfile(self)
+            goToCreateProfile()
         }
     }
     
@@ -168,6 +168,17 @@ extension MapViewController: MKMapViewDelegate {
 
     @objc fileprivate func dismissProfile() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    // FTUE
+    fileprivate func goToCreateProfile() {
+        guard let player = PlayerService.shared.current.value else { return }
+        if let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerInfoViewController") as? PlayerInfoViewController {
+            let nav = UINavigationController(rootViewController: controller)
+            controller.player = player
+            controller.isCreatingPlayer = true
+            present(nav, animated: true, completion: nil)
+        }
     }
 }
 
