@@ -108,7 +108,6 @@ class PlayerInfoViewController: UIViewController {
             }
             
             print("LoginLogout: LoginSuccess from sign up")
-            return
         }
         
         if let player = player {
