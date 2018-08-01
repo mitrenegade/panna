@@ -28,6 +28,9 @@ class LeaguesViewController: UIViewController {
 
         listenFor(.PlayerLeaguesChanged, action: #selector(loadData), object: nil)
 
+        // deeplink actions available from this controller
+        self.listenFor(NotificationType.GoToAccountDeepLink, action: #selector(didClickProfile(_:)), object: nil)
+
         loadData()
     }
     

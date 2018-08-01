@@ -43,6 +43,9 @@ class MapViewController: EventsViewController {
         
         // start listening for users so anonymous/preview users can see player counts
         EventService.shared.listenForEventUsers()
+        
+        // deeplink actions available from this controller
+        self.listenFor(NotificationType.GoToAccountDeepLink, action: #selector(didClickProfile(_:)), object: nil)
     }
     
     fileprivate lazy var __once: () = {
