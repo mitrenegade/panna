@@ -187,10 +187,19 @@ extension CalendarViewController: EventCellDelegate {
     }
     
     func leaveEvent(_ event: Event) {
-        EventService.shared.leaveEvent(event)
-        if #available(iOS 10.0, *) {
-            NotificationService.shared.removeNotificationForEvent(event)
-            NotificationService.shared.removeNotificationForDonation(event)
+        EventService.shared.leaveEvent(event) { (error) in
+            if let error = error as? NSError {
+                DispatchQueue.main.async {
+                    self.simpleAlert("Could not leave game", defaultMessage: "There was an error while trying to leave this game.", error: error)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    if #available(iOS 10.0, *) {
+                        NotificationService.shared.removeNotificationForEvent(event)
+                        NotificationService.shared.removeNotificationForDonation(event)
+                    }
+                }
+            }
         }
     }
     
