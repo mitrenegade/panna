@@ -76,7 +76,16 @@ class SplashViewController: UIViewController {
                 // on first login, downloadFacebookPhoto gets skipped the first time because player has not been created yet
                 if isFirstLogin, AuthService.shared.hasFacebookProvider {
                     PlayerService.shared.current.value = player
-                    PlayerService.shared.downloadFacebookPhoto()
+                    FacebookService.downloadFacebookInfo(completion: { (image, name, error) in
+                        if let error = error as NSError?, error.code == 400 {
+                            print("error \(error)")
+                            AuthService.shared.logout()
+                            return
+                        }
+                        if let name = name {
+                            player.name = name
+                        }
+                    })
                 }
             } else {
                 // player does not exist, save/create it.
@@ -86,7 +95,17 @@ class SplashViewController: UIViewController {
         }
         
         if AuthService.shared.hasFacebookProvider {
-            PlayerService.shared.downloadFacebookPhoto()
+            FacebookService.downloadFacebookInfo { (image, name, error) in
+                if let error = error as NSError?, error.code == 400 {
+                    print("error \(error)")
+                    AuthService.shared.logout()
+                } // for other errors, ignore but don't load profile
+                return
+                
+                if player.name == nil {
+                    player.name = name
+                }
+            }
         }
 
         self.goToMain()

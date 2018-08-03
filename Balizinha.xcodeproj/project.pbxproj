@@ -125,6 +125,7 @@
 		8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */; };
 		8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFF1F833969004EAE6A /* PromotionService.swift */; };
 		8E7CABFE1F8D8B8D0095084D /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */; };
+		8E97408721147F3D00242907 /* FacebookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97408621147F3C00242907 /* FacebookService.swift */; };
 		8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */; };
 		8EA23E2C1FD829E000324B82 /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA23E2B1FD829E000324B82 /* PaymentService.swift */; };
 		8EACC3B61F7B449C0091FBC5 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EACC3B51F7B449C0091FBC5 /* Payment.swift */; };
@@ -279,6 +280,7 @@
 		8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromoCell.swift; sourceTree = "<group>"; };
 		8E7A2FFF1F833969004EAE6A /* PromotionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionService.swift; sourceTree = "<group>"; };
 		8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCell.swift; sourceTree = "<group>"; };
+		8E97408621147F3C00242907 /* FacebookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookService.swift; sourceTree = "<group>"; };
 		8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Balizinha-Bridging-Header.h"; sourceTree = "<group>"; };
 		8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSettingCell.swift; sourceTree = "<group>"; };
 		8EA23E2B1FD829E000324B82 /* PaymentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
@@ -445,6 +447,7 @@
 				8E379F001CE57E8600C91A12 /* EventService.swift */,
 				8E49E7282100B847009F1B5D /* JoinEventHelper.swift */,
 				8E19A4A31E6C67A500D301EC /* PlayerService.swift */,
+				8E97408621147F3C00242907 /* FacebookService.swift */,
 				8EB34068207DB89700D4FDE0 /* LeagueService.swift */,
 				8E39FE8D1D237C710030CB96 /* NotificationService.swift */,
 				8E19A4A51E6C793800D301EC /* FirebaseImageService.swift */,
@@ -1069,6 +1072,7 @@
 				8E379F0A1CE58CEE00C91A12 /* Event.swift in Sources */,
 				8E48AF7E20DFDA0C00D814BE /* LeagueTitleCell.swift in Sources */,
 				8E379F011CE57E8600C91A12 /* EventService.swift in Sources */,
+				8E97408721147F3D00242907 /* FacebookService.swift in Sources */,
 				8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */,
 				8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */,
 				8E48AF8620DFEE9700D814BE /* PlayersScrollView.swift in Sources */,

@@ -10,7 +10,6 @@
 import UIKit
 import Firebase
 import RxSwift
-import FBSDKLoginKit
 import RxOptional
 
 class PlayerService: NSObject {
@@ -132,44 +131,6 @@ extension PlayerService {
         print("signIn results: \(user.uid) profile \(String(describing: user.photoURL)) \(String(describing: user.displayName))")
         createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { [weak self] (player, error) in
             print("PlayerService storeUserInfo complete")
-            if AuthService.shared.hasFacebookProvider == true {
-                self?.downloadFacebookPhoto()
-            }
-        })
-    }
-    
-    func downloadFacebookPhoto() {
-        guard let player = current.value else { return }
-//        guard player.photoUrl == nil || player.name == nil else { return }
-        FBSDKProfile.loadCurrentProfile(completion: { (profile, error) in
-            guard let profile = profile else {
-                if let error = error as NSError?, error.code == 400 {
-                    print("error \(error)")
-                    AuthService.shared.logout()
-                } // for other errors, ignore but don't load profile
-                return
-            }
-            
-            // update photoUrl if it doesn't already exist
-            if /*player.photoUrl == nil,*/ let photoUrl = profile.imageURL(for: FBSDKProfilePictureMode.square, size: CGSize(width: 100, height: 100)) {
-                DispatchQueue.main.async {
-                    guard let data = try? Data(contentsOf: photoUrl) else { return }
-                    guard let image = UIImage(data: data) else { return }
-                    FirebaseImageService.uploadImage(image: image, type: .player, uid: player.id, completion: { (url) in
-                        if let url = url {
-                            player.photoUrl = url
-                        }
-                    })
-                }
-            }
-            if player.name == nil {
-                if let name = profile.name {
-                    player.name = name
-                }
-                else if let name = profile.firstName {
-                    player.name = name
-                }
-            }
         })
     }
 }
