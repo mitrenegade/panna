@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseCommunity
+import Balizinha
 
 fileprivate var singleton: RemoteDataService?
 fileprivate var loggingRef: DatabaseReference?

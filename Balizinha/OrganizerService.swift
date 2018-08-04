@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseCommunity
 import RxSwift
+import Balizinha
 
 fileprivate var singleton: OrganizerService?
 var _currentOrganizer: Organizer?

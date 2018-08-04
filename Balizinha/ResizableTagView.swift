@@ -10,6 +10,7 @@
 
 import Foundation
 import UIKit
+import Balizinha
 
 class Tag: NSObject {
     enum Action {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Balizinha
 
 protocol PlayersScrollViewDelegate: class {
     func didSelectPlayer(player: Player)

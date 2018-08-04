@@ -56,6 +56,10 @@ PODS:
   - FirebaseCommunity/Database (0.1.6):
     - FirebaseCommunity/Core
     - leveldb-library
+  - FirebaseCommunity/Messaging (0.1.6):
+    - FirebaseCommunity/Core
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - Protobuf (~> 3.1)
   - FirebaseCommunity/Root (0.1.6)
   - FirebaseCommunity/Storage (0.1.6):
     - FirebaseCommunity/Core
@@ -63,6 +67,8 @@ PODS:
   - GoogleToolboxForMac/DebugUtils (2.1.4):
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - GoogleToolboxForMac/Defines (2.1.4)
+  - GoogleToolboxForMac/Logger (2.1.4):
+    - GoogleToolboxForMac/Defines (= 2.1.4)
   - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - "GoogleToolboxForMac/NSDictionary+URLArguments (2.1.4)":
@@ -72,6 +78,7 @@ PODS:
   - "GoogleToolboxForMac/NSString+URLArguments (2.1.4)"
   - GTMSessionFetcher/Core (1.2.0)
   - leveldb-library (1.20)
+  - Protobuf (3.6.0)
   - RxCocoa (4.2.0):
     - RxSwift (~> 4.0)
   - RxOptional (3.5.0):
@@ -89,6 +96,7 @@ DEPENDENCIES:
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
+  - FirebaseCommunity/Messaging
   - RxCocoa
   - RxOptional
   - RxSwift
@@ -109,6 +117,7 @@ SPEC REPOS:
     - GoogleToolboxForMac
     - GTMSessionFetcher
     - leveldb-library
+    - Protobuf
     - RxCocoa
     - RxOptional
     - RxSwift
@@ -139,11 +148,12 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
+  Protobuf: 0fc0ad8bec688b2a3017a139953e01374fedbd5f
   RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
   RxOptional: bd32ff8ca9df4177683d56ffeb618a9d4d5d5cad
   RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
   Stripe: 4f043bb840721b1f30492fa77790bbf9e3508ab0
 
-PODFILE CHECKSUM: bec361c4779890348a4621a46c96c123f9c3e6e1
+PODFILE CHECKSUM: e2b147415d8fac5e15fd607197cfb1c2f76271d2
 
 COCOAPODS: 1.5.0

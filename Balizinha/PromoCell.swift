@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseCommunity
+import Balizinha
 
 class PromoCell: UITableViewCell {
 

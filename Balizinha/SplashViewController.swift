@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import Crashlytics
 import FirebaseCommunity
+import Balizinha
 
 class SplashViewController: UIViewController {
     var handle: AuthStateDidChangeListenerHandle?

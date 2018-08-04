@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import Balizinha
 
 class OrganizerViewController: UIViewController {
 
-    var event: Event?
+    var event: Balizinha.Event?
     let playerIcon = PlayerIcon()
     
     @IBOutlet var iconView: UIView!

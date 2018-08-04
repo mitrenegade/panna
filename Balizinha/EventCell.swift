@@ -7,16 +7,17 @@
 //
 
 import UIKit
+import Balizinha
 
 protocol EventCellDelegate: class {
-    func joinOrLeaveEvent(_ event: Event, join: Bool)
-    func editEvent(_ event: Event)
-    func previewEvent(_ event: Event)
+    func joinOrLeaveEvent(_ event: Balizinha.Event, join: Bool)
+    func editEvent(_ event: Balizinha.Event)
+    func previewEvent(_ event: Balizinha.Event)
 }
 
 protocol EventDonationDelegate: class {
-    func paidStatus(event: Event) -> Bool? // if nil, still loading/unknown
-    func promptForDonation(event: Event)
+    func paidStatus(event: Balizinha.Event) -> Bool? // if nil, still loading/unknown
+    func promptForDonation(event: Balizinha.Event)
 }
 
 typealias EventStatus = (isPast: Bool, userIsOwner: Bool, userJoined: Bool)
@@ -65,7 +66,7 @@ class EventCell: UITableViewCell {
     @IBOutlet var eventLogo: RAImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    var event: Event?
+    var event: Balizinha.Event?
     weak var delegate: EventCellDelegate?
     weak var donationDelegate: EventDonationDelegate?
     
@@ -80,7 +81,7 @@ class EventCell: UITableViewCell {
         self.btnAction.layer.cornerRadius = self.btnAction.frame.size.height / 5
     }
 
-    func setupWithEvent(_ event: Event) {
+    func setupWithEvent(_ event: Balizinha.Event) {
         self.event = event
         let name = event.name ?? "Balizinha"
         let type = event.type.rawValue

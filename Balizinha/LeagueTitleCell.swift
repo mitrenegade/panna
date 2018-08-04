@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Balizinha
 
 class LeagueTitleCell: UITableViewCell {
     @IBOutlet weak var logoView: RAImageView!

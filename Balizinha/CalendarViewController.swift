@@ -8,11 +8,12 @@
 
 import UIKit
 import Crashlytics
+import Balizinha
 
 class CalendarViewController: UITableViewController {
     
-    var sortedUpcomingEvents: [Event] = []
-    var sortedPastEvents: [Event] = []
+    var sortedUpcomingEvents: [Balizinha.Event] = []
+    var sortedPastEvents: [Balizinha.Event] = []
     
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
 
@@ -151,7 +152,7 @@ extension CalendarViewController {
         guard let nav = segue.destination as? ConfigurableNavigationController else { return }
         let frame = nav.view.frame // force viewDidLoad so viewControllers exists
         guard let detailsController = nav.viewControllers[0] as? EventDisplayViewController else { return }
-        guard let event = sender as? Event else { return }
+        guard let event = sender as? Balizinha.Event else { return }
         
         detailsController.alreadyJoined = true
         
@@ -163,7 +164,7 @@ extension CalendarViewController {
 
 extension CalendarViewController: EventCellDelegate {    
     // MARK: EventCellDelegate
-    func joinOrLeaveEvent(_ event: Event, join: Bool) {
+    func joinOrLeaveEvent(_ event: Balizinha.Event, join: Bool) {
         if event.paymentRequired {
             let alert = UIAlertController(title: "Are you sure?", message: "You are leaving a game that you've already paid for.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Leave game", style: .default, handler: { (action) in
@@ -179,14 +180,14 @@ extension CalendarViewController: EventCellDelegate {
         self.refreshEvents()
     }
     
-    func editEvent(_ event: Event) {
+    func editEvent(_ event: Balizinha.Event) {
         guard let controller = UIStoryboard(name: "Events", bundle: nil).instantiateViewController(withIdentifier: "CreateEventViewController") as? CreateEventViewController else { return }
         controller.eventToEdit = event
         let nav = UINavigationController(rootViewController: controller)
         self.present(nav, animated: true, completion: nil)
     }
     
-    func leaveEvent(_ event: Event) {
+    func leaveEvent(_ event: Balizinha.Event) {
         EventService.shared.leaveEvent(event) { (error) in
             if let error = error as? NSError {
                 DispatchQueue.main.async {
@@ -203,14 +204,14 @@ extension CalendarViewController: EventCellDelegate {
         }
     }
     
-    func previewEvent(_ event: Event) {
+    func previewEvent(_ event: Balizinha.Event) {
         // nothing
     }
 }
 
 // MARK: - Donations
 extension CalendarViewController: EventDonationDelegate {
-    func paidStatus(event: Event) -> Bool? {
+    func paidStatus(event: Balizinha.Event) -> Bool? {
         // used to enforce a user only paying once. not used right now - user can continue to pay
         // TODO: use charges/events/eventId endpoint to find out if a user has paid
         return false
@@ -235,7 +236,7 @@ extension CalendarViewController: EventDonationDelegate {
         }
         
     }
-    func promptForDonation(event: Event) {
+    func promptForDonation(event: Balizinha.Event) {
         guard let player = PlayerService.shared.current.value else { return }
         guard SettingsService.donation() else { return }
         

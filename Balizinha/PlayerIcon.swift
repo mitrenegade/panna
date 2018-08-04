@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseCommunity
+import Balizinha
 
 class PlayerIcon: FirebaseModelIcon {
 

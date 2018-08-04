@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0960084D7DA33DB955740E29 /* Pods_Panna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FBD3FEDF9C55F406BD76C86 /* Pods_Panna.framework */; };
+		69271FED633E9DF4BE2BCBFB /* Pods_PannaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFD3984E17F9C46361482558 /* Pods_PannaTests.framework */; };
 		8E04ECFA205E19650010A649 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFB1B91E3D3F00006DD187 /* LocationService.swift */; };
 		8E04ECFD205E19650010A649 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E39FE8D1D237C710030CB96 /* NotificationService.swift */; };
 		8E04ECFF205E19650010A649 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FDE5C320431ECB00FE0C76 /* ChatService.swift */; };
@@ -168,8 +170,11 @@
 
 /* Begin PBXFileReference section */
 		2393261844733F0603E5A8AF /* Pods_LotSportz.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LotSportz.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3036416C96F302F53056AE96 /* Pods-Panna.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Panna.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Panna/Pods-Panna.debug.xcconfig"; sourceTree = "<group>"; };
 		5E546CEAA00BF9DA1BE14363 /* Pods_BalizinhaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BalizinhaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EEC7A03F1D4279355F0F9CC /* Pods-Balizinha.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.release.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.release.xcconfig"; sourceTree = "<group>"; };
+		6DA134C2A34195C7956CE667 /* Pods-Panna.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Panna.release.xcconfig"; path = "Pods/Target Support Files/Pods-Panna/Pods-Panna.release.xcconfig"; sourceTree = "<group>"; };
+		6FBD3FEDF9C55F406BD76C86 /* Pods_Panna.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Panna.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72850730339D7BDEAC192B33 /* Pods-LotSportz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotSportz.release.xcconfig"; path = "Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz.release.xcconfig"; sourceTree = "<group>"; };
 		75AF04F244D31D4B039DF4B6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E0F5684201598CD001E8909 /* OrganizerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizerCell.swift; sourceTree = "<group>"; };
@@ -278,6 +283,7 @@
 		8EF167F8208BEE4A00257354 /* LeagueIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueIcon.swift; sourceTree = "<group>"; };
 		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
 		8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaguePlayerCell.swift; sourceTree = "<group>"; };
+		94979895EDCB6BB23785280B /* Pods-PannaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PannaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PannaTests/Pods-PannaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.release.xcconfig"; sourceTree = "<group>"; };
 		AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C651AB872096D6650046B03C /* read.me */ = {isa = PBXFileReference; lastKnownFileType = text; path = read.me; sourceTree = "<group>"; };
@@ -287,6 +293,7 @@
 		C6B7412620FAD88B00B0FA00 /* JoinLeagueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinLeagueCell.swift; sourceTree = "<group>"; };
 		C6FDE5C320431ECB00FE0C76 /* ChatService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
 		C779F650FFE1D803921FC3ED /* Pods-BalizinhaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.debug.xcconfig"; sourceTree = "<group>"; };
+		CFD3984E17F9C46361482558 /* Pods_PannaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PannaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED7C1F62DA3A7F54848AA802 /* Pods-Balizinha.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.debug.xcconfig"; sourceTree = "<group>"; };
 		F2048F7B1CED57170039F7BB /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -299,6 +306,7 @@
 		F2F7C3BF1CEE296A00350115 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		F2F7C3C11CEE2CDD00350115 /* PushTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushTableViewCell.swift; sourceTree = "<group>"; };
 		F3ECC67839D6AA22A6465193 /* Pods-LotSportz.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotSportz.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz.debug.xcconfig"; sourceTree = "<group>"; };
+		FEB029C312810BD330360991 /* Pods-PannaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PannaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PannaTests/Pods-PannaTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -307,6 +315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4941729DDCB9B340512229F /* Pods_BalizinhaTests.framework in Frameworks */,
+				69271FED633E9DF4BE2BCBFB /* Pods_PannaTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */,
+				0960084D7DA33DB955740E29 /* Pods_Panna.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +338,8 @@
 				2393261844733F0603E5A8AF /* Pods_LotSportz.framework */,
 				AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */,
 				5E546CEAA00BF9DA1BE14363 /* Pods_BalizinhaTests.framework */,
+				6FBD3FEDF9C55F406BD76C86 /* Pods_Panna.framework */,
+				CFD3984E17F9C46361482558 /* Pods_PannaTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -341,6 +353,10 @@
 				5EEC7A03F1D4279355F0F9CC /* Pods-Balizinha.release.xcconfig */,
 				C779F650FFE1D803921FC3ED /* Pods-BalizinhaTests.debug.xcconfig */,
 				A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */,
+				3036416C96F302F53056AE96 /* Pods-Panna.debug.xcconfig */,
+				6DA134C2A34195C7956CE667 /* Pods-Panna.release.xcconfig */,
+				94979895EDCB6BB23785280B /* Pods-PannaTests.debug.xcconfig */,
+				FEB029C312810BD330360991 /* Pods-PannaTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -622,7 +638,6 @@
 				8E1F3CB91F8B9A95005186AD /* Sources */,
 				8E1F3CBA1F8B9A95005186AD /* Frameworks */,
 				8E1F3CBB1F8B9A95005186AD /* Resources */,
-				ED6000F69221B9758C595F11 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -759,31 +774,34 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Panna/Pods-Panna-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/Balizinha/Balizinha.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCommunity/FirebaseCommunity.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-615f275e/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxOptional/RxOptional.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Balizinha.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTools.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCommunity.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
@@ -792,11 +810,10 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Panna/Pods-Panna-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8E5CE7981D2CAE75001ADBA3 /* ShellScript */ = {
@@ -823,7 +840,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Balizinha-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Panna-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -841,41 +858,11 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BalizinhaTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-PannaTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		ED6000F69221B9758C595F11 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-f0850809/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
-				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1031,7 +1018,7 @@
 /* Begin XCBuildConfiguration section */
 		8E1F3CC41F8B9A95005186AD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C779F650FFE1D803921FC3ED /* Pods-BalizinhaTests.debug.xcconfig */;
+			baseConfigurationReference = 94979895EDCB6BB23785280B /* Pods-PannaTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1064,7 +1051,7 @@
 		};
 		8E1F3CC51F8B9A95005186AD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */;
+			baseConfigurationReference = FEB029C312810BD330360991 /* Pods-PannaTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1203,7 +1190,7 @@
 		};
 		8E7256A91CDF793200C9E054 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ED7C1F62DA3A7F54848AA802 /* Pods-Balizinha.debug.xcconfig */;
+			baseConfigurationReference = 3036416C96F302F53056AE96 /* Pods-Panna.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1230,7 +1217,7 @@
 		};
 		8E7256AA1CDF793200C9E054 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5EEC7A03F1D4279355F0F9CC /* Pods-Balizinha.release.xcconfig */;
+			baseConfigurationReference = 6DA134C2A34195C7956CE667 /* Pods-Panna.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

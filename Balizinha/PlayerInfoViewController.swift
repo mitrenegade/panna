@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Balizinha
 
 protocol PlayerDelegate: class {
     func didUpdatePlayer(player: Player)

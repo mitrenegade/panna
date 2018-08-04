@@ -16,6 +16,7 @@ import Crashlytics
 import RxSwift
 import Stripe
 import RxOptional
+import Balizinha
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

@@ -2,8 +2,10 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '10.0'
 use_frameworks!
 
-target 'Balizinha' do
+target 'Panna' do
     pod 'Balizinha', :git => 'https://bitbucket.org/renderapps/balizinha-pod', :tag => '0.2.0'
+
+    pod 'FirebaseCommunity/Messaging'
 
     pod 'Crashlytics'
     pod 'Fabric'
@@ -21,7 +23,7 @@ target 'Balizinha' do
 
     pod 'Stripe'
 
-    target 'BalizinhaTests' do
+    target 'PannaTests' do
        inherit! :search_paths
     end
 

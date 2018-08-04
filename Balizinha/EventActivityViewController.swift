@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import Balizinha
 
 class EventActivityViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var firstAppear: Bool = true
     
-    var event: Event? {
+    var event: Balizinha.Event? {
         didSet {
             if let newVal = event {
                 ActionService().observeActions(forEvent: newVal, completion: { (action, visible) -> (Void) in

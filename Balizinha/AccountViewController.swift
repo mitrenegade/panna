@@ -8,6 +8,7 @@
 
 import UIKit
 import FBSDKLoginKit
+import Balizinha
 
 class AccountViewController: UIViewController {
     

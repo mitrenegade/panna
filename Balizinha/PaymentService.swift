@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseCommunity
 import Stripe
+import Balizinha
 
 class PaymentService: NSObject {
     func checkForPayment(for eventId: String, by playerId: String, completion:@escaping ((Bool)->Void)) {

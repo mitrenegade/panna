@@ -8,6 +8,7 @@
 
 import UIKit
 import Stripe
+import Balizinha
 
 protocol JoinEventDelegate: class {
     func startActivityIndicator()
@@ -17,10 +18,10 @@ protocol JoinEventDelegate: class {
 
 class JoinEventHelper: NSObject {
     var rootViewController: UIViewController?
-    var event: Event?
+    var event: Balizinha.Event?
     weak var delegate: JoinEventDelegate?
     
-    func checkIfAlreadyPaid(for event: Event) {
+    func checkIfAlreadyPaid(for event: Balizinha.Event) {
         guard event.paymentRequired && SettingsService.paymentRequired() else {
             joinEvent(event)
             return
@@ -79,29 +80,29 @@ class JoinEventHelper: NSObject {
         rootViewController?.present(alert, animated: true, completion: nil)
     }
     
-    fileprivate func calculateAmountForEvent(event: Event, completion:@escaping ((Double)->Void)) {
+    fileprivate func calculateAmountForEvent(event: Balizinha.Event, completion:@escaping ((Double)->Void)) {
         let amount = event.amount?.doubleValue ?? 0
         if let promotionId = PlayerService.shared.current.value?.promotionId {
             delegate?.startActivityIndicator()
             PromotionService.shared.withId(id: promotionId, completion: { [weak self] (promotion, error) in
                 self?.delegate?.stopActivityIndicator()
                 if let promotion = promotion, let discount = promotion.discountFactor {
-                    print("Event cost with discount of \(discount) = \(amount * discount)")
+                    print("Balizinha.Event cost with discount of \(discount) = \(amount * discount)")
                     completion(amount * discount)
                 }
                 else {
-                    print("Event cost either has no promotion or no discount. Error: \(error)")
+                    print("Balizinha.Event cost either has no promotion or no discount. Error: \(error)")
                     completion(amount)
                 }
             })
         }
         else {
-            print("Event cost has no promotion")
+            print("Balizinha.Event cost has no promotion")
             completion(amount)
         }
     }
     
-    func shouldCharge(for event: Event, payment: STPPaymentMethod) {
+    func shouldCharge(for event: Balizinha.Event, payment: STPPaymentMethod) {
         calculateAmountForEvent(event: event) {[weak self] (amount) in
             guard let paymentString: String = EventService.amountString(from: NSNumber(value: amount)) else {
                 self?.rootViewController?.simpleAlert("Could not calculate payment", message: "Please let us know about this error.")
@@ -118,7 +119,7 @@ class JoinEventHelper: NSObject {
         }
     }
     
-    func chargeAndWait(event: Event, amount: Double) {
+    func chargeAndWait(event: Balizinha.Event, amount: Double) {
         guard let current = PlayerService.shared.current.value else {
             rootViewController?.simpleAlert("Could not make payment", message: "Please update your player profile!")
             return
@@ -140,7 +141,7 @@ class JoinEventHelper: NSObject {
         })
     }
     
-    fileprivate func joinEvent(_ event: Event) {
+    fileprivate func joinEvent(_ event: Balizinha.Event) {
         //add notification in case user doesn't return to MyEvents
         delegate?.startActivityIndicator()
         EventService.shared.joinEvent(event) { [weak self] (error) in

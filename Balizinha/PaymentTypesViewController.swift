@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import Balizinha
 
 class PaymentTypesViewController: UIViewController {
-    var event: Event?
+    var event: Balizinha.Event?
     weak var delegate: SectionComponentDelegate?
     
     @IBOutlet weak var labelAmount: UILabel!

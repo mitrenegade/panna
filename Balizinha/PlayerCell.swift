@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Balizinha
 
 class PlayerCell: UITableViewCell {
     @IBOutlet weak var imagePhoto: RAImageView!

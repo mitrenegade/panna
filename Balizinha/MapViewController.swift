@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import FirebaseCommunity
+import Balizinha
 
 class MapViewController: EventsViewController {
     // Data
@@ -23,7 +24,7 @@ class MapViewController: EventsViewController {
     
     // MARK: filtered events
     var filteredEventIds: [String] = []
-    var filteredEvents: [Event] {
+    var filteredEvents: [Balizinha.Event] {
         return allEvents.filter({ (event) -> Bool in
             return filteredEventIds.contains(event.id)
         })
@@ -95,7 +96,7 @@ class MapViewController: EventsViewController {
         }
     }
     
-    func addAnnotation(for event: Event) {
+    func addAnnotation(for event: Balizinha.Event) {
         guard let lat = event.lat, let lon = event.lon else { return }
         if let oldAnnotation = annotations[event.id] {
             mapView.removeAnnotations([oldAnnotation])
@@ -184,7 +185,7 @@ extension MapViewController: MKMapViewDelegate {
 
 // MARK: UITableViewDataSource, UITableViewDelegate
 extension MapViewController {
-    fileprivate var featuredEvent: (shouldShow: Bool, eventId: String, event: Event) {
+    fileprivate var featuredEvent: (shouldShow: Bool, eventId: String, event: Balizinha.Event) {
         if let eventId = EventService.shared.featuredEventId, let event = EventService.shared.featuredEvent {
             if filteredEventIds.contains(eventId) {
                 return (true, eventId, event)
@@ -192,7 +193,7 @@ extension MapViewController {
                 return (true, eventId, event)
             }
         }
-        return (false, "", Event())
+        return (false, "", Balizinha.Event())
     }
     
     // MARK: - Table view data source
@@ -305,7 +306,7 @@ extension MapViewController {
             }
             return UITableViewCell()
         default:
-            let event: Event
+            let event: Balizinha.Event
             if filteredEventIds.isEmpty {
                 guard indexPath.row < allEvents.count else { return UITableViewCell() }
                 event = allEvents[indexPath.row]
@@ -340,7 +341,7 @@ extension MapViewController {
                 performSegue(withIdentifier: "toEventDetails", sender: featuredEvent.event)
             }
         default:
-            let event: Event
+            let event: Balizinha.Event
             if filteredEventIds.isEmpty {
                 guard indexPath.row < allEvents.count else { return }
                 event = allEvents[indexPath.row]
@@ -399,7 +400,7 @@ extension MapViewController: TutorialDelegate {
 // MARK: - Preview
 extension MapViewController {
     // EventCellDelegate
-    override func previewEvent(_ event: Event) {
+    override func previewEvent(_ event: Balizinha.Event) {
         print("Preview")
         performSegue(withIdentifier: "toEventDetails", sender: event)
         LoggingService.shared.log(event: LoggingEvent.PreviewEventClicked, info: nil)

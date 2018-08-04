@@ -7,6 +7,7 @@
 //
 // https://medium.com/@stasost/ios-how-to-open-deep-links-notifications-and-shortcuts-253fb38e1696
 import UIKit
+import Balizinha
 
 enum DeeplinkType {
     enum Messages {

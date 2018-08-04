@@ -10,6 +10,7 @@ import UIKit
 import FirebaseCommunity
 import CoreLocation
 import RxSwift
+import Balizinha
 
 class EventsViewController: UIViewController {
 
@@ -17,8 +18,8 @@ class EventsViewController: UIViewController {
     
     var service = EventService.shared
     var joinHelper = JoinEventHelper()
-    var allEvents : [Event] = []
-    var sortedEvents: [EventType: [Event]] = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .other: []]
+    var allEvents : [Balizinha.Event] = []
+    var sortedEvents: [EventType: [Balizinha.Event]] = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .other: []]
     let eventTypes: [EventType] = [.event3v3, .event5v5, .event7v7, .event11v11, .other]
 
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
@@ -126,7 +127,7 @@ class EventsViewController: UIViewController {
         }
     }
     
-    fileprivate func filterByDistance(events: [Event]) -> [Event]{
+    fileprivate func filterByDistance(events: [Balizinha.Event]) -> [Balizinha.Event]{
         guard let location = LocationService.shared.lastLocation else { return events }
         guard LocationService.shared.shouldFilterNearbyEvents else { return events }
         
@@ -159,7 +160,7 @@ class EventsViewController: UIViewController {
         if segue.identifier == "toEventDetails" {
             let frame = nav.view.frame // force load root view controller
             guard let detailsController = nav.viewControllers[0] as? EventDisplayViewController else { return }
-            guard let event = sender as? Event else { return }
+            guard let event = sender as? Balizinha.Event else { return }
             
             detailsController.alreadyJoined = false            
             detailsController.event = event
@@ -212,7 +213,7 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension EventsViewController: EventCellDelegate {
     // MARK: EventCellDelegate
-    func joinOrLeaveEvent(_ event: Event, join: Bool) {
+    func joinOrLeaveEvent(_ event: Balizinha.Event, join: Bool) {
         guard let current = PlayerService.shared.current.value else {
             simpleAlert("Could not join event", message: "Please update your player profile!")
             return
@@ -238,11 +239,11 @@ extension EventsViewController: EventCellDelegate {
         refreshEvents()
     }
     
-    func editEvent(_ event: Event) {
+    func editEvent(_ event: Balizinha.Event) {
         // does not implement this
     }
     
-    func previewEvent(_ event: Event) {
+    func previewEvent(_ event: Balizinha.Event) {
         // nothing
     }
 }

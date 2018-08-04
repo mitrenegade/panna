@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import Balizinha
 
 class ExpandableMapViewController: UIViewController {
 
@@ -23,7 +24,7 @@ class ExpandableMapViewController: UIViewController {
         }
     }
     
-    var event: Event?
+    var event: Balizinha.Event?
     weak var delegate: SectionComponentDelegate?
     
     override func viewDidLoad() {

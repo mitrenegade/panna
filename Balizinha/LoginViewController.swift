@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKLoginKit
 import FirebaseCommunity
+import Balizinha
 
 class LoginViewController: UIViewController {
     

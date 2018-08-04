@@ -10,6 +10,7 @@ import UIKit
 import Stripe
 import FirebaseCommunity
 import RxSwift
+import Balizinha
 
 enum PaymentStatus {
     case none // no customer_id exists
@@ -136,7 +137,7 @@ class StripeService: NSObject {
         self.paymentContext.value = paymentContext
     }
     
-    func createCharge(for event: Event, amount: Double, player: Player, isDonation: Bool = false, completion: ((_ success: Bool,_ error: Error?)->())?) {
+    func createCharge(for event: Balizinha.Event, amount: Double, player: Player, isDonation: Bool = false, completion: ((_ success: Bool,_ error: Error?)->())?) {
         guard amount > 0 else {
             print("Invalid amount on event")
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Invalid amount on event", "eventId": event.id]))
