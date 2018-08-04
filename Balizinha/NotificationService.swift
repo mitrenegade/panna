@@ -8,8 +8,7 @@
 
 import UIKit
 import UserNotifications
-import FirebaseMessaging
-import Firebase
+import FirebaseCommunity
 import RxSwift
 import RxOptional
 

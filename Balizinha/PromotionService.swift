@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseCommunity
 
 fileprivate var singleton: PromotionService?
 

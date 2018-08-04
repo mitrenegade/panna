@@ -3,12 +3,7 @@ platform :ios, '10.0'
 use_frameworks!
 
 target 'Balizinha' do
-    pod 'Firebase/Core'
-    pod 'Firebase/Auth'
-    pod 'Firebase/Database'
-    pod 'Firebase/Storage'
-    pod 'Firebase/RemoteConfig'
-    pod 'Firebase/Messaging'
+    pod 'Balizinha', :git => 'https://bitbucket.org/renderapps/balizinha-pod', :tag => '0.2.0'
 
     pod 'Crashlytics'
     pod 'Fabric'
@@ -16,8 +11,6 @@ target 'Balizinha' do
     pod 'RxSwift'
     pod 'RxCocoa'
     pod 'RxOptional'
-
-    pod 'AFNetworking'
 
     pod 'FBSDKCoreKit'
     pod 'FBSDKLoginKit'
@@ -30,13 +23,6 @@ target 'Balizinha' do
 
     target 'BalizinhaTests' do
        inherit! :search_paths
-   	pod 'Firebase/Core'
-    	pod 'Firebase/Database'
-    	pod 'Firebase/Auth'
-    	pod 'Firebase/Storage'
-    	pod 'Stripe'
-    	pod 'RxSwift'
-    	pod 'RxCocoa'
     end
 
 end

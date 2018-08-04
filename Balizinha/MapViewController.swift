@@ -8,7 +8,7 @@
 
 import UIKit
 import MapKit
-import Firebase
+import FirebaseCommunity
 
 class MapViewController: EventsViewController {
     // Data

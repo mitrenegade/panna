@@ -8,7 +8,7 @@
 
 import UIKit
 
-import Firebase
+import FirebaseCommunity
 
 protocol LeaguePlayersDelegate: class {
     func didUpdateRoster()
