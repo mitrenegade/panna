@@ -10,12 +10,13 @@ import UIKit
 import FBSDKLoginKit
 
 class FacebookService: NSObject {
-    static func downloadFacebookPhoto(completion: ((UIImage?, String?, Error?)->Void)?) {
+    static func downloadFacebookInfo(completion: ((UIImage?, String?, Error?)->Void)?) {
         guard let player = PlayerService.shared.current.value else { return }
         //        guard player.photoUrl == nil || player.name == nil else { return }
         FBSDKProfile.loadCurrentProfile(completion: { (profile, error) in
             guard let profile = profile else {
                 completion?(nil, nil, error)
+                return
             }
             
             // update photoUrl if it doesn't already exist

@@ -92,18 +92,18 @@ class SplashViewController: UIViewController {
                 // this should have been done on signup
                 PlayerService.shared.storeUserInfo()
             }
-        }
-        
-        if AuthService.shared.hasFacebookProvider {
-            FacebookService.downloadFacebookInfo { (image, name, error) in
-                if let error = error as NSError?, error.code == 400 {
-                    print("error \(error)")
-                    AuthService.shared.logout()
-                } // for other errors, ignore but don't load profile
-                return
-                
-                if player.name == nil {
-                    player.name = name
+
+            if AuthService.shared.hasFacebookProvider {
+                FacebookService.downloadFacebookInfo { (image, name, error) in
+                    if let error = error as NSError?, error.code == 400 {
+                        print("error \(error)")
+                        AuthService.shared.logout()
+                        return
+                    } // for other errors, ignore but don't load profile
+                    
+                    if player?.name == nil {
+                        player?.name = name
+                    }
                 }
             }
         }
