@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseCommunity
 
 typealias actionUpdateHandler = (Action, _ visible: Bool) -> (Void)
 class ActionService: NSObject {

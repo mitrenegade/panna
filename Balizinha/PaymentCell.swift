@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseCommunity
 import Stripe
 import RxSwift
 

@@ -8,7 +8,7 @@
 
 import UIKit
 import Stripe
-import Firebase
+import FirebaseCommunity
 import RxSwift
 
 enum PaymentStatus {

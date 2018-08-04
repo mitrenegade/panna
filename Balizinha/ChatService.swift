@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseCommunity
 
 class ChatService: NSObject {
     class func createChat(eventId: String, message: String) {

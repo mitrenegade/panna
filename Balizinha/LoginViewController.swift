@@ -8,7 +8,7 @@
 
 import UIKit
 import FBSDKLoginKit
-import Firebase
+import FirebaseCommunity
 
 class LoginViewController: UIViewController {
     

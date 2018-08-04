@@ -8,9 +8,8 @@
 
 import UIKit
 import RxSwift
-import FirebaseAuth
 import Crashlytics
-import FirebaseDatabase
+import FirebaseCommunity
 
 class SplashViewController: UIViewController {
     var handle: AuthStateDidChangeListenerHandle?

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseCommunity
 import CoreLocation
 import RxSwift
 

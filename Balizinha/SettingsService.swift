@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseCommunity
 import RxSwift
 
 fileprivate var singleton: SettingsService?
