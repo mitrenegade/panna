@@ -112,6 +112,7 @@
 		8EB865FA208BE8440029079A /* PlayerLeaguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB865F9208BE8440029079A /* PlayerLeaguesViewController.swift */; };
 		8EB90B391FB2B8D5007C60F0 /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */; };
 		8EB90B3B1FB2BABE007C60F0 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */; };
+		8EBABEBB211616A2009DD867 /* FacebookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBABEBA211616A2009DD867 /* FacebookService.swift */; };
 		8EBEDDC020DFD13800FD8BCE /* LeagueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBEDDBF20DFD13800FD8BCE /* LeagueViewController.swift */; };
 		8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBF1C381E7965BA0057871F /* PlayerViewController.swift */; };
 		8EC2EFEB1F60D6F90081FF68 /* UIDatePickerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */; };
@@ -256,6 +257,7 @@
 		8EB865F9208BE8440029079A /* PlayerLeaguesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerLeaguesViewController.swift; sourceTree = "<group>"; };
 		8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tutorial.storyboard; sourceTree = "<group>"; };
 		8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		8EBABEBA211616A2009DD867 /* FacebookService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookService.swift; sourceTree = "<group>"; };
 		8EBEDDBF20DFD13800FD8BCE /* LeagueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueViewController.swift; sourceTree = "<group>"; };
 		8EBF1C381E7965BA0057871F /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDatePickerHelper.swift; sourceTree = "<group>"; };
@@ -408,6 +410,7 @@
 		8E379F0B1CE58F9400C91A12 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				8EBABEBA211616A2009DD867 /* FacebookService.swift */,
 				8E7016D1207A9D0400A4C28C /* UpgradeService.swift */,
 				8EDFB1B91E3D3F00006DD187 /* LocationService.swift */,
 				8E49E7282100B847009F1B5D /* JoinEventHelper.swift */,
@@ -972,6 +975,7 @@
 				F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */,
 				8E116D581F74A66C0067B6F5 /* StripeService.swift in Sources */,
 				8E7A2FFC1F83256E004EAE6A /* Promotion.swift in Sources */,
+				8EBABEBB211616A2009DD867 /* FacebookService.swift in Sources */,
 				C651AB8D2096D82E0046B03C /* LeaguesViewController.swift in Sources */,
 				8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */,
 				8E7A2FF81F8313C6004EAE6A /* OrganizerService.swift in Sources */,
