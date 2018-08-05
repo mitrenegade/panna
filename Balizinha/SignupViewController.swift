@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxOptional
 import Balizinha
+import FirebaseAuth
 
 class SignupViewController: UIViewController {
 
@@ -88,8 +89,6 @@ class SignupViewController: UIViewController {
                         self?.simpleAlert("Could not log in", defaultMessage: nil, error: error)
                     }
                     else if let user = result {
-                        print("signIn results: \(user.uid) \(user.email) profile \(String(describing: user.photoURL)) \(String(describing: user.displayName))")
-                        
                         guard let disposeBag = self?.disposeBag else { return }
                         let _ = PlayerService.shared.current.value // invoke listener
                         PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in

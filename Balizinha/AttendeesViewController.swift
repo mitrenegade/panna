@@ -8,7 +8,7 @@
 // not actually used yet but can be used to edit attendances
 
 import UIKit
-import FirebaseCommunity
+import FirebaseDatabase
 import RxSwift
 import Balizinha
 

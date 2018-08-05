@@ -8,7 +8,7 @@
 
 import UIKit
 import MapKit
-import FirebaseCommunity
+import FirebaseDatabase
 import Balizinha
 
 class MapViewController: EventsViewController {

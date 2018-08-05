@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseDatabase
 import CoreLocation
 import RxSwift
 import Balizinha

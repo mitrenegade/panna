@@ -8,7 +8,10 @@
 
 import UIKit
 import UserNotifications
-import FirebaseCommunity
+import FirebaseDatabase
+import FirebaseMessaging
+import FirebaseInstanceID
+import FirebaseCore
 import RxSwift
 import RxOptional
 import Balizinha

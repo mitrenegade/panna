@@ -9,7 +9,8 @@
 import UIKit
 import RxSwift
 import Crashlytics
-import FirebaseCommunity
+import FirebaseDatabase
+import FirebaseAuth
 import Balizinha
 
 class SplashViewController: UIViewController {

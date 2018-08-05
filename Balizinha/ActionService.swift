@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseDatabase
 import Balizinha
 
 typealias actionUpdateHandler = (Action, _ visible: Bool) -> (Void)

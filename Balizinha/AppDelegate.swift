@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseDatabase
+import FirebaseCore
 import FBSDKCoreKit
 import FBSDKLoginKit
 import Batch

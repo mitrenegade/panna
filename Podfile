@@ -3,9 +3,11 @@ platform :ios, '10.0'
 use_frameworks!
 
 target 'Panna' do
-    pod 'Balizinha', :git => 'https://bitbucket.org/renderapps/balizinha-pod', :tag => '0.2.0'
+    pod 'Balizinha', :git => 'https://bitbucket.org/renderapps/balizinha-pod', :tag => '0.2.1'
 
-    pod 'FirebaseCommunity/Messaging'
+    pod 'Firebase/Analytics'
+    pod 'Firebase/RemoteConfig'
+    pod 'Firebase/Messaging'
 
     pod 'Crashlytics'
     pod 'Fabric'

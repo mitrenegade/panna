@@ -8,7 +8,7 @@
 
 import UIKit
 import Stripe
-import FirebaseCommunity
+import FirebaseDatabase
 import RxSwift
 import Balizinha
 
