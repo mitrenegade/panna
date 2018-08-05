@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseDatabase
 import RxSwift
+import RxOptional
 import Balizinha
 
 fileprivate var singleton: OrganizerService?
@@ -42,7 +43,7 @@ class OrganizerService: NSObject {
         return _currentOrganizer
     }
     
-    var observableOrganizer: Observable<Organizer>? {
+    var observableOrganizer: Observable<Organizer?> {
         
         // TODO: how to handle this
         guard let existingUserId = AuthService.currentUser?.uid else { return nil }
@@ -54,7 +55,7 @@ class OrganizerService: NSObject {
                 if snapshot.exists() {
                     observer.onNext(Organizer(snapshot: snapshot))
                 } else {
-                    observer.onNext(Organizer.nilOrganizer)
+                    observer.onNext(nil)
                 }
             }
             
@@ -63,12 +64,8 @@ class OrganizerService: NSObject {
     }
     
     func startListeningForOrganizer() {
-        observableOrganizer?.subscribe(onNext: { (organizer) in
-            if organizer == Organizer.nilOrganizer {
-                _currentOrganizer = nil
-            } else {
-                _currentOrganizer = organizer
-            }
+        observableOrganizer.subscribe(onNext: { (organizer) in
+            _currentOrganizer = organizer
         }).disposed(by: disposeBag)
     }
 
