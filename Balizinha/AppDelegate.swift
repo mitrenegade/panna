@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseDatabase
 import FirebaseCore
+import FirebaseMessaging
 import FBSDKCoreKit
 import FBSDKLoginKit
 import Batch

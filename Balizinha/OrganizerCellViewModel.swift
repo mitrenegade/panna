@@ -14,7 +14,7 @@ class OrganizerCellViewModel: NSObject {
             return "Loading your organizer status"
         }
         
-        guard let organizer = OrganizerService.shared.current else {
+        guard let organizer = OrganizerService.shared.current.value else {
             return "Click to become an organizer"
         }
 
@@ -37,7 +37,7 @@ class OrganizerCellViewModel: NSObject {
             return nil
         }
         
-        guard let organizer = OrganizerService.shared.current else {
+        guard let organizer = OrganizerService.shared.current.value else {
             return "Submit a request here"
         }
         
@@ -59,7 +59,7 @@ class OrganizerCellViewModel: NSObject {
         if OrganizerService.shared.loading {
             return false
         }
-        guard let organizer = OrganizerService.shared.current else {
+        guard let organizer = OrganizerService.shared.current.value else {
             return true
         }
         switch organizer.status {

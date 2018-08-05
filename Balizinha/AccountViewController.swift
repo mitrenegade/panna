@@ -210,12 +210,12 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             let viewModel = OrganizerCellViewModel()
             if viewModel.canClick {
                 print("Clicked on organizer cell")
-                if OrganizerService.shared.current == nil || OrganizerService.shared.current?.status == OrganizerStatus.none {
+                if OrganizerService.shared.current.value == nil || OrganizerService.shared.current.value?.status == OrganizerStatus.none {
                     // click to join
                     OrganizerService.shared.requestOrganizerAccess() { (organizer, error) in
                         // do nothing, let organizer observer update the cell
                     }
-                } else if OrganizerService.shared.current?.status == .approved {
+                } else if OrganizerService.shared.current.value?.status == .approved {
                     // add payment
                     payForOrganizerService()
                 }
@@ -253,7 +253,7 @@ extension AccountViewController: ToggleCellDelegate {
 // Organizer service stuff
 extension AccountViewController {
     func payForOrganizerService() {
-        guard let organizer = OrganizerService.shared.current else {
+        guard let organizer = OrganizerService.shared.current.value else {
             self.simpleAlert("Could not become organizer", message: "There was an issue joining as an organizer. No organizer found")
             LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": false, "error": "There was an issue joining as an organizer. No organizer found"])
             return
@@ -298,12 +298,12 @@ extension AccountViewController {
                     LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": false, "error": error.localizedDescription])
                     
                     if let deadline = error.userInfo["deadline"] as? Double{
-                        OrganizerService.shared.current?.deadline = deadline
+                        OrganizerService.shared.current.value?.deadline = deadline
                     }
                 } else {
                     let newStatus: OrganizerStatus = isTrial ? .trial : .active
                     LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": true, "newStatus": newStatus.rawValue])
-                    OrganizerService.shared.current?.status = newStatus
+                    OrganizerService.shared.current.value?.status = newStatus
                 }
 
                 let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

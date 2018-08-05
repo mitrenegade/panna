@@ -193,7 +193,7 @@ class SplashViewController: UIViewController {
 
         EventService.shared.listenForEventUsers()
         let _ = PlayerService.shared.current.value // invoke listener
-        let _ = OrganizerService.shared.current // trigger organizer loading
+        let _ = OrganizerService.shared // trigger organizer loading
         let _ = PromotionService.shared
     }
     

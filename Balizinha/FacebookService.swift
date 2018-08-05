@@ -8,6 +8,7 @@
 
 import UIKit
 import FBSDKLoginKit
+import Balizinha
 
 class FacebookService: NSObject {
     static func downloadFacebookInfo(completion: ((UIImage?, String?, Error?)->Void)?) {

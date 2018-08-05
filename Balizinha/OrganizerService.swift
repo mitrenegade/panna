@@ -13,7 +13,6 @@ import RxOptional
 import Balizinha
 
 fileprivate var singleton: OrganizerService?
-var _currentOrganizer: Organizer?
 fileprivate var organizationRef: DatabaseReference?
 
 class OrganizerService: NSObject {
@@ -35,38 +34,30 @@ class OrganizerService: NSObject {
     }
     
     class func resetOnLogout() {
+        singleton?.organizerHandle?.removeAllObservers()
+        singleton?.organizerHandle = nil
         singleton = nil
-        _currentOrganizer = nil
     }
     
-    var current: Organizer? {
-        return _currentOrganizer
-    }
-    
+    var current: Variable<Organizer?> = Variable(nil)
     var observableOrganizer: Observable<Organizer?> {
-        
-        // TODO: how to handle this
-        guard let existingUserId = AuthService.currentUser?.uid else { return nil }
+        return current.asObservable()
+    }
+
+    fileprivate var organizerHandle: DatabaseReference?
+    fileprivate func startListeningForOrganizer() {
+        guard let existingUserId = AuthService.currentUser?.uid else { return }
         let newOrganizerRef: DatabaseReference = firRef.child("organizers").child(existingUserId)
 
-        return Observable.create({ (observer) -> Disposable in
-            newOrganizerRef.observe(.value) {[weak self] (snapshot: DataSnapshot) in
-                self?.loading = false
-                if snapshot.exists() {
-                    observer.onNext(Organizer(snapshot: snapshot))
-                } else {
-                    observer.onNext(nil)
-                }
+        newOrganizerRef.observe(.value) {[weak self] (snapshot: DataSnapshot) in
+            self?.loading = false
+            if snapshot.exists() {
+                self?.current.value = Organizer(snapshot: snapshot)
+            } else {
+                self?.current.value = nil
             }
-            
-            return Disposables.create()
-        })
-    }
-    
-    func startListeningForOrganizer() {
-        observableOrganizer.subscribe(onNext: { (organizer) in
-            _currentOrganizer = organizer
-        }).disposed(by: disposeBag)
+        }
+        organizerHandle = newOrganizerRef
     }
 
     func requestOrganizerAccess(completion: ((Organizer?, Error?) -> Void)? ) {
@@ -87,7 +78,7 @@ class OrganizerService: NSObject {
             } else {
                 ref.observeSingleEvent(of: .value, with: { (snapshot) in
                     guard snapshot.exists() else {
-                        completion?(Organizer.nilOrganizer, nil)
+                        completion?(nil, nil)
                         return
                     }
                     let organizer = Organizer(snapshot: snapshot)

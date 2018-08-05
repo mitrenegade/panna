@@ -178,7 +178,7 @@ class StripeService: NSObject {
     }
     
     func createSubscription(isTrial: Bool, completion: ((_ success: Bool,_ error: Error?)->())?) {
-        guard let organizer = OrganizerService.shared.current else {
+        guard let organizer = OrganizerService.shared.current.value else {
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Could not create subscription: no organizer"]))
             return
         }
