@@ -3,18 +3,12 @@ platform :ios, '10.0'
 use_frameworks!
 
 target 'Panna' do
-    pod 'Balizinha', :git => 'https://bitbucket.org/renderapps/balizinha-pod', :tag => '0.2.1'
+    pod 'Balizinha', :git => 'https://bitbucket.org/renderapps/balizinha-pod', :tag => '0.2.6'
+    pod 'RACameraHelper', :git => 'https://github.com/bobbyren/RACameraHelper', :tag => '0.1.2'
 
-    pod 'Firebase/Analytics'
-    pod 'Firebase/RemoteConfig'
-    pod 'Firebase/Messaging'
 
     pod 'Crashlytics'
     pod 'Fabric'
-
-    pod 'RxSwift'
-    pod 'RxCocoa'
-    pod 'RxOptional'
 
     pod 'FBSDKCoreKit'
     pod 'FBSDKLoginKit'

@@ -11,7 +11,7 @@ import UserNotifications
 import FirebaseDatabase
 import FirebaseMessaging
 import FirebaseInstanceID
-import FirebaseCore
+import Firebase
 import RxSwift
 import RxOptional
 import Balizinha

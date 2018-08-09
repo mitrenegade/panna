@@ -185,7 +185,7 @@ extension MapViewController: MKMapViewDelegate {
 
 // MARK: UITableViewDataSource, UITableViewDelegate
 extension MapViewController {
-    fileprivate var featuredEvent: (shouldShow: Bool, eventId: String, event: Balizinha.Event) {
+    fileprivate var featuredEvent: (shouldShow: Bool, eventId: String, event: Balizinha.Event?) {
         if let eventId = EventService.shared.featuredEventId, let event = EventService.shared.featuredEvent {
             if filteredEventIds.contains(eventId) {
                 return (true, eventId, event)
@@ -193,7 +193,7 @@ extension MapViewController {
                 return (true, eventId, event)
             }
         }
-        return (false, "", Balizinha.Event())
+        return (false, "", nil)
     }
     
     // MARK: - Table view data source
@@ -300,7 +300,9 @@ extension MapViewController {
             if featuredEvent.shouldShow {
                 let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
                 cell.delegate = self
-                cell.setupWithEvent(featuredEvent.event)
+                if let event = featuredEvent.event {
+                    cell.setupWithEvent(event)
+                }
                 LoggingService.shared.log(event: LoggingEvent.RecommendedEventCellViewed, info: nil)
                 return cell
             }
