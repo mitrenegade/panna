@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let path = filePath, let fileopts = FirebaseOptions.init(contentsOfFile: path) {
             FirebaseApp.configure(options: fileopts)
         }
+        FirebaseAPIService.baseURL = TESTING ? URL(string: "https://balizinha-c9cd7.firebaseio.com/") : URL(string: "https://balizinha-dev.firebaseio.com/")
         
         // Facebook
         FBSDKAppEvents.activateApp()
