@@ -107,9 +107,9 @@ extension CalendarViewController {
         
         switch section {
         case 0:
-            label.text = "Upcoming events"
+            label.text = "Upcoming games"
         case 1:
-            label.text = "Past events"
+            label.text = "Past games"
         default:
             label.text = nil
         }
