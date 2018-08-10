@@ -154,7 +154,7 @@ class JoinEventHelper: NSObject {
                     let message: String
                     if UserDefaults.standard.bool(forKey: UserSettings.DisplayedJoinEventMessage.rawValue) == false {
                         title = "You've joined a game!"
-                        message = "You can go to your Calendar to see upcoming events."
+                        message = "You can go to your Calendar to see upcoming games."
                         UserDefaults.standard.set(true, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
                         UserDefaults.standard.synchronize()
                     } else {

@@ -37,7 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let path = filePath, let fileopts = FirebaseOptions.init(contentsOfFile: path) {
             FirebaseApp.configure(options: fileopts)
         }
-        
+        let urlSuffix = TESTING ? "-dev" : "-c9cd7"
+        FirebaseAPIService.baseURL = URL(string: "https://us-central1-balizinha\(urlSuffix).cloudfunctions.net/")
+
         // Facebook
         FBSDKAppEvents.activateApp()
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)

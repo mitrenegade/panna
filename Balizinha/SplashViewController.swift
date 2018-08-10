@@ -262,7 +262,7 @@ class SplashViewController: UIViewController {
     fileprivate func promptForUpgradeIfNeeded() {
         guard UpgradeService().shouldShowSoftUpgrade else { return }
 
-        let title = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? "Balizinha"
+        let title = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? "Panna"
         let version = SettingsService.newestVersion
         let alert = UIAlertController(title: "Upgrade available", message: "There is a newer version (\(version)) of \(title) available in the App Store.", preferredStyle: .alert)
         if let url = URL(string: APP_STORE_URL), UIApplication.shared.canOpenURL(url)
