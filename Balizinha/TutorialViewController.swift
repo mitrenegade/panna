@@ -8,6 +8,7 @@
 // https://spin.atomicobject.com/2015/12/23/swift-uipageviewcontroller-tutorial/
 
 import UIKit
+import Balizinha
 
 protocol TutorialDelegate: class {
     func didTapTutorial()

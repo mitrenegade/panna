@@ -9,9 +9,29 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>BalizinhaTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>19</integer>
+		</dict>
+		<key>Panna.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>20</integer>
+		</dict>
+		<key>PannaTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>19</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>8E1F3CBC1F8B9A95005186AD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>8E7256951CDF793100C9E054</key>
 		<dict>
 			<key>primary</key>

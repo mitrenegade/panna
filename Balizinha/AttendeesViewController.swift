@@ -8,13 +8,14 @@
 // not actually used yet but can be used to edit attendances
 
 import UIKit
-import FirebaseCommunity
+import FirebaseDatabase
 import RxSwift
+import Balizinha
 
 class AttendeesViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var disposeBag: DisposeBag = DisposeBag()
-    var event: Event? {
+    var event: Balizinha.Event? {
         didSet {
             if oldValue != event {
                 load()

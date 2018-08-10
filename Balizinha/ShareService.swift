@@ -8,6 +8,7 @@
 
 import UIKit
 import MessageUI
+import Balizinha
 
 class ShareService: NSObject {
     class var canSendText:Bool {
@@ -22,7 +23,7 @@ class ShareService: NSObject {
         controller.present(messageComposeVC, animated: true, completion: nil)
     }
     
-    func share(event: Event, from controller: UIViewController) {
+    func share(event: Balizinha.Event, from controller: UIViewController) {
         let eventId = event.id
         let eventLink = shareLinkFor(event: eventId)
         let message = "Are you down to play soccer today? Come out! \(eventLink). Download the app here: http://apple.co/2zeAZ9X"

@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKShareKit
 import RxSwift
+import Balizinha
 
 protocol SectionComponentDelegate: class {
     func componentHeightChanged(controller: UIViewController, newHeight: CGFloat)
@@ -29,7 +30,7 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet var sportImageView: RAImageView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var playersScrollView: PlayersScrollView!
-    weak var event : Event?
+    weak var event : Balizinha.Event?
     let joinHelper = JoinEventHelper()
     
     var alreadyJoined : Bool = false
@@ -318,7 +319,7 @@ extension EventDisplayViewController {
 /*
 extension EventDisplayViewController: FBSDKSharingDelegate {
     // MARK: - FBShare
-    func shareEvent2(_ event: Event) {
+    func shareEvent2(_ event: Balizinha.Event) {
         let content: FBSDKShareLinkContent = FBSDKShareLinkContent()
         switch event.type {
         case .balizinha:

@@ -7,14 +7,14 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseDatabase
 import Stripe
 import RxSwift
 
 class OrganizerCell: UITableViewCell {
     let disposeBag = DisposeBag()
     override func awakeFromNib() {
-        OrganizerService.shared.observableOrganizer?.asObservable().subscribe(onNext: { _ in
+        OrganizerService.shared.observableOrganizer.asObservable().subscribe(onNext: { _ in
             self.refresh()
         }).disposed(by: disposeBag)
     }

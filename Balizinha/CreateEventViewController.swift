@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import Balizinha
 
 protocol CreateEventDelegate: class {
     func didCreateEvent()
@@ -93,7 +94,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
 
     weak var delegate: CreateEventDelegate?
     
-    var eventToEdit: Event? {
+    var eventToEdit: Balizinha.Event? {
         didSet {
             name = eventToEdit?.name
             type = eventToEdit?.type
@@ -919,7 +920,7 @@ extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigati
         self.dismissCamera()
     }
     
-    func savePhoto(photo: UIImage, event: Event?, completion: @escaping ((_ url: String?, _ photoId: String?)->Void)) {
+    func savePhoto(photo: UIImage, event: Balizinha.Event?, completion: @escaping ((_ url: String?, _ photoId: String?)->Void)) {
         let alert = UIAlertController(title: "Progress", message: "Please wait until photo uploads", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
         })

@@ -7,7 +7,9 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseDatabase
+import FirebaseAnalytics
+import Balizinha
 
 fileprivate var singleton: LoggingService?
 fileprivate var loggingRef: DatabaseReference?

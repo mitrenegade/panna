@@ -7,7 +7,9 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseDatabase
+import Firebase
+import FirebaseMessaging
 import FBSDKCoreKit
 import FBSDKLoginKit
 import Batch
@@ -16,6 +18,7 @@ import Crashlytics
 import RxSwift
 import Stripe
 import RxOptional
+import Balizinha
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

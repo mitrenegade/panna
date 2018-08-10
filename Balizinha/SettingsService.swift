@@ -7,8 +7,11 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseDatabase
+import FirebaseRemoteConfig
+import FirebaseAnalytics
 import RxSwift
+import Balizinha
 
 fileprivate var singleton: SettingsService?
 class SettingsService: NSObject {

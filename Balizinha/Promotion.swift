@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseDatabase
+import Balizinha
 
 enum PromotionType: String {
     case percentDiscount

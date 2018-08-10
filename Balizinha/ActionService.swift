@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseDatabase
+import Balizinha
 
 typealias actionUpdateHandler = (Action, _ visible: Bool) -> (Void)
 class ActionService: NSObject {
@@ -20,7 +21,7 @@ class ActionService: NSObject {
         queryRef.updateChildValues([actionId: false])
     }
     
-    func observeActions(forEvent event: Event, completion: @escaping actionUpdateHandler) {
+    func observeActions(forEvent event: Balizinha.Event, completion: @escaping actionUpdateHandler) {
         // returns all current events of a certain type. Returns as snapshot
         // only gets events once, and removes observer afterwards
         

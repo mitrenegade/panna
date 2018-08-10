@@ -2,15 +2,13 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '10.0'
 use_frameworks!
 
-target 'Balizinha' do
-    pod 'Balizinha', :git => 'https://bitbucket.org/renderapps/balizinha-pod', :tag => '0.2.0'
+target 'Panna' do
+    pod 'Balizinha', :git => 'https://bitbucket.org/renderapps/balizinha-pod', :tag => '0.2.6'
+    pod 'RACameraHelper', :git => 'https://github.com/bobbyren/RACameraHelper', :tag => '0.1.2'
+
 
     pod 'Crashlytics'
     pod 'Fabric'
-
-    pod 'RxSwift'
-    pod 'RxCocoa'
-    pod 'RxOptional'
 
     pod 'FBSDKCoreKit'
     pod 'FBSDKLoginKit'
@@ -21,7 +19,7 @@ target 'Balizinha' do
 
     pod 'Stripe'
 
-    target 'BalizinhaTests' do
+    target 'PannaTests' do
        inherit! :search_paths
     end
 

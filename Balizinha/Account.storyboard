@@ -22,7 +22,7 @@
         <!--Account View Controller-->
         <scene sceneID="ize-OW-pTM">
             <objects>
-                <viewController storyboardIdentifier="AccountViewController" id="WKC-Oj-i9z" customClass="AccountViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AccountViewController" id="WKC-Oj-i9z" customClass="AccountViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="iF2-ex-wFr"/>
                         <viewControllerLayoutGuide type="bottom" id="BPk-RK-og5"/>
@@ -35,7 +35,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" red="0.2419034243" green="0.32027676700000002" blue="0.3954539299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="push" id="1eS-7Y-Cuz" customClass="PushTableViewCell" customModule="Balizinha" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="push" id="1eS-7Y-Cuz" customClass="PushTableViewCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1eS-7Y-Cuz" id="oq1-H4-0UG">
@@ -69,7 +69,7 @@
                                             <outlet property="switchToggle" destination="g6g-nF-lZr" id="4CQ-lB-GmD"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationSettingCell" id="nr7-aX-oQl" customClass="LocationSettingCell" customModule="Balizinha" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationSettingCell" id="nr7-aX-oQl" customClass="LocationSettingCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="88" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nr7-aX-oQl" id="74D-Di-2Ro">
@@ -130,7 +130,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PromoCell" textLabel="NYf-OO-ObY" detailTextLabel="wKb-Gy-EgU" style="IBUITableViewCellStyleSubtitle" id="Zjg-yP-sYs" customClass="PromoCell" customModule="Balizinha" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PromoCell" textLabel="NYf-OO-ObY" detailTextLabel="wKb-Gy-EgU" style="IBUITableViewCellStyleSubtitle" id="Zjg-yP-sYs" customClass="PromoCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="208" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zjg-yP-sYs" id="12u-Zo-Z0c">
@@ -155,7 +155,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PaymentCell" textLabel="Iey-NC-mYg" style="IBUITableViewCellStyleDefault" id="bsq-zW-VGY" customClass="PaymentCell" customModule="Balizinha" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PaymentCell" textLabel="Iey-NC-mYg" style="IBUITableViewCellStyleDefault" id="bsq-zW-VGY" customClass="PaymentCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="268" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bsq-zW-VGY" id="esn-4b-j1G">
@@ -173,7 +173,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="OrganizerCell" textLabel="zCI-kw-0f9" detailTextLabel="cDe-ST-vMD" style="IBUITableViewCellStyleSubtitle" id="OMj-t8-wki" customClass="OrganizerCell" customModule="Balizinha" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="OrganizerCell" textLabel="zCI-kw-0f9" detailTextLabel="cDe-ST-vMD" style="IBUITableViewCellStyleSubtitle" id="OMj-t8-wki" customClass="OrganizerCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="328" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OMj-t8-wki" id="RRE-Lo-L8F">
@@ -225,7 +225,7 @@
         <!--Player Info View Controller-->
         <scene sceneID="a0o-cs-s8b">
             <objects>
-                <viewController storyboardIdentifier="PlayerInfoViewController" id="doi-kI-W3c" customClass="PlayerInfoViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlayerInfoViewController" id="doi-kI-W3c" customClass="PlayerInfoViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="7YW-eJ-mYm"/>
                         <viewControllerLayoutGuide type="bottom" id="bhA-hx-EMp"/>
@@ -242,7 +242,7 @@
                                     <outlet property="delegate" destination="doi-kI-W3c" id="c7x-GW-gHH"/>
                                 </connections>
                             </textField>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="0RW-JB-g2Y" customClass="RAImageView" customModule="Balizinha" customModuleProvider="target">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="0RW-JB-g2Y" customClass="RAImageView" customModule="Panna" customModuleProvider="target">
                                 <rect key="frame" x="147" y="28" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="lbP-c6-Nw7"/>
@@ -356,7 +356,7 @@
         <!--Player View Controller-->
         <scene sceneID="qlb-YM-5Pd">
             <objects>
-                <viewController storyboardIdentifier="PlayerViewController" id="pfc-Y5-q02" customClass="PlayerViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlayerViewController" id="pfc-Y5-q02" customClass="PlayerViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2pW-kB-FQ9"/>
                         <viewControllerLayoutGuide type="bottom" id="VGs-Fb-6Vh"/>
@@ -391,7 +391,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-ov-iNR" customClass="RAImageView" customModule="Balizinha" customModuleProvider="target">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-ov-iNR" customClass="RAImageView" customModule="Panna" customModuleProvider="target">
                                 <rect key="frame" x="126.5" y="28" width="122" height="122"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="nrg-ov-iNR" secondAttribute="height" multiplier="1:1" id="gSJ-d7-Ae0"/>
@@ -428,7 +428,7 @@
         <!--Player Leagues View Controller-->
         <scene sceneID="qbW-f7-oB4">
             <objects>
-                <viewController id="UB6-5R-7rp" customClass="PlayerLeaguesViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="UB6-5R-7rp" customClass="PlayerLeaguesViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5Id-hs-xPS"/>
                         <viewControllerLayoutGuide type="bottom" id="UV1-Bu-XUr"/>

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Balizinha
 
 class FirebaseModelIcon: UIView {
     var imageView: RAImageView = RAImageView()

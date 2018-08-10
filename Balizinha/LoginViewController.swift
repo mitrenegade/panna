@@ -8,7 +8,9 @@
 
 import UIKit
 import FBSDKLoginKit
-import FirebaseCommunity
+import FirebaseDatabase
+import FirebaseAuth
+import Balizinha
 
 class LoginViewController: UIViewController {
     

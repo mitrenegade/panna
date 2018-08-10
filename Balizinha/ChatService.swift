@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseDatabase
+import Balizinha
 
 class ChatService: NSObject {
     class func createChat(eventId: String, message: String) {

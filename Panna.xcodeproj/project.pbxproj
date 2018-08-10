@@ -105,12 +105,12 @@
 		8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */; };
 		8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFF1F833969004EAE6A /* PromotionService.swift */; };
 		8E7CABFE1F8D8B8D0095084D /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */; };
-		8E97408721147F3D00242907 /* FacebookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97408621147F3C00242907 /* FacebookService.swift */; };
 		8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */; };
 		8EA23E2C1FD829E000324B82 /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA23E2B1FD829E000324B82 /* PaymentService.swift */; };
 		8EB865FA208BE8440029079A /* PlayerLeaguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB865F9208BE8440029079A /* PlayerLeaguesViewController.swift */; };
 		8EB90B391FB2B8D5007C60F0 /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */; };
 		8EB90B3B1FB2BABE007C60F0 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */; };
+		8EBABEBB211616A2009DD867 /* FacebookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBABEBA211616A2009DD867 /* FacebookService.swift */; };
 		8EBEDDC020DFD13800FD8BCE /* LeagueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBEDDBF20DFD13800FD8BCE /* LeagueViewController.swift */; };
 		8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBF1C381E7965BA0057871F /* PlayerViewController.swift */; };
 		8EC2EFEB1F60D6F90081FF68 /* UIDatePickerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */; };
@@ -137,14 +137,14 @@
 		8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
 		8EF7F9F520E339A30037962E /* LeaguePlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */; };
 		8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */; };
-		9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */; };
-		B4941729DDCB9B340512229F /* Pods_BalizinhaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E546CEAA00BF9DA1BE14363 /* Pods_BalizinhaTests.framework */; };
+		AF13F159616F0AD794E5FFA9 /* Pods_Panna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3607E28372CEBCAF774CB7 /* Pods_Panna.framework */; };
 		C651AB882096D6650046B03C /* read.me in Resources */ = {isa = PBXBuildFile; fileRef = C651AB872096D6650046B03C /* read.me */; };
 		C651AB8A2096D7FC0046B03C /* League.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C651AB892096D7FC0046B03C /* League.storyboard */; };
 		C651AB8D2096D82E0046B03C /* LeaguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C651AB8C2096D82E0046B03C /* LeaguesViewController.swift */; };
 		C69E4E832097543400F4D74B /* LeagueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69E4E822097543400F4D74B /* LeagueCell.swift */; };
 		C6B7412720FAD88B00B0FA00 /* JoinLeagueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B7412620FAD88B00B0FA00 /* JoinLeagueCell.swift */; };
 		C6FDE5C420431ECB00FE0C76 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FDE5C320431ECB00FE0C76 /* ChatService.swift */; };
+		CD846D2DD676A1022A2BD907 /* Pods_PannaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4981281AEA3B60CCD66E677C /* Pods_PannaTests.framework */; };
 		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
 		F2048F7E1CED59A50039F7BB /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */; };
 		F21571F51D200B7C00D2F59A /* EventDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21571F41D200B7C00D2F59A /* EventDisplayViewController.swift */; };
@@ -168,9 +168,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F3607E28372CEBCAF774CB7 /* Pods_Panna.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Panna.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2393261844733F0603E5A8AF /* Pods_LotSportz.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LotSportz.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5E546CEAA00BF9DA1BE14363 /* Pods_BalizinhaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BalizinhaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3036416C96F302F53056AE96 /* Pods-Panna.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Panna.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Panna/Pods-Panna.debug.xcconfig"; sourceTree = "<group>"; };
+		4981281AEA3B60CCD66E677C /* Pods_PannaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PannaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EEC7A03F1D4279355F0F9CC /* Pods-Balizinha.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.release.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.release.xcconfig"; sourceTree = "<group>"; };
+		6DA134C2A34195C7956CE667 /* Pods-Panna.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Panna.release.xcconfig"; path = "Pods/Target Support Files/Pods-Panna/Pods-Panna.release.xcconfig"; sourceTree = "<group>"; };
 		72850730339D7BDEAC192B33 /* Pods-LotSportz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotSportz.release.xcconfig"; path = "Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz.release.xcconfig"; sourceTree = "<group>"; };
 		75AF04F244D31D4B039DF4B6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E0F5684201598CD001E8909 /* OrganizerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizerCell.swift; sourceTree = "<group>"; };
@@ -191,7 +194,7 @@
 		8E19A4AF1E6C9CF200D301EC /* PaymentTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentTypesViewController.swift; sourceTree = "<group>"; };
 		8E1B00531FC2CC8B00420256 /* TutoriaPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutoriaPageViewController.swift; sourceTree = "<group>"; };
 		8E1B00551FC2E8FF00420256 /* TutorialButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialButtonViewModel.swift; sourceTree = "<group>"; };
-		8E1F3CBD1F8B9A95005186AD /* BalizinhaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BalizinhaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E1F3CBD1F8B9A95005186AD /* PannaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PannaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E1F3CBF1F8B9A95005186AD /* BalizinhaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalizinhaTests.swift; sourceTree = "<group>"; };
 		8E1F3CC11F8B9A95005186AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E39FE8D1D237C710030CB96 /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -214,7 +217,7 @@
 		8E6D06E12043652000C4041D /* ActionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionService.swift; sourceTree = "<group>"; };
 		8E7016D1207A9D0400A4C28C /* UpgradeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeService.swift; sourceTree = "<group>"; };
 		8E7016D3207AA8A200A4C28C /* UpgradeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeServiceTests.swift; sourceTree = "<group>"; };
-		8E7256961CDF793100C9E054 /* Balizinha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Balizinha.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E7256961CDF793100C9E054 /* Panna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Panna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7256991CDF793200C9E054 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E72569B1CDF793200C9E054 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8E72569E1CDF793200C9E054 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LoginSignup.storyboard; sourceTree = "<group>"; };
@@ -246,13 +249,13 @@
 		8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromoCell.swift; sourceTree = "<group>"; };
 		8E7A2FFF1F833969004EAE6A /* PromotionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionService.swift; sourceTree = "<group>"; };
 		8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCell.swift; sourceTree = "<group>"; };
-		8E97408621147F3C00242907 /* FacebookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookService.swift; sourceTree = "<group>"; };
 		8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Balizinha-Bridging-Header.h"; sourceTree = "<group>"; };
 		8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSettingCell.swift; sourceTree = "<group>"; };
 		8EA23E2B1FD829E000324B82 /* PaymentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
 		8EB865F9208BE8440029079A /* PlayerLeaguesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerLeaguesViewController.swift; sourceTree = "<group>"; };
 		8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tutorial.storyboard; sourceTree = "<group>"; };
 		8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		8EBABEBA211616A2009DD867 /* FacebookService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookService.swift; sourceTree = "<group>"; };
 		8EBEDDBF20DFD13800FD8BCE /* LeagueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueViewController.swift; sourceTree = "<group>"; };
 		8EBF1C381E7965BA0057871F /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDatePickerHelper.swift; sourceTree = "<group>"; };
@@ -280,8 +283,8 @@
 		8EF167F8208BEE4A00257354 /* LeagueIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueIcon.swift; sourceTree = "<group>"; };
 		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
 		8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaguePlayerCell.swift; sourceTree = "<group>"; };
+		94979895EDCB6BB23785280B /* Pods-PannaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PannaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PannaTests/Pods-PannaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.release.xcconfig"; sourceTree = "<group>"; };
-		AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C651AB872096D6650046B03C /* read.me */ = {isa = PBXFileReference; lastKnownFileType = text; path = read.me; sourceTree = "<group>"; };
 		C651AB892096D7FC0046B03C /* League.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = League.storyboard; sourceTree = "<group>"; };
 		C651AB8C2096D82E0046B03C /* LeaguesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguesViewController.swift; sourceTree = "<group>"; };
@@ -301,6 +304,7 @@
 		F2F7C3BF1CEE296A00350115 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		F2F7C3C11CEE2CDD00350115 /* PushTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushTableViewCell.swift; sourceTree = "<group>"; };
 		F3ECC67839D6AA22A6465193 /* Pods-LotSportz.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotSportz.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz.debug.xcconfig"; sourceTree = "<group>"; };
+		FEB029C312810BD330360991 /* Pods-PannaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PannaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PannaTests/Pods-PannaTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,7 +312,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4941729DDCB9B340512229F /* Pods_BalizinhaTests.framework in Frameworks */,
+				CD846D2DD676A1022A2BD907 /* Pods_PannaTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,7 +320,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F3B8C90F1E7C33F5D410765 /* Pods_Balizinha.framework in Frameworks */,
+				AF13F159616F0AD794E5FFA9 /* Pods_Panna.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,8 +332,8 @@
 			children = (
 				75AF04F244D31D4B039DF4B6 /* Pods.framework */,
 				2393261844733F0603E5A8AF /* Pods_LotSportz.framework */,
-				AD9EC6EBDC4F045D160E9790 /* Pods_Balizinha.framework */,
-				5E546CEAA00BF9DA1BE14363 /* Pods_BalizinhaTests.framework */,
+				1F3607E28372CEBCAF774CB7 /* Pods_Panna.framework */,
+				4981281AEA3B60CCD66E677C /* Pods_PannaTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -343,6 +347,10 @@
 				5EEC7A03F1D4279355F0F9CC /* Pods-Balizinha.release.xcconfig */,
 				C779F650FFE1D803921FC3ED /* Pods-BalizinhaTests.debug.xcconfig */,
 				A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */,
+				3036416C96F302F53056AE96 /* Pods-Panna.debug.xcconfig */,
+				6DA134C2A34195C7956CE667 /* Pods-Panna.release.xcconfig */,
+				94979895EDCB6BB23785280B /* Pods-PannaTests.debug.xcconfig */,
+				FEB029C312810BD330360991 /* Pods-PannaTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -394,10 +402,10 @@
 		8E379F0B1CE58F9400C91A12 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				8EBABEBA211616A2009DD867 /* FacebookService.swift */,
 				8E7016D1207A9D0400A4C28C /* UpgradeService.swift */,
 				8EDFB1B91E3D3F00006DD187 /* LocationService.swift */,
 				8E49E7282100B847009F1B5D /* JoinEventHelper.swift */,
-				8E97408621147F3C00242907 /* FacebookService.swift */,
 				8E39FE8D1D237C710030CB96 /* NotificationService.swift */,
 				C6FDE5C320431ECB00FE0C76 /* ChatService.swift */,
 				8EDA009B1F6597060080F446 /* RemoteDataService.swift */,
@@ -456,8 +464,8 @@
 		8E7256971CDF793100C9E054 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8E7256961CDF793100C9E054 /* Balizinha.app */,
-				8E1F3CBD1F8B9A95005186AD /* BalizinhaTests.xctest */,
+				8E7256961CDF793100C9E054 /* Panna.app */,
+				8E1F3CBD1F8B9A95005186AD /* PannaTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -469,7 +477,6 @@
 				8ED3DE761E330CB700947040 /* Balizinha.entitlements */,
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
 				8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */,
-				8EC799251E35A9EE004ACC52 /* WorkoutWithMe */,
 				F20AD03C1D26C10000969990 /* Login/Signup */,
 				8E379F061CE58AFB00C91A12 /* Models */,
 				8E379F0B1CE58F9400C91A12 /* Services */,
@@ -524,13 +531,6 @@
 				8ED897552109FA5B0062D345 /* ActivityIndicatorOverlay.swift */,
 			);
 			name = Views;
-			sourceTree = "<group>";
-		};
-		8EC799251E35A9EE004ACC52 /* WorkoutWithMe */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = WorkoutWithMe;
 			sourceTree = "<group>";
 		};
 		C651AB8B2096D81F0046B03C /* Leagues */ = {
@@ -617,9 +617,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8E1F3CBC1F8B9A95005186AD /* BalizinhaTests */ = {
+		8E1F3CBC1F8B9A95005186AD /* PannaTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8E1F3CC61F8B9A95005186AD /* Build configuration list for PBXNativeTarget "BalizinhaTests" */;
+			buildConfigurationList = 8E1F3CC61F8B9A95005186AD /* Build configuration list for PBXNativeTarget "PannaTests" */;
 			buildPhases = (
 				EC86D2D5A52C1CC9D837E1A7 /* [CP] Check Pods Manifest.lock */,
 				8E1F3CB91F8B9A95005186AD /* Sources */,
@@ -631,29 +631,29 @@
 			dependencies = (
 				8E1F3CC31F8B9A95005186AD /* PBXTargetDependency */,
 			);
-			name = BalizinhaTests;
+			name = PannaTests;
 			productName = BalizinhaTests;
-			productReference = 8E1F3CBD1F8B9A95005186AD /* BalizinhaTests.xctest */;
+			productReference = 8E1F3CBD1F8B9A95005186AD /* PannaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		8E7256951CDF793100C9E054 /* Balizinha */ = {
+		8E7256951CDF793100C9E054 /* Panna */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8E7256A81CDF793200C9E054 /* Build configuration list for PBXNativeTarget "Balizinha" */;
+			buildConfigurationList = 8E7256A81CDF793200C9E054 /* Build configuration list for PBXNativeTarget "Panna" */;
 			buildPhases = (
 				BD4034CDECCE5F82AD70949C /* [CP] Check Pods Manifest.lock */,
 				8E7256921CDF793100C9E054 /* Sources */,
 				8E7256931CDF793100C9E054 /* Frameworks */,
 				8E7256941CDF793100C9E054 /* Resources */,
-				0BFD9CCDEA2CF4A562C89699 /* [CP] Embed Pods Frameworks */,
 				8E5CE7981D2CAE75001ADBA3 /* ShellScript */,
+				A19D6FD1E4BFA71C9C85111A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = Balizinha;
+			name = Panna;
 			productName = LotSportz;
-			productReference = 8E7256961CDF793100C9E054 /* Balizinha.app */;
+			productReference = 8E7256961CDF793100C9E054 /* Panna.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -685,7 +685,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8E7256911CDF793100C9E054 /* Build configuration list for PBXProject "Balizinha" */;
+			buildConfigurationList = 8E7256911CDF793100C9E054 /* Build configuration list for PBXProject "Panna" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -698,8 +698,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8E7256951CDF793100C9E054 /* Balizinha */,
-				8E1F3CBC1F8B9A95005186AD /* BalizinhaTests */,
+				8E7256951CDF793100C9E054 /* Panna */,
+				8E1F3CBC1F8B9A95005186AD /* PannaTests */,
 			);
 		};
 /* End PBXProject section */
@@ -755,52 +755,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0BFD9CCDEA2CF4A562C89699 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
-				"${BUILT_PRODUCTS_DIR}/Balizinha/Balizinha.framework",
-				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseCommunity/FirebaseCommunity.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxOptional/RxOptional.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
-				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Balizinha.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTools.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCommunity.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxOptional.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		8E5CE7981D2CAE75001ADBA3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -814,6 +768,52 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" b721eacab2230f0d8a20ca887d75b31784b433c4 884732c2668e5a7b5c524d6eb85bd1c8585dbcc135d5e5d238c707be60c03f53\n";
 		};
+		A19D6FD1E4BFA71C9C85111A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Panna/Pods-Panna-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/RACameraHelper/RACameraHelper.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxOptional/RxOptional.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTools.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RACameraHelper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxOptional.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Panna/Pods-Panna-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		BD4034CDECCE5F82AD70949C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -825,7 +825,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Balizinha-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Panna-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -843,7 +843,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BalizinhaTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-PannaTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -957,6 +957,7 @@
 				F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */,
 				8E116D581F74A66C0067B6F5 /* StripeService.swift in Sources */,
 				8E7A2FFC1F83256E004EAE6A /* Promotion.swift in Sources */,
+				8EBABEBB211616A2009DD867 /* FacebookService.swift in Sources */,
 				C651AB8D2096D82E0046B03C /* LeaguesViewController.swift in Sources */,
 				8ECD58E51CDFB7F500AD2B13 /* UIViewController+Utils.swift in Sources */,
 				8E7A2FF81F8313C6004EAE6A /* OrganizerService.swift in Sources */,
@@ -964,7 +965,6 @@
 				8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */,
 				8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */,
 				8E48AF7E20DFDA0C00D814BE /* LeagueTitleCell.swift in Sources */,
-				8E97408721147F3D00242907 /* FacebookService.swift in Sources */,
 				8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */,
 				8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */,
 				8E48AF8620DFEE9700D814BE /* PlayersScrollView.swift in Sources */,
@@ -985,7 +985,7 @@
 /* Begin PBXTargetDependency section */
 		8E1F3CC31F8B9A95005186AD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8E7256951CDF793100C9E054 /* Balizinha */;
+			target = 8E7256951CDF793100C9E054 /* Panna */;
 			targetProxy = 8E1F3CC21F8B9A95005186AD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1004,7 +1004,7 @@
 /* Begin XCBuildConfiguration section */
 		8E1F3CC41F8B9A95005186AD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C779F650FFE1D803921FC3ED /* Pods-BalizinhaTests.debug.xcconfig */;
+			baseConfigurationReference = 94979895EDCB6BB23785280B /* Pods-PannaTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1031,13 +1031,13 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Balizinha.app/Balizinha";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Panna.app/Panna";
 			};
 			name = Debug;
 		};
 		8E1F3CC51F8B9A95005186AD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */;
+			baseConfigurationReference = FEB029C312810BD330360991 /* Pods-PannaTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1064,7 +1064,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Balizinha.app/Balizinha";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Panna.app/Panna";
 			};
 			name = Release;
 		};
@@ -1176,7 +1176,7 @@
 		};
 		8E7256A91CDF793200C9E054 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ED7C1F62DA3A7F54848AA802 /* Pods-Balizinha.debug.xcconfig */;
+			baseConfigurationReference = 3036416C96F302F53056AE96 /* Pods-Panna.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1203,7 +1203,7 @@
 		};
 		8E7256AA1CDF793200C9E054 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5EEC7A03F1D4279355F0F9CC /* Pods-Balizinha.release.xcconfig */;
+			baseConfigurationReference = 6DA134C2A34195C7956CE667 /* Pods-Panna.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1229,7 +1229,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8E1F3CC61F8B9A95005186AD /* Build configuration list for PBXNativeTarget "BalizinhaTests" */ = {
+		8E1F3CC61F8B9A95005186AD /* Build configuration list for PBXNativeTarget "PannaTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E1F3CC41F8B9A95005186AD /* Debug */,
@@ -1238,7 +1238,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8E7256911CDF793100C9E054 /* Build configuration list for PBXProject "Balizinha" */ = {
+		8E7256911CDF793100C9E054 /* Build configuration list for PBXProject "Panna" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E7256A61CDF793200C9E054 /* Debug */,
@@ -1247,7 +1247,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8E7256A81CDF793200C9E054 /* Build configuration list for PBXNativeTarget "Balizinha" */ = {
+		8E7256A81CDF793200C9E054 /* Build configuration list for PBXNativeTarget "Panna" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E7256A91CDF793200C9E054 /* Debug */,

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Balizinha
 
 class LeagueIcon: FirebaseModelIcon {
 

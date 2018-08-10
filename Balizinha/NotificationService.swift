@@ -8,9 +8,13 @@
 
 import UIKit
 import UserNotifications
-import FirebaseCommunity
+import FirebaseDatabase
+import FirebaseMessaging
+import FirebaseInstanceID
+import Firebase
 import RxSwift
 import RxOptional
+import Balizinha
 
 let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"
@@ -37,7 +41,7 @@ fileprivate var singleton: NotificationService?
 
 @available(iOS 10.0, *)
 class NotificationService: NSObject {
-    var scheduledEvents: [Event]?
+    var scheduledEvents: [Balizinha.Event]?
     let disposeBag = DisposeBag()
 
     static var shared: NotificationService {
@@ -49,7 +53,7 @@ class NotificationService: NSObject {
     }
     
     // LOCAL NOTIFICAITONS
-    func refreshNotifications(_ events: [Event]?) {
+    func refreshNotifications(_ events: [Balizinha.Event]?) {
         // store reference to events in case notifications are toggled
         self.scheduledEvents = events
         
@@ -66,7 +70,7 @@ class NotificationService: NSObject {
         
     }
     
-    func scheduleNotificationForEvent(_ event: Event) {
+    func scheduleNotificationForEvent(_ event: Balizinha.Event) {
         //create local notification
         guard let startTime = event.startTime else { return }
         
@@ -86,7 +90,7 @@ class NotificationService: NSObject {
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
-    func scheduleNotificationForDonation(_ event: Event) {
+    func scheduleNotificationForDonation(_ event: Balizinha.Event) {
         //create local notification
         guard let endTime = event.endTime else { return }
         guard !event.userIsOrganizer else { return }
@@ -109,12 +113,12 @@ class NotificationService: NSObject {
         print("notification scheduled")
     }
     
-    func removeNotificationForEvent(_ event: Event) {
+    func removeNotificationForEvent(_ event: Balizinha.Event) {
         let identifier = "EventReminder\(event.id)"
         self.removeNotification(id: identifier)
     }
 
-    func removeNotificationForDonation(_ event: Event) {
+    func removeNotificationForDonation(_ event: Balizinha.Event) {
         let identifier = "DonationRequest\(event.id)"
         self.removeNotification(id: identifier)
     }
@@ -210,7 +214,7 @@ extension NotificationService {
         // use userEvents(current) to refresh topics on toggle
     }
     
-    func registerForEventNotifications(event: Event, subscribed: Bool) {
+    func registerForEventNotifications(event: Balizinha.Event, subscribed: Bool) {
         let key = event.id
         var topic = "event" + key
         self.subscribeToTopic(topic: topic, subscribed: subscribed)

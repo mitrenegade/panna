@@ -11,7 +11,7 @@ import XCTest
 class EventCellDonationTests: XCTestCase {
 
     var viewModel: EventCellViewModel = EventCellViewModel()
-    var event: Event?
+    var event: Balizinha.Event?
     
     override func setUp() {
         super.setUp()
@@ -61,13 +61,13 @@ class EventCellDonationTests: XCTestCase {
     }
     
     fileprivate func setupPastEvent() {
-        event = Event()
+        event = Balizinha.Event()
         let hours = 5
         event?.dict = ["name": "PastEvent", "endTime": (Date().timeIntervalSince1970 - Double(hours * 3600)) as AnyObject]
     }
     
     fileprivate func setupFutureEvent() {
-        event = Event()
+        event = Balizinha.Event()
         let hours = 5
         event?.dict = ["name": "FutureEvent", "endTime": (Date().timeIntervalSince1970 + Double(hours * 3600)) as AnyObject]
     }

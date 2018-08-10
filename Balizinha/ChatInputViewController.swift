@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import Balizinha
 
 class ChatInputViewController: UIViewController {
     @IBOutlet var inputText: UITextField!
     @IBOutlet var buttonSend: UIButton!
     
-    var event: Event?
+    var event: Balizinha.Event?
     
     @IBOutlet var constraintButtonWidth: NSLayoutConstraint!
     
