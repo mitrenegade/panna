@@ -477,7 +477,6 @@
 				8ED3DE761E330CB700947040 /* Balizinha.entitlements */,
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
 				8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */,
-				8EC799251E35A9EE004ACC52 /* WorkoutWithMe */,
 				F20AD03C1D26C10000969990 /* Login/Signup */,
 				8E379F061CE58AFB00C91A12 /* Models */,
 				8E379F0B1CE58F9400C91A12 /* Services */,
@@ -532,13 +531,6 @@
 				8ED897552109FA5B0062D345 /* ActivityIndicatorOverlay.swift */,
 			);
 			name = Views;
-			sourceTree = "<group>";
-		};
-		8EC799251E35A9EE004ACC52 /* WorkoutWithMe */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = WorkoutWithMe;
 			sourceTree = "<group>";
 		};
 		C651AB8B2096D81F0046B03C /* Leagues */ = {
