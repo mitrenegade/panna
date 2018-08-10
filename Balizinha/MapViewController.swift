@@ -34,7 +34,7 @@ class MapViewController: EventsViewController {
         super.viewDidLoad()
         
         if AuthService.isAnonymous, SettingsService.showPreview {
-            navigationItem.title = "Balizinha"
+            navigationItem.title = "Panna"
             
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign in", style: .done, target: self, action: #selector(didClickSignUp(_:)))
         } else {
