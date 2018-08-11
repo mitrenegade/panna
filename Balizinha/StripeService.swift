@@ -149,6 +149,7 @@ class StripeService: NSObject {
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Payment not allowed for Balizinha"]))
             return
         }
+        /*
         let id = FirebaseAPIService.uniqueId()
         let ref = firRef.child("charges/events").child(event.id).child(id)
         let cents = ceil(amount * 100.0)
@@ -174,6 +175,11 @@ class StripeService: NSObject {
             else if let error = info["error"] as? String {
                 completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
             }
+        }
+        */
+        let params = ["userId": player.id, "eventId": event.id]
+        FirebaseAPIService().cloudFunction(functionName: "submitPayment", method: "POST", params: params) { (result, error) in
+            print("Result \(result) error \(error)")
         }
     }
     
