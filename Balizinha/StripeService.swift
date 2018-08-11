@@ -137,52 +137,6 @@ class StripeService: NSObject {
         self.paymentContext.value = paymentContext
     }
     
-    func createCharge(for event: Balizinha.Event, amount: Double, player: Player, isDonation: Bool = false, completion: ((_ success: Bool,_ error: Error?)->())?) {
-        guard amount > 0 else {
-            print("Invalid amount on event")
-            completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Invalid amount on event", "eventId": event.id]))
-            return
-        }
-        guard SettingsService.paymentRequired() || SettingsService.donation() else {
-            // this error prevents rampant charges, but does present an error message to the user
-            LoggingService.shared.log(event: LoggingEvent.FeatureFlagError, info: ["feature": "paymentRequired", "function": "createCharge"])
-            completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Payment not allowed for Balizinha"]))
-            return
-        }
-        /*
-        let id = FirebaseAPIService.uniqueId()
-        let ref = firRef.child("charges/events").child(event.id).child(id)
-        let cents = ceil(amount * 100.0)
-        var params:[AnyHashable: Any] = ["amount": cents, "player_id": player.id]
-        if isDonation {
-            params["isDonation"] = true
-        }
-        print("Creating charge for event \(event.id) for \(cents) cents")
-        ref.updateChildValues(params)
-        ref.observe(.value) { (snapshot: DataSnapshot) in
-            guard snapshot.exists() else {
-                // this can happen if we've created a charge object and deleted it. observer returns on the reference being deleted. shouldn'd delete the object, but in this situation just ignore.
-                return
-            }
-            guard let info = snapshot.value as? [String: AnyObject] else {
-                completion?(false,  NSError(domain: "stripe", code: 0, userInfo: ["error": "Could not save charge for eventId \(event.id) for player \(player.id)"]))
-                return
-            }
-            if let status = info["status"] as? String, status == "succeeded" {
-                print("status \(status)")
-                completion?(true, nil)
-            }
-            else if let error = info["error"] as? String {
-                completion?(false, NSError(domain: "stripe", code: 0, userInfo: ["error": error]))
-            }
-        }
-        */
-        let params = ["userId": player.id, "eventId": event.id]
-        FirebaseAPIService().cloudFunction(functionName: "submitPayment", method: "POST", params: params) { (result, error) in
-            print("Result \(result) error \(error)")
-        }
-    }
-    
     func createSubscription(isTrial: Bool, completion: ((_ success: Bool,_ error: Error?)->())?) {
         guard let organizer = OrganizerService.shared.current.value else {
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Could not create subscription: no organizer"]))
