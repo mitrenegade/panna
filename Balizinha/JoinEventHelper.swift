@@ -125,20 +125,19 @@ class JoinEventHelper: NSObject {
             return
         }
         delegate?.startActivityIndicator()
-        StripeService.shared.createCharge(for: event, amount: amount, player: current, completion: {[weak self] (success, error) in
+        PaymentService().holdPayment(userId: current.id, eventId: event.id) { [weak self] (result, error) in
             self?.delegate?.stopActivityIndicator()
-            if success {
-                self?.joinEvent(event)
-                self?.event = nil
-            }
-            else if let error = error as? NSError {
+            if let error = error as? NSError {
                 var errorMessage = ""
                 if let errorString = error.userInfo["error"] as? String {
                     errorMessage = "Error: \(errorString)"
                 }
                 self?.rootViewController?.simpleAlert("Could not join game", message: "There was an issue making a payment. \(errorMessage)")
+            } else {
+                self?.joinEvent(event)
+                self?.event = nil
             }
-        })
+        }
     }
     
     fileprivate func joinEvent(_ event: Balizinha.Event) {

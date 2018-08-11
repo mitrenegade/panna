@@ -216,16 +216,11 @@ class SplashViewController: UIViewController {
         guard let homeViewController = presentedViewController as? UITabBarController else {
             return
         }
-        guard let info = notification.userInfo, let eventId = info["eventId"] as? String else {
-            return
-        }
         if homeViewController.presentedViewController != nil {
             homeViewController.dismiss(animated: true, completion: nil)
         }
         let index = tabs.index(of: "Calendar") ?? 0
         homeViewController.selectedIndex = index
-        guard let nav: UINavigationController = homeViewController.viewControllers?[index] as? UINavigationController, let calendar: CalendarViewController = nav.viewControllers[0] as? CalendarViewController else { return }
-        calendar.promptForDonation(eventId: eventId)
     }
     
     @objc func goToMap(_ notification: Notification) {
@@ -298,7 +293,5 @@ class SplashViewController: UIViewController {
         }
         let index = tabs.index(of: "Calendar") ?? 0
         homeViewController.selectedIndex = index
-        guard let nav: UINavigationController = homeViewController.viewControllers?[index] as? UINavigationController, let calendar: CalendarViewController = nav.viewControllers[0] as? CalendarViewController else { return }
-        calendar.promptForDonation(eventId: eventId)
     }
 }

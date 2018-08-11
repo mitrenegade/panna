@@ -10,6 +10,7 @@ import UIKit
 import FirebaseDatabase
 import Stripe
 import RxSwift
+import Balizinha
 
 class PaymentCell: UITableViewCell {
 
@@ -32,10 +33,10 @@ class PaymentCell: UITableViewCell {
         guard let viewModel = viewModel else { return }
         self.textLabel?.text = viewModel.labelTitle
         
-        if let paymentMethod = StripeService.shared.paymentContext.value?.selectedPaymentMethod {
+        if let paymentMethod = StripeService.shared.paymentContext.value?.selectedPaymentMethod, let card = paymentMethod as? STPCard {
             // always write card to firebase since it's an internal call
             print("updated card")
-            PaymentService.savePaymentInfo(paymentMethod)
+            PaymentService().savePaymentInfo(card.stripeID, last4: card.last4, label: card.label)
         }
     }
     

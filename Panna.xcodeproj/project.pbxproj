@@ -14,7 +14,6 @@
 		8E04ED01205E19650010A649 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009D1F6597BC0080F446 /* LoggingService.swift */; };
 		8E04ED02205E19650010A649 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D551F7209C40067B6F5 /* SettingsService.swift */; };
 		8E04ED03205E19650010A649 /* StripeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D571F74A66C0067B6F5 /* StripeService.swift */; };
-		8E04ED04205E19650010A649 /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA23E2B1FD829E000324B82 /* PaymentService.swift */; };
 		8E04ED05205E19650010A649 /* OrganizerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */; };
 		8E04ED06205E19650010A649 /* PromotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFF1F833969004EAE6A /* PromotionService.swift */; };
 		8E04ED07205E19650010A649 /* ShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD13E81FEB78C10039F1A7 /* ShareService.swift */; };
@@ -106,7 +105,6 @@
 		8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFF1F833969004EAE6A /* PromotionService.swift */; };
 		8E7CABFE1F8D8B8D0095084D /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */; };
 		8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */; };
-		8EA23E2C1FD829E000324B82 /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA23E2B1FD829E000324B82 /* PaymentService.swift */; };
 		8EB865FA208BE8440029079A /* PlayerLeaguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB865F9208BE8440029079A /* PlayerLeaguesViewController.swift */; };
 		8EB90B391FB2B8D5007C60F0 /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */; };
 		8EB90B3B1FB2BABE007C60F0 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */; };
@@ -251,7 +249,6 @@
 		8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCell.swift; sourceTree = "<group>"; };
 		8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Balizinha-Bridging-Header.h"; sourceTree = "<group>"; };
 		8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSettingCell.swift; sourceTree = "<group>"; };
-		8EA23E2B1FD829E000324B82 /* PaymentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
 		8EB865F9208BE8440029079A /* PlayerLeaguesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerLeaguesViewController.swift; sourceTree = "<group>"; };
 		8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tutorial.storyboard; sourceTree = "<group>"; };
 		8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
@@ -412,7 +409,6 @@
 				8EDA009D1F6597BC0080F446 /* LoggingService.swift */,
 				8E116D551F7209C40067B6F5 /* SettingsService.swift */,
 				8E116D571F74A66C0067B6F5 /* StripeService.swift */,
-				8EA23E2B1FD829E000324B82 /* PaymentService.swift */,
 				8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */,
 				8E7A2FFF1F833969004EAE6A /* PromotionService.swift */,
 				8EDD13E81FEB78C10039F1A7 /* ShareService.swift */,
@@ -783,7 +779,6 @@
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/RACameraHelper/RACameraHelper.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxOptional/RxOptional.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
@@ -801,7 +796,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RACameraHelper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxOptional.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
@@ -877,7 +871,6 @@
 				8E04ED06205E19650010A649 /* PromotionService.swift in Sources */,
 				8E04ECFD205E19650010A649 /* NotificationService.swift in Sources */,
 				8E04ED05205E19650010A649 /* OrganizerService.swift in Sources */,
-				8E04ED04205E19650010A649 /* PaymentService.swift in Sources */,
 				8E04ED02205E19650010A649 /* SettingsService.swift in Sources */,
 				8E04ECFA205E19650010A649 /* LocationService.swift in Sources */,
 				8E1F3CCE1F8B9B85005186AD /* Promotion.swift in Sources */,
@@ -932,7 +925,6 @@
 				8E48AF8420DFE91C00D814BE /* LeaguePlayersCell.swift in Sources */,
 				8E74E54D1FA9FFF5005F72DA /* PlaceResultsViewController.swift in Sources */,
 				8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */,
-				8EA23E2C1FD829E000324B82 /* PaymentService.swift in Sources */,
 				8EB865FA208BE8440029079A /* PlayerLeaguesViewController.swift in Sources */,
 				F2C0F1201CF3E8BB00CB98F1 /* EventsViewController.swift in Sources */,
 				8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */,

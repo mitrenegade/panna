@@ -119,7 +119,6 @@ extension CalendarViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
         cell.delegate = self
-        cell.donationDelegate = self
         
         switch indexPath.section {
         case 0:
@@ -209,89 +208,4 @@ extension CalendarViewController: EventCellDelegate {
     }
 }
 
-// MARK: - Donations
-extension CalendarViewController: EventDonationDelegate {
-    func paidStatus(event: Balizinha.Event) -> Bool? {
-        // used to enforce a user only paying once. not used right now - user can continue to pay
-        // TODO: use charges/events/eventId endpoint to find out if a user has paid
-        return false
-    }
 
-    func promptForDonation(eventId: String) {
-        if let event = self.sortedPastEvents.filter({event in
-            return event.id == eventId
-        }).first {
-            self.promptForDonation(event: event)
-        }
-        else {
-            guard let user = AuthService.currentUser else { return }
-            EventService.shared.getEventsForUser(user, completion: {[weak self] (eventIds) in
-                guard eventIds.contains(eventId) else { return }
-                EventService.shared.withId(id: eventId, completion: {[weak self] (event) in
-                    if let event = event {
-                        self?.promptForDonation(event: event)
-                    }
-                })
-            })
-        }
-        
-    }
-    func promptForDonation(event: Balizinha.Event) {
-        guard let player = PlayerService.shared.current.value else { return }
-        guard SettingsService.donation() else { return }
-        
-        var title = "Hope you enjoyed the game"
-        if let name = event.name {
-            title = "Hope you enjoyed \(name)"
-        }
-        let alert = UIAlertController(title: title, message: "Thank you for playing with us, it was great seeing you on the court. Help keep the community keep growing by helping space rental.", preferredStyle: .alert)
-        alert.addTextField { (textField : UITextField!) -> Void in
-            textField.placeholder = "$1.00"
-        }
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-            guard let _ = StripeService.shared.paymentContext.value?.selectedPaymentMethod else {
-                self.promptForInvalidPaymentMethod(nil)
-                return
-            }
-            if let textField = alert.textFields?[0], let text = textField.text, let amount = Double(text), let amountString = EventService.amountString(from: NSNumber(value: amount)) {
-                print("Donating \(amountString)")
-                
-                self.activityIndicator.startAnimating()
-                
-                StripeService.shared.createCharge(for: event, amount: amount, player: player, isDonation: true, completion: {[weak self] (success, error) in
-                    self?.activityIndicator.stopAnimating()
-                    print("Donation completed \(success), has error \(error)")
-                    if success {
-                        // add an action
-                        guard let user = AuthService.currentUser else { return }
-                        self?.simpleAlert("Thank you for your payment", message: "Your payment of \(amountString) will go a long way to keep Balizinha a great community!")
-                    }
-                    else if let error = error as? NSError {
-                        self?.promptForInvalidPaymentMethod(error)
-                    }
-                })
-            }
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alert, animated: true)
-    }
-    
-    fileprivate func promptForInvalidPaymentMethod(_ error: NSError?) {
-        if let error = error {
-            if let msg = error.userInfo["error"] as? String, msg == "Cannot charge a customer that has no active card" {
-                self.simpleAlert("Could not process payment", message: "No credit card available. Please add a payment method in your account settings!")
-            }
-            else {
-                self.simpleAlert("Could not process payment", defaultMessage: "There was an issue with payment.", error: error)
-            }
-        }
-        else {
-            self.simpleAlert("Thanks for the thought", message: "You don't currently have a payment method set up. Please go to your account settings and add a credit card.")
-        }
-    }
-    
-    fileprivate func loadDonationStatus() {
-//        EventService.shared.getEventPayments(type: nil) { (results) in
-//        }
-    }
-}

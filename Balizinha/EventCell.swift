@@ -15,11 +15,6 @@ protocol EventCellDelegate: class {
     func previewEvent(_ event: Balizinha.Event)
 }
 
-protocol EventDonationDelegate: class {
-    func paidStatus(event: Balizinha.Event) -> Bool? // if nil, still loading/unknown
-    func promptForDonation(event: Balizinha.Event)
-}
-
 typealias EventStatus = (isPast: Bool, userIsOwner: Bool, userJoined: Bool)
 
 class EventCellViewModel: NSObject {
@@ -68,7 +63,6 @@ class EventCell: UITableViewCell {
     
     var event: Balizinha.Event?
     weak var delegate: EventCellDelegate?
-    weak var donationDelegate: EventDonationDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -169,20 +163,7 @@ class EventCell: UITableViewCell {
             self.labelFull.isHidden = true
             self.labelAttendance.text = "\(self.event!.numPlayers)"
             
-            if !event.userIsOrganizer && SettingsService.donation() {
-                self.btnAction.isHidden = false
-                if let paid = self.donationDelegate?.paidStatus(event: event) {
-                    self.btnAction.isEnabled = !paid
-                    self.btnAction.alpha = 1
-                }
-                else {
-                    self.btnAction.isEnabled = false // loading
-                    self.btnAction.alpha = 0.5
-                }
-            }
-            else {
-                self.btnAction.isHidden = true
-            }
+            self.btnAction.isHidden = true
         }
     }
 
@@ -207,12 +188,6 @@ class EventCell: UITableViewCell {
             }
             let join = !containsUser
             delegate?.joinOrLeaveEvent(event, join: join)
-        }
-        else {
-            // donate
-            if SettingsService.donation() {
-                donationDelegate?.promptForDonation(event: event)
-            }
         }
     }
 }
