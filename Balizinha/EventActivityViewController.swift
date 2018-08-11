@@ -18,7 +18,7 @@ class EventActivityViewController: UIViewController {
         didSet {
             if let newVal = event {
                 ActionService().observeActions(forEvent: newVal, completion: { (action, visible) -> (Void) in
-                    if visible {
+                    if visible, action.type != .systemMessage {
                         self.actions[action.id] = action
                         self.reloadData()
                     }
