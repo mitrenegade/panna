@@ -43,7 +43,6 @@ class ActionService: NSObject {
                         let actionQueryRef = firRef.child("actions").child(actionId)
                         actionQueryRef.observeSingleEvent(of: .value, with: { (actionSnapshot) in
                             if actionSnapshot.exists() {
-//                                print("observeActions snapshot: \(actionSnapshot)")
                                 let action = Action(snapshot: actionSnapshot)
                                 completion(action, val)
                             }
