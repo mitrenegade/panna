@@ -50,39 +50,34 @@ class CalendarViewController: UITableViewController {
                 return startTime1.timeIntervalSince(startTime2) < 0
             }
             
-            guard AuthService.currentUser != nil else {
+            guard let user = AuthService.currentUser else {
                 weakself.sortedUpcomingEvents = weakself.allEvents
                 return
             }
-            weakself.refreshEventsForUser()
+            // 2: Remove events the user has joined
+            EventService.shared.getEventsForUser(user, completion: {[weak self] (eventIds) in
+                guard let weakself = self else { return }
+                let original = weakself.allEvents.filter({ (event) -> Bool in
+                    eventIds.contains(event.id)
+                })
+                
+                weakself.sortedPastEvents = original.filter({ (event) -> Bool in
+                    event.isPast
+                }).sorted(by: { (e1, e2) -> Bool in
+                    // sort past events in descending time
+                    guard let startTime1 = e1.startTime, let startTime2 = e2.startTime else { return true }
+                    return startTime1.timeIntervalSince(startTime2) > 0
+                })
+                
+                weakself.sortedUpcomingEvents = original.filter({ (event) -> Bool in
+                    !event.isPast
+                })
+                if #available(iOS 10.0, *) {
+                    NotificationService.shared.refreshNotifications(self?.sortedUpcomingEvents)
+                }
+                weakself.tableView.reloadData()
+            })
         }
-    }
-    
-    fileprivate func refreshEventsForUser() {
-        // 2: Remove events the user has joined
-        guard let user = AuthService.currentUser else { return }
-        EventService.shared.getEventsForUser(user, completion: {[weak self] (eventIds) in
-            guard let weakself = self else { return }
-            let original = weakself.allEvents.filter({ (event) -> Bool in
-                eventIds.contains(event.id)
-            })
-            
-            weakself.sortedPastEvents = original.filter({ (event) -> Bool in
-                event.isPast
-            }).sorted(by: { (e1, e2) -> Bool in
-                // sort past events in descending time
-                guard let startTime1 = e1.startTime, let startTime2 = e2.startTime else { return true }
-                return startTime1.timeIntervalSince(startTime2) > 0
-            })
-            
-            weakself.sortedUpcomingEvents = original.filter({ (event) -> Bool in
-                !event.isPast
-            })
-            if #available(iOS 10.0, *) {
-                NotificationService.shared.refreshNotifications(self?.sortedUpcomingEvents)
-            }
-            self?.tableView.reloadData()
-        })
     }
 }
 
@@ -211,7 +206,7 @@ extension CalendarViewController: EventCellDelegate {
                         NotificationService.shared.removeNotificationForEvent(event)
                         NotificationService.shared.removeNotificationForDonation(event)
                     }
-                    self?.refreshEventsForUser()
+                    NotificationCenter.default.post(name: NotificationType.EventsChanged.name(), object: nil)
                 }
             }
         }
