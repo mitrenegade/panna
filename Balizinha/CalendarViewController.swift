@@ -206,7 +206,6 @@ extension CalendarViewController: EventCellDelegate {
                         NotificationService.shared.removeNotificationForEvent(event)
                         NotificationService.shared.removeNotificationForDonation(event)
                     }
-                    NotificationCenter.default.post(name: NotificationType.EventsChanged.name(), object: nil)
                 }
             }
         }
