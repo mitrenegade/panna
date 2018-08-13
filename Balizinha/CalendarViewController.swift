@@ -14,6 +14,7 @@ class CalendarViewController: UITableViewController {
     
     var sortedUpcomingEvents: [Balizinha.Event] = []
     var sortedPastEvents: [Balizinha.Event] = []
+    fileprivate var allEvents: [Balizinha.Event] = []
     
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
@@ -42,41 +43,46 @@ class CalendarViewController: UITableViewController {
     @objc func refreshEvents() {
         EventService.shared.getEvents(type: nil) { [weak self] (results) in
             // completion function will get called once at the start, and each time events change
-            
+            guard let weakself = self else { return }
             // 1: sort all events by time, ascending
-            let allEvents = results.sorted { (event1, event2) -> Bool in
+            weakself.allEvents = results.sorted { (event1, event2) -> Bool in
                 guard let startTime1 = event1.startTime, let startTime2 = event2.startTime else { return true }
                 return startTime1.timeIntervalSince(startTime2) < 0
             }
             
-            guard let user = AuthService.currentUser else {
-                self?.sortedUpcomingEvents = allEvents
+            guard AuthService.currentUser != nil else {
+                weakself.sortedUpcomingEvents = weakself.allEvents
                 return
             }
-            // 2: Remove events the user has joined
-            EventService.shared.getEventsForUser(user, completion: {[weak self] (eventIds) in
-                let original = allEvents.filter({ (event) -> Bool in
-                    eventIds.contains(event.id)
-                })
-                
-                self?.sortedPastEvents = original.filter({ (event) -> Bool in
-                    event.isPast
-                }).sorted(by: { (e1, e2) -> Bool in
-                    // sort past events in descending time
-                    guard let startTime1 = e1.startTime, let startTime2 = e2.startTime else { return true }
-                    return startTime1.timeIntervalSince(startTime2) > 0
-                })
-
-                self?.sortedUpcomingEvents = original.filter({ (event) -> Bool in
-                    !event.isPast
-                })
-                if #available(iOS 10.0, *) {
-                    NotificationService.shared.refreshNotifications(self?.sortedUpcomingEvents)
-                }
-                self?.tableView.reloadData()
-            })
+            weakself.refreshEventsForUser()
         }
-        
+    }
+    
+    fileprivate func refreshEventsForUser() {
+        // 2: Remove events the user has joined
+        guard let user = AuthService.currentUser else { return }
+        EventService.shared.getEventsForUser(user, completion: {[weak self] (eventIds) in
+            guard let weakself = self else { return }
+            let original = weakself.allEvents.filter({ (event) -> Bool in
+                eventIds.contains(event.id)
+            })
+            
+            weakself.sortedPastEvents = original.filter({ (event) -> Bool in
+                event.isPast
+            }).sorted(by: { (e1, e2) -> Bool in
+                // sort past events in descending time
+                guard let startTime1 = e1.startTime, let startTime2 = e2.startTime else { return true }
+                return startTime1.timeIntervalSince(startTime2) > 0
+            })
+            
+            weakself.sortedUpcomingEvents = original.filter({ (event) -> Bool in
+                !event.isPast
+            })
+            if #available(iOS 10.0, *) {
+                NotificationService.shared.refreshNotifications(self?.sortedUpcomingEvents)
+            }
+            self?.tableView.reloadData()
+        })
     }
 }
 
@@ -205,6 +211,7 @@ extension CalendarViewController: EventCellDelegate {
                         NotificationService.shared.removeNotificationForEvent(event)
                         NotificationService.shared.removeNotificationForDonation(event)
                     }
+                    self?.refreshEventsForUser()
                 }
             }
         }
