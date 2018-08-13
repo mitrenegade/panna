@@ -15,7 +15,7 @@ class CalendarViewController: UITableViewController {
     var sortedUpcomingEvents: [Balizinha.Event] = []
     var sortedPastEvents: [Balizinha.Event] = []
     
-    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,14 +25,18 @@ class CalendarViewController: UITableViewController {
         
         self.navigationItem.title = "Calendar"
         
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.center = self.view.center
-        self.view.addSubview(activityIndicator)
-        activityIndicator.color = UIColor.red
+        activityOverlay.setup(frame: view.frame)
+        view.addSubview(activityOverlay)
     }
 
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
+        activityOverlay.setup(frame: frame)
     }
 
     @objc func refreshEvents() {
@@ -187,13 +191,16 @@ extension CalendarViewController: EventCellDelegate {
     }
     
     func leaveEvent(_ event: Balizinha.Event) {
-        EventService.shared.leaveEvent(event) { (error) in
-            if let error = error as? NSError {
+        activityOverlay.show()
+        EventService.shared.leaveEvent(event) { [weak self] (error) in
+            if let error = error as NSError? {
                 DispatchQueue.main.async {
-                    self.simpleAlert("Could not leave game", defaultMessage: "There was an error while trying to leave this game.", error: error)
+                    self?.activityOverlay.hide()
+                    self?.simpleAlert("Could not leave game", defaultMessage: "There was an error while trying to leave this game.", error: error)
                 }
             } else {
                 DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
                     if #available(iOS 10.0, *) {
                         NotificationService.shared.removeNotificationForEvent(event)
                         NotificationService.shared.removeNotificationForDonation(event)
