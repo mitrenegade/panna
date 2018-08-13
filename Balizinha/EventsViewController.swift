@@ -91,11 +91,11 @@ class EventsViewController: UIViewController {
     @objc func refreshEvents() {
         service.getEvents(type: nil) { [weak self] (results) in
             // completion function will get called once at the start, and each time events change
-            self?.firstLoaded = true
+            guard let weakself = self else { return }
+            weakself.firstLoaded = true
             
             // 1: sort all events by time
-            guard let strongself = self else { return }
-            self?.allEvents = strongself.filterByDistance(events: results).sorted { (event1, event2) -> Bool in
+            weakself.allEvents = weakself.filterByDistance(events: results).sorted { (event1, event2) -> Bool in
                 // ascending time
                 guard let startTime1 = event1.startTime, let startTime2 = event2.startTime else { return true }
                 return startTime1.timeIntervalSince(startTime2) < 0
@@ -104,25 +104,25 @@ class EventsViewController: UIViewController {
             // 2: Remove events the user has joined
             guard let user = AuthService.currentUser else { return }
             self?.service.getEventsForUser(user, completion: {[weak self] (eventIds) in
-                print("all events count \(self?.allEvents.count)")
+                guard let weakself = self else { return }
                 
                 // version 0.5.0: for users installing a notification-enabled app for the first time, make sure events they've joined or created in the past have the correct subscriptions
-                self?.updateSubscriptionsOnce(eventIds)
-
-                self?.allEvents = self?.allEvents.filter({ (event) -> Bool in
+                weakself.updateSubscriptionsOnce(eventIds)
+                
+                weakself.allEvents = weakself.allEvents.filter({ (event) -> Bool in
                     (!eventIds.contains(event.id) && !event.isPast)
-                }) ?? []
+                })
                 
                 // 3: Organize events by type
-                self?.sortedEvents = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .other: []]
+                weakself.sortedEvents = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .other: []]
                 
-                for event in self?.allEvents ?? [] {
-                    var oldValue = self?.sortedEvents[event.type]
+                for event in weakself.allEvents {
+                    var oldValue = weakself.sortedEvents[event.type]
                     print(event.type)
                     oldValue?.append(event)
-                    self?.sortedEvents.updateValue(oldValue!, forKey: event.type)
+                    weakself.sortedEvents.updateValue(oldValue!, forKey: event.type)
                 }
-                self?.reloadData()
+                weakself.reloadData()
             })
         }
     }

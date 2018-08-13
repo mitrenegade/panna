@@ -14,8 +14,9 @@ class CalendarViewController: UITableViewController {
     
     var sortedUpcomingEvents: [Balizinha.Event] = []
     var sortedPastEvents: [Balizinha.Event] = []
+    fileprivate var allEvents: [Balizinha.Event] = []
     
-    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,54 +26,58 @@ class CalendarViewController: UITableViewController {
         
         self.navigationItem.title = "Calendar"
         
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.center = self.view.center
-        self.view.addSubview(activityIndicator)
-        activityIndicator.color = UIColor.red
+        activityOverlay.setup(frame: view.frame)
+        view.addSubview(activityOverlay)
     }
 
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
+        activityOverlay.setup(frame: frame)
+    }
+
     @objc func refreshEvents() {
         EventService.shared.getEvents(type: nil) { [weak self] (results) in
             // completion function will get called once at the start, and each time events change
-            
+            guard let weakself = self else { return }
             // 1: sort all events by time, ascending
-            let allEvents = results.sorted { (event1, event2) -> Bool in
+            weakself.allEvents = results.sorted { (event1, event2) -> Bool in
                 guard let startTime1 = event1.startTime, let startTime2 = event2.startTime else { return true }
                 return startTime1.timeIntervalSince(startTime2) < 0
             }
             
             guard let user = AuthService.currentUser else {
-                self?.sortedUpcomingEvents = allEvents
+                weakself.sortedUpcomingEvents = weakself.allEvents
                 return
             }
             // 2: Remove events the user has joined
             EventService.shared.getEventsForUser(user, completion: {[weak self] (eventIds) in
-                let original = allEvents.filter({ (event) -> Bool in
+                guard let weakself = self else { return }
+                let original = weakself.allEvents.filter({ (event) -> Bool in
                     eventIds.contains(event.id)
                 })
                 
-                self?.sortedPastEvents = original.filter({ (event) -> Bool in
+                weakself.sortedPastEvents = original.filter({ (event) -> Bool in
                     event.isPast
                 }).sorted(by: { (e1, e2) -> Bool in
                     // sort past events in descending time
                     guard let startTime1 = e1.startTime, let startTime2 = e2.startTime else { return true }
                     return startTime1.timeIntervalSince(startTime2) > 0
                 })
-
-                self?.sortedUpcomingEvents = original.filter({ (event) -> Bool in
+                
+                weakself.sortedUpcomingEvents = original.filter({ (event) -> Bool in
                     !event.isPast
                 })
                 if #available(iOS 10.0, *) {
                     NotificationService.shared.refreshNotifications(self?.sortedUpcomingEvents)
                 }
-                self?.tableView.reloadData()
+                weakself.tableView.reloadData()
             })
         }
-        
     }
 }
 
@@ -187,17 +192,21 @@ extension CalendarViewController: EventCellDelegate {
     }
     
     func leaveEvent(_ event: Balizinha.Event) {
-        EventService.shared.leaveEvent(event) { (error) in
-            if let error = error as? NSError {
+        activityOverlay.show()
+        EventService.shared.leaveEvent(event) { [weak self] (error) in
+            if let error = error as NSError? {
                 DispatchQueue.main.async {
-                    self.simpleAlert("Could not leave game", defaultMessage: "There was an error while trying to leave this game.", error: error)
+                    self?.activityOverlay.hide()
+                    self?.simpleAlert("Could not leave game", defaultMessage: "There was an error while trying to leave this game.", error: error)
                 }
             } else {
                 DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
                     if #available(iOS 10.0, *) {
                         NotificationService.shared.removeNotificationForEvent(event)
                         NotificationService.shared.removeNotificationForDonation(event)
                     }
+                    NotificationCenter.default.post(name: NotificationType.EventsChanged.name(), object: nil)
                 }
             }
         }
