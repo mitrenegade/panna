@@ -166,7 +166,6 @@ class JoinEventHelper: NSObject {
                     }
                     self?.rootViewController?.simpleAlert(title, message: message)
                 }
-                NotificationCenter.default.post(name: NotificationType.EventsChanged.name(), object: nil)
             }
         }
         if #available(iOS 10.0, *) {

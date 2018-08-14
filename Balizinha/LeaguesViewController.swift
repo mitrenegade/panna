@@ -15,6 +15,8 @@ class LeaguesViewController: UIViewController {
     var playerLeagues: [League] = []
     var otherLeagues: [League] = []
     
+    var isLoading: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -63,10 +65,12 @@ class LeaguesViewController: UIViewController {
     }
     
     @objc fileprivate func loadData() {
-        guard let player = PlayerService.shared.current.value as? Player else { return }
+        guard let player = PlayerService.shared.current.value else { return }
         
         otherLeagues.removeAll()
         playerLeagues.removeAll()
+        
+        isLoading = true
         
         let dispatchGroup = DispatchGroup()
         
@@ -108,6 +112,7 @@ class LeaguesViewController: UIViewController {
             }
             
             DispatchQueue.main.async {
+                weakself.isLoading = false
                 weakself.reloadTableData()
             }
         }
@@ -126,10 +131,17 @@ extension LeaguesViewController: UITableViewDataSource {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
+        guard !isLoading else {
+            return 1
+        }
         return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard !isLoading else {
+            return 1
+        }
+        
         if section == 0 {
             return playerLeagues.count
         } else if section == 1 {
@@ -139,6 +151,10 @@ extension LeaguesViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard !isLoading else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LoadingCell", for: indexPath)
+            return cell
+        }
         let cell : LeagueCell = tableView.dequeueReusableCell(withIdentifier: "LeagueCell", for: indexPath) as! LeagueCell
         let row = indexPath.row
         let section = indexPath.section
@@ -177,6 +193,7 @@ extension LeaguesViewController: UITableViewDataSource {
 extension LeaguesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
+        guard !isLoading else { return }
         var message: String?
         var league: League?
         

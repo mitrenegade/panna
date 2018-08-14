@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14295.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ZSz-6h-4qX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ZSz-6h-4qX">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14270.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -26,7 +27,7 @@
         <!--Create Event View Controller-->
         <scene sceneID="eLM-Xg-PtX">
             <objects>
-                <viewController storyboardIdentifier="CreateEventViewController" id="iE0-Lk-oSS" customClass="CreateEventViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateEventViewController" id="iE0-Lk-oSS" customClass="CreateEventViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="k8J-HL-wuM"/>
                         <viewControllerLayoutGuide type="bottom" id="iTv-oj-ECg"/>
@@ -55,26 +56,26 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EventPhotoCell" rowHeight="100" id="jdx-BC-yFx" customClass="EventPhotoCell" customModule="Balizinha" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EventPhotoCell" rowHeight="100" id="jdx-BC-yFx" customClass="EventPhotoCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="jdx-BC-yFx" id="hLC-ud-pvu">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jdx-BC-yFx" id="hLC-ud-pvu">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Add a photo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bOQ-QV-AkS">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a photo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bOQ-QV-AkS">
                                                     <rect key="frame" x="16" y="39" width="105.5" height="21"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9gH-Jb-eQW" customClass="RAImageView" customModule="Balizinha" customModuleProvider="target">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9gH-Jb-eQW" customClass="RAImageView" customModule="Panna" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="99" id="6VR-kf-c0E"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="plusIcon30" translatesAutoresizingMaskIntoConstraints="NO" id="Ack-hd-iRa">
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plusIcon30" translatesAutoresizingMaskIntoConstraints="NO" id="Ack-hd-iRa">
                                                     <rect key="frame" x="331" y="29" width="40" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="40" id="Fj3-Iv-AI6"/>
@@ -100,20 +101,20 @@
                                             <outlet property="photoView" destination="9gH-Jb-eQW" id="Ihw-Rx-Vat"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cityCell" id="LSZ-kv-r19" customClass="DetailCell" customModule="Balizinha" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cityCell" id="LSZ-kv-r19" customClass="DetailCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="155.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="LSZ-kv-r19" id="F4X-yU-N7C">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y4s-Nv-oPb">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y4s-Nv-oPb">
                                                     <rect key="frame" x="16" y="-10.5" width="46.5" height="21"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Z5F-Gv-1ba">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Z5F-Gv-1ba">
                                                     <rect key="frame" x="70.5" y="3" width="278.5" height="43"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="Pe5-QW-oGv"/>
@@ -144,20 +145,20 @@
                                             <outlet property="valueTextField" destination="Z5F-Gv-1ba" id="QdO-tU-RLK"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="detailCell" id="lDb-ab-Og5" customClass="DetailCell" customModule="Balizinha" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="detailCell" id="lDb-ab-Og5" customClass="DetailCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="199.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="lDb-ab-Og5" id="1wh-GI-gQh">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5s-Bm-IrB">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5s-Bm-IrB">
                                                     <rect key="frame" x="16" y="-10.5" width="46.5" height="21"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aR9-3O-D8b" customClass="TransparentTextField" customModule="Balizinha" customModuleProvider="target">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aR9-3O-D8b" customClass="TransparentTextField" customModule="Panna" customModuleProvider="target">
                                                     <rect key="frame" x="70.5" y="3" width="263.5" height="43"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="6BD-ct-pbl"/>
@@ -188,7 +189,7 @@
                                             <outlet property="valueTextField" destination="aR9-3O-D8b" id="m9g-yI-0ht"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="descriptionCell" rowHeight="169" id="vLz-wY-Qlr" customClass="DescriptionCell" customModule="Balizinha" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="descriptionCell" rowHeight="169" id="vLz-wY-Qlr" customClass="DescriptionCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="243.5" width="375" height="169"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vLz-wY-Qlr" id="xaL-Xb-cuV">
@@ -230,7 +231,7 @@
                                             <outlet property="DescriptionTextView" destination="gvB-YD-bA5" id="yXx-D5-aid"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToggleCell" id="nVH-jy-zl1" customClass="ToggleCell" customModule="Balizinha" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToggleCell" id="nVH-jy-zl1" customClass="ToggleCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="412.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nVH-jy-zl1" id="zIs-Js-93s">
@@ -238,7 +239,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iBy-md-neX">
-                                                    <rect key="frame" x="318" y="6" width="51" height="31.5"/>
+                                                    <rect key="frame" x="318" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="didToggleSwitch:" destination="nVH-jy-zl1" eventType="valueChanged" id="t8t-DN-uDb"/>
                                                     </connections>
@@ -334,7 +335,7 @@
         <!--Place Search View Controller-->
         <scene sceneID="Imu-oP-O0b">
             <objects>
-                <viewController id="4nl-da-X7N" customClass="PlaceSearchViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4nl-da-X7N" customClass="PlaceSearchViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qnf-Ub-fQT"/>
                         <viewControllerLayoutGuide type="bottom" id="TQs-bv-KFj"/>
@@ -368,7 +369,7 @@
         <!--Place Results View Controller-->
         <scene sceneID="GPi-jf-hfF">
             <objects>
-                <viewController storyboardIdentifier="PlaceResultsViewController" id="f7I-fA-feb" customClass="PlaceResultsViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlaceResultsViewController" id="f7I-fA-feb" customClass="PlaceResultsViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="AjE-6b-ssP"/>
                         <viewControllerLayoutGuide type="bottom" id="GLH-8n-VyB"/>
@@ -447,7 +448,7 @@
         <!--Event League Selector View Controller-->
         <scene sceneID="ktB-uj-rD9">
             <objects>
-                <viewController id="imi-fd-pOt" customClass="EventLeagueSelectorViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="imi-fd-pOt" customClass="EventLeagueSelectorViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="z9f-nV-cZp"/>
                         <viewControllerLayoutGuide type="bottom" id="FQx-eR-j1X"/>
@@ -477,14 +478,14 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeagueCell" rowHeight="100" id="EkA-Nh-Ae0" customClass="LeagueCell" customModule="Balizinha" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeagueCell" rowHeight="100" id="EkA-Nh-Ae0" customClass="LeagueCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EkA-Nh-Ae0" id="EzD-dt-qi0">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Kh-2X-1pg" customClass="RAImageView" customModule="Balizinha" customModuleProvider="target">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Kh-2X-1pg" customClass="RAImageView" customModule="Panna" customModuleProvider="target">
                                                     <rect key="frame" x="152.5" y="4" width="70" height="70"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="70" id="eIh-1D-5j1"/>
@@ -546,7 +547,7 @@
         <!--Configurable Navigation Controller-->
         <scene sceneID="kbQ-GD-5hu">
             <objects>
-                <navigationController id="BSR-TI-DRS" customClass="ConfigurableNavigationController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController id="BSR-TI-DRS" customClass="ConfigurableNavigationController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kvZ-NC-KY0">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -562,7 +563,7 @@
         <!--Map View Controller-->
         <scene sceneID="0Pi-sT-sN4">
             <objects>
-                <viewController storyboardIdentifier="MapViewController" automaticallyAdjustsScrollViewInsets="NO" id="ZSz-6h-4qX" customClass="MapViewController" customModule="Balizinha" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MapViewController" automaticallyAdjustsScrollViewInsets="NO" id="ZSz-6h-4qX" customClass="MapViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="NIS-MA-5HF"/>
                         <viewControllerLayoutGuide type="bottom" id="T3t-Wb-TIF"/>
@@ -585,14 +586,14 @@
                                     <constraint firstAttribute="height" constant="100" id="BUD-Sg-mRR"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EventCell" rowHeight="100" id="rwb-fP-fYq" customClass="EventCell" customModule="Balizinha" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EventCell" rowHeight="100" id="rwb-fP-fYq" customClass="EventCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rwb-fP-fYq" id="Nkp-dv-QBT">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ORV-Tz-PEj" customClass="RAImageView" customModule="Balizinha" customModuleProvider="target">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ORV-Tz-PEj" customClass="RAImageView" customModule="Panna" customModuleProvider="target">
                                                     <rect key="frame" x="25" y="25" width="50" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="9zZ-od-s3r"/>
@@ -768,6 +769,6 @@
     </scenes>
     <resources>
         <image name="plusIcon30" width="30" height="30"/>
-        <image name="profile30" width="30" height="30"/>
+        <image name="profile30" width="45" height="45"/>
     </resources>
 </document>
