@@ -67,8 +67,6 @@
 		8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54213D1E70CEF100AE4F3A /* ChatInputViewController.swift */; };
 		8E5421401E70DF8700AE4F3A /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54213F1E70DF8700AE4F3A /* ActionCell.swift */; };
 		8E571A0320E25E2B003AB202 /* RAImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E571A0220E25E2B003AB202 /* RAImageView.swift */; };
-		8E63160B1F5D9A60005CF114 /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E6316091F5D9A60005CF114 /* GoogleService-Info-dev.plist */; };
-		8E63160C1F5D9A60005CF114 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E63160A1F5D9A60005CF114 /* GoogleService-Info.plist */; };
 		8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */; };
 		8E6D06E22043652000C4041D /* ActionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D06E12043652000C4041D /* ActionService.swift */; };
 		8E7016D2207A9D0400A4C28C /* UpgradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7016D1207A9D0400A4C28C /* UpgradeService.swift */; };
@@ -136,6 +134,8 @@
 		8EF7F9F520E339A30037962E /* LeaguePlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */; };
 		8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */; };
 		AF13F159616F0AD794E5FFA9 /* Pods_Panna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3607E28372CEBCAF774CB7 /* Pods_Panna.framework */; };
+		C6502BDF21260E65004A3EED /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6502BDD21260E64004A3EED /* GoogleService-Info.plist */; };
+		C6502BE021260E65004A3EED /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6502BDE21260E65004A3EED /* GoogleService-Info-dev.plist */; };
 		C651AB882096D6650046B03C /* read.me in Resources */ = {isa = PBXBuildFile; fileRef = C651AB872096D6650046B03C /* read.me */; };
 		C651AB8A2096D7FC0046B03C /* League.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C651AB892096D7FC0046B03C /* League.storyboard */; };
 		C651AB8D2096D82E0046B03C /* LeaguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C651AB8C2096D82E0046B03C /* LeaguesViewController.swift */; };
@@ -209,8 +209,6 @@
 		8E54213F1E70DF8700AE4F3A /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
 		8E571A0220E25E2B003AB202 /* RAImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAImageView.swift; sourceTree = "<group>"; };
 		8E59662C1F8B98BA007A814A /* EventCellDonationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCellDonationTests.swift; sourceTree = "<group>"; };
-		8E6316091F5D9A60005CF114 /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
-		8E63160A1F5D9A60005CF114 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewModel.swift; sourceTree = "<group>"; };
 		8E6D06E12043652000C4041D /* ActionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionService.swift; sourceTree = "<group>"; };
 		8E7016D1207A9D0400A4C28C /* UpgradeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeService.swift; sourceTree = "<group>"; };
@@ -282,6 +280,8 @@
 		8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaguePlayerCell.swift; sourceTree = "<group>"; };
 		94979895EDCB6BB23785280B /* Pods-PannaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PannaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PannaTests/Pods-PannaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.release.xcconfig"; sourceTree = "<group>"; };
+		C6502BDD21260E64004A3EED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C6502BDE21260E65004A3EED /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
 		C651AB872096D6650046B03C /* read.me */ = {isa = PBXFileReference; lastKnownFileType = text; path = read.me; sourceTree = "<group>"; };
 		C651AB892096D7FC0046B03C /* League.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = League.storyboard; sourceTree = "<group>"; };
 		C651AB8C2096D82E0046B03C /* LeaguesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguesViewController.swift; sourceTree = "<group>"; };
@@ -542,14 +542,14 @@
 		F20AD03B1D26C0F500969990 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C6502BDE21260E65004A3EED /* GoogleService-Info-dev.plist */,
+				C6502BDD21260E64004A3EED /* GoogleService-Info.plist */,
 				8E19A4A11E6C658600D301EC /* String+Utils.swift */,
 				8E4D36741F8BA47900B8B0B5 /* Date+Utils.swift */,
 				8E4D36711F8BA45900B8B0B5 /* NSObject+Utils.swift */,
 				8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */,
 				8E7256A01CDF793200C9E054 /* Assets.xcassets */,
 				8E7256A51CDF793200C9E054 /* Info.plist */,
-				8E6316091F5D9A60005CF114 /* GoogleService-Info-dev.plist */,
-				8E63160A1F5D9A60005CF114 /* GoogleService-Info.plist */,
 				8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */,
 				8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */,
 				C651AB872096D6650046B03C /* read.me */,
@@ -640,8 +640,8 @@
 				8E7256921CDF793100C9E054 /* Sources */,
 				8E7256931CDF793100C9E054 /* Frameworks */,
 				8E7256941CDF793100C9E054 /* Resources */,
-				8E5CE7981D2CAE75001ADBA3 /* ShellScript */,
 				A19D6FD1E4BFA71C9C85111A /* [CP] Embed Pods Frameworks */,
+				C6502BDC21260D25004A3EED /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -728,7 +728,6 @@
 				8ECD58E11CDF853500AD2B13 /* Splash.storyboard in Resources */,
 				8E7397FE1FF921E500D48BA0 /* Montserrat-Bold.ttf in Resources */,
 				8E7397FC1FF921E500D48BA0 /* Montserrat-Black.ttf in Resources */,
-				8E63160C1F5D9A60005CF114 /* GoogleService-Info.plist in Resources */,
 				8E73980D1FF921E500D48BA0 /* Montserrat-ThinItalic.ttf in Resources */,
 				8E73980B1FF921E500D48BA0 /* Montserrat-SemiBoldItalic.ttf in Resources */,
 				8E7398011FF921E500D48BA0 /* Montserrat-ExtraBoldItalic.ttf in Resources */,
@@ -738,12 +737,13 @@
 				8E7398081FF921E500D48BA0 /* Montserrat-MediumItalic.ttf in Resources */,
 				8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */,
 				8EC7992F1E3636A0004ACC52 /* EventDetails.storyboard in Resources */,
+				C6502BDF21260E65004A3EED /* GoogleService-Info.plist in Resources */,
 				8EE94E471FF93DB700129EC2 /* Launch.storyboard in Resources */,
 				8EC7992B1E3635A0004ACC52 /* Events.storyboard in Resources */,
-				8E63160B1F5D9A60005CF114 /* GoogleService-Info-dev.plist in Resources */,
 				8E7398031FF921E500D48BA0 /* Montserrat-ExtraLightItalic.ttf in Resources */,
 				8EB90B391FB2B8D5007C60F0 /* Tutorial.storyboard in Resources */,
 				8E7398071FF921E500D48BA0 /* Montserrat-Medium.ttf in Resources */,
+				C6502BE021260E65004A3EED /* GoogleService-Info-dev.plist in Resources */,
 				8EC799291E363549004ACC52 /* Account.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -751,19 +751,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		8E5CE7981D2CAE75001ADBA3 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" b721eacab2230f0d8a20ca887d75b31784b433c4 884732c2668e5a7b5c524d6eb85bd1c8585dbcc135d5e5d238c707be60c03f53\n";
-		};
 		A19D6FD1E4BFA71C9C85111A /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -825,6 +812,19 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		C6502BDC21260D25004A3EED /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"";
 		};
 		EC86D2D5A52C1CC9D837E1A7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
