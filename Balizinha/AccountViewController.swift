@@ -132,8 +132,9 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case "Version":
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-            let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
-            cell.textLabel?.text = "Version: \(version ?? "unknown") (\(build ?? "unknown"))\(TESTING ? "t" : "")"
+            let build = Bundle.main.infoDictionary?["CFBundleVersion"] ?? ""
+            let buildString = TESTING ? ( "(\(build))t" ) : ""
+            cell.textLabel?.text = "Version: \(version ?? "unknown") \(buildString)"
             cell.accessoryType = .none
             return cell
             
