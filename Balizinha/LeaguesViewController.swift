@@ -8,6 +8,7 @@
 
 import UIKit
 import Balizinha
+import Crashlytics
 
 class LeaguesViewController: UIViewController {
 
