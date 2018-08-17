@@ -36,7 +36,6 @@ class LeaguesViewController: UIViewController {
         self.listenFor(NotificationType.GoToAccountDeepLink, action: #selector(didClickProfile(_:)), object: nil)
 
         loadData()
-        Crashlytics.sharedInstance().crash()
     }
     
     override func viewDidAppear(_ animated: Bool) {

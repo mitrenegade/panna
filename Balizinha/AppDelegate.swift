@@ -44,10 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKAppEvents.activateApp()
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
-//        // Crashlytics
-//        Fabric.sharedSDK().debug = TESTING
-//        Fabric.with([Crashlytics.self])
-
         // Background fetch
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
