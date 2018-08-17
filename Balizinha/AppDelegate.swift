@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Firebase
         // Do not include infolist in project: https://firebase.google.com/docs/configure/#reliable-analytics
-        let plistFilename = "GoogleService-Info\(TESTING ? "-dev" : "")"
+        let plistFilename = "GoogleService-Info\(TESTING ? "-dev" : "-prod")"
         let filePath = Bundle.main.path(forResource: plistFilename, ofType: "plist")
         assert(filePath != nil, "File doesn't exist")
         if let path = filePath, let fileopts = FirebaseOptions.init(contentsOfFile: path) {
@@ -44,9 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKAppEvents.activateApp()
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        // Crashlytics
-        Fabric.sharedSDK().debug = true
-        Fabric.with([Crashlytics.self])
+//        // Crashlytics
+//        Fabric.sharedSDK().debug = TESTING
+//        Fabric.with([Crashlytics.self])
 
         // Background fetch
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
