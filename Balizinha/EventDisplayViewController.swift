@@ -150,7 +150,7 @@ class EventDisplayViewController: UIViewController {
         
         // players
         playersScrollView.delegate = self
-        EventService.shared.observeUsers(forEvent: event) { (ids) in
+        EventService.shared.observeUsers(for: event) { (ids) in
             for id: String in ids {
                 PlayerService.shared.withId(id: id, completion: {[weak self] (player) in
                     if let player = player {
