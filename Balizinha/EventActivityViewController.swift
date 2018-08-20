@@ -17,8 +17,9 @@ class EventActivityViewController: UIViewController {
     var event: Balizinha.Event? {
         didSet {
             if let newVal = event {
-                ActionService().observeActions(forEvent: newVal, completion: { (action, visible) -> (Void) in
-                    if visible, action.type != .systemMessage {
+                ActionService().observeActions(forEvent: newVal, completion: { action in
+                    // visible should always be true - if an action is deleted, the eventAction should be deleted
+                    if action.visible {
                         self.actions[action.id] = action
                         self.reloadData()
                     }
@@ -83,7 +84,7 @@ extension EventActivityViewController: UITableViewDataSource {
         
         let action = actions[indexPath.row]
         let viewModel = ActionViewModel(action: action)
-        let cellIdentifier = viewModel.userIsOrganizer ? "ActionCellUser": "ActionCellOthers"
+        let cellIdentifier = viewModel.userPerformedAction ? "ActionCellUser": "ActionCellOthers"
         
         // make sure action has a name
         if action.username == nil, let userId = action.userId {
@@ -106,7 +107,7 @@ extension EventActivityViewController: UITableViewDataSource {
         }
         let action = actions[indexPath.row]
         let viewModel = ActionViewModel(action: action)
-        return action.type == .chat && viewModel.userIsOrganizer
+        return action.type == .chat && viewModel.userPerformedAction
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

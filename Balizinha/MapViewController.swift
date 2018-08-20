@@ -43,11 +43,10 @@ class MapViewController: EventsViewController {
         }
         
         // start listening for users so anonymous/preview users can see player counts
-        EventService.shared.listenForEventUsers()
-        EventService.shared.eventsUpdateAction = {
+        EventService.shared.listenForEventUsers {
             NotificationService.shared.notify(.EventsChanged, object: nil, userInfo: nil)
         }
-        EventService.shared.eventUsersUpdateAction = {
+        EventService.shared.eventsUpdateAction = {
             NotificationService.shared.notify(.EventsChanged, object: nil, userInfo: nil)
         }
         

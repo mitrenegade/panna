@@ -143,7 +143,8 @@ class JoinEventHelper: NSObject {
     fileprivate func joinEvent(_ event: Balizinha.Event) {
         //add notification in case user doesn't return to MyEvents
         delegate?.startActivityIndicator()
-        EventService.shared.joinEvent(event) { [weak self] (error) in
+        guard let user = PlayerService.shared.current.value else { return }
+        EventService.shared.joinEvent(event, userId: user.id) { [weak self] (error) in
             DispatchQueue.main.async {
                 self?.delegate?.stopActivityIndicator()
                 if let error = error as? NSError {

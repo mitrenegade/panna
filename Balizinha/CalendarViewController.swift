@@ -55,7 +55,7 @@ class CalendarViewController: UITableViewController {
                 return
             }
             // 2: Remove events the user has joined
-            EventService.shared.getEventsForUser(user, completion: {[weak self] (eventIds) in
+            EventService.shared.getEvents(for: user, completion: {[weak self] (eventIds) in
                 guard let weakself = self else { return }
                 let original = weakself.allEvents.filter({ (event) -> Bool in
                     eventIds.contains(event.id)
@@ -192,8 +192,9 @@ extension CalendarViewController: EventCellDelegate {
     }
     
     func leaveEvent(_ event: Balizinha.Event) {
+        guard let player = PlayerService.shared.current.value else { return }
         activityOverlay.show()
-        EventService.shared.leaveEvent(event) { [weak self] (error) in
+        EventService.shared.leaveEvent(event, userId: player.id) { [weak self] (error) in
             if let error = error as NSError? {
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
