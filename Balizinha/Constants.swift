@@ -34,7 +34,8 @@ let CACHE_ORGANIZER_FAVORITE_LOCATION = true // TODO: use a setting
 let SOFT_UPGRADE_INTERVAL_DEFAULT = (3600*24*7)
 let APP_STORE_URL = "itms-apps://itunes.apple.com/app/id1198807198"
 
-let GOOGLE_API_KEY = "AIzaSyD9zawgH3oSnXJNAvlGPnbZcbQhWIQZ09I"
+let GOOGLE_API_KEY_DEV = "AIzaSyD9zawgH3oSnXJNAvlGPnbZcbQhWIQZ09I"
+let GOOGLE_API_KEY_PROD = "AIzaSyCr6wG6UZ9yhjlJbId0ErgkLrIdcYt11iU"
 
 extension UIColor {
     static let darkGreen = UIColor(red: 88/255.0, green: 122/255.0, blue: 103/255.0, alpha: 1)
