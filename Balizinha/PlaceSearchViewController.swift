@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import RxSwift
 
 protocol PlaceSelectDelegate: class {
     func didSelectPlace(name: String?, street: String?, city: String?, state: String?, location: CLLocationCoordinate2D?)
@@ -19,6 +20,7 @@ class PlaceSearchViewController: UIViewController {
     var selectedPlace:MKPlacemark? = nil
     
     weak var delegate: PlaceSelectDelegate?
+    fileprivate var disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +43,15 @@ class PlaceSearchViewController: UIViewController {
     
     private lazy var __once: () = {
         LocationService.shared.startLocation(from: self)
+        LocationService.shared.observedLocation.asObservable().subscribe(onNext: { [weak self] (state) in
+            switch state {
+            case .located(let location):
+                self?.mapView.setCenter(location.coordinate, animated: true)
+                self?.disposeBag = DisposeBag()
+            default:
+                print("still locating")
+            }
+        }).disposed(by: disposeBag)
     }()
 
     override func viewDidAppear(_ animated: Bool) {
