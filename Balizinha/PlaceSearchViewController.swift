@@ -18,6 +18,7 @@ class PlaceSearchViewController: UIViewController {
     var searchController: UISearchController?
     @IBOutlet weak var mapView: MKMapView!
     var selectedPlace:MKPlacemark? = nil
+    var refinedCoordinates: CLLocationCoordinate2D?
     
     weak var delegate: PlaceSelectDelegate?
     fileprivate var disposeBag = DisposeBag()
@@ -107,7 +108,7 @@ class PlaceSearchViewController: UIViewController {
         let street = selectedPlace?.addressDictionary?["Street"] as? String
         let city = selectedPlace?.addressDictionary?["City"] as? String
         let state = selectedPlace?.addressDictionary?["State"] as? String
-        let coordinate = selectedPlace?.coordinate
+        let coordinate = refinedCoordinates ?? selectedPlace?.coordinate
         print("selected placemark \(name), \(street), \(city), \(state), \(coordinate)")
         
         delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
@@ -133,7 +134,23 @@ extension PlaceSearchViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        //print("mapview: region changed ")
+        if let placemark = selectedPlace {
+            let mapCenter = mapView.centerCoordinate
+            print("mapview: region changed to \(mapCenter)")
+
+            // update annotation based on map center
+            mapView.removeAnnotations(mapView.annotations)
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = mapCenter
+            annotation.title = placemark.name
+            if let city = placemark.locality,
+                let state = placemark.administrativeArea {
+                annotation.subtitle = "\(city) \(state)"
+            }
+            mapView.addAnnotation(annotation)
+            
+            refinedCoordinates = mapCenter
+        }
     }
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
