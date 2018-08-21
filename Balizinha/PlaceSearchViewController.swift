@@ -46,7 +46,8 @@ class PlaceSearchViewController: UIViewController {
         LocationService.shared.observedLocation.asObservable().subscribe(onNext: { [weak self] (state) in
             switch state {
             case .located(let location):
-                self?.mapView.setCenter(location.coordinate, animated: true)
+                self?.first = false
+                self?.centerMapOnLocation(location: location)
                 self?.disposeBag = DisposeBag()
             default:
                 print("still locating")
@@ -127,6 +128,7 @@ extension PlaceSearchViewController: MKMapViewDelegate {
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         if first, let location = LocationService.shared.lastLocation {
             centerMapOnLocation(location: location)
+            first = false
         }
     }
     
