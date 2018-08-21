@@ -106,8 +106,8 @@ class PlaceSearchViewController: UIViewController {
         guard let place = selectedPlace else { return }
         var name = place.name
         var street = place.addressDictionary?["Street"] as? String
-        let city = place.addressDictionary?["City"] as? String
-        let state = place.addressDictionary?["State"] as? String
+        var city = place.addressDictionary?["City"] as? String
+        var state = place.addressDictionary?["State"] as? String
         let coordinate: CLLocationCoordinate2D = refinedCoordinates ?? place.coordinate
         if let refined = refinedCoordinates {
             let loc1 = CLLocation(latitude: refined.latitude, longitude: refined.longitude)
@@ -115,11 +115,28 @@ class PlaceSearchViewController: UIViewController {
             if loc1.distance(from: loc2) > 500 { // more than 500 meters away
                 name = city ?? state
                 street = nil
+                
+                LocationService.shared.findPlace(for: refined) {[weak self] (newStreet, newCity, newState) in
+                    if let newStreet = newStreet {
+                        name = newStreet
+                        street = newStreet
+                    }
+                    if let newCity = newCity {
+                        city = newCity
+                    }
+                    if let newState = newState {
+                        state = newState
+                    }
+                    self?.delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
+                }
+            } else {
+                delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
             }
+        } else {
+            print("selected placemark \(name), \(street), \(city), \(state), \(String(describing: coordinate))")
+            
+            delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
         }
-        print("selected placemark \(name), \(street), \(city), \(state), \(String(describing: coordinate))")
-
-        delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
     }
     
     @objc fileprivate func cancelSearch() {

@@ -638,6 +638,7 @@
 				8E7256941CDF793100C9E054 /* Resources */,
 				A19D6FD1E4BFA71C9C85111A /* [CP] Embed Pods Frameworks */,
 				C6502BDC21260D25004A3EED /* ShellScript */,
+				54F58B4F5917DBD3E9E16FF1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -747,6 +748,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		54F58B4F5917DBD3E9E16FF1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Panna/Pods-Panna-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Panna/Pods-Panna-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		A19D6FD1E4BFA71C9C85111A /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
