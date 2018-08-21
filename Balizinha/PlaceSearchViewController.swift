@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import RxSwift
 
 protocol PlaceSelectDelegate: class {
     func didSelectPlace(name: String?, street: String?, city: String?, state: String?, location: CLLocationCoordinate2D?)
@@ -17,8 +18,10 @@ class PlaceSearchViewController: UIViewController {
     var searchController: UISearchController?
     @IBOutlet weak var mapView: MKMapView!
     var selectedPlace:MKPlacemark? = nil
+    var refinedCoordinates: CLLocationCoordinate2D?
     
     weak var delegate: PlaceSelectDelegate?
+    fileprivate var disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +44,16 @@ class PlaceSearchViewController: UIViewController {
     
     private lazy var __once: () = {
         LocationService.shared.startLocation(from: self)
+        LocationService.shared.observedLocation.asObservable().subscribe(onNext: { [weak self] (state) in
+            switch state {
+            case .located(let location):
+                self?.first = false
+                self?.centerMapOnLocation(location: location)
+                self?.disposeBag = DisposeBag()
+            default:
+                print("still locating")
+            }
+        }).disposed(by: disposeBag)
     }()
 
     override func viewDidAppear(_ animated: Bool) {
@@ -90,15 +103,40 @@ class PlaceSearchViewController: UIViewController {
     }
     
     @objc func selectLocation() {
-        guard selectedPlace != nil else { return }
-        let name = selectedPlace?.name
-        let street = selectedPlace?.addressDictionary?["Street"] as? String
-        let city = selectedPlace?.addressDictionary?["City"] as? String
-        let state = selectedPlace?.addressDictionary?["State"] as? String
-        let coordinate = selectedPlace?.coordinate
-        print("selected placemark \(name), \(street), \(city), \(state), \(coordinate)")
-        
-        delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
+        guard let place = selectedPlace else { return }
+        var name = place.name
+        var street = place.addressDictionary?["Street"] as? String
+        var city = place.addressDictionary?["City"] as? String
+        var state = place.addressDictionary?["State"] as? String
+        let coordinate: CLLocationCoordinate2D = refinedCoordinates ?? place.coordinate
+        if let refined = refinedCoordinates {
+            let loc1 = CLLocation(latitude: refined.latitude, longitude: refined.longitude)
+            let loc2 = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
+            if loc1.distance(from: loc2) > 500 { // more than 500 meters away
+                name = city ?? state
+                street = nil
+                
+                LocationService.shared.findPlace(for: refined) {[weak self] (newStreet, newCity, newState) in
+                    if let newStreet = newStreet {
+                        name = newStreet
+                        street = newStreet
+                    }
+                    if let newCity = newCity {
+                        city = newCity
+                    }
+                    if let newState = newState {
+                        state = newState
+                    }
+                    self?.delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
+                }
+            } else {
+                delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
+            }
+        } else {
+            print("selected placemark \(name), \(street), \(city), \(state), \(String(describing: coordinate))")
+            
+            delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
+        }
     }
     
     @objc fileprivate func cancelSearch() {
@@ -116,11 +154,28 @@ extension PlaceSearchViewController: MKMapViewDelegate {
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         if first, let location = LocationService.shared.lastLocation {
             centerMapOnLocation(location: location)
+            first = false
         }
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        //print("mapview: region changed ")
+        if let placemark = selectedPlace {
+            let mapCenter = mapView.centerCoordinate
+            print("mapview: region changed to \(mapCenter)")
+
+            // update annotation based on map center
+            mapView.removeAnnotations(mapView.annotations)
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = mapCenter
+            annotation.title = placemark.name
+            if let city = placemark.locality,
+                let state = placemark.administrativeArea {
+                annotation.subtitle = "\(city) \(state)"
+            }
+            mapView.addAnnotation(annotation)
+            
+            refinedCoordinates = mapCenter
+        }
     }
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
@@ -168,7 +223,10 @@ extension PlaceSearchViewController: PlaceResultsDelegate {
             annotation.subtitle = "\(city) \(state)"
         }
         mapView.addAnnotation(annotation)
-        let span = MKCoordinateSpanMake(0.05, 0.05)
+        var span = MKCoordinateSpanMake(0.05, 0.05)
+        if mapView.region.span.latitudeDelta < 0.05 || mapView.region.span.longitudeDelta < 0.05 {
+            span = mapView.region.span
+        }
         let region = MKCoordinateRegionMake(placemark.coordinate, span)
         mapView.setRegion(region, animated: true)
     }

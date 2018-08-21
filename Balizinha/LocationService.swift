@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreLocation
 import RxSwift
+import GoogleMaps
 
 enum LocationState {
     case noLocation
@@ -127,3 +128,29 @@ extension LocationService {
     }
 }
 
+// google maps utilities
+extension LocationService {
+    func findPlace(for coordinate: CLLocationCoordinate2D, completion: ((_ street: String?, _ city: String?, _ state: String?)->())?) {
+        GMSServices.provideAPIKey(TESTING ? GOOGLE_API_KEY_DEV : GOOGLE_API_KEY_PROD)
+        let gms = GMSGeocoder()
+        gms.reverseGeocodeCoordinate(coordinate) { (responses, error) in
+            print("Response \(responses) error \(error)")
+            var street: String?
+            var city: String?
+            var state: String?
+            if let address = responses?.firstResult(), let lines = address.lines {
+                print("Address \(lines)")
+                if lines.count > 0 {
+                    street = lines[0]
+                }
+                if lines.count > 1 {
+                    city = lines[1]
+                }
+                if lines.count > 2 {
+                    state = lines[2]
+                }
+            }
+            completion?(street, city, state)
+        }
+    }
+}
