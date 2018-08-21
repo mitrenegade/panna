@@ -103,14 +103,22 @@ class PlaceSearchViewController: UIViewController {
     }
     
     @objc func selectLocation() {
-        guard selectedPlace != nil else { return }
-        let name = selectedPlace?.name
-        let street = selectedPlace?.addressDictionary?["Street"] as? String
-        let city = selectedPlace?.addressDictionary?["City"] as? String
-        let state = selectedPlace?.addressDictionary?["State"] as? String
-        let coordinate = refinedCoordinates ?? selectedPlace?.coordinate
-        print("selected placemark \(name), \(street), \(city), \(state), \(coordinate)")
-        
+        guard let place = selectedPlace else { return }
+        var name = place.name
+        var street = place.addressDictionary?["Street"] as? String
+        let city = place.addressDictionary?["City"] as? String
+        let state = place.addressDictionary?["State"] as? String
+        let coordinate: CLLocationCoordinate2D = refinedCoordinates ?? place.coordinate
+        if let refined = refinedCoordinates {
+            let loc1 = CLLocation(latitude: refined.latitude, longitude: refined.longitude)
+            let loc2 = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
+            if loc1.distance(from: loc2) > 500 { // more than 500 meters away
+                name = city ?? state
+                street = nil
+            }
+        }
+        print("selected placemark \(name), \(street), \(city), \(state), \(String(describing: coordinate))")
+
         delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
     }
     
