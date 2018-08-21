@@ -181,7 +181,10 @@ extension PlaceSearchViewController: PlaceResultsDelegate {
             annotation.subtitle = "\(city) \(state)"
         }
         mapView.addAnnotation(annotation)
-        let span = MKCoordinateSpanMake(0.05, 0.05)
+        var span = MKCoordinateSpanMake(0.05, 0.05)
+        if mapView.region.span.latitudeDelta < 0.05 || mapView.region.span.longitudeDelta < 0.05 {
+            span = mapView.region.span
+        }
         let region = MKCoordinateRegionMake(placemark.coordinate, span)
         mapView.setRegion(region, animated: true)
     }
