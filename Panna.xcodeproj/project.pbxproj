@@ -101,6 +101,7 @@
 		8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFF1F833969004EAE6A /* PromotionService.swift */; };
 		8E7CABFE1F8D8B8D0095084D /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */; };
 		8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */; };
+		8EB29279212F77AA0007BAF8 /* PinpointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB29278212F77AA0007BAF8 /* PinpointViewController.swift */; };
 		8EB865FA208BE8440029079A /* PlayerLeaguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB865F9208BE8440029079A /* PlayerLeaguesViewController.swift */; };
 		8EB90B391FB2B8D5007C60F0 /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */; };
 		8EB90B3B1FB2BABE007C60F0 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */; };
@@ -244,6 +245,7 @@
 		8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCell.swift; sourceTree = "<group>"; };
 		8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Balizinha-Bridging-Header.h"; sourceTree = "<group>"; };
 		8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSettingCell.swift; sourceTree = "<group>"; };
+		8EB29278212F77AA0007BAF8 /* PinpointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinpointViewController.swift; sourceTree = "<group>"; };
 		8EB865F9208BE8440029079A /* PlayerLeaguesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerLeaguesViewController.swift; sourceTree = "<group>"; };
 		8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tutorial.storyboard; sourceTree = "<group>"; };
 		8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
@@ -442,6 +444,16 @@
 			name = ViewModels;
 			sourceTree = "<group>";
 		};
+		8E710D61212F7748004A8D48 /* Places */ = {
+			isa = PBXGroup;
+			children = (
+				8E74E54A1FA9FB51005F72DA /* PlaceSearchViewController.swift */,
+				8E74E54C1FA9FFF5005F72DA /* PlaceResultsViewController.swift */,
+				8EB29278212F77AA0007BAF8 /* PinpointViewController.swift */,
+			);
+			name = Places;
+			sourceTree = "<group>";
+		};
 		8E72568D1CDF793100C9E054 = {
 			isa = PBXGroup;
 			children = (
@@ -465,6 +477,7 @@
 		8E7256981CDF793200C9E054 /* Balizinha */ = {
 			isa = PBXGroup;
 			children = (
+				8E710D61212F7748004A8D48 /* Places */,
 				C651AB8B2096D81F0046B03C /* Leagues */,
 				8ED3DE761E330CB700947040 /* Balizinha.entitlements */,
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
@@ -595,8 +608,6 @@
 			isa = PBXGroup;
 			children = (
 				F2F7C3BC1CEE11B300350115 /* CreateEventViewController.swift */,
-				8E74E54A1FA9FB51005F72DA /* PlaceSearchViewController.swift */,
-				8E74E54C1FA9FFF5005F72DA /* PlaceResultsViewController.swift */,
 				8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */,
 				F2C0F11F1CF3E8BB00CB98F1 /* EventsViewController.swift */,
 				8EC799261E35AA02004ACC52 /* MapViewController.swift */,
@@ -910,6 +921,7 @@
 				F2F7C3C21CEE2CDD00350115 /* PushTableViewCell.swift in Sources */,
 				8E17907A207B03C9004FF5D2 /* AttendeesViewController.swift in Sources */,
 				8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */,
+				8EB29279212F77AA0007BAF8 /* PinpointViewController.swift in Sources */,
 				8EDFB1BA1E3D3F00006DD187 /* LocationService.swift in Sources */,
 				8ED3FE5320E3325E00D43F7E /* LeaguePlayersViewController.swift in Sources */,
 				8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */,

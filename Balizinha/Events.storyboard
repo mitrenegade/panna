@@ -344,23 +344,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" rotateEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" showsCompass="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fSD-iN-M8Z">
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ee5-jN-Fg2">
                                 <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <connections>
-                                    <outlet property="delegate" destination="4nl-da-X7N" id="xhG-95-lqE"/>
+                                    <segue destination="BmK-UH-vIE" kind="embed" identifier="embedMap" id="oCd-JV-CCz"/>
                                 </connections>
-                            </mapView>
+                            </containerView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="fSD-iN-M8Z" firstAttribute="top" secondItem="qnf-Ub-fQT" secondAttribute="bottom" id="3w0-BJ-f31"/>
-                            <constraint firstItem="TQs-bv-KFj" firstAttribute="top" secondItem="fSD-iN-M8Z" secondAttribute="bottom" id="a53-0Y-Qlx"/>
-                            <constraint firstItem="fSD-iN-M8Z" firstAttribute="leading" secondItem="ugZ-NU-dAy" secondAttribute="leading" id="g1m-zm-K0E"/>
-                            <constraint firstAttribute="trailing" secondItem="fSD-iN-M8Z" secondAttribute="trailing" id="qJ1-19-dn0"/>
+                            <constraint firstItem="Ee5-jN-Fg2" firstAttribute="top" secondItem="qnf-Ub-fQT" secondAttribute="bottom" id="133-TT-tLZ"/>
+                            <constraint firstAttribute="trailing" secondItem="Ee5-jN-Fg2" secondAttribute="trailing" id="GeV-ja-q1n"/>
+                            <constraint firstItem="TQs-bv-KFj" firstAttribute="top" secondItem="Ee5-jN-Fg2" secondAttribute="bottom" id="n1r-dk-ytK"/>
+                            <constraint firstItem="Ee5-jN-Fg2" firstAttribute="leading" secondItem="ugZ-NU-dAy" secondAttribute="leading" id="ocr-Uk-NjQ"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="mapView" destination="fSD-iN-M8Z" id="toB-7o-9SY"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8A7-o1-aFW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -766,8 +763,50 @@
             </objects>
             <point key="canvasLocation" x="406" y="114"/>
         </scene>
+        <!--Pinpoint View Controller-->
+        <scene sceneID="lQt-LO-TkD">
+            <objects>
+                <viewController id="BmK-UH-vIE" customClass="PinpointViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GcB-NE-XB2"/>
+                        <viewControllerLayoutGuide type="bottom" id="Zn6-6V-c3g"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eWG-x4-01E">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="zhw-Ok-Me4">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BmK-UH-vIE" id="vfl-He-D89"/>
+                                </connections>
+                            </mapView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="location40" translatesAutoresizingMaskIntoConstraints="NO" id="XFf-XL-CNC">
+                                <rect key="frame" x="167.5" y="239.5" width="40" height="40"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="zhw-Ok-Me4" secondAttribute="trailing" id="CBp-WI-e1m"/>
+                            <constraint firstItem="zhw-Ok-Me4" firstAttribute="leading" secondItem="eWG-x4-01E" secondAttribute="leading" id="PXd-FN-DWV"/>
+                            <constraint firstItem="XFf-XL-CNC" firstAttribute="centerX" secondItem="eWG-x4-01E" secondAttribute="centerX" id="SaV-3w-xcr"/>
+                            <constraint firstItem="XFf-XL-CNC" firstAttribute="centerY" secondItem="eWG-x4-01E" secondAttribute="centerY" constant="-20" id="dwk-Tu-1i5"/>
+                            <constraint firstAttribute="bottom" secondItem="zhw-Ok-Me4" secondAttribute="bottom" id="f16-Jh-Alw"/>
+                            <constraint firstItem="zhw-Ok-Me4" firstAttribute="top" secondItem="eWG-x4-01E" secondAttribute="top" id="ok9-On-KDY"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="zhw-Ok-Me4" id="wDI-i2-3qy"/>
+                        <outlet property="pinView" destination="XFf-XL-CNC" id="d3l-Ik-mpP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XTU-XK-aUu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3316" y="884.70764617691157"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="location40" width="40" height="40"/>
         <image name="plusIcon30" width="30" height="30"/>
         <image name="profile30" width="45" height="45"/>
     </resources>
