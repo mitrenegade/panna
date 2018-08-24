@@ -10,8 +10,6 @@ import UIKit
 import MapKit
 import RxSwift
 import Balizinha
-import GoogleMaps
-import MapKit
 
 class PinpointViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!

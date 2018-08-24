@@ -19,7 +19,6 @@ import RxSwift
 import Stripe
 import RxOptional
 import Balizinha
-import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -74,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let _ = StripeService.shared // trigger stripe loading customer
         let _ = LeagueService.shared
         
-        GMSServices.provideAPIKey(TESTING ? GOOGLE_API_KEY_DEV : GOOGLE_API_KEY_PROD)
+        // GMSServices.provideAPIKey(TESTING ? GOOGLE_API_KEY_DEV : GOOGLE_API_KEY_PROD)
 
         UINavigationBar.appearance().backgroundColor = UIColor.mediumBlue
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)

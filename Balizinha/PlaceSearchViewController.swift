@@ -10,7 +10,6 @@ import UIKit
 import MapKit
 import RxSwift
 import Balizinha
-import GoogleMaps
 
 protocol PlaceSelectDelegate: class {
     func didSelectPlace(name: String?, street: String?, city: String?, state: String?, location: CLLocationCoordinate2D?)

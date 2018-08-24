@@ -10,9 +10,7 @@ import Foundation
 import UIKit
 import CoreLocation
 import RxSwift
-import GoogleMaps
 import MapKit
-import GoogleMaps
 
 enum LocationState {
     case noLocation
@@ -133,29 +131,30 @@ extension LocationService {
 // google maps utilities
 typealias PlaceParseCompletion = ((_ name: String?, _ street: String?, _ city: String?, _ state: String?)->Void)
 extension LocationService {
-    func findGooglePlace(for coordinate: CLLocationCoordinate2D, completion: ((_ place: GMSAddress?)->())?) {
-        let gms = GMSGeocoder()
-        gms.reverseGeocodeCoordinate(coordinate) { (responses, error) in
-            print("Response \(responses?.results()) error \(error)")
-            guard let addresses = responses?.results() else {
-                completion?(nil)
-                return
-            }
-            for address in addresses {
-                if address.subLocality != nil {
-                    completion?(address)
-                    return
-                }
-            }
-            
-            // no sublocality found
-            if let address = responses?.firstResult() {
-                completion?(address)
-            } else {
-                completion?(nil)
-            }
-        }
-    }
+    
+//    func findGooglePlace(for coordinate: CLLocationCoordinate2D, completion: ((_ place: GMSAddress?)->())?) {
+//        let gms = GMSGeocoder()
+//        gms.reverseGeocodeCoordinate(coordinate) { (responses, error) in
+//            print("Response \(responses?.results()) error \(error)")
+//            guard let addresses = responses?.results() else {
+//                completion?(nil)
+//                return
+//            }
+//            for address in addresses {
+//                if address.subLocality != nil {
+//                    completion?(address)
+//                    return
+//                }
+//            }
+//            
+//            // no sublocality found
+//            if let address = responses?.firstResult() {
+//                completion?(address)
+//            } else {
+//                completion?(nil)
+//            }
+//        }
+//    }
     
     func findApplePlace(for coordinate: CLLocationCoordinate2D, completion: ((_ place: CLPlacemark?) -> Void)?) {
         let geoCoder = CLGeocoder()
@@ -170,25 +169,25 @@ extension LocationService {
         }
     }
     
-    func parseGMSAddress(_ place: GMSAddress, completion: PlaceParseCompletion?) {
-        // handles places returned by GMSGeocoder (google)
-        var name: String?
-        var street: String?
-        var city: String?
-        var state: String?
-        name = place.subLocality
-        guard let lines = place.lines else { return }
-        if lines.count > 0 {
-            street = lines[0]
-        }
-        if lines.count > 1 {
-            city = lines[1]
-        }
-        if lines.count > 2 {
-            state = lines[2]
-        }
-        completion?(name, street, city, state)
-    }
+//    func parseGMSAddress(_ place: GMSAddress, completion: PlaceParseCompletion?) {
+//        // handles places returned by GMSGeocoder (google)
+//        var name: String?
+//        var street: String?
+//        var city: String?
+//        var state: String?
+//        name = place.subLocality
+//        guard let lines = place.lines else { return }
+//        if lines.count > 0 {
+//            street = lines[0]
+//        }
+//        if lines.count > 1 {
+//            city = lines[1]
+//        }
+//        if lines.count > 2 {
+//            state = lines[2]
+//        }
+//        completion?(name, street, city, state)
+//    }
     
     func parseMKPlace(_ place: MKPlacemark, completion: PlaceParseCompletion?) {
         // handles places returned by MapKit
