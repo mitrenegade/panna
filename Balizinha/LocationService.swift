@@ -12,6 +12,7 @@ import CoreLocation
 import RxSwift
 import GoogleMaps
 import MapKit
+import GoogleMaps
 
 enum LocationState {
     case noLocation
@@ -130,6 +131,7 @@ extension LocationService {
 }
 
 // google maps utilities
+typealias PlaceParseCompletion = ((_ name: String?, _ street: String?, _ city: String?, _ state: String?)->Void)
 extension LocationService {
     func findGooglePlace(for coordinate: CLLocationCoordinate2D, completion: ((_ place: GMSAddress?)->())?) {
         let gms = GMSGeocoder()
@@ -166,5 +168,60 @@ extension LocationService {
             print("Placemarks \(results)")
             completion?(results.first)
         }
+    }
+    
+    func parseGMSAddress(_ place: GMSAddress, completion: PlaceParseCompletion?) {
+        // handles places returned by GMSGeocoder (google)
+        var name: String?
+        var street: String?
+        var city: String?
+        var state: String?
+        name = place.subLocality
+        guard let lines = place.lines else { return }
+        if lines.count > 0 {
+            street = lines[0]
+        }
+        if lines.count > 1 {
+            city = lines[1]
+        }
+        if lines.count > 2 {
+            state = lines[2]
+        }
+        completion?(name, street, city, state)
+    }
+    
+    func parseMKPlace(_ place: MKPlacemark, completion: PlaceParseCompletion?) {
+        // handles places returned by MapKit
+        var name: String?
+        var street: String?
+        var city: String?
+        var state: String?
+        name = place.name
+        street = place.addressDictionary?["Street"] as? String
+        city = place.addressDictionary?["City"] as? String
+        state = place.addressDictionary?["State"] as? String
+        completion?(name, street, city, state)
+    }
+    
+    func parseCLPlace(_ place: CLPlacemark, completion: PlaceParseCompletion?) {
+        // handles places returned by CLGeocoder
+        var name: String?
+        var street: String?
+        var city: String?
+        var state: String?
+        if #available(iOS 11.0, *) {
+            let address = place.postalAddress
+            name = place.name
+            street = address?.street
+            city = address?.city
+            state = address?.state
+        } else {
+            // Fallback on earlier versions
+            name = place.name
+            street = place.thoroughfare
+            city = place.locality
+            state = place.administrativeArea
+        }
+        completion?(name, street, city, state)
     }
 }

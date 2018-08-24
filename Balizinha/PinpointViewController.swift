@@ -17,24 +17,27 @@ class PinpointViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var labelPlaceName: UILabel!
 
-    var updatedPlace: GMSAddress?
     var name: String?
     var street: String?
     var city: String?
     var state: String?
     
-    let queue = DispatchQueue(label: "geocode", qos: DispatchQoS.background)
-    
-    var externalSource: Bool = true
+    fileprivate var externalSource: Bool = true
     var searchPlace: MKPlacemark? {
         didSet {
             if let place = searchPlace {
-                updatedPlace = nil
-                parseMKPlace(place)
-                refreshLabel()
-
-                externalSource = true
+                externalSource = true // skips reverse geocode
                 currentLocation = place.coordinate
+                
+                LocationService.shared.parseMKPlace(place, completion: { [weak self] (name, street, city, state) in
+                    self?.name = name
+                    self?.street = street
+                    self?.city = city
+                    self?.state = state
+                    self?.refreshLabel()
+
+                    self?.refreshLabel()
+                })
             }
         }
     }
@@ -67,7 +70,9 @@ class PinpointViewController: UIViewController {
             LocationService.shared.observedLocation.asObservable().subscribe(onNext: { [weak self] (state) in
                 switch state {
                 case .located(let location):
-//                    self?.externalSource = false // trigger a geocode
+                    #if TARGET_OS_SIMULATOR
+                    self?.externalSource = false // trigger a geocode in simulator. not needed on device
+                    #endif
                     self?.currentLocation = location.coordinate
                     self?.disposeBag = DisposeBag()
                 default:
@@ -111,55 +116,15 @@ extension PinpointViewController: MKMapViewDelegate {
     
     fileprivate func doGeocode() {
         guard let location = currentLocation else { return }
-//        LocationService.shared.findGooglePlace(for: location) { [weak self] (place) in
-//            self?.updatedPlace = place
-//            self?.parseGMSAddress(place)
-//            self?.refreshLabel()
-//        }
         LocationService.shared.findApplePlace(for: location) {[weak self] (place) in
             guard let place = place else { return }
-            self?.parseCLPlace(place)
-            self?.refreshLabel()
-        }
-    }
-    
-    func parseGMSAddress(_ place: GMSAddress) {
-        // handles places returned by GMSGeocoder (google)
-        name = place.subLocality
-        guard let lines = place.lines else { return }
-        if lines.count > 0 {
-            street = lines[0]
-        }
-        if lines.count > 1 {
-            city = lines[1]
-        }
-        if lines.count > 2 {
-            state = lines[2]
-        }
-    }
-    
-    func parseMKPlace(_ place: MKPlacemark) {
-        // handles places returned by MapKit
-        name = place.name
-        street = place.addressDictionary?["Street"] as? String
-        city = place.addressDictionary?["City"] as? String
-        state = place.addressDictionary?["State"] as? String
-    }
-    
-    func parseCLPlace(_ place: CLPlacemark) {
-        // handles places returned by CLGeocoder
-        if #available(iOS 11.0, *) {
-            let address = place.postalAddress
-            name = place.name
-            street = address?.street
-            city = address?.city
-            state = address?.state
-        } else {
-            // Fallback on earlier versions
-            name = place.name
-            street = place.thoroughfare
-            city = place.locality
-            state = place.administrativeArea
+            LocationService.shared.parseCLPlace(place, completion: { [weak self] (name, street, city, state) in
+                self?.name = name
+                self?.street = street
+                self?.city = city
+                self?.state = state
+                self?.refreshLabel()
+            })
         }
     }
 }

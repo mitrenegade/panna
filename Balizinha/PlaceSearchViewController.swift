@@ -23,8 +23,6 @@ class PlaceSearchViewController: UIViewController {
     weak var pinpointController: PinpointViewController?
     var currentEvent: Balizinha.Event?
     
-    var selectedPlace: MKPlacemark?
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -87,6 +85,7 @@ extension PlaceSearchViewController {
     }
     
     @objc func selectLocation() {
+        // user saved the location poinpointed on map
         delegate?.didSelectPlace(name: pinpointController?.name, street: pinpointController?.street, city: pinpointController?.city, state: pinpointController?.state, location: pinpointController?.currentLocation)
     }
     
@@ -102,8 +101,8 @@ extension PlaceSearchViewController: UISearchControllerDelegate {
 }
 
 extension PlaceSearchViewController: PlaceResultsDelegate {
+    // user selected a place from search results
     func didSelectPlace(placemark:MKPlacemark){
-        selectedPlace = placemark
         pinpointController?.searchPlace = placemark
     }
 }
