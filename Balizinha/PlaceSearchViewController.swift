@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import RxSwift
 import Balizinha
+import GoogleMaps
 
 protocol PlaceSelectDelegate: class {
     func didSelectPlace(name: String?, street: String?, city: String?, state: String?, location: CLLocationCoordinate2D?)
@@ -86,44 +87,44 @@ extension PlaceSearchViewController {
     }
     
     @objc func selectLocation() {
-        guard let place = selectedPlace else { return }
-        var name = place.name
-        var street = place.addressDictionary?["Street"] as? String
-        var city = place.addressDictionary?["City"] as? String
-        var state = place.addressDictionary?["State"] as? String
-        let coordinate: CLLocationCoordinate2D = pinpointController?.currentLocation ?? place.coordinate
-        if let refined = pinpointController?.currentLocation {
-            let loc1 = CLLocation(latitude: refined.latitude, longitude: refined.longitude)
-            let loc2 = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
-            if loc1.distance(from: loc2) > 500 { // more than 500 meters away
-                name = city ?? state
-                street = nil
-                
-                LocationService.shared.findPlace(for: refined) {[weak self] (newStreet, newCity, newState) in
-                    if let newStreet = newStreet {
-                        name = newStreet
-                        street = newStreet
-                    }
-                    if let newCity = newCity {
-                        city = newCity
-                    }
-                    if let newState = newState {
-                        state = newState
-                    }
-                    self?.delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
-                }
-            } else {
-                delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
-            }
-        } else {
-            print("selected placemark \(name), \(street), \(city), \(state), \(String(describing: coordinate))")
-            
-            delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
+        if let place = pinpointController?.updatedPlace {
+            handleGooglePlace(place)
+        } else if let place = selectedPlace {
+            handleApplePlace(place)
         }
     }
     
     @objc fileprivate func cancelSearch() {
         searchController?.searchBar.resignFirstResponder()
+    }
+    
+    fileprivate func handleGooglePlace(_ place: GMSAddress) {
+        let name = place.locality
+        var street: String?
+        var city: String?
+        var state: String?
+        let lines = place.lines ?? []
+        if lines.count > 0 {
+            street = lines[0]
+        }
+        if lines.count > 1 {
+            city = lines[1]
+        }
+        if lines.count > 2 {
+            state = lines[2]
+        }
+        let coordinate = place.coordinate
+        delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
+    }
+    
+    fileprivate func handleApplePlace(_ place: MKPlacemark) {
+        let name = place.name
+        let street = place.addressDictionary?["Street"] as? String
+        let city = place.addressDictionary?["City"] as? String
+        let state = place.addressDictionary?["State"] as? String
+        let coordinate: CLLocationCoordinate2D = place.coordinate
+        print("selected placemark \(name), \(street), \(city), \(state), \(String(describing: coordinate))")
+        delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
     }
 }
 
@@ -136,8 +137,7 @@ extension PlaceSearchViewController: UISearchControllerDelegate {
 extension PlaceSearchViewController: PlaceResultsDelegate {
     func didSelectPlace(placemark:MKPlacemark){
         selectedPlace = placemark
-        let location = placemark.coordinate
-        pinpointController?.currentLocation = location
+        pinpointController?.searchPlace = placemark
     }
 }
 

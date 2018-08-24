@@ -10,11 +10,41 @@ import UIKit
 import MapKit
 import RxSwift
 import Balizinha
+import GoogleMaps
+import MapKit
 
 class PinpointViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var labelPlaceName: UILabel!
+
+    var updatedPlace: GMSAddress?
+    var name: String?
+    var street: String?
+    var city: String?
+    var state: String?
     
+    let queue = DispatchQueue(label: "geocode", qos: DispatchQoS.background)
+    
+    var externalSource: Bool = true
+    var searchPlace: MKPlacemark? {
+        didSet {
+            if let place = searchPlace {
+                updatedPlace = nil
+                let name = place.name ?? ""
+                let street = place.addressDictionary?["Street"] as? String
+                let city = place.addressDictionary?["City"] as? String
+                let state = place.addressDictionary?["State"] as? String
+                self.labelPlaceName.text = "\(name)\n\(street ?? "") \(city ?? "") \(state ?? "")"
+                self.name = name
+                self.street = street
+                self.city = city
+                self.state = state
+                
+                externalSource = true
+                currentLocation = place.coordinate
+            }
+        }
+    }
     var currentLocation: CLLocationCoordinate2D? {
         didSet {
             if let location = currentLocation {
@@ -27,6 +57,7 @@ class PinpointViewController: UIViewController {
             }
         }
     }
+    
     @IBOutlet weak var pinView: UIView!
     
     var currentEvent: Balizinha.Event?
@@ -43,6 +74,7 @@ class PinpointViewController: UIViewController {
             LocationService.shared.observedLocation.asObservable().subscribe(onNext: { [weak self] (state) in
                 switch state {
                 case .located(let location):
+                    self?.externalSource = false // trigger a geocode
                     self?.currentLocation = location.coordinate
                     self?.disposeBag = DisposeBag()
                 default:
@@ -53,63 +85,46 @@ class PinpointViewController: UIViewController {
     }
 }
 extension PinpointViewController: MKMapViewDelegate {
-    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-    }
-    
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        guard !externalSource else {
+            externalSource = false
+            return
+        }
+        
         let mapCenter = mapView.centerCoordinate
         print("mapview: region changed to \(mapCenter)")
         currentLocation = mapCenter
-        LocationService.shared.findPlace(for: mapCenter) { [weak self] (street, city, state) in
+        
+        doGeocode()
+    }
+    
+    fileprivate func doGeocode() {
+        guard let location = currentLocation else { return }
+        LocationService.shared.findPlace(for: location) { [weak self] (place) in
+            var name: String?
+            var street: String?
+            var city: String?
+            var state: String?
+            guard let lines = place?.lines else { return }
+            print("Address \(lines)")
+            if let sublocality = place?.subLocality {
+                name = sublocality
+            }
+            if lines.count > 0 {
+                street = lines[0]
+            }
+            if lines.count > 1 {
+                city = lines[1]
+            }
+            if lines.count > 2 {
+                state = lines[2]
+            }
             self?.labelPlaceName.text = "\(street ?? "") \(city ?? "") \(state ?? "")"
+            self?.updatedPlace = place
+            self?.name = name
+            self?.street = street
+            self?.city = city
+            self?.state = state
         }
-    }
-    
-    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        let location = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
-    }
-    
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        if annotation is MKUserLocation {
-//            //return nil so map view draws "blue dot" for standard user location
-//            return nil
-//        }
-//
-//        let button = UIButton(type: .custom)
-//        button.setTitle("Go", for: .normal)
-//        button.setTitleColor(.white, for: .normal)
-//        button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-//        button.layer.cornerRadius = button.frame.size.width / 2
-//        button.backgroundColor = UIColor.blue
-//        button.addTarget(self, action: #selector(PlaceSearchViewController.selectLocation), for: .touchUpInside)
-//
-//        let reuseId = "pin"
-//        if #available(iOS 11.0, *) {
-//            // 3
-//            let identifier = "marker"
-//            var view: MKMarkerAnnotationView
-//            // 4
-//            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-//                as? MKMarkerAnnotationView {
-//                dequeuedView.annotation = annotation
-//                view = dequeuedView
-//            } else {
-//                // 5
-//                view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-//                view.canShowCallout = true
-//                view.calloutOffset = CGPoint(x: -5, y: 5)
-//                view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-//            }
-//            view.leftCalloutAccessoryView = button
-//            return view
-//        } else {
-//            // Fallback on earlier versions
-//            let pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView ??  MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-//            pinView.pinTintColor = UIColor.orange
-//            pinView.canShowCallout = true
-//            pinView.leftCalloutAccessoryView = button
-//            return pinView
-//        }
-        return nil
     }
 }
