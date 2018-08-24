@@ -87,44 +87,11 @@ extension PlaceSearchViewController {
     }
     
     @objc func selectLocation() {
-        if let place = pinpointController?.updatedPlace {
-            handleGooglePlace(place)
-        } else if let place = selectedPlace {
-            handleApplePlace(place)
-        }
+        delegate?.didSelectPlace(name: pinpointController?.name, street: pinpointController?.street, city: pinpointController?.city, state: pinpointController?.state, location: pinpointController?.currentLocation)
     }
     
     @objc fileprivate func cancelSearch() {
         searchController?.searchBar.resignFirstResponder()
-    }
-    
-    fileprivate func handleGooglePlace(_ place: GMSAddress) {
-        let name = place.locality
-        var street: String?
-        var city: String?
-        var state: String?
-        let lines = place.lines ?? []
-        if lines.count > 0 {
-            street = lines[0]
-        }
-        if lines.count > 1 {
-            city = lines[1]
-        }
-        if lines.count > 2 {
-            state = lines[2]
-        }
-        let coordinate = place.coordinate
-        delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
-    }
-    
-    fileprivate func handleApplePlace(_ place: MKPlacemark) {
-        let name = place.name
-        let street = place.addressDictionary?["Street"] as? String
-        let city = place.addressDictionary?["City"] as? String
-        let state = place.addressDictionary?["State"] as? String
-        let coordinate: CLLocationCoordinate2D = place.coordinate
-        print("selected placemark \(name), \(street), \(city), \(state), \(String(describing: coordinate))")
-        delegate?.didSelectPlace(name: name, street: street, city: city, state: state, location: coordinate)
     }
 }
 

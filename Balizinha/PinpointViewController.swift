@@ -30,11 +30,11 @@ class PinpointViewController: UIViewController {
         didSet {
             if let place = searchPlace {
                 updatedPlace = nil
-                let name = place.name ?? ""
+                let name = place.name
                 let street = place.addressDictionary?["Street"] as? String
                 let city = place.addressDictionary?["City"] as? String
                 let state = place.addressDictionary?["State"] as? String
-                self.labelPlaceName.text = "\(name)\n\(street ?? "") \(city ?? "") \(state ?? "")"
+                self.labelPlaceName.text = "\(name ?? "")\n\(street ?? "") \(city ?? "") \(state ?? "")"
                 self.name = name
                 self.street = street
                 self.city = city
@@ -119,7 +119,7 @@ extension PinpointViewController: MKMapViewDelegate {
             if lines.count > 2 {
                 state = lines[2]
             }
-            self?.labelPlaceName.text = "\(street ?? "") \(city ?? "") \(state ?? "")"
+            self?.labelPlaceName.text = "\(name ?? "")\n\(street ?? "") \(city ?? "") \(state ?? "")"
             self?.updatedPlace = place
             self?.name = name
             self?.street = street
