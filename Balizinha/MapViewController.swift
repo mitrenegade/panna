@@ -78,10 +78,10 @@ class MapViewController: EventsViewController {
     }
     
     var first: Bool = true
-    func centerMapOnLocation(location: CLLocation) {
+    func centerMapOnLocation(location: CLLocation, animated: Bool = true) {
         let span = MKCoordinateSpanMake(0.05, 0.05)
         let region = MKCoordinateRegion(center: location.coordinate, span: span)
-        mapView.setRegion(region, animated: true)
+        mapView.setRegion(region, animated: animated)
     }
     
     override func reloadData() {
@@ -121,7 +121,7 @@ class MapViewController: EventsViewController {
 extension MapViewController: MKMapViewDelegate {
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         if first, let location = LocationService.shared.lastLocation {
-            centerMapOnLocation(location: location)
+            centerMapOnLocation(location: location, animated: false)
             
             PlayerService.shared.current.value?.lat = location.coordinate.latitude
             PlayerService.shared.current.value?.lon = location.coordinate.longitude
@@ -138,7 +138,7 @@ extension MapViewController: MKMapViewDelegate {
         print("mapview: user location changed to \(location)")
         if first {
             first = false
-            centerMapOnLocation(location: location)
+            centerMapOnLocation(location: location, animated: false)
         }
     }
     
@@ -161,7 +161,28 @@ extension MapViewController: MKMapViewDelegate {
         filteredEventIds.removeAll()
         tableView.reloadData()
     }
-    
+
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let identifier = "marker"
+        var view: MKAnnotationView
+        
+        // 4
+        if #available(iOS 11.0, *) {
+            let marker = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView ?? MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            marker.glyphImage = UIImage(named: "location40")
+            view = marker
+        } else {
+            view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView ?? MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view.image = UIImage(named: "location40")
+        }
+        view.annotation = annotation
+        view.canShowCallout = true
+        view.calloutOffset = CGPoint(x: -5, y: 5)
+        return view
+    }
+}
+
+extension MapViewController {
     // MARK: - First time user edit account
     @objc fileprivate func didClickProfile(_ sender: Any) {
         print("Go to Account")

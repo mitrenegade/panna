@@ -203,7 +203,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
         if TESTING {
-            self.place = "Rittenhouse"
+            self.place = "Not a real place"
             self.city = "Philadelphia"
             self.state = "Pennsylvania"
             self.date = Date()
