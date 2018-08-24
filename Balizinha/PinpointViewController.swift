@@ -13,6 +13,7 @@ import Balizinha
 
 class PinpointViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var labelPlaceName: UILabel!
     
     var currentLocation: CLLocationCoordinate2D? {
         didSet {
@@ -56,6 +57,12 @@ extension PinpointViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        let mapCenter = mapView.centerCoordinate
+        print("mapview: region changed to \(mapCenter)")
+        currentLocation = mapCenter
+        LocationService.shared.findPlace(for: mapCenter) { [weak self] (street, city, state) in
+            self?.labelPlaceName.text = "\(street ?? "") \(city ?? "") \(state ?? "")"
+        }
     }
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {

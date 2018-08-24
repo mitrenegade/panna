@@ -131,7 +131,6 @@ extension LocationService {
 // google maps utilities
 extension LocationService {
     func findPlace(for coordinate: CLLocationCoordinate2D, completion: ((_ street: String?, _ city: String?, _ state: String?)->())?) {
-        GMSServices.provideAPIKey(TESTING ? GOOGLE_API_KEY_DEV : GOOGLE_API_KEY_PROD)
         let gms = GMSGeocoder()
         gms.reverseGeocodeCoordinate(coordinate) { (responses, error) in
             print("Response \(responses) error \(error)")

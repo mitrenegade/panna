@@ -50,6 +50,7 @@ class PlaceSearchViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "embedMap", let controller = segue.destination as? PinpointViewController {
             controller.currentEvent = currentEvent
+            pinpointController = controller
         }
     }
 }

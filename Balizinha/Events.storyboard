@@ -784,10 +784,22 @@
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="location40" translatesAutoresizingMaskIntoConstraints="NO" id="XFf-XL-CNC">
                                 <rect key="frame" x="167.5" y="239.5" width="40" height="40"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIO-LC-HHa">
+                                <rect key="frame" x="16" y="491" width="343" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="Cj5-UY-rDF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="gIO-LC-HHa" firstAttribute="leading" secondItem="eWG-x4-01E" secondAttribute="leadingMargin" id="5EH-4T-u7V"/>
                             <constraint firstAttribute="trailing" secondItem="zhw-Ok-Me4" secondAttribute="trailing" id="CBp-WI-e1m"/>
+                            <constraint firstItem="Zn6-6V-c3g" firstAttribute="top" secondItem="gIO-LC-HHa" secondAttribute="bottom" constant="8" id="KTj-SU-nIG"/>
+                            <constraint firstItem="gIO-LC-HHa" firstAttribute="trailing" secondItem="eWG-x4-01E" secondAttribute="trailingMargin" id="Ls5-Ud-rfn"/>
                             <constraint firstItem="zhw-Ok-Me4" firstAttribute="leading" secondItem="eWG-x4-01E" secondAttribute="leading" id="PXd-FN-DWV"/>
                             <constraint firstItem="XFf-XL-CNC" firstAttribute="centerX" secondItem="eWG-x4-01E" secondAttribute="centerX" id="SaV-3w-xcr"/>
                             <constraint firstItem="XFf-XL-CNC" firstAttribute="centerY" secondItem="eWG-x4-01E" secondAttribute="centerY" constant="-20" id="dwk-Tu-1i5"/>
@@ -796,6 +808,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="labelPlaceName" destination="gIO-LC-HHa" id="SBR-Cq-bIc"/>
                         <outlet property="mapView" destination="zhw-Ok-Me4" id="wDI-i2-3qy"/>
                         <outlet property="pinView" destination="XFf-XL-CNC" id="d3l-Ik-mpP"/>
                     </connections>
