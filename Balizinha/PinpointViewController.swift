@@ -30,15 +30,7 @@ class PinpointViewController: UIViewController {
         didSet {
             if let place = searchPlace {
                 updatedPlace = nil
-                let name = place.name
-                let street = place.addressDictionary?["Street"] as? String
-                let city = place.addressDictionary?["City"] as? String
-                let state = place.addressDictionary?["State"] as? String
-                self.labelPlaceName.text = "\(name ?? "")\n\(street ?? "") \(city ?? "") \(state ?? "")"
-                self.name = name
-                self.street = street
-                self.city = city
-                self.state = state
+                parseMKPlace(place)
                 
                 externalSource = true
                 currentLocation = place.coordinate
@@ -100,31 +92,55 @@ extension PinpointViewController: MKMapViewDelegate {
     
     fileprivate func doGeocode() {
         guard let location = currentLocation else { return }
-        LocationService.shared.findPlace(for: location) { [weak self] (place) in
-            var name: String?
-            var street: String?
-            var city: String?
-            var state: String?
-            guard let lines = place?.lines else { return }
-            print("Address \(lines)")
-            if let sublocality = place?.subLocality {
-                name = sublocality
-            }
-            if lines.count > 0 {
-                street = lines[0]
-            }
-            if lines.count > 1 {
-                city = lines[1]
-            }
-            if lines.count > 2 {
-                state = lines[2]
-            }
-            self?.labelPlaceName.text = "\(name ?? "")\n\(street ?? "") \(city ?? "") \(state ?? "")"
-            self?.updatedPlace = place
-            self?.name = name
-            self?.street = street
-            self?.city = city
-            self?.state = state
+//        LocationService.shared.findGooglePlace(for: location) { [weak self] (place) in
+//            self?.updatedPlace = place
+//            self?.parseGMSAddress(place)
+//            self?.labelPlaceName.text = "\(name ?? "")\n\(street ?? "") \(city ?? "") \(state ?? "")"
+//        }
+        LocationService.shared.findApplePlace(for: location) {[weak self] (place) in
+            guard let place = place else { return }
+            self?.parseCLPlace(place)
+            self?.labelPlaceName.text = "\(self?.name ?? "")\n\(self?.street ?? ""), \(self?.city ?? ""), \(self?.state ?? "")"
+        }
+    }
+    
+    func parseGMSAddress(_ place: GMSAddress) {
+        // handles places returned by GMSGeocoder (google)
+        name = place.subLocality
+        guard let lines = place.lines else { return }
+        if lines.count > 0 {
+            street = lines[0]
+        }
+        if lines.count > 1 {
+            city = lines[1]
+        }
+        if lines.count > 2 {
+            state = lines[2]
+        }
+    }
+    
+    func parseMKPlace(_ place: MKPlacemark) {
+        // handles places returned by MapKit
+        name = place.name
+        street = place.addressDictionary?["Street"] as? String
+        city = place.addressDictionary?["City"] as? String
+        state = place.addressDictionary?["State"] as? String
+    }
+    
+    func parseCLPlace(_ place: CLPlacemark) {
+        // handles places returned by CLGeocoder
+        if #available(iOS 11.0, *) {
+            let address = place.postalAddress
+            name = place.name
+            street = address?.street
+            city = address?.city
+            state = address?.state
+        } else {
+            // Fallback on earlier versions
+            name = place.name
+            street = place.thoroughfare
+            city = place.locality
+            state = place.administrativeArea
         }
     }
 }

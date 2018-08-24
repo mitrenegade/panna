@@ -11,6 +11,7 @@ import UIKit
 import CoreLocation
 import RxSwift
 import GoogleMaps
+import MapKit
 
 enum LocationState {
     case noLocation
@@ -130,10 +131,10 @@ extension LocationService {
 
 // google maps utilities
 extension LocationService {
-    func findPlace(for coordinate: CLLocationCoordinate2D, completion: ((_ place: GMSAddress?)->())?) {
+    func findGooglePlace(for coordinate: CLLocationCoordinate2D, completion: ((_ place: GMSAddress?)->())?) {
         let gms = GMSGeocoder()
         gms.reverseGeocodeCoordinate(coordinate) { (responses, error) in
-            print("Response \(responses) error \(error)")
+            print("Response \(responses?.results()) error \(error)")
             guard let addresses = responses?.results() else {
                 completion?(nil)
                 return
@@ -151,6 +152,19 @@ extension LocationService {
             } else {
                 completion?(nil)
             }
+        }
+    }
+    
+    func findApplePlace(for coordinate: CLLocationCoordinate2D, completion: ((_ place: CLPlacemark?) -> Void)?) {
+        let geoCoder = CLGeocoder()
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        geoCoder.reverseGeocodeLocation(location) { (results, error) in
+            guard let results = results else {
+                completion?(nil)
+                return
+            }
+            print("Placemarks \(results)")
+            completion?(results.first)
         }
     }
 }
