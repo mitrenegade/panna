@@ -689,6 +689,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toLocationSearch", let controller = segue.destination as? PlaceSearchViewController {
             controller.delegate = self
+            controller.currentEvent = eventToEdit
         }
     }
 }

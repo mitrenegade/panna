@@ -17,8 +17,6 @@ target 'Panna' do
 
     pod 'Stripe'
 
-    pod 'GoogleMaps'
-
     target 'PannaTests' do
        inherit! :search_paths
     end
