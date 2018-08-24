@@ -31,7 +31,8 @@ class PinpointViewController: UIViewController {
             if let place = searchPlace {
                 updatedPlace = nil
                 parseMKPlace(place)
-                
+                refreshLabel()
+
                 externalSource = true
                 currentLocation = place.coordinate
             }
@@ -40,9 +41,9 @@ class PinpointViewController: UIViewController {
     var currentLocation: CLLocationCoordinate2D? {
         didSet {
             if let location = currentLocation {
-                var span = MKCoordinateSpanMake(0.05, 0.05)
-                if mapView.region.span.latitudeDelta < 0.05 || mapView.region.span.longitudeDelta < 0.05 {
-                    span = mapView.region.span
+                var span = mapView.region.span
+                if externalSource {
+                    span = MKCoordinateSpanMake(0.05, 0.05)
                 }
                 let region = MKCoordinateRegionMake(location, span)
                 mapView.setRegion(region, animated: true)
@@ -66,7 +67,7 @@ class PinpointViewController: UIViewController {
             LocationService.shared.observedLocation.asObservable().subscribe(onNext: { [weak self] (state) in
                 switch state {
                 case .located(let location):
-                    self?.externalSource = false // trigger a geocode
+//                    self?.externalSource = false // trigger a geocode
                     self?.currentLocation = location.coordinate
                     self?.disposeBag = DisposeBag()
                 default:
@@ -74,6 +75,24 @@ class PinpointViewController: UIViewController {
                 }
             }).disposed(by: disposeBag)
         }
+    }
+    
+    func refreshLabel() {
+        var text: String = ""
+        if let name = name {
+            text = "\(name)\n"
+        }
+        if let street = street, street != name {
+            text = "\(text)\(street)\n"
+        }
+        if let city = city, let state = state {
+            text = "\(text)\(city), \(state)"
+        } else if let city = city {
+            text = "\(text)\(city)"
+        } else if let state = state {
+            text = "\(text)\(state)"
+        }
+        labelPlaceName.text = text
     }
 }
 extension PinpointViewController: MKMapViewDelegate {
@@ -95,12 +114,12 @@ extension PinpointViewController: MKMapViewDelegate {
 //        LocationService.shared.findGooglePlace(for: location) { [weak self] (place) in
 //            self?.updatedPlace = place
 //            self?.parseGMSAddress(place)
-//            self?.labelPlaceName.text = "\(name ?? "")\n\(street ?? "") \(city ?? "") \(state ?? "")"
+//            self?.refreshLabel()
 //        }
         LocationService.shared.findApplePlace(for: location) {[weak self] (place) in
             guard let place = place else { return }
             self?.parseCLPlace(place)
-            self?.labelPlaceName.text = "\(self?.name ?? "")\n\(self?.street ?? ""), \(self?.city ?? ""), \(self?.state ?? "")"
+            self?.refreshLabel()
         }
     }
     
