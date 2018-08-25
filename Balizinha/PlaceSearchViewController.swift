@@ -12,7 +12,7 @@ import RxSwift
 import Balizinha
 
 protocol PlaceSelectDelegate: class {
-    func didSelectPlace(name: String?, street: String?, city: String?, state: String?, location: CLLocationCoordinate2D?)
+    func didSelect(venue: Venue?)
 }
 
 class PlaceSearchViewController: UIViewController {
@@ -20,7 +20,7 @@ class PlaceSearchViewController: UIViewController {
     weak var delegate: PlaceSelectDelegate?
     
     weak var pinpointController: PinpointViewController?
-    var currentEvent: Balizinha.Event?
+    var currentVenue: Venue?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +47,7 @@ class PlaceSearchViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "embedMap", let controller = segue.destination as? PinpointViewController {
-            controller.currentEvent = currentEvent
+            controller.venue = currentVenue
             pinpointController = controller
         }
     }
@@ -85,7 +85,7 @@ extension PlaceSearchViewController {
     
     @objc func selectLocation() {
         // user saved the location poinpointed on map
-        delegate?.didSelectPlace(name: pinpointController?.name, street: pinpointController?.street, city: pinpointController?.city, state: pinpointController?.state, location: pinpointController?.currentLocation)
+        delegate?.didSelect(venue: pinpointController?.venue)
     }
     
     @objc fileprivate func cancelSearch() {

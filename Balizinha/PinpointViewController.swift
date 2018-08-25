@@ -15,10 +15,7 @@ class PinpointViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var labelPlaceName: UILabel!
 
-    var name: String?
-    var street: String?
-    var city: String?
-    var state: String?
+    var venue: Venue?
     
     fileprivate var nameLocked: Bool = false
     
@@ -32,12 +29,7 @@ class PinpointViewController: UIViewController {
                 currentLocation = place.coordinate
                 
                 LocationService.shared.parseMKPlace(place, completion: { [weak self] (name, street, city, state) in
-                    self?.name = name
-                    self?.street = street
-                    self?.city = city
-                    self?.state = state
-                    self?.refreshLabel()
-
+                    self?.venue = Venue(name, street, city, state, place.coordinate.latitude, place.coordinate.longitude)
                     self?.refreshLabel()
                 })
             }
@@ -58,16 +50,15 @@ class PinpointViewController: UIViewController {
     
     @IBOutlet weak var pinView: UIView!
     
-    var currentEvent: Balizinha.Event?
     fileprivate var disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         LocationService.shared.startLocation(from: self)
-        if let event = currentEvent, let lat = event.lat, let lon = event.lon {
-            let location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-            currentLocation = location
+        if let existingVenue = venue { // venue was sent in from event
+//            let location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+//            currentLocation = location
         } else {
             LocationService.shared.observedLocation.asObservable().subscribe(onNext: { [weak self] (state) in
                 switch state {
@@ -86,17 +77,17 @@ class PinpointViewController: UIViewController {
     
     func refreshLabel() {
         var text: String = ""
-        if let name = name {
+        if let name = venue?.name {
             text = "\(name)\n"
         }
-        if let street = street, street != name {
+        if let street = venue?.street, street != venue?.name {
             text = "\(text)\(street)\n"
         }
-        if let city = city, let state = state {
+        if let city = venue?.city, let state = venue?.state {
             text = "\(text)\(city), \(state)"
-        } else if let city = city {
+        } else if let city = venue?.city {
             text = "\(text)\(city)"
-        } else if let state = state {
+        } else if let state = venue?.state {
             text = "\(text)\(state)"
         }
         labelPlaceName.text = text
@@ -121,12 +112,11 @@ extension PinpointViewController: MKMapViewDelegate {
         LocationService.shared.findApplePlace(for: location) {[weak self] (place) in
             guard let place = place else { return }
             LocationService.shared.parseCLPlace(place, completion: { [weak self] (name, street, city, state) in
+                var newName = self?.venue?.name
                 if self?.nameLocked != true {
-                    self?.name = name
+                    newName = name
                 }
-                self?.street = street
-                self?.city = city
-                self?.state = state
+                self?.venue = Venue(newName, street, city, state, location.latitude, location.longitude)
                 self?.refreshLabel()
             })
         }
@@ -155,12 +145,12 @@ extension PinpointViewController: MKMapViewDelegate {
         let alert = UIAlertController(title: "Please enter a promo code", message: nil, preferredStyle: .alert)
         alert.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "Enter venue name"
-            textField.text = self.name
+            textField.text = self.venue?.name
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             if let textField = alert.textFields?[0], let name = textField.text {
                 print("Manually changing name to \(name)")
-                self.name = name
+                self.venue?.name = name
                 self.refreshLabel()
             }
         }))

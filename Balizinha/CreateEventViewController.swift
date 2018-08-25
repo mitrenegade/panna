@@ -694,7 +694,11 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toLocationSearch", let controller = segue.destination as? PlaceSearchViewController {
             controller.delegate = self
-            controller.currentEvent = eventToEdit
+            if let eventToEdit = eventToEdit {
+                // TODO: replace with event.venue
+                let venue = Venue(eventToEdit.place, nil, eventToEdit.city, eventToEdit.state, eventToEdit.lat, eventToEdit.lon)
+                controller.currentVenue = venue
+            }
         }
     }
 }
@@ -974,27 +978,27 @@ extension CreateEventViewController: ToggleCellDelegate {
 
 // MARK: PlaceSearchDelegate
 extension CreateEventViewController: PlaceSelectDelegate {
-    func didSelectPlace(name: String?, street: String?, city: String?, state: String?, location: CLLocationCoordinate2D?) {
-        if let location = name {
+    func didSelect(venue: Venue?) {
+        if let location = venue?.name {
             self.placeField?.text = location
             self.place = location
         }
-        else if let street = street {
+        else if let street = venue?.street {
             self.placeField?.text = street
             self.place = street
         }
         
-        if let city = city {
+        if let city = venue?.city {
             self.city = city
         }
         
-        if let state = state {
+        if let state = venue?.state {
             self.state = state
         }
         
-        if let coordinate = location {
-            self.lat = coordinate.latitude
-            self.lon = coordinate.longitude
+        if let lat = venue?.lat, let lon = venue?.lon {
+            self.lat = lat
+            self.lon = lon
         }
         
         self.navigationController?.popToViewController(self, animated: true)
