@@ -136,6 +136,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         self.setupTextFields()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didClickSave(_:)))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didClickCancel(_:)))
         
         if CACHE_ORGANIZER_FAVORITE_LOCATION {
             self.loadCachedOrganizerFavorites()
@@ -202,8 +203,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         save2.tintColor = self.view.tintColor
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
-        if TESTING {
-            self.place = "Not a real place"
+        if TESTING, eventToEdit == nil {
+            self.place = "Please select"
             self.city = "Philadelphia"
             self.state = "Pennsylvania"
             self.date = Date()
@@ -365,6 +366,10 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                 })
             })
         }
+    }
+    
+    func didClickCancel(_ sender: Any) {
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
 }
 

@@ -20,6 +20,10 @@ class PinpointViewController: UIViewController {
     var city: String?
     var state: String?
     
+    fileprivate var nameLocked: Bool = false
+    
+    @IBOutlet weak var buttonEdit: UIButton!
+    
     fileprivate var externalSource: Bool = true
     var searchPlace: MKPlacemark? {
         didSet {
@@ -117,12 +121,50 @@ extension PinpointViewController: MKMapViewDelegate {
         LocationService.shared.findApplePlace(for: location) {[weak self] (place) in
             guard let place = place else { return }
             LocationService.shared.parseCLPlace(place, completion: { [weak self] (name, street, city, state) in
-                self?.name = name
+                if self?.nameLocked != true {
+                    self?.name = name
+                }
                 self?.street = street
                 self?.city = city
                 self?.state = state
                 self?.refreshLabel()
             })
         }
+    }
+    
+    @IBAction func didClickEdit(_ sender: Any) {
+        let alert = UIAlertController(title: "Venue Options", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Edit name", style: .default, handler: { (action) in
+            self.editName()
+        }))
+        let title = nameLocked ? "Unlock name" : "Lock name"
+        alert.addAction(UIAlertAction(title: title, style: .default, handler: { (action) in
+            self.nameLocked = !self.nameLocked
+        }))
+        alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
+        })
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
+        {
+            alert.popoverPresentationController?.sourceView = self.view
+            alert.popoverPresentationController?.sourceRect = buttonEdit.frame
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    fileprivate func editName() {
+        let alert = UIAlertController(title: "Please enter a promo code", message: nil, preferredStyle: .alert)
+        alert.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Enter venue name"
+            textField.text = self.name
+        }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            if let textField = alert.textFields?[0], let name = textField.text {
+                print("Manually changing name to \(name)")
+                self.name = name
+                self.refreshLabel()
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
     }
 }
