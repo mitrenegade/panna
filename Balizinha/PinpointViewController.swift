@@ -56,9 +56,12 @@ class PinpointViewController: UIViewController {
         super.viewDidLoad()
         
         LocationService.shared.startLocation(from: self)
-        if let existingVenue = venue { // venue was sent in from event
-//            let location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-//            currentLocation = location
+        if let existingVenue = venue, let lat = existingVenue.lat, let lon = existingVenue.lon { // venue was sent in from event
+            let location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            externalSource = true
+            nameLocked = true
+            currentLocation = location
+            refreshLabel()
         } else {
             LocationService.shared.observedLocation.asObservable().subscribe(onNext: { [weak self] (state) in
                 switch state {

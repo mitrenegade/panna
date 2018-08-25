@@ -34,11 +34,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     
     var name: String?
     var type : EventType?
-    var city : String?
-    var state: String?
-    var place : String?
-    var lat: Double?
-    var lon: Double?
+    var venue: Venue?
     var date : Date?
     var dateString: String?
     var startTime: Date?
@@ -98,11 +94,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         didSet {
             name = eventToEdit?.name
             type = eventToEdit?.type
-            city = eventToEdit?.city
-            state = eventToEdit?.state
-            place = eventToEdit?.place
-            lat = eventToEdit?.lat
-            lon = eventToEdit?.lon
+            venue = Venue(eventToEdit?.place, nil, eventToEdit?.city, eventToEdit?.state, eventToEdit?.lat, eventToEdit?.lon)
             date = eventToEdit?.startTime
             startTime = eventToEdit?.startTime
             endTime = eventToEdit?.endTime
@@ -204,9 +196,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
         if TESTING, eventToEdit == nil {
-            self.place = "Please select"
-            self.city = "Philadelphia"
-            self.state = "Pennsylvania"
             self.date = Date()
             self.startTime = Date()+1800
             self.endTime = Date()+3600
@@ -218,26 +207,34 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         if let name = UserDefaults.standard.string(forKey: "organizerCachedName") {
             self.name = name
         }
-        if let place = UserDefaults.standard.string(forKey: "organizerCachedPlace") {
-            self.place = place
-        }
-        if let lat = UserDefaults.standard.value(forKey: "organizerCachedLat") as? Double, let lon = UserDefaults.standard.value(forKey: "organizerCachedLon") as? Double, let city = UserDefaults.standard.string(forKey: "organizerCachedCity"), let state = UserDefaults.standard.string(forKey: "organizerCachedState") {
-            self.lat = lat
-            self.lon = lon
-            self.city = city
-            self.state = state
+        if let place = UserDefaults.standard.string(forKey: "organizerCachedPlace"),
+            let street = UserDefaults.standard.string(forKey: "organizerCachedStreet"),
+            let city = UserDefaults.standard.string(forKey: "organizerCachedCity"),
+            let state = UserDefaults.standard.string(forKey: "organizerCachedState"),
+            let lat = UserDefaults.standard.value(forKey: "organizerCachedLat") as? Double,
+            let lon = UserDefaults.standard.value(forKey: "organizerCachedLon") as? Double
+        {
+            self.venue = Venue(place, street, city, state, lat, lon)
         }
     }
     
     fileprivate func cacheOrganizerFavorites() {
-        UserDefaults.standard.set(self.name, forKey: "organizerCachedName")
-        UserDefaults.standard.set(self.place, forKey: "organizerCachedPlace")
-        if let city = self.city, let state = self.state, let lat = self.lat, let lon = self.lon {
-            UserDefaults.standard.set(city, forKey: "organizerCachedCity")
-            UserDefaults.standard.set(state, forKey: "organizerCachedState")
-            UserDefaults.standard.set(lat, forKey: "organizerCachedLat")
-            UserDefaults.standard.set(lon, forKey: "organizerCachedLon")
+        if let name = name {
+            UserDefaults.standard.set(name, forKey: "organizerCachedName")
         } else {
+            UserDefaults.standard.set(nil, forKey: "organizerCachedName")
+        }
+        
+        if let venue = venue {
+            UserDefaults.standard.set(venue.name, forKey: "organizerCachedPlace")
+            UserDefaults.standard.set(venue.street, forKey: "organizerCachedStreet")
+            UserDefaults.standard.set(venue.city, forKey: "organizerCachedCity")
+            UserDefaults.standard.set(venue.state, forKey: "organizerCachedState")
+            UserDefaults.standard.set(venue.lat, forKey: "organizerCachedLat")
+            UserDefaults.standard.set(venue.lon, forKey: "organizerCachedLon")
+        } else {
+            UserDefaults.standard.set(nil, forKey: "organizerCachedPlace")
+            UserDefaults.standard.set(nil, forKey: "organizerCachedStreet")
             UserDefaults.standard.set(nil, forKey: "organizerCachedCity")
             UserDefaults.standard.set(nil, forKey: "organizerCachedState")
             UserDefaults.standard.set(nil, forKey: "organizerCachedLat")
@@ -250,16 +247,20 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         self.done()
         self.info = self.descriptionTextView?.text ?? eventToEdit?.info
         
-        guard let place = self.place else {
-            self.simpleAlert("Invalid selection", message: "Please select a city")
+        guard let venue = venue else {
+            self.simpleAlert("Invalid selection", message: "Please select a venue")
             return
         }
-        guard let city = self.city else {
-            self.simpleAlert("Invalid selection", message: "Please select a city")
+        guard let venueName = venue.name ?? venue.street else {
+            self.simpleAlert("Invalid selection", message: "Invalid name for selected venue")
             return
         }
-        guard let state = self.state else {
-            self.simpleAlert("Invalid selection", message: "Please select a state")
+        guard let city = venue.city else {
+            self.simpleAlert("Invalid selection", message: "Invalid city for selected venue")
+            return
+        }
+        guard let state = venue.state else {
+            self.simpleAlert("Invalid selection", message: "Invalid state for selected venue")
             return
         }
         guard let date = self.date else {
@@ -305,15 +306,11 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             // event already exists: update/edit info
             dict["name"] = self.name ?? "Balizinha"
             dict["type"] = self.type?.rawValue
-            if let city = self.city {
-                dict["city"] = city
-            }
-            if let state = self.state {
-                dict["state"] = state
-            }
-            dict["place"] = place
-            dict["lat"] = lat
-            dict["lon"] = lon
+            dict["city"] = city
+            dict["state"] = state
+            dict["place"] = venueName
+            dict["lat"] = venue.lat
+            dict["lon"] = venue.lon
             dict["maxPlayers"] = maxPlayers
             dict["info"] = self.info
             dict["paymentRequired"] = self.paymentRequired
@@ -341,7 +338,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         else {
             activityOverlay.show()
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: lat, lon: lon, place: place, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: venue.lat, lon: venue.lon, place: venueName, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
                 
                 self?.activityOverlay.hide()
                 
@@ -423,7 +420,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 if options[indexPath.row] == "Venue" {
                     cell.valueTextField.placeholder = "Fenway Park"
                     self.placeField = cell.valueTextField
-                    self.placeField?.text = place
+                    self.placeField?.text = venue?.name
                     self.placeField?.isUserInteractionEnabled = false
                 } else if options[indexPath.row] == "Name" {
                     cell.valueTextField.placeholder = "Balizinha"
@@ -981,26 +978,12 @@ extension CreateEventViewController: PlaceSelectDelegate {
     func didSelect(venue: Venue?) {
         if let location = venue?.name {
             self.placeField?.text = location
-            self.place = location
         }
         else if let street = venue?.street {
             self.placeField?.text = street
-            self.place = street
         }
-        
-        if let city = venue?.city {
-            self.city = city
-        }
-        
-        if let state = venue?.state {
-            self.state = state
-        }
-        
-        if let lat = venue?.lat, let lon = venue?.lon {
-            self.lat = lat
-            self.lon = lon
-        }
-        
+
+        self.venue = venue
         self.navigationController?.popToViewController(self, animated: true)
     }
 }
