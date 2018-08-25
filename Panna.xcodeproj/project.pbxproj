@@ -29,7 +29,6 @@
 		8E179078207B0324004FF5D2 /* Attendance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E179077207B0324004FF5D2 /* Attendance.storyboard */; };
 		8E17907A207B03C9004FF5D2 /* AttendeesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E179079207B03C9004FF5D2 /* AttendeesViewController.swift */; };
 		8E17907C207B043F004FF5D2 /* PlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E17907B207B043F004FF5D2 /* PlayerCell.swift */; };
-		8E18D70921318113007BE201 /* Venue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E18D70821318113007BE201 /* Venue.swift */; };
 		8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */; };
 		8E19A4A21E6C658600D301EC /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A11E6C658600D301EC /* String+Utils.swift */; };
 		8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A91E6C9C7500D301EC /* ExpandableMapViewController.swift */; };
@@ -185,7 +184,6 @@
 		8E179077207B0324004FF5D2 /* Attendance.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Attendance.storyboard; sourceTree = "<group>"; };
 		8E179079207B03C9004FF5D2 /* AttendeesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendeesViewController.swift; sourceTree = "<group>"; };
 		8E17907B207B043F004FF5D2 /* PlayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCell.swift; sourceTree = "<group>"; };
-		8E18D70821318113007BE201 /* Venue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Venue.swift; sourceTree = "<group>"; };
 		8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerInfoViewController.swift; sourceTree = "<group>"; };
 		8E19A4A11E6C658600D301EC /* String+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Utils.swift"; sourceTree = "<group>"; };
 		8E19A4A91E6C9C7500D301EC /* ExpandableMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableMapViewController.swift; sourceTree = "<group>"; };
@@ -452,7 +450,6 @@
 				8E74E54A1FA9FB51005F72DA /* PlaceSearchViewController.swift */,
 				8E74E54C1FA9FFF5005F72DA /* PlaceResultsViewController.swift */,
 				8EB29278212F77AA0007BAF8 /* PinpointViewController.swift */,
-				8E18D70821318113007BE201 /* Venue.swift */,
 			);
 			name = Places;
 			sourceTree = "<group>";
@@ -974,7 +971,6 @@
 				8E4D36721F8BA45900B8B0B5 /* NSObject+Utils.swift in Sources */,
 				8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */,
 				8E7CABFE1F8D8B8D0095084D /* PaymentCell.swift in Sources */,
-				8E18D70921318113007BE201 /* Venue.swift in Sources */,
 				8E48AF8020DFDE1700D814BE /* LeagueTagsCell.swift in Sources */,
 				8EC2EFEB1F60D6F90081FF68 /* UIDatePickerHelper.swift in Sources */,
 				8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */,
