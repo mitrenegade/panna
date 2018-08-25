@@ -30,8 +30,6 @@ class ExpandableMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        buttonExpand.isEnabled = false
-    
         let text: String
         if let place = event?.place, let locationString = event?.locationString {
             text = "\(place)\n\(locationString)"
@@ -49,6 +47,11 @@ class ExpandableMapViewController: UIViewController {
             string.addAttributes([NSAttributedStringKey.font : UIFont.montserrat(size: 14)], range: range)
         }
         labelLocation.attributedText = string
+        
+        if let event = event, let lat = event.lat, let lon = event.lon {
+            let region = MKCoordinateRegionMake(CLLocationCoordinate2D(latitude: lat, longitude: lon), MKCoordinateSpanMake(0.05, 0.05))
+            mapView.setRegion(region, animated: false)
+        }
     }
 
     @IBAction func didClickButtonExpand(_ sender: Any?) {
@@ -66,3 +69,4 @@ class ExpandableMapViewController: UIViewController {
         }
     }
 }
+x`x`
