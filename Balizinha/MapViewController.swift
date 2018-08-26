@@ -182,7 +182,7 @@ extension MapViewController: MKMapViewDelegate {
         }
         view.annotation = annotation
         view.canShowCallout = true
-        view.calloutOffset = CGPoint(x: -5, y: 5)
+        view.calloutOffset = CGPoint(x: -20, y: 20)
         return view
     }
 }

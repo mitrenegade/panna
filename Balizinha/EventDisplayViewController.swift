@@ -101,9 +101,6 @@ class EventDisplayViewController: UIViewController {
 
         self.constraintWidth.constant = UIScreen.main.bounds.size.width
         
-        // hide map
-        self.locationController.shouldShowMap = false
-        
         // keyboard
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -150,7 +147,7 @@ class EventDisplayViewController: UIViewController {
         
         // players
         playersScrollView.delegate = self
-        loadPlayers()
+        //loadPlayers()
 //        EventService.shared.observeUsers(for: event) { (ids) in
 //            for id: String in ids {
 //                PlayerService.shared.withId(id: id, completion: {[weak self] (player) in

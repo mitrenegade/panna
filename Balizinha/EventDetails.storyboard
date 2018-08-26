@@ -387,11 +387,14 @@ City, State</string>
                                     <action selector="didClickButtonExpand:" destination="heN-tZ-ESE" eventType="touchUpInside" id="kC2-9y-JRB"/>
                                 </connections>
                             </button>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="o6b-RA-c91">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" scrollEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o6b-RA-c91">
                                 <rect key="frame" x="0.0" y="90" width="375" height="0.0"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="E57-A6-3qD"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="heN-tZ-ESE" id="a38-Hv-RGU"/>
+                                </connections>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
