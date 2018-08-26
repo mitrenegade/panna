@@ -117,17 +117,17 @@ Type</string>
                                         </constraints>
                                     </view>
                                     <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XKL-LP-hIz" userLabel="Container View - location and map">
-                                        <rect key="frame" x="0.0" y="290" width="375" height="66"/>
+                                        <rect key="frame" x="0.0" y="290" width="375" height="100"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="66" id="eVB-nQ-1Rw"/>
+                                            <constraint firstAttribute="height" constant="100" id="eVB-nQ-1Rw"/>
                                         </constraints>
                                         <connections>
                                             <segue destination="heN-tZ-ESE" kind="embed" identifier="EmbedLocation" id="v2I-Ol-ZXP"/>
                                         </connections>
                                     </containerView>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tGR-pq-uhO" userLabel="View - reserve spot">
-                                        <rect key="frame" x="0.0" y="356" width="375" height="59"/>
+                                        <rect key="frame" x="0.0" y="390" width="375" height="59"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mII-0a-gcT">
                                                 <rect key="frame" x="8" y="0.0" width="359" height="21"/>
@@ -170,7 +170,7 @@ Type</string>
                                         </constraints>
                                     </view>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y7x-2l-MZf" userLabel="detailView">
-                                        <rect key="frame" x="0.0" y="415" width="375" height="100"/>
+                                        <rect key="frame" x="0.0" y="449" width="375" height="100"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FCt-eO-A2r" userLabel="Label Info">
                                                 <rect key="frame" x="8" y="0.0" width="359" height="100"/>
@@ -189,7 +189,7 @@ Type</string>
                                         </constraints>
                                     </view>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nBh-qV-Eg0" userLabel="Container View - organizer">
-                                        <rect key="frame" x="0.0" y="515" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="549" width="375" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="86n-tI-D7g"/>
@@ -199,7 +199,7 @@ Type</string>
                                         </connections>
                                     </containerView>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nNh-T3-3nB" userLabel="Container View - payment">
-                                        <rect key="frame" x="0.0" y="605" width="375" height="40"/>
+                                        <rect key="frame" x="0.0" y="639" width="375" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="j2B-AI-8En"/>
@@ -209,7 +209,7 @@ Type</string>
                                         </connections>
                                     </containerView>
                                     <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="do0-We-LXv" userLabel="Container View - chat">
-                                        <rect key="frame" x="0.0" y="645" width="375" height="200"/>
+                                        <rect key="frame" x="0.0" y="679" width="375" height="200"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="oQi-1b-Zgc"/>
                                         </constraints>
@@ -218,14 +218,14 @@ Type</string>
                                         </connections>
                                     </containerView>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bhl-nn-68t" userLabel="View - spacer for chat">
-                                        <rect key="frame" x="0.0" y="845" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="879" width="375" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="UvV-ic-Vba"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="06g-fB-xjS" customClass="PlayersScrollView" customModule="Panna" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="565" width="375" height="40"/>
+                                        <rect key="frame" x="0.0" y="599" width="375" height="40"/>
                                         <subviews>
                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="drW-2R-f8Q">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
@@ -359,11 +359,11 @@ Type</string>
                         <viewControllerLayoutGuide type="bottom" id="h0X-Ph-m6U"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8GG-8c-txV">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="66"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="geF-hY-DMd">
-                                <rect key="frame" x="8" y="8" width="303" height="50"/>
+                                <rect key="frame" x="8" y="8" width="76.5" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="VI5-Jv-EkL"/>
                                 </constraints>
@@ -373,39 +373,41 @@ City, State</string>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0EM-bS-25f">
+                                <rect key="frame" x="8" y="58" width="359" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="kIF-pA-NJh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
+                                <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="Show Map" image="map">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="didClickButtonExpand:" destination="heN-tZ-ESE" eventType="touchUpInside" id="kC2-9y-JRB"/>
+                                </connections>
+                            </button>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="o6b-RA-c91">
-                                <rect key="frame" x="0.0" y="66" width="375" height="0.0"/>
+                                <rect key="frame" x="0.0" y="90" width="375" height="0.0"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="E57-A6-3qD"/>
                                 </constraints>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iyI-dm-LpV">
-                                <rect key="frame" x="319" y="13" width="40" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="DIP-38-KBi"/>
-                                    <constraint firstAttribute="height" constant="40" id="aSj-Eh-QpD"/>
-                                </constraints>
-                                <state key="normal" image="map"/>
-                                <connections>
-                                    <action selector="didClickButtonExpand:" destination="heN-tZ-ESE" eventType="touchUpInside" id="bvy-Oy-5ry"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="o6b-RA-c91" firstAttribute="leading" secondItem="8GG-8c-txV" secondAttribute="leading" id="2JH-VW-aXk"/>
                             <constraint firstItem="geF-hY-DMd" firstAttribute="top" secondItem="T8y-Tg-kmf" secondAttribute="bottom" constant="8" id="4Fr-lC-ts8"/>
-                            <constraint firstItem="o6b-RA-c91" firstAttribute="top" secondItem="geF-hY-DMd" secondAttribute="bottom" constant="8" id="JQU-7R-5A9"/>
-                            <constraint firstItem="iyI-dm-LpV" firstAttribute="trailing" secondItem="8GG-8c-txV" secondAttribute="trailingMargin" id="OhX-g7-Agt"/>
-                            <constraint firstItem="iyI-dm-LpV" firstAttribute="centerY" secondItem="8GG-8c-txV" secondAttribute="centerY" id="cxP-O4-ENo"/>
-                            <constraint firstAttribute="bottom" secondItem="o6b-RA-c91" secondAttribute="bottom" id="pKo-qH-GsI"/>
+                            <constraint firstItem="o6b-RA-c91" firstAttribute="top" secondItem="0EM-bS-25f" secondAttribute="bottom" constant="2" id="4dG-tH-Trb"/>
+                            <constraint firstAttribute="trailing" secondItem="0EM-bS-25f" secondAttribute="trailing" constant="8" id="Fo2-Ft-buQ"/>
+                            <constraint firstItem="0EM-bS-25f" firstAttribute="top" secondItem="geF-hY-DMd" secondAttribute="bottom" id="LfP-Na-10Z"/>
                             <constraint firstItem="geF-hY-DMd" firstAttribute="leading" secondItem="8GG-8c-txV" secondAttribute="leading" constant="8" id="qbH-W3-kKW"/>
-                            <constraint firstItem="iyI-dm-LpV" firstAttribute="leading" secondItem="geF-hY-DMd" secondAttribute="trailing" constant="8" id="rTj-ej-FLB"/>
+                            <constraint firstItem="0EM-bS-25f" firstAttribute="leading" secondItem="8GG-8c-txV" secondAttribute="leading" constant="8" id="qiu-6B-09Y"/>
                             <constraint firstAttribute="trailing" secondItem="o6b-RA-c91" secondAttribute="trailing" id="tSh-uP-Bie"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="buttonExpand" destination="iyI-dm-LpV" id="gWF-Ar-tBB"/>
+                        <outlet property="buttonExpand" destination="0EM-bS-25f" id="Pqy-SZ-RSp"/>
                         <outlet property="constraintLabel" destination="VI5-Jv-EkL" id="W5u-Tl-6vS"/>
                         <outlet property="constraintMapHeight" destination="E57-A6-3qD" id="GcK-WN-fkI"/>
                         <outlet property="labelLocation" destination="geF-hY-DMd" id="wq7-Do-tzg"/>

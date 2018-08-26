@@ -79,7 +79,6 @@ class LeagueViewController: UIViewController {
     }
     
     func observePlayers() {
-        guard let league = self.league else { return }
         activityOverlay.show()
         players.removeAll()
         let dispatchGroup = DispatchGroup()
