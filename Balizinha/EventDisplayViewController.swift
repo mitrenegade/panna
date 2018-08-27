@@ -147,7 +147,9 @@ class EventDisplayViewController: UIViewController {
         
         // players
         playersScrollView.delegate = self
-        //loadPlayers()
+        loadPlayers()
+        
+        // TODO: do players need to update in real time?
 //        EventService.shared.observeUsers(for: event) { (ids) in
 //            for id: String in ids {
 //                PlayerService.shared.withId(id: id, completion: {[weak self] (player) in
