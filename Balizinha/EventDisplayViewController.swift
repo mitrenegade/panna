@@ -105,10 +105,6 @@ class EventDisplayViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
-        if let isPast = self.event?.isPast, isPast {
-            self.hideChat()
-        }
-        
         // update payment display
         if SettingsService.paymentRequired() {
             self.constraintPaymentHeight.constant = (self.event?.paymentRequired ?? false) ? 40 : 0
@@ -277,7 +273,6 @@ class EventDisplayViewController: UIViewController {
     
     func hideChat() {
         self.constraintInputHeight.constant = 0
-        self.constraintSpacerHeight.constant = 0
         self.constraintScrollBottomOffset.constant = 0
     }
     
