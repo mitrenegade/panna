@@ -66,6 +66,8 @@ class ExpandableMapViewController: UIViewController {
 
     @IBAction func didClickButtonExpand(_ sender: Any?) {
         shouldShowMap = !shouldShowMap
+        
+        LoggingService.shared.log(event: .ShowOrHideMap, info: ["show": shouldShowMap])
     }
     
     fileprivate func toggleMap(show: Bool) {

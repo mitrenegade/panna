@@ -104,10 +104,11 @@ extension PinpointViewController: MKMapViewDelegate {
         }
         
         let mapCenter = mapView.centerCoordinate
-        print("mapview: region changed to \(mapCenter)")
         currentLocation = mapCenter
         
         doGeocode()
+        
+        LoggingService.shared.log(event: .DragVenueMap, info: nil)
     }
     
     fileprivate func doGeocode() {
@@ -133,6 +134,7 @@ extension PinpointViewController: MKMapViewDelegate {
         let title = nameLocked ? "Unlock name" : "Lock name"
         alert.addAction(UIAlertAction(title: title, style: .default, handler: { (action) in
             self.nameLocked = !self.nameLocked
+            LoggingService.shared.log(event: .LockVenueName, info: ["locked": self.nameLocked])
         }))
         alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
         })
@@ -155,9 +157,12 @@ extension PinpointViewController: MKMapViewDelegate {
                 print("Manually changing name to \(name)")
                 self.venue?.name = name
                 self.refreshLabel()
+                LoggingService.shared.log(event: .EditVenueName, info: ["saved": true, "name": name])
             }
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+            LoggingService.shared.log(event: .EditVenueName, info: ["saved": false])
+        }))
         self.present(alert, animated: true)
     }
 }
