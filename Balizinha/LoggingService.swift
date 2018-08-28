@@ -39,6 +39,15 @@ enum LoggingEvent: String {
     
     // upgrade
     case softUpgradeDismissed
+    
+    // create/edit event
+    case SearchForVenue
+    case EditVenueName
+    case LockVenueName
+    case DragVenueMap
+    
+    // view event details
+    case ShowOrHideMap
 }
 
 class LoggingService: NSObject {

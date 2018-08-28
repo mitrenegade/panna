@@ -103,6 +103,12 @@ extension PlaceSearchViewController: PlaceResultsDelegate {
     // user selected a place from search results
     func didSelectPlace(placemark:MKPlacemark){
         pinpointController?.searchPlace = placemark
+        
+        var info: [String: Any]?
+        if let searchTerm = searchController!.searchBar.text {
+            info = ["searchTerm": searchTerm]
+        }
+        LoggingService.shared.log(event: .SearchForVenue, info: info)
     }
 }
 
