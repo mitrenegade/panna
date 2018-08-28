@@ -26,8 +26,7 @@ fileprivate var FUTURE_DAYS = 90
 class CreateEventViewController: UIViewController, UITextViewDelegate {
     
     var options: [String]!
-    var sportTypes = ["Select Type", "3v3", "5v5", "7v7", "11v11"]
-    var eventTypes: [EventType] = [.other, .event3v3, .event5v5, .event7v7, .event11v11]
+    var eventTypes: [EventType] = [.other, .event3v3, .event5v5, .event7v7, .event11v11, .group, .social]
     
     var currentField : UITextField?
     var currentTextView : UITextView?
@@ -453,7 +452,11 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView2
                     
                     if let type = type, let index = self.eventTypes.index(of: type) {
-                        self.typeField?.text = self.sportTypes[index]
+                        if eventTypes[index] == .other {
+                            typeField!.text = "Select event type"
+                        } else {
+                            typeField!.text = eventTypes[index].rawValue
+                        }
                     }
                 case "Day":
                     self.dayField = cell.valueTextField
@@ -659,7 +662,11 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         if (currentField == self.typeField) {
             let selectedRow = self.typePickerView.selectedRow(inComponent: 0)
             self.type = eventTypes[selectedRow]
-            currentField!.text = self.sportTypes[selectedRow]
+            if eventTypes[selectedRow] == .other {
+                currentField!.text = "Select event type"
+            } else {
+                currentField!.text = self.eventTypes[selectedRow].rawValue
+            }
         } else if (currentField == self.maxPlayersField) { //selected max players
             self.maxPlayers = UInt(self.pickerView(self.numberPickerView, titleForRow: self.numberPickerView.selectedRow(inComponent: 0), forComponent: 0)!)
             if let maxPlayers = self.maxPlayers {
@@ -726,7 +733,7 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         //print("Reloaded number of rows")
         if pickerView == self.typePickerView {
-            return sportTypes.count
+            return eventTypes.count
         }
         else if pickerView == self.numberPickerView {
             return 64
@@ -739,7 +746,10 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
         //print("Reloaded components")
         
         if pickerView == self.typePickerView {
-            return sportTypes[row]
+            if eventTypes[row] == .other {
+                return "Select event type"
+            }
+            return eventTypes[row].rawValue
         }
         else if pickerView == self.datePickerView {
             if row < self.datesForPicker.count {
