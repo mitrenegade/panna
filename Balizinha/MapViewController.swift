@@ -163,6 +163,11 @@ extension MapViewController: MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !(annotation is MKUserLocation) else {
+            //return nil so map view draws "blue dot" for standard user location
+            return nil
+        }
+
         let identifier = "marker"
         var view: MKAnnotationView
         
@@ -177,7 +182,7 @@ extension MapViewController: MKMapViewDelegate {
         }
         view.annotation = annotation
         view.canShowCallout = true
-        view.calloutOffset = CGPoint(x: -5, y: 5)
+        view.calloutOffset = CGPoint(x: -20, y: 20)
         return view
     }
 }

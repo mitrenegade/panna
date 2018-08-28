@@ -101,17 +101,10 @@ class EventDisplayViewController: UIViewController {
 
         self.constraintWidth.constant = UIScreen.main.bounds.size.width
         
-        // hide map
-        self.locationController.shouldShowMap = false
-        
         // keyboard
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
-        if let isPast = self.event?.isPast, isPast {
-            self.hideChat()
-        }
-        
         // update payment display
         if SettingsService.paymentRequired() {
             self.constraintPaymentHeight.constant = (self.event?.paymentRequired ?? false) ? 40 : 0
@@ -150,16 +143,19 @@ class EventDisplayViewController: UIViewController {
         
         // players
         playersScrollView.delegate = self
-        EventService.shared.observeUsers(for: event) { (ids) in
-            for id: String in ids {
-                PlayerService.shared.withId(id: id, completion: {[weak self] (player) in
-                    if let player = player {
-                        self?.playersScrollView.addPlayer(player: player)
-                        self?.playersScrollView.refresh()
-                    }
-                })
-            }
-        }
+        loadPlayers()
+        
+        // TODO: do players need to update in real time?
+//        EventService.shared.observeUsers(for: event) { (ids) in
+//            for id: String in ids {
+//                PlayerService.shared.withId(id: id, completion: {[weak self] (player) in
+//                    if let player = player {
+//                        self?.playersScrollView.addPlayer(player: player)
+//                        self?.playersScrollView.refresh()
+//                    }
+//                })
+//            }
+//        }
         
         view.addSubview(activityOverlay)
     }
@@ -172,6 +168,32 @@ class EventDisplayViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    fileprivate func loadPlayers() {
+        guard let event = event else { return }
+        DispatchQueue.global().async {
+            let playerIds = EventService.shared.users(for: event)
+            let dispatchGroup = DispatchGroup()
+            var players: [Player] = []
+            for id: String in playerIds {
+                dispatchGroup.enter()
+                PlayerService.shared.withId(id: id, completion: {(player) in
+                    dispatchGroup.leave()
+                    if let player = player {
+                        players.append(player)
+                    }
+                })
+            }
+            dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+                for player in players {
+                    self?.playersScrollView.addPlayer(player: player)
+                }
+                DispatchQueue.main.async {
+                    self?.playersScrollView.refresh()
+                }
+            }
+        }
     }
     
     @IBAction func didClickClose(_ sender: Any?) {
@@ -251,7 +273,6 @@ class EventDisplayViewController: UIViewController {
     
     func hideChat() {
         self.constraintInputHeight.constant = 0
-        self.constraintSpacerHeight.constant = 0
         self.constraintScrollBottomOffset.constant = 0
     }
     

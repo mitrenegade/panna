@@ -16,21 +16,10 @@ class EventActivityViewController: UIViewController {
     
     var event: Balizinha.Event? {
         didSet {
-            if let newVal = event {
-                ActionService().observeActions(forEvent: newVal, completion: { action in
-                    // visible should always be true - if an action is deleted, the eventAction should be deleted
-                    if action.visible {
-                        self.actions[action.id] = action
-                        self.reloadData()
-                    }
-                    else {
-                        self.actions[action.id] = nil
-                    }
-                })
-            }
+            loadAndObserveActions()
         }
     }
-    var actions: [String: Action] = [:]
+    var actionIds: Set<String> = Set()
     var sortedActions: [Action]?
 
     override func viewDidLoad() {
@@ -45,22 +34,37 @@ class EventActivityViewController: UIViewController {
     }
     
     func reloadData() {
-        self.sortedActions = actions.values.sorted(by: { (a, b) -> Bool in
-            if a.createdAt == nil && b.createdAt != nil {
-                return false
-            }
-            else if b.createdAt == nil && a.createdAt != nil {
-                return true
-            }
-            else if a.createdAt == nil && b.createdAt == nil {
-                return true
-            }
-            return a.createdAt! < b.createdAt!
-        })
+        // actions come in sorted
         self.tableView.reloadData()
         if let actions = self.sortedActions, actions.count > 0 {
             firstAppear = false
             self.tableView.scrollToRow(at: NSIndexPath(row: actions.count - 1, section: 0) as IndexPath, at: .top, animated: true)
+        }
+    }
+    
+    func loadAndObserveActions() {
+        guard let event = event else { return }
+        let service = ActionService()
+        service.actions(for: event) { [weak self] (actions) in
+            self?.sortedActions = actions
+            for action in actions {
+                self?.actionIds.insert(action.id)
+            }
+            DispatchQueue.main.async {
+                self?.reloadData()
+            }
+        }
+        
+        service.observeActions(for: event) { [weak self] (actionId) in
+            guard self?.actionIds.contains(actionId) == false else { return }
+            self?.actionIds.insert(actionId)
+            service.withId(id: actionId, completion: { (action) in
+                guard let action = action else { return }
+                self?.sortedActions?.append(action)
+                DispatchQueue.main.async {
+                    self?.reloadData()
+                }
+            })
         }
     }
 }

@@ -94,6 +94,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         didSet {
             name = eventToEdit?.name
             type = eventToEdit?.type
+            // TODO: replace with event.venue
             venue = Venue(eventToEdit?.place, nil, eventToEdit?.city, eventToEdit?.state, eventToEdit?.lat, eventToEdit?.lon)
             date = eventToEdit?.startTime
             startTime = eventToEdit?.startTime
