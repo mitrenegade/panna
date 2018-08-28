@@ -145,7 +145,7 @@ extension PinpointViewController: MKMapViewDelegate {
     }
     
     fileprivate func editName() {
-        let alert = UIAlertController(title: "Please enter a promo code", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "What should this venue be called?", message: nil, preferredStyle: .alert)
         alert.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "Enter venue name"
             textField.text = self.venue?.name
