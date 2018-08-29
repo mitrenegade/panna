@@ -714,6 +714,7 @@ extension CreateEventViewController {
         guard let event = eventToEdit else { return }
         let alert = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Yes, delete this event", style: .default, handler: { (action) in
+            LoggingService.shared.log(event: .DeleteEvent, info: ["eventId": event.id])
             EventService.shared.deleteEvent(event)
             self.navigationController?.dismiss(animated: true, completion: nil)
         }))
@@ -815,7 +816,13 @@ extension CreateEventViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == self.nameField {
+            let oldName = self.name
             self.name = textField.text
+            
+            // logging to track event changes
+            if let event = eventToEdit, let old = oldName, let newName = textField.text {
+                LoggingService.shared.log(event: .RenameEvent, info: ["oldName": old, "newName": newName, "eventId": event.id])
+            }
         }
         else if textField == self.amountField, let newAmount = EventService.amountNumber(from: textField.text) {
             var title = "Payment amount"
@@ -839,6 +846,11 @@ extension CreateEventViewController: UITextFieldDelegate {
                     
                 }))
                 self.present(alert, animated: true, completion: nil)
+            }
+            
+            // logging to track event changes
+            if let event = eventToEdit {
+                LoggingService.shared.log(event: .ChangeEventPaymentAmount, info: ["eventId": event.id, "oldAmount": self.amount ?? 0, "newAmount": newAmount])
             }
         }
     }
@@ -976,6 +988,11 @@ extension CreateEventViewController: ToggleCellDelegate {
         self.amountField?.isHidden = !isOn
         if isOn {
             self.revertAmount()
+        }
+        
+        // logging to track event changes
+        if let event = eventToEdit {
+            LoggingService.shared.log(event: .ToggleEventPaymentRequired, info: ["eventId": event.id, "paymentRequired": paymentRequired])
         }
     }
     

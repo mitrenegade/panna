@@ -48,6 +48,12 @@ enum LoggingEvent: String {
     
     // view event details
     case ShowOrHideMap
+    
+    // edit event details
+    case RenameEvent
+    case ToggleEventPaymentRequired
+    case ChangeEventPaymentAmount
+    case DeleteEvent
 }
 
 class LoggingService: NSObject {
