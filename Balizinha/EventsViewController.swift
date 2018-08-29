@@ -19,8 +19,8 @@ class EventsViewController: UIViewController {
     var service = EventService.shared
     var joinHelper = JoinEventHelper()
     var allEvents : [Balizinha.Event] = []
-    var sortedEvents: [EventType: [Balizinha.Event]] = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .other: []]
-    let eventTypes: [EventType] = [.event3v3, .event5v5, .event7v7, .event11v11, .other]
+    var sortedEvents: [EventType: [Balizinha.Event]] = [:]
+    let eventOrder: [EventType] = [.event3v3, .event5v5, .event7v7, .event11v11, .group, .social, .other]
 
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
     
@@ -114,13 +114,18 @@ class EventsViewController: UIViewController {
                 })
                 
                 // 3: Organize events by type
-                weakself.sortedEvents = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .other: []]
+                weakself.sortedEvents = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .group: [], .social: [], .other: []]
                 
                 for event in weakself.allEvents {
-                    var oldValue = weakself.sortedEvents[event.type]
-                    print(event.type)
-                    oldValue?.append(event)
-                    weakself.sortedEvents.updateValue(oldValue!, forKey: event.type)
+                    if weakself.eventOrder.contains(event.type) {
+                        var eventArray = weakself.sortedEvents[event.type] ?? []
+                        eventArray.append(event)
+                        weakself.sortedEvents.updateValue(eventArray, forKey: event.type)
+                    } else {
+                        var eventArray = weakself.sortedEvents[.other] ?? []
+                        eventArray.append(event)
+                        weakself.sortedEvents.updateValue(eventArray, forKey: .other)
+                    }
                 }
                 weakself.reloadData()
             })
@@ -133,12 +138,12 @@ class EventsViewController: UIViewController {
         
         let filtered = events.filter { (event) -> Bool in
             guard let lat = event.lat, let lon = event.lon else {
-                print("filtered event \(event.name) no lat lon")
+                print("filtered event \(String(describing: event.name)) no lat lon")
                 return true
             }
             let coord = CLLocation(latitude: lat, longitude: lon)
             let dist = coord.distance(from: location)
-            print("filtered event \(event.name) coord \(coord) dist \(dist)")
+            print("filtered event \(String(describing: event.name)) coord \(coord) dist \(dist)")
             return dist < Double(SettingsService.eventFilterRadius * METERS_PER_MILE)
         }
         return filtered
@@ -158,7 +163,7 @@ class EventsViewController: UIViewController {
         guard let nav = segue.destination as? UINavigationController else { return }
         
         if segue.identifier == "toEventDetails" {
-            let frame = nav.view.frame // force load root view controller
+            _ = nav.view.frame // force load root view controller
             guard let detailsController = nav.viewControllers[0] as? EventDisplayViewController else { return }
             guard let event = sender as? Balizinha.Event else { return }
             
@@ -175,38 +180,43 @@ class EventsViewController: UIViewController {
 extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sortedEvents.keys.count
+        return eventOrder.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let eventType = eventTypes[section]
+        let eventType = eventOrder[section]
         let events = sortedEvents[eventType] ?? []
         return events.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return eventTypes[section].rawValue
+        return eventOrder[section].rawValue
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
         cell.delegate = self
         
-        let event = sortedEvents[eventTypes[indexPath.section]]![indexPath.row]
+        let eventType = eventOrder[indexPath.section]
+        guard let array = sortedEvents[eventType], indexPath.row < array.count else { return cell }
+        let event = array[indexPath.row]
         cell.setupWithEvent(event)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        let list = sortedEvents[eventTypes[section]]
-        return list!.count == 0 ? 0 : UITableViewAutomaticDimension
+        guard section < eventOrder.count else { return 0 }
+        let array = sortedEvents[eventOrder[section]] ?? []
+        return array.isEmpty ? 0 : UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let event = sortedEvents[eventTypes[indexPath.section]]![indexPath.row]
+        let eventType = eventOrder[indexPath.section]
+        guard let array = sortedEvents[eventType], indexPath.row < array.count else { return }
+
+        let event = array[indexPath.row]
         performSegue(withIdentifier: "toEventDetails", sender: event)
     }
 }
@@ -274,7 +284,7 @@ extension EventsViewController {
 
         let userEvents = allEvents.filter({ (event) -> Bool in
             return eventIds.contains(event.id)
-        }) ?? []
+        })
 
         let subscribed: Bool
         if UserDefaults.standard.value(forKey: kNotificationsDefaultsKey) == nil {
