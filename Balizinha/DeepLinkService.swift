@@ -43,14 +43,17 @@ class DeepLinkService: NSObject {
     }
 
     // handles deeplinks sent through a click
-    func handle(url: URL) -> Bool{
-        deeplinkType = parseDeepLink(url)
+    func handle(url: URL) -> Bool {
+        deeplinkType = parseUniversalLink(url) ?? parseDeepLink(url) // use universal links first, then fall back to deeplink (ios only)
         guard let type = deeplinkType else { return false }
         proceedToDeeplink(type)
         return true
     }
     
     fileprivate func parseDeepLink(_ url: URL) -> DeeplinkType? {
+        // format: panna://events/123
+        // scheme = panna
+        // host = events
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host else {
             return nil
         }
@@ -79,6 +82,32 @@ class DeepLinkService: NSObject {
         }
         return nil
     }
+
+    fileprivate func parseUniversalLink(_ url: URL) -> DeeplinkType? {
+        // format: https://pannadev.page.link/events/123
+        // scheme = https
+        // host = pannadev.page.link
+        // first component: events
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
+            return nil
+        }
+        var pathComponents = components.path.components(separatedBy: "/")
+        // the first component is empty
+        pathComponents.removeFirst()
+        let category = pathComponents.first
+        pathComponents.removeFirst()
+        guard let id = pathComponents.first else { return nil }
+        switch category {
+        case "messages":
+            return DeeplinkType.messages(.details(id))
+        case "events":
+            return DeeplinkType.event(id)
+        default:
+            break
+        }
+        return nil
+    }
+
     
     fileprivate func proceedToDeeplink(_ type: DeeplinkType) {
         switch type {
@@ -100,7 +129,7 @@ class DeepLinkService: NSObject {
     fileprivate func loadAndShowEvent(_ eventId: String) {
         EventService.shared.featuredEventId = eventId
         notify(.DisplayFeaturedEvent, object: nil, userInfo: ["eventId": eventId])
-        LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedEventOpened, info: nil)
+        LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedEventOpened, info: ["eventId": eventId])
     }
     
     fileprivate func goToAccount(_ accountAction: DeeplinkType.AccountActions) {

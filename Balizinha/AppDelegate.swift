@@ -99,13 +99,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController?.present(alert, animated: true, completion: nil)
         }
     }
-    
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true), (components.scheme == "balizinha" || components.scheme == "panna") {
-            return DeepLinkService.shared.handle(url: url)
-        }
-        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
-    }
 
     // MARK: - Push
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -184,5 +177,25 @@ extension AppDelegate {
         print("PUSH: background fetch")
         LoggingService.shared.log(event: LoggingEvent.BackgroundFetch, info: nil)
         completionHandler(UIBackgroundFetchResult.newData)
+    }
+}
+
+// MARK: - Deeplinking
+extension AppDelegate {
+    // deeplinking from a scheme like panna://events/eventId
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true), (components.scheme == "balizinha" || components.scheme == "panna") {
+            return DeepLinkService.shared.handle(url: url)
+        }
+        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
+    
+    // universal links
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        print("User activity type \(userActivity.activityType) url \(String(describing: userActivity.webpageURL?.absoluteString))")
+        if let url = userActivity.webpageURL, let components = URLComponents(url: url, resolvingAgainstBaseURL: true), (components.host == "pannadev.page.link" || components.host == "pannaleagues.page.link") {
+            return DeepLinkService.shared.handle(url: url)
+        }
+        return false
     }
 }
