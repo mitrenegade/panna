@@ -9,6 +9,7 @@
 import UIKit
 import MessageUI
 import Balizinha
+import FBSDKShareKit
 
 class ShareService: NSObject {
     class var canSendText:Bool {
@@ -28,6 +29,23 @@ class ShareService: NSObject {
         let eventLink = shareLinkFor(event: eventId)
         let message = "Are you down for a game? Join the event here: \(eventLink)."
         share(from: controller, message: message)
+    }
+    
+    func shareToFacebook(event: Balizinha.Event, from controller: UIViewController) {
+        let content: FBSDKShareLinkContent = FBSDKShareLinkContent()
+        let eventLink = shareLinkFor(event: event.id) // TODO: this url doesn't render or forward correctly on Facebook. For facebook sharing, link to a dynamic website that redirects to the dynamic link in Safari
+        let url = URL(string: eventLink)
+        content.contentURL = url
+        FBSDKShareDialog.show(from: controller, with: content, delegate: controller as? FBSDKSharingDelegate)
+        
+        //        FirebaseImageService().eventPhotoUrl(for: event) { (url) in
+        //            if let url = url {
+        //                let photo: FBSDKSharePhoto = FBSDKSharePhoto(imageURL: url, userGenerated: true)
+        //                let content = FBSDKSharePhotoContent()
+        //                content.photos = [photo]
+        //            }
+        //        }
+        //
     }
     
     fileprivate func shareLinkFor(event eventId: String) -> String{
