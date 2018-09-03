@@ -6,8 +6,8 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:balizinha-dev.firebaseapp.com</string>
-		<string>applinks:balizinha-c9cd7.firebaseapp.com</string>
+		<string>applinks:pannadev.page.link</string>
+		<string>applinks:pannaleagues.page.link</string>
 	</array>
 </dict>
 </plist>
