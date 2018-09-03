@@ -19,19 +19,21 @@ class ShareService: NSObject {
         let messageComposeVC = MFMessageComposeViewController()
         messageComposeVC.messageComposeDelegate = self  //  Make sure to set this property to self, so that the controller can be dismissed!
         messageComposeVC.recipients = []
-        messageComposeVC.body = message ?? "Come join me for a game of Balizinha! https://itunes.apple.com/us/app/balizinha/id1198807198?mt=8"
+        messageComposeVC.body = message ?? "Come join me for a game of futsal using Panna! Download the app here: http://apple.co/2zeAZ9X"
         controller.present(messageComposeVC, animated: true, completion: nil)
     }
     
     func share(event: Balizinha.Event, from controller: UIViewController) {
         let eventId = event.id
         let eventLink = shareLinkFor(event: eventId)
-        let message = "Are you down to play soccer today? Come out! \(eventLink). Download the app here: http://apple.co/2zeAZ9X"
+        let message = "Are you down for a game? Join the event here: \(eventLink)."
         share(from: controller, message: message)
     }
     
     fileprivate func shareLinkFor(event eventId: String) -> String{
-        return "panna://events/\(eventId)"
+        //return "panna://events/\(eventId)"
+        let pannaString = TESTING ? "pannadev" : "pannaleagues"
+        return "https://\(pannaString).page.link/events/\(eventId)"
     }
 }
 
