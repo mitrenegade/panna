@@ -70,6 +70,8 @@ class EventDisplayViewController: UIViewController {
         let type = self.event?.type.rawValue ?? ""
         self.labelType.text = "\(name)\n\(type)"
         
+        imageShare.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
+
         if let startTime = self.event?.startTime {
             self.labelDate.text = "\(self.event?.dateString(startTime) ?? "")\n\(self.event?.timeString(startTime) ?? "")"
         }
@@ -129,11 +131,7 @@ class EventDisplayViewController: UIViewController {
             return
         }
         
-        if event.containsPlayer(player) {
-            imageShare.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
-        } else {
-            imageShare.isHidden = true
-            buttonShare.isHidden = true
+        if !event.containsPlayer(player) {
             self.hideChat()
         }
         
