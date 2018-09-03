@@ -129,7 +129,7 @@ class DeepLinkService: NSObject {
     fileprivate func loadAndShowEvent(_ eventId: String) {
         EventService.shared.featuredEventId = eventId
         notify(.DisplayFeaturedEvent, object: nil, userInfo: ["eventId": eventId])
-        LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedEventOpened, info: nil)
+        LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedEventOpened, info: ["eventId": eventId])
     }
     
     fileprivate func goToAccount(_ accountAction: DeeplinkType.AccountActions) {
