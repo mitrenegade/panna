@@ -46,9 +46,9 @@ class MapViewController: EventsViewController {
         EventService.shared.listenForEventUsers {
             NotificationService.shared.notify(.EventsChanged, object: nil, userInfo: nil)
         }
-        EventService.shared.eventsUpdateAction = {
+        EventService.shared.featuredEvent.asObservable().filterNil().distinctUntilChanged().subscribe(onNext: { (event) in
             NotificationService.shared.notify(.EventsChanged, object: nil, userInfo: nil)
-        }
+        }).disposed(by: disposeBag)
         
         // deeplink actions available from this controller
         self.listenFor(NotificationType.GoToAccountDeepLink, action: #selector(didClickProfile(_:)), object: nil)
@@ -216,17 +216,6 @@ extension MapViewController {
 
 // MARK: UITableViewDataSource, UITableViewDelegate
 extension MapViewController {
-    fileprivate var featuredEvent: (shouldShow: Bool, eventId: String, event: Balizinha.Event?) {
-        if let eventId = EventService.shared.featuredEventId, let event = EventService.shared.featuredEvent {
-            if filteredEventIds.contains(eventId) {
-                return (true, eventId, event)
-            } else if allEvents.filter( {$0.id == eventId} ).count > 0 {
-                return (true, eventId, event)
-            }
-        }
-        return (false, "", nil)
-    }
-    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 3
@@ -240,7 +229,7 @@ extension MapViewController {
             }
             return 0
         case 1:
-            if featuredEvent.shouldShow {
+            if EventService.shared.featuredEvent.value != nil {
                 return 1
             }
             return 0
@@ -266,13 +255,13 @@ extension MapViewController {
         case 0:
             label.text = nil
         case 1:
-            if featuredEvent.shouldShow {
+            if EventService.shared.featuredEvent.value != nil {
                 label.text = "Recommended"
             } else {
                 label.text = nil
             }
         default:
-            if featuredEvent.shouldShow {
+            if EventService.shared.featuredEvent.value != nil {
                 label.text = "All events"
             } else {
                 label.text = nil
@@ -286,13 +275,13 @@ extension MapViewController {
         case 0:
             return 0.1
         case 1:
-            if featuredEvent.shouldShow {
+            if EventService.shared.featuredEvent.value != nil {
                 return 30
             } else {
                 return 0.1
             }
         default:
-            if featuredEvent.shouldShow {
+            if EventService.shared.featuredEvent.value != nil {
                 return 30
             } else {
                 return 0.1
@@ -328,12 +317,10 @@ extension MapViewController {
             return UITableViewCell()
 
         case 1:
-            if featuredEvent.shouldShow {
+            if let event = EventService.shared.featuredEvent.value {
                 let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
                 cell.delegate = self
-                if let event = featuredEvent.event {
-                    cell.setupWithEvent(event)
-                }
+                cell.setupWithEvent(event)
                 LoggingService.shared.log(event: LoggingEvent.RecommendedEventCellViewed, info: nil)
                 return cell
             }
@@ -370,8 +357,8 @@ extension MapViewController {
             }
             return
         case 1:
-            if featuredEvent.shouldShow {
-                performSegue(withIdentifier: "toEventDetails", sender: featuredEvent.event)
+            if let event = EventService.shared.featuredEvent.value {
+                performSegue(withIdentifier: "toEventDetails", sender: event)
             }
         default:
             let event: Balizinha.Event
