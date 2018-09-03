@@ -30,6 +30,9 @@ enum NotificationType: String {
     case GoToMapForSharedEvent
     case GoToAccountDeepLink
     case PlayerLeaguesChanged // on join or leave
+   
+    // sharing/notifications
+    case DisplayFeaturedEvent
     
     func name() -> Notification.Name {
         return Notification.Name(self.rawValue)

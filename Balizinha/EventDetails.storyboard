@@ -26,7 +26,7 @@
         <!--Event Display View Controller-->
         <scene sceneID="yVX-9x-w5A">
             <objects>
-                <viewController id="UdQ-h3-dPN" customClass="EventDisplayViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EventDisplayViewController" id="UdQ-h3-dPN" customClass="EventDisplayViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5Mf-pG-CdL"/>
                         <viewControllerLayoutGuide type="bottom" id="RSz-2L-tQo"/>
