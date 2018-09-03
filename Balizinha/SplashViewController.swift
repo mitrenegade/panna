@@ -189,7 +189,8 @@ class SplashViewController: UIViewController {
         if SettingsService.donation() {
             self.listenFor(NotificationType.GoToDonationForEvent, action: #selector(goToCalendar(_:)), object: nil)
         }
-        self.listenFor(NotificationType.GoToMapForSharedEvent, action: #selector(goToMap(_:)), object: nil)
+//        self.listenFor(NotificationType.GoToMapForSharedEvent, action: #selector(goToMap(_:)), object: nil)
+        self.listenFor(NotificationType.DisplayFeaturedEvent, action: #selector(handleEventDeepLink(_:)), object: nil)
 
         EventService.shared.listenForEventUsers()
         let _ = PlayerService.shared.current.value // invoke listener
@@ -293,5 +294,23 @@ class SplashViewController: UIViewController {
         }
         let index = tabs.index(of: "Calendar") ?? 0
         homeViewController.selectedIndex = index
+    }
+}
+
+// deeplinks for notifications
+extension SplashViewController {
+    func handleEventDeepLink(_ notification: Notification?) {
+        guard let userInfo = notification?.userInfo, let eventId = userInfo["eventId"] as? String else { return }
+        guard let controller = UIStoryboard(name: "EventDetails", bundle: nil).instantiateViewController(withIdentifier: "EventDisplayViewController") as? EventDisplayViewController else { return }
+        controller.alreadyJoined = false
+        EventService.shared.withId(id: eventId) { [weak self] (event) in
+            guard let event = event else { return }
+            controller.event = event
+            
+            guard let homeViewController = self?.presentedViewController as? UITabBarController else {
+                return
+            }
+            homeViewController.present(controller, animated: true, completion: nil)
+        }
     }
 }

@@ -26,7 +26,7 @@
         <!--Event Display View Controller-->
         <scene sceneID="yVX-9x-w5A">
             <objects>
-                <viewController id="UdQ-h3-dPN" customClass="EventDisplayViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EventDisplayViewController" id="UdQ-h3-dPN" customClass="EventDisplayViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5Mf-pG-CdL"/>
                         <viewControllerLayoutGuide type="bottom" id="RSz-2L-tQo"/>
@@ -47,7 +47,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="rfV-G2-Hlb">
-                                        <rect key="frame" x="16" y="110.5" width="343" height="48"/>
+                                        <rect key="frame" x="16" y="106" width="343" height="50"/>
                                         <string key="text">Date
 Time</string>
                                         <fontDescription key="fontDescription" name="Montserrat-SemiBoldItalic" family="Montserrat" pointSize="20"/>
@@ -57,7 +57,7 @@ Time</string>
                                         <size key="shadowOffset" width="1" height="1"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0hR-vD-Xwe">
-                                        <rect key="frame" x="16" y="174.5" width="343" height="59.5"/>
+                                        <rect key="frame" x="16" y="172" width="343" height="62"/>
                                         <string key="text">Name
 Type</string>
                                         <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="25"/>

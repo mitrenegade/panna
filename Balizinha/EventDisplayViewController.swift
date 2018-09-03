@@ -214,7 +214,11 @@ class EventDisplayViewController: UIViewController {
     }
 
     @objc func close() {
-        self.navigationController?.dismiss(animated: true, completion: nil)
+        if let nav = navigationController {
+            self.navigationController?.dismiss(animated: true, completion: nil)
+        } else if let presenting = presentingViewController {
+            presenting.dismiss(animated: true, completion: nil)
+        }
     }
     
     deinit {

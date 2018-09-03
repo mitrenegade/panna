@@ -99,7 +99,7 @@ class DeepLinkService: NSObject {
     
     fileprivate func loadAndShowEvent(_ eventId: String) {
         EventService.shared.featuredEventId = eventId
-        self.notify(NotificationType.GoToMapForSharedEvent, object: nil, userInfo: nil)
+        notify(.DisplayFeaturedEvent, object: nil, userInfo: ["eventId": eventId])
         LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedEventOpened, info: nil)
     }
     
