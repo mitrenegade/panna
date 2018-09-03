@@ -284,6 +284,12 @@ class EventDisplayViewController: UIViewController {
             LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "contacts"])
             self?.shareEvent()
         }))
+        if AuthService.shared.hasFacebookProvider && false {
+            alert.addAction(UIAlertAction(title: "Share to Facebook", style: .default, handler: {[weak self] (action) in
+                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "facebook"])
+                self?.shareFBEvent()
+            }))
+        }
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad){
             alert.popoverPresentationController?.sourceView = buttonShare.superview
             alert.popoverPresentationController?.sourceRect = buttonShare.frame
@@ -339,50 +345,12 @@ extension EventDisplayViewController {
         shareService.share(event: event, from: self)
     }
 }
-/*
 extension EventDisplayViewController: FBSDKSharingDelegate {
     // MARK: - FBShare
-    func shareEvent2(_ event: Balizinha.Event) {
-        let content: FBSDKShareLinkContent = FBSDKShareLinkContent()
-        switch event.type {
-        case .balizinha:
-            content.imageUrl = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/soccer%403x.png")
-            content.contentURL = URL(string: "http://lotsportz.herokuapp.com/soccer")
-        case .flagFootball:
-            content.imageUrl = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/football%403x.png")
-            content.contentURL = URL(string: "http://lotsportz.herokuapp.com/football")
-        case .basketball:
-            content.imageUrl = URL(string: "https://s3-us-west-2.amazonaws.com/lotsportz/static/basketball%403x.png")
-            content.contentURL = URL(string: "http://lotsportz.herokuapp.com/basketball")
-        default:
-            content.imageUrl = nil
-        }
-        
-        content.contentTitle = "My event on LotSportz"
-        content.contentDescription = "I'm playing \(event.type.rawValue) at \(event.city) on \(event.dateString(event.startTime))"
-        
-        /*
-         This does not use contentTitle and contentDescription if the native app share dialog is used. It only works via web/safari facebook sharing.
-         See: http://stackoverflow.com/questions/29916591/fbsdksharelinkcontent-is-not-setting-the-contentdescription-and-contenttitle
-         FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
-         */
-        
-        let dialog = FBSDKShareDialog()
-        dialog.shareContent = content
-        dialog.fromViewController = self
-        dialog.mode = FBSDKShareDialogMode.native
-        if dialog.canShow() {
-            // FB app exists - this share works no matter what
-            dialog.show()
-        }
-        else {
-            // FB app not installed on phone. user may have to login
-            // this opens a dialog in the app, but link and title are correctly shared.
-            dialog.mode = FBSDKShareDialogMode.feedWeb
-            dialog.show()
-        }
+    func shareFBEvent() {
+        guard let event = event else { return  }
+        shareService.shareToFacebook(event: event, from: self)
     }
-
     
     // MARK: - FBSDKSharingDelegate
     func sharerDidCancel(_ sharer: FBSDKSharing!) {
@@ -405,7 +373,6 @@ extension EventDisplayViewController: FBSDKSharingDelegate {
     }
 
 }
- */
 
 extension EventDisplayViewController: PlayersScrollViewDelegate {
     func didSelectPlayer(player: Player) {
