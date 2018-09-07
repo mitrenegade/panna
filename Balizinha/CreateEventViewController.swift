@@ -132,7 +132,43 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didClickSave(_:)))
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didClickCancel(_:)))
         
-        if CACHE_ORGANIZER_FAVORITE_LOCATION {
+        if let event = eventToClone {
+            name = event.name
+            type = event.type
+            maxPlayers = UInt(event.maxPlayers)
+            info = event.info
+            paymentRequired = event.paymentRequired
+            amount = event.amount
+            
+            if let place = event.place,
+                let city = event.city,
+                let state = event.state,
+                let lat = event.lat,
+                let lon = event.lon
+            {
+                self.venue = Venue(place, nil, city, state, lat, lon)
+            }
+            if let leagueId = event.league {
+                LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
+                    self?.league = league
+                }
+            }
+            
+            // load photo - TODO how does this work
+            eventPhotoId = event.photoId
+//            FirebaseImageService().eventPhotoUrl(for: event) { [weak self] (url) in
+//                if let urlString = url?.absoluteString {
+//                    self?.sportImageView.imageUrl = urlString
+//                } else if let urlString = self?.event?.photoUrl {
+//                    // fall back on photoUrl
+//                    self?.sportImageView.imageUrl = urlString
+//                } else {
+//                    self?.sportImageView.imageUrl = nil
+//                    self?.sportImageView.image = UIImage(named: "soccer")
+//                }
+//            }
+            
+        } else if CACHE_ORGANIZER_FAVORITE_LOCATION {
             self.loadCachedOrganizerFavorites()
         }
         
