@@ -12,7 +12,17 @@ import Balizinha
 
 class AccountViewController: UIViewController {
     
-    var menuOptions: [String]!
+    enum Section: String {
+        case profile = "Edit profile"
+        case payment = "Payment options"
+        case promo = "Promo program"
+        case notifications = "Push notifications"
+        case location = "Use my location"
+        case about = "About"
+        case logout = "Logout"
+    }
+    
+    var menuOptions: [Section]!
     var service = EventService.shared
     var paymentCell: PaymentCell?
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
@@ -22,12 +32,12 @@ class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        menuOptions = ["Edit profile", "Payment options", "Promo program", "Push notifications", "Use my location", "Version", "Logout"]
-        if !SettingsService.paymentRequired() {
-            menuOptions = menuOptions.filter({$0 != "Promo program"})
+        menuOptions = [.profile, .payment, .promo, .notifications, .location, .about, .logout]
+        if !SettingsService.paymentRequired(), let index = menuOptions.index(of: .promo) {
+            menuOptions.remove(at: index)
         }
-        if !SettingsService.donation() && !SettingsService.paymentRequired() {
-            menuOptions = menuOptions.filter({$0 != "Payment options"})
+        if !SettingsService.donation() && !SettingsService.paymentRequired(), let index = menuOptions.index(of: .payment) {
+            menuOptions.remove(at: index)
         }
         
         navigationItem.title = "Account"
@@ -98,6 +108,22 @@ class AccountViewController: UIViewController {
             }
         }
     }
+    
+    func showAboutOptions() {
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        let build = Bundle.main.infoDictionary?["CFBundleVersion"] ?? ""
+        let buildString = TESTING ? ( "(\(build))t" ) : ""
+        let versionText = "Version: \(version ?? "unknown") \(buildString)"
+        let alert = UIAlertController(title: "About Panna", message: versionText, preferredStyle: .alert)
+        if let url = URL(string: "http://pannaleagues.com") {
+            alert.addAction(UIAlertAction(title: "View website", style: .cancel, handler: { (action) in
+                UIApplication.shared.open(url)
+            }))
+        }
+        alert.addAction(UIAlertAction(title: "Close", style: .default, handler: nil))
+        navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
 }
 
 extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
@@ -114,43 +140,27 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         switch menuOptions[indexPath.row] {
-        case "Push notifications":
+        case .notifications:
             let cell : PushTableViewCell = tableView.dequeueReusableCell(withIdentifier: "push", for: indexPath) as! PushTableViewCell
             cell.delegate = self
-            cell.labelText.text = menuOptions[indexPath.row]
+            cell.labelText.text = menuOptions[indexPath.row].rawValue
             cell.selectionStyle = .none
             cell.accessoryType = .none
             cell.configure()
             return cell
             
-        case "Edit profile", "Logout":
+        case .profile, .about, .logout:
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = menuOptions[indexPath.row]
+            cell.textLabel?.text = menuOptions[indexPath.row].rawValue
             cell.accessoryType = .disclosureIndicator
             return cell
             
-        case "Version":
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-            let build = Bundle.main.infoDictionary?["CFBundleVersion"] ?? ""
-            let buildString = TESTING ? ( "(\(build))t" ) : ""
-            cell.textLabel?.text = "Version: \(version ?? "unknown") \(buildString)"
-            cell.accessoryType = .none
-            return cell
-            
-        case "Bundle":
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            let bundle = Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String
-            cell.textLabel?.text = "Bundle id: \(bundle ?? "unknown")"
-            cell.accessoryType = .none
-            return cell
-            
-        case "Promo program":
+        case .promo:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PromoCell", for: indexPath) as! PromoCell
             cell.configure()
             return cell
             
-        case "Payment options":
+        case .payment:
             if let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCell", for: indexPath) as? PaymentCell {
                 self.paymentCell = cell
                 StripeService.shared.hostController = self
@@ -160,23 +170,13 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
                 return UITableViewCell()
             }
             
-        case "League options":
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "OrganizerCell", for: indexPath) as? OrganizerCell {
-                return cell
-            }
-            else {
-                return UITableViewCell()
-            }
-            
-        case "Use my location":
+        case .location:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LocationSettingCell", for: indexPath) as! LocationSettingCell
             cell.configure()
-            cell.labelText.text = menuOptions[indexPath.row]
+            cell.labelText.text = menuOptions[indexPath.row].rawValue
+            cell.selectionStyle = .none
             cell.delegate = self
             return cell
-
-        default:
-            return UITableViewCell()
         }
     }
     
@@ -184,13 +184,13 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         self.tableView.deselectRow(at: indexPath, animated: true)
        
         switch menuOptions[indexPath.row] {
-        case "Edit profile":
+        case .profile:
             self.performSegue(withIdentifier: "ToEditPlayerInfo", sender: nil)
-        case "Push notifications":
+        case .notifications:
             break
-        case "Logout":
+        case .logout:
             AuthService.shared.logout()
-        case "Promo program":
+        case .promo:
             guard let player = PlayerService.shared.current.value else { return }
             if let promoId = player.promotionId {
                 PromotionService.shared.withId(id: promoId) { (promo, error) in
@@ -205,24 +205,12 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             else {
                 self.addPromotion()
             }
-        case "Payment options":
+        case .payment:
             self.paymentCell?.shouldShowPaymentController()
-        case "League options":
-            let viewModel = OrganizerCellViewModel()
-            if viewModel.canClick {
-                print("Clicked on organizer cell")
-                if OrganizerService.shared.current.value == nil || OrganizerService.shared.current.value?.status == OrganizerStatus.none {
-                    // click to join
-                    OrganizerService.shared.requestOrganizerAccess() { (organizer, error) in
-                        // do nothing, let organizer observer update the cell
-                    }
-                } else if OrganizerService.shared.current.value?.status == .approved {
-                    // add payment
-                    payForOrganizerService()
-                }
-            }
-        default:
-            break
+        case .location:
+            return
+        case .about:
+            showAboutOptions()
         }
     }
     
