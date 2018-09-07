@@ -140,9 +140,16 @@ class EventDisplayViewController: UIViewController {
             self.hideChat()
         }
         
-        if !event.userIsOrganizer || delegate == nil {
-            buttonClone.isHidden = true
-            imageClone.isHidden = true
+        // check if user is allowed to clone this event
+        buttonClone.isHidden = true
+        imageClone.isHidden = true
+        if delegate != nil {
+            if event.userIsOrganizer {
+                buttonClone.isHidden = false
+                imageClone.isHidden = false
+            } else if let leagueId = event.league {
+                // TODO: if user is an organizer of the same league, allow them to clone
+            }
         }
         
         // reserve spot

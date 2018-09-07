@@ -168,6 +168,7 @@ class EventsViewController: UIViewController {
             guard let event = sender as? Balizinha.Event else { return }
             
             detailsController.event = event
+            detailsController.delegate = self
         }
         else if segue.identifier == "toCreateEvent" {
             guard let controller = nav.viewControllers[0] as? EventLeagueSelectorViewController else { return }
@@ -320,5 +321,18 @@ extension EventsViewController: JoinEventDelegate {
     
     func didCancelPayment() {
         stopActivityIndicator()
+    }
+}
+
+extension EventsViewController: EventDetailsDelegate {
+    func didClone(event: Balizinha.Event) {
+        dismiss(animated: true) {
+            guard let controller = UIStoryboard(name: "Events", bundle: nil).instantiateViewController(withIdentifier: "CreateEventViewController") as? CreateEventViewController else { return }
+            controller.delegate = self
+            controller.eventToClone = event
+            
+            let nav = UINavigationController(rootViewController: controller)
+            self.present(nav, animated: true, completion: nil)
+        }
     }
 }
