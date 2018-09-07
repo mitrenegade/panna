@@ -117,6 +117,7 @@ class AccountViewController: UIViewController {
         let alert = UIAlertController(title: "About Panna", message: versionText, preferredStyle: .alert)
         if let url = URL(string: SettingsService.websiteUrl) {
             alert.addAction(UIAlertAction(title: "View website", style: .cancel, handler: { (action) in
+                LoggingService.shared.log(event: .WebsiteViewedFromAbout, info: nil)
                 UIApplication.shared.open(url)
             }))
         }

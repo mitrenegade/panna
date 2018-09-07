@@ -27,6 +27,7 @@ enum LoggingEvent: String {
     case PreviewSignupClicked
     case AddPromoCode
     case OrganizerSignupPrompt
+    case WebsiteViewedFromAbout
     
     // sharing
     case ShareEventClicked
