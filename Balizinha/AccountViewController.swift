@@ -115,7 +115,7 @@ class AccountViewController: UIViewController {
         let buildString = TESTING ? ( "(\(build))t" ) : ""
         let versionText = "Version: \(version ?? "unknown") \(buildString)"
         let alert = UIAlertController(title: "About Panna", message: versionText, preferredStyle: .alert)
-        if let url = URL(string: "http://pannaleagues.com") {
+        if let url = URL(string: SettingsService.websiteUrl) {
             alert.addAction(UIAlertAction(title: "View website", style: .cancel, handler: { (action) in
                 UIApplication.shared.open(url)
             }))
