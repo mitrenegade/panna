@@ -21,6 +21,8 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var buttonShare: UIButton!
     @IBOutlet weak var imageShare: UIImageView!
     @IBOutlet weak var buttonJoin: UIButton!
+    @IBOutlet weak var buttonClone: UIButton!
+    @IBOutlet weak var imageClone: UIImageView!
     
     @IBOutlet var labelType: UILabel!
     @IBOutlet var labelDate: UILabel!
@@ -135,6 +137,11 @@ class EventDisplayViewController: UIViewController {
             self.hideChat()
         }
         
+        if !event.userIsOrganizer {
+            buttonClone.isHidden = true
+            imageClone.isHidden = true
+        }
+        
         // reserve spot
         listenFor(NotificationType.EventsChanged, action: #selector(refreshJoin), object: nil)
         refreshJoin()
@@ -213,6 +220,10 @@ class EventDisplayViewController: UIViewController {
         joinHelper.checkIfAlreadyPaid(for: event)
     }
 
+    @IBAction func didClickClone(_ sender: Any?) {
+        
+    }
+    
     @objc func close() {
         if let nav = navigationController {
             self.navigationController?.dismiss(animated: true, completion: nil)

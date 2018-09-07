@@ -100,6 +100,25 @@ Type</string>
                                                     <action selector="didClickClose:" destination="UdQ-h3-dPN" eventType="touchUpInside" id="Fc0-80-7IT"/>
                                                 </connections>
                                             </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plusIcon30" translatesAutoresizingMaskIntoConstraints="NO" id="MbG-Zi-6KK">
+                                                <rect key="frame" x="299" y="5" width="30" height="30"/>
+                                                <color key="tintColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="30" id="b4n-V1-597"/>
+                                                    <constraint firstAttribute="height" constant="30" id="oMM-al-aeU"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TKW-am-X4m">
+                                                <rect key="frame" x="299" y="5" width="30" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="30" id="NgC-xG-2mA"/>
+                                                    <constraint firstAttribute="height" constant="30" id="Pq4-Op-8rM"/>
+                                                </constraints>
+                                                <color key="tintColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <connections>
+                                                    <action selector="didClickClone:" destination="UdQ-h3-dPN" eventType="touchUpInside" id="w9C-NC-gRE"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -108,9 +127,13 @@ Type</string>
                                             <constraint firstAttribute="trailing" secondItem="m28-12-C4h" secondAttribute="trailing" constant="8" id="BVP-qX-Frs"/>
                                             <constraint firstItem="hUX-Xd-fF5" firstAttribute="top" secondItem="6ey-OM-ElB" secondAttribute="top" constant="5" id="CNy-kU-TIY"/>
                                             <constraint firstAttribute="height" constant="40" id="CUd-7h-ba5"/>
+                                            <constraint firstItem="TKW-am-X4m" firstAttribute="centerY" secondItem="6ey-OM-ElB" secondAttribute="centerY" id="I8e-fI-aI5"/>
                                             <constraint firstItem="es6-Zc-zYz" firstAttribute="leading" secondItem="6ey-OM-ElB" secondAttribute="leading" constant="8" id="KJQ-gW-J84"/>
                                             <constraint firstItem="m28-12-C4h" firstAttribute="top" secondItem="6ey-OM-ElB" secondAttribute="top" constant="5" id="KWs-KH-iMW"/>
+                                            <constraint firstItem="m28-12-C4h" firstAttribute="leading" secondItem="TKW-am-X4m" secondAttribute="trailing" constant="8" id="Njc-IF-da4"/>
                                             <constraint firstAttribute="trailing" secondItem="hUX-Xd-fF5" secondAttribute="trailing" constant="8" id="W68-zR-nCO"/>
+                                            <constraint firstItem="MbG-Zi-6KK" firstAttribute="centerY" secondItem="6ey-OM-ElB" secondAttribute="centerY" id="Xqq-xM-DQ9"/>
+                                            <constraint firstItem="m28-12-C4h" firstAttribute="leading" secondItem="MbG-Zi-6KK" secondAttribute="trailing" constant="8" id="mAU-Wt-Env"/>
                                             <constraint firstAttribute="bottom" secondItem="hUX-Xd-fF5" secondAttribute="bottom" constant="5" id="tzA-gl-kwq"/>
                                             <constraint firstAttribute="bottom" secondItem="es6-Zc-zYz" secondAttribute="bottom" constant="5" id="ySt-tU-0un"/>
                                         </constraints>
@@ -324,6 +347,7 @@ Type</string>
                     <size key="freeformSize" width="375" height="910"/>
                     <connections>
                         <outlet property="activityView" destination="do0-We-LXv" id="BWG-Lk-K5v"/>
+                        <outlet property="buttonClone" destination="TKW-am-X4m" id="eFt-XY-gd1"/>
                         <outlet property="buttonClose" destination="es6-Zc-zYz" id="M1O-kr-nne"/>
                         <outlet property="buttonJoin" destination="ls4-8L-qBB" id="3cJ-2A-wbX"/>
                         <outlet property="buttonShare" destination="hUX-Xd-fF5" id="dHz-02-Umm"/>
@@ -337,6 +361,7 @@ Type</string>
                         <outlet property="constraintScrollBottomOffset" destination="kd2-rg-DUt" id="Fre-Wr-hxG"/>
                         <outlet property="constraintSpacerHeight" destination="UvV-ic-Vba" id="Uwh-X9-Xvt"/>
                         <outlet property="constraintWidth" destination="bxi-Tm-Ce3" id="fTJ-fs-yZN"/>
+                        <outlet property="imageClone" destination="MbG-Zi-6KK" id="jOq-oU-36d"/>
                         <outlet property="imageShare" destination="m28-12-C4h" id="HPl-2N-Poi"/>
                         <outlet property="labelDate" destination="rfV-G2-Hlb" id="UBe-zJ-anu"/>
                         <outlet property="labelInfo" destination="FCt-eO-A2r" id="BzG-yc-KQU"/>
@@ -709,6 +734,7 @@ City, State</string>
     </scenes>
     <resources>
         <image name="map" width="21" height="21"/>
+        <image name="plusIcon30" width="30" height="30"/>
         <image name="profile-img" width="256" height="256"/>
         <image name="share_icon" width="357" height="491"/>
     </resources>
