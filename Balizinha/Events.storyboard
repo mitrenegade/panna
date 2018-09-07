@@ -324,6 +324,7 @@
                             <constraint firstItem="ce4-r9-zhg" firstAttribute="bottom" secondItem="2v7-oO-UHN" secondAttribute="bottom" id="vzw-xw-b8E"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="b8r-Ty-02k"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="667"/>
                     <connections>

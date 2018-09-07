@@ -108,6 +108,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     }
     var datesForPicker: [Date] = []
     
+    var eventToClone: Balizinha.Event?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

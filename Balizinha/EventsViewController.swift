@@ -167,7 +167,6 @@ class EventsViewController: UIViewController {
             guard let detailsController = nav.viewControllers[0] as? EventDisplayViewController else { return }
             guard let event = sender as? Balizinha.Event else { return }
             
-            detailsController.alreadyJoined = false            
             detailsController.event = event
         }
         else if segue.identifier == "toCreateEvent" {

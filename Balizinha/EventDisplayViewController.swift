@@ -15,6 +15,10 @@ protocol SectionComponentDelegate: class {
     func componentHeightChanged(controller: UIViewController, newHeight: CGFloat)
 }
 
+protocol EventDetailsDelegate: class {
+    func didClone(event: Balizinha.Event)
+}
+
 class EventDisplayViewController: UIViewController {
     
     @IBOutlet weak var buttonClose: UIButton!
@@ -34,8 +38,6 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var playersScrollView: PlayersScrollView!
     weak var event : Balizinha.Event?
     let joinHelper = JoinEventHelper()
-    
-    var alreadyJoined : Bool = false
     
     fileprivate var disposeBag: DisposeBag = DisposeBag()
     
@@ -57,6 +59,7 @@ class EventDisplayViewController: UIViewController {
     var chatController: ChatInputViewController!
     
     @IBOutlet weak var activityView: UIView!
+    weak var delegate: EventDetailsDelegate?
     
     lazy var shareService = ShareService()
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
@@ -137,7 +140,7 @@ class EventDisplayViewController: UIViewController {
             self.hideChat()
         }
         
-        if !event.userIsOrganizer {
+        if !event.userIsOrganizer || delegate == nil {
             buttonClone.isHidden = true
             imageClone.isHidden = true
         }
@@ -221,7 +224,8 @@ class EventDisplayViewController: UIViewController {
     }
 
     @IBAction func didClickClone(_ sender: Any?) {
-        
+        guard let event = event else { return }
+        delegate?.didClone(event: event)
     }
     
     @objc func close() {

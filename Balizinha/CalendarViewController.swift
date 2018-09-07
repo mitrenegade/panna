@@ -158,10 +158,8 @@ extension CalendarViewController {
         guard let detailsController = nav.viewControllers[0] as? EventDisplayViewController else { return }
         guard let event = sender as? Balizinha.Event else { return }
         
-        detailsController.alreadyJoined = true
-        
         detailsController.event = event
-        
+        detailsController.delegate = self
     }
     
 }
@@ -217,4 +215,21 @@ extension CalendarViewController: EventCellDelegate {
     }
 }
 
+extension CalendarViewController: EventDetailsDelegate {
+    func didClone(event: Balizinha.Event) {
+        dismiss(animated: true) {
+            guard let controller = UIStoryboard(name: "Events", bundle: nil).instantiateViewController(withIdentifier: "CreateEventViewController") as? CreateEventViewController else { return }
+            controller.delegate = self
+            controller.eventToClone = event
+            
+            let nav = UINavigationController(rootViewController: controller)
+            self.present(nav, animated: true, completion: nil)
+        }
+    }
+}
 
+extension CalendarViewController: CreateEventDelegate {
+    func didCreateEvent() {
+        refreshEvents()
+    }
+}
