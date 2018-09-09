@@ -11,7 +11,7 @@ import CoreLocation
 import Balizinha
 
 protocol CreateEventDelegate: class {
-    func didCreateEvent()
+    func eventsDidChange()
 }
 
 fileprivate enum Sections: Int {
@@ -69,41 +69,20 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var datePickerView: UIPickerView = UIPickerView()
     var startTimePickerView: UIDatePicker = UIDatePicker()
     var endTimePickerView: UIDatePicker = UIDatePicker()
-    var eventImage: UIImage? {
-        didSet {
-            if let image = eventImage {
-                savePhoto(photo: image, event: eventToEdit, completion: { url, id in
-                    // no callback action
-                    if let url = url {
-                        print("New photo url: \(url)")
-                        self.eventUrl = url // legacy
-                        self.eventPhotoId = id
-                    }
-               })
-            }
-        }
-    }
-    fileprivate var eventUrl: String?
-    fileprivate var eventPhotoId: String?
     var league: League?
 
     weak var delegate: CreateEventDelegate?
     
+    var newEventImage: UIImage? // if user selects a new image or is cloning
+    var currentEventUrl: String? // url used to display existing image
     var eventToEdit: Balizinha.Event? {
         didSet {
-            name = eventToEdit?.name
-            type = eventToEdit?.type
-            // TODO: replace with event.venue
-            venue = Venue(eventToEdit?.place, nil, eventToEdit?.city, eventToEdit?.state, eventToEdit?.lat, eventToEdit?.lon)
-            date = eventToEdit?.startTime
-            startTime = eventToEdit?.startTime
-            endTime = eventToEdit?.endTime
-            if let event = eventToEdit {
-                maxPlayers = UInt(event.maxPlayers)
-            }
-            info = eventToEdit?.info
-            paymentRequired = eventToEdit?.paymentRequired ?? false
-            amount = eventToEdit?.amount
+            cloneInfo(for: eventToEdit)
+        }
+    }
+    var eventToClone: Balizinha.Event? {
+        didSet {
+            cloneInfo(for: eventToClone)
         }
     }
     var datesForPicker: [Date] = []
@@ -130,7 +109,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didClickSave(_:)))
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didClickCancel(_:)))
         
-        if CACHE_ORGANIZER_FAVORITE_LOCATION {
+        if eventToEdit == nil && eventToClone == nil && CACHE_ORGANIZER_FAVORITE_LOCATION {
             self.loadCachedOrganizerFavorites()
         }
         
@@ -148,6 +127,62 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         activityOverlay.setup(frame: view.frame)
+    }
+    
+    // used when editing or cloning an existing event
+    fileprivate func cloneInfo(for event: Balizinha.Event?) {
+        guard let event = event else { return }
+        name = event.name
+        type = event.type
+        if event == eventToEdit {
+            // only include date if event is being edited
+            date = eventToEdit?.startTime
+            startTime = eventToEdit?.startTime
+            endTime = eventToEdit?.endTime
+        }
+        maxPlayers = UInt(event.maxPlayers)
+        info = event.info
+        paymentRequired = event.paymentRequired
+        amount = event.amount
+        
+        // TODO: replace with event.venue
+        if let place = event.place,
+            let city = event.city,
+            let state = event.state,
+            let lat = event.lat,
+            let lon = event.lon
+        {
+            venue = Venue(place, nil, city, state, lat, lon)
+        }
+        
+        if let leagueId = event.league {
+            LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
+                self?.league = league
+                // in case this takes time to load
+                self?.refreshLeaguePhoto()
+            }
+        }
+        
+        FirebaseImageService().eventPhotoUrl(for: event) { [weak self] (url) in
+            if let urlString = url?.absoluteString {
+                if event == self?.eventToClone {
+                    // load photo and store it in newEventImage since it will get saved as a new image
+                    let manager = RAImageManager(imageView: nil)
+                    manager.load(imageUrl: urlString, completion: { [weak self] (image) in
+                        DispatchQueue.main.async {
+                            self?.newEventImage = image
+                            let indexPath = IndexPath(row: 0, section: Sections.photo.rawValue)
+                            self?.tableView.reloadRows(at: [indexPath], with: .automatic)
+                        }
+                    })
+                } else if event == self?.eventToEdit {
+                    // save downloaded url just to display
+                    self?.currentEventUrl = urlString
+                    let indexPath = IndexPath(row: 0, section: Sections.photo.rawValue)
+                    self?.tableView.reloadRows(at: [indexPath], with: .automatic)
+                }
+            }
+        }
     }
     
     func setupPickers() {
@@ -195,7 +230,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         save2.tintColor = self.view.tintColor
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
-        if TESTING, eventToEdit == nil {
+        if TESTING, eventToEdit == nil, eventToClone == nil {
             self.date = Date()
             self.startTime = Date()+1800
             self.endTime = Date()+3600
@@ -203,6 +238,39 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    fileprivate var leaguePhotoView: RAImageView?
+    fileprivate lazy var photoHeaderView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 100))
+        view.backgroundColor = UIColor.mediumGreen
+        view.clipsToBounds = true
+        let photoView = RAImageView(frame: CGRect(x: view.frame.size.width / 2 - 40, y: 10, width: 80, height: 80))
+        photoView.layer.cornerRadius = 5
+        photoView.backgroundColor = .clear
+        photoView.image = nil
+        photoView.clipsToBounds = true
+        view.addSubview(photoView)
+        leaguePhotoView = photoView
+        
+        refreshLeaguePhoto()
+        return view
+    }()
+    
+    fileprivate func refreshLeaguePhoto() {
+        if let leagueId = league?.id {
+            FirebaseImageService().leaguePhotoUrl(for: leagueId) {[weak self] (url) in
+                DispatchQueue.main.async {
+                    if let url = url {
+                        self?.leaguePhotoView?.imageUrl = url.absoluteString
+                    } else {
+                        self?.leaguePhotoView?.imageUrl = nil
+                        self?.leaguePhotoView?.image = UIImage(named: "crest30")?.withRenderingMode(.alwaysTemplate)
+                        self?.leaguePhotoView?.tintColor = UIColor.white
+                    }
+                }
+            }
+        }
+    }
+
     fileprivate func loadCachedOrganizerFavorites() {
         if let name = UserDefaults.standard.string(forKey: "organizerCachedName") {
             self.name = name
@@ -301,7 +369,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         self.startTime = start
         self.endTime = end
-        
+
         if let event = self.eventToEdit, var dict = event.dict {
             // event already exists: update/edit info
             dict["name"] = self.name ?? "Balizinha"
@@ -325,16 +393,20 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             event.endTime = end
 
             // update photo if it has been changed
-            if let url = self.eventUrl {
-                event.photoUrl = url // legacy
+            if let image = newEventImage {
+                savePhoto(photo: image, event: event, completion: { url, id in
+                    // no callback action
+                    self.navigationController?.dismiss(animated: true, completion: {
+                        // event updated - force reload
+                        self.delegate?.eventsDidChange()
+                    })
+                })
+            } else {
+                self.navigationController?.dismiss(animated: true, completion: {
+                    // event updated - force reload
+                    self.delegate?.eventsDidChange()
+                })
             }
-            if let id = self.eventPhotoId {
-                event.photoId = id
-            }
-            
-            self.navigationController?.dismiss(animated: true, completion: {
-                // event updated
-            })
         }
         else {
             activityOverlay.show()
@@ -351,21 +423,27 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                 }
                 
                 // update photo if it has been changed
-                if let url = self?.eventUrl {
-                    event.photoUrl = url // legacy
+                DispatchQueue.main.async {
+                    if let image = self?.newEventImage {
+                        self?.savePhoto(photo: image, event: event, completion: { url, id in
+                            // no callback action
+                            self?.navigationController?.dismiss(animated: true, completion: {
+                                // event created
+                                self?.delegate?.eventsDidChange()
+                            })
+                        })
+                    } else {
+                        self?.navigationController?.dismiss(animated: true, completion: {
+                            // event created
+                            self?.delegate?.eventsDidChange()
+                        })
+                    }
                 }
-                if let id = self?.eventPhotoId {
-                    event.photoId = id
-                }
-                self?.navigationController?.dismiss(animated: true, completion: {
-                    // event created
-                    self?.delegate?.didCreateEvent()
-                })
             })
         }
     }
     
-    func didClickCancel(_ sender: Any) {
+    @objc func didClickCancel(_ sender: Any) {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
 }
@@ -401,12 +479,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         switch indexPath.section {
         case Sections.photo.rawValue:
             let cell: EventPhotoCell = tableView.dequeueReusableCell(withIdentifier: "EventPhotoCell", for: indexPath) as! EventPhotoCell
-            if let photo = self.eventImage {
+            if let photo = newEventImage {
                 cell.photo = photo
-            } else if let url = self.eventToEdit?.photoUrl {
-                cell.url = url
-            } else if let url = self.eventUrl {
-                // this comes from a new event that loaded a cached favorite url
+            } else if let url = currentEventUrl {
                 cell.url = url
             }
             return cell
@@ -518,31 +593,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         }
 
     }
-    
-    fileprivate func photoHeaderView() -> UIView {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 100))
-        view.backgroundColor = UIColor.mediumGreen
-        view.clipsToBounds = true
-        let photoView = RAImageView(frame: CGRect(x: view.frame.size.width / 2 - 40, y: 10, width: 80, height: 80))
-        photoView.layer.cornerRadius = 5
-        photoView.backgroundColor = .clear
-        photoView.image = nil
-        photoView.clipsToBounds = true
-        FirebaseImageService().leaguePhotoUrl(for: league?.id) {[weak self] (url) in
-            DispatchQueue.main.async {
-                if let url = url {
-                    photoView.imageUrl = url.absoluteString
-                } else {
-                    photoView.imageUrl = nil
-                    photoView.image = UIImage(named: "crest30")?.withRenderingMode(.alwaysTemplate)
-                    photoView.tintColor = UIColor.white
-                }
-            }
-        }
-        view.addSubview(photoView)
-        return view
-    }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel(frame: CGRect(x: 16, y: 0, width: self.view.frame.size.width - 16, height: 40))
         let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 40))
@@ -554,7 +605,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
 
         switch section {
         case Sections.photo.rawValue:
-            return photoHeaderView()
+            return photoHeaderView
         case Sections.details.rawValue:
             label.text = "Details"
         case Sections.notes.rawValue:
@@ -716,6 +767,7 @@ extension CreateEventViewController {
         alert.addAction(UIAlertAction(title: "Yes, delete this event", style: .default, handler: { (action) in
             LoggingService.shared.log(event: .DeleteEvent, info: ["eventId": event.id])
             EventService.shared.deleteEvent(event)
+            self.delegate?.eventsDidChange()
             self.navigationController?.dismiss(animated: true, completion: nil)
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -930,14 +982,14 @@ extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigati
 
     func didTakePhoto(image: UIImage) {
         dismissCamera {
-            self.eventImage = image
+            self.newEventImage = image
             let indexPath = IndexPath(row: 0, section: 0)
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
     }
     
-    func dismissCamera(completion: (()->Void)? = nil){
-        self.dismiss(animated: true, completion: completion)
+    func dismissCamera(completion: (()->Void)? = nil) {
+        dismiss(animated: true, completion: completion)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -972,7 +1024,7 @@ extension CreateEventViewController {
     func generatePickerDates() {
         guard self.datesForPicker.count == 0 else { return }
         
-        for var row in 0..<FUTURE_DAYS {
+        for row in 0..<FUTURE_DAYS {
             let date = Date().addingTimeInterval(3600*24*TimeInterval(row))
             datesForPicker.append(date)
         }

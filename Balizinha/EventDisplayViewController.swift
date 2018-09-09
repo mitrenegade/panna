@@ -15,12 +15,18 @@ protocol SectionComponentDelegate: class {
     func componentHeightChanged(controller: UIViewController, newHeight: CGFloat)
 }
 
+protocol EventDetailsDelegate: class {
+    func didClone(event: Balizinha.Event)
+}
+
 class EventDisplayViewController: UIViewController {
     
     @IBOutlet weak var buttonClose: UIButton!
     @IBOutlet weak var buttonShare: UIButton!
     @IBOutlet weak var imageShare: UIImageView!
     @IBOutlet weak var buttonJoin: UIButton!
+    @IBOutlet weak var buttonClone: UIButton!
+    @IBOutlet weak var imageClone: UIImageView!
     
     @IBOutlet var labelType: UILabel!
     @IBOutlet var labelDate: UILabel!
@@ -32,8 +38,6 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var playersScrollView: PlayersScrollView!
     weak var event : Balizinha.Event?
     let joinHelper = JoinEventHelper()
-    
-    var alreadyJoined : Bool = false
     
     fileprivate var disposeBag: DisposeBag = DisposeBag()
     
@@ -55,6 +59,7 @@ class EventDisplayViewController: UIViewController {
     var chatController: ChatInputViewController!
     
     @IBOutlet weak var activityView: UIView!
+    weak var delegate: EventDetailsDelegate?
     
     lazy var shareService = ShareService()
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
@@ -91,9 +96,6 @@ class EventDisplayViewController: UIViewController {
         //Sport image
         FirebaseImageService().eventPhotoUrl(for: event) { [weak self] (url) in
             if let urlString = url?.absoluteString {
-                self?.sportImageView.imageUrl = urlString
-            } else if let urlString = self?.event?.photoUrl {
-                // fall back on photoUrl
                 self?.sportImageView.imageUrl = urlString
             } else {
                 self?.sportImageView.imageUrl = nil
@@ -133,6 +135,18 @@ class EventDisplayViewController: UIViewController {
         
         if !event.containsPlayer(player) {
             self.hideChat()
+        }
+        
+        // check if user is allowed to clone this event
+        buttonClone.isHidden = true
+        imageClone.isHidden = true
+        if delegate != nil {
+            if event.userIsOrganizer {
+                buttonClone.isHidden = false
+                imageClone.isHidden = false
+            } else if let leagueId = event.league {
+                // TODO: if user is an organizer of the same league, allow them to clone
+            }
         }
         
         // reserve spot
@@ -213,6 +227,11 @@ class EventDisplayViewController: UIViewController {
         joinHelper.checkIfAlreadyPaid(for: event)
     }
 
+    @IBAction func didClickClone(_ sender: Any?) {
+        guard let event = event else { return }
+        delegate?.didClone(event: event)
+    }
+    
     @objc func close() {
         if let nav = navigationController {
             self.navigationController?.dismiss(animated: true, completion: nil)

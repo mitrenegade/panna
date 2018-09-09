@@ -302,7 +302,6 @@ extension SplashViewController {
     func handleEventDeepLink(_ notification: Notification?) {
         guard let userInfo = notification?.userInfo, let eventId = userInfo["eventId"] as? String else { return }
         guard let controller = UIStoryboard(name: "EventDetails", bundle: nil).instantiateViewController(withIdentifier: "EventDisplayViewController") as? EventDisplayViewController else { return }
-        controller.alreadyJoined = false
         EventService.shared.withId(id: eventId) { [weak self] (event) in
             guard let event = event else { return }
             controller.event = event

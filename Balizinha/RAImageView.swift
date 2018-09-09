@@ -8,15 +8,73 @@
 
 import UIKit
 
-class RAImageView: UIImageView {
+class RAImageManager: NSObject {
     static var imageCache = [String: UIImage]()
     let defaultSession = URLSession(configuration: .default)
-    var loadingUrl: String?
     var task: URLSessionDataTask?
+    var loadingUrl: String?
+    fileprivate var imageView: RAImageView?
+    
+    init(imageView: RAImageView?) {
+        self.imageView = imageView
+    }
+    
+    func load(imageUrl: String?, completion: ((UIImage?)->Void)?) {
+        guard loadingUrl != imageUrl else { return }
+        guard let imageUrl = imageUrl, let url = URL(string: imageUrl) else {
+            return
+        }
+        cancel()
+
+        if let cached = RAImageManager.imageCache[imageUrl] {
+            completion?(cached)
+            return
+        }
+        
+        loadingUrl = imageUrl
+        let currentUrl = imageUrl
+        imageView?.activityIndicator?.startAnimating()
+        task = defaultSession.dataTask(with: url, completionHandler: { [weak self] (data, response, error) in
+            defer {
+                DispatchQueue.main.async {
+                    self?.cancel()
+                }
+            }
+            
+            if nil != error {
+                print("error")
+                completion?(nil)
+            } else if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
+                let image = UIImage(data: data)
+                RAImageManager.imageCache[currentUrl] = image
+                guard self?.loadingUrl == currentUrl else {
+                    print("url has changed - cancel")
+                    return
+                }
+                completion?(image)
+            }
+        })
+        task?.resume()
+    }
+    
+    fileprivate func cancel() {
+        task?.cancel()
+        task = nil
+        loadingUrl = nil
+        imageView?.activityIndicator?.stopAnimating()
+    }
+}
+
+class RAImageView: UIImageView {
+    var manager: RAImageManager?
     var imageUrl: String? {
         didSet {
-            guard loadingUrl != imageUrl else { return }
-            load()
+            manager?.load(imageUrl: imageUrl, completion: { [weak self] (image) in
+                DispatchQueue.main.async { // this seems to force a redraw
+                    self?.image = image
+                    self?.activityIndicator?.stopAnimating()
+                }
+            })
         }
     }
     
@@ -28,59 +86,24 @@ class RAImageView: UIImageView {
     }
     
     var activityIndicator: UIActivityIndicatorView?
-    
-    fileprivate func cancel() {
-        task?.cancel()
-        task = nil
-        loadingUrl = nil
-        activityIndicator?.stopAnimating()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
     }
-
-    fileprivate func load() {
-        cancel()
-        guard let imageUrl = imageUrl, let url = URL(string: imageUrl) else {
-            return
-        }
-        
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    fileprivate func commonInit() {
         if activityIndicator == nil {
             let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
             activityIndicator.hidesWhenStopped = true
             addSubview(activityIndicator)
             self.activityIndicator = activityIndicator
         }
-
-        if let cached = RAImageView.imageCache[imageUrl] as? UIImage {
-            DispatchQueue.main.async { // this seems to force a redraw
-                self.image = cached
-                self.activityIndicator?.stopAnimating()
-            }
-            return
-        }
-
-        loadingUrl = imageUrl
-        let currentUrl = imageUrl
-        activityIndicator?.startAnimating()
-        task = defaultSession.dataTask(with: url, completionHandler: { [weak self] (data, response, error) in
-            defer {
-                DispatchQueue.main.async {
-                    self?.cancel()
-                }
-            }
-            
-            if nil != error {
-                print("error")
-            } else if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
-                let image = UIImage(data: data)
-                RAImageView.imageCache[currentUrl] = image
-                guard self?.loadingUrl == currentUrl else {
-                    print("url has changed - cancel")
-                    return
-                }
-                DispatchQueue.main.async {
-                    self?.image = image
-                }
-            }
-        })
-        task?.resume()
+        
+        manager = RAImageManager(imageView: self)
     }
 }
