@@ -11,7 +11,7 @@ import CoreLocation
 import Balizinha
 
 protocol CreateEventDelegate: class {
-    func didCreateEvent()
+    func eventsDidChange()
 }
 
 fileprivate enum Sections: Int {
@@ -178,6 +178,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                 } else if event == self?.eventToEdit {
                     // save downloaded url just to display
                     self?.currentEventUrl = urlString
+                    let indexPath = IndexPath(row: 0, section: Sections.photo.rawValue)
+                    self?.tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
             }
         }
@@ -395,12 +397,14 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                 savePhoto(photo: image, event: event, completion: { url, id in
                     // no callback action
                     self.navigationController?.dismiss(animated: true, completion: {
-                        // event updated
+                        // event updated - force reload
+                        self.delegate?.eventsDidChange()
                     })
                 })
             } else {
                 self.navigationController?.dismiss(animated: true, completion: {
-                    // event updated
+                    // event updated - force reload
+                    self.delegate?.eventsDidChange()
                 })
             }
         }
@@ -425,13 +429,13 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                             // no callback action
                             self?.navigationController?.dismiss(animated: true, completion: {
                                 // event created
-                                self?.delegate?.didCreateEvent()
+                                self?.delegate?.eventsDidChange()
                             })
                         })
                     } else {
                         self?.navigationController?.dismiss(animated: true, completion: {
                             // event created
-                            self?.delegate?.didCreateEvent()
+                            self?.delegate?.eventsDidChange()
                         })
                     }
                 }
@@ -763,6 +767,7 @@ extension CreateEventViewController {
         alert.addAction(UIAlertAction(title: "Yes, delete this event", style: .default, handler: { (action) in
             LoggingService.shared.log(event: .DeleteEvent, info: ["eventId": event.id])
             EventService.shared.deleteEvent(event)
+            self.delegate?.eventsDidChange()
             self.navigationController?.dismiss(animated: true, completion: nil)
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

@@ -185,6 +185,7 @@ extension CalendarViewController: EventCellDelegate {
     func editEvent(_ event: Balizinha.Event) {
         guard let controller = UIStoryboard(name: "Events", bundle: nil).instantiateViewController(withIdentifier: "CreateEventViewController") as? CreateEventViewController else { return }
         controller.eventToEdit = event
+        controller.delegate = self
         let nav = UINavigationController(rootViewController: controller)
         self.present(nav, animated: true, completion: nil)
     }
@@ -229,7 +230,7 @@ extension CalendarViewController: EventDetailsDelegate {
 }
 
 extension CalendarViewController: CreateEventDelegate {
-    func didCreateEvent() {
+    func eventsDidChange() {
         refreshEvents()
     }
 }

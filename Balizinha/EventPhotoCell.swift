@@ -40,9 +40,11 @@ class EventPhotoCell: UITableViewCell {
                 UIView.animate(withDuration: 0.25, animations: {
                     self.photoView.alpha = 1
                 })
+                self.imagePlus.isHidden = true
             }
             else {
                 self.clearPhoto()
+                self.imagePlus.isHidden = false
             }
         }
     }
