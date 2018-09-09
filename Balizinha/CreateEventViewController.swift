@@ -158,6 +158,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         if let leagueId = event.league {
             LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
                 self?.league = league
+                // in case this takes time to load
+                self?.refreshLeaguePhoto()
             }
         }
         
@@ -169,6 +171,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                     manager.load(imageUrl: urlString, completion: { [weak self] (image) in
                         DispatchQueue.main.async {
                             self?.newEventImage = image
+                            let indexPath = IndexPath(row: 0, section: Sections.photo.rawValue)
+                            self?.tableView.reloadRows(at: [indexPath], with: .automatic)
                         }
                     })
                 } else if event == self?.eventToEdit {
@@ -224,7 +228,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         save2.tintColor = self.view.tintColor
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
-        if TESTING, eventToEdit == nil {
+        if TESTING, eventToEdit == nil, eventToClone == nil {
             self.date = Date()
             self.startTime = Date()+1800
             self.endTime = Date()+3600
@@ -232,6 +236,39 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    fileprivate var leaguePhotoView: RAImageView?
+    fileprivate lazy var photoHeaderView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 100))
+        view.backgroundColor = UIColor.mediumGreen
+        view.clipsToBounds = true
+        let photoView = RAImageView(frame: CGRect(x: view.frame.size.width / 2 - 40, y: 10, width: 80, height: 80))
+        photoView.layer.cornerRadius = 5
+        photoView.backgroundColor = .clear
+        photoView.image = nil
+        photoView.clipsToBounds = true
+        view.addSubview(photoView)
+        leaguePhotoView = photoView
+        
+        refreshLeaguePhoto()
+        return view
+    }()
+    
+    fileprivate func refreshLeaguePhoto() {
+        if let leagueId = league?.id {
+            FirebaseImageService().leaguePhotoUrl(for: leagueId) {[weak self] (url) in
+                DispatchQueue.main.async {
+                    if let url = url {
+                        self?.leaguePhotoView?.imageUrl = url.absoluteString
+                    } else {
+                        self?.leaguePhotoView?.imageUrl = nil
+                        self?.leaguePhotoView?.image = UIImage(named: "crest30")?.withRenderingMode(.alwaysTemplate)
+                        self?.leaguePhotoView?.tintColor = UIColor.white
+                    }
+                }
+            }
+        }
+    }
+
     fileprivate func loadCachedOrganizerFavorites() {
         if let name = UserDefaults.standard.string(forKey: "organizerCachedName") {
             self.name = name
@@ -552,33 +589,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         }
 
     }
-    
-    fileprivate func photoHeaderView() -> UIView {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 100))
-        view.backgroundColor = UIColor.mediumGreen
-        view.clipsToBounds = true
-        let photoView = RAImageView(frame: CGRect(x: view.frame.size.width / 2 - 40, y: 10, width: 80, height: 80))
-        photoView.layer.cornerRadius = 5
-        photoView.backgroundColor = .clear
-        photoView.image = nil
-        photoView.clipsToBounds = true
-        if let leagueId = league?.id {
-            FirebaseImageService().leaguePhotoUrl(for: leagueId) {(url) in
-                DispatchQueue.main.async {
-                    if let url = url {
-                        photoView.imageUrl = url.absoluteString
-                    } else {
-                        photoView.imageUrl = nil
-                        photoView.image = UIImage(named: "crest30")?.withRenderingMode(.alwaysTemplate)
-                        photoView.tintColor = UIColor.white
-                    }
-                }
-            }
-        }
-        view.addSubview(photoView)
-        return view
-    }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel(frame: CGRect(x: 16, y: 0, width: self.view.frame.size.width - 16, height: 40))
         let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 40))
@@ -590,7 +601,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
 
         switch section {
         case Sections.photo.rawValue:
-            return photoHeaderView()
+            return photoHeaderView
         case Sections.details.rawValue:
             label.text = "Details"
         case Sections.notes.rawValue:
