@@ -229,6 +229,7 @@ class EventDisplayViewController: UIViewController {
 
     @IBAction func didClickClone(_ sender: Any?) {
         guard let event = event else { return }
+        LoggingService.shared.log(event: .CloneButtonClicked, info: nil)
         delegate?.didClone(event: event)
     }
     

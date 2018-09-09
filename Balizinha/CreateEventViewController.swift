@@ -440,6 +440,10 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                     }
                 }
             })
+            
+            if eventToClone != nil {
+                LoggingService.shared.log(event: .ClonedEvent, info: nil)
+            }
         }
     }
     

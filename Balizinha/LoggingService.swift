@@ -46,6 +46,8 @@ enum LoggingEvent: String {
     case EditVenueName
     case LockVenueName
     case DragVenueMap
+    case CloneButtonClicked
+    case ClonedEvent
     
     // view event details
     case ShowOrHideMap
