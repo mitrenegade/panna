@@ -97,9 +97,6 @@ class EventDisplayViewController: UIViewController {
         FirebaseImageService().eventPhotoUrl(for: event) { [weak self] (url) in
             if let urlString = url?.absoluteString {
                 self?.sportImageView.imageUrl = urlString
-            } else if let urlString = self?.event?.photoUrl {
-                // fall back on photoUrl
-                self?.sportImageView.imageUrl = urlString
             } else {
                 self?.sportImageView.imageUrl = nil
                 self?.sportImageView.image = UIImage(named: "soccer")
