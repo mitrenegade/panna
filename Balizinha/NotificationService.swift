@@ -207,9 +207,17 @@ extension NotificationService {
 extension NotificationService {
     fileprivate func subscribeToTopic(topic: String, subscribed: Bool) {
         if subscribed {
-            Messaging.messaging().subscribe(toTopic: topic)
+            Messaging.messaging().subscribe(toTopic: topic) { (error) in
+                if let error = error {
+                    print("Subscribe to topic \(topic) error \(error)")
+                }
+            }
         } else {
-            Messaging.messaging().unsubscribe(fromTopic: topic)
+            Messaging.messaging().unsubscribe(fromTopic: topic) { (error) in
+                if let error = error {
+                    print("Unsubscribe from topic \(topic) error \(error)")
+                }
+            }
         }
     }
     
