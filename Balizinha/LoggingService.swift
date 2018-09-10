@@ -20,8 +20,6 @@ enum LoggingEvent: String {
     case show_payment_controller
     case FeatureFlagError
     case BackgroundFetch
-    case PushNotificationsToggled
-    case PushNotificationReceived
     case PreviewTutorialClicked
     case PreviewEventClicked
     case PreviewSignupClicked
@@ -57,6 +55,11 @@ enum LoggingEvent: String {
     case ToggleEventPaymentRequired
     case ChangeEventPaymentAmount
     case DeleteEvent
+    
+    // push
+    case PushNotificationsToggled
+    case PushNotificationReceived
+    case PushNotificationSubscriptionFailed
 }
 
 class LoggingService: NSObject {
