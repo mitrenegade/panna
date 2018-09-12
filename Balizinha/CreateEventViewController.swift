@@ -284,6 +284,12 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         {
             self.venue = Venue(place, street, city, state, lat, lon)
         }
+        if let type = UserDefaults.standard.string(forKey: "organizerCachedType") {
+            self.type = EventType(rawValue: type)
+        }
+        if let info = UserDefaults.standard.string(forKey: "organizerCachedInfo") {
+            self.info = info
+        }
     }
     
     fileprivate func cacheOrganizerFavorites() {
@@ -307,6 +313,13 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             UserDefaults.standard.set(nil, forKey: "organizerCachedState")
             UserDefaults.standard.set(nil, forKey: "organizerCachedLat")
             UserDefaults.standard.set(nil, forKey: "organizerCachedLon")
+        }
+        
+        if let type = type {
+            UserDefaults.standard.set(type.rawValue, forKey: "organizerCachedType")
+        }
+        if let info = info {
+            UserDefaults.standard.set(info, forKey: "organizerCachedInfo")
         }
     }
     
