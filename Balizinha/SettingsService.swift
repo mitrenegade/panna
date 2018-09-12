@@ -22,20 +22,22 @@ class SettingsService: NSObject {
         case softUpgradeInterval
         case websiteUrl
         
-        // no longer used ?
+        // feature flags
         case donation
         case paymentRequired
         case organizerPayment
         case ownerPayment
         case maps
-        
+        case useGetAvailableEvents
+
         // experiments
         case showPreview
         case organizerTrial
     }
     static let defaults: [SettingsKey: Any] = [.newestVersionIOS:"0.1.0",
                                                .eventRadius: EVENT_RADIUS_MILES_DEFAULT,
-                                               .softUpgradeInterval: SOFT_UPGRADE_INTERVAL_DEFAULT]
+                                               .softUpgradeInterval: SOFT_UPGRADE_INTERVAL_DEFAULT,
+                                               .useGetAvailableEvents: false]
 
     static var shared: SettingsService {
         if singleton == nil {
@@ -58,6 +60,7 @@ class SettingsService: NSObject {
                 print("Settings: * featureAvailable maps \(SettingsService.usesMaps)")
                 print("Settings: * showPreview \(SettingsService.shared.featureExperiment(.showPreview)) testGroup \(SettingsService.showPreviewTestGroup())")
                 print("Settings: * newestVersion \(SettingsService.newestVersion)")
+                print("Settings: * featureAvailable useGetAvailableEvents \(SettingsService.usesGetAvailableEvents())")
                 self.recordExperimentGroups()
                 observer.onNext("done")
             })
@@ -85,6 +88,7 @@ class SettingsService: NSObject {
 
 // MARK: - Remote settings
 extension SettingsService {
+    // feature flags
     class func donation() -> Bool {
         return shared.featureAvailable(.donation)
     }
@@ -101,10 +105,15 @@ extension SettingsService {
         return shared.featureAvailable(.ownerPayment)
     }
 
+    class func usesGetAvailableEvents() -> Bool {
+        return shared.featureAvailable(.useGetAvailableEvents)
+    }
+
     class var usesMaps: Bool {
         return shared.featureAvailable(.maps)
     }
     
+    // remote values
     class var eventFilterRadius: Double {
         return shared.featureValue(.eventRadius).numberValue?.doubleValue ?? defaults[.eventRadius] as! Double
     }
