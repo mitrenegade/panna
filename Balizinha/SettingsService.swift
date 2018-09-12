@@ -60,7 +60,7 @@ class SettingsService: NSObject {
                 print("Settings: * featureAvailable maps \(SettingsService.usesMaps)")
                 print("Settings: * showPreview \(SettingsService.shared.featureExperiment(.showPreview)) testGroup \(SettingsService.showPreviewTestGroup())")
                 print("Settings: * newestVersion \(SettingsService.newestVersion)")
-                print("Settings: * useGetAvailableEvents \(SettingsService.useGetAvailableEvents)")
+                print("Settings: * featureAvailable useGetAvailableEvents \(SettingsService.usesGetAvailableEvents())")
                 self.recordExperimentGroups()
                 observer.onNext("done")
             })
@@ -88,6 +88,7 @@ class SettingsService: NSObject {
 
 // MARK: - Remote settings
 extension SettingsService {
+    // feature flags
     class func donation() -> Bool {
         return shared.featureAvailable(.donation)
     }
@@ -104,10 +105,15 @@ extension SettingsService {
         return shared.featureAvailable(.ownerPayment)
     }
 
+    class func usesGetAvailableEvents() -> Bool {
+        return shared.featureAvailable(.useGetAvailableEvents)
+    }
+
     class var usesMaps: Bool {
         return shared.featureAvailable(.maps)
     }
     
+    // remote values
     class var eventFilterRadius: Double {
         return shared.featureValue(.eventRadius).numberValue?.doubleValue ?? defaults[.eventRadius] as! Double
     }
@@ -126,10 +132,6 @@ extension SettingsService {
     
     class var websiteUrl: String {
         return shared.featureValue(.websiteUrl).stringValue ?? "" // stringValue for a config doesn't return nil but returns empty string
-    }
-    
-    class var useGetAvailableEvents: Bool {
-        return shared.featureAvailable(.useGetAvailableEvents)
     }
 }
 

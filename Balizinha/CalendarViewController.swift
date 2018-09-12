@@ -41,43 +41,55 @@ class CalendarViewController: UITableViewController {
     }
 
     @objc func refreshEvents() {
-        EventService.shared.getEvents(type: nil) { [weak self] (results) in
-            // completion function will get called once at the start, and each time events change
-            guard let weakself = self else { return }
-            // 1: sort all events by time, ascending
-            weakself.allEvents = results.sorted { (event1, event2) -> Bool in
-                guard let startTime1 = event1.startTime, let startTime2 = event2.startTime else { return true }
-                return startTime1.timeIntervalSince(startTime2) < 0
+        if SettingsService.usesGetAvailableEvents() {
+            EventService.shared.getAvailableEvents { [weak self] (results) in
+                print("Results count \(results.count)")
+                self?.handleEvents(results)
             }
-            
-            guard let user = AuthService.currentUser else {
-                weakself.sortedUpcomingEvents = weakself.allEvents
-                return
+        } else {
+            EventService.shared.getEvents(type: nil) { [weak self] (results) in
+                print("Results count \(results.count)")
+                self?.handleEvents(results)
             }
-            // 2: Remove events the user has joined
-            EventService.shared.getEvents(for: user, completion: {[weak self] (eventIds) in
-                guard let weakself = self else { return }
-                let original = weakself.allEvents.filter({ (event) -> Bool in
-                    eventIds.contains(event.id)
-                })
-                
-                weakself.sortedPastEvents = original.filter({ (event) -> Bool in
-                    event.isPast
-                }).sorted(by: { (e1, e2) -> Bool in
-                    // sort past events in descending time
-                    guard let startTime1 = e1.startTime, let startTime2 = e2.startTime else { return true }
-                    return startTime1.timeIntervalSince(startTime2) > 0
-                })
-                
-                weakself.sortedUpcomingEvents = original.filter({ (event) -> Bool in
-                    !event.isPast
-                })
-                if #available(iOS 10.0, *) {
-                    NotificationService.shared.refreshNotifications(self?.sortedUpcomingEvents)
-                }
-                weakself.tableView.reloadData()
-            })
         }
+    }
+    
+    fileprivate func handleEvents(_ results: [Balizinha.Event]) {
+        // completion function will get called once at the start, and each time events change
+        // 1: sort all events by time, ascending
+        allEvents = results.sorted { (event1, event2) -> Bool in
+            guard let startTime1 = event1.startTime, let startTime2 = event2.startTime else { return true }
+            return startTime1.timeIntervalSince(startTime2) < 0
+        }
+        
+        guard let user = AuthService.currentUser else {
+            sortedUpcomingEvents = allEvents
+            return
+        }
+        
+        // 2: Remove events the user has joined
+        EventService.shared.getEvents(for: user, completion: {[weak self] (eventIds) in
+            guard let weakself = self else { return }
+            let original = weakself.allEvents.filter({ (event) -> Bool in
+                eventIds.contains(event.id)
+            })
+            
+            weakself.sortedPastEvents = original.filter({ (event) -> Bool in
+                event.isPast
+            }).sorted(by: { (e1, e2) -> Bool in
+                // sort past events in descending time
+                guard let startTime1 = e1.startTime, let startTime2 = e2.startTime else { return true }
+                return startTime1.timeIntervalSince(startTime2) > 0
+            })
+            
+            weakself.sortedUpcomingEvents = original.filter({ (event) -> Bool in
+                !event.isPast
+            })
+            if #available(iOS 10.0, *) {
+                NotificationService.shared.refreshNotifications(self?.sortedUpcomingEvents)
+            }
+            weakself.tableView.reloadData()
+        })
     }
 }
 

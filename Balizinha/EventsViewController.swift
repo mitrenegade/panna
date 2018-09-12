@@ -89,12 +89,14 @@ class EventsViewController: UIViewController {
     }
     
     @objc func refreshEvents() {
-        if SettingsService.useGetAvailableEvents {
+        if SettingsService.usesGetAvailableEvents() {
             service.getAvailableEvents { [weak self] (results) in
+                print("Results count \(results.count)")
                 self?.handleEvents(results)
             }
         } else {
             service.getEvents(type: nil) { [weak self] (results) in
+                print("Results count \(results.count)")
                 self?.handleEvents(results)
             }
         }
