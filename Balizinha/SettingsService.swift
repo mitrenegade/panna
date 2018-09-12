@@ -22,20 +22,22 @@ class SettingsService: NSObject {
         case softUpgradeInterval
         case websiteUrl
         
-        // no longer used ?
+        // feature flags
         case donation
         case paymentRequired
         case organizerPayment
         case ownerPayment
         case maps
-        
+        case useGetAvailableEvents
+
         // experiments
         case showPreview
         case organizerTrial
     }
     static let defaults: [SettingsKey: Any] = [.newestVersionIOS:"0.1.0",
                                                .eventRadius: EVENT_RADIUS_MILES_DEFAULT,
-                                               .softUpgradeInterval: SOFT_UPGRADE_INTERVAL_DEFAULT]
+                                               .softUpgradeInterval: SOFT_UPGRADE_INTERVAL_DEFAULT,
+                                               .useGetAvailableEvents: false]
 
     static var shared: SettingsService {
         if singleton == nil {
@@ -58,6 +60,7 @@ class SettingsService: NSObject {
                 print("Settings: * featureAvailable maps \(SettingsService.usesMaps)")
                 print("Settings: * showPreview \(SettingsService.shared.featureExperiment(.showPreview)) testGroup \(SettingsService.showPreviewTestGroup())")
                 print("Settings: * newestVersion \(SettingsService.newestVersion)")
+                print("Settings: * useGetAvailableEvents \(SettingsService.useGetAvailableEvents)")
                 self.recordExperimentGroups()
                 observer.onNext("done")
             })
@@ -123,6 +126,10 @@ extension SettingsService {
     
     class var websiteUrl: String {
         return shared.featureValue(.websiteUrl).stringValue ?? "" // stringValue for a config doesn't return nil but returns empty string
+    }
+    
+    class var useGetAvailableEvents: Bool {
+        return shared.featureAvailable(.useGetAvailableEvents)
     }
 }
 

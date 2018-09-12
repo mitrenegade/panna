@@ -89,50 +89,56 @@ class EventsViewController: UIViewController {
     }
     
     @objc func refreshEvents() {
-        service.getAvailableEvents { [weak self] (results) in
-//        }
-//        service.getEvents(type: nil) { [weak self] (results) in
-            // completion function will get called once at the start, and each time events change
-            guard let weakself = self else { return }
-            weakself.firstLoaded = true
-            
-            // 1: sort all events by time
-            weakself.allEvents = weakself.filterByDistance(events: results).sorted { (event1, event2) -> Bool in
-                // ascending time
-                guard let startTime1 = event1.startTime, let startTime2 = event2.startTime else { return true }
-                return startTime1.timeIntervalSince(startTime2) < 0
+        if SettingsService.useGetAvailableEvents {
+            service.getAvailableEvents { [weak self] (results) in
+                self?.handleEvents(results)
             }
-            
-            // 2: Remove events the user has joined
-            guard let user = AuthService.currentUser else { return }
-            self?.service.getEvents(for: user, completion: {[weak self] (eventIds) in
-                guard let weakself = self else { return }
-                
-                // version 0.5.0: for users installing a notification-enabled app for the first time, make sure events they've joined or created in the past have the correct subscriptions
-                weakself.updateSubscriptionsOnce(eventIds)
-                
-                weakself.allEvents = weakself.allEvents.filter({ (event) -> Bool in
-                    (!eventIds.contains(event.id) && !event.isPast)
-                })
-                
-                // 3: Organize events by type
-                weakself.sortedEvents = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .group: [], .social: [], .other: []]
-                
-                for event in weakself.allEvents {
-                    if weakself.eventOrder.contains(event.type) {
-                        var eventArray = weakself.sortedEvents[event.type] ?? []
-                        eventArray.append(event)
-                        weakself.sortedEvents.updateValue(eventArray, forKey: event.type)
-                    } else {
-                        var eventArray = weakself.sortedEvents[.other] ?? []
-                        eventArray.append(event)
-                        weakself.sortedEvents.updateValue(eventArray, forKey: .other)
-                    }
-                }
-                weakself.reloadData()
-            })
+        } else {
+            service.getEvents(type: nil) { [weak self] (results) in
+                self?.handleEvents(results)
+            }
         }
-
+    }
+    
+    fileprivate func handleEvents(_ results: [Balizinha.Event]) {
+        // completion function will get called once at the start, and each time events change
+        firstLoaded = true
+        
+        // 1: sort all events by time
+        allEvents = filterByDistance(events: results).sorted { (event1, event2) -> Bool in
+            // ascending time
+            guard let startTime1 = event1.startTime, let startTime2 = event2.startTime else { return true }
+            return startTime1.timeIntervalSince(startTime2) < 0
+        }
+        
+        // 2: Remove events the user has joined
+        guard let user = AuthService.currentUser else { return }
+        service.getEvents(for: user, completion: {[weak self] (eventIds) in
+            guard let weakself = self else { return }
+            
+            // version 0.5.0: for users installing a notification-enabled app for the first time, make sure events they've joined or created in the past have the correct subscriptions
+            weakself.updateSubscriptionsOnce(eventIds)
+            
+            weakself.allEvents = weakself.allEvents.filter({ (event) -> Bool in
+                (!eventIds.contains(event.id) && !event.isPast)
+            })
+            
+            // 3: Organize events by type
+            weakself.sortedEvents = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .group: [], .social: [], .other: []]
+            
+            for event in weakself.allEvents {
+                if weakself.eventOrder.contains(event.type) {
+                    var eventArray = weakself.sortedEvents[event.type] ?? []
+                    eventArray.append(event)
+                    weakself.sortedEvents.updateValue(eventArray, forKey: event.type)
+                } else {
+                    var eventArray = weakself.sortedEvents[.other] ?? []
+                    eventArray.append(event)
+                    weakself.sortedEvents.updateValue(eventArray, forKey: .other)
+                }
+            }
+            weakself.reloadData()
+        })
     }
     
     fileprivate func filterByDistance(events: [Balizinha.Event]) -> [Balizinha.Event]{
