@@ -24,6 +24,13 @@ class LeagueTitleCell: UITableViewCell {
                 DispatchQueue.main.async {
                     self?.logoView.imageUrl = url.absoluteString
                 }
+            } else {
+                DispatchQueue.main.async {
+                    self?.logoView.imageUrl = nil
+                    self?.logoView.image = UIImage(named: "crestLarge")?.withRenderingMode(.alwaysTemplate)
+                    self?.logoView.tintColor = UIColor.white
+                    self?.logoView.backgroundColor = UIColor.darkGreen
+                }
             }
         }
     }
