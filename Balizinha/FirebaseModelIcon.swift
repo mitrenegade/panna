@@ -29,7 +29,9 @@ class FirebaseModelIcon: UIView {
     
     fileprivate func refreshPhoto() {
         if imageView == nil {
-            imageView = RAImageView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
+            let view = RAImageView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
+            self.addSubview(view)
+            imageView = view
         }
         guard let imageView = imageView else { return }
         imageView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
