@@ -46,6 +46,7 @@ class Tag: NSObject {
     }
     
     static let adder = Tag(tag: "Add a tag", action: .add)
+    static let privateTag = Tag(tag: "Private", action: .add)
 }
 
 protocol ResizableTagViewDelegate {
@@ -84,7 +85,7 @@ class ResizableTagView: UIView {
         delegate?.didUpdateHeight(height: height)
     }
     
-    func configureWithTags(tagStrings: [String]?) {
+    func configureWithTags(tagStrings: [String]?, isPrivate: Bool = false) {
         self.clear()
         var arr = [Tag]()
         if let strings = tagStrings {
@@ -92,6 +93,9 @@ class ResizableTagView: UIView {
                 let tag = Tag(tag: str)
                 arr.append(tag)
             }
+        }
+        if isPrivate {
+            arr.append(Tag.privateTag)
         }
         arr.append(Tag.adder)
         self.tags = arr

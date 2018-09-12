@@ -18,7 +18,7 @@ class LeagueTagsCell: UITableViewCell {
         guard let league = league else { return }
         let tags = league.tags
         tagsView.delegate = self
-        tagsView.configureWithTags(tagStrings: tags)
+        tagsView.configureWithTags(tagStrings: tags, isPrivate: league.isPrivate)
     }
 }
 
