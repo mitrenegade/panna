@@ -89,7 +89,9 @@ class EventsViewController: UIViewController {
     }
     
     @objc func refreshEvents() {
-        service.getEvents(type: nil) { [weak self] (results) in
+        service.getAvailableEvents { [weak self] (results) in
+//        }
+//        service.getEvents(type: nil) { [weak self] (results) in
             // completion function will get called once at the start, and each time events change
             guard let weakself = self else { return }
             weakself.firstLoaded = true
@@ -130,6 +132,7 @@ class EventsViewController: UIViewController {
                 weakself.reloadData()
             })
         }
+
     }
     
     fileprivate func filterByDistance(events: [Balizinha.Event]) -> [Balizinha.Event]{
