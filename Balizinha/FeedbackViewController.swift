@@ -19,13 +19,17 @@ class FeedbackViewController: UIViewController {
     
     fileprivate var isLeagueInquiry: Bool = false
     fileprivate var shouldCancelInput: Bool = false
-    
+    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.title = "Feedback"
         if isLeagueInquiry {
             inputSubject.text = "League inquiry"
             inputSubject.isUserInteractionEnabled = false
+            
+            navigationItem.title = "About Leagues"
         }
         
         inputDetails.layer.borderWidth = 1
@@ -45,6 +49,16 @@ class FeedbackViewController: UIViewController {
         
         inputSubject.inputAccessoryView = keyboardNextButtonView
         inputDetails.inputAccessoryView = keyboardNextButtonView
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
+        view.addSubview(activityOverlay)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        activityOverlay.setup(frame: view.frame)
     }
     
     @IBAction func didClickSubmit(sender: UIButton?) {
@@ -58,17 +72,31 @@ class FeedbackViewController: UIViewController {
         if let details = inputDetails.text, !details.isEmpty {
             params["details"] = details
         }
+        cancelInput()
+        
+        activityOverlay.show()
         FirebaseAPIService().cloudFunction(functionName: "submitFeedback", method: "POST", params: params) { [weak self] (result, error) in
             print("Feedback result \(String(describing: result)) error \(String(describing: error))")
-            if let error = error as NSError? {
-                self?.simpleAlert("Feedback failed", defaultMessage: "Could not submit feedback on \(subject)", error: error)
-            } else {
-                self?.navigationController?.popToRootViewController(animated: true)
+            DispatchQueue.main.async {
+                self?.activityOverlay.hide()
+                if let error = error as NSError? {
+                    self?.simpleAlert("Feedback failed", defaultMessage: "Could not submit feedback on \(subject)", error: error)
+                } else {
+                    var title = "Feedback submitted"
+                    var message = "Thank you for your feedback"
+                    if self?.isLeagueInquiry == true {
+                        title = "Inquiry submitted"
+                        message = "Your question about leagues has been submitted."
+                    }
+                    self?.simpleAlert(title, message: message, completion: {
+                        self?.navigationController?.popToRootViewController(animated: true)
+                    })
+                }
             }
         }
     }
     
-    fileprivate func keyboardWillShow(_ notification: Notification) {
+    @objc fileprivate func keyboardWillShow(_ notification: Notification) {
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
         let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
@@ -80,7 +108,7 @@ class FeedbackViewController: UIViewController {
         }
     }
     
-    fileprivate func keyboardWillHide(_ notification: Notification) {
+    @objc fileprivate func keyboardWillHide(_ notification: Notification) {
         constraintBottomOffset.constant = 20
         UIView.animate(withDuration: 0.25) {
             self.view.layoutIfNeeded()

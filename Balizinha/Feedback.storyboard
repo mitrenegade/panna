@@ -23,6 +23,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dMD-4z-chn">
+                                <rect key="frame" x="16" y="28" width="343" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="abq-qB-IvS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Subject" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KGW-sV-jxU">
                                 <rect key="frame" x="16" y="57" width="343" height="30"/>
                                 <nil key="textColor"/>
@@ -38,7 +47,7 @@
                                     <constraint firstAttribute="height" constant="21" id="dFY-Zq-eSt"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Yx8-o5-iRf">
@@ -50,17 +59,8 @@
                                     <outlet property="delegate" destination="V5i-gz-WQk" id="rbR-ie-jXh"/>
                                 </connections>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dMD-4z-chn">
-                                <rect key="frame" x="16" y="28" width="343" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="abq-qB-IvS"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.2419034243" green="0.32027676700000002" blue="0.3954539299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ppL-Ny-ftX" firstAttribute="top" secondItem="KGW-sV-jxU" secondAttribute="bottom" constant="8" id="65w-uh-B7m"/>
                             <constraint firstItem="dMD-4z-chn" firstAttribute="leading" secondItem="WxM-yI-ofT" secondAttribute="leading" constant="16" id="85d-9t-ET4"/>
@@ -79,6 +79,7 @@
                         <viewLayoutGuide key="safeArea" id="WxM-yI-ofT"/>
                     </view>
                     <connections>
+                        <outlet property="constraintBottomOffset" destination="tXE-fa-9lL" id="hBG-f3-jp4"/>
                         <outlet property="inputDetails" destination="Yx8-o5-iRf" id="Si9-qO-fGe"/>
                         <outlet property="inputSubject" destination="KGW-sV-jxU" id="uuX-zB-xet"/>
                     </connections>
