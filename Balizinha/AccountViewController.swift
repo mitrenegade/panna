@@ -18,7 +18,8 @@ class AccountViewController: UIViewController {
         case promo = "Promo program"
         case notifications = "Push notifications"
         case location = "Use my location"
-        case about = "About"
+        case feedback = "Feedback"
+        case about = "About Panna"
         case logout = "Logout"
     }
     
@@ -32,7 +33,7 @@ class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        menuOptions = [.profile, .payment, .promo, .notifications, .location, .about, .logout]
+        menuOptions = [.profile, .payment, .promo, .notifications, .location, .feedback, .about, .logout]
         if !SettingsService.paymentRequired(), let index = menuOptions.index(of: .promo) {
             menuOptions.remove(at: index)
         }
@@ -150,7 +151,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             cell.configure()
             return cell
             
-        case .profile, .about, .logout:
+        case .profile, .about, .feedback, .logout:
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             cell.textLabel?.text = menuOptions[indexPath.row].rawValue
             cell.accessoryType = .disclosureIndicator
@@ -212,6 +213,8 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             return
         case .about:
             showAboutOptions()
+        case .feedback:
+            performSegue(withIdentifier: "toFeedback", sender: nil)
         }
     }
     

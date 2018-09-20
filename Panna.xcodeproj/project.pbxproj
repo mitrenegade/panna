@@ -132,6 +132,8 @@
 		8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */; };
 		8EF167F9208BEE4A00257354 /* LeagueIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F8208BEE4A00257354 /* LeagueIcon.swift */; };
 		8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
+		8EF634792153198B00652833 /* Feedback.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EF634782153198B00652833 /* Feedback.storyboard */; };
+		8EF6347C215319CE00652833 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6347B215319CE00652833 /* FeedbackViewController.swift */; };
 		8EF7F9F520E339A30037962E /* LeaguePlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */; };
 		8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */; };
 		AF13F159616F0AD794E5FFA9 /* Pods_Panna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3607E28372CEBCAF774CB7 /* Pods_Panna.framework */; };
@@ -278,6 +280,8 @@
 		8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModelIcon.swift; sourceTree = "<group>"; };
 		8EF167F8208BEE4A00257354 /* LeagueIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueIcon.swift; sourceTree = "<group>"; };
 		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
+		8EF634782153198B00652833 /* Feedback.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Feedback.storyboard; sourceTree = "<group>"; };
+		8EF6347B215319CE00652833 /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaguePlayerCell.swift; sourceTree = "<group>"; };
 		94979895EDCB6BB23785280B /* Pods-PannaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PannaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PannaTests/Pods-PannaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A0D15278000DD83DBDA515A9 /* Pods-BalizinhaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -430,6 +434,7 @@
 				8EC7992E1E3636A0004ACC52 /* EventDetails.storyboard */,
 				8E179077207B0324004FF5D2 /* Attendance.storyboard */,
 				C651AB892096D7FC0046B03C /* League.storyboard */,
+				8EF634782153198B00652833 /* Feedback.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -477,8 +482,6 @@
 		8E7256981CDF793200C9E054 /* Balizinha */ = {
 			isa = PBXGroup;
 			children = (
-				8E710D61212F7748004A8D48 /* Places */,
-				C651AB8B2096D81F0046B03C /* Leagues */,
 				8ED3DE761E330CB700947040 /* Balizinha.entitlements */,
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
 				8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */,
@@ -489,6 +492,9 @@
 				8E19A4A71E6C7FCE00D301EC /* Account */,
 				F2F7C3BE1CEE11BE00350115 /* Events */,
 				8E19A4A81E6C933400D301EC /* Event Details */,
+				C651AB8B2096D81F0046B03C /* Leagues */,
+				8E710D61212F7748004A8D48 /* Places */,
+				8EF6347A215319BA00652833 /* Feedback */,
 				8E6AE5431F8E5DAD0062DCF5 /* ViewModels */,
 				8E9F0CD9208BEB640000886E /* Views */,
 				F2F7C3BB1CEE10F700350115 /* Cells */,
@@ -536,6 +542,14 @@
 				8ED897552109FA5B0062D345 /* ActivityIndicatorOverlay.swift */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		8EF6347A215319BA00652833 /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				8EF6347B215319CE00652833 /* FeedbackViewController.swift */,
+			);
+			name = Feedback;
 			sourceTree = "<group>";
 		};
 		C651AB8B2096D81F0046B03C /* Leagues */ = {
@@ -749,6 +763,7 @@
 				8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */,
 				8EC7992F1E3636A0004ACC52 /* EventDetails.storyboard in Resources */,
 				8EE94E471FF93DB700129EC2 /* Launch.storyboard in Resources */,
+				8EF634792153198B00652833 /* Feedback.storyboard in Resources */,
 				8EC7992B1E3635A0004ACC52 /* Events.storyboard in Resources */,
 				8E7398031FF921E500D48BA0 /* Montserrat-ExtraLightItalic.ttf in Resources */,
 				8EB90B391FB2B8D5007C60F0 /* Tutorial.storyboard in Resources */,
@@ -932,6 +947,7 @@
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */,
 				8E48AF8420DFE91C00D814BE /* LeaguePlayersCell.swift in Sources */,
+				8EF6347C215319CE00652833 /* FeedbackViewController.swift in Sources */,
 				8E74E54D1FA9FFF5005F72DA /* PlaceResultsViewController.swift in Sources */,
 				8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */,
 				8EB865FA208BE8440029079A /* PlayerLeaguesViewController.swift in Sources */,
