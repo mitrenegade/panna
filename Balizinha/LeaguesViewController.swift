@@ -26,7 +26,10 @@ class LeaguesViewController: UIViewController {
         
         let profileButton = UIBarButtonItem(image: UIImage(named: "menu"), style: .done, target: self, action: #selector(didClickProfile(_:)))
         navigationItem.leftBarButtonItem = profileButton
-        
+        let infoButton = UIButton(type: .infoLight)
+        infoButton.addTarget(self, action: #selector(didClickInfo(_:)), for: .touchUpInside)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: infoButton)
+
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 80
 
@@ -63,6 +66,10 @@ class LeaguesViewController: UIViewController {
     
     @objc fileprivate func dismissProfile() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc fileprivate func didClickInfo(_ sender: Any) {
+        performSegue(withIdentifier: "toLeaguesInfo", sender: nil)
     }
     
     @objc fileprivate func loadData() {

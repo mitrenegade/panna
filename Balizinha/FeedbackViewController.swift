@@ -18,7 +18,9 @@ class FeedbackViewController: UIViewController {
 
     @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
     
-    fileprivate var isLeagueInquiry: Bool = false
+    var isLeagueInquiry: Bool {
+        return false
+    }
     fileprivate var shouldCancelInput: Bool = false
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
@@ -26,12 +28,6 @@ class FeedbackViewController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.title = "Feedback"
-        if isLeagueInquiry {
-            inputSubject.text = "League inquiry"
-            inputSubject.isUserInteractionEnabled = false
-            
-            navigationItem.title = "About Leagues"
-        }
         
         if let email = PlayerService.shared.current.value?.email {
             inputEmail.text = email
@@ -103,11 +99,15 @@ class FeedbackViewController: UIViewController {
                         message = "Your question about leagues has been submitted."
                     }
                     self?.simpleAlert(title, message: message, completion: {
-                        self?.navigationController?.popToRootViewController(animated: true)
+                        self?.close()
                     })
                 }
             }
         }
+    }
+    
+    func close() {
+        navigationController?.popToRootViewController(animated: true)
     }
     
     @objc fileprivate func keyboardWillShow(_ notification: Notification) {
@@ -131,7 +131,7 @@ class FeedbackViewController: UIViewController {
 }
 
 extension FeedbackViewController: UITextFieldDelegate {
-    @objc fileprivate func cancelInput() {
+    @objc func cancelInput() {
         shouldCancelInput = true
         view.endEditing(true)
     }
