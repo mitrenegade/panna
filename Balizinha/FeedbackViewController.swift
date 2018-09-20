@@ -13,11 +13,14 @@ import Balizinha
 class FeedbackViewController: UIViewController {
 
     @IBOutlet weak var inputSubject: UITextField!
+    @IBOutlet weak var inputEmail: UITextField!
     @IBOutlet weak var inputDetails: UITextView!
-    
+
     @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
     
-    fileprivate var isLeagueInquiry: Bool = false
+    var isLeagueInquiry: Bool {
+        return false
+    }
     fileprivate var shouldCancelInput: Bool = false
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
@@ -25,11 +28,9 @@ class FeedbackViewController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.title = "Feedback"
-        if isLeagueInquiry {
-            inputSubject.text = "League inquiry"
-            inputSubject.isUserInteractionEnabled = false
-            
-            navigationItem.title = "About Leagues"
+        
+        if let email = PlayerService.shared.current.value?.email {
+            inputEmail.text = email
         }
         
         inputDetails.layer.borderWidth = 1
@@ -66,9 +67,18 @@ class FeedbackViewController: UIViewController {
             simpleAlert("Please enter a subject", message: nil)
             return
         }
+        
+        guard let email = inputEmail.text, email.isValidEmail() else {
+            var message = "We will respond to your feedback as soon as possible."
+            if isLeagueInquiry {
+                message = "We will respond to your inquiry as soon as possible."
+            }
+            simpleAlert("Please enter a valid email", message: message)
+            return
+        }
 
         guard let userId = PlayerService.shared.current.value?.id else { return }
-        var params: [String: Any] = ["subject": subject, "userId": userId]
+        var params: [String: Any] = ["subject": subject, "userId": userId, "email": email]
         if let details = inputDetails.text, !details.isEmpty {
             params["details"] = details
         }
@@ -80,7 +90,7 @@ class FeedbackViewController: UIViewController {
             DispatchQueue.main.async {
                 self?.activityOverlay.hide()
                 if let error = error as NSError? {
-                    self?.simpleAlert("Feedback failed", defaultMessage: "Could not submit feedback on \(subject)", error: error)
+                    self?.simpleAlert("Feedback failed", defaultMessage: "Could not submit feedback about \"\(subject)\"", error: error)
                 } else {
                     var title = "Feedback submitted"
                     var message = "Thank you for your feedback"
@@ -89,11 +99,15 @@ class FeedbackViewController: UIViewController {
                         message = "Your question about leagues has been submitted."
                     }
                     self?.simpleAlert(title, message: message, completion: {
-                        self?.navigationController?.popToRootViewController(animated: true)
+                        self?.close()
                     })
                 }
             }
         }
+    }
+    
+    func close() {
+        navigationController?.popToRootViewController(animated: true)
     }
     
     @objc fileprivate func keyboardWillShow(_ notification: Notification) {
@@ -117,7 +131,7 @@ class FeedbackViewController: UIViewController {
 }
 
 extension FeedbackViewController: UITextFieldDelegate {
-    @objc fileprivate func cancelInput() {
+    @objc func cancelInput() {
         shouldCancelInput = true
         view.endEditing(true)
     }
@@ -129,6 +143,8 @@ extension FeedbackViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard !shouldCancelInput else { return }
         if textField == inputSubject {
+            inputEmail.becomeFirstResponder()
+        } else if textField == inputEmail {
             inputDetails.becomeFirstResponder()
         }
     }
