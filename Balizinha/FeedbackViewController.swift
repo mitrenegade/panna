@@ -28,6 +28,9 @@ class FeedbackViewController: UIViewController {
             inputSubject.isUserInteractionEnabled = false
         }
         
+        inputDetails.layer.borderWidth = 1
+        inputDetails.layer.borderColor = UIColor.lightGray.cgColor
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Submit", style: .done, target: self, action: #selector(didClickSubmit(sender:)))
         
         // Do any additional setup after loading the view, typically from a nib.

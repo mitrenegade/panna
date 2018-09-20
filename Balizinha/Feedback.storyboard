@@ -24,7 +24,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Subject" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KGW-sV-jxU">
-                                <rect key="frame" x="16" y="20" width="343" height="30"/>
+                                <rect key="frame" x="16" y="57" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
@@ -33,7 +33,7 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Details (optional)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ppL-Ny-ftX">
-                                <rect key="frame" x="16" y="58" width="343" height="21"/>
+                                <rect key="frame" x="16" y="95" width="343" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="dFY-Zq-eSt"/>
                                 </constraints>
@@ -42,7 +42,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Yx8-o5-iRf">
-                                <rect key="frame" x="16" y="87" width="343" height="560"/>
+                                <rect key="frame" x="16" y="124" width="343" height="523"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -50,11 +50,20 @@
                                     <outlet property="delegate" destination="V5i-gz-WQk" id="rbR-ie-jXh"/>
                                 </connections>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dMD-4z-chn">
+                                <rect key="frame" x="16" y="28" width="343" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="abq-qB-IvS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="KGW-sV-jxU" firstAttribute="top" secondItem="WxM-yI-ofT" secondAttribute="top" id="0ys-uk-v6R"/>
                             <constraint firstItem="ppL-Ny-ftX" firstAttribute="top" secondItem="KGW-sV-jxU" secondAttribute="bottom" constant="8" id="65w-uh-B7m"/>
+                            <constraint firstItem="dMD-4z-chn" firstAttribute="leading" secondItem="WxM-yI-ofT" secondAttribute="leading" constant="16" id="85d-9t-ET4"/>
                             <constraint firstItem="Yx8-o5-iRf" firstAttribute="leading" secondItem="WxM-yI-ofT" secondAttribute="leading" constant="16" id="BA4-mg-lUq"/>
                             <constraint firstItem="ppL-Ny-ftX" firstAttribute="leading" secondItem="WxM-yI-ofT" secondAttribute="leading" constant="16" id="BxY-cU-Og0"/>
                             <constraint firstItem="WxM-yI-ofT" firstAttribute="trailing" secondItem="ppL-Ny-ftX" secondAttribute="trailing" constant="16" id="I9f-pK-grK"/>
@@ -62,7 +71,10 @@
                             <constraint firstItem="KGW-sV-jxU" firstAttribute="leading" secondItem="WxM-yI-ofT" secondAttribute="leading" constant="16" id="edG-G2-lhH"/>
                             <constraint firstItem="Yx8-o5-iRf" firstAttribute="top" secondItem="ppL-Ny-ftX" secondAttribute="bottom" constant="8" id="gmA-Dd-X7h"/>
                             <constraint firstItem="WxM-yI-ofT" firstAttribute="trailing" secondItem="Yx8-o5-iRf" secondAttribute="trailing" constant="16" id="jZh-k7-od6"/>
+                            <constraint firstItem="dMD-4z-chn" firstAttribute="top" secondItem="WxM-yI-ofT" secondAttribute="top" constant="8" id="l6r-bD-IbG"/>
+                            <constraint firstItem="WxM-yI-ofT" firstAttribute="trailing" secondItem="dMD-4z-chn" secondAttribute="trailing" constant="16" id="nvM-Mw-pDY"/>
                             <constraint firstItem="WxM-yI-ofT" firstAttribute="bottom" secondItem="Yx8-o5-iRf" secondAttribute="bottom" constant="20" id="tXE-fa-9lL"/>
+                            <constraint firstItem="KGW-sV-jxU" firstAttribute="top" secondItem="dMD-4z-chn" secondAttribute="bottom" constant="8" id="ua7-wX-elM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="WxM-yI-ofT"/>
                     </view>
