@@ -82,7 +82,7 @@ class FeedbackViewController: UIViewController {
         }
 
         guard let userId = PlayerService.shared.current.value?.id else { return }
-        var params: [String: Any] = ["subject": subject, "userId": userId]
+        var params: [String: Any] = ["subject": subject, "userId": userId, "email": email]
         if let details = inputDetails.text, !details.isEmpty {
             params["details"] = details
         }
@@ -94,7 +94,7 @@ class FeedbackViewController: UIViewController {
             DispatchQueue.main.async {
                 self?.activityOverlay.hide()
                 if let error = error as NSError? {
-                    self?.simpleAlert("Feedback failed", defaultMessage: "Could not submit feedback on \(subject)", error: error)
+                    self?.simpleAlert("Feedback failed", defaultMessage: "Could not submit feedback about \"\(subject)\"", error: error)
                 } else {
                     var title = "Feedback submitted"
                     var message = "Thank you for your feedback"
