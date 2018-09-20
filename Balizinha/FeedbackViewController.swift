@@ -13,8 +13,9 @@ import Balizinha
 class FeedbackViewController: UIViewController {
 
     @IBOutlet weak var inputSubject: UITextField!
+    @IBOutlet weak var inputEmail: UITextField!
     @IBOutlet weak var inputDetails: UITextView!
-    
+
     @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
     
     fileprivate var isLeagueInquiry: Bool = false
@@ -30,6 +31,10 @@ class FeedbackViewController: UIViewController {
             inputSubject.isUserInteractionEnabled = false
             
             navigationItem.title = "About Leagues"
+        }
+        
+        if let email = PlayerService.shared.current.value?.email {
+            inputEmail.text = email
         }
         
         inputDetails.layer.borderWidth = 1
@@ -64,6 +69,15 @@ class FeedbackViewController: UIViewController {
     @IBAction func didClickSubmit(sender: UIButton?) {
         guard let subject = inputSubject.text, !subject.isEmpty else {
             simpleAlert("Please enter a subject", message: nil)
+            return
+        }
+        
+        guard let email = inputEmail.text, email.isValidEmail() else {
+            var message = "We will respond to your feedback as soon as possible."
+            if isLeagueInquiry {
+                message = "We will respond to your inquiry as soon as possible."
+            }
+            simpleAlert("Please enter a valid email", message: message)
             return
         }
 
@@ -129,6 +143,8 @@ extension FeedbackViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard !shouldCancelInput else { return }
         if textField == inputSubject {
+            inputEmail.becomeFirstResponder()
+        } else if textField == inputEmail {
             inputDetails.becomeFirstResponder()
         }
     }
