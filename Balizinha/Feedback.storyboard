@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="V5i-gz-WQk">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -9,21 +9,71 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+    </customFonts>
     <scenes>
-        <!--View Controller-->
+        <!--Feedback View Controller-->
         <scene sceneID="gX3-nY-z5x">
             <objects>
-                <viewController id="V5i-gz-WQk" sceneMemberID="viewController">
+                <viewController id="V5i-gz-WQk" customClass="FeedbackViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5e4-K4-qbY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Subject" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KGW-sV-jxU">
+                                <rect key="frame" x="16" y="20" width="343" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="V5i-gz-WQk" id="HHd-TK-YPr"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Details (optional)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ppL-Ny-ftX">
+                                <rect key="frame" x="16" y="58" width="343" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="dFY-Zq-eSt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Yx8-o5-iRf">
+                                <rect key="frame" x="16" y="87" width="343" height="560"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="V5i-gz-WQk" id="rbR-ie-jXh"/>
+                                </connections>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="KGW-sV-jxU" firstAttribute="top" secondItem="WxM-yI-ofT" secondAttribute="top" id="0ys-uk-v6R"/>
+                            <constraint firstItem="ppL-Ny-ftX" firstAttribute="top" secondItem="KGW-sV-jxU" secondAttribute="bottom" constant="8" id="65w-uh-B7m"/>
+                            <constraint firstItem="Yx8-o5-iRf" firstAttribute="leading" secondItem="WxM-yI-ofT" secondAttribute="leading" constant="16" id="BA4-mg-lUq"/>
+                            <constraint firstItem="ppL-Ny-ftX" firstAttribute="leading" secondItem="WxM-yI-ofT" secondAttribute="leading" constant="16" id="BxY-cU-Og0"/>
+                            <constraint firstItem="WxM-yI-ofT" firstAttribute="trailing" secondItem="ppL-Ny-ftX" secondAttribute="trailing" constant="16" id="I9f-pK-grK"/>
+                            <constraint firstItem="WxM-yI-ofT" firstAttribute="trailing" secondItem="KGW-sV-jxU" secondAttribute="trailing" constant="16" id="TuS-Af-fCy"/>
+                            <constraint firstItem="KGW-sV-jxU" firstAttribute="leading" secondItem="WxM-yI-ofT" secondAttribute="leading" constant="16" id="edG-G2-lhH"/>
+                            <constraint firstItem="Yx8-o5-iRf" firstAttribute="top" secondItem="ppL-Ny-ftX" secondAttribute="bottom" constant="8" id="gmA-Dd-X7h"/>
+                            <constraint firstItem="WxM-yI-ofT" firstAttribute="trailing" secondItem="Yx8-o5-iRf" secondAttribute="trailing" constant="16" id="jZh-k7-od6"/>
+                            <constraint firstItem="WxM-yI-ofT" firstAttribute="bottom" secondItem="Yx8-o5-iRf" secondAttribute="bottom" constant="20" id="tXE-fa-9lL"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="WxM-yI-ofT"/>
                     </view>
+                    <connections>
+                        <outlet property="inputDetails" destination="Yx8-o5-iRf" id="Si9-qO-fGe"/>
+                        <outlet property="inputSubject" destination="KGW-sV-jxU" id="uuX-zB-xet"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZhE-ms-c7e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="73" y="83"/>
+            <point key="canvasLocation" x="72.799999999999997" y="82.3088455772114"/>
         </scene>
     </scenes>
 </document>
