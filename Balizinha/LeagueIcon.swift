@@ -12,7 +12,7 @@ import Balizinha
 class LeagueIcon: FirebaseModelIcon {
 
     override func photoUrl(id: String?, completion: @escaping ((URL?)->Void)) {
-        FirebaseImageService().leaguePhotoUrl(for: id) { (url) in
+        FirebaseImageService().leaguePhotoUrl(with: id) { (url) in
             print("PlayerIcon photoUrl: \(url)")
             DispatchQueue.main.async {
                 completion(url)

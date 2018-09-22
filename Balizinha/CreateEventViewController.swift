@@ -257,7 +257,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     
     fileprivate func refreshLeaguePhoto() {
         if let leagueId = league?.id {
-            FirebaseImageService().leaguePhotoUrl(for: leagueId) {[weak self] (url) in
+            FirebaseImageService().leaguePhotoUrl(with: leagueId) {[weak self] (url) in
                 DispatchQueue.main.async {
                     if let url = url {
                         self?.leaguePhotoView?.imageUrl = url.absoluteString

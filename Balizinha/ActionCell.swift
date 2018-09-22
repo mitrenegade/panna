@@ -34,7 +34,7 @@ class ActionCell: UITableViewCell {
         photoView.layer.cornerRadius = photoView.frame.size.width / 4
         photoView.clipsToBounds = true
         photoView.contentMode = .scaleAspectFill
-        FirebaseImageService().profileUrl(for: userId) { (url) in
+        FirebaseImageService().profileUrl(with: userId) { (url) in
             DispatchQueue.main.async {
                 if let urlString = url?.absoluteString, self.actionId == currentActionId  {
                     photoView.imageUrl = urlString
