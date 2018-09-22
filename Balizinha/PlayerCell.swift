@@ -29,7 +29,7 @@ class PlayerCell: UITableViewCell {
         labelId.text = player.id
         labelDate.text = player.createdAt?.dateString()
 
-        FirebaseImageService().profileUrl(for: player.id) {[weak self] (url) in
+        FirebaseImageService().profileUrl(with: player.id) {[weak self] (url) in
             DispatchQueue.main.async {
                 if let weakself = self, let urlString = url?.absoluteString {
                     weakself.updatePhoto(urlString: urlString)

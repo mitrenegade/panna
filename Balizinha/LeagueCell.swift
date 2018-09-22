@@ -23,7 +23,7 @@ class LeagueCell: UITableViewCell {
 
     func configure(league: League) {
         icon.image = nil
-        FirebaseImageService().leaguePhotoUrl(for: league.id) {[weak self] (url) in
+        FirebaseImageService().leaguePhotoUrl(with: league.id) {[weak self] (url) in
             DispatchQueue.main.async {
                 if let urlString = url?.absoluteString {
                     self?.icon.imageUrl = urlString

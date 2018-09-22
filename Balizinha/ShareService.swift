@@ -20,22 +20,24 @@ class ShareService: NSObject {
         let messageComposeVC = MFMessageComposeViewController()
         messageComposeVC.messageComposeDelegate = self  //  Make sure to set this property to self, so that the controller can be dismissed!
         messageComposeVC.recipients = []
-        messageComposeVC.body = message ?? "Come join me for a game of futsal using Panna! Download the app here: http://apple.co/2zeAZ9X"
+        messageComposeVC.body = message ?? "Come join me for some pickup using Panna! Download the app here: http://apple.co/2zeAZ9X"
         controller.present(messageComposeVC, animated: true, completion: nil)
     }
     
     func share(event: Balizinha.Event, from controller: UIViewController) {
-        let eventId = event.id
-        let eventLink = shareLinkFor(event: eventId)
-        let message = "Are you down for a game? Join the event here: \(eventLink)."
+        var message: String?
+        let eventLink = shareLink(for: event)
+        if !eventLink.isEmpty {
+            message = "Are you down for a game of pickup? Join the event here: \(eventLink)."
+        }
         share(from: controller, message: message)
     }
     
     func shareToFacebook(event: Balizinha.Event, from controller: UIViewController) {
         let content: FBSDKShareLinkContent = FBSDKShareLinkContent()
-        let eventLink = shareLinkFor(event: event.id) // TODO: this url doesn't render or forward correctly on Facebook. For facebook sharing, link to a dynamic website that redirects to the dynamic link in Safari
+        let eventLink = shareLink(for: event) // TODO: this url doesn't render or forward correctly on Facebook. For facebook sharing, link to a dynamic website that redirects to the dynamic link in Safari
         let url = URL(string: eventLink)
-        content.contentURL = url
+        content.contentURL = url ?? URL(string: "https://pannaleagues.com")
         FBSDKShareDialog.show(from: controller, with: content, delegate: controller as? FBSDKSharingDelegate)
         
         //        FirebaseImageService().eventPhotoUrl(for: event) { (url) in
@@ -48,10 +50,11 @@ class ShareService: NSObject {
         //
     }
     
-    fileprivate func shareLinkFor(event eventId: String) -> String{
+    fileprivate func shareLink(for event: Event) -> String{
         //return "panna://events/\(eventId)"
-        let pannaString = TESTING ? "pannadev" : "pannaleagues"
-        return "https://\(pannaString).page.link/events/\(eventId)"
+//        let pannaString = TESTING ? "pannadev" : "pannaleagues"
+//        return "https://\(pannaString).page.link/events/\(eventId)"
+        return event.shareLink
     }
 }
 

@@ -19,7 +19,7 @@ class LeagueTitleCell: UITableViewCell {
         labelCity.text = league.city
         labelName.text = league.name
         logoView.image = nil
-        FirebaseImageService().leaguePhotoUrl(for: league.id) {[weak self] (url) in
+        FirebaseImageService().leaguePhotoUrl(with: league.id) {[weak self] (url) in
             if let url = url {
                 DispatchQueue.main.async {
                     self?.logoView.imageUrl = url.absoluteString

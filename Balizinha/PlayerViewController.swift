@@ -66,7 +66,7 @@ class PlayerViewController: UIViewController {
     
     func refreshPhoto() {
         photoView.layer.cornerRadius = photoView.frame.size.height / 2
-        FirebaseImageService().profileUrl(for: player?.id) {[weak self] (url) in
+        FirebaseImageService().profileUrl(with: player?.id) {[weak self] (url) in
             DispatchQueue.main.async {
                 if let url = url {
                     self?.photoView.imageUrl = url.absoluteString
