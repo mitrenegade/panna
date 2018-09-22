@@ -38,8 +38,11 @@ class MapViewController: EventsViewController {
             
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign in", style: .done, target: self, action: #selector(didClickSignUp(_:)))
         } else {
-            let profileButton = UIBarButtonItem(image: UIImage(named: "menu"), style: .done, target: self, action: #selector(didClickProfile(_:)))
-            navigationItem.leftBarButtonItem = profileButton
+            let profileButton = UIButton(type: .custom)
+            profileButton.setImage(UIImage.init(named: "hamburger4-square30")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            profileButton.addTarget(self, action: #selector(didClickProfile(_:)), for: .touchUpInside)
+            profileButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileButton)
         }
         
         // start listening for users so anonymous/preview users can see player counts

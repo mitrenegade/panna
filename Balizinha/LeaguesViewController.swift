@@ -24,8 +24,11 @@ class LeaguesViewController: UIViewController {
         // Do any additional setup after loading the view.
         navigationItem.title = "Leagues"
         
-        let profileButton = UIBarButtonItem(image: UIImage(named: "menu"), style: .done, target: self, action: #selector(didClickProfile(_:)))
-        navigationItem.leftBarButtonItem = profileButton
+        let profileButton = UIButton(type: .custom)
+        profileButton.setImage(UIImage.init(named: "hamburger4-square30")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        profileButton.addTarget(self, action: #selector(didClickProfile(_:)), for: .touchUpInside)
+        profileButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileButton)
         let infoButton = UIButton(type: .infoLight)
         infoButton.addTarget(self, action: #selector(didClickInfo(_:)), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: infoButton)
