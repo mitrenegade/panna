@@ -76,6 +76,7 @@ class EventDisplayViewController: UIViewController {
         self.labelType.text = "\(name)\n\(type)"
         
         imageShare.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
+        imageClone.image = UIImage(named: "copy30")?.withRenderingMode(.alwaysTemplate)
 
         if let startTime = self.event?.startTime {
             self.labelDate.text = "\(self.event?.dateString(startTime) ?? "")\n\(self.event?.timeString(startTime) ?? "")"
