@@ -25,21 +25,39 @@ class ShareService: NSObject {
     }
     
     func share(event: Balizinha.Event, from controller: UIViewController) {
-        var message: String?
-        let eventLink = shareLink(for: event)
-        if !eventLink.isEmpty {
-            message = "Are you down for a game of pickup? Join the event here: \(eventLink)."
+        if let eventLink = shareLink(for: event) {
+            share(from: controller, message: "Are you down for a game of pickup? Join the event here: \(eventLink).")
+        } else {
+            // for old events, generate a link and attempt to share it. remove this in 1.0.7
+            generateShareLink(event: event) { (link) in
+                if let link = link {
+                    self.share(from: controller, message: "Are you down for a game of pickup? Join the event here: \(link).")
+                } else {
+                    self.share(from: controller, message: nil)
+                }
+            }
         }
-        share(from: controller, message: message)
+    }
+    
+    // this causes events created before the share service was instanted to generate share links. This should be removed in 1.0.7 or higher.
+    func generateShareLink(event: Event, completion: ((String?) -> Void)?) {
+        FirebaseAPIService().cloudFunction(functionName: "generateShareLink", params: ["type": "events", "id": event.id]) { [weak self] (result, error) in
+            DispatchQueue.main.async {
+                if let result = result as? [String: Any], let link = result["shareLink"] as? String {
+                    completion?(link)
+                } else {
+                    completion?(nil)
+                }
+            }
+        }
     }
     
     func shareToFacebook(event: Balizinha.Event, from controller: UIViewController) {
         let content: FBSDKShareLinkContent = FBSDKShareLinkContent()
-        let eventLink = shareLink(for: event) // TODO: this url doesn't render or forward correctly on Facebook. For facebook sharing, link to a dynamic website that redirects to the dynamic link in Safari
-        let url = URL(string: eventLink)
-        content.contentURL = url ?? URL(string: "https://pannaleagues.com")
-        FBSDKShareDialog.show(from: controller, with: content, delegate: controller as? FBSDKSharingDelegate)
-        
+        if let eventLink = shareLink(for: event), let url = URL(string: eventLink) { // TODO: this url doesn't render or forward correctly on Facebook. For facebook sharing, link to a dynamic website that redirects to the dynamic link in Safari
+            content.contentURL = url ?? URL(string: "https://pannaleagues.com")
+            FBSDKShareDialog.show(from: controller, with: content, delegate: controller as? FBSDKSharingDelegate)
+        }
         //        FirebaseImageService().eventPhotoUrl(for: event) { (url) in
         //            if let url = url {
         //                let photo: FBSDKSharePhoto = FBSDKSharePhoto(imageURL: url, userGenerated: true)
@@ -50,7 +68,7 @@ class ShareService: NSObject {
         //
     }
     
-    fileprivate func shareLink(for event: Event) -> String{
+    fileprivate func shareLink(for event: Event) -> String? {
         //return "panna://events/\(eventId)"
 //        let pannaString = TESTING ? "pannadev" : "pannaleagues"
 //        return "https://\(pannaString).page.link/events/\(eventId)"

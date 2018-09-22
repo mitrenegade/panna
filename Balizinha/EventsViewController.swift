@@ -33,11 +33,7 @@ class EventsViewController: UIViewController {
         
         navigationItem.title = "Games"
         
-        let addButton = UIButton(type: .custom)
-        addButton.setImage(UIImage.init(named: "plusIcon30")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        addButton.addTarget(self, action: #selector(self.didClickAddEvent(sender:)), for: .touchUpInside)
-        addButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didClickAddEvent(sender:)))
         
         listenFor(NotificationType.EventsChanged, action: #selector(self.refreshEvents), object: nil)
         
