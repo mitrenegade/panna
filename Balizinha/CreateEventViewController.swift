@@ -250,6 +250,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         photoView.clipsToBounds = true
         view.addSubview(photoView)
         leaguePhotoView = photoView
+        leaguePhotoView?.contentMode = .scaleAspectFill
         
         refreshLeaguePhoto()
         return view
