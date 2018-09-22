@@ -26,8 +26,7 @@ class ShareService: NSObject {
     
     func share(event: Balizinha.Event, from controller: UIViewController) {
         var message: String?
-        let eventLink = shareLink(for: event)
-        if !eventLink.isEmpty {
+        if let eventLink = shareLink(for: event) {
             message = "Are you down for a game of pickup? Join the event here: \(eventLink)."
         }
         share(from: controller, message: message)
@@ -35,11 +34,10 @@ class ShareService: NSObject {
     
     func shareToFacebook(event: Balizinha.Event, from controller: UIViewController) {
         let content: FBSDKShareLinkContent = FBSDKShareLinkContent()
-        let eventLink = shareLink(for: event) // TODO: this url doesn't render or forward correctly on Facebook. For facebook sharing, link to a dynamic website that redirects to the dynamic link in Safari
-        let url = URL(string: eventLink)
-        content.contentURL = url ?? URL(string: "https://pannaleagues.com")
-        FBSDKShareDialog.show(from: controller, with: content, delegate: controller as? FBSDKSharingDelegate)
-        
+        if let eventLink = shareLink(for: event), let url = URL(string: eventLink) { // TODO: this url doesn't render or forward correctly on Facebook. For facebook sharing, link to a dynamic website that redirects to the dynamic link in Safari
+            content.contentURL = url ?? URL(string: "https://pannaleagues.com")
+            FBSDKShareDialog.show(from: controller, with: content, delegate: controller as? FBSDKSharingDelegate)
+        }
         //        FirebaseImageService().eventPhotoUrl(for: event) { (url) in
         //            if let url = url {
         //                let photo: FBSDKSharePhoto = FBSDKSharePhoto(imageURL: url, userGenerated: true)
@@ -50,7 +48,7 @@ class ShareService: NSObject {
         //
     }
     
-    fileprivate func shareLink(for event: Event) -> String{
+    fileprivate func shareLink(for event: Event) -> String? {
         //return "panna://events/\(eventId)"
 //        let pannaString = TESTING ? "pannadev" : "pannaleagues"
 //        return "https://\(pannaString).page.link/events/\(eventId)"
