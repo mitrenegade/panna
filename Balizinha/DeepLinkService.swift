@@ -49,7 +49,7 @@ class DeepLinkService: NSObject {
         proceedToDeeplink(type)
         return true
     }
-    
+
     fileprivate func parseDeepLink(_ url: URL) -> DeeplinkType? {
         // format: panna://events/123
         // scheme = panna
@@ -84,19 +84,28 @@ class DeepLinkService: NSObject {
     }
 
     fileprivate func parseUniversalLink(_ url: URL) -> DeeplinkType? {
-        // format: https://pannadev.page.link/events/123
+        // format: https://pannaleagues.com/?type=events&id=123
         // scheme = https
-        // host = pannadev.page.link
-        // first component: events
+        // host = pannaleagues.com
+        // queryItems: eventId=123
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
             return nil
         }
-        var pathComponents = components.path.components(separatedBy: "/")
-        // the first component is empty
-        pathComponents.removeFirst()
-        let category = pathComponents.first
-        pathComponents.removeFirst()
-        guard let id = pathComponents.first else { return nil }
+        var category: String?
+        var idString: String?
+        if components.path != "/" { // path components exist
+            var pathComponents = components.path.components(separatedBy: "/")
+            pathComponents.removeFirst() // the first component is empty
+            category = pathComponents.first
+            pathComponents.removeFirst()
+            idString = pathComponents.first
+        } else if let queryItems = components.queryItems, !queryItems.isEmpty {
+            print("queryItems \(queryItems)")
+            category = queryItems.filter() {$0.name == "type"}.first?.value
+            idString = queryItems.filter() {$0.name == "id"}.first?.value
+        }
+
+        guard let id = idString else { return nil }
         switch category {
         case "messages":
             return DeeplinkType.messages(.details(id))

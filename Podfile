@@ -12,6 +12,8 @@ target 'Panna' do
     pod 'FBSDKLoginKit'
     pod 'FBSDKShareKit'
     pod 'DateTools'
+    pod 'Firebase/DynamicLinks'
+    pod 'Firebase/Core'
 
     pod 'Batch'
 

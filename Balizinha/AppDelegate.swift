@@ -184,18 +184,31 @@ extension AppDelegate {
 extension AppDelegate {
     // deeplinking from a scheme like panna://events/eventId
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        // returns facebook, custom scheme deep links
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: true), (components.scheme == "balizinha" || components.scheme == "panna") {
             return DeepLinkService.shared.handle(url: url)
         }
         return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
     
-    // universal links
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
-        print("User activity type \(userActivity.activityType) url \(String(describing: userActivity.webpageURL?.absoluteString))")
-        if let url = userActivity.webpageURL, let components = URLComponents(url: url, resolvingAgainstBaseURL: true), (components.host == "pannadev.page.link" || components.host == "pannaleagues.page.link") {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        // for handling dynamic links passed as custom scheme urls - not used (??)
+        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url), let url = dynamicLink.url {
             return DeepLinkService.shared.handle(url: url)
         }
         return false
+    }
+    
+    // universal links
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        print("User activity type \(userActivity.activityType) url \(String(describing: userActivity.webpageURL?.absoluteString))")
+        let handled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { (link, error) in
+            if let error = error {
+                print("Deeplink error \(error)")
+            } else if let url = link?.url {
+                let _ = DeepLinkService.shared.handle(url: url)
+            }
+        }
+        return handled
     }
 }
