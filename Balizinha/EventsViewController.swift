@@ -252,7 +252,7 @@ extension EventsViewController: EventCellDelegate {
         joinHelper.event = event
         joinHelper.rootViewController = self
         joinHelper.delegate = self
-        joinHelper.checkIfAlreadyPaid(for: event)
+        joinHelper.checkIfPartOfLeague()
         refreshEvents()
     }
     

@@ -21,7 +21,47 @@ class JoinEventHelper: NSObject {
     var event: Balizinha.Event?
     weak var delegate: JoinEventDelegate?
     
-    func checkIfAlreadyPaid(for event: Balizinha.Event) {
+    func checkIfPartOfLeague() {
+        guard let event = event else { return }
+        guard let leagueId = event.league, !leagueId.isEmpty, let player = PlayerService.shared.current.value else {
+            checkIfAlreadyPaid()
+            return
+        }
+        delegate?.startActivityIndicator()
+        LeagueService.shared.leagueMemberships(for: player) { [weak self] (roster) in
+            let membership: Membership.Status? = roster?.filter() { $0.key == leagueId }.first?.value
+            if membership == nil || membership == Membership.Status.none {
+                // prompt to join league
+                LeagueService.shared.withId(id: leagueId, completion: { [weak self] (league) in
+                    guard let league = league else {
+                        DispatchQueue.main.async {
+                            self?.checkIfAlreadyPaid()
+                        }
+                        return
+                    }
+
+                    DispatchQueue.main.async {
+                        let name = event.name ?? "this event"
+                        let leagueName = league.name ?? "the league"
+                        let alert = UIAlertController(title: "Join league to join event", message: "In order to join \(name), you must be part of the league. Do you want to join \(leagueName) now?", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                            // join league
+                        }))
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+                        }))
+                        self?.rootViewController?.present(alert, animated: true, completion: nil)
+                    }
+                })
+            } else {
+                DispatchQueue.main.async {
+                    self?.checkIfAlreadyPaid()
+                }
+            }
+        }
+    }
+    
+    func checkIfAlreadyPaid() {
+        guard let event = event else { return }
         guard event.paymentRequired && SettingsService.paymentRequired() else {
             joinEvent(event)
             return
