@@ -16,9 +16,10 @@ class LeagueViewController: UIViewController {
         case tags
         case info
         case players
+        case share
     }
     
-    fileprivate var rows: [Row] = [.title, .join, .tags, .info, .players]
+    fileprivate var rows: [Row] = [.title, .join, .tags, .info, .players, .share]
     
     @IBOutlet weak var tableView: UITableView!
     var tagView: ResizableTagView?
@@ -27,8 +28,9 @@ class LeagueViewController: UIViewController {
     var players: [Player] = []
     var roster: [Membership]?
     
-    weak var joinLeagueCell: JoinLeagueCell?
-    
+    weak var joinLeagueCell: LeagueButtonCell?
+    weak var shareLeagueCell: LeagueButtonCell?
+
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
     override func viewDidLoad() {
@@ -41,7 +43,10 @@ class LeagueViewController: UIViewController {
         if league?.info.isEmpty == true, let index = rows.index(of: .info){
             rows.remove(at: index)
         }
-        
+        if league?.isPrivate == true, league?.owner != PlayerService.shared.current.value?.id, let index = rows.index(of: .share){
+            rows.remove(at: index)
+        }
+
         activityOverlay.setup(frame: view.frame)
         view.addSubview(activityOverlay)
         loadRoster()
@@ -71,6 +76,7 @@ class LeagueViewController: UIViewController {
         LeagueService.shared.refreshPlayerLeagues { [weak self] (results) in
             DispatchQueue.main.async {
                 self?.joinLeagueCell?.reset()
+                self?.shareLeagueCell?.reset()
             }
         }
 //        BOBBY TODO: roster is not showing correctly after user joins league
@@ -133,11 +139,22 @@ extension LeagueViewController: UITableViewDataSource {
             cell.configure(league: league)
             return cell
         case .join:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "JoinLeagueCell", for: indexPath) as! JoinLeagueCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "JoinLeagueCell", for: indexPath) as! LeagueButtonCell
+            guard let league = league else { return cell }
             cell.selectionStyle = .none
             cell.delegate = self
-            cell.configure(league: league)
+            let viewModel = JoinLeagueButtonViewModel(league: league)
+            cell.configure(league: league, viewModel: viewModel)
             joinLeagueCell = cell
+            return cell
+        case .share:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ShareLeagueCell", for: indexPath) as! LeagueButtonCell
+            guard let league = league else { return cell }
+            cell.selectionStyle = .none
+            cell.delegate = self
+            let viewModel = ShareLeagueButtonViewModel(league: league)
+            cell.configure(league: league, viewModel: viewModel)
+            shareLeagueCell = cell
             return cell
         case .tags:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTagsCell", for: indexPath) as! LeagueTagsCell
@@ -211,28 +228,30 @@ extension LeagueViewController {
     }
 }
 
-extension LeagueViewController: JoinLeagueDelegate {
-    func clickedJoinLeague(_ league: League) {
+extension LeagueViewController: LeagueButtonCellDelegate {
+    func clickedLeagueButton(_ cell: LeagueButtonCell, league: League) {
+        guard cell == joinLeagueCell else { return } // TODO: handle shareLeagueCell clicks
         if LeagueService.shared.playerIsIn(league: league) {
             // leave league
             activityOverlay.show()
             LeagueService.shared.leave(league: league) { [weak self] (result, error) in
-                print("Leave league result \(result) error \(error)")
+                print("Leave league result \(String(describing: result)) error \(error)")
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
                     if let error = error as NSError? {
                         self?.simpleAlert("Could not leave league", defaultMessage: nil, error: error)
                     }
-                    // forces cell/button    to reload
+                    // forces cell/button to reload
                     self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
                 }
             }
             joinLeagueCell?.reset()
+            shareLeagueCell?.reset()
         } else {
             // join league
             activityOverlay.show()
             LeagueService.shared.join(league: league) { [weak self] (result, error) in
-                print("Join league result \(result) error \(error)")
+                print("Join league result \(String(describing: result)) error \(error)")
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
                     if let error = error as NSError? {
