@@ -225,7 +225,7 @@ class EventDisplayViewController: UIViewController {
         joinHelper.delegate = self
         joinHelper.event = event
         joinHelper.rootViewController = self
-        joinHelper.checkIfAlreadyPaid(for: event)
+        joinHelper.checkIfPartOfLeague()
     }
 
     @IBAction func didClickClone(_ sender: Any?) {

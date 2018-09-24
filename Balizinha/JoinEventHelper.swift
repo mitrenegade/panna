@@ -21,7 +21,50 @@ class JoinEventHelper: NSObject {
     var event: Balizinha.Event?
     weak var delegate: JoinEventDelegate?
     
-    func checkIfAlreadyPaid(for event: Balizinha.Event) {
+    func checkIfPartOfLeague() {
+        guard let event = event else { return }
+        guard let leagueId = event.league, !leagueId.isEmpty, let player = PlayerService.shared.current.value else {
+            checkIfAlreadyPaid()
+            return
+        }
+        delegate?.startActivityIndicator()
+        LeagueService.shared.leagueMemberships(for: player) { [weak self] (roster) in
+            let membership: Membership.Status? = roster?.filter() { $0.key == leagueId }.first?.value
+            if membership == nil || membership == Membership.Status.none {
+                // prompt to join league
+                LeagueService.shared.withId(id: leagueId, completion: { [weak self] (league) in
+                    guard let league = league else {
+                        self?.checkIfAlreadyPaid()
+                        return
+                    }
+
+                    let name = event.name ?? "this event"
+                    let leagueName = league.name ?? "the league"
+                    let alert = UIAlertController(title: "Join league to join event", message: "In order to join \(name), you must be part of the league. Do you want to join \(leagueName) now?", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                        // join league
+                        LeagueService.shared.join(league: league, completion: { [weak self] (result, error) in
+                            if let error = error as? NSError {
+                                self?.rootViewController?.simpleAlert("Could not join league", defaultMessage: "There was an error joining the league.", error: error)
+                            } else {
+                                self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
+                                self?.checkIfAlreadyPaid()
+                            }
+                        })
+                    }))
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+                        self?.delegate?.stopActivityIndicator()
+                    }))
+                    self?.rootViewController?.present(alert, animated: true, completion: nil)
+                })
+            } else {
+                self?.checkIfAlreadyPaid()
+            }
+        }
+    }
+    
+    func checkIfAlreadyPaid() {
+        guard let event = event else { return }
         guard event.paymentRequired && SettingsService.paymentRequired() else {
             joinEvent(event)
             return
