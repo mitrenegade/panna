@@ -34,28 +34,23 @@ class JoinEventHelper: NSObject {
                 // prompt to join league
                 LeagueService.shared.withId(id: leagueId, completion: { [weak self] (league) in
                     guard let league = league else {
-                        DispatchQueue.main.async {
-                            self?.checkIfAlreadyPaid()
-                        }
+                        self?.checkIfAlreadyPaid()
                         return
                     }
 
-                    DispatchQueue.main.async {
-                        let name = event.name ?? "this event"
-                        let leagueName = league.name ?? "the league"
-                        let alert = UIAlertController(title: "Join league to join event", message: "In order to join \(name), you must be part of the league. Do you want to join \(leagueName) now?", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                            // join league
-                        }))
-                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
-                        }))
-                        self?.rootViewController?.present(alert, animated: true, completion: nil)
-                    }
+                    let name = event.name ?? "this event"
+                    let leagueName = league.name ?? "the league"
+                    let alert = UIAlertController(title: "Join league to join event", message: "In order to join \(name), you must be part of the league. Do you want to join \(leagueName) now?", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                        // join league
+                    }))
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+                        self?.delegate?.stopActivityIndicator()
+                    }))
+                    self?.rootViewController?.present(alert, animated: true, completion: nil)
                 })
             } else {
-                DispatchQueue.main.async {
-                    self?.checkIfAlreadyPaid()
-                }
+                self?.checkIfAlreadyPaid()
             }
         }
     }
