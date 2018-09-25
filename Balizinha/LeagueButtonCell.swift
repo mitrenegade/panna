@@ -94,9 +94,9 @@ class LeagueButtonCell: UITableViewCell {
 
     @IBAction func didClick(_ sender: Any?) {
         guard let league = league else { return }
-        delegate?.clickedLeagueButton(self, league: league)
         requestInProgress = true
         refresh()
+        delegate?.clickedLeagueButton(self, league: league)
     }
     
     func reset() {

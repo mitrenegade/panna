@@ -30,7 +30,8 @@ class LeagueViewController: UIViewController {
     
     weak var joinLeagueCell: LeagueButtonCell?
     weak var shareLeagueCell: LeagueButtonCell?
-
+    
+    fileprivate let shareService = ShareService() // must be retained by the class
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
     override func viewDidLoad() {
@@ -85,7 +86,9 @@ class LeagueViewController: UIViewController {
     }
     
     func observePlayers() {
-        activityOverlay.show()
+        DispatchQueue.main.async {
+            self.activityOverlay.show()
+        }
         players.removeAll()
         let dispatchGroup = DispatchGroup()
         for membership in roster ?? [] {
@@ -230,12 +233,19 @@ extension LeagueViewController {
 
 extension LeagueViewController: LeagueButtonCellDelegate {
     func clickedLeagueButton(_ cell: LeagueButtonCell, league: League) {
-        guard cell == joinLeagueCell else { return } // TODO: handle shareLeagueCell clicks
+        if cell == joinLeagueCell {
+            joinLeague(league)
+        } else if cell == shareLeagueCell {
+            shareLeague(league)
+        }
+    }
+    
+    fileprivate func joinLeague(_ league: League) {
         if LeagueService.shared.playerIsIn(league: league) {
             // leave league
             activityOverlay.show()
             LeagueService.shared.leave(league: league) { [weak self] (result, error) in
-                print("Leave league result \(String(describing: result)) error \(error)")
+                print("Leave league result \(String(describing: result)) error \(String(describing: error))")
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
                     if let error = error as NSError? {
@@ -243,15 +253,15 @@ extension LeagueViewController: LeagueButtonCellDelegate {
                     }
                     // forces cell/button to reload
                     self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
+                    self?.joinLeagueCell?.refresh()
+                    self?.shareLeagueCell?.refresh()
                 }
             }
-            joinLeagueCell?.reset()
-            shareLeagueCell?.reset()
         } else {
             // join league
             activityOverlay.show()
             LeagueService.shared.join(league: league) { [weak self] (result, error) in
-                print("Join league result \(String(describing: result)) error \(error)")
+                print("Join league result \(String(describing: result)) error \(String(describing: error))")
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
                     if let error = error as NSError? {
@@ -259,8 +269,20 @@ extension LeagueViewController: LeagueButtonCellDelegate {
                     }
                     // forces cell/button to reload
                     self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
+                    self?.joinLeagueCell?.refresh()
+                    self?.shareLeagueCell?.refresh()
                 }
             }
         }
+    }
+    
+    fileprivate func shareLeague(_ league: League) {
+        guard ShareService.canSendText else {
+            shareLeagueCell?.reset()
+            return
+        }
+        LoggingService.shared.log(event: LoggingEvent.ShareLeagueClicked, info: ["method": "contacts"])
+        shareService.share(league: league, from: self)
+        shareLeagueCell?.reset()
     }
 }
