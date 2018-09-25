@@ -44,8 +44,11 @@ class LeagueViewController: UIViewController {
         if league?.info.isEmpty == true, let index = rows.index(of: .info){
             rows.remove(at: index)
         }
-        if league?.isPrivate == true, league?.owner != PlayerService.shared.current.value?.id, let index = rows.index(of: .share){
-            rows.remove(at: index)
+        if let league = league {
+            let viewModel = ShareLeagueButtonViewModel(league: league)
+            if !viewModel.buttonEnabled, let index = rows.index(of: .share){
+                rows.remove(at: index)
+            }
         }
 
         activityOverlay.setup(frame: view.frame)
