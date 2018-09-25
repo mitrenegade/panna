@@ -300,24 +300,45 @@ class EventDisplayViewController: UIViewController {
     }
     
     func promptForShare() {
-        let alert = UIAlertController(title: "Share event", message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Send to contacts", style: .default, handler: {[weak self] (action) in
-            LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "contacts"])
-            self?.shareEvent()
-        }))
-        if AuthService.shared.hasFacebookProvider && false {
-            alert.addAction(UIAlertAction(title: "Share to Facebook", style: .default, handler: {[weak self] (action) in
-                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "facebook"])
-                self?.shareFBEvent()
-            }))
+        guard let event = event else { return }
+        var shareMethods: Int = 0
+        if ShareService.canSendText {
+            shareMethods = shareMethods + 1
         }
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad){
-            alert.popoverPresentationController?.sourceView = buttonShare.superview
-            alert.popoverPresentationController?.sourceRect = buttonShare.frame
+        if AuthService.shared.hasFacebookProvider {
+            shareMethods = shareMethods + 1
         }
 
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
+        if shareMethods == 1 {
+            // don't prompt, just perform it
+            if ShareService.canSendText {
+                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "contacts"])
+                shareService.share(event: event, from: self)
+            } else if AuthService.shared.hasFacebookProvider {
+                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "facebook"])
+                shareFBEvent()
+            }
+        } else if shareMethods == 2 {
+            // multiple share options are valid, so show options
+            let alert = UIAlertController(title: "Share event", message: nil, preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Send to contacts", style: .default, handler: {(action) in
+                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "contacts"])
+                self.shareService.share(event: event, from: self)
+            }))
+            if AuthService.shared.hasFacebookProvider {
+                alert.addAction(UIAlertAction(title: "Share to Facebook", style: .default, handler: {(action) in
+                    LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "facebook"])
+                    self.shareFBEvent()
+                }))
+            }
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad){
+                alert.popoverPresentationController?.sourceView = buttonShare.superview
+                alert.popoverPresentationController?.sourceRect = buttonShare.frame
+            }
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
     }
 }
 
@@ -358,14 +379,6 @@ extension EventDisplayViewController {
 }
 
 // MARK: Sharing
-extension EventDisplayViewController {
-    func shareEvent() {
-        guard ShareService.canSendText else {
-            return }
-        guard let event = event else { return  }
-        shareService.share(event: event, from: self)
-    }
-}
 extension EventDisplayViewController: FBSDKSharingDelegate {
     // MARK: - FBShare
     func shareFBEvent() {
