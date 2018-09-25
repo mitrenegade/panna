@@ -66,7 +66,10 @@ class ShareLeagueButtonViewModel: LeagueButtonCellViewModel {
             return true
         }
         
-        return !league.isPrivate
+        if !league.isPrivate {
+            return LeagueService.shared.playerIsIn(league: league)
+        }
+        return false // if league is private and user is not an owner, can't share
     }
 }
 
