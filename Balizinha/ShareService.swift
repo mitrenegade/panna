@@ -58,10 +58,10 @@ class ShareService: NSObject {
         }
     }
 
-    func shareToFacebook(event: Balizinha.Event, from controller: UIViewController) {
+    func shareToFacebook(link: String?, from controller: UIViewController) {
         let content: FBSDKShareLinkContent = FBSDKShareLinkContent()
-        if let link = event.shareLink, let url = URL(string: link) { // TODO: this url doesn't render or forward correctly on Facebook. For facebook sharing, link to a dynamic website that redirects to the dynamic link in Safari
-            content.contentURL = url ?? URL(string: "https://pannaleagues.com")
+        if let link = link, let url = URL(string: link) { // TODO: this url doesn't render or forward correctly on Facebook. For facebook sharing, link to a dynamic website that redirects to the dynamic link in Safari
+            content.contentURL = url
             FBSDKShareDialog.show(from: controller, with: content, delegate: controller as? FBSDKSharingDelegate)
         }
         //        FirebaseImageService().eventPhotoUrl(for: event) { (url) in

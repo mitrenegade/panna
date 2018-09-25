@@ -237,13 +237,14 @@ extension LeagueViewController {
 extension LeagueViewController: LeagueButtonCellDelegate {
     func clickedLeagueButton(_ cell: LeagueButtonCell, league: League) {
         if cell == joinLeagueCell {
-            joinLeague(league)
+            joinLeague()
         } else if cell == shareLeagueCell {
-            shareLeague(league)
+            promptForShare()
         }
     }
     
-    fileprivate func joinLeague(_ league: League) {
+    fileprivate func joinLeague() {
+        guard let league = league else { return }
         if LeagueService.shared.playerIsIn(league: league) {
             // leave league
             activityOverlay.show()
@@ -279,13 +280,53 @@ extension LeagueViewController: LeagueButtonCellDelegate {
         }
     }
     
-    fileprivate func shareLeague(_ league: League) {
+    func promptForShare() {
         guard ShareService.canSendText else {
             shareLeagueCell?.reset()
             return
         }
-        LoggingService.shared.log(event: LoggingEvent.ShareLeagueClicked, info: ["method": "contacts"])
-        shareService.share(league: league, from: self)
-        shareLeagueCell?.reset()
+
+        guard let league = league else { return }
+        var shareMethods: Int = 0
+        if ShareService.canSendText {
+            shareMethods = shareMethods + 1
+        }
+        if AuthService.shared.hasFacebookProvider {
+            shareMethods = shareMethods + 1
+        }
+        
+        if shareMethods == 1 {
+            // don't prompt, just perform it
+            if ShareService.canSendText {
+                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "contacts"])
+                shareService.share(league: league, from: self)
+            } else if AuthService.shared.hasFacebookProvider {
+                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "facebook"])
+                self.shareService.shareToFacebook(link: league.shareLink, from: self)
+            }
+            shareLeagueCell?.reset()
+        } else if shareMethods == 2 {
+            // multiple share options are valid, so show options
+            let alert = UIAlertController(title: "Invite to league", message: nil, preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Send to contacts", style: .default, handler: {(action) in
+                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "contacts"])
+                self.shareService.share(league: league, from: self)
+            }))
+            if AuthService.shared.hasFacebookProvider {
+                alert.addAction(UIAlertAction(title: "Share to Facebook", style: .default, handler: {(action) in
+                    LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "facebook"])
+                    self.shareService.shareToFacebook(link: league.shareLink, from: self)
+                }))
+            }
+            if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad, let cell = shareLeagueCell {
+                alert.popoverPresentationController?.sourceView = cell
+                alert.popoverPresentationController?.sourceRect = cell.button.frame
+            }
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(alert, animated: true) {
+                self.shareLeagueCell?.reset()
+            }
+        }
     }
 }

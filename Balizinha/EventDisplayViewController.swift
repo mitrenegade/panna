@@ -316,7 +316,7 @@ class EventDisplayViewController: UIViewController {
                 shareService.share(event: event, from: self)
             } else if AuthService.shared.hasFacebookProvider {
                 LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "facebook"])
-                shareFBEvent()
+                shareService.shareToFacebook(link: event.shareLink, from: self)
             }
         } else if shareMethods == 2 {
             // multiple share options are valid, so show options
@@ -328,7 +328,7 @@ class EventDisplayViewController: UIViewController {
             if AuthService.shared.hasFacebookProvider {
                 alert.addAction(UIAlertAction(title: "Share to Facebook", style: .default, handler: {(action) in
                     LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "facebook"])
-                    self.shareFBEvent()
+                    self.shareService.shareToFacebook(link: event.shareLink, from: self)
                 }))
             }
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad){
@@ -380,12 +380,6 @@ extension EventDisplayViewController {
 
 // MARK: Sharing
 extension EventDisplayViewController: FBSDKSharingDelegate {
-    // MARK: - FBShare
-    func shareFBEvent() {
-        guard let event = event else { return  }
-        shareService.shareToFacebook(event: event, from: self)
-    }
-    
     // MARK: - FBSDKSharingDelegate
     func sharerDidCancel(_ sharer: FBSDKSharing!) {
         print("User cancelled sharing.")
