@@ -8,6 +8,7 @@
 
 import UIKit
 import Balizinha
+import FBSDKShareKit
 
 class LeagueViewController: UIViewController {
     fileprivate enum Row { // TODO: make CaseIterable
@@ -329,4 +330,24 @@ extension LeagueViewController: LeagueButtonCellDelegate {
             }
         }
     }
+}
+
+extension LeagueViewController: FBSDKSharingDelegate {
+    // MARK: - FBSDKSharingDelegate
+    func sharerDidCancel(_ sharer: FBSDKSharing!) {
+        print("User cancelled sharing.")
+    }
+    
+    func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable: Any]!) {
+        let alert = UIAlertController(title: "Success", message: "League shared!", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func sharer(_ sharer: FBSDKSharing!, didFailWithError error: Error!) {
+        print("Error: \(String(describing: error))")
+        simpleAlert("Could not share", defaultMessage: "League invite could not be sent at this time.", error: error as? NSError)
+    }
+//    this is not causing the share to dismiss
 }

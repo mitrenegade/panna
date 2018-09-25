@@ -393,13 +393,9 @@ extension EventDisplayViewController: FBSDKSharingDelegate {
     }
     
     func sharer(_ sharer: FBSDKSharing!, didFailWithError error: Error!) {
-        print("Error: \(error)")
-        let alert = UIAlertController(title: "Error", message: "Event could not be shared at this time.", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        
-        self.present(alert, animated: true, completion: nil)
+        print("Error: \(String(describing: error))")
+        simpleAlert("Could not share", defaultMessage: "Event could not be shared at this time.", error: error as? NSError)
     }
-
 }
 
 extension EventDisplayViewController: PlayersScrollViewDelegate {
