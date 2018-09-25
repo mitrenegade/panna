@@ -444,7 +444,7 @@ Type</string>
                                             <outlet property="playersView" destination="QOc-7c-BWJ" id="DtZ-zk-rJe"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="JoinLeagueCell" id="Dw1-0o-fSe" customClass="JoinLeagueCell" customModule="Panna" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="JoinLeagueCell" id="Dw1-0o-fSe" customClass="LeagueButtonCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="436" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Dw1-0o-fSe" id="c8m-4B-wRo">
@@ -467,7 +467,7 @@ Type</string>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                     <connections>
-                                                        <action selector="didClickJoin:" destination="Dw1-0o-fSe" eventType="touchUpInside" id="Tap-dA-OE1"/>
+                                                        <action selector="didClick:" destination="Dw1-0o-fSe" eventType="touchUpInside" id="gXr-yV-Fx8"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -479,7 +479,41 @@ Type</string>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="buttonJoin" destination="2b1-b2-mar" id="1RU-b7-O57"/>
+                                            <outlet property="button" destination="2b1-b2-mar" id="vmK-Wc-ay5"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ShareLeagueCell" id="rpf-4D-7tJ" userLabel="ShareLeagueCell" customClass="LeagueButtonCell" customModule="Panna" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="480" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rpf-4D-7tJ" id="RhW-4f-o3D">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AIk-1F-Utm">
+                                                    <rect key="frame" x="127.5" y="7" width="120" height="30"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="sPe-fd-8gU"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="17"/>
+                                                    <state key="normal" title="Invite a friend"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="didClick:" destination="rpf-4D-7tJ" eventType="touchUpInside" id="jDp-s6-RyD"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="AIk-1F-Utm" firstAttribute="centerY" secondItem="RhW-4f-o3D" secondAttribute="centerY" id="1cZ-Li-B7k"/>
+                                                <constraint firstItem="AIk-1F-Utm" firstAttribute="centerX" secondItem="RhW-4f-o3D" secondAttribute="centerX" id="ab5-UA-bdF"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="button" destination="AIk-1F-Utm" id="ZFa-ef-Ybn"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

@@ -8,6 +8,7 @@
 
 import UIKit
 import Balizinha
+import FBSDKShareKit
 
 class LeagueViewController: UIViewController {
     fileprivate enum Row { // TODO: make CaseIterable
@@ -16,9 +17,10 @@ class LeagueViewController: UIViewController {
         case tags
         case info
         case players
+        case share
     }
     
-    fileprivate var rows: [Row] = [.title, .join, .tags, .info, .players]
+    fileprivate var rows: [Row] = [.title, .join, .tags, .info, .players, .share]
     
     @IBOutlet weak var tableView: UITableView!
     var tagView: ResizableTagView?
@@ -27,8 +29,10 @@ class LeagueViewController: UIViewController {
     var players: [Player] = []
     var roster: [Membership]?
     
-    weak var joinLeagueCell: JoinLeagueCell?
+    weak var joinLeagueCell: LeagueButtonCell?
+    weak var shareLeagueCell: LeagueButtonCell?
     
+    fileprivate let shareService = ShareService() // must be retained by the class
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
     override func viewDidLoad() {
@@ -41,7 +45,13 @@ class LeagueViewController: UIViewController {
         if league?.info.isEmpty == true, let index = rows.index(of: .info){
             rows.remove(at: index)
         }
-        
+        if let league = league {
+            let viewModel = ShareLeagueButtonViewModel(league: league)
+            if !viewModel.buttonEnabled, let index = rows.index(of: .share){
+                rows.remove(at: index)
+            }
+        }
+
         activityOverlay.setup(frame: view.frame)
         view.addSubview(activityOverlay)
         loadRoster()
@@ -71,6 +81,7 @@ class LeagueViewController: UIViewController {
         LeagueService.shared.refreshPlayerLeagues { [weak self] (results) in
             DispatchQueue.main.async {
                 self?.joinLeagueCell?.reset()
+                self?.shareLeagueCell?.reset()
             }
         }
 //        BOBBY TODO: roster is not showing correctly after user joins league
@@ -79,7 +90,9 @@ class LeagueViewController: UIViewController {
     }
     
     func observePlayers() {
-        activityOverlay.show()
+        DispatchQueue.main.async {
+            self.activityOverlay.show()
+        }
         players.removeAll()
         let dispatchGroup = DispatchGroup()
         for membership in roster ?? [] {
@@ -133,11 +146,22 @@ extension LeagueViewController: UITableViewDataSource {
             cell.configure(league: league)
             return cell
         case .join:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "JoinLeagueCell", for: indexPath) as! JoinLeagueCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "JoinLeagueCell", for: indexPath) as! LeagueButtonCell
+            guard let league = league else { return cell }
             cell.selectionStyle = .none
             cell.delegate = self
-            cell.configure(league: league)
+            let viewModel = JoinLeagueButtonViewModel(league: league)
+            cell.configure(league: league, viewModel: viewModel)
             joinLeagueCell = cell
+            return cell
+        case .share:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ShareLeagueCell", for: indexPath) as! LeagueButtonCell
+            guard let league = league else { return cell }
+            cell.selectionStyle = .none
+            cell.delegate = self
+            let viewModel = ShareLeagueButtonViewModel(league: league)
+            cell.configure(league: league, viewModel: viewModel)
+            shareLeagueCell = cell
             return cell
         case .tags:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTagsCell", for: indexPath) as! LeagueTagsCell
@@ -211,28 +235,38 @@ extension LeagueViewController {
     }
 }
 
-extension LeagueViewController: JoinLeagueDelegate {
-    func clickedJoinLeague(_ league: League) {
+extension LeagueViewController: LeagueButtonCellDelegate {
+    func clickedLeagueButton(_ cell: LeagueButtonCell, league: League) {
+        if cell == joinLeagueCell {
+            joinLeague()
+        } else if cell == shareLeagueCell {
+            promptForShare()
+        }
+    }
+    
+    fileprivate func joinLeague() {
+        guard let league = league else { return }
         if LeagueService.shared.playerIsIn(league: league) {
             // leave league
             activityOverlay.show()
             LeagueService.shared.leave(league: league) { [weak self] (result, error) in
-                print("Leave league result \(result) error \(error)")
+                print("Leave league result \(String(describing: result)) error \(String(describing: error))")
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
                     if let error = error as NSError? {
                         self?.simpleAlert("Could not leave league", defaultMessage: nil, error: error)
                     }
-                    // forces cell/button    to reload
+                    // forces cell/button to reload
                     self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
+                    self?.joinLeagueCell?.refresh()
+                    self?.shareLeagueCell?.refresh()
                 }
             }
-            joinLeagueCell?.reset()
         } else {
             // join league
             activityOverlay.show()
             LeagueService.shared.join(league: league) { [weak self] (result, error) in
-                print("Join league result \(result) error \(error)")
+                print("Join league result \(String(describing: result)) error \(String(describing: error))")
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
                     if let error = error as NSError? {
@@ -240,8 +274,80 @@ extension LeagueViewController: JoinLeagueDelegate {
                     }
                     // forces cell/button to reload
                     self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
+                    self?.joinLeagueCell?.refresh()
+                    self?.shareLeagueCell?.refresh()
                 }
             }
         }
     }
+    
+    func promptForShare() {
+        guard ShareService.canSendText else {
+            shareLeagueCell?.reset()
+            return
+        }
+
+        guard let league = league else { return }
+        var shareMethods: Int = 0
+        if ShareService.canSendText {
+            shareMethods = shareMethods + 1
+        }
+        if AuthService.shared.hasFacebookProvider {
+            shareMethods = shareMethods + 1
+        }
+        
+        if shareMethods == 1 {
+            // don't prompt, just perform it
+            if ShareService.canSendText {
+                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "contacts"])
+                shareService.share(league: league, from: self)
+            } else if AuthService.shared.hasFacebookProvider {
+                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "facebook"])
+                self.shareService.shareToFacebook(link: league.shareLink, from: self)
+            }
+            shareLeagueCell?.reset()
+        } else if shareMethods == 2 {
+            // multiple share options are valid, so show options
+            let alert = UIAlertController(title: "Invite to league", message: nil, preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Send to contacts", style: .default, handler: {(action) in
+                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "contacts"])
+                self.shareService.share(league: league, from: self)
+            }))
+            if AuthService.shared.hasFacebookProvider {
+                alert.addAction(UIAlertAction(title: "Share to Facebook", style: .default, handler: {(action) in
+                    LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "facebook"])
+                    self.shareService.shareToFacebook(link: league.shareLink, from: self)
+                }))
+            }
+            if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad, let cell = shareLeagueCell {
+                alert.popoverPresentationController?.sourceView = cell
+                alert.popoverPresentationController?.sourceRect = cell.button.frame
+            }
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(alert, animated: true) {
+                self.shareLeagueCell?.reset()
+            }
+        }
+    }
+}
+
+extension LeagueViewController: FBSDKSharingDelegate {
+    // MARK: - FBSDKSharingDelegate
+    func sharerDidCancel(_ sharer: FBSDKSharing!) {
+        print("User cancelled sharing.")
+    }
+    
+    func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable: Any]!) {
+        let alert = UIAlertController(title: "Success", message: "League shared!", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func sharer(_ sharer: FBSDKSharing!, didFailWithError error: Error!) {
+        print("Error: \(String(describing: error))")
+        simpleAlert("Could not share", defaultMessage: "League invite could not be sent at this time.", error: error as? NSError)
+    }
+//    this is not causing the share to dismiss
 }
