@@ -6,6 +6,11 @@
 //  Copyright © 2018 Bobby Ren. All rights reserved.
 //
 // used for join league and invite
+// TODO: these viewmodels should be tested to maintain consistency for the following rules:
+// sharing:
+//   1. If a league is private, you must be the owner to share
+//   2. If a league is public, you must be a member to share
+// Shared services prevent testing (cannot use PlayerService.shared)
 
 import UIKit
 import Balizinha
