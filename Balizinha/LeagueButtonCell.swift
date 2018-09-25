@@ -67,6 +67,10 @@ class ShareLeagueButtonViewModel: LeagueButtonCellViewModel {
     }
     
     override var buttonEnabled: Bool {
+        if league.shareLink == nil {
+            return false
+        }
+        
         if league.owner == PlayerService.shared.current.value?.id {
             return true
         }
