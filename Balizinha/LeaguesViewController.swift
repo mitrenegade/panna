@@ -130,7 +130,7 @@ class LeaguesViewController: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toLeague", let league = sender as? League, let controller = segue.destination as? LeagueViewController {
+        if segue.identifier == "toLeague", let league = sender as? League, let nav = segue.destination as? UINavigationController, let controller = nav.viewControllers[0] as? LeagueViewController {
             controller.league = league
         }
     }
