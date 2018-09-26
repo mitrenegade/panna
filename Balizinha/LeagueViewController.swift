@@ -260,6 +260,11 @@ extension LeagueViewController: LeagueButtonCellDelegate {
                     self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
                     self?.joinLeagueCell?.refresh()
                     self?.shareLeagueCell?.refresh()
+                    
+                    // when a user leaves a private league
+                    if league.isPrivate {
+                        NotificationService.shared.notify(.EventsChanged, object: nil, userInfo: nil)
+                    }
                 }
             }
         } else {
@@ -276,6 +281,11 @@ extension LeagueViewController: LeagueButtonCellDelegate {
                     self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
                     self?.joinLeagueCell?.refresh()
                     self?.shareLeagueCell?.refresh()
+                    
+                    // when user joins a private league
+                    if league.isPrivate {
+                        NotificationService.shared.notify(.EventsChanged, object: nil, userInfo: nil)
+                    }
                 }
             }
         }

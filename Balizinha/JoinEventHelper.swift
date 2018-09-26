@@ -27,6 +27,7 @@ class JoinEventHelper: NSObject {
             checkIfAlreadyPaid()
             return
         }
+            
         delegate?.startActivityIndicator()
         LeagueService.shared.leagueMemberships(for: player) { [weak self] (roster) in
             let membership: Membership.Status? = roster?.filter() { $0.key == leagueId }.first?.value
