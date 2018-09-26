@@ -56,6 +56,12 @@ class LeagueViewController: UIViewController {
         view.addSubview(activityOverlay)
         loadRoster()
         listenFor(.PlayerLeaguesChanged, action: #selector(loadPlayerLeagues), object: nil)
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(close))
+    }
+    
+    @objc fileprivate func close() {
+        navigationController?.dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLayoutSubviews() {

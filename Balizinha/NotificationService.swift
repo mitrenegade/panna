@@ -33,7 +33,8 @@ enum NotificationType: String {
    
     // sharing/notifications
     case DisplayFeaturedEvent
-    
+    case DisplayFeaturedLeague
+
     func name() -> Notification.Name {
         return Notification.Name(self.rawValue)
     }

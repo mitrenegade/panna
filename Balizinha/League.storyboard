@@ -30,6 +30,22 @@
         </array>
     </customFonts>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="GuD-FP-ukO">
+            <objects>
+                <navigationController storyboardIdentifier="LeagueNavigationController" id="eAh-Yh-6vG" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ppm-2M-24Y">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="0b4-kc-udN" kind="relationship" relationship="rootViewController" id="9jz-PP-opd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xck-JL-dgN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="132" y="138"/>
+        </scene>
         <!--LeagueInquiryRoot-->
         <scene sceneID="wO4-Zt-ens">
             <objects>
@@ -260,13 +276,13 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="faq-XZ-3Nx" id="uRA-dw-UqD"/>
-                        <segue destination="0b4-kc-udN" kind="show" identifier="toLeague" id="g26-IZ-3Hd"/>
                         <segue destination="HFF-nP-g0U" kind="presentation" identifier="toLeaguesInfo" id="hoK-Q7-xx8"/>
+                        <segue destination="eAh-Yh-6vG" kind="presentation" identifier="toLeague" id="Foi-IO-kiA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QL1-xr-ice" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="96.799999999999997" y="138.98050974512745"/>
+            <point key="canvasLocation" x="-668" y="138"/>
         </scene>
         <!--League View Controller-->
         <scene sceneID="4oI-Eo-WdU">
@@ -532,6 +548,7 @@ Type</string>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="w2U-Ww-wTx"/>
                     </view>
+                    <navigationItem key="navigationItem" id="0UL-Dx-XaM"/>
                     <connections>
                         <outlet property="tableView" destination="vfN-j7-LQ7" id="pyt-tP-VHP"/>
                         <segue destination="atd-IV-8n2" kind="show" identifier="toLeaguePlayers" id="qyp-pb-Pnk"/>
@@ -550,7 +567,7 @@ Type</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bNB-4e-Cx3">
-                                <rect key="frame" x="0.0" y="70" width="375" height="597"/>
+                                <rect key="frame" x="0.0" y="114" width="375" height="553"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeaguePlayerCell" rowHeight="99" id="6qr-hC-ce2" customClass="LeaguePlayerCell" customModule="Panna" customModuleProvider="target">
@@ -646,7 +663,7 @@ Type</string>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="js3-zT-74I">
-                                <rect key="frame" x="0.0" y="20" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="50"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name, email, or id" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R1R-Dy-dNi">
                                         <rect key="frame" x="13" y="10" width="288" height="30"/>

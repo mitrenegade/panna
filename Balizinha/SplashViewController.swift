@@ -18,7 +18,12 @@ class SplashViewController: UIViewController {
     let disposeBag = DisposeBag()
     static var shared: SplashViewController?
 
-    fileprivate var tabs = ["Account", "Map", "Calendar"]
+    enum Tab: CaseIterable {
+        case leagues
+        case map
+        case calendar
+    }
+    fileprivate var tabs = Tab.allCases
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -170,7 +175,7 @@ class SplashViewController: UIViewController {
     }
     
     private func goToMain() {
-        let index = tabs.index(of: "Map") ?? 0
+        let index = tabs.index(of: .map) ?? 0
         homeViewController.selectedIndex = index
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
@@ -191,6 +196,7 @@ class SplashViewController: UIViewController {
         }
 //        self.listenFor(NotificationType.GoToMapForSharedEvent, action: #selector(goToMap(_:)), object: nil)
         self.listenFor(NotificationType.DisplayFeaturedEvent, action: #selector(handleEventDeepLink(_:)), object: nil)
+        self.listenFor(NotificationType.DisplayFeaturedLeague, action: #selector(handleLeagueDeepLink(_:)), object: nil)
 
         EventService.shared.listenForEventUsers()
         let _ = PlayerService.shared.current.value // invoke listener
@@ -220,7 +226,7 @@ class SplashViewController: UIViewController {
         if homeViewController.presentedViewController != nil {
             homeViewController.dismiss(animated: true, completion: nil)
         }
-        let index = tabs.index(of: "Calendar") ?? 0
+        let index = tabs.index(of: .calendar) ?? 0
         homeViewController.selectedIndex = index
     }
     
@@ -232,7 +238,7 @@ class SplashViewController: UIViewController {
         if homeViewController.presentedViewController != nil {
             homeViewController.dismiss(animated: true, completion: nil)
         }
-        let index = tabs.index(of: "Map") ?? 0
+        let index = tabs.index(of: .map) ?? 0
         homeViewController.selectedIndex = index
     }
     
@@ -292,7 +298,7 @@ class SplashViewController: UIViewController {
         guard let homeViewController = presentedViewController as? UITabBarController else {
             return
         }
-        let index = tabs.index(of: "Calendar") ?? 0
+        let index = tabs.index(of: .calendar) ?? 0
         homeViewController.selectedIndex = index
     }
 }
@@ -310,6 +316,22 @@ extension SplashViewController {
                 return
             }
             homeViewController.present(controller, animated: true, completion: nil)
+        }
+    }
+    
+    func handleLeagueDeepLink(_ notification: Notification?) {
+        guard let userInfo = notification?.userInfo, let leagueId = userInfo["leagueId"] as? String else { return }
+        guard let nav = UIStoryboard(name: "League", bundle: nil).instantiateViewController(withIdentifier: "LeagueNavigationController") as? UINavigationController, let controller = nav.viewControllers[0] as? LeagueViewController else { return }
+        LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
+            guard let league = league else { return }
+            controller.league = league
+            
+            guard let homeViewController = self?.presentedViewController as? UITabBarController else {
+                return
+            }
+            let index = self?.tabs.index(of: .leagues) ?? 0
+            homeViewController.selectedIndex = index
+            homeViewController.present(nav, animated: true, completion: nil)
         }
     }
 }
