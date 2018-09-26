@@ -26,13 +26,13 @@ class ShareService: NSObject {
     
     func share(event: Balizinha.Event, from controller: UIViewController) {
         if let link = event.shareLink {
-            share(from: controller, message: "Are you down for a game of pickup? Join the event here: \(link).")
+            share(from: controller, message: "Are you up for playing pickup with us? Join the event here: \(link).")
         } else {
             // for old events, generate a link and attempt to share it. remove this in 1.0.7
             FirebaseAPIService().cloudFunction(functionName: "generateShareLink", params: ["type": "events", "id": event.id]) { [weak self] (result, error) in
                 DispatchQueue.main.async {
                     if let result = result as? [String: Any], let link = result["shareLink"] as? String {
-                        self?.share(from: controller, message: "Are you down for a game of pickup? Join the event here: \(link).")
+                        self?.share(from: controller, message: "Are you up for playing pickup with us? Join the event here: \(link).")
                     } else {
                         self?.share(from: controller, message: nil)
                     }
