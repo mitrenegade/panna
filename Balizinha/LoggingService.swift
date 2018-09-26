@@ -30,13 +30,14 @@ enum LoggingEvent: String {
     // sharing
     case ShareEventClicked
     case ShareEventCompleted
-    case DeepLinkForSharedEventOpened
     case RecommendedEventCellViewed
     case ShareLeagueClicked
     
     // deep links
     case DeepLinkForAccountOpened
-    
+    case DeepLinkForSharedEventOpened
+    case DeepLinkForSharedLeagueOpened
+
     // upgrade
     case softUpgradeDismissed
     

@@ -56,6 +56,12 @@ class LeagueViewController: UIViewController {
         view.addSubview(activityOverlay)
         loadRoster()
         listenFor(.PlayerLeaguesChanged, action: #selector(loadPlayerLeagues), object: nil)
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(close))
+    }
+    
+    @objc fileprivate func close() {
+        navigationController?.dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -260,6 +266,11 @@ extension LeagueViewController: LeagueButtonCellDelegate {
                     self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
                     self?.joinLeagueCell?.refresh()
                     self?.shareLeagueCell?.refresh()
+                    
+                    // when a user leaves a private league
+                    if league.isPrivate {
+                        NotificationService.shared.notify(.EventsChanged, object: nil, userInfo: nil)
+                    }
                 }
             }
         } else {
@@ -276,6 +287,11 @@ extension LeagueViewController: LeagueButtonCellDelegate {
                     self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
                     self?.joinLeagueCell?.refresh()
                     self?.shareLeagueCell?.refresh()
+                    
+                    // when user joins a private league
+                    if league.isPrivate {
+                        NotificationService.shared.notify(.EventsChanged, object: nil, userInfo: nil)
+                    }
                 }
             }
         }

@@ -16,6 +16,7 @@ enum DeeplinkType {
     }
     case messages(Messages)
     case event(String)
+    case league(String)
     enum AccountActions: String {
         case profile
         case payments
@@ -111,6 +112,8 @@ class DeepLinkService: NSObject {
             return DeeplinkType.messages(.details(id))
         case "events":
             return DeeplinkType.event(id)
+        case "leagues":
+            return DeeplinkType.league(id)
         default:
             break
         }
@@ -132,6 +135,8 @@ class DeepLinkService: NSObject {
         case .account(.payments):
             goToAccount(.payments)
             print("payment")
+        case .league(let id):
+            loadAndShowLeague(id)
         }
     }
     
@@ -139,6 +144,11 @@ class DeepLinkService: NSObject {
         EventService.shared.featuredEventId = eventId
         notify(.DisplayFeaturedEvent, object: nil, userInfo: ["eventId": eventId])
         LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedEventOpened, info: ["eventId": eventId])
+    }
+    
+    fileprivate func loadAndShowLeague(_ leagueId: String) {
+        notify(.DisplayFeaturedLeague, object: nil, userInfo: ["leagueId": leagueId])
+        LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedLeagueOpened, info: ["leagueId": leagueId])
     }
     
     fileprivate func goToAccount(_ accountAction: DeeplinkType.AccountActions) {
