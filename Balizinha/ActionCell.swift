@@ -14,7 +14,7 @@ class ActionCell: UITableViewCell {
     @IBOutlet var labelText: UILabel!
     @IBOutlet var photoView: RAImageView?
     @IBOutlet var constraintLabelHeight: NSLayoutConstraint!
-    var actionId: String?
+    var objectId: String?
 
     func configureWith(action: Action) {
         let viewModel = ActionViewModel(action: action)
@@ -24,19 +24,19 @@ class ActionCell: UITableViewCell {
         
         guard let userId = action.userId else { return }
         
-        let actionId = action.id
-        self.actionId = actionId
-        self.refreshPhoto(userId: userId, currentActionId: actionId)
+        let objectId = action.id
+        self.objectId = objectId
+        self.refreshPhoto(userId: userId, currentId: objectId)
     }
     
-    func refreshPhoto(userId: String, currentActionId: String) {
+    func refreshPhoto(userId: String, currentId: String) {
         guard let photoView = self.photoView else { return }
         photoView.layer.cornerRadius = photoView.frame.size.width / 4
         photoView.clipsToBounds = true
         photoView.contentMode = .scaleAspectFill
         FirebaseImageService().profileUrl(with: userId) { (url) in
             DispatchQueue.main.async {
-                if let urlString = url?.absoluteString, self.actionId == currentActionId  {
+                if let urlString = url?.absoluteString, self.objectId == currentId  {
                     photoView.imageUrl = urlString
                 }
                 else {

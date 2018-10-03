@@ -215,9 +215,12 @@ extension LeagueViewController: UITableViewDataSource {
     fileprivate func feedRow(for indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         guard row < feedItems.count else { return UITableViewCell() }
-        
-        // TODO: reuse chat cell
-        return UITableViewCell()
+
+        let feedItem = feedItems[row]
+        let identifier: String = feedItem.hasPhoto ? "FeedItemCell" : "FeedItemPhotoCell"
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? FeedItemCell else { return UITableViewCell() }
+        cell.configure(with: feedItem)
+        return cell
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

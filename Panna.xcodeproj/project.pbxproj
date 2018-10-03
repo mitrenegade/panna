@@ -65,6 +65,7 @@
 		8E4D36761F8BA48500B8B0B5 /* Date+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4D36741F8BA47900B8B0B5 /* Date+Utils.swift */; };
 		8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54213D1E70CEF100AE4F3A /* ChatInputViewController.swift */; };
 		8E5421401E70DF8700AE4F3A /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54213F1E70DF8700AE4F3A /* ActionCell.swift */; };
+		8E54EAD02164E5D000937355 /* FeedItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54EACF2164E5D000937355 /* FeedItemCell.swift */; };
 		8E571A0320E25E2B003AB202 /* RAImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E571A0220E25E2B003AB202 /* RAImageView.swift */; };
 		8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */; };
 		8E7016D2207A9D0400A4C28C /* UpgradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7016D1207A9D0400A4C28C /* UpgradeService.swift */; };
@@ -209,6 +210,7 @@
 		8E4D36741F8BA47900B8B0B5 /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
 		8E54213D1E70CEF100AE4F3A /* ChatInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputViewController.swift; sourceTree = "<group>"; };
 		8E54213F1E70DF8700AE4F3A /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
+		8E54EACF2164E5D000937355 /* FeedItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemCell.swift; sourceTree = "<group>"; };
 		8E571A0220E25E2B003AB202 /* RAImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAImageView.swift; sourceTree = "<group>"; };
 		8E59662C1F8B98BA007A814A /* EventCellDonationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCellDonationTests.swift; sourceTree = "<group>"; };
 		8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewModel.swift; sourceTree = "<group>"; };
@@ -617,6 +619,7 @@
 				8E48AF8320DFE91C00D814BE /* LeaguePlayersCell.swift */,
 				8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */,
 				C6B7412620FAD88B00B0FA00 /* LeagueButtonCell.swift */,
+				8E54EACF2164E5D000937355 /* FeedItemCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -947,6 +950,7 @@
 				8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
 				8E48AF8220DFE21800D814BE /* LeagueInfoCell.swift in Sources */,
+				8E54EAD02164E5D000937355 /* FeedItemCell.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */,
 				8E48AF8420DFE91C00D814BE /* LeaguePlayersCell.swift in Sources */,
