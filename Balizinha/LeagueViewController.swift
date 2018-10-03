@@ -11,7 +11,7 @@ import Balizinha
 import FBSDKShareKit
 
 class LeagueViewController: UIViewController {
-    fileprivate enum Row { // TODO: make CaseIterable
+    fileprivate enum Row: CaseIterable {
         case title
         case join
         case tags
@@ -19,8 +19,13 @@ class LeagueViewController: UIViewController {
         case players
         case share
     }
+    fileprivate enum Section: CaseIterable {
+        case info
+        case feed
+    }
     
-    fileprivate var rows: [Row] = [.title, .join, .tags, .info, .players, .share]
+    fileprivate var rows: [Row] = Row.allCases
+    fileprivate var sections: [Section] = Section.allCases
     
     @IBOutlet weak var tableView: UITableView!
     var tagView: ResizableTagView?
@@ -35,6 +40,11 @@ class LeagueViewController: UIViewController {
     fileprivate let shareService = ShareService() // must be retained by the class
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
+    // feed
+    var feedItems: [FeedItem] = []
+    
+    @IBOutlet weak var feedInputView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -137,57 +147,87 @@ class LeagueViewController: UIViewController {
 
 extension LeagueViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return sections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rows.count
+        guard section < sections.count else { return 0 }
+        switch sections[section] {
+        case .info:
+            return rows.count
+        case .feed:
+            return feedItems.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch rows[indexPath.row] {
-        case .title:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTitleCell", for: indexPath) as! LeagueTitleCell
-            cell.selectionStyle = .none
-            cell.configure(league: league)
-            return cell
-        case .join:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "JoinLeagueCell", for: indexPath) as! LeagueButtonCell
-            guard let league = league else { return cell }
-            cell.selectionStyle = .none
-            cell.delegate = self
-            let viewModel = JoinLeagueButtonViewModel(league: league)
-            cell.configure(league: league, viewModel: viewModel)
-            joinLeagueCell = cell
-            return cell
-        case .share:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ShareLeagueCell", for: indexPath) as! LeagueButtonCell
-            guard let league = league else { return cell }
-            cell.selectionStyle = .none
-            cell.delegate = self
-            let viewModel = ShareLeagueButtonViewModel(league: league)
-            cell.configure(league: league, viewModel: viewModel)
-            shareLeagueCell = cell
-            return cell
-        case .tags:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTagsCell", for: indexPath) as! LeagueTagsCell
-            cell.configure(league: league)
-            return cell
-        case .info:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueInfoCell", for: indexPath) as! LeagueInfoCell
-            cell.selectionStyle = .none
-            cell.configure(league: league)
-            return cell
-        case .players:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayersCell", for: indexPath) as! LeaguePlayersCell
-            cell.delegate = self
-            cell.handleAddPlayers = { [weak self] in
-                self?.goToAddPlayers()
+        if indexPath.section == sections.firstIndex(of: .info) {
+            switch rows[indexPath.row] {
+            case .title:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTitleCell", for: indexPath) as! LeagueTitleCell
+                cell.selectionStyle = .none
+                cell.configure(league: league)
+                return cell
+            case .join:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "JoinLeagueCell", for: indexPath) as! LeagueButtonCell
+                guard let league = league else { return cell }
+                cell.selectionStyle = .none
+                cell.delegate = self
+                let viewModel = JoinLeagueButtonViewModel(league: league)
+                cell.configure(league: league, viewModel: viewModel)
+                joinLeagueCell = cell
+                return cell
+            case .share:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ShareLeagueCell", for: indexPath) as! LeagueButtonCell
+                guard let league = league else { return cell }
+                cell.selectionStyle = .none
+                cell.delegate = self
+                let viewModel = ShareLeagueButtonViewModel(league: league)
+                cell.configure(league: league, viewModel: viewModel)
+                shareLeagueCell = cell
+                return cell
+            case .tags:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTagsCell", for: indexPath) as! LeagueTagsCell
+                cell.configure(league: league)
+                return cell
+            case .info:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueInfoCell", for: indexPath) as! LeagueInfoCell
+                cell.selectionStyle = .none
+                cell.configure(league: league)
+                return cell
+            case .players:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayersCell", for: indexPath) as! LeaguePlayersCell
+                cell.delegate = self
+                cell.handleAddPlayers = { [weak self] in
+                    self?.goToAddPlayers()
+                }
+                cell.roster = roster
+                cell.configure(players: players)
+                return cell
             }
-            cell.roster = roster
-            cell.configure(players: players)
-            return cell
+        } else if indexPath.section == sections.firstIndex(of: .feed) {
+            return feedRow(for: indexPath)
+        } else {
+            return UITableViewCell()
         }
+    }
+    
+    fileprivate func feedRow(for indexPath: IndexPath) -> UITableViewCell {
+        let row = indexPath.row
+        guard row < feedItems.count else { return UITableViewCell() }
+        
+        // TODO: reuse chat cell
+        return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard section == sections.firstIndex(of: .feed) else { return nil }
+        return feedInputView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard section == sections.firstIndex(of: .feed) else { return 0 }
+        return 50
     }
 }
 
