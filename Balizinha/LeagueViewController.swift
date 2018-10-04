@@ -44,6 +44,9 @@ class LeagueViewController: UIViewController {
     var feedItems: [FeedItem] = []
     
     @IBOutlet weak var feedInputView: UIView!
+    @IBOutlet weak var buttonSend: UIButton!
+    @IBOutlet weak var buttonImage: UIButton!
+    @IBOutlet weak var inputMessage: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +71,8 @@ class LeagueViewController: UIViewController {
         listenFor(.PlayerLeaguesChanged, action: #selector(loadPlayerLeagues), object: nil)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(close))
+        
+        setupFeedInput()
     }
     
     @objc fileprivate func close() {
@@ -409,4 +414,74 @@ extension LeagueViewController: FBSDKSharingDelegate {
         simpleAlert("Could not share", defaultMessage: "League invite could not be sent at this time.", error: error as? NSError)
     }
 //    this is not causing the share to dismiss
+}
+
+// MARK: - FeedItems
+extension LeagueViewController {
+    func setupFeedInput() {
+        // setup keyboard accessories
+        let keyboardDoneButtonView = UIToolbar()
+        keyboardDoneButtonView.sizeToFit()
+        keyboardDoneButtonView.barStyle = UIBarStyle.black
+        keyboardDoneButtonView.tintColor = UIColor.white
+        let sendBtn: UIBarButtonItem = UIBarButtonItem(title: "Send", style: UIBarButtonItemStyle.done, target: self, action: #selector(send))
+        let clearBtn: UIBarButtonItem = UIBarButtonItem(title: "Clear", style: UIBarButtonItemStyle.done, target: self, action: #selector(clear))
+        
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        
+        keyboardDoneButtonView.setItems([clearBtn, flex, sendBtn], animated: true)
+        inputMessage.inputAccessoryView = keyboardDoneButtonView
+        
+        buttonImage.setImage(buttonImage.image(for: .normal)?.withRenderingMode(.alwaysTemplate), for: .normal)
+    }
+    
+    @objc func send() {
+        guard let text = self.inputMessage.text, !text.isEmpty else {
+            self.clear()
+            return
+        }
+        print("sending text: \(text)")
+        self.clear()
+        
+        guard let league = self.league else { return }
+        FeedService.shared.post(leagueId: league.id, message: text, image: nil) { (error) in
+            print("Done with error \(error)")
+        }
+    }
+    
+    @objc func clear() {
+        print("clear text")
+        inputMessage.text = nil
+        view.endEditing(true)
+    }
+    
+    @IBAction fileprivate func didClickButton(_ sender: UIButton) {
+        if sender == buttonSend {
+            send()
+        } else if sender == buttonImage {
+            promptForImage()
+        }
+    }
+    
+    fileprivate func promptForImage() {
+        self.view.endEditing(true)
+        let alert = UIAlertController(title: "Select image", message: nil, preferredStyle: .actionSheet)
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action) in
+//                self.selectPhoto(camera: true)
+            }))
+        }
+        alert.addAction(UIAlertAction(title: "Photo album", style: .default, handler: { (action) in
+//            self.selectPhoto(camera: false)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+        })
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
+        {
+            alert.popoverPresentationController?.sourceView = feedInputView
+            alert.popoverPresentationController?.sourceRect = buttonImage.frame
+        }
+        self.present(alert, animated: true, completion: nil)
+
+    }
 }

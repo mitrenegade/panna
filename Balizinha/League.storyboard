@@ -640,7 +640,10 @@ Type</string>
                     <navigationItem key="navigationItem" id="0UL-Dx-XaM"/>
                     <size key="freeformSize" width="375" height="900"/>
                     <connections>
+                        <outlet property="buttonImage" destination="4eO-nx-S2V" id="N3Z-O9-W6n"/>
+                        <outlet property="buttonSend" destination="wd7-4P-HMy" id="b7h-go-UiD"/>
                         <outlet property="feedInputView" destination="gUO-oZ-CVN" id="upv-t8-rEJ"/>
+                        <outlet property="inputMessage" destination="L6J-bd-eO6" id="lHR-aU-BDr"/>
                         <outlet property="tableView" destination="vfN-j7-LQ7" id="pyt-tP-VHP"/>
                         <segue destination="atd-IV-8n2" kind="show" identifier="toLeaguePlayers" id="qyp-pb-Pnk"/>
                     </connections>
@@ -654,13 +657,16 @@ Type</string>
                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L6J-bd-eO6">
-                                    <rect key="frame" x="8" y="10" width="304" height="30"/>
+                                    <rect key="frame" x="8" y="10" width="266" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="VPD-2F-dl8"/>
                                     </constraints>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="0b4-kc-udN" id="PBz-JS-M45"/>
+                                    </connections>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wd7-4P-HMy">
                                     <rect key="frame" x="320" y="10" width="46" height="30"/>
@@ -671,6 +677,21 @@ Type</string>
                                     <state key="normal" title="Send">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="didClickButton:" destination="0b4-kc-udN" eventType="touchUpInside" id="WRf-HV-VEx"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4eO-nx-S2V">
+                                    <rect key="frame" x="282" y="10" width="30" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="30" id="Mbe-e4-naa"/>
+                                        <constraint firstAttribute="height" constant="30" id="sBi-uH-YQO"/>
+                                    </constraints>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" image="polaroid"/>
+                                    <connections>
+                                        <action selector="didClickButton:" destination="0b4-kc-udN" eventType="touchUpInside" id="4lU-K4-odX"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -679,8 +700,10 @@ Type</string>
                                 <constraint firstItem="wd7-4P-HMy" firstAttribute="centerY" secondItem="fAM-mi-m5x" secondAttribute="centerY" id="D9g-PK-qNb"/>
                                 <constraint firstItem="L6J-bd-eO6" firstAttribute="centerY" secondItem="fAM-mi-m5x" secondAttribute="centerY" id="Hd2-EC-yKu"/>
                                 <constraint firstAttribute="bottom" secondItem="L6J-bd-eO6" secondAttribute="bottom" constant="10" id="RTG-Lw-HSo"/>
-                                <constraint firstItem="wd7-4P-HMy" firstAttribute="leading" secondItem="L6J-bd-eO6" secondAttribute="trailing" constant="8" id="eXM-Qf-eLV"/>
+                                <constraint firstItem="4eO-nx-S2V" firstAttribute="leading" secondItem="L6J-bd-eO6" secondAttribute="trailing" constant="8" id="Ty5-g4-UuN"/>
+                                <constraint firstItem="4eO-nx-S2V" firstAttribute="centerY" secondItem="fAM-mi-m5x" secondAttribute="centerY" id="dd4-Tf-Q0J"/>
                                 <constraint firstItem="L6J-bd-eO6" firstAttribute="leading" secondItem="fAM-mi-m5x" secondAttribute="leading" constant="8" id="ekj-QE-swJ"/>
+                                <constraint firstItem="wd7-4P-HMy" firstAttribute="leading" secondItem="4eO-nx-S2V" secondAttribute="trailing" constant="8" id="lLd-1b-SqS"/>
                                 <constraint firstItem="L6J-bd-eO6" firstAttribute="top" secondItem="fAM-mi-m5x" secondAttribute="top" constant="10" id="mWK-zT-1Do"/>
                             </constraints>
                         </view>
@@ -695,7 +718,7 @@ Type</string>
                     <viewLayoutGuide key="safeArea" id="zMr-Gt-J0d"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="799.20000000000005" y="137.6311844077961"/>
+            <point key="canvasLocation" x="839" y="152"/>
         </scene>
         <!--League Players View Controller-->
         <scene sceneID="i0E-AD-ef2">
@@ -868,6 +891,7 @@ Type</string>
         <image name="calendar30" width="30" height="29.666666030883789"/>
         <image name="iconStar30" width="90" height="90"/>
         <image name="iconTrophy30" width="90" height="90"/>
+        <image name="polaroid" width="200" height="200"/>
         <image name="profile-img" width="512" height="512"/>
     </resources>
 </document>
