@@ -9,6 +9,8 @@
 import UIKit
 import Balizinha
 import FBSDKShareKit
+import FirebaseDatabase
+import Firebase
 
 class LeagueViewController: UIViewController {
     fileprivate enum Row: CaseIterable {
@@ -73,6 +75,7 @@ class LeagueViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(close))
         
         setupFeedInput()
+        loadFeed()
     }
     
     @objc fileprivate func close() {
@@ -141,12 +144,38 @@ class LeagueViewController: UIViewController {
         }
     }
     
+    func loadFeed() {
+        // use an observer so live updates can happen
+        guard let league = league else { return }
+        FeedService.shared.observeFeedItems(for: league) { [weak self] (feedItem) in
+            print("Loaded feedItem \(feedItem.id)")
+            self?.feedItems.append(feedItem)
+            self?.tableView.reloadData()
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toLeaguePlayers", let controller = segue.destination as? LeaguePlayersViewController {
             controller.league = league
             controller.delegate = self
             controller.roster = roster
         }
+    }
+}
+
+extension FeedService {
+    public func observeFeedItems(for league: League, completion: @escaping (FeedItem)->Void) {
+        let queryRef = firRef.child("feedItems").queryOrdered(byChild: "leagueId").queryEqual(toValue: league.id)
+
+        // query for feedItems
+        queryRef.observe(.value, with: { (snapshot) in
+            if let allObjects = snapshot.children.allObjects as? [DataSnapshot] {
+                for snapshot in allObjects {
+                    let feedItem = FeedItem(snapshot: snapshot)
+                    completion(feedItem)
+                }
+            }
+        })
     }
 }
 
