@@ -1,5 +1,5 @@
 PODS:
-  - Balizinha (0.3.16):
+  - Balizinha (0.3.17):
     - Firebase
     - Firebase/Analytics
     - Firebase/Auth
@@ -129,6 +129,7 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - Protobuf (3.6.1)
+  - RACameraHelper (0.1.4)
   - RxCocoa (4.2.0):
     - RxSwift (~> 4.0)
   - RxOptional (3.5.0):
@@ -138,7 +139,7 @@ PODS:
   - Stripe (13.2.0)
 
 DEPENDENCIES:
-  - Balizinha (from `https://bitbucket.org/renderapps/balizinha-pod`, tag `0.3.16`)
+  - Balizinha (from `https://bitbucket.org/renderapps/balizinha-pod`, tag `0.3.17`)
   - Batch
   - Crashlytics (~> 3.10.7)
   - DateTools
@@ -148,6 +149,7 @@ DEPENDENCIES:
   - FBSDKShareKit
   - Firebase/Core
   - Firebase/DynamicLinks
+  - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.4`)
   - Stripe
 
 SPEC REPOS:
@@ -186,15 +188,21 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Balizinha:
     :git: https://bitbucket.org/renderapps/balizinha-pod
-    :tag: 0.3.16
+    :tag: 0.3.17
+  RACameraHelper:
+    :git: https://github.com/bobbyren/RACameraHelper
+    :tag: 0.1.4
 
 CHECKOUT OPTIONS:
   Balizinha:
     :git: https://bitbucket.org/renderapps/balizinha-pod
-    :tag: 0.3.16
+    :tag: 0.3.17
+  RACameraHelper:
+    :git: https://github.com/bobbyren/RACameraHelper
+    :tag: 0.1.4
 
 SPEC CHECKSUMS:
-  Balizinha: 264f0b66a28ab8e9f62d2bb25786fd24a276d4ac
+  Balizinha: b24d50e61426768a579f753909e0c3f9d663fa20
   Batch: d4b91855895b87331af1251bef47d09c3fe4dcaf
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Crashlytics: ccaac42660eb9351b9960c0d66106b0bcf99f4fa
@@ -221,11 +229,12 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  RACameraHelper: 4131be7aa90a0e4e1a81989a1c535aaa9498628a
   RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
   RxOptional: bd32ff8ca9df4177683d56ffeb618a9d4d5d5cad
   RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
   Stripe: 2c69e216061d54d9c538204bb4f58bd597ddfc5b
 
-PODFILE CHECKSUM: dff2b52e689f1264671ec6553d33b03981cecdfd
+PODFILE CHECKSUM: a4ee69f156655e0f9b62543860c59cb38194c117
 
 COCOAPODS: 1.5.3

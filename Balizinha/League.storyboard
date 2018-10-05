@@ -571,11 +571,11 @@ Type</string>
                                             <outlet property="photoView" destination="JEk-ZV-3I1" id="sJD-Xl-xEP"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedItemPhotoCell" rowHeight="188" id="dta-Gd-z3e" customClass="FeedItemCell" customModule="Panna" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="541" width="375" height="188"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedItemPhotoCell" rowHeight="253" id="dta-Gd-z3e" customClass="FeedItemCell" customModule="Panna" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="541" width="375" height="253"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="dta-Gd-z3e" id="eoM-3D-M2y">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="188"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dta-Gd-z3e" id="eoM-3D-M2y">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="253"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="awA-U7-5hx" customClass="RAImageView" customModule="Panna" customModuleProvider="target">
@@ -594,20 +594,21 @@ Type</string>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tPi-ZU-lpy" customClass="RAImageView" customModule="Panna" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="43" width="375" height="145"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tPi-ZU-lpy" customClass="RAImageView" customModule="Panna" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="43" width="375" height="211"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" secondItem="tPi-ZU-lpy" secondAttribute="height" multiplier="75:29" id="8ef-Nd-wbg"/>
+                                                        <constraint firstAttribute="width" secondItem="tPi-ZU-lpy" secondAttribute="height" multiplier="16:9" id="6Xv-1I-XYB"/>
+                                                        <constraint firstAttribute="width" constant="375" id="maN-yf-vcA"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="tPi-ZU-lpy" firstAttribute="top" secondItem="gPd-ZJ-PHn" secondAttribute="bottom" constant="9.5" id="1Lp-BJ-EkK"/>
                                                 <constraint firstAttribute="bottom" secondItem="tPi-ZU-lpy" secondAttribute="bottom" id="3JI-fO-5Yn"/>
+                                                <constraint firstItem="tPi-ZU-lpy" firstAttribute="top" relation="greaterThanOrEqual" secondItem="awA-U7-5hx" secondAttribute="bottom" constant="8" id="5uP-Zz-Aiu"/>
                                                 <constraint firstItem="tPi-ZU-lpy" firstAttribute="leading" secondItem="eoM-3D-M2y" secondAttribute="leading" id="Dna-5o-mI7"/>
                                                 <constraint firstItem="gPd-ZJ-PHn" firstAttribute="top" secondItem="eoM-3D-M2y" secondAttribute="top" constant="6" id="EVt-8e-HJQ"/>
-                                                <constraint firstItem="tPi-ZU-lpy" firstAttribute="top" secondItem="awA-U7-5hx" secondAttribute="bottom" constant="8" id="Esd-cP-aLd"/>
                                                 <constraint firstAttribute="trailing" secondItem="gPd-ZJ-PHn" secondAttribute="trailing" constant="8" id="L9p-ec-STl"/>
-                                                <constraint firstAttribute="bottom" secondItem="gPd-ZJ-PHn" secondAttribute="bottom" constant="6" id="M6E-1Y-14a"/>
                                                 <constraint firstItem="awA-U7-5hx" firstAttribute="top" secondItem="eoM-3D-M2y" secondAttribute="top" constant="5" id="a8z-RT-O5T"/>
                                                 <constraint firstItem="awA-U7-5hx" firstAttribute="leading" secondItem="eoM-3D-M2y" secondAttribute="leading" constant="16" id="lp7-Hv-e4w"/>
                                                 <constraint firstAttribute="trailing" secondItem="tPi-ZU-lpy" secondAttribute="trailing" id="nqu-DJ-Gjx"/>
@@ -616,7 +617,8 @@ Type</string>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="constraintLabelHeight" destination="w4E-Ud-YHp" id="XHh-lf-xOc"/>
-                                            <outlet property="feedItemPhotoView" destination="tPi-ZU-lpy" id="bae-xJ-WuP"/>
+                                            <outlet property="constraintWidth" destination="maN-yf-vcA" id="Vb9-mR-pM1"/>
+                                            <outlet property="feedItemPhotoView" destination="tPi-ZU-lpy" id="mEi-Jh-4g0"/>
                                             <outlet property="labelText" destination="gPd-ZJ-PHn" id="nMv-k0-p7m"/>
                                             <outlet property="photoView" destination="awA-U7-5hx" id="hj5-hk-1D2"/>
                                         </connections>
@@ -718,7 +720,7 @@ Type</string>
                     <viewLayoutGuide key="safeArea" id="zMr-Gt-J0d"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="839" y="152"/>
+            <point key="canvasLocation" x="837.60000000000002" y="151.12443778110946"/>
         </scene>
         <!--League Players View Controller-->
         <scene sceneID="i0E-AD-ef2">

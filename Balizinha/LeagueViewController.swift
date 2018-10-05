@@ -11,6 +11,7 @@ import Balizinha
 import FBSDKShareKit
 import FirebaseDatabase
 import Firebase
+import RACameraHelper
 
 class LeagueViewController: UIViewController {
     fileprivate enum Row: CaseIterable {
@@ -45,6 +46,9 @@ class LeagueViewController: UIViewController {
     // feed
     var feedItems: [FeedItem] = []
     
+    // camera
+    let cameraHelper = CameraHelper()
+
     @IBOutlet weak var feedInputView: UIView!
     @IBOutlet weak var buttonSend: UIButton!
     @IBOutlet weak var buttonImage: UIButton!
@@ -74,6 +78,7 @@ class LeagueViewController: UIViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(close))
         
+        cameraHelper.delegate = self
         setupFeedInput()
         loadFeedItems()
     }
@@ -163,22 +168,6 @@ class LeagueViewController: UIViewController {
     }
 }
 
-extension FeedService {
-    public func observeFeedItems(for league: League, completion: @escaping (FeedItem)->Void) {
-        let queryRef = firRef.child("feedItems").queryOrdered(byChild: "leagueId").queryEqual(toValue: league.id)
-
-        // query for feedItems
-        queryRef.observe(.value, with: { (snapshot) in
-            if let allObjects = snapshot.children.allObjects as? [DataSnapshot] {
-                for snapshot in allObjects {
-                    let feedItem = FeedItem(snapshot: snapshot)
-                    completion(feedItem)
-                }
-            }
-        })
-    }
-}
-
 extension LeagueViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
@@ -252,7 +241,7 @@ extension LeagueViewController: UITableViewDataSource {
         guard index < feedItems.count, index > 0 else { return UITableViewCell() }
 
         let feedItem = feedItems[index]
-        let identifier: String = feedItem.hasPhoto ? "FeedItemCell" : "FeedItemPhotoCell"
+        let identifier: String = feedItem.hasPhoto ? "FeedItemPhotoCell" : "FeedItemCell"
         guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? FeedItemCell else { return UITableViewCell() }
         cell.configure(with: feedItem)
         return cell
@@ -441,7 +430,7 @@ extension LeagueViewController: FBSDKSharingDelegate {
     
     func sharer(_ sharer: FBSDKSharing!, didFailWithError error: Error!) {
         print("Error: \(String(describing: error))")
-        simpleAlert("Could not share", defaultMessage: "League invite could not be sent at this time.", error: error as? NSError)
+        simpleAlert("Could not share", defaultMessage: "League invite could not be sent at this time.", error: error as NSError?)
     }
 //    this is not causing the share to dismiss
 }
@@ -475,7 +464,7 @@ extension LeagueViewController {
         
         guard let league = self.league else { return }
         FeedService.shared.post(leagueId: league.id, message: text, image: nil) { (error) in
-            print("Done with error \(error)")
+            print("Done with error \(String(describing: error))")
         }
     }
     
@@ -495,23 +484,28 @@ extension LeagueViewController {
     
     fileprivate func promptForImage() {
         self.view.endEditing(true)
-        let alert = UIAlertController(title: "Select image", message: nil, preferredStyle: .actionSheet)
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action) in
-//                self.selectPhoto(camera: true)
-            }))
-        }
-        alert.addAction(UIAlertAction(title: "Photo album", style: .default, handler: { (action) in
-//            self.selectPhoto(camera: false)
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) in
-        })
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
-        {
-            alert.popoverPresentationController?.sourceView = feedInputView
-            alert.popoverPresentationController?.sourceRect = buttonImage.frame
-        }
-        self.present(alert, animated: true, completion: nil)
+        cameraHelper.takeOrSelectPhoto(from: self, fromView: buttonImage)
+    }
+}
 
+// MARK: Camera
+extension LeagueViewController: CameraHelperDelegate {
+    func didCancelSelection() {
+        print("Did not edit image")
+    }
+    
+    func didCancelPicker() {
+        print("Did not select image")
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func didSelectPhoto(selected: UIImage?) {
+        guard let leagueId = league?.id else { return }
+        activityOverlay.show()
+        dismiss(animated: true, completion: nil)
+        FeedService.shared.post(leagueId: leagueId, message: self.inputMessage.text, image: selected) { [weak self] (error) in
+            print("Done with error \(String(describing: error))")
+            self?.activityOverlay.hide()
+        }
     }
 }

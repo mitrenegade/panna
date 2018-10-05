@@ -11,6 +11,7 @@ import Balizinha
 
 class FeedItemCell: ActionCell {
     @IBOutlet weak var feedItemPhotoView: RAImageView?
+    @IBOutlet weak var constraintWidth: NSLayoutConstraint?
 
     func configure(with feedItem: FeedItem) {
         
@@ -27,6 +28,7 @@ class FeedItemCell: ActionCell {
         // load image
         if feedItem.hasPhoto, feedItemPhotoView != nil {
             refreshFeedItemPhoto(feedItemId: feedItem.id, currentId: objectId)
+            constraintWidth?.constant = self.frame.size.width
         }
     }
     
