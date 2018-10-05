@@ -15,15 +15,15 @@ class FeedItemCell: ActionCell {
 
     func configure(with feedItem: FeedItem) {
         
-        self.labelText.text = feedItem.message ?? feedItem.defaultMessage
-        self.labelText.sizeToFit()
-        self.constraintLabelHeight.constant = max(40, self.labelText.frame.size.height)
-        
+        labelText.text = feedItem.message ?? feedItem.defaultMessage
+        labelText.sizeToFit()
+        constraintLabelHeight.constant = max(40, self.labelText.frame.size.height)
+
         // load user profile
         guard let userId = feedItem.userId else { return }
         let objectId = feedItem.id
         self.objectId = objectId
-        self.refreshPhoto(userId: userId, currentId: objectId)
+        refreshPhoto(userId: userId, currentId: objectId)
         
         // load image
         if feedItem.hasPhoto, feedItemPhotoView != nil {
