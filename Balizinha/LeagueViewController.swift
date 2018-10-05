@@ -500,10 +500,14 @@ extension LeagueViewController: CameraHelperDelegate {
     }
     
     func didSelectPhoto(selected: UIImage?) {
-        guard let leagueId = league?.id else { return }
+        guard let leagueId = league?.id, let image = selected else { return }
         activityOverlay.show()
+        let width = self.view.frame.size.width * 2
+        let height = width / 16 * 9
+        let size = CGSize(width: width, height: height)
+        let resized = FirebaseImageService.resizeImage(image: image, newSize: size)
         dismiss(animated: true, completion: nil)
-        FeedService.shared.post(leagueId: leagueId, message: self.inputMessage.text, image: selected) { [weak self] (error) in
+        FeedService.shared.post(leagueId: leagueId, message: self.inputMessage.text, image: resized) { [weak self] (error) in
             print("Done with error \(String(describing: error))")
             self?.activityOverlay.hide()
         }
