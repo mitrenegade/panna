@@ -75,7 +75,7 @@ class LeagueViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(close))
         
         setupFeedInput()
-        loadFeed()
+        loadFeedItems()
     }
     
     @objc fileprivate func close() {
@@ -144,7 +144,7 @@ class LeagueViewController: UIViewController {
         }
     }
     
-    func loadFeed() {
+    func loadFeedItems() {
         // use an observer so live updates can happen
         guard let league = league else { return }
         FeedService.shared.observeFeedItems(for: league) { [weak self] (feedItem) in
@@ -248,9 +248,10 @@ extension LeagueViewController: UITableViewDataSource {
     
     fileprivate func feedRow(for indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
-        guard row < feedItems.count else { return UITableViewCell() }
+        let index = feedItems.count - row - 1
+        guard index < feedItems.count, index > 0 else { return UITableViewCell() }
 
-        let feedItem = feedItems[row]
+        let feedItem = feedItems[index]
         let identifier: String = feedItem.hasPhoto ? "FeedItemCell" : "FeedItemPhotoCell"
         guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? FeedItemCell else { return UITableViewCell() }
         cell.configure(with: feedItem)
