@@ -9,9 +9,12 @@
 import UIKit
 import Balizinha
 import FBSDKShareKit
+import FirebaseDatabase
+import Firebase
+import RACameraHelper
 
 class LeagueViewController: UIViewController {
-    fileprivate enum Row { // TODO: make CaseIterable
+    fileprivate enum Row: CaseIterable {
         case title
         case join
         case tags
@@ -19,8 +22,13 @@ class LeagueViewController: UIViewController {
         case players
         case share
     }
+    fileprivate enum Section: CaseIterable {
+        case info
+        case feed
+    }
     
-    fileprivate var rows: [Row] = [.title, .join, .tags, .info, .players, .share]
+    fileprivate var rows: [Row] = Row.allCases
+    fileprivate var sections: [Section] = Section.allCases
     
     @IBOutlet weak var tableView: UITableView!
     var tagView: ResizableTagView?
@@ -35,6 +43,17 @@ class LeagueViewController: UIViewController {
     fileprivate let shareService = ShareService() // must be retained by the class
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
+    // feed
+    var feedItems: [FeedItem] = []
+    
+    // camera
+    let cameraHelper = CameraHelper()
+
+    @IBOutlet weak var feedInputView: UIView!
+    @IBOutlet weak var buttonSend: UIButton!
+    @IBOutlet weak var buttonImage: UIButton!
+    @IBOutlet weak var inputMessage: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -58,6 +77,10 @@ class LeagueViewController: UIViewController {
         listenFor(.PlayerLeaguesChanged, action: #selector(loadPlayerLeagues), object: nil)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(close))
+        
+        cameraHelper.delegate = self
+        setupFeedInput()
+        loadFeedItems()
     }
     
     @objc fileprivate func close() {
@@ -126,6 +149,16 @@ class LeagueViewController: UIViewController {
         }
     }
     
+    func loadFeedItems() {
+        // use an observer so live updates can happen
+        guard let league = league else { return }
+        FeedService.shared.observeFeedItems(for: league) { [weak self] (feedItem) in
+            print("Loaded feedItem \(feedItem.id)")
+            self?.feedItems.append(feedItem)
+            self?.tableView.reloadData()
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toLeaguePlayers", let controller = segue.destination as? LeaguePlayersViewController {
             controller.league = league
@@ -137,57 +170,91 @@ class LeagueViewController: UIViewController {
 
 extension LeagueViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return sections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rows.count
+        guard section < sections.count else { return 0 }
+        switch sections[section] {
+        case .info:
+            return rows.count
+        case .feed:
+            return feedItems.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch rows[indexPath.row] {
-        case .title:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTitleCell", for: indexPath) as! LeagueTitleCell
-            cell.selectionStyle = .none
-            cell.configure(league: league)
-            return cell
-        case .join:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "JoinLeagueCell", for: indexPath) as! LeagueButtonCell
-            guard let league = league else { return cell }
-            cell.selectionStyle = .none
-            cell.delegate = self
-            let viewModel = JoinLeagueButtonViewModel(league: league)
-            cell.configure(league: league, viewModel: viewModel)
-            joinLeagueCell = cell
-            return cell
-        case .share:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ShareLeagueCell", for: indexPath) as! LeagueButtonCell
-            guard let league = league else { return cell }
-            cell.selectionStyle = .none
-            cell.delegate = self
-            let viewModel = ShareLeagueButtonViewModel(league: league)
-            cell.configure(league: league, viewModel: viewModel)
-            shareLeagueCell = cell
-            return cell
-        case .tags:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTagsCell", for: indexPath) as! LeagueTagsCell
-            cell.configure(league: league)
-            return cell
-        case .info:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueInfoCell", for: indexPath) as! LeagueInfoCell
-            cell.selectionStyle = .none
-            cell.configure(league: league)
-            return cell
-        case .players:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayersCell", for: indexPath) as! LeaguePlayersCell
-            cell.delegate = self
-            cell.handleAddPlayers = { [weak self] in
-                self?.goToAddPlayers()
+        if indexPath.section == sections.firstIndex(of: .info) {
+            switch rows[indexPath.row] {
+            case .title:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTitleCell", for: indexPath) as! LeagueTitleCell
+                cell.selectionStyle = .none
+                cell.configure(league: league)
+                return cell
+            case .join:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "JoinLeagueCell", for: indexPath) as! LeagueButtonCell
+                guard let league = league else { return cell }
+                cell.selectionStyle = .none
+                cell.delegate = self
+                let viewModel = JoinLeagueButtonViewModel(league: league)
+                cell.configure(league: league, viewModel: viewModel)
+                joinLeagueCell = cell
+                return cell
+            case .share:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ShareLeagueCell", for: indexPath) as! LeagueButtonCell
+                guard let league = league else { return cell }
+                cell.selectionStyle = .none
+                cell.delegate = self
+                let viewModel = ShareLeagueButtonViewModel(league: league)
+                cell.configure(league: league, viewModel: viewModel)
+                shareLeagueCell = cell
+                return cell
+            case .tags:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTagsCell", for: indexPath) as! LeagueTagsCell
+                cell.configure(league: league)
+                return cell
+            case .info:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueInfoCell", for: indexPath) as! LeagueInfoCell
+                cell.selectionStyle = .none
+                cell.configure(league: league)
+                return cell
+            case .players:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayersCell", for: indexPath) as! LeaguePlayersCell
+                cell.delegate = self
+                cell.handleAddPlayers = { [weak self] in
+                    self?.goToAddPlayers()
+                }
+                cell.roster = roster
+                cell.configure(players: players)
+                return cell
             }
-            cell.roster = roster
-            cell.configure(players: players)
-            return cell
+        } else if indexPath.section == sections.firstIndex(of: .feed) {
+            return feedRow(for: indexPath)
+        } else {
+            return UITableViewCell()
         }
+    }
+    
+    fileprivate func feedRow(for indexPath: IndexPath) -> UITableViewCell {
+        let row = indexPath.row
+        let index = feedItems.count - row - 1
+        guard index < feedItems.count, index > 0 else { return UITableViewCell() }
+
+        let feedItem = feedItems[index]
+        let identifier: String = feedItem.hasPhoto ? "FeedItemPhotoCell" : "FeedItemCell"
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? FeedItemCell else { return UITableViewCell() }
+        cell.configure(with: feedItem)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard section == sections.firstIndex(of: .feed) else { return nil }
+        return feedInputView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard section == sections.firstIndex(of: .feed) else { return 0 }
+        return 50
     }
 }
 
@@ -363,7 +430,82 @@ extension LeagueViewController: FBSDKSharingDelegate {
     
     func sharer(_ sharer: FBSDKSharing!, didFailWithError error: Error!) {
         print("Error: \(String(describing: error))")
-        simpleAlert("Could not share", defaultMessage: "League invite could not be sent at this time.", error: error as? NSError)
+        simpleAlert("Could not share", defaultMessage: "League invite could not be sent at this time.", error: error as NSError?)
     }
 //    this is not causing the share to dismiss
+}
+
+// MARK: - FeedItems
+extension LeagueViewController {
+    func setupFeedInput() {
+        // setup keyboard accessories
+        let keyboardDoneButtonView = UIToolbar()
+        keyboardDoneButtonView.sizeToFit()
+        keyboardDoneButtonView.barStyle = UIBarStyle.black
+        keyboardDoneButtonView.tintColor = UIColor.white
+        let sendBtn: UIBarButtonItem = UIBarButtonItem(title: "Send", style: UIBarButtonItemStyle.done, target: self, action: #selector(send))
+        let clearBtn: UIBarButtonItem = UIBarButtonItem(title: "Clear", style: UIBarButtonItemStyle.done, target: self, action: #selector(clear))
+        
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        
+        keyboardDoneButtonView.setItems([clearBtn, flex, sendBtn], animated: true)
+        inputMessage.inputAccessoryView = keyboardDoneButtonView
+        
+        buttonImage.setImage(buttonImage.image(for: .normal)?.withRenderingMode(.alwaysTemplate), for: .normal)
+    }
+    
+    @objc func send() {
+        guard let text = self.inputMessage.text, !text.isEmpty else {
+            self.clear()
+            return
+        }
+        print("sending text: \(text)")
+        self.clear()
+        
+        guard let league = self.league else { return }
+        FeedService.shared.post(leagueId: league.id, message: text, image: nil) { (error) in
+            print("Done with error \(String(describing: error))")
+        }
+    }
+    
+    @objc func clear() {
+        print("clear text")
+        inputMessage.text = nil
+        view.endEditing(true)
+    }
+    
+    @IBAction fileprivate func didClickButton(_ sender: UIButton) {
+        if sender == buttonSend {
+            send()
+        } else if sender == buttonImage {
+            promptForImage()
+        }
+    }
+    
+    fileprivate func promptForImage() {
+        self.view.endEditing(true)
+        cameraHelper.takeOrSelectPhoto(from: self, fromView: buttonImage)
+    }
+}
+
+// MARK: Camera
+extension LeagueViewController: CameraHelperDelegate {
+    func didCancelSelection() {
+        print("Did not edit image")
+    }
+    
+    func didCancelPicker() {
+        print("Did not select image")
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func didSelectPhoto(selected: UIImage?) {
+        guard let leagueId = league?.id else { return }
+        activityOverlay.show()
+        dismiss(animated: true, completion: nil)
+        FeedService.shared.post(leagueId: leagueId, message: self.inputMessage.text, image: selected) { [weak self] (error) in
+            print("Done with error \(String(describing: error))")
+            self?.activityOverlay.hide()
+        }
+    }
 }
