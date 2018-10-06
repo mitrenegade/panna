@@ -45,6 +45,7 @@ class LeagueViewController: UIViewController {
 
     // feed
     var feedItems: [FeedItem] = []
+    var feedItemPhoto: UIImage?
     
     // camera
     let cameraHelper = CameraHelper()
@@ -455,22 +456,25 @@ extension LeagueViewController {
     }
     
     @objc func send() {
-        guard let text = self.inputMessage.text, !text.isEmpty else {
-            self.clear()
-            return
-        }
-        print("sending text: \(text)")
-        self.clear()
-        
         guard let league = self.league else { return }
-        FeedService.shared.post(leagueId: league.id, message: text, image: nil) { (error) in
+        self.activityOverlay.show()
+        FeedService.shared.post(leagueId: league.id, message: self.inputMessage.text, image: feedItemPhoto) { [weak self] (error) in
             print("Done with error \(String(describing: error))")
+            DispatchQueue.main.async {
+                self?.clear()
+                self?.activityOverlay.hide()
+                self?.tableView.reloadData()
+            }
         }
     }
     
     @objc func clear() {
         print("clear text")
         inputMessage.text = nil
+        if let polaroid = UIImage(named: "polaroid") {
+            buttonImage.setImage(polaroid.withRenderingMode(.alwaysTemplate), for: .normal)
+        }
+        feedItemPhoto = nil
         view.endEditing(true)
     }
     
@@ -492,6 +496,10 @@ extension LeagueViewController {
 extension LeagueViewController: CameraHelperDelegate {
     func didCancelSelection() {
         print("Did not edit image")
+        if let polaroid = UIImage(named: "polaroid") {
+            buttonImage.setImage(polaroid.withRenderingMode(.alwaysTemplate), for: .normal)
+        }
+        feedItemPhoto = nil
     }
     
     func didCancelPicker() {
@@ -500,12 +508,13 @@ extension LeagueViewController: CameraHelperDelegate {
     }
     
     func didSelectPhoto(selected: UIImage?) {
-        guard let leagueId = league?.id else { return }
-        activityOverlay.show()
+        guard let image = selected else { return }
+        let width = self.view.frame.size.width
+        let height = width / 16 * 9
+        let size = CGSize(width: width, height: height)
+        let resized = FirebaseImageService.resizeImage(image: image, newSize: size)
+        feedItemPhoto = resized
+        buttonImage.setImage(feedItemPhoto, for: .normal)
         dismiss(animated: true, completion: nil)
-        FeedService.shared.post(leagueId: leagueId, message: self.inputMessage.text, image: selected) { [weak self] (error) in
-            print("Done with error \(String(describing: error))")
-            self?.activityOverlay.hide()
-        }
     }
 }

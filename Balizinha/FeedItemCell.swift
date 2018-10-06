@@ -15,9 +15,13 @@ class FeedItemCell: ActionCell {
 
     func configure(with feedItem: FeedItem) {
         
-        labelText.text = feedItem.message ?? feedItem.defaultMessage
+        if let message = feedItem.message, !message.isEmpty {
+            labelText.text = message
+        } else {
+            labelText.text = feedItem.defaultMessage
+        }
         labelText.sizeToFit()
-        constraintLabelHeight.constant = max(40, self.labelText.frame.size.height)
+        constraintLabelHeight.constant = max(27, self.labelText.frame.size.height)
 
         // load user profile
         guard let userId = feedItem.userId else { return }
