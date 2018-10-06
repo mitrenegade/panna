@@ -463,7 +463,7 @@ extension LeagueViewController {
         self.clear()
         
         guard let league = self.league else { return }
-        FeedService.shared.post(leagueId: league.id, message: text, image: nil) { (error) in
+        FeedService.shared.postViaAPI(leagueId: league.id, message: text, image: nil) { (error) in
             print("Done with error \(String(describing: error))")
         }
     }
@@ -507,9 +507,49 @@ extension LeagueViewController: CameraHelperDelegate {
         let size = CGSize(width: width, height: height)
         let resized = FirebaseImageService.resizeImage(image: image, newSize: size)
         dismiss(animated: true, completion: nil)
-        FeedService.shared.post(leagueId: leagueId, message: self.inputMessage.text, image: resized) { [weak self] (error) in
+        FeedService.shared.postViaAPI(leagueId: leagueId, message: self.inputMessage.text, image: resized) { [weak self] (error) in
             print("Done with error \(String(describing: error))")
             self?.activityOverlay.hide()
         }
     }
+}
+
+extension FeedService {
+    public func postViaAPI(leagueId: String, message: String?, image: UIImage?, completion: ((Error?)->Void)?) {
+        // convenience function to encapsulate player loading and displayName for an action that is relevant to the current player
+        guard let player = PlayerService.shared.current.value else {
+            // this shouldn't happen
+            completion?(NSError(domain: "balizinha", code: 0, userInfo: ["message": "Player not found"]))
+            return
+        }
+        
+        let id = FirebaseAPIService.uniqueId()
+        let feedRef = firRef.child("feedItems").child(id)
+        let userId = player.id
+        
+        var params: [String: Any] = ["leagueId": leagueId, "userId": userId]
+        if let message = message {
+            params["message"] = message
+        }
+        if let image = image {
+            params["type"] = FeedItemType.photo.rawValue
+            FirebaseImageService.uploadImage(image: image, type: .feed, uid: id) { (url) in
+//                feedRef.setValue(params) { (error, ref) in
+//                    print("Chat created for user \(userId) league \(leagueId) message \(String(describing: message))")
+//                    completion?(error)
+//                }
+            }
+        } else {
+            params["type"] = FeedItemType.chat.rawValue
+            FirebaseAPIService().cloudFunction(functionName: "createFeedItem", params: params, completion: { [weak self] (result, error) in
+                print("result \(result) error \(error)")
+                completion?(error)
+            })
+//            feedRef.setValue(params) { (error, ref) in
+//                print("Chat created for user \(userId) league \(leagueId) message \(String(describing: message))")
+//                completion?(error)
+//            }
+        }
+    }
+    
 }
