@@ -54,6 +54,7 @@ class LeagueViewController: UIViewController {
     @IBOutlet weak var buttonSend: UIButton!
     @IBOutlet weak var buttonImage: UIButton!
     @IBOutlet weak var inputMessage: UITextField!
+    @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,6 +85,9 @@ class LeagueViewController: UIViewController {
         cameraHelper.delegate = self
         setupFeedInput()
         loadFeedItems()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     @objc fileprivate func close() {
@@ -168,6 +172,20 @@ class LeagueViewController: UIViewController {
             controller.delegate = self
             controller.roster = roster
         }
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let keyboardHeight = keyboardRectangle.height
+        constraintBottomOffset.constant = keyboardHeight
+        tableView.superview?.setNeedsUpdateConstraints()
+        tableView.superview?.layoutIfNeeded()
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        constraintBottomOffset.constant = 0
     }
 }
 

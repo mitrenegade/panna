@@ -633,7 +633,7 @@ Type</string>
                         </subviews>
                         <color key="backgroundColor" red="0.2419034243" green="0.32027676700000002" blue="0.3954539299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="vfN-j7-LQ7" firstAttribute="bottom" secondItem="w2U-Ww-wTx" secondAttribute="bottom" id="AQL-Az-Ysl"/>
+                            <constraint firstItem="w2U-Ww-wTx" firstAttribute="bottom" secondItem="vfN-j7-LQ7" secondAttribute="bottom" id="AQL-Az-Ysl"/>
                             <constraint firstItem="vfN-j7-LQ7" firstAttribute="trailing" secondItem="w2U-Ww-wTx" secondAttribute="trailing" id="CMj-Id-nrp"/>
                             <constraint firstItem="vfN-j7-LQ7" firstAttribute="leading" secondItem="w2U-Ww-wTx" secondAttribute="leading" id="jqz-sD-aEt"/>
                             <constraint firstItem="vfN-j7-LQ7" firstAttribute="top" secondItem="w2U-Ww-wTx" secondAttribute="top" id="qth-zE-iLX"/>
@@ -645,6 +645,7 @@ Type</string>
                     <connections>
                         <outlet property="buttonImage" destination="4eO-nx-S2V" id="N3Z-O9-W6n"/>
                         <outlet property="buttonSend" destination="wd7-4P-HMy" id="b7h-go-UiD"/>
+                        <outlet property="constraintBottomOffset" destination="AQL-Az-Ysl" id="pe7-Jk-ldX"/>
                         <outlet property="feedInputView" destination="gUO-oZ-CVN" id="upv-t8-rEJ"/>
                         <outlet property="inputMessage" destination="L6J-bd-eO6" id="lHR-aU-BDr"/>
                         <outlet property="tableView" destination="vfN-j7-LQ7" id="pyt-tP-VHP"/>
