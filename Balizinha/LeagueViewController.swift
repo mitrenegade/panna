@@ -62,6 +62,8 @@ class LeagueViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 80
         
+        navigationItem.title = league?.name
+        
         if league?.info.isEmpty == true, let index = rows.index(of: .info){
             rows.remove(at: index)
         }
