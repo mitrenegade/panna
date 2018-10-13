@@ -289,6 +289,13 @@ extension LeagueViewController: UITableViewDelegate {
     }
 }
 
+extension LeagueViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
 extension LeagueViewController: PlayersScrollViewDelegate {
     func didSelectPlayer(player: Player) {
         guard let playerController = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as? PlayerViewController else { return }
@@ -464,13 +471,11 @@ extension LeagueViewController {
         keyboardDoneButtonView.sizeToFit()
         keyboardDoneButtonView.barStyle = UIBarStyle.black
         keyboardDoneButtonView.tintColor = UIColor.white
-        let sendBtn: UIBarButtonItem = UIBarButtonItem(title: "Send", style: UIBarButtonItemStyle.done, target: self, action: #selector(send))
         let clearBtn: UIBarButtonItem = UIBarButtonItem(title: "Clear", style: UIBarButtonItemStyle.done, target: self, action: #selector(clear))
         
-        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        
-        keyboardDoneButtonView.setItems([clearBtn, flex, sendBtn], animated: true)
+        keyboardDoneButtonView.setItems([clearBtn], animated: true)
         inputMessage.inputAccessoryView = keyboardDoneButtonView
+        inputMessage.delegate = self
         
         buttonImage.setImage(buttonImage.image(for: .normal)?.withRenderingMode(.alwaysTemplate), for: .normal)
     }
