@@ -54,6 +54,7 @@ class LeagueViewController: UIViewController {
     @IBOutlet weak var buttonSend: UIButton!
     @IBOutlet weak var buttonImage: UIButton!
     @IBOutlet weak var inputMessage: UITextField!
+    @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +62,8 @@ class LeagueViewController: UIViewController {
         // Do any additional setup after loading the view.
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 80
+        
+        navigationItem.title = league?.name
         
         if league?.info.isEmpty == true, let index = rows.index(of: .info){
             rows.remove(at: index)
@@ -82,6 +85,9 @@ class LeagueViewController: UIViewController {
         cameraHelper.delegate = self
         setupFeedInput()
         loadFeedItems()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     @objc fileprivate func close() {
@@ -166,6 +172,20 @@ class LeagueViewController: UIViewController {
             controller.delegate = self
             controller.roster = roster
         }
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let keyboardHeight = keyboardRectangle.height
+        constraintBottomOffset.constant = keyboardHeight
+        tableView.superview?.setNeedsUpdateConstraints()
+        tableView.superview?.layoutIfNeeded()
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        constraintBottomOffset.constant = 0
     }
 }
 
@@ -266,6 +286,13 @@ extension LeagueViewController: UITableViewDelegate {
         if let index = rows.index(of: .tags), index == indexPath.row {
             inputTag()
         }
+    }
+}
+
+extension LeagueViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 
@@ -444,13 +471,11 @@ extension LeagueViewController {
         keyboardDoneButtonView.sizeToFit()
         keyboardDoneButtonView.barStyle = UIBarStyle.black
         keyboardDoneButtonView.tintColor = UIColor.white
-        let sendBtn: UIBarButtonItem = UIBarButtonItem(title: "Send", style: UIBarButtonItemStyle.done, target: self, action: #selector(send))
         let clearBtn: UIBarButtonItem = UIBarButtonItem(title: "Clear", style: UIBarButtonItemStyle.done, target: self, action: #selector(clear))
         
-        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        
-        keyboardDoneButtonView.setItems([clearBtn, flex, sendBtn], animated: true)
+        keyboardDoneButtonView.setItems([clearBtn], animated: true)
         inputMessage.inputAccessoryView = keyboardDoneButtonView
+        inputMessage.delegate = self
         
         buttonImage.setImage(buttonImage.image(for: .normal)?.withRenderingMode(.alwaysTemplate), for: .normal)
     }
@@ -510,7 +535,7 @@ extension LeagueViewController: CameraHelperDelegate {
     func didSelectPhoto(selected: UIImage?) {
         guard let image = selected else { return }
         let width = self.view.frame.size.width
-        let height = width / 16 * 9
+        let height = width / image.size.width * image.size.height
         let size = CGSize(width: width, height: height)
         let resized = FirebaseImageService.resizeImage(image: image, newSize: size)
         feedItemPhoto = resized
