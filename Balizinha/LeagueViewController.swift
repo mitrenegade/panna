@@ -535,7 +535,7 @@ extension LeagueViewController: CameraHelperDelegate {
     func didSelectPhoto(selected: UIImage?) {
         guard let image = selected else { return }
         let width = self.view.frame.size.width
-        let height = width / 16 * 9
+        let height = width / image.size.width * image.size.height
         let size = CGSize(width: width, height: height)
         let resized = FirebaseImageService.resizeImage(image: image, newSize: size)
         feedItemPhoto = resized
