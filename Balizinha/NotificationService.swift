@@ -189,9 +189,17 @@ extension NotificationService {
         // set and store user preference in NSUserDefaults
         UserDefaults.standard.set(enabled, forKey: kNotificationsDefaultsKey)
         UserDefaults.standard.synchronize()
+        
+        // set notification option on player
+        guard let player = PlayerService.shared.current.value else {
+            return
+        }
+        player.notificationsEnabled = enabled
+        let params: [String: Any] = ["userId": player.id, "pushEnabled": enabled]
+        FirebaseAPIService().cloudFunction(functionName: "refreshPlayerSubscriptions", params: params) { (result, error) in
+            print("Result \(String(describing: result)) error \(String(describing: error))")
+        }
 
-        // TODO: this does not disable existing topics
-        // do some analytics
         LoggingService.shared.log(event: LoggingEvent.PushNotificationsToggled, info: ["value": enabled])
 
         // toggle push notifications
