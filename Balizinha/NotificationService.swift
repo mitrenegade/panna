@@ -41,21 +41,12 @@ enum NotificationType: String {
 }
 
 @available(iOS 10.0, *)
-fileprivate var singleton: NotificationService?
-
-@available(iOS 10.0, *)
 class NotificationService: NSObject {
     var scheduledEvents: [Balizinha.Event]?
     let disposeBag = DisposeBag()
 
-    static var shared: NotificationService {
-        if let instance = singleton {
-            return instance
-        }
-        singleton = NotificationService()
-        return singleton!
-    }
-    
+    static var shared: NotificationService = NotificationService()
+
     // LOCAL NOTIFICAITONS
     func refreshNotifications(_ events: [Balizinha.Event]?) {
         // store reference to events in case notifications are toggled
@@ -63,8 +54,8 @@ class NotificationService: NSObject {
         
         // remove old notifications
         self.clearAllNotifications()
-        
-        guard self.userReceivesNotifications() else { return }
+        let userReceivesNotifications = PlayerService.shared.current.value?.notificationsEnabled ?? false
+        guard userReceivesNotifications else { return }
         guard let events = events else { return }
         // reschedule event notifications
         for event in events {
@@ -146,6 +137,25 @@ class NotificationService: NSObject {
     func resetBadgeCount() {
         UIApplication.shared.applicationIconBadgeNumber = 0
     }
+    
+    // generates /playerTopics
+    private var refreshedPlayerTopics: Bool = false
+    func refreshAllPlayerTopicsOnce() {
+        guard let player = PlayerService.shared.current.value else {
+            return
+        }
+        guard !refreshedPlayerTopics else { return }
+        print("PUSH: generating player topics for user \(player.id)")
+        refreshedPlayerTopics = true
+        let params: [String: Any] = ["userId": player.id]
+        FirebaseAPIService().cloudFunction(functionName: "refreshPlayerTopics", params: params) { (result, error) in
+            print("Result \(String(describing: result)) error \(String(describing: error))")
+        }
+    }
+    
+    func didLogout() {
+        // TODO: clear token, but don't change user's toggle settings
+    }
 }
 
 @available(iOS 10.0, *)
@@ -156,8 +166,12 @@ extension NotificationService {
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
-            completionHandler: {result, error in
+            completionHandler: {[weak self] result, error in
                 print("PUSH: request authorization result \(result) error \(String(describing: error))")
+                
+                if result {
+                    self?.refreshAllPlayerTopicsOnce()
+                }
         })
 
         UIApplication.shared.registerForRemoteNotifications()
@@ -185,16 +199,7 @@ extension NotificationService {
     }
     
     // User notification preference
-    func userReceivesNotifications() -> Bool {
-        guard let notificationsDefaultValue = UserDefaults.standard.object(forKey: kNotificationsDefaultsKey) else { return true }
-        return (notificationsDefaultValue as AnyObject).boolValue
-    }
-    
     func toggleUserReceivesNotifications(_ enabled: Bool) {
-        // set and store user preference in NSUserDefaults
-        UserDefaults.standard.set(enabled, forKey: kNotificationsDefaultsKey)
-        UserDefaults.standard.synchronize()
-        
         // set notification option on player
         guard let player = PlayerService.shared.current.value else {
             return
@@ -213,54 +218,6 @@ extension NotificationService {
         
         // toggle/reschedule events
         self.refreshNotifications(self.scheduledEvents)
-    }
-}
-
-// PUSH Notifications for pubsub
-@available(iOS 10.0, *)
-extension NotificationService {
-    fileprivate func subscribeToTopic(topic: String, subscribed: Bool) {
-        if subscribed {
-            Messaging.messaging().subscribe(toTopic: topic) { (error) in
-                if let error = error {
-                    print("Subscribe to topic \(topic) error \(error)")
-                    LoggingService.shared.log(event: .PushNotificationSubscriptionFailed, info: ["type": "subscribe", "topic": topic, "error": error.localizedDescription])
-                }
-            }
-        } else {
-            Messaging.messaging().unsubscribe(fromTopic: topic) { (error) in
-                if let error = error {
-                    print("Unsubscribe from topic \(topic) error \(error)")
-                    LoggingService.shared.log(event: .PushNotificationSubscriptionFailed, info: ["type": "unsubscribe", "topic": topic, "error": error.localizedDescription])
-                }
-            }
-        }
-    }
-    
-    func refreshEventTopics() {
-        // TODO: move cached events to EventService
-        // have allEvents, userEvents(current/past)
-        // use userEvents(current) to refresh topics on toggle
-    }
-    
-    func registerForEventNotifications(event: Balizinha.Event, subscribed: Bool) {
-        let key = event.id
-        var topic = "event" + key
-        self.subscribeToTopic(topic: topic, subscribed: subscribed)
-        print("\(subscribed ? "" : "Un-")Subscribing to event topic \(topic)")
-
-        if event.userIsOrganizer {
-            topic = "eventOwner" + key
-            self.subscribeToTopic(topic: topic, subscribed: subscribed)
-            print("\(subscribed ? "" : "Un-")Subscribing to event topic \(topic)")
-        }
-    }
-    
-    func registerForGeneralNotification(subscribed: Bool) {
-        // register for general channel
-        let topic = "general"
-        self.subscribeToTopic(topic: topic, subscribed: subscribed)
-        print("\(subscribed ? "" : "Un-")Subscribing to topic \(topic)")
     }
 }
 
@@ -334,8 +291,8 @@ extension NotificationService: MessagingDelegate {
         print("PUSH: Messaging did receive FCM token \(fcmToken)")
         
         // if user has push enabled but toggled notifications off in defaults, disable FCM token
-        let enabled = userReceivesNotifications()
-        storeFCMToken(enabled: enabled)
+        let userReceivesNotifications = PlayerService.shared.current.value?.notificationsEnabled ?? false
+        storeFCMToken(enabled: userReceivesNotifications)
     }
 }
 

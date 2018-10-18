@@ -114,9 +114,6 @@ class EventsViewController: UIViewController {
         service.getEvents(for: user, completion: {[weak self] (eventIds) in
             guard let weakself = self else { return }
             
-            // version 0.5.0: for users installing a notification-enabled app for the first time, make sure events they've joined or created in the past have the correct subscriptions
-            weakself.updateSubscriptionsOnce(eventIds)
-            
             weakself.allEvents = weakself.allEvents.filter({ (event) -> Bool in
                 (!eventIds.contains(event.id) && !event.isPast)
             })
@@ -278,41 +275,6 @@ extension EventsViewController: CreateEventDelegate {
         tabBarController?.selectedIndex = 2
         if let nav = tabBarController?.viewControllers?[2] as? UINavigationController, let controller = nav.viewControllers[0] as? CalendarViewController {
             controller.refreshEvents()
-        }
-    }
-}
-
-// TODO: delete this after 0.5.0 has been widely adopted
-fileprivate var subscriptionsUpdated: Bool = false
-extension EventsViewController {
-    func updateSubscriptionsOnce(_ eventIds: [String]) {
-        guard !subscriptionsUpdated else { return }
-        subscriptionsUpdated = true
-
-        let userEvents = allEvents.filter({ (event) -> Bool in
-            return eventIds.contains(event.id)
-        })
-
-        let subscribed: Bool
-        if UserDefaults.standard.value(forKey: kNotificationsDefaultsKey) == nil {
-            subscribed = true
-        } else {
-            subscribed = UserDefaults.standard.bool(forKey: kNotificationsDefaultsKey)
-        }
-        
-        if #available(iOS 10.0, *) {
-            NotificationService.shared.registerForGeneralNotification(subscribed: subscribed)
-        } else {
-            // Fallback on earlier versions
-        }
-        
-        for event in userEvents {
-            if #available(iOS 10.0, *) {
-                let shouldSubscribe = event.active && !event.isPast && subscribed
-                NotificationService.shared.registerForEventNotifications(event: event, subscribed: shouldSubscribe)
-            } else {
-                // Fallback on earlier versions
-            }
         }
     }
 }

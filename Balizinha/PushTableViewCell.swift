@@ -7,14 +7,12 @@
 //
 
 import UIKit
+import Balizinha
 
 class PushTableViewCell: ToggleCell {
 
     override func configure() {
-        if #available(iOS 10.0, *), NotificationService.shared.userReceivesNotifications() {
-            self.switchToggle.setOn(true, animated: true)
-        } else {
-            self.switchToggle.setOn(false, animated: true)
-        }
+        let userReceivesNotifications = PlayerService.shared.current.value?.notificationsEnabled ?? false
+        self.switchToggle.setOn(userReceivesNotifications, animated: true)
     }
 }
