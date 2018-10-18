@@ -165,17 +165,22 @@ extension NotificationService {
     
     func storeFCMToken(enabled: Bool) {
         guard !AuthService.isAnonymous else { return }
-        print("PUSH: calling storeFCMToken...")
+        print("PUSH: calling storeFCMToken, enabled = \(enabled)")
+       
         PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
-            InstanceID.instanceID().instanceID(handler: { (result, error) in
-                if let token = result?.token {
-                    print("PUSH: storing FCM token \(token)")
-                    player.fcmToken = token
-                } else {
-                    print("PUSH: clearing FCM token")
-                    player.fcmToken = nil
-                }
-            })
+            if enabled {
+                InstanceID.instanceID().instanceID(handler: { (result, error) in
+                    if let token = result?.token {
+                        print("PUSH: storing FCM token \(token)")
+                        player.fcmToken = token
+                    } else {
+                        print("PUSH: clearing FCM token")
+                        player.fcmToken = nil
+                    }
+                })
+            } else {
+                player.fcmToken = "" // fixme: setting to nil doesn't change it. needs to delete ref instead
+            }
         }).disposed(by: disposeBag)
     }
     
@@ -195,10 +200,10 @@ extension NotificationService {
             return
         }
         player.notificationsEnabled = enabled
-        let params: [String: Any] = ["userId": player.id, "pushEnabled": enabled]
-        FirebaseAPIService().cloudFunction(functionName: "refreshPlayerSubscriptions", params: params) { (result, error) in
-            print("Result \(String(describing: result)) error \(String(describing: error))")
-        }
+//        let params: [String: Any] = ["userId": player.id, "pushEnabled": enabled]
+//        FirebaseAPIService().cloudFunction(functionName: "refreshPlayerSubscriptions", params: params) { (result, error) in
+//            print("Result \(String(describing: result)) error \(String(describing: error))")
+//        }
 
         LoggingService.shared.log(event: LoggingEvent.PushNotificationsToggled, info: ["value": enabled])
 
