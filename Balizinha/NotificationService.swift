@@ -18,7 +18,6 @@ import Balizinha
 
 let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"
-let kNotificationsDefaultsKey = "NotificationsDefaultsKey"
 
 let gcmMessageIDKey = "gcm.message_id"
 
@@ -170,31 +169,23 @@ extension NotificationService {
                 print("PUSH: request authorization result \(result) error \(String(describing: error))")
                 
                 if result {
-                    self?.refreshAllPlayerTopicsOnce()
+                    self?.storeFCMToken()
                 }
         })
 
         UIApplication.shared.registerForRemoteNotifications()
     }
     
-    func storeFCMToken(enabled: Bool) {
+    func storeFCMToken() {
         guard !AuthService.isAnonymous else { return }
-        print("PUSH: calling storeFCMToken, enabled = \(enabled)")
-       
         PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
-            if enabled {
-                InstanceID.instanceID().instanceID(handler: { (result, error) in
-                    if let token = result?.token {
-                        print("PUSH: storing FCM token \(token)")
-                        player.fcmToken = token
-                    } else {
-                        print("PUSH: clearing FCM token")
-                        player.fcmToken = nil
-                    }
-                })
-            } else {
-                player.fcmToken = "" // fixme: setting to nil doesn't change it. needs to delete ref instead
-            }
+            InstanceID.instanceID().instanceID(handler: { (result, error) in
+                if let token = result?.token, player.notificationsEnabled {
+                    player.fcmToken = token
+                } else {
+                    player.fcmToken = "" // fixme: setting to nil doesn't change it. needs to delete ref instead
+                }
+            })
         }).disposed(by: disposeBag)
     }
     
@@ -213,8 +204,8 @@ extension NotificationService {
         LoggingService.shared.log(event: LoggingEvent.PushNotificationsToggled, info: ["value": enabled])
 
         // toggle push notifications
-        print("PUSH: enabling push notifications: \(enabled)")
-        storeFCMToken(enabled: enabled)
+        print("PUSH: using toggle to \(enabled ? "enabling" : "disabling") push notifications")
+        storeFCMToken()
         
         // toggle/reschedule events
         self.refreshNotifications(self.scheduledEvents)
@@ -288,11 +279,7 @@ extension NotificationService: MessagingDelegate {
     }
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        print("PUSH: Messaging did receive FCM token \(fcmToken)")
-        
-        // if user has push enabled but toggled notifications off in defaults, disable FCM token
-        let userReceivesNotifications = PlayerService.shared.current.value?.notificationsEnabled ?? false
-        storeFCMToken(enabled: userReceivesNotifications)
+        print("PUSH: Messaging did receive FCM token \(fcmToken)") // this can be received via instanceID().token
     }
 }
 
