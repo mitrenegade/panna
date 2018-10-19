@@ -147,15 +147,9 @@ class NotificationService: NSObject {
         print("PUSH: generating player topics for user \(player.id)")
         refreshedPlayerTopics = true
         let params: [String: Any] = ["userId": player.id]
-        FirebaseAPIService().cloudFunction(functionName: "refreshPlayerTopics", params: params) { (result, error) in
+        FirebaseAPIService().cloudFunction(functionName: "refreshAllPlayerTopics", params: params) { (result, error) in
             print("Result \(String(describing: result)) error \(String(describing: error))")
         }
-    }
-    
-    func resetOnLogout() {
-        // this must be done before PlayerService.resetOnLogout()
-        let player = PlayerService.shared.current.value
-        player?.fcmToken = nil
     }
 }
 
@@ -170,8 +164,15 @@ extension NotificationService {
             completionHandler: {[weak self] result, error in
                 print("PUSH: request authorization result \(result) error \(String(describing: error))")
                 
-                if result {
-                    self?.storeFCMToken()
+                if result, !AuthService.isAnonymous {
+                    //
+                    PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
+                        // store the fcm token on the player object
+                        self?.storeFCMToken()
+
+                        // first time - refresh topics
+                        self?.refreshAllPlayerTopicsOnce()
+                    })
                 }
         })
 
@@ -179,16 +180,14 @@ extension NotificationService {
     }
     
     func storeFCMToken() {
-        guard !AuthService.isAnonymous else { return }
-        PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
-            InstanceID.instanceID().instanceID(handler: { (result, error) in
-                if let token = result?.token, player.notificationsEnabled {
-                    player.fcmToken = token
-                } else {
-                    player.fcmToken = "" // fixme: setting to nil doesn't change it. needs to delete ref instead
-                }
-            })
-        }).disposed(by: disposeBag)
+        guard let player = PlayerService.shared.current.value else { return }
+        InstanceID.instanceID().instanceID(handler: { (result, error) in
+            if let token = result?.token, player.notificationsEnabled {
+                player.fcmToken = token
+            } else {
+                player.fcmToken = "" // fixme: setting to nil doesn't change it. needs to delete ref instead
+            }
+        })
     }
     
     // User notification preference
