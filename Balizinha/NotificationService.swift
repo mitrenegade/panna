@@ -156,7 +156,7 @@ extension NotificationService {
         guard let player = PlayerService.shared.current.value else { return }
         InstanceID.instanceID().instanceID(handler: { (result, error) in
             print("PUSH: storeFCMToken with token \(String(describing: result?.token)) enabled \(player.notificationsEnabled)")
-            if let token = result?.token, player.notificationsEnabled {
+            if let token = result?.token {
                 player.fcmToken = token
             } else {
                 player.fcmToken = "" // fixme: setting to nil doesn't change it. needs to delete ref instead
@@ -171,16 +171,12 @@ extension NotificationService {
             return
         }
         player.notificationsEnabled = enabled
-//        let params: [String: Any] = ["userId": player.id, "pushEnabled": enabled]
-//        FirebaseAPIService().cloudFunction(functionName: "refreshPlayerSubscriptions", params: params) { (result, error) in
-//            print("Result \(String(describing: result)) error \(String(describing: error))")
-//        }
+        let params: [String: Any] = ["userId": player.id, "pushEnabled": enabled]
+        FirebaseAPIService().cloudFunction(functionName: "refreshPlayerSubscriptions", params: params) { (result, error) in
+            print("Result \(String(describing: result)) error \(String(describing: error))")
+        }
 
         LoggingService.shared.log(event: LoggingEvent.PushNotificationsToggled, info: ["value": enabled])
-
-        // toggle push notifications
-        print("PUSH: using toggle to \(enabled ? "enabling" : "disabling") push notifications")
-        storeFCMToken()
         
         // toggle/reschedule events
         self.refreshNotifications(self.scheduledEvents)
