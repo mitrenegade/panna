@@ -131,7 +131,7 @@ class EventCell: UITableViewCell {
         if !event.isPast {
             // Button display and action
 
-            if self.event!.userIsOrganizer {
+            if event.userIsOrganizer {
                 self.labelFull.text = "This is your event."
                 self.btnAction.isEnabled = true
                 btnAction.alpha = 1
@@ -142,7 +142,7 @@ class EventCell: UITableViewCell {
                 btnAction.alpha = 1
             }
             else {
-                if self.event!.isFull {
+                if event.isFull {
                     self.labelFull.text = "Event full"
                     self.btnAction.isEnabled = false
                     if !AuthService.isAnonymous {
@@ -150,15 +150,16 @@ class EventCell: UITableViewCell {
                     }
                 }
                 else {
-                    self.labelFull.text = "Available"
+                    let left = event.maxPlayers - event.numPlayers
+                    self.labelFull.text = "\(left) spots left"
                     self.btnAction.isEnabled = true
                     btnAction.alpha = 1
                 }
             }
-            self.labelAttendance.text = "\(self.event!.numPlayers)"
+            self.labelAttendance.text = "\(event.numPlayers)"
         } else {
             self.labelFull.isHidden = true
-            self.labelAttendance.text = "\(self.event!.numPlayers)"
+            self.labelAttendance.text = "\(event.numPlayers)"
             
             self.btnAction.isHidden = true
         }
