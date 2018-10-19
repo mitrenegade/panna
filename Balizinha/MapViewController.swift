@@ -18,7 +18,8 @@ class MapViewController: EventsViewController {
     // MARK: MapView
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var constraintTableHeight: NSLayoutConstraint!
-    
+    var first: Bool = true
+
     var tutorialController: TutorialViewController?
     var tutorialView: UIView?
     
@@ -28,6 +29,18 @@ class MapViewController: EventsViewController {
         return allEvents.filter({ (event) -> Bool in
             return filteredEventIds.contains(event.id)
         })
+    }
+    
+    fileprivate var shouldShowMap: Bool {
+        let mapsEnabled: Bool = SettingsService.usesMaps
+        let locationEnabled: Bool
+        switch LocationService.shared.locationState.value {
+        case .denied:
+            locationEnabled = false
+        default:
+            locationEnabled = true
+        }
+        return mapsEnabled && locationEnabled
     }
 
     override func viewDidLoad() {
@@ -55,6 +68,17 @@ class MapViewController: EventsViewController {
         
         // deeplink actions available from this controller
         self.listenFor(NotificationType.GoToAccountDeepLink, action: #selector(didClickProfile(_:)), object: nil)
+        
+        LocationService.shared.locationState
+            .asObservable()
+            .filter { (state) -> Bool in
+                if case .denied = state {
+                    return true
+                }
+                return false
+            }.take(1).subscribe({_ in
+                self.refreshMap()
+            }).disposed(by: disposeBag)
     }
     
     fileprivate lazy var __once: () = {
@@ -80,31 +104,42 @@ class MapViewController: EventsViewController {
         }
     }
     
-    var first: Bool = true
-    func centerMapOnLocation(location: CLLocation, animated: Bool = true) {
-        let span = MKCoordinateSpanMake(0.05, 0.05)
-        let region = MKCoordinateRegion(center: location.coordinate, span: span)
-        mapView.setRegion(region, animated: animated)
-    }
-    
     override func reloadData() {
         super.reloadData()
         for event in allEvents {
             addAnnotation(for: event)
         }
         
-        let cellHeight: CGFloat = 100
-        if allEvents.isEmpty || allEvents.count == 1 {
-            // leave only 1 cell height on. the ratio is 3/7 of the frame height to start
-            constraintTableHeight.constant = cellHeight
-            tableView.isScrollEnabled = false
+        refreshMap()
+    }
+    
+    func refreshMap() {
+        if shouldShowMap {
+            let cellHeight: CGFloat = 100
+            if allEvents.isEmpty || allEvents.count == 1 {
+                // leave only 1 cell height on. the ratio is 3/7 of the frame height to start
+                constraintTableHeight.constant = cellHeight
+                tableView.isScrollEnabled = false
+            } else {
+                constraintTableHeight.constant = cellHeight * 2.5
+                tableView.isScrollEnabled = true
+            }
         } else {
-            constraintTableHeight.constant = cellHeight * 2.5
-            tableView.isScrollEnabled = true
+            constraintTableHeight.constant = self.view.frame.size.height
         }
+    }
+}
+
+extension MapViewController {
+    func centerMapOnLocation(location: CLLocation, animated: Bool = true) {
+        guard shouldShowMap else { return }
+        let span = MKCoordinateSpanMake(0.05, 0.05)
+        let region = MKCoordinateRegion(center: location.coordinate, span: span)
+        mapView.setRegion(region, animated: animated)
     }
     
     func addAnnotation(for event: Balizinha.Event) {
+        guard shouldShowMap else { return }
         guard let lat = event.lat, let lon = event.lon else { return }
         if let oldAnnotation = annotations[event.id] {
             mapView.removeAnnotations([oldAnnotation])
