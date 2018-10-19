@@ -10,7 +10,8 @@ import UIKit
 import Crashlytics
 import Balizinha
 
-class CalendarViewController: UITableViewController {
+class CalendarViewController: UIViewController {
+    @IBOutlet weak var tableView: UITableView!
     
     var sortedUpcomingEvents: [Balizinha.Event] = []
     var sortedPastEvents: [Balizinha.Event] = []
@@ -91,14 +92,14 @@ class CalendarViewController: UITableViewController {
     }
 }
 
-extension CalendarViewController {
+extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return self.sortedUpcomingEvents.count
@@ -110,7 +111,7 @@ extension CalendarViewController {
         return 0
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 30))
         view.backgroundColor = UIColor.darkGreen
         let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: 30))
@@ -131,7 +132,7 @@ extension CalendarViewController {
         return view
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : EventCell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! EventCell
         cell.delegate = self
         
@@ -146,7 +147,7 @@ extension CalendarViewController {
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
         if indexPath.section == 0 {
@@ -164,7 +165,7 @@ extension CalendarViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let nav = segue.destination as? ConfigurableNavigationController else { return }
-        let frame = nav.view.frame // force viewDidLoad so viewControllers exists
+        _ = nav.view.frame // force viewDidLoad so viewControllers exists
         guard let detailsController = nav.viewControllers[0] as? EventDisplayViewController else { return }
         guard let event = sender as? Balizinha.Event else { return }
         
