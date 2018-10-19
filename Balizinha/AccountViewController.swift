@@ -189,6 +189,9 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .profile:
             self.performSegue(withIdentifier: "ToEditPlayerInfo", sender: nil)
         case .notifications:
+            if NotificationService.shared.pushRequestFailed {
+                simpleAlert("Push not enabled", message: "In order to get notifications about events, please go to Settings and enable push.")
+            }
             break
         case .logout:
             AuthService.shared.logout()
@@ -225,17 +228,11 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension AccountViewController: ToggleCellDelegate {
     func didToggle(_ toggle: UISwitch, isOn: Bool) {
-        let isOn = toggle.isOn
         print("Switch changed to \(isOn)")
 
         if toggle.superview?.superview is PushTableViewCell {
             if #available(iOS 10.0, *) {
-                if isOn && NotificationService.shared.pushRequestFailed {
-                    simpleAlert("Push not enabled", message: "In order to get notifications about events, please go to Settings and enable push.")
-                    toggle.isOn = false
-                } else {
-                    NotificationService.shared.toggleUserReceivesNotifications(isOn)
-                }
+                NotificationService.shared.toggleUserReceivesNotifications(isOn)
             }
         } else if toggle.superview?.superview is LocationSettingCell {
             LocationService.shared.shouldFilterNearbyEvents = isOn

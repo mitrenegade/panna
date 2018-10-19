@@ -13,7 +13,9 @@ class PushTableViewCell: ToggleCell {
 
     override func configure() {
         let userReceivesNotifications = PlayerService.shared.current.value?.notificationsEnabled ?? false
+        switchToggle.setOn(userReceivesNotifications, animated: true)
+
         let pushEnabled = !NotificationService.shared.pushRequestFailed
-        self.switchToggle.setOn(userReceivesNotifications && pushEnabled, animated: true)
+        switchToggle.isEnabled = pushEnabled
     }
 }
