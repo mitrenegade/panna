@@ -45,6 +45,7 @@ class NotificationService: NSObject {
     let disposeBag = DisposeBag()
 
     static var shared: NotificationService = NotificationService()
+    var pushRequestFailed: Bool = false // allows us to disable the toggle button the first time it happens
 
     // LOCAL NOTIFICAITONS
     func refreshNotifications(_ events: [Balizinha.Event]?) {
@@ -157,22 +158,24 @@ class NotificationService: NSObject {
 extension NotificationService {
     func registerForRemoteNotifications() {
         print("PUSH: registering for notifications")
-        
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
             completionHandler: {[weak self] result, error in
                 print("PUSH: request authorization result \(result) error \(String(describing: error))")
-                
+                guard let self = self else { return }
+
                 if result, !AuthService.isAnonymous {
                     //
                     PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
                         // store the fcm token on the player object
-                        self?.storeFCMToken()
+                        self.storeFCMToken()
 
                         // first time - refresh topics
-                        self?.refreshAllPlayerTopicsOnce()
-                    })
+                        self.refreshAllPlayerTopicsOnce()
+                    }).disposed(by: self.disposeBag)
+                } else {
+                    self.pushRequestFailed = true
                 }
         })
 
@@ -182,6 +185,7 @@ extension NotificationService {
     func storeFCMToken() {
         guard let player = PlayerService.shared.current.value else { return }
         InstanceID.instanceID().instanceID(handler: { (result, error) in
+            print("PUSH: storeFCMToken with token \(String(describing: result?.token)) enabled \(player.notificationsEnabled)")
             if let token = result?.token, player.notificationsEnabled {
                 player.fcmToken = token
             } else {

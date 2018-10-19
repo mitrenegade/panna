@@ -230,7 +230,12 @@ extension AccountViewController: ToggleCellDelegate {
 
         if toggle.superview?.superview is PushTableViewCell {
             if #available(iOS 10.0, *) {
-                NotificationService.shared.toggleUserReceivesNotifications(isOn)
+                if isOn && NotificationService.shared.pushRequestFailed {
+                    simpleAlert("Push not enabled", message: "In order to get notifications about events, please go to Settings and enable push.")
+                    toggle.isOn = false
+                } else {
+                    NotificationService.shared.toggleUserReceivesNotifications(isOn)
+                }
             }
         } else if toggle.superview?.superview is LocationSettingCell {
             LocationService.shared.shouldFilterNearbyEvents = isOn
