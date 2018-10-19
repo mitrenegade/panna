@@ -213,13 +213,7 @@ class JoinEventHelper: NSObject {
                 }
             }
         }
-        if #available(iOS 10.0, *) {
-            NotificationService.shared.scheduleNotificationForEvent(event)
-            
-            if SettingsService.donation() {
-                NotificationService.shared.scheduleNotificationForDonation(event)
-            }
-        }
+        NotificationService.shared.scheduleNotificationForEvent(event)
     }
 
 }

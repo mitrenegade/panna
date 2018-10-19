@@ -85,9 +85,7 @@ class CalendarViewController: UITableViewController {
             weakself.sortedUpcomingEvents = original.filter({ (event) -> Bool in
                 !event.isPast
             })
-            if #available(iOS 10.0, *) {
-                NotificationService.shared.refreshNotifications(self?.sortedUpcomingEvents)
-            }
+            NotificationService.shared.refreshNotifications(self?.sortedUpcomingEvents)
             weakself.tableView.reloadData()
         })
     }
@@ -214,10 +212,7 @@ extension CalendarViewController: EventCellDelegate {
             } else {
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
-                    if #available(iOS 10.0, *) {
-                        NotificationService.shared.removeNotificationForEvent(event)
-                        NotificationService.shared.removeNotificationForDonation(event)
-                    }
+                    NotificationService.shared.removeNotificationForEvent(event)
                 }
             }
         }

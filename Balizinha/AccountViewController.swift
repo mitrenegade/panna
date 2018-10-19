@@ -231,9 +231,7 @@ extension AccountViewController: ToggleCellDelegate {
         print("Switch changed to \(isOn)")
 
         if toggle.superview?.superview is PushTableViewCell {
-            if #available(iOS 10.0, *) {
-                NotificationService.shared.toggleUserReceivesNotifications(isOn)
-            }
+            NotificationService.shared.toggleUserReceivesNotifications(isOn)
         } else if toggle.superview?.superview is LocationSettingCell {
             LocationService.shared.shouldFilterNearbyEvents = isOn
             self.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)

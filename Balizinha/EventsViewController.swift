@@ -70,12 +70,7 @@ class EventsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if #available(iOS 10.0, *) {
-            NotificationService.shared.resetBadgeCount()
-        } else {
-            // Fallback on earlier versions
-            UIApplication.shared.applicationIconBadgeNumber = 0
-        }
+        NotificationService.shared.resetBadgeCount()
     }
     
     override func viewDidLayoutSubviews() {

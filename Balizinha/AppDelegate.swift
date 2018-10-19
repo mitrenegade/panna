@@ -60,15 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // push delegates - must be done before app finishes launching
-        if #available(iOS 10.0, *) {
-            // For iOS 10 display notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = NotificationService.shared
-            
-            // Messaging service delegate - for data messages
-            Messaging.messaging().delegate = NotificationService.shared
-        } else {
-            // Fallback on earlier versions
-        }
+        // For iOS 10 display notification (sent via APNS)
+        UNUserNotificationCenter.current().delegate = NotificationService.shared
+        
+        // Messaging service delegate - for data messages
+        Messaging.messaging().delegate = NotificationService.shared
 
         let _ = StripeService.shared // trigger stripe loading customer
         let _ = LeagueService.shared

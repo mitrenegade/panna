@@ -117,17 +117,13 @@ class SplashViewController: UIViewController {
         self.goToMain()
         
         // notifications
-        if #available(iOS 10.0, *) {
-            NotificationService.shared.registerForRemoteNotifications()
-        }
+        NotificationService.shared.registerForRemoteNotifications()
     }
     
     @objc func didLogout() {
         print("LoginLogout: didLogout")
-        if #available(iOS 10.0, *) {
-            NotificationService.shared.clearAllNotifications()
-        }
-        
+        NotificationService.shared.clearAllNotifications()
+
         clearUserDefaults()
         if SettingsService.showPreview {
             self.goToPreview()
@@ -261,11 +257,7 @@ class SplashViewController: UIViewController {
         if let url = URL(string: APP_STORE_URL), UIApplication.shared.canOpenURL(url)
         {
             alert.addAction(UIAlertAction(title: "Open in App Store", style: .default, handler: { (action) in
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                } else {
-                    UIApplication.shared.openURL(url)
-                }
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 LoggingService.shared.log(event: .softUpgradeDismissed, info: ["action": "appStore"])
                 UpgradeService().softUpgradeDismissed(neverShowAgain: false)
             }))
