@@ -18,14 +18,12 @@ import Balizinha
 
 let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"
-let kNotificationsDefaultsKey = "NotificationsDefaultsKey"
 
 let gcmMessageIDKey = "gcm.message_id"
 
 enum NotificationType: String {
     case EventsChanged
     case PaymentContextChanged
-    case GoToDonationForEvent
     case LocationOptionsChanged
     case GoToMapForSharedEvent
     case GoToAccountDeepLink
@@ -41,21 +39,13 @@ enum NotificationType: String {
 }
 
 @available(iOS 10.0, *)
-fileprivate var singleton: NotificationService?
-
-@available(iOS 10.0, *)
 class NotificationService: NSObject {
     var scheduledEvents: [Balizinha.Event]?
     let disposeBag = DisposeBag()
 
-    static var shared: NotificationService {
-        if let instance = singleton {
-            return instance
-        }
-        singleton = NotificationService()
-        return singleton!
-    }
-    
+    static var shared: NotificationService = NotificationService()
+    var pushRequestFailed: Bool = false // allows us to disable the toggle button the first time it happens
+
     // LOCAL NOTIFICAITONS
     func refreshNotifications(_ events: [Balizinha.Event]?) {
         // store reference to events in case notifications are toggled
@@ -63,13 +53,12 @@ class NotificationService: NSObject {
         
         // remove old notifications
         self.clearAllNotifications()
-        
-        guard self.userReceivesNotifications() else { return }
+        let userReceivesNotifications = PlayerService.shared.current.value?.notificationsEnabled ?? false
+        guard userReceivesNotifications else { return }
         guard let events = events else { return }
         // reschedule event notifications
         for event in events {
             self.scheduleNotificationForEvent(event)
-            self.scheduleNotificationForDonation(event)
         }
         
     }
@@ -94,36 +83,8 @@ class NotificationService: NSObject {
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
-    func scheduleNotificationForDonation(_ event: Balizinha.Event) {
-        //create local notification
-        guard let endTime = event.endTime else { return }
-        guard !event.userIsOrganizer else { return }
-        let name = event.name ?? "the last game"
-        let content = UNMutableNotificationContent()
-        content.title = NSString.localizedUserNotificationString(forKey: "Send Payment", arguments: nil)
-        content.body = NSString.localizedUserNotificationString(forKey: "Do you want to pay for playing in \(name)?", arguments: nil)
-        content.userInfo = ["type": "donationReminder", "eventId": event.id]
-        
-        // Configure the trigger for a 7am wakeup.
-        let date = endTime.addingTimeInterval(30*60)
-//        let date = Date().addingTimeInterval(5)
-        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-        
-        // Create the request object.
-        let request = UNNotificationRequest(identifier: "DonationRequest\(event.id)", content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-        
-        print("notification scheduled")
-    }
-    
     func removeNotificationForEvent(_ event: Balizinha.Event) {
         let identifier = "EventReminder\(event.id)"
-        self.removeNotification(id: identifier)
-    }
-
-    func removeNotificationForDonation(_ event: Balizinha.Event) {
-        let identifier = "DonationRequest\(event.id)"
         self.removeNotification(id: identifier)
     }
 
@@ -146,108 +107,83 @@ class NotificationService: NSObject {
     func resetBadgeCount() {
         UIApplication.shared.applicationIconBadgeNumber = 0
     }
+    
+    // generates /playerTopics
+    private var refreshedPlayerTopics: Bool = false
+    func refreshAllPlayerTopicsOnce() {
+        guard let player = PlayerService.shared.current.value else {
+            return
+        }
+        guard !refreshedPlayerTopics else { return }
+        print("PUSH: generating player topics for user \(player.id)")
+        refreshedPlayerTopics = true
+        let params: [String: Any] = ["userId": player.id]
+        FirebaseAPIService().cloudFunction(functionName: "refreshAllPlayerTopics", params: params) { (result, error) in
+            print("Result \(String(describing: result)) error \(String(describing: error))")
+        }
+    }
 }
 
 @available(iOS 10.0, *)
 extension NotificationService {
     func registerForRemoteNotifications() {
         print("PUSH: registering for notifications")
-        
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
-            completionHandler: {result, error in
+            completionHandler: {[weak self] result, error in
                 print("PUSH: request authorization result \(result) error \(String(describing: error))")
+                guard let self = self else { return }
+
+                if result, !AuthService.isAnonymous {
+                    //
+                    PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
+                        // store the fcm token on the player object
+                        self.storeFCMToken()
+
+                        // first time - refresh topics
+                        self.refreshAllPlayerTopicsOnce()
+                    }).disposed(by: self.disposeBag)
+                } else {
+                    self.pushRequestFailed = true
+                }
         })
 
         UIApplication.shared.registerForRemoteNotifications()
     }
     
-    func storeFCMToken(enabled: Bool) {
-        guard !AuthService.isAnonymous else { return }
-        print("PUSH: calling storeFCMToken...")
-        PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
-            InstanceID.instanceID().instanceID(handler: { (result, error) in
-                if let token = result?.token {
-                    print("PUSH: storing FCM token \(token)")
-                    player.fcmToken = token
-                } else {
-                    print("PUSH: clearing FCM token")
-                    player.fcmToken = nil
-                }
-            })
-        }).disposed(by: disposeBag)
+    func storeFCMToken() {
+        guard let player = PlayerService.shared.current.value else { return }
+        InstanceID.instanceID().instanceID(handler: { (result, error) in
+            print("PUSH: storeFCMToken with token \(String(describing: result?.token)) enabled \(player.notificationsEnabled)")
+            if let token = result?.token, player.notificationsEnabled {
+                player.fcmToken = token
+            } else {
+                player.fcmToken = "" // fixme: setting to nil doesn't change it. needs to delete ref instead
+            }
+        })
     }
     
     // User notification preference
-    func userReceivesNotifications() -> Bool {
-        guard let notificationsDefaultValue = UserDefaults.standard.object(forKey: kNotificationsDefaultsKey) else { return true }
-        return (notificationsDefaultValue as AnyObject).boolValue
-    }
-    
     func toggleUserReceivesNotifications(_ enabled: Bool) {
-        // set and store user preference in NSUserDefaults
-        UserDefaults.standard.set(enabled, forKey: kNotificationsDefaultsKey)
-        UserDefaults.standard.synchronize()
+        // set notification option on player
+        guard let player = PlayerService.shared.current.value else {
+            return
+        }
+        player.notificationsEnabled = enabled
+//        let params: [String: Any] = ["userId": player.id, "pushEnabled": enabled]
+//        FirebaseAPIService().cloudFunction(functionName: "refreshPlayerSubscriptions", params: params) { (result, error) in
+//            print("Result \(String(describing: result)) error \(String(describing: error))")
+//        }
 
-        // TODO: this does not disable existing topics
-        // do some analytics
         LoggingService.shared.log(event: LoggingEvent.PushNotificationsToggled, info: ["value": enabled])
 
         // toggle push notifications
-        print("PUSH: enabling push notifications: \(enabled)")
-        storeFCMToken(enabled: enabled)
+        print("PUSH: using toggle to \(enabled ? "enabling" : "disabling") push notifications")
+        storeFCMToken()
         
         // toggle/reschedule events
         self.refreshNotifications(self.scheduledEvents)
-    }
-}
-
-// PUSH Notifications for pubsub
-@available(iOS 10.0, *)
-extension NotificationService {
-    fileprivate func subscribeToTopic(topic: String, subscribed: Bool) {
-        if subscribed {
-            Messaging.messaging().subscribe(toTopic: topic) { (error) in
-                if let error = error {
-                    print("Subscribe to topic \(topic) error \(error)")
-                    LoggingService.shared.log(event: .PushNotificationSubscriptionFailed, info: ["type": "subscribe", "topic": topic, "error": error.localizedDescription])
-                }
-            }
-        } else {
-            Messaging.messaging().unsubscribe(fromTopic: topic) { (error) in
-                if let error = error {
-                    print("Unsubscribe from topic \(topic) error \(error)")
-                    LoggingService.shared.log(event: .PushNotificationSubscriptionFailed, info: ["type": "unsubscribe", "topic": topic, "error": error.localizedDescription])
-                }
-            }
-        }
-    }
-    
-    func refreshEventTopics() {
-        // TODO: move cached events to EventService
-        // have allEvents, userEvents(current/past)
-        // use userEvents(current) to refresh topics on toggle
-    }
-    
-    func registerForEventNotifications(event: Balizinha.Event, subscribed: Bool) {
-        let key = event.id
-        var topic = "event" + key
-        self.subscribeToTopic(topic: topic, subscribed: subscribed)
-        print("\(subscribed ? "" : "Un-")Subscribing to event topic \(topic)")
-
-        if event.userIsOrganizer {
-            topic = "eventOwner" + key
-            self.subscribeToTopic(topic: topic, subscribed: subscribed)
-            print("\(subscribed ? "" : "Un-")Subscribing to event topic \(topic)")
-        }
-    }
-    
-    func registerForGeneralNotification(subscribed: Bool) {
-        // register for general channel
-        let topic = "general"
-        self.subscribeToTopic(topic: topic, subscribed: subscribed)
-        print("\(subscribed ? "" : "Un-")Subscribing to topic \(topic)")
     }
 }
 
@@ -318,11 +254,7 @@ extension NotificationService: MessagingDelegate {
     }
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        print("PUSH: Messaging did receive FCM token \(fcmToken)")
-        
-        // if user has push enabled but toggled notifications off in defaults, disable FCM token
-        let enabled = userReceivesNotifications()
-        storeFCMToken(enabled: enabled)
+        print("PUSH: Messaging did receive FCM token \(fcmToken)") // this can be received via instanceID().token
     }
 }
 

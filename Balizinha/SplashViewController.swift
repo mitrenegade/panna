@@ -129,10 +129,6 @@ class SplashViewController: UIViewController {
         }
         
         clearUserDefaults()
-        if #available(iOS 10.0, *) {
-            NotificationService.shared.toggleUserReceivesNotifications(false)
-        }
-        
         if SettingsService.showPreview {
             self.goToPreview()
         }
@@ -144,7 +140,6 @@ class SplashViewController: UIViewController {
     fileprivate func clearUserDefaults() {
         UserDefaults.standard.set(nil, forKey: "shouldFilterNearbyEvents")
         UserDefaults.standard.set(false, forKey: "locationPermissionDeniedWarningShown")
-        UserDefaults.standard.set(false, forKey: kNotificationsDefaultsKey)
         
         // create event cached values
         UserDefaults.standard.set(nil, forKey: "organizerCachedName")
@@ -191,10 +186,6 @@ class SplashViewController: UIViewController {
             })
         }
 
-        if SettingsService.donation() {
-            self.listenFor(NotificationType.GoToDonationForEvent, action: #selector(goToCalendar(_:)), object: nil)
-        }
-//        self.listenFor(NotificationType.GoToMapForSharedEvent, action: #selector(goToMap(_:)), object: nil)
         self.listenFor(NotificationType.DisplayFeaturedEvent, action: #selector(handleEventDeepLink(_:)), object: nil)
         self.listenFor(NotificationType.DisplayFeaturedLeague, action: #selector(handleLeagueDeepLink(_:)), object: nil)
 
