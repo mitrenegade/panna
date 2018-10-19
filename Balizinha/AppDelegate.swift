@@ -86,11 +86,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         print("local notification received: \(notification)")
         if let info = notification.userInfo {
-            if let type = info["type"] as? String, type == "donationReminder", let eventId = info["eventId"] as? String {
-                print("Go to donation for event \(eventId)")
-                guard SettingsService.donation() else { return }
-                self.notify(NotificationType.GoToDonationForEvent, object: nil, userInfo: ["eventId": eventId])
-            }
         }
         else {
             let alert = UIAlertController(title: "Alert", message: "You have an event in one hour!", preferredStyle: UIAlertControllerStyle.alert)

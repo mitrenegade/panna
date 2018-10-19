@@ -24,7 +24,6 @@ let gcmMessageIDKey = "gcm.message_id"
 enum NotificationType: String {
     case EventsChanged
     case PaymentContextChanged
-    case GoToDonationForEvent
     case LocationOptionsChanged
     case GoToMapForSharedEvent
     case GoToAccountDeepLink
@@ -60,7 +59,6 @@ class NotificationService: NSObject {
         // reschedule event notifications
         for event in events {
             self.scheduleNotificationForEvent(event)
-            self.scheduleNotificationForDonation(event)
         }
         
     }
@@ -85,36 +83,8 @@ class NotificationService: NSObject {
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
-    func scheduleNotificationForDonation(_ event: Balizinha.Event) {
-        //create local notification
-        guard let endTime = event.endTime else { return }
-        guard !event.userIsOrganizer else { return }
-        let name = event.name ?? "the last game"
-        let content = UNMutableNotificationContent()
-        content.title = NSString.localizedUserNotificationString(forKey: "Send Payment", arguments: nil)
-        content.body = NSString.localizedUserNotificationString(forKey: "Do you want to pay for playing in \(name)?", arguments: nil)
-        content.userInfo = ["type": "donationReminder", "eventId": event.id]
-        
-        // Configure the trigger for a 7am wakeup.
-        let date = endTime.addingTimeInterval(30*60)
-//        let date = Date().addingTimeInterval(5)
-        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-        
-        // Create the request object.
-        let request = UNNotificationRequest(identifier: "DonationRequest\(event.id)", content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-        
-        print("notification scheduled")
-    }
-    
     func removeNotificationForEvent(_ event: Balizinha.Event) {
         let identifier = "EventReminder\(event.id)"
-        self.removeNotification(id: identifier)
-    }
-
-    func removeNotificationForDonation(_ event: Balizinha.Event) {
-        let identifier = "DonationRequest\(event.id)"
         self.removeNotification(id: identifier)
     }
 
