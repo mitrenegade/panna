@@ -129,10 +129,6 @@ class SplashViewController: UIViewController {
         }
         
         clearUserDefaults()
-        if #available(iOS 10.0, *) {
-            NotificationService.shared.didLogout()
-        }
-        
         if SettingsService.showPreview {
             self.goToPreview()
         }

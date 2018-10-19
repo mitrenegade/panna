@@ -152,8 +152,10 @@ class NotificationService: NSObject {
         }
     }
     
-    func didLogout() {
-        // TODO: clear token, but don't change user's toggle settings
+    func resetOnLogout() {
+        // this must be done before PlayerService.resetOnLogout()
+        let player = PlayerService.shared.current.value
+        player?.fcmToken = nil
     }
 }
 
