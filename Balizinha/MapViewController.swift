@@ -55,6 +55,17 @@ class MapViewController: EventsViewController {
         
         // deeplink actions available from this controller
         self.listenFor(NotificationType.GoToAccountDeepLink, action: #selector(didClickProfile(_:)), object: nil)
+        
+        LocationService.shared.locationState
+            .asObservable()
+            .filter { (state) -> Bool in
+                if case .denied = state {
+                    return true
+                }
+                return false
+            }.take(1).subscribe({_ in
+                self.refreshMap()
+            }).disposed(by: disposeBag)
     }
     
     fileprivate lazy var __once: () = {
@@ -92,16 +103,8 @@ class MapViewController: EventsViewController {
         for event in allEvents {
             addAnnotation(for: event)
         }
-        
-        let cellHeight: CGFloat = 100
-        if allEvents.isEmpty || allEvents.count == 1 {
-            // leave only 1 cell height on. the ratio is 3/7 of the frame height to start
-            constraintTableHeight.constant = cellHeight
-            tableView.isScrollEnabled = false
-        } else {
-            constraintTableHeight.constant = cellHeight * 2.5
-            tableView.isScrollEnabled = true
-        }
+
+        refreshMap()
     }
     
     func addAnnotation(for event: Balizinha.Event) {
@@ -118,6 +121,31 @@ class MapViewController: EventsViewController {
         mapView.addAnnotation(annotation)
         
         annotations[event.id] = annotation
+    }
+    
+    func refreshMap() {
+        let mapsEnabled: Bool = SettingsService.usesMaps
+        let locationEnabled: Bool
+        switch LocationService.shared.locationState.value {
+        case .denied:
+            locationEnabled = false
+        default:
+            locationEnabled = true
+        }
+        let shouldShowMap = mapsEnabled && locationEnabled
+        if shouldShowMap {
+            let cellHeight: CGFloat = 100
+            if allEvents.isEmpty || allEvents.count == 1 {
+                // leave only 1 cell height on. the ratio is 3/7 of the frame height to start
+                constraintTableHeight.constant = cellHeight
+                tableView.isScrollEnabled = false
+            } else {
+                constraintTableHeight.constant = cellHeight * 2.5
+                tableView.isScrollEnabled = true
+            }
+        } else {
+            constraintTableHeight.constant = self.view.frame.size.height
+        }
     }
 }
 

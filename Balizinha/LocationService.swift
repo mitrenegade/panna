@@ -13,6 +13,7 @@ import RxSwift
 import MapKit
 
 enum LocationState {
+    case denied
     case noLocation
     case located(CLLocation)
 }
@@ -37,6 +38,7 @@ class LocationService: NSObject {
         }
         else if loc == CLAuthorizationStatus.denied {
             self.warnForLocationPermission(from: controller)
+            locationState.value = .denied
         }
         else {
             locationManager.requestWhenInUseAuthorization()
@@ -95,6 +97,7 @@ extension LocationService: CLLocationManagerDelegate {
         else if status == .denied {
             warnForLocationPermission(from: nil)
             print("Authorization is not available")
+            locationState.value = .denied
         }
         else {
             print("status unknown")
