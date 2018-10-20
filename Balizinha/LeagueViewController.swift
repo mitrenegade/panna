@@ -256,10 +256,15 @@ extension LeagueViewController: UITableViewDataSource {
         }
     }
     
-    fileprivate func feedRow(for indexPath: IndexPath) -> UITableViewCell {
+    fileprivate func feedIndex(for indexPath: IndexPath) -> Int? {
         let row = indexPath.row
         let index = feedItems.count - row - 1
-        guard index < feedItems.count, index > 0 else { return UITableViewCell() }
+        guard index < feedItems.count, index > 0 else { return nil }
+        return index
+    }
+    
+    fileprivate func feedRow(for indexPath: IndexPath) -> UITableViewCell {
+        guard let index = feedIndex(for: indexPath) else { return UITableViewCell() }
 
         let feedItem = feedItems[index]
         let identifier: String = feedItem.hasPhoto ? "FeedItemPhotoCell" : "FeedItemCell"
@@ -277,15 +282,32 @@ extension LeagueViewController: UITableViewDataSource {
         guard section == sections.firstIndex(of: .feed) else { return 0 }
         return 50
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        guard let index = feedIndex(for: indexPath) else { return false }
+        let item = feedItems[index]
+        return item.userCreatedFeedItem && (item.type == .chat || item.type == .photo)
+    }
 }
 
 extension LeagueViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if let index = rows.index(of: .tags), index == indexPath.row {
+        if indexPath.section == sections.index(of: .info), let index = rows.index(of: .tags), index == indexPath.row {
             inputTag()
         }
+    }
+    
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard let index = feedIndex(for: indexPath) else { return }
+        let item = feedItems[index]
+
+        if editingStyle == .delete {
+            FeedService.delete(feedItem: item)
+        }
+
     }
 }
 
@@ -541,5 +563,20 @@ extension LeagueViewController: CameraHelperDelegate {
         feedItemPhoto = resized
         buttonImage.setImage(feedItemPhoto, for: .normal)
         dismiss(animated: true, completion: nil)
+    }
+}
+
+// TODO move these to pod
+extension FeedService {
+    public class func delete(feedItem: FeedItem) {
+        feedItem.visible = false
+    }
+}
+extension FeedItem {
+    public var userCreatedFeedItem: Bool {
+        guard let userId = self.userId else { return false }
+        guard let currentUserId = AuthService.currentUser?.uid else { return false }
+        
+        return currentUserId == userId // TODO: if actions created by events also show up as feed items, filter them out
     }
 }
