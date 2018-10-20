@@ -150,8 +150,6 @@ class LeagueViewController: UIViewController {
                     self?.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
                     self?.activityOverlay.hide()
                 }
-            } else {
-                print("BOBBYTEST here")
             }
         }
     }
@@ -160,7 +158,6 @@ class LeagueViewController: UIViewController {
         // use an observer so live updates can happen
         guard let league = league else { return }
         FeedService.shared.observeFeedItems(for: league) { [weak self] (feedItem) in
-            print("Loaded feedItem \(feedItem.id)")
             self?.feedItems.append(feedItem)
             self?.tableView.reloadData()
         }
@@ -345,7 +342,6 @@ extension LeagueViewController {
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (action) in
             if let textField = alert.textFields?[0], let tag = textField.text {
-                print("adding tag \(tag)")
                 var tags = self?.league?.tags ?? []
                 guard !tag.isEmpty, !tags.contains(tag) else { return }
                 tags.append(tag)
@@ -516,7 +512,6 @@ extension LeagueViewController {
     }
     
     @objc func clear() {
-        print("clear text")
         inputMessage.text = nil
         if let polaroid = UIImage(named: "polaroid") {
             buttonImage.setImage(polaroid.withRenderingMode(.alwaysTemplate), for: .normal)
