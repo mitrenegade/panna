@@ -79,7 +79,8 @@ class LeagueViewController: UIViewController {
         view.addSubview(activityOverlay)
         loadRoster()
         listenFor(.PlayerLeaguesChanged, action: #selector(loadPlayerLeagues), object: nil)
-        
+        self.listenFor(NotificationType.DisplayFeaturedEvent, action: #selector(handleEventDeepLink(_:)), object: nil)
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(close))
         
         cameraHelper.delegate = self
@@ -300,6 +301,18 @@ extension LeagueViewController: UITableViewDelegate {
         
         if indexPath.section == sections.index(of: .info), let index = rows.index(of: .tags), index == indexPath.row {
             inputTag()
+        }
+        
+        if indexPath.section == sections.index(of: .feed), indexPath.row < feedItems.count, let index = feedIndex(for: indexPath) {
+            let feedItem = feedItems[index]
+            if let actionId = feedItem.actionId {
+                ActionService().withId(id: actionId) { (action) in
+                    if let eventId = action?.eventId, let url = URL(string: "panna://events/\(eventId)") {
+                        // use internal deeplink for easy navigation to event
+                        DeepLinkService.shared.handle(url: url)
+                    }
+                }
+            }
         }
     }
     
@@ -565,5 +578,17 @@ extension LeagueViewController: CameraHelperDelegate {
         feedItemPhoto = resized
         buttonImage.setImage(feedItemPhoto, for: .normal)
         dismiss(animated: true, completion: nil)
+    }
+}
+
+extension LeagueViewController {
+    func handleEventDeepLink(_ notification: Notification?) {
+        guard let userInfo = notification?.userInfo, let eventId = userInfo["eventId"] as? String else { return }
+        guard let controller = UIStoryboard(name: "EventDetails", bundle: nil).instantiateViewController(withIdentifier: "EventDisplayViewController") as? EventDisplayViewController else { return }
+        EventService.shared.withId(id: eventId) { [weak self] (event) in
+            guard let event = event else { return }
+            controller.event = event
+            self?.present(controller, animated: true, completion: nil)
+        }
     }
 }
