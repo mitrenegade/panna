@@ -12,11 +12,20 @@ import Balizinha
 class FeedItemCell: ActionCell {
     @IBOutlet weak var feedItemPhotoView: RAImageView?
     @IBOutlet weak var constraintWidth: NSLayoutConstraint?
+    @IBOutlet weak var labelDetails: UILabel?
 
     func configure(with feedItem: FeedItem) {
-        
         if let message = feedItem.message, !message.isEmpty {
             labelText.text = message
+            if feedItem.type == .chat, let userId = feedItem.userId {
+                PlayerService.shared.withId(id: userId, completion: { [weak self] (player) in
+                    if let name = player?.name {
+                        DispatchQueue.main.async {
+                            self?.labelText.text = "\(name) said: \(message)"
+                        }
+                    }
+                })
+            }
         } else {
             labelText.text = feedItem.defaultMessage
         }
