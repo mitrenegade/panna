@@ -29,6 +29,17 @@ class FeedItemCell: ActionCell {
         } else {
             labelText.text = feedItem.defaultMessage
         }
+        
+        if let actionId = feedItem.actionId {
+            ActionService().withId(id: actionId) { [weak self] (action) in
+                if let action = action {
+                    let viewModel = ActionViewModel(action: action)
+                    let eventName = viewModel.eventName
+                    
+                    self?.labelDetails?.text = eventName
+                }
+            }
+        }
         labelText.sizeToFit()
         constraintLabelHeight.constant = max(27, self.labelText.frame.size.height)
 

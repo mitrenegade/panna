@@ -264,7 +264,14 @@ extension LeagueViewController: UITableViewDataSource {
         guard let index = feedIndex(for: indexPath) else { return UITableViewCell() }
 
         let feedItem = feedItems[index]
-        let identifier: String = feedItem.hasPhoto ? "FeedItemPhotoCell" : "FeedItemCell"
+        let identifier: String
+        if feedItem.hasPhoto {
+            identifier = "FeedItemPhotoCell"
+        } else if feedItem.actionId != nil {
+            identifier = "FeedItemActionCell"
+        } else {
+            identifier = "FeedItemCell"
+        }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? FeedItemCell else { return UITableViewCell() }
         cell.configure(with: feedItem)
         return cell
@@ -558,20 +565,5 @@ extension LeagueViewController: CameraHelperDelegate {
         feedItemPhoto = resized
         buttonImage.setImage(feedItemPhoto, for: .normal)
         dismiss(animated: true, completion: nil)
-    }
-}
-
-// TODO move these to pod
-extension FeedService {
-    public class func delete(feedItem: FeedItem) {
-        feedItem.visible = false
-    }
-}
-extension FeedItem {
-    public var userCreatedFeedItem: Bool {
-        guard let userId = self.userId else { return false }
-        guard let currentUserId = AuthService.currentUser?.uid else { return false }
-        
-        return currentUserId == userId // TODO: if actions created by events also show up as feed items, filter them out
     }
 }
