@@ -235,7 +235,7 @@ class SplashViewController: UIViewController {
         let nav = UINavigationController(rootViewController: homeViewController)
 
         firAuth.signInAnonymously {[weak self] (user, error) in
-            print("sign in anonymously with result \(user) error \(error)")
+            print("sign in anonymously with result \(user) error \(String(describing: error))")
             if let presented = self?.presentedViewController {
                 guard nav != presented else { return }
                 self?.dismiss(animated: true, completion: {
@@ -246,6 +246,9 @@ class SplashViewController: UIViewController {
                 self?.present(nav, animated: true, completion: nil)
             }
         }
+        
+        self.listenFor(NotificationType.DisplayFeaturedEvent, action: #selector(handleEventDeepLink(_:)), object: nil)
+        self.listenFor(NotificationType.DisplayFeaturedLeague, action: #selector(handleLeagueDeepLink(_:)), object: nil)
     }
     
     fileprivate func promptForUpgradeIfNeeded() {
@@ -288,33 +291,35 @@ class SplashViewController: UIViewController {
 
 // deeplinks for notifications
 extension SplashViewController {
-    func handleEventDeepLink(_ notification: Notification?) {
+    @objc func handleEventDeepLink(_ notification: Notification?) {
         guard let userInfo = notification?.userInfo, let eventId = userInfo["eventId"] as? String else { return }
         guard let controller = UIStoryboard(name: "EventDetails", bundle: nil).instantiateViewController(withIdentifier: "EventDisplayViewController") as? EventDisplayViewController else { return }
         EventService.shared.withId(id: eventId) { [weak self] (event) in
             guard let event = event else { return }
             controller.event = event
             
-            guard let homeViewController = self?.presentedViewController as? UITabBarController else {
-                return
+            if let homeViewController = self?.presentedViewController as? UITabBarController {
+                homeViewController.present(controller, animated: true, completion: nil)
+            } else if AuthService.isAnonymous {
+                self?.presentedViewController?.present(controller, animated: true, completion: nil)
             }
-            homeViewController.present(controller, animated: true, completion: nil)
         }
     }
     
-    func handleLeagueDeepLink(_ notification: Notification?) {
+    @objc func handleLeagueDeepLink(_ notification: Notification?) {
         guard let userInfo = notification?.userInfo, let leagueId = userInfo["leagueId"] as? String else { return }
         guard let nav = UIStoryboard(name: "League", bundle: nil).instantiateViewController(withIdentifier: "LeagueNavigationController") as? UINavigationController, let controller = nav.viewControllers[0] as? LeagueViewController else { return }
         LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
             guard let league = league else { return }
             controller.league = league
             
-            guard let homeViewController = self?.presentedViewController as? UITabBarController else {
-                return
+            if let homeViewController = self?.presentedViewController as? UITabBarController {
+                let index = self?.tabs.index(of: .leagues) ?? 0
+                homeViewController.selectedIndex = index
+                homeViewController.present(nav, animated: true, completion: nil)
+            } else if AuthService.isAnonymous {
+                self?.presentedViewController?.present(nav, animated: true, completion: nil)
             }
-            let index = self?.tabs.index(of: .leagues) ?? 0
-            homeViewController.selectedIndex = index
-            homeViewController.present(nav, animated: true, completion: nil)
         }
     }
 }

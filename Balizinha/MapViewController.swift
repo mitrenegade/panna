@@ -68,7 +68,7 @@ class MapViewController: EventsViewController {
         
         // deeplink actions available from this controller
         self.listenFor(NotificationType.GoToAccountDeepLink, action: #selector(didClickProfile(_:)), object: nil)
-        
+
         LocationService.shared.locationState
             .asObservable()
             .filter { (state) -> Bool in

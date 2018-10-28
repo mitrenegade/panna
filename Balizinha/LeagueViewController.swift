@@ -385,11 +385,19 @@ extension LeagueViewController: LeagueButtonCellDelegate {
     
     fileprivate func joinLeague() {
         guard let league = league else { return }
+        guard let player = PlayerService.shared.current.value else {
+            simpleAlert("Please sign up", message: "Would you like to sign up or log in?") {
+                print("Go to signup")
+                SplashViewController.shared?.goToSignupLogin()
+            }
+            return
+        }
         if LeagueService.shared.playerIsIn(league: league) {
             // leave league
             activityOverlay.show()
             LeagueService.shared.leave(league: league) { [weak self] (result, error) in
                 print("Leave league result \(String(describing: result)) error \(String(describing: error))")
+                self?.joinLeagueCell?.reset()
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
                     if let error = error as NSError? {
@@ -592,3 +600,4 @@ extension LeagueViewController {
         }
     }
 }
+
