@@ -219,6 +219,31 @@ class EventDisplayViewController: UIViewController {
     
     @IBAction func didClickJoin(_ sender: Any?) {
         guard let event = event else { return }
+        
+        guard let current = PlayerService.shared.current.value else {
+            simpleAlert("Could not join event", message: "Please update your player profile!")
+            return
+        }
+        guard current.name != nil else {
+            if let tab = tabBarController, let controllers = tab.viewControllers, let viewController = controllers[0] as? ConfigurableNavigationController {
+                viewController.loadDefaultRootViewController()
+            }
+            let alert = UIAlertController(title: "Please add your name", message: "Before joining a game, it'll be nice to know who you are. Update your profile now?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {[weak self] (action) in
+                guard let url = URL(string: "panna://account/profile") else { return }
+                DeepLinkService.shared.handle(url: url)
+            }))
+            alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: { _ in
+                self.doJoinEvent(event)
+            }))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        doJoinEvent(event)
+    }
+    
+    fileprivate func doJoinEvent(_ event: Balizinha.Event) {
         buttonJoin.isEnabled = false
         buttonJoin.alpha = 0.5
 

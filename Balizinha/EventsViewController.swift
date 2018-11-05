@@ -231,16 +231,21 @@ extension EventsViewController: EventCellDelegate {
             if let tab = tabBarController, let controllers = tab.viewControllers, let viewController = controllers[0] as? ConfigurableNavigationController {
                 viewController.loadDefaultRootViewController()
             }
-            let alert = UIAlertController(title: "Could not join event", message: "You need to add your name before joining a game. Update your profile now?", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Please add your name", message: "Before joining a game, it'll be nice to know who you are. Update your profile now?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {[weak self] (action) in
                 self?.goToAddName()
             }))
-            alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: { _ in
+                self.doJoinEvent(event)
+            }))
             present(alert, animated: true, completion: nil)
             
             return
         }
-        
+        doJoinEvent(event)
+    }
+    
+    fileprivate func doJoinEvent(_ event: Balizinha.Event) {
         joinHelper.event = event
         joinHelper.rootViewController = self
         joinHelper.delegate = self
