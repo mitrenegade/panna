@@ -27,12 +27,12 @@ class EventLeagueSelectorViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(didClickCancel(_:)))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: self, action: #selector(didClickBack(_:)))
     }
 
     fileprivate func loadData() {
-        guard let player = PlayerService.shared.current.value as? Player else {
+        guard let player = PlayerService.shared.current.value else {
             loading = false
             return
         }
@@ -63,7 +63,16 @@ class EventLeagueSelectorViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.loading = false
                     self?.reloadTableData()
-                    self?.simpleAlert("You're not an organizer", message: "You currently can't organize games for any leagues. Please contact the league owners to become an organizer.")
+                    let alert = UIAlertController(title: "You're not an organizer", message: "You must be an organizer for at least one league to organize games. Would you like to submit a request?", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Become an organizer", style: .default, handler: { (action) in
+                        LoggingService.shared.log(event: .OrganizerNoLeaguesAlert, info: ["requestSubmitted":true])
+                        self?.performSegue(withIdentifier: "toLeagueInquiry", sender: nil)
+                    }))
+                    alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: { (action) in
+                        LoggingService.shared.log(event: .OrganizerNoLeaguesAlert, info: ["requestSubmitted":false])
+                        self?.didClickCancel(nil)
+                    }))
+                    self?.present(alert, animated: true, completion: nil)
                 }
                 return
             }

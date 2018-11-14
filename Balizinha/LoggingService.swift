@@ -24,7 +24,6 @@ enum LoggingEvent: String {
     case PreviewEventClicked
     case PreviewSignupClicked
     case AddPromoCode
-    case OrganizerSignupPrompt
     case WebsiteViewedFromAbout
     
     // sharing
@@ -62,6 +61,10 @@ enum LoggingEvent: String {
     case PushNotificationsToggled
     case PushNotificationReceived
     case PushNotificationSubscriptionFailed
+    
+    // organizer
+    case OrganizerSignupPrompt
+    case OrganizerNoLeaguesAlert
 }
 
 class LoggingService: NSObject {
