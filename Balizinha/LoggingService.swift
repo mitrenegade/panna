@@ -39,6 +39,7 @@ enum LoggingEvent: String {
     
     // prelogin sharing
     case SignupFromSharedEvent
+    case SignupFromSharedLeague
 
     // upgrade
     case softUpgradeDismissed

@@ -386,10 +386,7 @@ extension LeagueViewController: LeagueButtonCellDelegate {
     fileprivate func joinLeague() {
         guard let league = league else { return }
         guard let player = PlayerService.shared.current.value else {
-            simpleAlert("Please sign up", message: "Would you like to sign up or log in?") {
-                print("Go to signup")
-                SplashViewController.shared?.goToSignupLogin()
-            }
+            promptForSignup()
             return
         }
         if LeagueService.shared.playerIsIn(league: league) {
@@ -486,6 +483,20 @@ extension LeagueViewController: LeagueButtonCellDelegate {
                 self.shareLeagueCell?.reset()
             }
         }
+    }
+    
+    func promptForSignup() {
+        let alert = UIAlertController(title: "Login or Sign up", message: "Before joining this league, you need to join Panna Social Leagues.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {[weak self] (action) in
+            SplashViewController.shared?.goToSignupLogin()
+            LoggingService.shared.log(event: .SignupFromSharedLeague, info: ["action": "OK"])
+            self?.joinLeagueCell?.reset()
+        }))
+        alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: { _ in
+            LoggingService.shared.log(event: .SignupFromSharedLeague, info: ["action": "Not now"])
+            self.joinLeagueCell?.reset()
+        }))
+        present(alert, animated: true, completion: nil)
     }
 }
 
