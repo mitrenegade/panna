@@ -36,6 +36,10 @@ enum LoggingEvent: String {
     case DeepLinkForAccountOpened
     case DeepLinkForSharedEventOpened
     case DeepLinkForSharedLeagueOpened
+    
+    // prelogin sharing
+    case SignupFromSharedEvent
+    case SignupFromSharedLeague
 
     // upgrade
     case softUpgradeDismissed

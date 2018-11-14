@@ -343,12 +343,12 @@ extension MapViewController {
                         // showing preview
                         cell.textLabel?.text = "There are currently no games near you. Sign up to organize a game!"
                     } else {
-                        cell.textLabel?.text = "There are currently no games."
+                        cell.textLabel?.text = "There are currently no new games."
                     }
                 } else if LocationService.shared.shouldFilterNearbyEvents {
                     cell.textLabel?.text = "There are currently no games near you."
                 } else {
-                    cell.textLabel?.text = "There are currently no games."
+                    cell.textLabel?.text = "There are currently no new games."
                 }
                 return cell
             }

@@ -173,12 +173,18 @@ class SplashViewController: UIViewController {
             dismiss(animated: true, completion: {
                 self.present(self.homeViewController, animated: true, completion: {
                     self.promptForUpgradeIfNeeded()
+                    
+                    // if we signed up via a deeplink, return to that deeplink
+                    DeepLinkService.shared.checkDeepLink()
                 })
             })
         } else {
             present(homeViewController, animated: true, completion: {
                 //self.testStuffOnLogin()
                 self.promptForUpgradeIfNeeded()
+
+                // if we signed up via a deeplink, return to that deeplink
+                DeepLinkService.shared.checkDeepLink()
             })
         }
 
