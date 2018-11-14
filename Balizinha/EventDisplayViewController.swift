@@ -128,7 +128,7 @@ class EventDisplayViewController: UIViewController {
         guard let player = PlayerService.shared.current.value else {
             imageShare.isHidden = true
             buttonShare.isHidden = true
-            constraintButtonJoinHeight.constant = 0
+            //constraintButtonJoinHeight.constant = 0
             labelSpotsLeft.text = "\(event.numPlayers) are playing"
             self.hideChat()
             return
@@ -221,7 +221,7 @@ class EventDisplayViewController: UIViewController {
         guard let event = event else { return }
         
         guard let current = PlayerService.shared.current.value else {
-            simpleAlert("Could not join event", message: "Please update your player profile!")
+            promptForSignup()
             return
         }
         guard current.name != nil else {
@@ -364,6 +364,20 @@ class EventDisplayViewController: UIViewController {
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
         }
+    }
+    
+    func promptForSignup() {
+        guard PlayerService.shared.current.value == nil else { return }
+        
+        let alert = UIAlertController(title: "Login or Sign up", message: "Before reserving a spot for this game, you need to join Panna Social Leagues.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {[weak self] (action) in
+            SplashViewController.shared?.goToSignupLogin()
+            LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "OK"])
+        }))
+        alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: { _ in
+            LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "Not now"])
+        }))
+        present(alert, animated: true, completion: nil)
     }
 }
 
