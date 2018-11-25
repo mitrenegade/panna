@@ -141,14 +141,20 @@ class DeepLinkService: NSObject {
     }
     
     fileprivate func loadAndShowEvent(_ eventId: String) {
-        EventService.shared.featuredEventId = eventId
-        notify(.DisplayFeaturedEvent, object: nil, userInfo: ["eventId": eventId])
-        LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedEventOpened, info: ["eventId": eventId])
+        EventService.shared.withId(id: eventId) { [weak self] event in
+            guard let event = event, !event.isPast else { return }
+            EventService.shared.featuredEventId = eventId
+            self?.notify(.DisplayFeaturedEvent, object: nil, userInfo: ["eventId": eventId])
+            LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedEventOpened, info: ["eventId": eventId])
+        }
     }
     
     fileprivate func loadAndShowLeague(_ leagueId: String) {
-        notify(.DisplayFeaturedLeague, object: nil, userInfo: ["leagueId": leagueId])
-        LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedLeagueOpened, info: ["leagueId": leagueId])
+        LeagueService.shared.withId(id: leagueId) { [weak self] league in
+            guard league != nil else { return }
+            self?.notify(.DisplayFeaturedLeague, object: nil, userInfo: ["leagueId": leagueId])
+            LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedLeagueOpened, info: ["leagueId": leagueId])
+        }
     }
     
     fileprivate func goToAccount(_ accountAction: DeeplinkType.AccountActions) {
