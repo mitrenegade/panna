@@ -221,7 +221,7 @@ class EventDisplayViewController: UIViewController {
         guard let event = event else { return }
         
         guard let current = PlayerService.shared.current.value else {
-            promptForSignup()
+            promptForAnonymousJoin()
             return
         }
         guard current.name != nil else {
@@ -366,19 +366,26 @@ class EventDisplayViewController: UIViewController {
         }
     }
     
-    func promptForSignup() {
-        guard PlayerService.shared.current.value == nil else { return }
+//    func promptForSignup() {
+//        guard PlayerService.shared.current.value == nil else { return }
+//
+//        let alert = UIAlertController(title: "Login or Sign up", message: "Before reserving a spot for this game, you need to join Panna Social Leagues.", preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {[weak self] (action) in
+//            SplashViewController.shared?.goToSignupLogin()
+//            LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "OK"])
+//        }))
+//        alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: { _ in
+//            LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "Not now"])
+//        }))
+//        present(alert, animated: true, completion: nil)
+//    }
+    
+    func promptForAnonymousJoin() {
+        guard let nav = UIStoryboard(name: "PlayerOnboarding", bundle: nil).instantiateInitialViewController() as? UINavigationController else { return }
         
-        let alert = UIAlertController(title: "Login or Sign up", message: "Before reserving a spot for this game, you need to join Panna Social Leagues.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {[weak self] (action) in
-            SplashViewController.shared?.goToSignupLogin()
-            LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "OK"])
-        }))
-        alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: { _ in
-            LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "Not now"])
-        }))
-        present(alert, animated: true, completion: nil)
+        present(nav, animated: true, completion: nil)
     }
+
 }
 
 // MARK: EventDisplayComponentDelegate

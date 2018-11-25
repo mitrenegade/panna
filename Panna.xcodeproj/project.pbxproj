@@ -18,6 +18,9 @@
 		8E04ED06205E19650010A649 /* PromotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFF1F833969004EAE6A /* PromotionService.swift */; };
 		8E04ED07205E19650010A649 /* ShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD13E81FEB78C10039F1A7 /* ShareService.swift */; };
 		8E04ED08205E19650010A649 /* DeepLinkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E16A59D1FECB34400D24D69 /* DeepLinkService.swift */; };
+		8E09572521AAEAEE0037DA17 /* PlayerOnboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E09572421AAEAEE0037DA17 /* PlayerOnboarding.storyboard */; };
+		8E09572821AAEB670037DA17 /* OnboardingPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E09572721AAEB670037DA17 /* OnboardingPhotoViewController.swift */; };
+		8E09572A21AAEE570037DA17 /* OnboardingNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E09572921AAEE570037DA17 /* OnboardingNameViewController.swift */; };
 		8E0F5685201598CD001E8909 /* OrganizerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0F5684201598CD001E8909 /* OrganizerCell.swift */; };
 		8E0F568720159931001E8909 /* OrganizerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0F568620159931001E8909 /* OrganizerCellViewModel.swift */; };
 		8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D551F7209C40067B6F5 /* SettingsService.swift */; };
@@ -177,6 +180,9 @@
 		6DA134C2A34195C7956CE667 /* Pods-Panna.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Panna.release.xcconfig"; path = "Pods/Target Support Files/Pods-Panna/Pods-Panna.release.xcconfig"; sourceTree = "<group>"; };
 		72850730339D7BDEAC192B33 /* Pods-LotSportz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotSportz.release.xcconfig"; path = "Pods/Target Support Files/Pods-LotSportz/Pods-LotSportz.release.xcconfig"; sourceTree = "<group>"; };
 		75AF04F244D31D4B039DF4B6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E09572421AAEAEE0037DA17 /* PlayerOnboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PlayerOnboarding.storyboard; sourceTree = "<group>"; };
+		8E09572721AAEB670037DA17 /* OnboardingPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPhotoViewController.swift; sourceTree = "<group>"; };
+		8E09572921AAEE570037DA17 /* OnboardingNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingNameViewController.swift; sourceTree = "<group>"; };
 		8E0F5684201598CD001E8909 /* OrganizerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizerCell.swift; sourceTree = "<group>"; };
 		8E0F568620159931001E8909 /* OrganizerCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizerCellViewModel.swift; sourceTree = "<group>"; };
 		8E116D551F7209C40067B6F5 /* SettingsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
@@ -359,6 +365,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		8E09572621AAEB4E0037DA17 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				8E09572921AAEE570037DA17 /* OnboardingNameViewController.swift */,
+				8E09572721AAEB670037DA17 /* OnboardingPhotoViewController.swift */,
+			);
+			name = Onboarding;
+			sourceTree = "<group>";
+		};
 		8E19A4A71E6C7FCE00D301EC /* Account */ = {
 			isa = PBXGroup;
 			children = (
@@ -433,6 +448,7 @@
 				8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */,
 				8E11E42B1E31B80800DB4B27 /* Main.storyboard */,
 				8EC799281E363549004ACC52 /* Account.storyboard */,
+				8E09572421AAEAEE0037DA17 /* PlayerOnboarding.storyboard */,
 				8EC7992A1E3635A0004ACC52 /* Events.storyboard */,
 				8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */,
 				8EC7992E1E3636A0004ACC52 /* EventDetails.storyboard */,
@@ -490,6 +506,7 @@
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
 				8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */,
 				F20AD03C1D26C10000969990 /* Login/Signup */,
+				8E09572621AAEB4E0037DA17 /* Onboarding */,
 				8E379F061CE58AFB00C91A12 /* Models */,
 				8E379F0B1CE58F9400C91A12 /* Services */,
 				8E379F0D1CE593C300C91A12 /* Storyboards */,
@@ -759,6 +776,7 @@
 				8ECD58E11CDF853500AD2B13 /* Splash.storyboard in Resources */,
 				8E7397FE1FF921E500D48BA0 /* Montserrat-Bold.ttf in Resources */,
 				8E7397FC1FF921E500D48BA0 /* Montserrat-Black.ttf in Resources */,
+				8E09572521AAEAEE0037DA17 /* PlayerOnboarding.storyboard in Resources */,
 				8E73980D1FF921E500D48BA0 /* Montserrat-ThinItalic.ttf in Resources */,
 				8E73980B1FF921E500D48BA0 /* Montserrat-SemiBoldItalic.ttf in Resources */,
 				8E7398011FF921E500D48BA0 /* Montserrat-ExtraBoldItalic.ttf in Resources */,
@@ -947,6 +965,7 @@
 				8E19A4B01E6C9CF200D301EC /* PaymentTypesViewController.swift in Sources */,
 				C6FDE5C420431ECB00FE0C76 /* ChatService.swift in Sources */,
 				8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */,
+				8E09572821AAEB670037DA17 /* OnboardingPhotoViewController.swift in Sources */,
 				8E0F568720159931001E8909 /* OrganizerCellViewModel.swift in Sources */,
 				8E4D36751F8BA47A00B8B0B5 /* Date+Utils.swift in Sources */,
 				8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */,
@@ -997,6 +1016,7 @@
 				8E48AF8620DFEE9700D814BE /* PlayersScrollView.swift in Sources */,
 				8E1B00561FC2E8FF00420256 /* TutorialButtonViewModel.swift in Sources */,
 				8ED897562109FA5C0062D345 /* ActivityIndicatorOverlay.swift in Sources */,
+				8E09572A21AAEE570037DA17 /* OnboardingNameViewController.swift in Sources */,
 				8E4D36721F8BA45900B8B0B5 /* NSObject+Utils.swift in Sources */,
 				8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */,
 				8E7CABFE1F8D8B8D0095084D /* PaymentCell.swift in Sources */,
