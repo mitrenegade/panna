@@ -280,6 +280,10 @@ extension EventsViewController: CreateEventDelegate {
 }
 
 extension EventsViewController: JoinEventDelegate {
+    func didJoin() {
+        // not used
+    }
+    
     func startActivityIndicator() {
         activityOverlay.show()
     }

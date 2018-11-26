@@ -221,9 +221,14 @@ class EventDisplayViewController: UIViewController {
         guard let event = event else { return }
         
         guard let current = PlayerService.shared.current.value else {
-            promptForAnonymousJoin()
+            if event.paymentRequired {
+                promptForSignup() // for a paid event, the user must join. this doesn't happen right now
+            } else {
+                promptForAnonymousJoin() // for a free event. go through anonymous join flow
+            }
             return
         }
+        
         guard current.name != nil else {
             if let tab = tabBarController, let controllers = tab.viewControllers, let viewController = controllers[0] as? ConfigurableNavigationController {
                 viewController.loadDefaultRootViewController()
@@ -261,7 +266,7 @@ class EventDisplayViewController: UIViewController {
     
     @objc func close() {
         if let nav = navigationController {
-            self.navigationController?.dismiss(animated: true, completion: nil)
+            nav.dismiss(animated: true, completion: nil)
         } else if let presenting = presentingViewController {
             presenting.dismiss(animated: true, completion: nil)
         }
@@ -366,22 +371,25 @@ class EventDisplayViewController: UIViewController {
         }
     }
     
-//    func promptForSignup() {
-//        guard PlayerService.shared.current.value == nil else { return }
-//
-//        let alert = UIAlertController(title: "Login or Sign up", message: "Before reserving a spot for this game, you need to join Panna Social Leagues.", preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {[weak self] (action) in
-//            SplashViewController.shared?.goToSignupLogin()
-//            LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "OK"])
-//        }))
-//        alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: { _ in
-//            LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "Not now"])
-//        }))
-//        present(alert, animated: true, completion: nil)
-//    }
+    func promptForSignup() {
+        guard PlayerService.shared.current.value == nil else { return }
+
+        let alert = UIAlertController(title: "Login or Sign up", message: "Before reserving a spot for this game, you need to join Panna Social Leagues.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {[weak self] (action) in
+            SplashViewController.shared?.goToSignupLogin()
+            LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "OK"])
+        }))
+        alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: { _ in
+            LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "Not now"])
+        }))
+        present(alert, animated: true, completion: nil)
+    }
     
     func promptForAnonymousJoin() {
         guard let nav = UIStoryboard(name: "PlayerOnboarding", bundle: nil).instantiateInitialViewController() as? UINavigationController else { return }
+        guard let controller = nav.viewControllers.first as? OnboardingNameViewController else { return }
+//        controller.delegate = self
+        controller.event = event
         
         present(nav, animated: true, completion: nil)
     }
@@ -474,5 +482,9 @@ extension EventDisplayViewController: JoinEventDelegate {
         activityOverlay.hide()
         buttonJoin.isEnabled = true
         buttonJoin.alpha = 1
+    }
+    
+    func didJoin() {
+        // does nothing; currently uses EventsChanged notification for updates
     }
 }

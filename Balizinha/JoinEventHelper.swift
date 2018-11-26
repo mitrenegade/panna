@@ -14,6 +14,7 @@ protocol JoinEventDelegate: class {
     func startActivityIndicator()
     func stopActivityIndicator()
     func didCancelPayment()
+    func didJoin()
 }
 
 class JoinEventHelper: NSObject {
@@ -210,6 +211,7 @@ class JoinEventHelper: NSObject {
                         message = ""
                     }
                     self?.rootViewController?.simpleAlert(title, message: message)
+                    self?.delegate?.didJoin()
                 }
             }
         }
