@@ -421,11 +421,16 @@ extension MapViewController: TutorialDelegate {
         if UserDefaults.standard.bool(forKey: "showedTutorial") == true {
             return false
         }
+        if DeepLinkService.shared.hasQueuedDeepLinkOnOpen {
+            return false
+        }
         if tutorialController != nil {
             return false
         }
+        
         return true
     }
+    static var count = 0
     func showTutorialIfNeeded() -> Bool {
         guard shouldShowTutorial else { return false }
         guard let controller = UIStoryboard(name: "Tutorial", bundle: nil).instantiateInitialViewController() as? TutorialViewController else { return false }

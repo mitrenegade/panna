@@ -31,6 +31,7 @@ class DeepLinkService: NSObject {
 
     override fileprivate init() {}
     private var deeplinkType: DeeplinkType?
+    var hasQueuedDeepLinkOnOpen: Bool = false
     
     // if going to account deeplink, use this for any follow up links
     var accountDestination: DeeplinkType.AccountActions?
@@ -141,19 +142,23 @@ class DeepLinkService: NSObject {
     }
     
     fileprivate func loadAndShowEvent(_ eventId: String) {
+        hasQueuedDeepLinkOnOpen = true
         EventService.shared.withId(id: eventId) { [weak self] event in
             guard let event = event, !event.isPast else { return }
             EventService.shared.featuredEventId = eventId
             self?.notify(.DisplayFeaturedEvent, object: nil, userInfo: ["eventId": eventId])
             LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedEventOpened, info: ["eventId": eventId])
+            self?.hasQueuedDeepLinkOnOpen = false
         }
     }
     
     fileprivate func loadAndShowLeague(_ leagueId: String) {
+        hasQueuedDeepLinkOnOpen = true
         LeagueService.shared.withId(id: leagueId) { [weak self] league in
             guard league != nil else { return }
             self?.notify(.DisplayFeaturedLeague, object: nil, userInfo: ["leagueId": leagueId])
             LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedLeagueOpened, info: ["leagueId": leagueId])
+            self?.hasQueuedDeepLinkOnOpen = false
         }
     }
     

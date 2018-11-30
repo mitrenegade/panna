@@ -36,7 +36,7 @@ class SplashViewController: UIViewController {
             return
         }
 
-        AuthService.startup()
+        AuthService.shared.startup()
 
         // start listening for user once settingsService returns. only do this once
         SettingsService.shared.observedSettings?.take(1).subscribe(onNext: {[weak self]_ in
@@ -53,6 +53,8 @@ class SplashViewController: UIViewController {
                 self?.didLogin()
             } else if state == .loggedOut {
                 self?.didLogout()
+            } else {
+                print("State: \(state)")
             }
         }).disposed(by: disposeBag)
     }
