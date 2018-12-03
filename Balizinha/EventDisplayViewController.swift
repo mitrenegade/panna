@@ -45,7 +45,7 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintButtonJoinHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintDetailHeight: NSLayoutConstraint!
-    @IBOutlet var constraintPaymentHeight: NSLayoutConstraint!
+    @IBOutlet var constraintPaymentHeight: NSLayoutConstraint?
     @IBOutlet var constraintActivityHeight: NSLayoutConstraint!
     @IBOutlet var constraintInputBottomOffset: NSLayoutConstraint!
     @IBOutlet var constraintInputHeight: NSLayoutConstraint!
@@ -62,7 +62,7 @@ class EventDisplayViewController: UIViewController {
     weak var delegate: EventDetailsDelegate?
     
     lazy var shareService = ShareService()
-    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
+    let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,10 +112,10 @@ class EventDisplayViewController: UIViewController {
 
         // update payment display
         if SettingsService.paymentRequired() {
-            self.constraintPaymentHeight.constant = (self.event?.paymentRequired ?? false) ? 40 : 0
+            constraintPaymentHeight?.constant = (self.event?.paymentRequired ?? false) ? 40 : 0
         }
         else {
-            self.constraintPaymentHeight.constant = 0
+            constraintPaymentHeight?.constant = 0
         }
         
         guard let event = event else {
@@ -125,6 +125,14 @@ class EventDisplayViewController: UIViewController {
             return
         }
         
+        // reserve spot
+        listenFor(NotificationType.EventsChanged, action: #selector(refreshJoin), object: nil)
+        refreshJoin()
+        
+        // players
+        playersScrollView.delegate = self
+        loadPlayers()
+
         guard let player = PlayerService.shared.current.value else {
             imageShare.isHidden = true
             buttonShare.isHidden = true
@@ -155,15 +163,6 @@ class EventDisplayViewController: UIViewController {
                 // TODO: if user is an organizer of the same league, allow them to clone
             }
         }
-        
-        // reserve spot
-        listenFor(NotificationType.EventsChanged, action: #selector(refreshJoin), object: nil)
-        refreshJoin()
-        
-        // players
-        playersScrollView.delegate = self
-        loadPlayers()
-        
         // TODO: do players need to update in real time?
 //        EventService.shared.observeUsers(for: event) { (ids) in
 //            for id: String in ids {
@@ -282,7 +281,7 @@ class EventDisplayViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    @objc fileprivate func refreshJoin() {
+    @objc func refreshJoin() {
         activityOverlay.hide()
         guard let event = event else { return }
         guard let player = PlayerService.shared.current.value else {

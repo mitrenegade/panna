@@ -282,8 +282,8 @@ class SplashViewController: UIViewController {
     }
 
     func goToGuestEvent(_ eventId: String) {
-        guard let homeViewController = UIStoryboard(name: "EventDetails", bundle: nil).instantiateInitialViewController() as? EventDisplayViewController else { return }
-        
+        guard let homeViewController = UIStoryboard(name: "EventDetails", bundle: nil).instantiateViewController(withIdentifier: "GuestEventViewController") as? GuestEventViewController else { return }
+        EventService.shared.listenForEventUsers()
         EventService.shared.withId(id: eventId) { [weak self] (event) in
             if let event = event {
                 homeViewController.event = event
