@@ -58,6 +58,9 @@ class EventDisplayViewController: UIViewController {
     var activityController: EventActivityViewController!
     var chatController: ChatInputViewController!
     
+    @IBOutlet weak var containerShare: UIView!
+    @IBOutlet weak var containerPayment: UIView!
+    
     @IBOutlet weak var activityView: UIView!
     weak var delegate: EventDetailsDelegate?
     
@@ -68,6 +71,7 @@ class EventDisplayViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationController?.isNavigationBarHidden = true
+        view.addSubview(activityOverlay)
 
         // Setup event details
         self.view.bringSubview(toFront: labelType.superview!)
@@ -142,7 +146,7 @@ class EventDisplayViewController: UIViewController {
             
             // guest event
             if let id = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, event.id == id {
-                buttonClose?.isHidden = true
+                handleGuestEvent()
             }
             
             return
@@ -174,8 +178,15 @@ class EventDisplayViewController: UIViewController {
 //                })
 //            }
 //        }
+    }
+    
+    func handleGuestEvent() {
+        // handles anonymous user with a guest event
+        guard AuthService.isAnonymous, let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event?.id else { return }
         
-        view.addSubview(activityOverlay)
+        buttonClose?.isHidden = true
+        buttonClose?.isEnabled = false
+        
     }
     
     override func viewDidLayoutSubviews() {

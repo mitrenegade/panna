@@ -70,7 +70,6 @@
 		8E5421401E70DF8700AE4F3A /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54213F1E70DF8700AE4F3A /* ActionCell.swift */; };
 		8E54EAD02164E5D000937355 /* FeedItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54EACF2164E5D000937355 /* FeedItemCell.swift */; };
 		8E571A0320E25E2B003AB202 /* RAImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E571A0220E25E2B003AB202 /* RAImageView.swift */; };
-		8E67967321B4BC0F00E4F9AA /* GuestEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E67967221B4BC0F00E4F9AA /* GuestEventViewController.swift */; };
 		8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */; };
 		8E7016D2207A9D0400A4C28C /* UpgradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7016D1207A9D0400A4C28C /* UpgradeService.swift */; };
 		8E7016D4207AA8A300A4C28C /* UpgradeServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7016D3207AA8A200A4C28C /* UpgradeServiceTests.swift */; };
@@ -220,7 +219,6 @@
 		8E54EACF2164E5D000937355 /* FeedItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemCell.swift; sourceTree = "<group>"; };
 		8E571A0220E25E2B003AB202 /* RAImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAImageView.swift; sourceTree = "<group>"; };
 		8E59662C1F8B98BA007A814A /* EventCellDonationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCellDonationTests.swift; sourceTree = "<group>"; };
-		8E67967221B4BC0F00E4F9AA /* GuestEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestEventViewController.swift; sourceTree = "<group>"; };
 		8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewModel.swift; sourceTree = "<group>"; };
 		8E7016D1207A9D0400A4C28C /* UpgradeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeService.swift; sourceTree = "<group>"; };
 		8E7016D3207AA8A200A4C28C /* UpgradeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeServiceTests.swift; sourceTree = "<group>"; };
@@ -397,7 +395,6 @@
 				8E19A4AD1E6C9CB300D301EC /* EventActivityViewController.swift */,
 				8E54213D1E70CEF100AE4F3A /* ChatInputViewController.swift */,
 				8E179079207B03C9004FF5D2 /* AttendeesViewController.swift */,
-				8E67967221B4BC0F00E4F9AA /* GuestEventViewController.swift */,
 			);
 			name = "Event Details";
 			sourceTree = "<group>";
@@ -986,7 +983,6 @@
 				8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */,
 				8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */,
 				8EDD13E91FEB78C10039F1A7 /* ShareService.swift in Sources */,
-				8E67967321B4BC0F00E4F9AA /* GuestEventViewController.swift in Sources */,
 				8EF7F9F520E339A30037962E /* LeaguePlayerCell.swift in Sources */,
 				8E571A0320E25E2B003AB202 /* RAImageView.swift in Sources */,
 				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,

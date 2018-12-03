@@ -48,7 +48,7 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
                                                         <color key="backgroundColor" red="0.24433648590000001" green="0.32035863399999998" blue="0.39528042079999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="rfV-G2-Hlb">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="rfV-G2-Hlb">
                                                         <rect key="frame" x="12" y="122" width="351" height="50"/>
                                                         <string key="text">Date
 Time</string>
@@ -345,6 +345,7 @@ Type</string>
                         <outlet property="constraintScrollBottomOffset" destination="kd2-rg-DUt" id="Fre-Wr-hxG"/>
                         <outlet property="constraintSpacerHeight" destination="UvV-ic-Vba" id="Uwh-X9-Xvt"/>
                         <outlet property="constraintWidth" destination="xz0-mV-4uu" id="err-g8-t3N"/>
+                        <outlet property="containerShare" destination="nNh-T3-3nB" id="D9i-8K-wXT"/>
                         <outlet property="imageClone" destination="MbG-Zi-6KK" id="jOq-oU-36d"/>
                         <outlet property="imageShare" destination="m28-12-C4h" id="HPl-2N-Poi"/>
                         <outlet property="labelDate" destination="rfV-G2-Hlb" id="UBe-zJ-anu"/>
