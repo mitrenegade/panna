@@ -16,18 +16,18 @@ class GuestEventViewController: EventDisplayViewController {
         // handles anonymous user with a guest event
         guard AuthService.isAnonymous, let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event?.id else { return }
         
-        buttonClose.isHidden = true
-        buttonClose.isEnabled = false
-        
-        func refreshJoin() {
-            activityOverlay.hide()
-            guard let event = event else { return }
-            labelSpotsLeft.text = "\(event.numPlayers) are playing"
-
-            buttonJoin.isEnabled = true
-            buttonJoin.alpha = 1
-            let spotsLeft = event.maxPlayers - event.numPlayers
-            labelSpotsLeft.text = "\(spotsLeft) spots available"
-        }
+        buttonClose?.isHidden = true
+        buttonClose?.isEnabled = false
     }
+
+//    func refreshJoin() {
+//        activityOverlay.hide()
+//        guard let event = event else { return }
+//        labelSpotsLeft.text = "\(event.numPlayers) are playing"
+//        
+//        buttonJoin.isEnabled = true
+//        buttonJoin.alpha = 1
+//        let spotsLeft = event.maxPlayers - event.numPlayers
+//        labelSpotsLeft.text = "\(spotsLeft) spots available"
+//    }
 }

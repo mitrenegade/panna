@@ -21,12 +21,12 @@ protocol EventDetailsDelegate: class {
 
 class EventDisplayViewController: UIViewController {
     
-    @IBOutlet weak var buttonClose: UIButton!
-    @IBOutlet weak var buttonShare: UIButton!
-    @IBOutlet weak var imageShare: UIImageView!
+    @IBOutlet weak var buttonClose: UIButton?
+    @IBOutlet weak var buttonShare: UIButton?
+    @IBOutlet weak var imageShare: UIImageView?
     @IBOutlet weak var buttonJoin: UIButton!
-    @IBOutlet weak var buttonClone: UIButton!
-    @IBOutlet weak var imageClone: UIImageView!
+    @IBOutlet weak var buttonClone: UIButton?
+    @IBOutlet weak var imageClone: UIImageView?
     
     @IBOutlet var labelType: UILabel!
     @IBOutlet var labelDate: UILabel!
@@ -75,8 +75,8 @@ class EventDisplayViewController: UIViewController {
         let type = self.event?.type.rawValue ?? ""
         self.labelType.text = "\(name)\n\(type)"
         
-        imageShare.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
-        imageClone.image = UIImage(named: "copy30")?.withRenderingMode(.alwaysTemplate)
+        imageShare?.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
+        imageClone?.image = UIImage(named: "copy30")?.withRenderingMode(.alwaysTemplate)
 
         if let startTime = self.event?.startTime {
             self.labelDate.text = "\(self.event?.dateString(startTime) ?? "")\n\(self.event?.timeString(startTime) ?? "")"
@@ -104,7 +104,7 @@ class EventDisplayViewController: UIViewController {
             }
         }
 
-        self.constraintWidth.constant = UIScreen.main.bounds.size.width
+        constraintWidth.constant = UIScreen.main.bounds.size.width
         
         // keyboard
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -119,8 +119,8 @@ class EventDisplayViewController: UIViewController {
         }
         
         guard let event = event else {
-            imageShare.isHidden = true
-            buttonShare.isHidden = true
+            imageShare?.isHidden = true
+            buttonShare?.isHidden = true
             constraintButtonJoinHeight.constant = 0
             return
         }
@@ -134,15 +134,15 @@ class EventDisplayViewController: UIViewController {
         loadPlayers()
 
         guard let player = PlayerService.shared.current.value else {
-            imageShare.isHidden = true
-            buttonShare.isHidden = true
+            imageShare?.isHidden = true
+            buttonShare?.isHidden = true
             //constraintButtonJoinHeight.constant = 0
             labelSpotsLeft.text = "\(event.numPlayers) are playing"
             self.hideChat()
             
             // guest event
             if let id = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, event.id == id {
-                buttonClose.isHidden = true
+                buttonClose?.isHidden = true
             }
             
             return
@@ -153,12 +153,12 @@ class EventDisplayViewController: UIViewController {
         }
         
         // check if user is allowed to clone this event
-        buttonClone.isHidden = true
-        imageClone.isHidden = true
+        buttonClone?.isHidden = true
+        imageClone?.isHidden = true
         if delegate != nil {
             if event.userIsOrganizer {
-                buttonClone.isHidden = false
-                imageClone.isHidden = false
+                buttonClone?.isHidden = false
+                imageClone?.isHidden = false
             } else if let leagueId = event.league {
                 // TODO: if user is an organizer of the same league, allow them to clone
             }
@@ -366,9 +366,9 @@ class EventDisplayViewController: UIViewController {
                     self.shareService.shareToFacebook(link: event.shareLink, from: self)
                 }))
             }
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad){
-                alert.popoverPresentationController?.sourceView = buttonShare.superview
-                alert.popoverPresentationController?.sourceRect = buttonShare.frame
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad), let button = buttonShare {
+                alert.popoverPresentationController?.sourceView = button.superview
+                alert.popoverPresentationController?.sourceRect = button.frame
             }
             
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
