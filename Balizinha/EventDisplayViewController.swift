@@ -131,6 +131,12 @@ class EventDisplayViewController: UIViewController {
             //constraintButtonJoinHeight.constant = 0
             labelSpotsLeft.text = "\(event.numPlayers) are playing"
             self.hideChat()
+            
+            // guest event
+            if let id = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, event.id == id {
+                buttonClose.isHidden = true
+            }
+            
             return
         }
         

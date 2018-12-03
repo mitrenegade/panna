@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import Crashlytics
 import FirebaseDatabase
 import FirebaseAuth
@@ -48,15 +49,36 @@ class SplashViewController: UIViewController {
     
     func listenForUser() {
         print("LoginLogout: listening for LoginSuccess")
-        AuthService.shared.loginState.distinctUntilChanged().asObservable().subscribe(onNext: { [weak self] state in
+       
+        let loginState: Observable<LoginState> = AuthService.shared.loginState.distinctUntilChanged().asObservable()
+        let eventId: Observable<Any?> = DefaultsManager.shared.valueStream(for: .guestEventId).distinctUntilChanged({ (val1, val2) -> Bool in
+            let str1 = val1 as? String
+            let str2 = val2 as? String
+            return str1 != str2
+        }).asObservable()
+        
+        Observable<(LoginState, String?)>.combineLatest(loginState, eventId, resultSelector: { state, eventId in
+            let guestEventId = eventId as? String
+            return (state, guestEventId)
+        }).observeOn(MainScheduler.instance).subscribe(onNext: { [weak self] (state, eventId) in
             if state == .loggedIn {
                 self?.didLogin()
             } else if state == .loggedOut {
-                self?.didLogout()
+                if let eventId = eventId {
+                    print("BOBBYTEST: Guest should see eventId \(eventId)")
+                    self?.goToGuestEvent(eventId)
+                } else {
+                    self?.didLogout()
+                }
             } else {
                 print("State: \(state)")
             }
         }).disposed(by: disposeBag)
+
+
+        
+//        AuthService.shared.loginState.distinctUntilChanged().asObservable().subscribe(onNext: { [weak self] state in
+//        }).disposed(by: disposeBag)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -258,7 +280,22 @@ class SplashViewController: UIViewController {
         self.listenFor(NotificationType.DisplayFeaturedEvent, action: #selector(handleEventDeepLink(_:)), object: nil)
         self.listenFor(NotificationType.DisplayFeaturedLeague, action: #selector(handleLeagueDeepLink(_:)), object: nil)
     }
-    
+
+    func goToGuestEvent(_ eventId: String) {
+        guard let homeViewController = UIStoryboard(name: "EventDetails", bundle: nil).instantiateInitialViewController() as? EventDisplayViewController else { return }
+        
+        EventService.shared.withId(id: eventId) { [weak self] (event) in
+            if let event = event {
+                homeViewController.event = event
+                let nav = UINavigationController(rootViewController: homeViewController)
+                self?.present(nav, animated: true, completion: nil)
+            } else {
+                DefaultsManager.shared.clear(key: DefaultsKey.guestEventId)
+                self?.goToSignupLogin()
+            }
+        }
+    }
+
     fileprivate func promptForUpgradeIfNeeded() {
         guard UpgradeService().shouldShowSoftUpgrade else { return }
 

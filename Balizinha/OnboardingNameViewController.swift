@@ -50,8 +50,7 @@ class OnboardingNameViewController: UIViewController {
     func saveName() {
         print("Done")
         guard let name = inputName.text, !name.isEmpty else { return }
-        UserDefaults.standard.set(name, forKey: "anonymousUserName")
-        UserDefaults.standard.synchronize()
+        DefaultsManager.shared.setValue(name, forKey: "guestUsername")
         
         createPlayer(name: name)
     }
@@ -198,7 +197,8 @@ extension OnboardingNameViewController: JoinEventDelegate {
         // TODO: ask if the user wants to create an account
         
         // store current event in defaults as an anonymous-joined event
-        
-        // store current player info in defaults as an anonymous player
+        if let event = event {
+            DefaultsManager.shared.setValue(event.id, forKey: DefaultsKey.guestEventId.rawValue)
+        }
     }
 }

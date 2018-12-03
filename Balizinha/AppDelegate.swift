@@ -22,7 +22,6 @@ import Balizinha
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
     let disposeBag = DisposeBag()
     
