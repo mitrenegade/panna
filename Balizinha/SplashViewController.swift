@@ -54,11 +54,12 @@ class SplashViewController: UIViewController {
         let eventId: Observable<Any?> = DefaultsManager.shared.valueStream(for: .guestEventId).distinctUntilChanged({ (val1, val2) -> Bool in
             let str1 = val1 as? String
             let str2 = val2 as? String
-            return str1 != str2
+            return str1 == str2
         }).asObservable()
         
         Observable<(LoginState, String?)>.combineLatest(loginState, eventId, resultSelector: { state, eventId in
             let guestEventId = eventId as? String
+            print("BOBBYTEST: loginState \(state) eventId \(String(describing: guestEventId))")
             return (state, guestEventId)
         }).observeOn(MainScheduler.instance).subscribe(onNext: { [weak self] (state, eventId) in
             if state == .loggedIn {

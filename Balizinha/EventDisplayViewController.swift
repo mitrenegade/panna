@@ -236,6 +236,11 @@ class EventDisplayViewController: UIViewController {
     @IBAction func didClickJoin(_ sender: Any?) {
         guard let event = event else { return }
         
+        if let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event.id {
+            leaveGuestEvent()
+            return
+        }
+
         guard let current = PlayerService.shared.current.value else {
             if event.paymentRequired {
                 promptForSignup() // for a paid event, the user must join. this doesn't happen right now
@@ -274,6 +279,28 @@ class EventDisplayViewController: UIViewController {
         joinHelper.checkIfPartOfLeague()
     }
 
+    fileprivate func leaveGuestEvent() {
+        guard let event = event, let userId = AuthService.currentUser?.uid else { return }
+        guard let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, event.id == eventId else {
+            DefaultsManager.shared.clear(key: .guestEventId)
+            return
+        }
+        activityOverlay.show()
+        EventService.shared.leaveEvent(event, userId: userId) { [weak self] (error) in
+            if let error = error as NSError? {
+                DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
+                    self?.simpleAlert("Could not leave game", defaultMessage: "There was an error while trying to leave this game.", error: error)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
+                    NotificationService.shared.removeNotificationForEvent(event)
+                }
+                DefaultsManager.shared.clear(key: .guestEventId)
+            }
+        }
+    }
     @IBAction func didClickClone(_ sender: Any?) {
         guard let event = event else { return }
         LoggingService.shared.log(event: .CloneButtonClicked, info: nil)
@@ -295,24 +322,42 @@ class EventDisplayViewController: UIViewController {
     @objc func refreshJoin() {
         activityOverlay.hide()
         guard let event = event else { return }
-        guard let player = PlayerService.shared.current.value else {
+        if let player = PlayerService.shared.current.value {
+            if event.containsPlayer(player) || event.userIsOrganizer {
+                constraintButtonJoinHeight.constant = 0
+                labelSpotsLeft.text = "\(event.numPlayers) are playing"
+            } else if event.isFull {
+                //            buttonJoin.isEnabled = false // may want to add waitlist functionality
+                //            buttonJoin.alpha = 0.5
+                constraintButtonJoinHeight.constant = 0
+                labelSpotsLeft.text = "Event is full"
+            } else {
+                buttonJoin.isEnabled = true
+                buttonJoin.alpha = 1
+                let spotsLeft = event.maxPlayers - event.numPlayers
+                labelSpotsLeft.text = "\(spotsLeft) spots available"
+            }
+        } else if let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event.id {
+            // anon user has joined an event
+            buttonJoin.isEnabled = true
+            buttonJoin.alpha = 1
+            buttonJoin.setTitle("Leave event", for: .normal)
+            labelSpotsLeft.text = "\(event.numPlayers) are playing"
+        } else if let eventId = EventService.shared.featuredEventId, eventId == event.id {
+            // anon user has an event invite but has not joined
+            if event.isFull {
+                constraintButtonJoinHeight.constant = 0
+                labelSpotsLeft.text = "Event is full"
+            } else {
+                buttonJoin.isEnabled = true
+                buttonJoin.alpha = 1
+                let spotsLeft = event.maxPlayers - event.numPlayers
+                labelSpotsLeft.text = "\(spotsLeft) spots available"
+            }
+        } else {
             constraintButtonJoinHeight.constant = 0
             labelSpotsLeft.text = "\(event.numPlayers) are playing"
             return
-        }
-        if event.containsPlayer(player) || event.userIsOrganizer {
-            constraintButtonJoinHeight.constant = 0
-            labelSpotsLeft.text = "\(event.numPlayers) are playing"
-        } else if event.isFull {
-            //            buttonJoin.isEnabled = false // may want to add waitlist functionality
-            //            buttonJoin.alpha = 0.5
-            constraintButtonJoinHeight.constant = 0
-            labelSpotsLeft.text = "Event is full"
-        } else {
-            buttonJoin.isEnabled = true
-            buttonJoin.alpha = 1
-            let spotsLeft = event.maxPlayers - event.numPlayers
-            labelSpotsLeft.text = "\(spotsLeft) spots available"
         }
     }
     
@@ -500,7 +545,24 @@ extension EventDisplayViewController: JoinEventDelegate {
         buttonJoin.alpha = 1
     }
     
-    func didJoin() {
-        // does nothing; currently uses EventsChanged notification for updates
+    func didJoin(_ event: Balizinha.Event?) {
+        // only used to display message; currently uses EventsChanged notification for updates
+        let title: String
+        let message: String
+        if UserDefaults.standard.bool(forKey: UserSettings.DisplayedJoinEventMessage.rawValue) == false {
+            title = "You've joined a game!"
+            message = "You can go to your Calendar to see upcoming games."
+            UserDefaults.standard.set(true, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
+            UserDefaults.standard.synchronize()
+        } else {
+            if let name = event?.name {
+                title = "You've joined \(name)"
+            } else {
+                title = "You've joined a game!"
+            }
+            message = ""
+        }
+        simpleAlert(title, message: message, completion: {
+        })
     }
 }

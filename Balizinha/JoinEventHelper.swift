@@ -14,7 +14,7 @@ protocol JoinEventDelegate: class {
     func startActivityIndicator()
     func stopActivityIndicator()
     func didCancelPayment()
-    func didJoin()
+    func didJoin(_ event: Balizinha.Event?)
 }
 
 class JoinEventHelper: NSObject {
@@ -195,23 +195,7 @@ class JoinEventHelper: NSObject {
                 if let error = error as? NSError {
                     self?.rootViewController?.simpleAlert("Could not join game", defaultMessage: "You were unable to join the game.", error: error)
                 } else {
-                    let title: String
-                    let message: String
-                    if UserDefaults.standard.bool(forKey: UserSettings.DisplayedJoinEventMessage.rawValue) == false {
-                        title = "You've joined a game!"
-                        message = "You can go to your Calendar to see upcoming games."
-                        UserDefaults.standard.set(true, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
-                        UserDefaults.standard.synchronize()
-                    } else {
-                        if let name = event.name {
-                            title = "You've joined \(name)"
-                        } else {
-                            title = "You've joined a game!"
-                        }
-                        message = ""
-                    }
-                    self?.rootViewController?.simpleAlert(title, message: message)
-                    self?.delegate?.didJoin()
+                    self?.delegate?.didJoin(event)
                 }
             }
         }

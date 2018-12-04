@@ -192,13 +192,24 @@ extension OnboardingNameViewController: JoinEventDelegate {
         // not used
     }
     
-    func didJoin() {
+    func didJoin(_ event: Balizinha.Event?) {
         activityOverlay.hide()
-        // TODO: ask if the user wants to create an account
-        
         // store current event in defaults as an anonymous-joined event
-        if let event = event {
-            DefaultsManager.shared.setValue(event.id, forKey: DefaultsKey.guestEventId.rawValue)
+        guard let event = event else { return }
+        let title: String
+        let message: String
+        if let name = event.name {
+            title = "You've joined \(name)"
+        } else {
+            title = "You've joined a game!"
         }
+        message = "Sign up with Panna to view and join more events."
+        // TODO: add option to create an account
+
+        simpleAlert(title, message: message, completion: {
+            self.dismiss(animated: true) {
+                DefaultsManager.shared.setValue(event.id, forKey: DefaultsKey.guestEventId.rawValue)
+            }
+        })
     }
 }
