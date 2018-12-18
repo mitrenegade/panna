@@ -237,7 +237,13 @@ class EventDisplayViewController: UIViewController {
         guard let event = event else { return }
         
         if let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event.id {
-            leaveGuestEvent()
+            let title = "Leave \(event.name ?? "event")?"
+            let alert = UIAlertController(title: title, message: "You are currently in the event as a guest. If you leave, you will have to sign in to join again.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                self.leaveGuestEvent()
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
             return
         }
 
