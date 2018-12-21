@@ -288,7 +288,7 @@ class EventDisplayViewController: UIViewController {
     fileprivate func leaveGuestEvent() {
         guard let event = event, let userId = AuthService.currentUser?.uid else { return }
         guard let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, event.id == eventId else {
-            DefaultsManager.shared.clear(key: .guestEventId)
+            DefaultsManager.shared.setValue(nil, forKey: DefaultsKey.guestEventId.rawValue)
             return
         }
         activityOverlay.show()
@@ -303,7 +303,7 @@ class EventDisplayViewController: UIViewController {
                     self?.activityOverlay.hide()
                     NotificationService.shared.removeNotificationForEvent(event)
                 }
-                DefaultsManager.shared.clear(key: .guestEventId)
+                DefaultsManager.shared.setValue(nil, forKey: DefaultsKey.guestEventId.rawValue)
             }
         }
     }

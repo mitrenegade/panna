@@ -18,6 +18,7 @@ class OnboardingNameViewController: UIViewController {
     
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
     var event: Balizinha.Event?
+    var shouldJoinEvent: Bool = false
     
     let joinHelper = JoinEventHelper()
     
@@ -33,6 +34,7 @@ class OnboardingNameViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
         
         view.addSubview(activityOverlay)
     }
@@ -48,7 +50,6 @@ class OnboardingNameViewController: UIViewController {
     }
     
     func saveName() {
-        print("Done")
         guard let name = inputName.text, !name.isEmpty else { return }
         DefaultsManager.shared.setValue(name, forKey: "guestUsername")
         
@@ -56,6 +57,8 @@ class OnboardingNameViewController: UIViewController {
     }
     
     @objc func cancel() {
+        view.endEditing(true)
+        shouldJoinEvent = false
         navigationController?.dismiss(animated: true, completion: nil)
     }
 
@@ -78,13 +81,18 @@ class OnboardingNameViewController: UIViewController {
             }
         }
     }
-    
-    
+
     @objc func keyboardWillHide(_ notification: Notification) {
         self.constraintTopOffset.constant = 0
         self.constraintBottomOffset.constant = 0
         UIView.animate(withDuration: 0.25) {
             self.view.layoutIfNeeded()
+        }
+    }
+    
+    func keyboardDidHide() {
+        if shouldJoinEvent {
+            saveName()
         }
     }
 }
@@ -93,11 +101,11 @@ class OnboardingNameViewController: UIViewController {
 extension OnboardingNameViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.resignFirstResponder()
-        saveName()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        shouldJoinEvent = true
         return true
     }
 }
@@ -107,7 +115,7 @@ extension OnboardingNameViewController {
         guard let userId = AuthService.currentUser?.uid else { return }
         guard AuthService.currentUser?.isAnonymous == true else { return }
         guard PlayerService.shared.current.value == nil else { return }
-        activityOverlay.show()
+        startActivityIndicator()
         FirebaseAPIService().cloudFunction(functionName: "createPlayerForAnonymousUser", params: ["userId": userId, "name": name]) { [weak self] (results, error) in
             if let dict = results as? [String: Any] {
                 print("Results \(dict)")
@@ -119,7 +127,7 @@ extension OnboardingNameViewController {
             } else {
                 print("Error: \(String(describing: error))")
                 DispatchQueue.main.async {
-                    self?.activityOverlay.hide()
+                    self?.stopActivityIndicator()
                 }
             }
         }

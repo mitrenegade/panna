@@ -291,7 +291,7 @@ class SplashViewController: UIViewController {
                 let nav = UINavigationController(rootViewController: homeViewController)
                 self?.present(nav, animated: true, completion: nil)
             } else {
-                DefaultsManager.shared.clear(key: DefaultsKey.guestEventId)
+                DefaultsManager.shared.setValue(nil, forKey: DefaultsKey.guestEventId.rawValue)
                 self?.goToSignupLogin()
             }
         }
