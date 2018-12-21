@@ -114,6 +114,7 @@ extension OnboardingNameViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         didClickJoin(nil)
+        LoggingService.shared.log(event: .GuestEventNameEntered, info: ["name": textField.text ?? "", "eventId": event?.id ?? ""])
         return true
     }
 }
@@ -226,5 +227,6 @@ extension OnboardingNameViewController: JoinEventDelegate {
             self.dismiss(animated: true) {
             }
         })
+        LoggingService.shared.log(event: .GuestEventJoined, info: ["eventId": event.id])
     }
 }

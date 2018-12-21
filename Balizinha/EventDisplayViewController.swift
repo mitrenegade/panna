@@ -300,6 +300,8 @@ class EventDisplayViewController: UIViewController {
                 }
                 DefaultsManager.shared.setValue(nil, forKey: DefaultsKey.guestEventId.rawValue)
                 // keep guestPlayerName in defaults
+                
+                LoggingService.shared.log(event: .GuestEventLeft, info: ["eventId": event.id])
             }
         }
     }
