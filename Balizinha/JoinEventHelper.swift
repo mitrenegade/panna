@@ -46,7 +46,7 @@ class JoinEventHelper: NSObject {
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                         // join league
                         LeagueService.shared.join(league: league, completion: { [weak self] (result, error) in
-                            if let error = error as? NSError {
+                            if let error = error as NSError? {
                                 self?.rootViewController?.simpleAlert("Could not join league", defaultMessage: "There was an error joining the league.", error: error)
                             } else {
                                 self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
@@ -67,19 +67,19 @@ class JoinEventHelper: NSObject {
     
     func checkIfAlreadyPaid() {
         guard let event = event else { return }
-        guard event.paymentRequired && SettingsService.paymentRequired() else {
-            joinEvent(event)
-            return
-        }
         guard let current = PlayerService.shared.current.value else {
             rootViewController?.simpleAlert("Could not make payment", message: "Please update your player profile!")
+            return
+        }
+        guard event.paymentRequired && SettingsService.paymentRequired() else {
+            joinEvent(event, userId: current.id)
             return
         }
         delegate?.startActivityIndicator()
         PaymentService().checkForPayment(for: event.id, by: current.id) { [weak self] (success) in
             self?.delegate?.stopActivityIndicator()
             if success {
-                self?.joinEvent(event)
+                self?.joinEvent(event, userId: current.id)
             }
             else {
                 self?.checkStripe()
@@ -136,7 +136,7 @@ class JoinEventHelper: NSObject {
                     completion(amount * discount)
                 }
                 else {
-                    print("Balizinha.Event cost either has no promotion or no discount. Error: \(error)")
+                    print("Balizinha.Event cost either has no promotion or no discount. Error: \(String(describing: error))")
                     completion(amount)
                 }
             })
@@ -179,20 +179,20 @@ class JoinEventHelper: NSObject {
                 }
                 self?.rootViewController?.simpleAlert("Could not join game", message: "There was an issue making a payment. \(errorMessage)")
             } else {
-                self?.joinEvent(event)
+                self?.joinEvent(event, userId: current.id)
                 self?.event = nil
             }
         }
     }
     
-    fileprivate func joinEvent(_ event: Balizinha.Event) {
+    func joinEvent(_ event: Balizinha.Event, userId: String?) {
         //add notification in case user doesn't return to MyEvents
         delegate?.startActivityIndicator()
-        guard let user = PlayerService.shared.current.value else { return }
-        EventService.shared.joinEvent(event, userId: user.id) { [weak self] (error) in
+        guard let userId = userId else { return }
+        EventService.shared.joinEvent(event, userId: userId) { [weak self] (error) in
             DispatchQueue.main.async {
                 self?.delegate?.stopActivityIndicator()
-                if let error = error as? NSError {
+                if let error = error as NSError? {
                     self?.rootViewController?.simpleAlert("Could not join game", defaultMessage: "You were unable to join the game.", error: error)
                 } else {
                     self?.delegate?.didJoin(event)

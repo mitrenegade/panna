@@ -8,7 +8,6 @@
 
 import UIKit
 import FBSDKShareKit
-import RxSwift
 import Balizinha
 
 protocol SectionComponentDelegate: class {
@@ -38,8 +37,6 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var playersScrollView: PlayersScrollView!
     weak var event : Balizinha.Event?
     let joinHelper = JoinEventHelper()
-    
-    fileprivate var disposeBag: DisposeBag = DisposeBag()
     
     @IBOutlet var constraintWidth: NSLayoutConstraint!
     @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
@@ -137,18 +134,17 @@ class EventDisplayViewController: UIViewController {
         playersScrollView.delegate = self
         loadPlayers()
 
+        // guest event
+        if let id = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, event.id == id {
+            handleGuestEvent()
+        }
+
         guard let player = PlayerService.shared.current.value else {
             imageShare?.isHidden = true
             buttonShare?.isHidden = true
             //constraintButtonJoinHeight.constant = 0
             labelSpotsLeft.text = "\(event.numPlayers) are playing"
             self.hideChat()
-            
-            // guest event
-            if let id = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, event.id == id {
-                handleGuestEvent()
-            }
-            
             return
         }
         
@@ -303,6 +299,7 @@ class EventDisplayViewController: UIViewController {
                     NotificationService.shared.removeNotificationForEvent(event)
                 }
                 DefaultsManager.shared.setValue(nil, forKey: DefaultsKey.guestEventId.rawValue)
+                // keep guestPlayerName in defaults
             }
         }
     }
@@ -327,13 +324,16 @@ class EventDisplayViewController: UIViewController {
     @objc func refreshJoin() {
         activityOverlay.hide()
         guard let event = event else { return }
-        if let player = PlayerService.shared.current.value {
-            if event.containsPlayer(player) || event.userIsOrganizer {
-                constraintButtonJoinHeight.constant = 0
-                labelSpotsLeft.text = "\(event.numPlayers) are playing"
-            } else if event.isFull {
-                //            buttonJoin.isEnabled = false // may want to add waitlist functionality
-                //            buttonJoin.alpha = 0.5
+        if let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event.id {
+            // anon user has joined an event
+            constraintButtonJoinHeight.constant = 30 // if refresh is called after joining
+            buttonJoin.isEnabled = true
+            buttonJoin.alpha = 1
+            buttonJoin.setTitle("Leave event", for: .normal)
+            labelSpotsLeft.text = "\(event.numPlayers) are playing"
+        } else if let eventId = EventService.shared.featuredEventId, eventId == event.id {
+            // anon user has an event invite but has not joined
+            if event.isFull {
                 constraintButtonJoinHeight.constant = 0
                 labelSpotsLeft.text = "Event is full"
             } else {
@@ -342,15 +342,13 @@ class EventDisplayViewController: UIViewController {
                 let spotsLeft = event.maxPlayers - event.numPlayers
                 labelSpotsLeft.text = "\(spotsLeft) spots available"
             }
-        } else if let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event.id {
-            // anon user has joined an event
-            buttonJoin.isEnabled = true
-            buttonJoin.alpha = 1
-            buttonJoin.setTitle("Leave event", for: .normal)
-            labelSpotsLeft.text = "\(event.numPlayers) are playing"
-        } else if let eventId = EventService.shared.featuredEventId, eventId == event.id {
-            // anon user has an event invite but has not joined
-            if event.isFull {
+        } else if let player = PlayerService.shared.current.value {
+            if event.containsPlayer(player) || event.userIsOrganizer {
+                constraintButtonJoinHeight.constant = 0
+                labelSpotsLeft.text = "\(event.numPlayers) are playing"
+            } else if event.isFull {
+                //            buttonJoin.isEnabled = false // may want to add waitlist functionality
+                //            buttonJoin.alpha = 0.5
                 constraintButtonJoinHeight.constant = 0
                 labelSpotsLeft.text = "Event is full"
             } else {

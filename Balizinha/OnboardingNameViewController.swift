@@ -42,6 +42,10 @@ class OnboardingNameViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
         
         view.addSubview(activityOverlay)
+        
+        if let name = DefaultsManager.shared.value(forKey: DefaultsKey.guestUsername.rawValue) as? String {
+            inputName.text = name
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -56,8 +60,6 @@ class OnboardingNameViewController: UIViewController {
     
     func saveName() {
         guard let name = inputName.text, !name.isEmpty else { return }
-        DefaultsManager.shared.setValue(name, forKey: "guestUsername")
-        
         createPlayer(name: name)
     }
     
@@ -95,7 +97,7 @@ class OnboardingNameViewController: UIViewController {
         }
     }
     
-    func keyboardDidHide() {
+    @objc func keyboardDidHide() {
         if shouldJoinEvent {
             saveName()
         }
@@ -139,15 +141,13 @@ extension OnboardingNameViewController {
     }
 
     func didCreatePlayer(player: Player?) {
-        guard let event = event else { return }
-        PlayerService.shared.refreshCurrentPlayer()
-        PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { [weak self] (player) in
-            self?.disposeBag = DisposeBag()
-            self?.joinHelper.delegate = self
-            self?.joinHelper.event = event
-            self?.joinHelper.rootViewController = self
-            self?.joinHelper.checkIfAlreadyPaid()
-        }).disposed(by: disposeBag)
+        guard let event = event, let player = player else { return }
+        DefaultsManager.shared.setValue(player.name, forKey: DefaultsKey.guestUsername.rawValue)
+        
+        joinHelper.delegate = self
+        joinHelper.event = event
+        joinHelper.rootViewController = self
+        joinHelper.joinEvent(event, userId: player.id)
     }
 
     // use this to create a user out of the existing user when the user decides to sign up
