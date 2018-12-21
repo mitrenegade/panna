@@ -286,7 +286,7 @@ class SplashViewController: UIViewController {
         guard let homeViewController = UIStoryboard(name: "EventDetails", bundle: nil).instantiateViewController(withIdentifier: "EventDisplayViewController") as? EventDisplayViewController else { return }
         EventService.shared.listenForEventUsers()
         EventService.shared.withId(id: eventId) { [weak self] (event) in
-            if let event = event {
+            if let event = event, !event.isPast {
                 homeViewController.event = event
                 let nav = UINavigationController(rootViewController: homeViewController)
                 self?.present(nav, animated: true, completion: nil)
