@@ -10,6 +10,10 @@ import UIKit
 import Balizinha
 import RxSwift
 
+protocol OnboardingDelegate: class {
+    func didJoinAsGuest()
+}
+
 class OnboardingNameViewController: UIViewController {
     @IBOutlet weak var inputName: UITextField!
     @IBOutlet weak var buttonLogin: UIButton!
@@ -21,6 +25,7 @@ class OnboardingNameViewController: UIViewController {
     var shouldJoinEvent: Bool = false
     
     let joinHelper = JoinEventHelper()
+    weak var delegate: OnboardingDelegate?
     
     var disposeBag: DisposeBag = DisposeBag()
 
@@ -215,8 +220,9 @@ extension OnboardingNameViewController: JoinEventDelegate {
         // TODO: add option to create an account
 
         simpleAlert(title, message: message, completion: {
+            DefaultsManager.shared.setValue(event.id, forKey: DefaultsKey.guestEventId.rawValue)
+            self.delegate?.didJoinAsGuest()
             self.dismiss(animated: true) {
-                DefaultsManager.shared.setValue(event.id, forKey: DefaultsKey.guestEventId.rawValue)
             }
         })
     }

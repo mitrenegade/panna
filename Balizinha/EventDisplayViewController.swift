@@ -186,7 +186,6 @@ class EventDisplayViewController: UIViewController {
         
         buttonClose?.isHidden = true
         buttonClose?.isEnabled = false
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -455,7 +454,7 @@ class EventDisplayViewController: UIViewController {
     func promptForAnonymousJoin() {
         guard let nav = UIStoryboard(name: "PlayerOnboarding", bundle: nil).instantiateInitialViewController() as? UINavigationController else { return }
         guard let controller = nav.viewControllers.first as? OnboardingNameViewController else { return }
-//        controller.delegate = self
+        controller.delegate = self
         controller.event = event
         
         present(nav, animated: true, completion: nil)
@@ -570,5 +569,12 @@ extension EventDisplayViewController: JoinEventDelegate {
         }
         simpleAlert(title, message: message, completion: {
         })
+    }
+}
+
+extension EventDisplayViewController: OnboardingDelegate {
+    func didJoinAsGuest() {
+        refreshJoin()
+        handleGuestEvent()
     }
 }
