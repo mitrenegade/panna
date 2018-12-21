@@ -16,6 +16,7 @@ protocol OnboardingDelegate: class {
 
 class OnboardingNameViewController: UIViewController {
     @IBOutlet weak var inputName: UITextField!
+    @IBOutlet weak var buttonJoin: UIButton!
     @IBOutlet weak var buttonLogin: UIButton!
     @IBOutlet weak var constraintTopOffset: NSLayoutConstraint!
     @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
@@ -52,15 +53,15 @@ class OnboardingNameViewController: UIViewController {
         super.viewDidLayoutSubviews()
         activityOverlay.setup(frame: view.frame)
     }
+    
+    @IBAction func didClickJoin(_ sender: Any?) {
+        guard let name = inputName.text, !name.isEmpty else { return }
+        createPlayer(name: name)
+    }
 
     @IBAction func didClickLogin(_ sender: Any?) {
         SplashViewController.shared?.goToSignupLogin()
         LoggingService.shared.log(event: LoggingEvent.OnboardingSignupClicked, info: nil)
-    }
-    
-    func saveName() {
-        guard let name = inputName.text, !name.isEmpty else { return }
-        createPlayer(name: name)
     }
     
     @objc func cancel() {
@@ -99,7 +100,7 @@ class OnboardingNameViewController: UIViewController {
     
     @objc func keyboardDidHide() {
         if shouldJoinEvent {
-            saveName()
+            didClickJoin(nil)
         }
     }
 }
@@ -112,7 +113,7 @@ extension OnboardingNameViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        shouldJoinEvent = true
+        didClickJoin(nil)
         return true
     }
 }
