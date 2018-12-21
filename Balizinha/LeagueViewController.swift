@@ -606,6 +606,10 @@ extension LeagueViewController {
         guard let controller = UIStoryboard(name: "EventDetails", bundle: nil).instantiateViewController(withIdentifier: "EventDisplayViewController") as? EventDisplayViewController else { return }
         EventService.shared.withId(id: eventId) { [weak self] (event) in
             guard let event = event else { return }
+            guard !event.isPast else {
+                print("event is past, don't display")
+                return
+            }
             controller.event = event
             self?.present(controller, animated: true, completion: nil)
         }

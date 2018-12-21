@@ -23,6 +23,7 @@ enum LoggingEvent: String {
     case PreviewTutorialClicked
     case PreviewEventClicked
     case PreviewSignupClicked
+    case OnboardingSignupClicked
     case AddPromoCode
     case WebsiteViewedFromAbout
     

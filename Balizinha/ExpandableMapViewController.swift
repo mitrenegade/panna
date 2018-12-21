@@ -73,12 +73,12 @@ class ExpandableMapViewController: UIViewController {
     fileprivate func toggleMap(show: Bool) {
         if show {
             constraintMapHeight.constant = 200
-            self.delegate?.componentHeightChanged(controller: self, newHeight: mapView.frame.origin.y + constraintMapHeight.constant)
+            delegate?.componentHeightChanged(controller: self, newHeight: mapView.frame.origin.y + constraintMapHeight.constant)
             buttonExpand.setTitle("Hide map", for: .normal)
         }
         else {
             constraintMapHeight.constant = 0
-            self.delegate?.componentHeightChanged(controller: self, newHeight: mapView.frame.origin.y + constraintMapHeight.constant)
+            delegate?.componentHeightChanged(controller: self, newHeight: mapView.frame.origin.y + constraintMapHeight.constant)
             buttonExpand.setTitle("Show map", for: .normal)
         }
     }

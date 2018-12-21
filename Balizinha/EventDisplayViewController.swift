@@ -8,7 +8,6 @@
 
 import UIKit
 import FBSDKShareKit
-import RxSwift
 import Balizinha
 
 protocol SectionComponentDelegate: class {
@@ -21,12 +20,12 @@ protocol EventDetailsDelegate: class {
 
 class EventDisplayViewController: UIViewController {
     
-    @IBOutlet weak var buttonClose: UIButton!
-    @IBOutlet weak var buttonShare: UIButton!
-    @IBOutlet weak var imageShare: UIImageView!
+    @IBOutlet weak var buttonClose: UIButton?
+    @IBOutlet weak var buttonShare: UIButton?
+    @IBOutlet weak var imageShare: UIImageView?
     @IBOutlet weak var buttonJoin: UIButton!
-    @IBOutlet weak var buttonClone: UIButton!
-    @IBOutlet weak var imageClone: UIImageView!
+    @IBOutlet weak var buttonClone: UIButton?
+    @IBOutlet weak var imageClone: UIImageView?
     
     @IBOutlet var labelType: UILabel!
     @IBOutlet var labelDate: UILabel!
@@ -39,13 +38,11 @@ class EventDisplayViewController: UIViewController {
     weak var event : Balizinha.Event?
     let joinHelper = JoinEventHelper()
     
-    fileprivate var disposeBag: DisposeBag = DisposeBag()
-    
     @IBOutlet var constraintWidth: NSLayoutConstraint!
     @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintButtonJoinHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintDetailHeight: NSLayoutConstraint!
-    @IBOutlet var constraintPaymentHeight: NSLayoutConstraint!
+    @IBOutlet var constraintPaymentHeight: NSLayoutConstraint?
     @IBOutlet var constraintActivityHeight: NSLayoutConstraint!
     @IBOutlet var constraintInputBottomOffset: NSLayoutConstraint!
     @IBOutlet var constraintInputHeight: NSLayoutConstraint!
@@ -58,16 +55,20 @@ class EventDisplayViewController: UIViewController {
     var activityController: EventActivityViewController!
     var chatController: ChatInputViewController!
     
+    @IBOutlet weak var containerShare: UIView!
+    @IBOutlet weak var containerPayment: UIView!
+    
     @IBOutlet weak var activityView: UIView!
     weak var delegate: EventDetailsDelegate?
     
     lazy var shareService = ShareService()
-    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
+    let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationController?.isNavigationBarHidden = true
+        view.addSubview(activityOverlay)
 
         // Setup event details
         self.view.bringSubview(toFront: labelType.superview!)
@@ -75,8 +76,8 @@ class EventDisplayViewController: UIViewController {
         let type = self.event?.type.rawValue ?? ""
         self.labelType.text = "\(name)\n\(type)"
         
-        imageShare.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
-        imageClone.image = UIImage(named: "copy30")?.withRenderingMode(.alwaysTemplate)
+        imageShare?.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
+        imageClone?.image = UIImage(named: "copy30")?.withRenderingMode(.alwaysTemplate)
 
         if let startTime = self.event?.startTime {
             self.labelDate.text = "\(self.event?.dateString(startTime) ?? "")\n\(self.event?.timeString(startTime) ?? "")"
@@ -104,7 +105,7 @@ class EventDisplayViewController: UIViewController {
             }
         }
 
-        self.constraintWidth.constant = UIScreen.main.bounds.size.width
+        constraintWidth.constant = UIScreen.main.bounds.size.width
         
         // keyboard
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -112,22 +113,35 @@ class EventDisplayViewController: UIViewController {
 
         // update payment display
         if SettingsService.paymentRequired() {
-            self.constraintPaymentHeight.constant = (self.event?.paymentRequired ?? false) ? 40 : 0
+            constraintPaymentHeight?.constant = (self.event?.paymentRequired ?? false) ? 40 : 0
         }
         else {
-            self.constraintPaymentHeight.constant = 0
+            constraintPaymentHeight?.constant = 0
         }
         
         guard let event = event else {
-            imageShare.isHidden = true
-            buttonShare.isHidden = true
+            imageShare?.isHidden = true
+            buttonShare?.isHidden = true
             constraintButtonJoinHeight.constant = 0
             return
         }
         
+        // reserve spot
+        listenFor(NotificationType.EventsChanged, action: #selector(refreshJoin), object: nil)
+        refreshJoin()
+        
+        // players
+        playersScrollView.delegate = self
+        loadPlayers()
+
+        // guest event
+        if let id = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, event.id == id {
+            handleGuestEvent()
+        }
+
         guard let player = PlayerService.shared.current.value else {
-            imageShare.isHidden = true
-            buttonShare.isHidden = true
+            imageShare?.isHidden = true
+            buttonShare?.isHidden = true
             //constraintButtonJoinHeight.constant = 0
             labelSpotsLeft.text = "\(event.numPlayers) are playing"
             self.hideChat()
@@ -139,25 +153,16 @@ class EventDisplayViewController: UIViewController {
         }
         
         // check if user is allowed to clone this event
-        buttonClone.isHidden = true
-        imageClone.isHidden = true
+        buttonClone?.isHidden = true
+        imageClone?.isHidden = true
         if delegate != nil {
             if event.userIsOrganizer {
-                buttonClone.isHidden = false
-                imageClone.isHidden = false
+                buttonClone?.isHidden = false
+                imageClone?.isHidden = false
             } else if let leagueId = event.league {
                 // TODO: if user is an organizer of the same league, allow them to clone
             }
         }
-        
-        // reserve spot
-        listenFor(NotificationType.EventsChanged, action: #selector(refreshJoin), object: nil)
-        refreshJoin()
-        
-        // players
-        playersScrollView.delegate = self
-        loadPlayers()
-        
         // TODO: do players need to update in real time?
 //        EventService.shared.observeUsers(for: event) { (ids) in
 //            for id: String in ids {
@@ -169,8 +174,14 @@ class EventDisplayViewController: UIViewController {
 //                })
 //            }
 //        }
+    }
+    
+    func handleGuestEvent() {
+        // handles anonymous user with a guest event
+        guard AuthService.isAnonymous, let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event?.id else { return }
         
-        view.addSubview(activityOverlay)
+        buttonClose?.isHidden = true
+        buttonClose?.isEnabled = false
     }
     
     override func viewDidLayoutSubviews() {
@@ -220,10 +231,26 @@ class EventDisplayViewController: UIViewController {
     @IBAction func didClickJoin(_ sender: Any?) {
         guard let event = event else { return }
         
-        guard let current = PlayerService.shared.current.value else {
-            promptForSignup()
+        if let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event.id {
+            let title = "Leave \(event.name ?? "event")?"
+            let alert = UIAlertController(title: title, message: "You are currently in the event as a guest. If you leave, you will have to sign in to join again.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                self.leaveGuestEvent()
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
             return
         }
+
+        guard let current = PlayerService.shared.current.value else {
+            if event.paymentRequired {
+                promptForSignup() // for a paid event, the user must join. this doesn't happen right now
+            } else {
+                promptForAnonymousJoin() // for a free event. go through anonymous join flow
+            }
+            return
+        }
+        
         guard current.name != nil else {
             if let tab = tabBarController, let controllers = tab.viewControllers, let viewController = controllers[0] as? ConfigurableNavigationController {
                 viewController.loadDefaultRootViewController()
@@ -253,6 +280,29 @@ class EventDisplayViewController: UIViewController {
         joinHelper.checkIfPartOfLeague()
     }
 
+    fileprivate func leaveGuestEvent() {
+        guard let event = event, let userId = AuthService.currentUser?.uid else { return }
+        guard let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, event.id == eventId else {
+            DefaultsManager.shared.setValue(nil, forKey: DefaultsKey.guestEventId.rawValue)
+            return
+        }
+        activityOverlay.show()
+        EventService.shared.leaveEvent(event, userId: userId) { [weak self] (error) in
+            if let error = error as NSError? {
+                DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
+                    self?.simpleAlert("Could not leave game", defaultMessage: "There was an error while trying to leave this game.", error: error)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
+                    NotificationService.shared.removeNotificationForEvent(event)
+                }
+                DefaultsManager.shared.setValue(nil, forKey: DefaultsKey.guestEventId.rawValue)
+                // keep guestPlayerName in defaults
+            }
+        }
+    }
     @IBAction func didClickClone(_ sender: Any?) {
         guard let event = event else { return }
         LoggingService.shared.log(event: .CloneButtonClicked, info: nil)
@@ -261,7 +311,7 @@ class EventDisplayViewController: UIViewController {
     
     @objc func close() {
         if let nav = navigationController {
-            self.navigationController?.dismiss(animated: true, completion: nil)
+            nav.dismiss(animated: true, completion: nil)
         } else if let presenting = presentingViewController {
             presenting.dismiss(animated: true, completion: nil)
         }
@@ -271,27 +321,46 @@ class EventDisplayViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    @objc fileprivate func refreshJoin() {
+    @objc func refreshJoin() {
         activityOverlay.hide()
         guard let event = event else { return }
-        guard let player = PlayerService.shared.current.value else {
+        if let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event.id {
+            // anon user has joined an event
+            constraintButtonJoinHeight.constant = 30 // if refresh is called after joining
+            buttonJoin.isEnabled = true
+            buttonJoin.alpha = 1
+            buttonJoin.setTitle("Leave event", for: .normal)
+            labelSpotsLeft.text = "\(event.numPlayers) are playing"
+        } else if let eventId = EventService.shared.featuredEventId, eventId == event.id {
+            // anon user has an event invite but has not joined
+            if event.isFull {
+                constraintButtonJoinHeight.constant = 0
+                labelSpotsLeft.text = "Event is full"
+            } else {
+                buttonJoin.isEnabled = true
+                buttonJoin.alpha = 1
+                let spotsLeft = event.maxPlayers - event.numPlayers
+                labelSpotsLeft.text = "\(spotsLeft) spots available"
+            }
+        } else if let player = PlayerService.shared.current.value {
+            if event.containsPlayer(player) || event.userIsOrganizer {
+                constraintButtonJoinHeight.constant = 0
+                labelSpotsLeft.text = "\(event.numPlayers) are playing"
+            } else if event.isFull {
+                //            buttonJoin.isEnabled = false // may want to add waitlist functionality
+                //            buttonJoin.alpha = 0.5
+                constraintButtonJoinHeight.constant = 0
+                labelSpotsLeft.text = "Event is full"
+            } else {
+                buttonJoin.isEnabled = true
+                buttonJoin.alpha = 1
+                let spotsLeft = event.maxPlayers - event.numPlayers
+                labelSpotsLeft.text = "\(spotsLeft) spots available"
+            }
+        } else {
             constraintButtonJoinHeight.constant = 0
             labelSpotsLeft.text = "\(event.numPlayers) are playing"
             return
-        }
-        if event.containsPlayer(player) || event.userIsOrganizer {
-            constraintButtonJoinHeight.constant = 0
-            labelSpotsLeft.text = "\(event.numPlayers) are playing"
-        } else if event.isFull {
-            //            buttonJoin.isEnabled = false // may want to add waitlist functionality
-            //            buttonJoin.alpha = 0.5
-            constraintButtonJoinHeight.constant = 0
-            labelSpotsLeft.text = "Event is full"
-        } else {
-            buttonJoin.isEnabled = true
-            buttonJoin.alpha = 1
-            let spotsLeft = event.maxPlayers - event.numPlayers
-            labelSpotsLeft.text = "\(spotsLeft) spots available"
         }
     }
     
@@ -356,9 +425,9 @@ class EventDisplayViewController: UIViewController {
                     self.shareService.shareToFacebook(link: event.shareLink, from: self)
                 }))
             }
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad){
-                alert.popoverPresentationController?.sourceView = buttonShare.superview
-                alert.popoverPresentationController?.sourceRect = buttonShare.frame
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad), let button = buttonShare {
+                alert.popoverPresentationController?.sourceView = button.superview
+                alert.popoverPresentationController?.sourceRect = button.frame
             }
             
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -368,7 +437,7 @@ class EventDisplayViewController: UIViewController {
     
     func promptForSignup() {
         guard PlayerService.shared.current.value == nil else { return }
-        
+
         let alert = UIAlertController(title: "Login or Sign up", message: "Before reserving a spot for this game, you need to join Panna Social Leagues.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {[weak self] (action) in
             SplashViewController.shared?.goToSignupLogin()
@@ -379,6 +448,16 @@ class EventDisplayViewController: UIViewController {
         }))
         present(alert, animated: true, completion: nil)
     }
+    
+    func promptForAnonymousJoin() {
+        guard let nav = UIStoryboard(name: "PlayerOnboarding", bundle: nil).instantiateInitialViewController() as? UINavigationController else { return }
+        guard let controller = nav.viewControllers.first as? OnboardingNameViewController else { return }
+        controller.delegate = self
+        controller.event = event
+        
+        present(nav, animated: true, completion: nil)
+    }
+
 }
 
 // MARK: EventDisplayComponentDelegate
@@ -467,5 +546,33 @@ extension EventDisplayViewController: JoinEventDelegate {
         activityOverlay.hide()
         buttonJoin.isEnabled = true
         buttonJoin.alpha = 1
+    }
+    
+    func didJoin(_ event: Balizinha.Event?) {
+        // only used to display message; currently uses EventsChanged notification for updates
+        let title: String
+        let message: String
+        if UserDefaults.standard.bool(forKey: UserSettings.DisplayedJoinEventMessage.rawValue) == false {
+            title = "You've joined a game!"
+            message = "You can go to your Calendar to see upcoming games."
+            UserDefaults.standard.set(true, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
+            UserDefaults.standard.synchronize()
+        } else {
+            if let name = event?.name {
+                title = "You've joined \(name)"
+            } else {
+                title = "You've joined a game!"
+            }
+            message = ""
+        }
+        simpleAlert(title, message: message, completion: {
+        })
+    }
+}
+
+extension EventDisplayViewController: OnboardingDelegate {
+    func didJoinAsGuest() {
+        refreshJoin()
+        handleGuestEvent()
     }
 }

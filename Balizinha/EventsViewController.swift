@@ -280,6 +280,27 @@ extension EventsViewController: CreateEventDelegate {
 }
 
 extension EventsViewController: JoinEventDelegate {
+    func didJoin(_ event: Balizinha.Event?) {
+        // only used to display message
+        let title: String
+        let message: String
+        if UserDefaults.standard.bool(forKey: UserSettings.DisplayedJoinEventMessage.rawValue) == false {
+            title = "You've joined a game!"
+            message = "You can go to your Calendar to see upcoming games."
+            UserDefaults.standard.set(true, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
+            UserDefaults.standard.synchronize()
+        } else {
+            if let name = event?.name {
+                title = "You've joined \(name)"
+            } else {
+                title = "You've joined a game!"
+            }
+            message = ""
+        }
+        simpleAlert(title, message: message, completion: {
+        })
+    }
+    
     func startActivityIndicator() {
         activityOverlay.show()
     }
