@@ -418,7 +418,7 @@ extension MapViewController: TutorialDelegate {
         if AIRPLANE_MODE && TESTING {
             return true
         }
-        if UserDefaults.standard.bool(forKey: "showedTutorial") == true {
+        if DefaultsManager.shared.value(forKey: DefaultsKey.showedTutorial.rawValue) as? Bool == true {
             return false
         }
         if DeepLinkService.shared.hasQueuedDeepLinkOnOpen {
@@ -441,6 +441,7 @@ extension MapViewController: TutorialDelegate {
         controller.delegate = self
         LoggingService.shared.log(event: LoggingEvent.PreviewTutorialClicked, info: nil)
 
+        DefaultsManager.shared.setValue(true, forKey: DefaultsKey.showedTutorial.rawValue)
         return true
     }
     
@@ -453,7 +454,6 @@ extension MapViewController: TutorialDelegate {
         
         dismiss(animated: true, completion: nil)
         tutorialController = nil
-        UserDefaults.standard.set(true, forKey: "showedTutorial")
         
         // only prompt for location after dismissing tutorial
         let _ = __once
