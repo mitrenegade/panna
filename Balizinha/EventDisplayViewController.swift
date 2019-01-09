@@ -142,6 +142,9 @@ class EventDisplayViewController: UIViewController {
         guard let player = PlayerService.shared.current.value else {
             imageShare?.isHidden = true
             buttonShare?.isHidden = true
+            imageClone?.isHidden = true
+            buttonClone?.isHidden = true
+            
             //constraintButtonJoinHeight.constant = 0
             labelSpotsLeft.text = "\(event.numPlayers) are playing"
             self.hideChat()
