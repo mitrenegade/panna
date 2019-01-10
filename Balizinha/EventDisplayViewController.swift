@@ -403,13 +403,7 @@ class EventDisplayViewController: UIViewController {
             simpleAlert("Sorry, can't share event", message: "There was an invalid share link or no share link.")
             return
         }
-        var shareMethods: [ShareMethod] = [.copy]
-        if ShareService.canSendText {
-            shareMethods.append(.contacts)
-        }
-        if AuthService.shared.hasFacebookProvider {
-            shareMethods.append(.facebook)
-        }
+        let shareMethods: [ShareMethod] = shareService.shareMethods
 
         // multiple share options are valid, so show options
         let alert = UIAlertController(title: "Share event", message: nil, preferredStyle: .actionSheet)

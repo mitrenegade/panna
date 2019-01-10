@@ -18,8 +18,15 @@ enum ShareMethod: String {
 }
 
 class ShareService: NSObject {
-    class var canSendText:Bool {
-        return MFMessageComposeViewController.canSendText()
+    var shareMethods: [ShareMethod] {
+        var methods: [ShareMethod] = [.copy]
+        if MFMessageComposeViewController.canSendText() {
+            methods.append(.contacts)
+        }
+        if AuthService.shared.hasFacebookProvider {
+            methods.append(.facebook)
+        }
+        return methods
     }
 
     func share(from controller: UIViewController, message: String?) {

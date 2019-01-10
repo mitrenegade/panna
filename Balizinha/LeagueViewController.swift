@@ -436,52 +436,52 @@ extension LeagueViewController: LeagueButtonCellDelegate {
     }
     
     func promptForShare() {
-        guard ShareService.canSendText else {
+        guard let league = league, let link = league.shareLink else {
             shareLeagueCell?.reset()
+            simpleAlert("Sorry, can't share league", message: "There was an invalid share link or no share link.")
             return
         }
+        let shareMethods = shareService.shareMethods
 
-        guard let league = league else { return }
-        var shareMethods: Int = 0
-        if ShareService.canSendText {
-            shareMethods = shareMethods + 1
+        // multiple share options are valid, so show options
+        let alert = UIAlertController(title: "Invite to league", message: nil, preferredStyle: .actionSheet)
+        if shareMethods.contains(.copy) {
+            alert.addAction(UIAlertAction(title: "Copy link", style: .default, handler: {(action) in
+                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": ShareMethod.copy.rawValue])
+                UIPasteboard.general.string = link
+                
+                //Alert
+                let displayString: String
+                if let name = league.name, !name.isEmpty {
+                    displayString = name
+                } else {
+                    displayString = "this league"
+                }
+                let alertController = UIAlertController(title: "", message: "Copied share link for \(displayString)", preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+            }))
         }
-        if AuthService.shared.hasFacebookProvider {
-            shareMethods = shareMethods + 1
-        }
-        
-        if shareMethods == 1 {
-            // don't prompt, just perform it
-            if ShareService.canSendText {
-                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "contacts"])
-                shareService.share(league: league, from: self)
-            } else if AuthService.shared.hasFacebookProvider {
-                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "facebook"])
-                self.shareService.shareToFacebook(link: league.shareLink, from: self)
-            }
-            shareLeagueCell?.reset()
-        } else if shareMethods == 2 {
-            // multiple share options are valid, so show options
-            let alert = UIAlertController(title: "Invite to league", message: nil, preferredStyle: .actionSheet)
+        if shareMethods.contains(.contacts) {
             alert.addAction(UIAlertAction(title: "Send to contacts", style: .default, handler: {(action) in
-                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "contacts"])
+                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": ShareMethod.contacts.rawValue])
                 self.shareService.share(league: league, from: self)
             }))
-            if AuthService.shared.hasFacebookProvider {
-                alert.addAction(UIAlertAction(title: "Share to Facebook", style: .default, handler: {(action) in
-                    LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": "facebook"])
-                    self.shareService.shareToFacebook(link: league.shareLink, from: self)
-                }))
-            }
-            if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad, let cell = shareLeagueCell {
-                alert.popoverPresentationController?.sourceView = cell
-                alert.popoverPresentationController?.sourceRect = cell.button.frame
-            }
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            present(alert, animated: true) {
-                self.shareLeagueCell?.reset()
-            }
+        }
+        if shareMethods.contains(.facebook) {
+            alert.addAction(UIAlertAction(title: "Share to Facebook", style: .default, handler: {(action) in
+                LoggingService.shared.log(event: LoggingEvent.ShareEventClicked, info: ["method": ShareMethod.facebook.rawValue])
+                self.shareService.shareToFacebook(link: league.shareLink, from: self)
+            }))
+        }
+        if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad, let cell = shareLeagueCell {
+            alert.popoverPresentationController?.sourceView = cell
+            alert.popoverPresentationController?.sourceRect = cell.button.frame
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true) {
+            self.shareLeagueCell?.reset()
         }
     }
     
