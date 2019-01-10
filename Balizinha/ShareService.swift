@@ -38,7 +38,7 @@ class ShareService: NSObject {
             FirebaseAPIService().cloudFunction(functionName: "generateShareLink", params: ["type": "events", "id": event.id]) { [weak self] (result, error) in
                 DispatchQueue.main.async {
                     if let result = result as? [String: Any], let link = result["shareLink"] as? String {
-                        self?.share(from: controller, message: "Are you up for playing pickup with us? Join the event here: \(link).")
+                        self?.share(from: controller, message: "Are you up for playing pickup with us? Join the event here: \(link)")
                     } else {
                         self?.share(from: controller, message: nil)
                     }
@@ -49,13 +49,13 @@ class ShareService: NSObject {
     
     func share(league: Balizinha.League, from controller: UIViewController) {
         if let link = league.shareLink {
-            share(from: controller, message: "Join my league and play some pickup: \(link).")
+            share(from: controller, message: "Join my league and play some pickup: \(link)")
         } else {
             // for old events, generate a link and attempt to share it. remove this in 1.0.7
             FirebaseAPIService().cloudFunction(functionName: "generateShareLink", params: ["type": "leagues", "id": league.id]) { [weak self] (result, error) in
                 DispatchQueue.main.async {
                     if let result = result as? [String: Any], let link = result["shareLink"] as? String {
-                        self?.share(from: controller, message: "Join my league and play some pickup: \(link).")
+                        self?.share(from: controller, message: "Join my league and play some pickup: \(link)")
                     } else {
                         self?.share(from: controller, message: nil)
                     }
