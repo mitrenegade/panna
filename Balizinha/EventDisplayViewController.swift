@@ -419,7 +419,13 @@ class EventDisplayViewController: UIViewController {
                 UIPasteboard.general.string = link
                 
                 //Alert
-                let alertController = UIAlertController(title: "", message: "Copied share link for \(event.name ?? "this event")", preferredStyle: UIAlertControllerStyle.alert)
+                let displayString: String
+                if let name = event.name, !name.isEmpty {
+                    displayString = name
+                } else {
+                    displayString = "this event"
+                }
+                let alertController = UIAlertController(title: "", message: "Copied share link for \(displayString)", preferredStyle: UIAlertControllerStyle.alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
             }))
