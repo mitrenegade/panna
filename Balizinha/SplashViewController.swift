@@ -173,9 +173,6 @@ class SplashViewController: UIViewController {
 
         UserDefaults.standard.set(false, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
 
-        // don't reset showedTutorial
-        //UserDefaults.standard.set(true, forKey: "showedTutorial")
-        
         // soft upgrade
         UserDefaults.standard.set(nil, forKey: "softUpgradeLastViewTimestamp")
     }
