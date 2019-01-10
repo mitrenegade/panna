@@ -11,6 +11,12 @@ import MessageUI
 import Balizinha
 import FBSDKShareKit
 
+enum ShareMethod: String {
+    case copy
+    case contacts
+    case facebook
+}
+
 class ShareService: NSObject {
     class var canSendText:Bool {
         return MFMessageComposeViewController.canSendText()
@@ -26,7 +32,7 @@ class ShareService: NSObject {
     
     func share(event: Balizinha.Event, from controller: UIViewController) {
         if let link = event.shareLink {
-            share(from: controller, message: "Are you up for playing pickup with us? Join the event here: \(link).")
+            share(from: controller, message: "Are you up for playing pickup with us? Join the event here: \(link)")
         } else {
             // for old events, generate a link and attempt to share it. remove this in 1.0.7
             FirebaseAPIService().cloudFunction(functionName: "generateShareLink", params: ["type": "events", "id": event.id]) { [weak self] (result, error) in
