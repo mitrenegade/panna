@@ -69,7 +69,7 @@ class LoginViewController: UIViewController {
         else if button == buttonLogin {
             loginUser()
         } else if button == buttonReset {
-            sendPasswordReset()
+            confirmPasswordReset()
         }
     }
     
@@ -136,25 +136,31 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func sendPasswordReset() {
-        let alert = UIAlertController(title: "Please enter your email address", message: nil, preferredStyle: .alert)
+    private func confirmPasswordReset() {
+        let alert = UIAlertController(title: "Please enter your email address", message: "You will receive a password reset link at the provided email. If you logged in with a Facebook account, this will turn your account into an email-only login.", preferredStyle: .alert)
         alert.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "johndoe@gmail.com"
         }
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (action) in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             if let textField = alert.textFields?[0], let email = textField.text, !email.isEmpty {
-                firAuth.sendPasswordReset(withEmail: email) { [weak self] (error) in
-                    if let error = error as NSError? {
-                        print("error \(error)")
-                        self?.simpleAlert("Could not send password reset", defaultMessage: "The email you provided could not be found", error: error)
-                    } else {
-                        self?.simpleAlert("Password reset link sent", message: "A link has been sent to \(email). Please use it within 30 minutes to reset your password.")
-                    }
-                }
+                self.sendPasswordReset(email)
+            } else {
+                self.simpleAlert("Could not send password reset", message: "Invalid email. Please enter your login email address.")
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true)
+    }
+    
+    private func sendPasswordReset(_ email: String) {
+        firAuth.sendPasswordReset(withEmail: email) { [weak self] (error) in
+            if let error = error as NSError? {
+                print("error \(error)")
+                self?.simpleAlert("Could not send password reset", defaultMessage: "The email you provided could not be found", error: error)
+            } else {
+                self?.simpleAlert("Password reset link sent", message: "A link has been sent to \(email). Please use it within 30 minutes to reset your password.")
+            }
+        }
     }
 }
 
