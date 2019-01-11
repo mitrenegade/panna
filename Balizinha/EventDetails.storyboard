@@ -374,7 +374,7 @@ Type</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="geF-hY-DMd">
-                                <rect key="frame" x="8" y="8" width="76.5" height="50"/>
+                                <rect key="frame" x="8" y="8" width="69" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="VI5-Jv-EkL"/>
                                 </constraints>

@@ -19,6 +19,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var buttonLogin: UIButton!
     @IBOutlet weak var buttonFacebook: UIButton!
     @IBOutlet weak var buttonSignup: UIButton!
+    @IBOutlet weak var buttonReset: UIButton!
+
     var shouldCancelInput: Bool = false
     
     let facebookLogin = FBSDKLoginManager()
@@ -66,6 +68,8 @@ class LoginViewController: UIViewController {
         }
         else if button == buttonLogin {
             loginUser()
+        } else if button == buttonReset {
+            confirmPasswordReset()
         }
     }
     
@@ -132,6 +136,35 @@ class LoginViewController: UIViewController {
         }
     }
     
+    private func confirmPasswordReset() {
+        let alert = UIAlertController(title: "Please enter your email address", message: "You will receive a password reset link at the provided email. If you logged in with a Facebook account, this will turn your account into an email-only login.", preferredStyle: .alert)
+        alert.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "johndoe@gmail.com"
+        }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            if let textField = alert.textFields?[0], let email = textField.text, !email.isEmpty {
+                self.sendPasswordReset(email)
+            } else {
+                self.simpleAlert("Could not send password reset", message: "Invalid email. Please enter your login email address.")
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    private func sendPasswordReset(_ email: String) {
+        firAuth.sendPasswordReset(withEmail: email) { [weak self] (error) in
+            if let error = error as NSError? {
+                print("error \(error)")
+                self?.simpleAlert("Could not send password reset", defaultMessage: "The email you provided could not be found", error: error)
+            } else {
+                self?.simpleAlert("Password reset link sent", message: "A link has been sent to \(email). Please use it within 30 minutes to reset your password.")
+            }
+        }
+    }
+}
+
+extension LoginViewController {
     func keyboardWillShow(_ notification: Notification) {
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
         let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
