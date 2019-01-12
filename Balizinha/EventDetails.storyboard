@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="UdQ-h3-dPN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="UdQ-h3-dPN">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -27,10 +28,6 @@
         <scene sceneID="yVX-9x-w5A">
             <objects>
                 <viewController storyboardIdentifier="EventDisplayViewController" id="UdQ-h3-dPN" customClass="EventDisplayViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="5Mf-pG-CdL"/>
-                        <viewControllerLayoutGuide type="bottom" id="RSz-2L-tQo"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="PU7-jQ-ScZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="929"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -38,7 +35,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="bBa-ok-dzp">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="929"/>
                                 <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v5N-mi-Yah">
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" translatesAutoresizingMaskIntoConstraints="NO" id="v5N-mi-Yah">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="879"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="0jY-Pb-FYr">
@@ -314,11 +311,12 @@ Type</string>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="bBa-ok-dzp" secondAttribute="trailing" id="0CD-45-LxD"/>
-                            <constraint firstItem="RSz-2L-tQo" firstAttribute="top" secondItem="bBa-ok-dzp" secondAttribute="bottom" id="DsS-pX-QQD"/>
-                            <constraint firstItem="bBa-ok-dzp" firstAttribute="leading" secondItem="PU7-jQ-ScZ" secondAttribute="leading" id="Joc-41-XY6"/>
+                            <constraint firstItem="Ia6-dJ-jaI" firstAttribute="trailing" secondItem="bBa-ok-dzp" secondAttribute="trailing" id="0CD-45-LxD"/>
+                            <constraint firstItem="Ia6-dJ-jaI" firstAttribute="bottom" secondItem="bBa-ok-dzp" secondAttribute="bottom" id="DsS-pX-QQD"/>
+                            <constraint firstItem="bBa-ok-dzp" firstAttribute="leading" secondItem="Ia6-dJ-jaI" secondAttribute="leading" id="Joc-41-XY6"/>
                             <constraint firstItem="bBa-ok-dzp" firstAttribute="top" secondItem="PU7-jQ-ScZ" secondAttribute="top" id="v5U-eJ-TdR"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ia6-dJ-jaI"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" id="ldZ-Q8-IpV"/>
@@ -358,10 +356,6 @@ Type</string>
         <scene sceneID="Xm1-vQ-RLT">
             <objects>
                 <viewController id="heN-tZ-ESE" customClass="ExpandableMapViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="T8y-Tg-kmf"/>
-                        <viewControllerLayoutGuide type="bottom" id="h0X-Ph-m6U"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8GG-8c-txV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -403,15 +397,16 @@ City, State</string>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="o6b-RA-c91" firstAttribute="leading" secondItem="8GG-8c-txV" secondAttribute="leading" id="2JH-VW-aXk"/>
-                            <constraint firstItem="geF-hY-DMd" firstAttribute="top" secondItem="T8y-Tg-kmf" secondAttribute="bottom" constant="8" id="4Fr-lC-ts8"/>
+                            <constraint firstItem="o6b-RA-c91" firstAttribute="leading" secondItem="HSy-Gt-YeG" secondAttribute="leading" id="2JH-VW-aXk"/>
+                            <constraint firstItem="geF-hY-DMd" firstAttribute="top" secondItem="HSy-Gt-YeG" secondAttribute="top" constant="8" id="4Fr-lC-ts8"/>
                             <constraint firstItem="o6b-RA-c91" firstAttribute="top" secondItem="0EM-bS-25f" secondAttribute="bottom" constant="2" id="4dG-tH-Trb"/>
-                            <constraint firstAttribute="trailing" secondItem="0EM-bS-25f" secondAttribute="trailing" constant="8" id="Fo2-Ft-buQ"/>
+                            <constraint firstItem="HSy-Gt-YeG" firstAttribute="trailing" secondItem="0EM-bS-25f" secondAttribute="trailing" constant="8" id="Fo2-Ft-buQ"/>
                             <constraint firstItem="0EM-bS-25f" firstAttribute="top" secondItem="geF-hY-DMd" secondAttribute="bottom" id="LfP-Na-10Z"/>
-                            <constraint firstItem="geF-hY-DMd" firstAttribute="leading" secondItem="8GG-8c-txV" secondAttribute="leading" constant="8" id="qbH-W3-kKW"/>
-                            <constraint firstItem="0EM-bS-25f" firstAttribute="leading" secondItem="8GG-8c-txV" secondAttribute="leading" constant="8" id="qiu-6B-09Y"/>
-                            <constraint firstAttribute="trailing" secondItem="o6b-RA-c91" secondAttribute="trailing" id="tSh-uP-Bie"/>
+                            <constraint firstItem="geF-hY-DMd" firstAttribute="leading" secondItem="HSy-Gt-YeG" secondAttribute="leading" constant="8" id="qbH-W3-kKW"/>
+                            <constraint firstItem="0EM-bS-25f" firstAttribute="leading" secondItem="HSy-Gt-YeG" secondAttribute="leading" constant="8" id="qiu-6B-09Y"/>
+                            <constraint firstItem="HSy-Gt-YeG" firstAttribute="trailing" secondItem="o6b-RA-c91" secondAttribute="trailing" id="tSh-uP-Bie"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="HSy-Gt-YeG"/>
                     </view>
                     <connections>
                         <outlet property="buttonExpand" destination="0EM-bS-25f" id="Pqy-SZ-RSp"/>
@@ -429,10 +424,6 @@ City, State</string>
         <scene sceneID="ixL-Hm-iv9">
             <objects>
                 <viewController id="8Ky-k2-zmT" customClass="PaymentTypesViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="kjE-Cn-gaL"/>
-                        <viewControllerLayoutGuide type="bottom" id="snd-HB-ReZ"/>
-                    </layoutGuides>
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="8UR-M8-h9q">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -450,9 +441,10 @@ City, State</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="p5l-aI-uv4" firstAttribute="centerY" secondItem="8UR-M8-h9q" secondAttribute="centerY" id="2dD-hu-kVd"/>
-                            <constraint firstItem="p5l-aI-uv4" firstAttribute="leading" secondItem="8UR-M8-h9q" secondAttribute="leading" constant="8" id="CJM-0k-4E4"/>
-                            <constraint firstAttribute="trailing" secondItem="p5l-aI-uv4" secondAttribute="trailing" constant="8" id="Xu9-pO-Gg2"/>
+                            <constraint firstItem="p5l-aI-uv4" firstAttribute="leading" secondItem="JY4-45-ycy" secondAttribute="leading" constant="8" id="CJM-0k-4E4"/>
+                            <constraint firstItem="JY4-45-ycy" firstAttribute="trailing" secondItem="p5l-aI-uv4" secondAttribute="trailing" constant="8" id="Xu9-pO-Gg2"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="JY4-45-ycy"/>
                     </view>
                     <connections>
                         <outlet property="labelAmount" destination="p5l-aI-uv4" id="H7C-s6-MSL"/>
@@ -466,10 +458,6 @@ City, State</string>
         <scene sceneID="aJk-B0-n1Y">
             <objects>
                 <viewController id="iuG-3b-Gq9" customClass="EventActivityViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="mbd-AX-6vt"/>
-                        <viewControllerLayoutGuide type="bottom" id="dzO-3Q-hNt"/>
-                    </layoutGuides>
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="re1-kY-OoP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -594,11 +582,12 @@ City, State</string>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="eBw-Dt-B8i" firstAttribute="leading" secondItem="re1-kY-OoP" secondAttribute="leading" constant="5" id="PmE-0O-Jfq"/>
-                            <constraint firstItem="dzO-3Q-hNt" firstAttribute="top" secondItem="eBw-Dt-B8i" secondAttribute="bottom" constant="5" id="Wia-Ii-gMt"/>
+                            <constraint firstItem="eBw-Dt-B8i" firstAttribute="leading" secondItem="4TU-x7-KLI" secondAttribute="leading" constant="5" id="PmE-0O-Jfq"/>
+                            <constraint firstItem="4TU-x7-KLI" firstAttribute="bottom" secondItem="eBw-Dt-B8i" secondAttribute="bottom" constant="5" id="Wia-Ii-gMt"/>
                             <constraint firstItem="eBw-Dt-B8i" firstAttribute="top" secondItem="re1-kY-OoP" secondAttribute="top" constant="5" id="as1-Sg-rVb"/>
-                            <constraint firstAttribute="trailing" secondItem="eBw-Dt-B8i" secondAttribute="trailing" constant="5" id="fLW-j1-peg"/>
+                            <constraint firstItem="4TU-x7-KLI" firstAttribute="trailing" secondItem="eBw-Dt-B8i" secondAttribute="trailing" constant="5" id="fLW-j1-peg"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="4TU-x7-KLI"/>
                     </view>
                     <connections>
                         <outlet property="tableView" destination="eBw-Dt-B8i" id="OIQ-Gu-r0G"/>
@@ -612,10 +601,6 @@ City, State</string>
         <scene sceneID="TCF-HC-8Tu">
             <objects>
                 <viewController id="QZ5-5f-Beq" customClass="ChatInputViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ByV-GI-txM"/>
-                        <viewControllerLayoutGuide type="bottom" id="P6s-P3-kW3"/>
-                    </layoutGuides>
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="Dy8-Pi-Cln">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -646,13 +631,14 @@ City, State</string>
                         <color key="backgroundColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="Bdt-7B-jhF" secondAttribute="bottom" constant="10" id="9iQ-lj-pb1"/>
-                            <constraint firstItem="Bdt-7B-jhF" firstAttribute="leading" secondItem="Dy8-Pi-Cln" secondAttribute="leading" constant="8" id="Ig8-fD-GYn"/>
-                            <constraint firstAttribute="trailing" secondItem="ifc-LA-3E1" secondAttribute="trailing" constant="9" id="asw-ZL-YyR"/>
+                            <constraint firstItem="Bdt-7B-jhF" firstAttribute="leading" secondItem="ILk-vy-KSv" secondAttribute="leading" constant="8" id="Ig8-fD-GYn"/>
+                            <constraint firstItem="ILk-vy-KSv" firstAttribute="trailing" secondItem="ifc-LA-3E1" secondAttribute="trailing" constant="9" id="asw-ZL-YyR"/>
                             <constraint firstItem="Bdt-7B-jhF" firstAttribute="top" secondItem="Dy8-Pi-Cln" secondAttribute="top" constant="10" id="eop-lC-HHX"/>
                             <constraint firstItem="ifc-LA-3E1" firstAttribute="centerY" secondItem="Dy8-Pi-Cln" secondAttribute="centerY" id="mnL-7D-W6f"/>
                             <constraint firstItem="Bdt-7B-jhF" firstAttribute="centerY" secondItem="Dy8-Pi-Cln" secondAttribute="centerY" id="q68-20-eHB"/>
                             <constraint firstItem="ifc-LA-3E1" firstAttribute="leading" secondItem="Bdt-7B-jhF" secondAttribute="trailing" constant="8" id="rdk-D2-N7X"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="ILk-vy-KSv"/>
                     </view>
                     <connections>
                         <outlet property="buttonSend" destination="ifc-LA-3E1" id="iNh-01-FF4"/>
@@ -668,10 +654,6 @@ City, State</string>
         <scene sceneID="vX3-SP-M4F">
             <objects>
                 <viewController id="z1j-ZZ-quw" customClass="OrganizerViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="qwg-IA-5wj"/>
-                        <viewControllerLayoutGuide type="bottom" id="E25-lf-xhx"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="nTa-ko-ShH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -694,11 +676,12 @@ City, State</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="vXd-CF-can" secondAttribute="bottom" constant="10" id="2d4-YW-WFC"/>
-                            <constraint firstItem="vXd-CF-can" firstAttribute="leading" secondItem="nTa-ko-ShH" secondAttribute="leading" constant="10" id="AZm-55-DDh"/>
+                            <constraint firstItem="vXd-CF-can" firstAttribute="leading" secondItem="JeR-Fx-Fwf" secondAttribute="leading" constant="10" id="AZm-55-DDh"/>
                             <constraint firstItem="KyO-X4-cZD" firstAttribute="leading" secondItem="vXd-CF-can" secondAttribute="trailing" constant="8" id="IOc-1c-667"/>
                             <constraint firstItem="vXd-CF-can" firstAttribute="top" secondItem="nTa-ko-ShH" secondAttribute="top" constant="10" id="QcS-DC-ofu"/>
                             <constraint firstItem="KyO-X4-cZD" firstAttribute="centerY" secondItem="nTa-ko-ShH" secondAttribute="centerY" id="RjN-4b-un1"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="JeR-Fx-Fwf"/>
                     </view>
                     <connections>
                         <outlet property="iconView" destination="vXd-CF-can" id="eS5-Gm-BVJ"/>
