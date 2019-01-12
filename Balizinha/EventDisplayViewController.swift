@@ -45,10 +45,7 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var constraintDetailHeight: NSLayoutConstraint!
     @IBOutlet var constraintPaymentHeight: NSLayoutConstraint?
     @IBOutlet var constraintActivityHeight: NSLayoutConstraint!
-    @IBOutlet var constraintInputBottomOffset: NSLayoutConstraint!
-    @IBOutlet var constraintInputHeight: NSLayoutConstraint!
-    @IBOutlet var constraintSpacerHeight: NSLayoutConstraint!
-    @IBOutlet weak var constraintScrollBottomOffset: NSLayoutConstraint!
+    @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
     
     var organizerController: OrganizerViewController!
     var locationController: ExpandableMapViewController!
@@ -58,6 +55,7 @@ class EventDisplayViewController: UIViewController {
     
     @IBOutlet weak var containerShare: UIView!
     @IBOutlet weak var containerPayment: UIView!
+    @IBOutlet weak var containerChatInput: UIView!
     
     @IBOutlet weak var activityView: UIView!
     weak var delegate: EventDetailsDelegate?
@@ -400,8 +398,7 @@ class EventDisplayViewController: UIViewController {
     }
     
     func hideChat() {
-        self.constraintInputHeight.constant = 0
-        self.constraintScrollBottomOffset.constant = 0
+        containerChatInput.isHidden = true
     }
     
     func promptForShare() {
@@ -500,14 +497,12 @@ extension EventDisplayViewController {
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height
         
-        self.constraintInputBottomOffset.constant = keyboardHeight
-        self.constraintScrollBottomOffset.constant = keyboardHeight + constraintInputHeight.constant
+        self.constraintBottomOffset.constant = keyboardHeight
         self.chatController.toggleButton(show: false)
     }
     // MARK - Keyboard
     @objc func keyboardWillHide(_ notification: Notification) {
-        self.constraintInputBottomOffset.constant = 0
-        self.constraintScrollBottomOffset.constant = constraintInputHeight.constant
+        self.constraintBottomOffset.constant = 0
         self.chatController.toggleButton(show: true)
     }
 }
