@@ -29,15 +29,16 @@ class SettingsService: NSObject {
         case ownerPayment
         case maps
         case useGetAvailableEvents
+        case holdPayment
 
         // experiments
         case showPreview
         case organizerTrial
     }
-    static let defaults: [SettingsKey: Any] = [.newestVersionIOS:"0.1.0",
-                                               .eventRadius: EVENT_RADIUS_MILES_DEFAULT,
-                                               .softUpgradeInterval: SOFT_UPGRADE_INTERVAL_DEFAULT,
-                                               .useGetAvailableEvents: false]
+    static let defaults: [String: Any] = [SettingsKey.newestVersionIOS.rawValue:"0.1.0",
+                                          SettingsKey.eventRadius.rawValue: EVENT_RADIUS_MILES_DEFAULT,
+                                          SettingsKey.softUpgradeInterval.rawValue: SOFT_UPGRADE_INTERVAL_DEFAULT,
+                                          SettingsKey.useGetAvailableEvents.rawValue: false]
 
     static var shared: SettingsService {
         if singleton == nil {
@@ -61,6 +62,8 @@ class SettingsService: NSObject {
                 print("Settings: * showPreview \(SettingsService.shared.featureExperiment(.showPreview)) testGroup \(SettingsService.showPreviewTestGroup())")
                 print("Settings: * newestVersion \(SettingsService.newestVersion)")
                 print("Settings: * featureAvailable useGetAvailableEvents \(SettingsService.usesGetAvailableEvents())")
+                print("Settings: * shouldHoldPayment \(SettingsService.shouldHoldPayment)")
+                print("Settings: * eventFilterRadius \(SettingsService.eventFilterRadius)")
                 self.recordExperimentGroups()
                 observer.onNext("done")
             })
@@ -115,7 +118,8 @@ extension SettingsService {
     
     // remote values
     class var eventFilterRadius: Double {
-        return shared.featureValue(.eventRadius).numberValue?.doubleValue ?? defaults[.eventRadius] as! Double
+        let value = shared.featureValue(.eventRadius)
+        return shared.featureValue(.eventRadius).numberValue?.doubleValue ?? defaults[SettingsKey.eventRadius.rawValue] as! Double
     }
     
     class var showPreview: Bool {
@@ -123,15 +127,19 @@ extension SettingsService {
     }
     
     class var newestVersion: String {
-        return shared.featureValue(.newestVersionIOS).stringValue ?? defaults[.newestVersionIOS] as! String
+        return shared.featureValue(.newestVersionIOS).stringValue ?? defaults[SettingsKey.newestVersionIOS.rawValue] as! String
     }
     
     class var softUpgradeInterval: TimeInterval {
-        return shared.featureValue(.softUpgradeInterval).numberValue?.doubleValue ?? (defaults[.softUpgradeInterval] as! TimeInterval)
+        return shared.featureValue(.softUpgradeInterval).numberValue?.doubleValue ?? (defaults[SettingsKey.softUpgradeInterval.rawValue] as! TimeInterval)
     }
     
     class var websiteUrl: String {
         return shared.featureValue(.websiteUrl).stringValue ?? "" // stringValue for a config doesn't return nil but returns empty string
+    }
+    
+    class var shouldHoldPayment: Bool {
+        return shared.featureAvailable(.holdPayment)
     }
 }
 
