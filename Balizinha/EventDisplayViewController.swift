@@ -133,6 +133,7 @@ class EventDisplayViewController: UIViewController {
         // players
         playersScrollView.delegate = self
         loadPlayers()
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: .UIApplicationDidBecomeActive, object: nil)
 
         // guest event
         if let id = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, event.id == id {
@@ -221,6 +222,10 @@ class EventDisplayViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    @objc private func didBecomeActive() {
+        loadPlayers()
     }
     
     @IBAction func didClickClose(_ sender: Any?) {
