@@ -159,8 +159,7 @@ class SplashViewController: UIViewController {
     }
     
     fileprivate func clearUserDefaults() {
-        UserDefaults.standard.set(nil, forKey: "shouldFilterNearbyEvents")
-        UserDefaults.standard.set(false, forKey: "locationPermissionDeniedWarningShown")
+        DefaultsManager.shared.setValue(false, forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue)
         
         // create event cached values
         UserDefaults.standard.set(nil, forKey: "organizerCachedName")

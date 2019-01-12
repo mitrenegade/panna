@@ -135,6 +135,7 @@ class EventsViewController: UIViewController {
         guard let location = LocationService.shared.lastLocation else { return events }
         guard LocationService.shared.shouldFilterNearbyEvents else { return events }
         
+        let threshold: Double = Double(SettingsService.eventFilterRadius * METERS_PER_MILE)
         let filtered = events.filter { (event) -> Bool in
             guard let lat = event.lat, let lon = event.lon else {
                 print("filtered event \(String(describing: event.name)) no lat lon")
@@ -143,7 +144,7 @@ class EventsViewController: UIViewController {
             let coord = CLLocation(latitude: lat, longitude: lon)
             let dist = coord.distance(from: location)
             print("filtered event \(String(describing: event.name)) coord \(coord) dist \(dist)")
-            return dist < Double(SettingsService.eventFilterRadius * METERS_PER_MILE)
+            return dist < threshold
         }
         return filtered
     }
