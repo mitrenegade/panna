@@ -11,6 +11,7 @@ import UIKit
 import CoreLocation
 import RxSwift
 import MapKit
+import Balizinha
 
 enum LocationState {
     case denied
@@ -47,7 +48,7 @@ class LocationService: NSObject {
     
     // MARK: location
     func warnForLocationPermission(from controller: UIViewController?) {
-        guard UserDefaults.standard.bool(forKey: "locationPermissionDeniedWarningShown") != true else {
+        guard DefaultsManager.shared.value(forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue) as? Bool != true else {
             return
         }
         let message: String = "Balizina needs location access to find events near you. Please go to your phone settings to enable location access."
@@ -55,9 +56,8 @@ class LocationService: NSObject {
         let alert: UIAlertController = UIAlertController(title: "Could not access location", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Disable Location", style: .cancel, handler: {[weak self] action in
             // disable location popup for the future, and turn on global view
-            UserDefaults.standard.set(true, forKey: "locationPermissionDeniedWarningShown")
-            UserDefaults.standard.set(false, forKey: "shouldFilterNearbyEvents")
-            UserDefaults.standard.synchronize()
+            DefaultsManager.shared.setValue(true, forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue)
+            DefaultsManager.shared.setValue(false, forKey: DefaultsKey.shouldFilterNearbyEvents.rawValue)
             
             // refresh map
             self?.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
@@ -116,12 +116,11 @@ extension LocationService {
     var shouldFilterNearbyEvents: Bool {
         get {
             // default is false for filtering nearby events
-            return UserDefaults.standard.value(forKey: "shouldFilterNearbyEvents") as? Bool ?? false
+            return DefaultsManager.shared.value(forKey: DefaultsKey.shouldFilterNearbyEvents.rawValue) as? Bool ?? false
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "shouldFilterNearbyEvents")
-            UserDefaults.standard.set(false, forKey: "locationPermissionDeniedWarningShown")
-            UserDefaults.standard.synchronize()
+            DefaultsManager.shared.setValue(newValue, forKey: DefaultsKey.shouldFilterNearbyEvents.rawValue)
+            DefaultsManager.shared.setValue(false, forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue)
         }
     }
 }
