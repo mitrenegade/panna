@@ -29,7 +29,6 @@ class SettingsService: NSObject {
         case ownerPayment
         case maps
         case useGetAvailableEvents
-        case holdPayment
 
         // experiments
         case showPreview
@@ -62,7 +61,6 @@ class SettingsService: NSObject {
                 print("Settings: * showPreview \(SettingsService.shared.featureExperiment(.showPreview)) testGroup \(SettingsService.showPreviewTestGroup())")
                 print("Settings: * newestVersion \(SettingsService.newestVersion)")
                 print("Settings: * featureAvailable useGetAvailableEvents \(SettingsService.usesGetAvailableEvents())")
-                print("Settings: * shouldHoldPayment \(SettingsService.shouldHoldPayment)")
                 print("Settings: * eventFilterRadius \(SettingsService.eventFilterRadius)")
                 self.recordExperimentGroups()
                 observer.onNext("done")
@@ -136,10 +134,6 @@ extension SettingsService {
     
     class var websiteUrl: String {
         return shared.featureValue(.websiteUrl).stringValue ?? "" // stringValue for a config doesn't return nil but returns empty string
-    }
-    
-    class var shouldHoldPayment: Bool {
-        return shared.featureAvailable(.holdPayment)
     }
 }
 

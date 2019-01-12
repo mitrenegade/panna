@@ -170,9 +170,10 @@ class JoinEventHelper: NSObject {
             return
         }
         delegate?.startActivityIndicator()
+        
         PaymentService().holdPayment(userId: current.id, eventId: event.id) { [weak self] (result, error) in
             self?.delegate?.stopActivityIndicator()
-            if let error = error as? NSError {
+            if let error = error as NSError? {
                 var errorMessage = ""
                 if let errorString = error.userInfo["error"] as? String {
                     errorMessage = "Error: \(errorString)"
