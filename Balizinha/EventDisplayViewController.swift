@@ -5,6 +5,7 @@
 //  Created by Tom Strissel on 6/26/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.
 //
+// Fixing layout issues: https://medium.com/@kahseng.lee123/how-to-solve-the-most-common-interface-problems-when-adapting-apps-ui-for-iphone-x-44c0f3c80d84
 
 import UIKit
 import FBSDKShareKit
