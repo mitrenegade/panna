@@ -9,6 +9,7 @@
 import UIKit
 import Balizinha
 import RxSwift
+import RenderCloud
 
 protocol OnboardingDelegate: class {
     func didJoinAsGuest()

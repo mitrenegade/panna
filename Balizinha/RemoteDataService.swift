@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseDatabase
 import Balizinha
+import RenderCloud
 
 fileprivate var singleton: RemoteDataService?
 fileprivate var loggingRef: DatabaseReference?

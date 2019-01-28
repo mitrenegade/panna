@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseDatabase
 import Balizinha
+import RenderCloud
 
 class ChatService: NSObject {
     class func createChat(eventId: String, message: String) {

@@ -19,6 +19,7 @@ import RxSwift
 import Stripe
 import RxOptional
 import Balizinha
+import RenderCloud
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

@@ -10,6 +10,7 @@ import UIKit
 import FirebaseDatabase
 import FirebaseAnalytics
 import Balizinha
+import RenderCloud
 
 fileprivate var singleton: LoggingService?
 fileprivate var loggingRef: DatabaseReference?

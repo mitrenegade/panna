@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import Balizinha
+import RenderCloud
 
 class FeedbackViewController: UIViewController {
 

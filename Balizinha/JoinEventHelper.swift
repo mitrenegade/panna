@@ -9,6 +9,7 @@
 import UIKit
 import Stripe
 import Balizinha
+import RenderPay
 
 protocol JoinEventDelegate: class {
     func startActivityIndicator()

@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import Balizinha
+import RenderCloud
 
 protocol CreateEventDelegate: class {
     func eventsDidChange()

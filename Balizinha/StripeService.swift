@@ -11,6 +11,7 @@ import Stripe
 import FirebaseDatabase
 import RxSwift
 import Balizinha
+import RenderCloud
 
 enum PaymentStatus {
     case none // no customer_id exists

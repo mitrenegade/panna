@@ -15,6 +15,7 @@ import Firebase
 import RxSwift
 import RxOptional
 import Balizinha
+import RenderCloud
 
 let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"
@@ -118,6 +119,7 @@ class NotificationService: NSObject {
         print("PUSH: generating player topics for user \(player.id)")
         refreshedPlayerTopics = true
         let params: [String: Any] = ["userId": player.id]
+        import RenderCloud
         FirebaseAPIService().cloudFunction(functionName: "refreshAllPlayerTopics", params: params) { (result, error) in
             print("Result \(String(describing: result)) error \(String(describing: error))")
         }

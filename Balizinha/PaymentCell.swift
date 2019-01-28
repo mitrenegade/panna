@@ -11,6 +11,7 @@ import FirebaseDatabase
 import Stripe
 import RxSwift
 import Balizinha
+import RenderPay
 
 class PaymentCell: UITableViewCell {
 
