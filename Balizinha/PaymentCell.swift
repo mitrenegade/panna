@@ -12,10 +12,12 @@ import Stripe
 import RxSwift
 import Balizinha
 import RenderPay
+import RenderCloud
 
 class PaymentCell: UITableViewCell {
 
     var viewModel: PaymentViewModel?
+    let paymentService = StripePaymentService(apiService: FirebaseAPIService())
 
     fileprivate var disposeBag = DisposeBag()
     
@@ -37,7 +39,7 @@ class PaymentCell: UITableViewCell {
         if let paymentMethod = StripeService.shared.paymentContext.value?.selectedPaymentMethod, let card = paymentMethod as? STPCard {
             // always write card to firebase since it's an internal call
             print("updated card")
-            PaymentService().savePaymentInfo(card.stripeID, last4: card.last4, label: card.label)
+            paymentService.savePaymentInfo(card.stripeID, last4: card.last4, label: card.label)
         }
     }
     
