@@ -1,5 +1,5 @@
 PODS:
-  - Balizinha (0.4.6):
+  - Balizinha (0.5.6):
     - Firebase
     - Firebase/Analytics
     - Firebase/Auth
@@ -8,6 +8,7 @@ PODS:
     - Firebase/Messaging
     - Firebase/RemoteConfig
     - Firebase/Storage
+    - RenderCloud
     - RxCocoa
     - RxOptional
     - RxSwift
@@ -121,7 +122,7 @@ PODS:
   - "GoogleUtilities/NSData+zlib (5.2.2)"
   - GoogleUtilities/Reachability (5.2.2):
     - GoogleUtilities/Logger
-  - GTMSessionFetcher/Core (1.2.0)
+  - GTMSessionFetcher/Core (1.2.1)
   - leveldb-library (1.20)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
@@ -130,16 +131,31 @@ PODS:
   - nanopb/encode (0.3.8)
   - Protobuf (3.6.1)
   - RACameraHelper (0.1.4)
-  - RxCocoa (4.3.1):
+  - RenderCloud (1.0.1)
+  - RenderPay (0.0.7):
+    - Firebase
+    - Firebase/Auth
+    - Firebase/Core
+    - Firebase/Database
+    - Firebase/RemoteConfig
+    - Firebase/Storage
+    - RenderCloud (~> 1.0.1)
+    - RxCocoa
+    - RxOptional
+    - RxSwift
+    - Stripe
+  - RxAtomic (4.4.0)
+  - RxCocoa (4.4.0):
     - RxSwift (~> 4.0)
-  - RxOptional (3.5.0):
+  - RxOptional (3.6.2):
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
-  - RxSwift (4.3.1)
+  - RxSwift (4.4.0):
+    - RxAtomic (~> 4.4)
   - Stripe (13.2.0)
 
 DEPENDENCIES:
-  - Balizinha (from `https://bitbucket.org/renderapps/balizinha-pod`, tag `0.4.6`)
+  - Balizinha (from `https://bitbucket.org/renderapps/balizinha-pod`, tag `0.5.6`)
   - Batch
   - Crashlytics (~> 3.10.7)
   - DateTools
@@ -150,6 +166,8 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/DynamicLinks
   - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.4`)
+  - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`, tag `1.0.1`)"
+  - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`, tag `0.0.7`)"
   - Stripe
 
 SPEC REPOS:
@@ -180,6 +198,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - Protobuf
+    - RxAtomic
     - RxCocoa
     - RxOptional
     - RxSwift
@@ -188,21 +207,33 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Balizinha:
     :git: https://bitbucket.org/renderapps/balizinha-pod
-    :tag: 0.4.6
+    :tag: 0.5.6
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
     :tag: 0.1.4
+  RenderCloud:
+    :git: "git@bitbucket.org:renderapps/RenderCloud.git"
+    :tag: 1.0.1
+  RenderPay:
+    :git: "git@bitbucket.org:renderapps/renderpay.git"
+    :tag: 0.0.7
 
 CHECKOUT OPTIONS:
   Balizinha:
     :git: https://bitbucket.org/renderapps/balizinha-pod
-    :tag: 0.4.6
+    :tag: 0.5.6
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
     :tag: 0.1.4
+  RenderCloud:
+    :git: "git@bitbucket.org:renderapps/RenderCloud.git"
+    :tag: 1.0.1
+  RenderPay:
+    :git: "git@bitbucket.org:renderapps/renderpay.git"
+    :tag: 0.0.7
 
 SPEC CHECKSUMS:
-  Balizinha: ffbe931db88fedc5f0ad5d16502435083ee3fad3
+  Balizinha: 55b0717589198fa87b25f7ee4f46f956541a7ac1
   Batch: d4b91855895b87331af1251bef47d09c3fe4dcaf
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Crashlytics: ccaac42660eb9351b9960c0d66106b0bcf99f4fa
@@ -225,16 +256,19 @@ SPEC CHECKSUMS:
   FirebaseStorage: 7ca4bb7b58a25fa647b04f524033fc7cb7eb272b
   GoogleAppMeasurement: f7507b39b70ad0bd80b3d81518b2f43868974307
   GoogleUtilities: 06b66f9567769a7958db20a92f0128b2843e49d5
-  GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
+  GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   RACameraHelper: 4131be7aa90a0e4e1a81989a1c535aaa9498628a
-  RxCocoa: 78763c7b07d02455598d9fc3c1ad091a28b73635
-  RxOptional: bd32ff8ca9df4177683d56ffeb618a9d4d5d5cad
-  RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
+  RenderCloud: 17a47967c389a215e76a9cca77397d18d19990dd
+  RenderPay: 7e4d382ded6cdbed1e6b321ac17800f5cb1c8057
+  RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
+  RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
+  RxOptional: 80426a0ddbd092573e4c482d8cc13302078c4d5e
+  RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
   Stripe: 2c69e216061d54d9c538204bb4f58bd597ddfc5b
 
-PODFILE CHECKSUM: 80b2773d5bd9d5aebe89b6e3f57b80006962b3a4
+PODFILE CHECKSUM: 8d37bc5f2ff21ff7e7001bb58e0b088cf64483e9
 
 COCOAPODS: 1.5.3
