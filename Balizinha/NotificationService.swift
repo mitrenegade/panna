@@ -119,7 +119,6 @@ class NotificationService: NSObject {
         print("PUSH: generating player topics for user \(player.id)")
         refreshedPlayerTopics = true
         let params: [String: Any] = ["userId": player.id]
-        import RenderCloud
         FirebaseAPIService().cloudFunction(functionName: "refreshAllPlayerTopics", params: params) { (result, error) in
             print("Result \(String(describing: result)) error \(String(describing: error))")
         }

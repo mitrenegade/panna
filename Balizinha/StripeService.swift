@@ -149,7 +149,7 @@ class StripeService: NSObject {
             completion?(false, NSError(domain: "balizinha", code: 0, userInfo: ["error": "Payment not allowed for Balizinha"]))
             return
         }
-        let id = FirebaseAPIService.uniqueId()
+        let id = FirebaseAPIService().uniqueId()
         let ref = firRef.child("charges/organizers").child(organizer.id).child(id)
         print("Creating charge for organizer \(organizer.id)")
         
