@@ -34,12 +34,13 @@ class PaymentCell: UITableViewCell {
     
     @objc func refreshPayment() {
         guard let viewModel = viewModel else { return }
+        guard let player = PlayerService.shared.current.value else { return }
         self.textLabel?.text = viewModel.labelTitle
         
         if let paymentMethod = StripeService.shared.paymentContext.value?.selectedPaymentMethod, let card = paymentMethod as? STPCard {
             // always write card to firebase since it's an internal call
             print("updated card")
-            paymentService.savePaymentInfo(card.stripeID, last4: card.last4, label: card.label)
+            paymentService.savePaymentInfo(userId: player.id, source: card.stripeID, last4: card.last4, label: card.label)
         }
     }
     
