@@ -13,7 +13,6 @@
 		8E04ED00205E19650010A649 /* RemoteDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009B1F6597060080F446 /* RemoteDataService.swift */; };
 		8E04ED01205E19650010A649 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009D1F6597BC0080F446 /* LoggingService.swift */; };
 		8E04ED02205E19650010A649 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D551F7209C40067B6F5 /* SettingsService.swift */; };
-		8E04ED03205E19650010A649 /* StripeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D571F74A66C0067B6F5 /* StripeService.swift */; };
 		8E04ED05205E19650010A649 /* OrganizerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */; };
 		8E04ED06205E19650010A649 /* PromotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFF1F833969004EAE6A /* PromotionService.swift */; };
 		8E04ED07205E19650010A649 /* ShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD13E81FEB78C10039F1A7 /* ShareService.swift */; };
@@ -24,7 +23,6 @@
 		8E0F5685201598CD001E8909 /* OrganizerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0F5684201598CD001E8909 /* OrganizerCell.swift */; };
 		8E0F568720159931001E8909 /* OrganizerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0F568620159931001E8909 /* OrganizerCellViewModel.swift */; };
 		8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D551F7209C40067B6F5 /* SettingsService.swift */; };
-		8E116D581F74A66C0067B6F5 /* StripeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D571F74A66C0067B6F5 /* StripeService.swift */; };
 		8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E4291E31B07900DB4B27 /* SplashViewController.swift */; };
 		8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E11E42B1E31B80800DB4B27 /* Main.storyboard */; };
 		8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */; };
@@ -186,7 +184,6 @@
 		8E0F5684201598CD001E8909 /* OrganizerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizerCell.swift; sourceTree = "<group>"; };
 		8E0F568620159931001E8909 /* OrganizerCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizerCellViewModel.swift; sourceTree = "<group>"; };
 		8E116D551F7209C40067B6F5 /* SettingsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
-		8E116D571F74A66C0067B6F5 /* StripeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripeService.swift; sourceTree = "<group>"; };
 		8E11E4291E31B07900DB4B27 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		8E11E42B1E31B80800DB4B27 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurableNavigationController.swift; sourceTree = "<group>"; };
@@ -430,7 +427,6 @@
 				8EDA009B1F6597060080F446 /* RemoteDataService.swift */,
 				8EDA009D1F6597BC0080F446 /* LoggingService.swift */,
 				8E116D551F7209C40067B6F5 /* SettingsService.swift */,
-				8E116D571F74A66C0067B6F5 /* StripeService.swift */,
 				8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */,
 				8E7A2FFF1F833969004EAE6A /* PromotionService.swift */,
 				8EDD13E81FEB78C10039F1A7 /* ShareService.swift */,
@@ -916,7 +912,6 @@
 				8E4D366F1F8BA31B00B8B0B5 /* Constants.swift in Sources */,
 				8E1F3CD01F8B9B8C005186AD /* TransparentTextField.swift in Sources */,
 				8E1F3CD11F8B9B8C005186AD /* EventCell.swift in Sources */,
-				8E04ED03205E19650010A649 /* StripeService.swift in Sources */,
 				8E1F3CCF1F8B9B8C005186AD /* PushTableViewCell.swift in Sources */,
 				8E1F3CD81F8B9B8C005186AD /* PromoCell.swift in Sources */,
 				8E1F3CD51F8B9B8C005186AD /* ActionCell.swift in Sources */,
@@ -1003,7 +998,6 @@
 				F2F7C3BD1CEE11B300350115 /* CreateEventViewController.swift in Sources */,
 				8E19A4A21E6C658600D301EC /* String+Utils.swift in Sources */,
 				F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */,
-				8E116D581F74A66C0067B6F5 /* StripeService.swift in Sources */,
 				8E7A2FFC1F83256E004EAE6A /* Promotion.swift in Sources */,
 				8EBABEBB211616A2009DD867 /* FacebookService.swift in Sources */,
 				C651AB8D2096D82E0046B03C /* LeaguesViewController.swift in Sources */,

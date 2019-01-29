@@ -9,6 +9,8 @@
 import UIKit
 import FBSDKLoginKit
 import Balizinha
+import RenderPay
+import RenderCloud
 
 class AccountViewController: UIViewController {
     
@@ -164,8 +166,8 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             
         case .payment:
             if let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCell", for: indexPath) as? PaymentCell {
-                self.paymentCell = cell
-                StripeService.shared.hostController = self
+                cell.hostController = self
+                paymentCell = cell
                 return cell
             }
             else {
@@ -243,68 +245,3 @@ extension AccountViewController: ToggleCellDelegate {
     }
 }
 
-// Organizer service stuff
-extension AccountViewController {
-    func payForOrganizerService() {
-        guard let organizer = OrganizerService.shared.current.value else {
-            self.simpleAlert("Could not become organizer", message: "There was an issue joining as an organizer. No organizer found")
-            LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": false, "error": "There was an issue joining as an organizer. No organizer found"])
-            return
-        }
-        guard SettingsService.organizerPaymentRequired() else {
-            organizer.status = .active
-            return
-        }
-
-        // create organizer
-        let isTrial: Bool = SettingsService.organizerTrialAvailable()
-        let message = isTrial ? "You have been approved to become an organizer. Click now to start a month long free trial." : "You have been approved to become an organizer. Click now to purchase an organizer subscription."
-        
-        let alert = UIAlertController(title: "Become an Organizer?", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
-            LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": false, "reason": "cancelled"])
-        }))
-        alert.addAction(UIAlertAction(title: "Start", style: UIAlertActionStyle.default, handler: { [weak self] (action) in
-            
-            // TODO: check for payment method before creating an organizer?
-            self?.activityIndicator.startAnimating()
-            // go directly to create event without payments and no alert
-            
-            StripeService.shared.createSubscription(isTrial: isTrial, completion: { [weak self] (success, error) in
-                self?.activityIndicator.stopAnimating()
-                print("Success \(success) error \(error)")
-                var title: String = isTrial ? "Free trial started" : "Subscription created"
-                var message: String = isTrial ? "Good luck organizing games! You are now in the 30 day organizer trial." : "Good luck organizing games!"
-                if let error = error as? NSError {
-                    // TODO: handle credit card payment after organizer was created!
-                    // should allow users to organize for now, and ask to add a payment later
-                    // should stop allowing it once their trial is up
-                    if error.code == 1001 {
-                        // self generated error: no payment source
-                        title = "Payment needed"
-                        message = "Please add a payment in order to become an organizer."
-                    } else {
-                        title = "Could create subscription"
-                        message = "We could not charge your card."
-                    }
-                    
-                    LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": false, "error": error.localizedDescription])
-                    
-                    if let deadline = error.userInfo["deadline"] as? Double{
-                        OrganizerService.shared.current.value?.deadline = deadline
-                    }
-                } else {
-                    let newStatus: OrganizerStatus = isTrial ? .trial : .active
-                    LoggingService.shared.log(event: LoggingEvent.OrganizerSignupPrompt, info: ["success": true, "newStatus": newStatus.rawValue])
-                    OrganizerService.shared.current.value?.status = newStatus
-                }
-
-                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
-                }))
-                self?.present(alert, animated: true, completion: nil)
-            })
-        }))
-        navigationController?.present(alert, animated: true, completion: nil)
-    }
-}

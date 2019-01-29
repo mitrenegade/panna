@@ -11,6 +11,8 @@ import Stripe
 import Balizinha
 import RenderPay
 import RenderCloud
+import RxSwift
+import RxCocoa
 
 protocol JoinEventDelegate: class {
     func startActivityIndicator()
@@ -24,6 +26,7 @@ class JoinEventHelper: NSObject {
     var event: Balizinha.Event?
     weak var delegate: JoinEventDelegate?
     let paymentService = StripePaymentService(apiService: FirebaseAPIService())
+    private var disposeBag: DisposeBag = DisposeBag()
 
     func checkIfPartOfLeague() {
         guard let event = event else { return }
@@ -91,29 +94,31 @@ class JoinEventHelper: NSObject {
     }
     
     func checkStripe() {
-        listenFor(NotificationType.PaymentContextChanged, action: #selector(refreshStripeStatus), object: nil)
-        refreshStripeStatus()
+        paymentService.statusObserver.subscribe(onNext: { [weak self] (status) in
+            self?.refreshStripeStatus(status)
+        }).disposed(by: disposeBag)
     }
     
-    @objc func refreshStripeStatus() {
-        guard let paymentContext = StripeService.shared.paymentContext.value else { return }
-        if paymentContext.loading {
+    func refreshStripeStatus(_ status: PaymentStatus) {
+        switch status {
+        case .loading:
             delegate?.startActivityIndicator()
-        }
-        else {
+        case .ready(let paymentMethod):
             delegate?.stopActivityIndicator()
-            if let paymentMethod = paymentContext.selectedPaymentMethod {
-                guard let event = event else {
-                    rootViewController?.simpleAlert("Invalid event", message: "Could not join event. Please try again.")
-                    return
-                }
-                shouldCharge(for: event, payment: paymentMethod)
+            guard let event = event else {
+                rootViewController?.simpleAlert("Invalid event", message: "Could not join event. Please try again.")
+                return
             }
-            else {
+            if let paymentMethod = paymentMethod {
+                shouldCharge(for: event, payment: paymentMethod)
+            } else {
                 paymentNeeded()
             }
-            stopListeningFor(NotificationType.PaymentContextChanged)
+        default:
+            delegate?.stopActivityIndicator()
+            paymentNeeded()
         }
+        disposeBag = DisposeBag()
     }
     
     func paymentNeeded() {

@@ -8,6 +8,7 @@
 
 import UIKit
 import Stripe
+import RenderPay
 
 class PaymentViewModel: NSObject {
     let status: PaymentStatus
@@ -32,14 +33,14 @@ class PaymentViewModel: NSObject {
             else {
                 return "Payment method: \(method.label)"
             }
-        case .none:
+        case .noPaymentMethod, .noCustomer:
             return "Click to add a payment method"
         }
     }
     
     var iconWidth: CGFloat {
         switch status {
-        case .none:
+        case .noPaymentMethod, .noCustomer:
             return 0
         case .loading:
             return 40
