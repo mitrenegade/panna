@@ -33,8 +33,11 @@ class PaymentViewModel: NSObject {
             else {
                 return "Payment method: \(method.label)"
             }
-        case .noPaymentMethod, .noCustomer:
+        case .noPaymentMethod:
             return "Click to add a payment method"
+        case .noCustomer:
+            //BOBBYTEST stripeCustomers/customerId doesn't work, probably currently still writing to customer_id
+            return "Click to update your customer"
         }
     }
     
