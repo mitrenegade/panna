@@ -10,6 +10,7 @@ import UIKit
 import MessageUI
 import Balizinha
 import FBSDKShareKit
+import RenderCloud
 
 enum ShareMethod: String {
     case copy

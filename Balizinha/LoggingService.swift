@@ -10,6 +10,7 @@ import UIKit
 import FirebaseDatabase
 import FirebaseAnalytics
 import Balizinha
+import RenderCloud
 
 fileprivate var singleton: LoggingService?
 fileprivate var loggingRef: DatabaseReference?
@@ -95,7 +96,7 @@ class LoggingService: NSObject {
 
     fileprivate func writeLog(event: LoggingEvent, info: [String: Any]?) {
         let eventString = event.rawValue
-        let id = FirebaseAPIService.uniqueId()
+        let id = FirebaseAPIService().uniqueId()
         guard let ref = loggingRef?.child(eventString).child(id) else { return }
         var params = info ?? [:]
         params["timestamp"] = Date().timeIntervalSince1970

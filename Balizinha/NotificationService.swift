@@ -15,6 +15,7 @@ import Firebase
 import RxSwift
 import RxOptional
 import Balizinha
+import RenderCloud
 
 let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"

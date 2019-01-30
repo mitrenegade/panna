@@ -19,6 +19,7 @@ import RxSwift
 import Stripe
 import RxOptional
 import Balizinha
+import RenderCloud
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -65,7 +66,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Messaging service delegate - for data messages
         Messaging.messaging().delegate = NotificationService.shared
 
-        let _ = StripeService.shared // trigger stripe loading customer
         let _ = LeagueService.shared
         
         // GMSServices.provideAPIKey(TESTING ? GOOGLE_API_KEY_DEV : GOOGLE_API_KEY_PROD)
