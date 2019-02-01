@@ -82,6 +82,7 @@ class JoinEventHelper: NSObject {
             return
         }
         delegate?.startActivityIndicator()
+        paymentService.startListeningForAccount(userId: current.id)
         paymentService.checkForPayment(for: event.id, by: current.id) { [weak self] (success) in
             self?.delegate?.stopActivityIndicator()
             if success {
