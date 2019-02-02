@@ -181,16 +181,18 @@ class JoinEventHelper: NSObject {
         delegate?.startActivityIndicator()
         
         paymentService.holdPayment(userId: current.id, eventId: event.id) { [weak self] (result, error) in
-            self?.delegate?.stopActivityIndicator()
-            if let error = error as NSError? {
-                var errorMessage = ""
-                if let errorString = error.userInfo["error"] as? String {
-                    errorMessage = "Error: \(errorString)"
+            DispatchQueue.main.async {
+                self?.delegate?.stopActivityIndicator()
+                if let error = error as NSError? {
+                    var errorMessage = ""
+                    if let errorString = error.userInfo["error"] as? String {
+                        errorMessage = "Error: \(errorString)"
+                    }
+                    self?.rootViewController?.simpleAlert("Could not join game", message: "There was an issue making a payment. \(errorMessage)")
+                } else {
+                    self?.joinEvent(event, userId: current.id)
+                    self?.event = nil
                 }
-                self?.rootViewController?.simpleAlert("Could not join game", message: "There was an issue making a payment. \(errorMessage)")
-            } else {
-                self?.joinEvent(event, userId: current.id)
-                self?.event = nil
             }
         }
     }
