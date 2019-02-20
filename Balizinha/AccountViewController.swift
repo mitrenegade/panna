@@ -17,6 +17,7 @@ class AccountViewController: UIViewController {
     enum Section: String {
         case profile = "Edit profile"
         case payment = "Payment options"
+        case merchant = "Merchant account"
         case promo = "Promo program"
         case notifications = "Push notifications"
         case location = "Use my location"
@@ -35,11 +36,16 @@ class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        menuOptions = [.profile, .payment, .promo, .notifications, .location, .feedback, .about, .logout]
+        menuOptions = [.profile, .payment, .merchant, .promo, .notifications, .location, .feedback, .about, .logout]
         if !SettingsService.paymentRequired(), let index = menuOptions.index(of: .promo) {
             menuOptions.remove(at: index)
         }
         if !SettingsService.donation() && !SettingsService.paymentRequired(), let index = menuOptions.index(of: .payment) {
+            menuOptions.remove(at: index)
+        }
+
+        let isMerchant = AIRPLANE_MODE ? true : PlayerService.shared.current.value?.isOwner == true
+        if !isMerchant, let index = menuOptions.index(of: .merchant) {
             menuOptions.remove(at: index)
         }
         
@@ -153,7 +159,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             cell.configure()
             return cell
             
-        case .profile, .about, .feedback, .logout:
+        case .profile, .about, .feedback, .merchant, .logout:
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             cell.textLabel?.text = menuOptions[indexPath.row].rawValue
             cell.accessoryType = .disclosureIndicator
@@ -220,6 +226,8 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             showAboutOptions()
         case .feedback:
             performSegue(withIdentifier: "toFeedback", sender: nil)
+        case .merchant:
+            return
         }
     }
     
