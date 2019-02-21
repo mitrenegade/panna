@@ -18,7 +18,11 @@ class PaymentCell: UITableViewCell {
 
     var viewModel: PaymentViewModel?
     let paymentService = StripePaymentService(apiService: FirebaseAPIService())
-    var hostController: UIViewController?
+    var hostController: UIViewController? {
+        didSet {
+            paymentService.hostController = hostController
+        }
+    }
 
     fileprivate var disposeBag = DisposeBag()
     
