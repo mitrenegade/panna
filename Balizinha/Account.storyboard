@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="WKC-Oj-i9z">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="WKC-Oj-i9z">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -215,6 +215,8 @@
                         <outlet property="tableView" destination="31O-VN-mnm" id="Bfq-Tk-8FP"/>
                         <segue destination="doi-kI-W3c" kind="show" identifier="ToEditPlayerInfo" id="ewM-0E-rtb"/>
                         <segue destination="9Il-Aj-kax" kind="show" identifier="toFeedback" id="RPl-rP-JSS"/>
+                        <segue destination="ESi-df-9Kw" kind="show" identifier="toStripe" id="6Tg-Xt-fia"/>
+                        <segue destination="RHJ-he-CQQ" kind="show" identifier="toSubscriptions" id="B7C-y3-jq7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aXa-k0-7lO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -463,6 +465,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T0A-5D-dmF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1961" y="17"/>
+        </scene>
+        <!--StripeViewController-->
+        <scene sceneID="76l-ac-pcq">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Stripe" referencedIdentifier="StripeViewController" id="ESi-df-9Kw" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eQc-Nk-YCs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1129" y="-987"/>
+        </scene>
+        <!--SubscriptionsViewController-->
+        <scene sceneID="riQ-cz-yAM">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Stripe" referencedIdentifier="SubscriptionsViewController" id="RHJ-he-CQQ" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vk0-7N-PlX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1258" y="-925"/>
         </scene>
     </scenes>
     <resources>

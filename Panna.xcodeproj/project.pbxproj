@@ -146,6 +146,8 @@
 		C69E4E832097543400F4D74B /* LeagueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69E4E822097543400F4D74B /* LeagueCell.swift */; };
 		C6B7412720FAD88B00B0FA00 /* LeagueButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B7412620FAD88B00B0FA00 /* LeagueButtonCell.swift */; };
 		C6B7D7B5221E0B8A00B58C72 /* Stripe.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6B7D7B4221E0B8A00B58C72 /* Stripe.storyboard */; };
+		C6B7D7BA221E7AAA00B58C72 /* StripeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B7D7B9221E7AAA00B58C72 /* StripeViewController.swift */; };
+		C6B7D7BC221E7AB500B58C72 /* SubscriptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B7D7BB221E7AB500B58C72 /* SubscriptionsViewController.swift */; };
 		C6FDE5C420431ECB00FE0C76 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FDE5C320431ECB00FE0C76 /* ChatService.swift */; };
 		CD846D2DD676A1022A2BD907 /* Pods_PannaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4981281AEA3B60CCD66E677C /* Pods_PannaTests.framework */; };
 		F2048F7C1CED57170039F7BB /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2048F7B1CED57170039F7BB /* EventCell.swift */; };
@@ -299,6 +301,8 @@
 		C69E4E822097543400F4D74B /* LeagueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueCell.swift; sourceTree = "<group>"; };
 		C6B7412620FAD88B00B0FA00 /* LeagueButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueButtonCell.swift; sourceTree = "<group>"; };
 		C6B7D7B4221E0B8A00B58C72 /* Stripe.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Stripe.storyboard; sourceTree = "<group>"; };
+		C6B7D7B9221E7AAA00B58C72 /* StripeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeViewController.swift; sourceTree = "<group>"; };
+		C6B7D7BB221E7AB500B58C72 /* SubscriptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionsViewController.swift; sourceTree = "<group>"; };
 		C6FDE5C320431ECB00FE0C76 /* ChatService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
 		C779F650FFE1D803921FC3ED /* Pods-BalizinhaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BalizinhaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BalizinhaTests/Pods-BalizinhaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED7C1F62DA3A7F54848AA802 /* Pods-Balizinha.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha/Pods-Balizinha.debug.xcconfig"; sourceTree = "<group>"; };
@@ -515,6 +519,7 @@
 				C651AB8B2096D81F0046B03C /* Leagues */,
 				8E710D61212F7748004A8D48 /* Places */,
 				8EF6347A215319BA00652833 /* Feedback */,
+				C6B7D7B8221E7A8D00B58C72 /* Stripe */,
 				8E6AE5431F8E5DAD0062DCF5 /* ViewModels */,
 				8E9F0CD9208BEB640000886E /* Views */,
 				F2F7C3BB1CEE10F700350115 /* Cells */,
@@ -581,6 +586,15 @@
 				8ED3FE5220E3325E00D43F7E /* LeaguePlayersViewController.swift */,
 			);
 			name = Leagues;
+			sourceTree = "<group>";
+		};
+		C6B7D7B8221E7A8D00B58C72 /* Stripe */ = {
+			isa = PBXGroup;
+			children = (
+				C6B7D7B9221E7AAA00B58C72 /* StripeViewController.swift */,
+				C6B7D7BB221E7AB500B58C72 /* SubscriptionsViewController.swift */,
+			);
+			name = Stripe;
 			sourceTree = "<group>";
 		};
 		F20AD03B1D26C0F500969990 /* Utils */ = {
@@ -985,6 +999,8 @@
 				8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */,
 				8EDD13E91FEB78C10039F1A7 /* ShareService.swift in Sources */,
 				8EF7F9F520E339A30037962E /* LeaguePlayerCell.swift in Sources */,
+				C6B7D7BC221E7AB500B58C72 /* SubscriptionsViewController.swift in Sources */,
+				C6B7D7BA221E7AAA00B58C72 /* StripeViewController.swift in Sources */,
 				8E571A0320E25E2B003AB202 /* RAImageView.swift in Sources */,
 				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,
 				8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */,

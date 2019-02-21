@@ -62,6 +62,12 @@ class AccountViewController: UIViewController {
         view.addSubview(activityIndicator)
         activityIndicator.color = UIColor.red
         
+        if AIRPLANE_MODE {
+            menuOptions.append(contentsOf: [Section.stripe, Section.subscriptions])
+            reloadTableData()
+            return
+        }
+        
         Globals.stripeConnectService.accountState.skip(1).distinctUntilChanged().subscribe(onNext: { [weak self] (state) in
             switch state {
             case .loading, .none, .unknown:
@@ -181,7 +187,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             cell.configure()
             return cell
             
-        case .profile, .about, .feedback, .merchant, .logout:
+        case .profile, .about, .feedback, .stripe, .subscriptions, .logout:
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             cell.textLabel?.text = menuOptions[indexPath.row].rawValue
             cell.accessoryType = .disclosureIndicator
@@ -248,8 +254,10 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             showAboutOptions()
         case .feedback:
             performSegue(withIdentifier: "toFeedback", sender: nil)
-        case .merchant:
-            return
+        case .stripe:
+            performSegue(withIdentifier: "toStripe", sender: nil)
+        case .subscriptions:
+            performSegue(withIdentifier: "toSubscriptions", sender: nil)
         }
     }
     
