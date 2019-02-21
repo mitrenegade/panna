@@ -16,20 +16,39 @@ import RxCocoa
 
 class AccountViewController: UIViewController {
     
-    enum Section: String {
+    enum MenuSection: String {
+        case player = "Player"
+        case options = "Options"
+        case owner = "League Owner"
+        case app = "App"
+    }
+    
+    enum MenuItem: String {
+        // player
         case profile = "Edit profile"
         case payment = "Payment options"
-        case stripe = "Stripe account"
-        case subscriptions = "Subscriptions"
+
+        // options
         case promo = "Promo program"
         case notifications = "Push notifications"
         case location = "Use my location"
+
+        // owner
+        case stripe = "Stripe account"
+        case subscriptions = "Subscriptions"
+        
+        // app
         case feedback = "Feedback"
         case about = "About Panna"
         case logout = "Logout"
     }
     
-    var menuOptions: [Section]!
+    var menuSections: [MenuSection] = [.player, .options, .owner, .app]
+    var menuOptions: [MenuSection: [MenuItem]] = [ .player: [.profile, .payment],
+                                                   .options: [.promo, .notifications, .location],
+                                                   .owner: [.stripe, .subscriptions],
+                                                   .app: [.feedback, .about, .logout]]
+
     var service = EventService.shared
     var paymentCell: PaymentCell?
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
@@ -41,19 +60,11 @@ class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        menuOptions = [.profile, .payment, .promo, .notifications, .location, .feedback, .about, .logout]
-        if !SettingsService.paymentRequired(), let index = menuOptions.index(of: .promo) {
-            menuOptions.remove(at: index)
-        }
-        if !SettingsService.donation() && !SettingsService.paymentRequired(), let index = menuOptions.index(of: .payment) {
-            menuOptions.remove(at: index)
+        menuSections = [.player, .options, .owner, .app]
+        if !SettingsService.paymentRequired() {
+            removeMenuOption(.payment)
         }
 
-        let isMerchant = AIRPLANE_MODE ? true : PlayerService.shared.current.value?.isOwner == true
-        if !isMerchant, let index = menuOptions.index(of: .stripe) {
-            menuOptions.remove(at: index)
-        }
-        
         navigationItem.title = "Account"
         listenFor(NotificationType.LocationOptionsChanged, action: #selector(self.reloadTableData), object: nil)
         
@@ -62,27 +73,20 @@ class AccountViewController: UIViewController {
         view.addSubview(activityIndicator)
         activityIndicator.color = UIColor.red
         
-        if AIRPLANE_MODE {
-            menuOptions.append(contentsOf: [Section.stripe, Section.subscriptions])
-            reloadTableData()
-            return
-        }
-        
         Globals.stripeConnectService.accountState.skip(1).distinctUntilChanged().subscribe(onNext: { [weak self] (state) in
-            switch state {
-            case .loading, .none, .unknown:
-                self?.removeMenuOption(.stripe)
-                self?.removeMenuOption(.subscriptions)
-            case .account:
-                self?.menuOptions.append(contentsOf: [Section.stripe, Section.subscriptions])
+            if let section = self?.menuSections.firstIndex(of: .owner) {
+                self?.tableView.reloadSections(IndexSet([section]), with: .automatic)
             }
-            self?.reloadTableData()
         }).disposed(by: disposeBag)
     }
     
-    private func removeMenuOption(_ option: Section) {
-        if let index = menuOptions.firstIndex(of: option) {
-            menuOptions.remove(at: index)
+    private func removeMenuOption(_ option: MenuItem) {
+        for var (section, menuItems) in menuOptions {
+            if let index = menuItems.firstIndex(of: option) {
+                menuItems.remove(at: index)
+                menuOptions[section] = menuItems
+                return
+            }
         }
     }
 
@@ -168,20 +172,44 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return menuSections.count
+    }
+
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard section < menuSections.count else { return nil }
+        if menuSections[section] == .owner {
+            if case .account = Globals.stripeConnectService.accountState.value {
+                return menuSections[section].rawValue
+            } else {
+                return nil
+            }
+        }
+        return menuSections[section].rawValue
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return menuOptions.count
+        guard section < menuSections.count else { return 0 }
+        guard let options = menuOptions[menuSections[section]] else { return 0}
+        if menuSections[section] == .owner {
+            if case .account = Globals.stripeConnectService.accountState.value {
+                return options.count
+            } else {
+                return 0
+            }
+        }
+        return options.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        switch menuOptions[indexPath.row] {
+        let row = indexPath.row
+        let section = menuSections[indexPath.section]
+        guard let option = menuOptions[section]?[row] else { return UITableViewCell() }
+        switch option {
         case .notifications:
             let cell : PushTableViewCell = tableView.dequeueReusableCell(withIdentifier: "push", for: indexPath) as! PushTableViewCell
             cell.delegate = self
-            cell.labelText.text = menuOptions[indexPath.row].rawValue
+            cell.labelText.text = option.rawValue
             cell.selectionStyle = .none
             cell.accessoryType = .none
             cell.configure()
@@ -189,7 +217,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             
         case .profile, .about, .feedback, .stripe, .subscriptions, .logout:
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = menuOptions[indexPath.row].rawValue
+            cell.textLabel?.text = option.rawValue
             cell.accessoryType = .disclosureIndicator
             return cell
             
@@ -211,7 +239,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .location:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LocationSettingCell", for: indexPath) as! LocationSettingCell
             cell.configure()
-            cell.labelText.text = menuOptions[indexPath.row].rawValue
+            cell.labelText.text = option.rawValue
             cell.selectionStyle = .none
             cell.delegate = self
             return cell
@@ -221,7 +249,10 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
        
-        switch menuOptions[indexPath.row] {
+        let row = indexPath.row
+        let section = menuSections[indexPath.section]
+        guard let option = menuOptions[section]?[row] else { return }
+        switch option {
         case .profile:
             self.performSegue(withIdentifier: "ToEditPlayerInfo", sender: nil)
         case .notifications:
