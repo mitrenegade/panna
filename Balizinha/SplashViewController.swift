@@ -13,6 +13,7 @@ import Crashlytics
 import FirebaseDatabase
 import FirebaseAuth
 import Balizinha
+import RenderPay
 
 class SplashViewController: UIViewController {
     var handle: AuthStateDidChangeListenerHandle?
@@ -118,6 +119,9 @@ class SplashViewController: UIViewController {
                         }
                     })
                 }
+                
+                // start loading stripe account info
+                Globals.stripeConnectService.startListeningForAccount(userId: player.id)
             } else {
                 // player does not exist, save/create it.
                 // this should have been done on signup

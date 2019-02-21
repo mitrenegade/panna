@@ -11,13 +11,16 @@ import FBSDKLoginKit
 import Balizinha
 import RenderPay
 import RenderCloud
+import RxSwift
+import RxCocoa
 
 class AccountViewController: UIViewController {
     
     enum Section: String {
         case profile = "Edit profile"
         case payment = "Payment options"
-        case merchant = "Merchant account"
+        case stripe = "Stripe account"
+        case subscriptions = "Subscriptions"
         case promo = "Promo program"
         case notifications = "Push notifications"
         case location = "Use my location"
@@ -32,11 +35,13 @@ class AccountViewController: UIViewController {
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
 
     @IBOutlet weak var tableView: UITableView!
+    
+    private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        menuOptions = [.profile, .payment, .merchant, .promo, .notifications, .location, .feedback, .about, .logout]
+        menuOptions = [.profile, .payment, .promo, .notifications, .location, .feedback, .about, .logout]
         if !SettingsService.paymentRequired(), let index = menuOptions.index(of: .promo) {
             menuOptions.remove(at: index)
         }
@@ -45,7 +50,7 @@ class AccountViewController: UIViewController {
         }
 
         let isMerchant = AIRPLANE_MODE ? true : PlayerService.shared.current.value?.isOwner == true
-        if !isMerchant, let index = menuOptions.index(of: .merchant) {
+        if !isMerchant, let index = menuOptions.index(of: .stripe) {
             menuOptions.remove(at: index)
         }
         
@@ -56,6 +61,23 @@ class AccountViewController: UIViewController {
         activityIndicator.center = view.center
         view.addSubview(activityIndicator)
         activityIndicator.color = UIColor.red
+        
+        Globals.stripeConnectService.accountState.skip(1).distinctUntilChanged().subscribe(onNext: { [weak self] (state) in
+            switch state {
+            case .loading, .none, .unknown:
+                self?.removeMenuOption(.stripe)
+                self?.removeMenuOption(.subscriptions)
+            case .account:
+                self?.menuOptions.append(contentsOf: [Section.stripe, Section.subscriptions])
+            }
+            self?.reloadTableData()
+        }).disposed(by: disposeBag)
+    }
+    
+    private func removeMenuOption(_ option: Section) {
+        if let index = menuOptions.firstIndex(of: option) {
+            menuOptions.remove(at: index)
+        }
     }
 
     @objc func reloadTableData() {
