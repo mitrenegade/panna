@@ -45,8 +45,11 @@ class PaymentCell: UITableViewCell {
             // always write card to firebase since it's an internal call
             print("Working payment source \(paymentSource)")
             
-            // BOBBY TODO: call savePaymentInfo only on change
-            paymentService.savePaymentInfo(userId: player.id, source: paymentSource.stripeID, last4: paymentSource.cardDetails?.last4 ?? "", label: paymentSource.label)
+            // call savePaymentInfo only on change
+            let sourceId = paymentSource.stripeID
+            if sourceId != paymentService.storedPaymentSource {
+                paymentService.savePaymentInfo(userId: player.id, source: paymentSource.stripeID, last4: paymentSource.cardDetails?.last4 ?? "", label: paymentSource.label)
+            }
 
         default:
             break
