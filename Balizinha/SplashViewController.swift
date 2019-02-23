@@ -122,6 +122,7 @@ class SplashViewController: UIViewController {
                 
                 // start loading stripe account info
                 Globals.stripeConnectService.startListeningForAccount(userId: player.id)
+                Globals.stripePaymentService.startListeningForAccount(userId: player.id)
             } else {
                 // player does not exist, save/create it.
                 // this should have been done on signup

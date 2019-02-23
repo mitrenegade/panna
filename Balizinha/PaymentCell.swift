@@ -20,7 +20,7 @@ class PaymentCell: UITableViewCell {
     var paymentService: StripePaymentService!
     var hostController: UIViewController? {
         didSet {
-            paymentService.hostController = hostController
+            paymentService.loadPayment(hostController: hostController)
         }
     }
 
@@ -31,13 +31,6 @@ class PaymentCell: UITableViewCell {
         paymentService.statusObserver.subscribe(onNext: { [weak self] status in
             self?.viewModel = PaymentViewModel(status: status, privacy: true)
             self?.refreshPayment(status)
-        }).disposed(by: disposeBag)
-        refreshPayment(.loading)
-        
-        PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { [weak self] (player) in
-            let userId = player.id
-            self?.paymentService.startListeningForAccount(userId: userId)
-            self?.paymentService.hostController = self?.hostController
         }).disposed(by: disposeBag)
     }
     
