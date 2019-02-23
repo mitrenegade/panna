@@ -36,8 +36,8 @@ class PaymentViewModel: NSObject {
         case .noPaymentMethod:
             return "Click to add a payment method"
         case .noCustomer:
-            //BOBBYTEST stripeCustomers/customerId doesn't work, probably currently still writing to customer_id
-            return "Click to update your customer"
+            // this will happen if stripeCustomers was not created correctly at time of user signup, or if it was somehow deleted
+            return "Click to enable payments"
         }
     }
     
@@ -60,7 +60,11 @@ class PaymentViewModel: NSObject {
     }
     
     var canAddPayment: Bool {
-        return !(status == PaymentStatus.loading)
+        return !(status == .loading || status == .noCustomer)
+    }
+    
+    var needsValidateCustomer: Bool {
+        return status == .noCustomer
     }
     
     var icon: UIImage? {

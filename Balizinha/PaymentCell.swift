@@ -71,6 +71,13 @@ class PaymentCell: UITableViewCell {
         if viewModel.canAddPayment {
             LoggingService.shared.log(event: LoggingEvent.show_payment_controller, info: nil)
             paymentService.shouldShowPaymentController()
+        } else if viewModel.needsValidateCustomer {
+            LoggingService.shared.log(event: LoggingEvent.NeedsValidateCustomer, info: nil)
+            if let player = PlayerService.shared.current.value, let email = player.email {
+                paymentService.createCustomer(userId: player.id, email: email) { [weak self] (customerId, error) in
+                    print("CustomerId \(customerId) error \(error)")
+                }
+            }
         }
     }
 }
