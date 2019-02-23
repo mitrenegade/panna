@@ -22,16 +22,12 @@ class PaymentViewModel: NSObject {
         switch status {
         case .loading:
             return "Loading your payment methods"
-        case .ready(let paymentMethod):
-            guard let method = paymentMethod else {
-                return "Click to add a payment method"
-            }
-            
+        case .ready(let paymentSource):
             if privacy {
                 return "Click to view payment methods"
             }
             else {
-                return "Payment method: \(method.label)"
+                return "Payment method: \(paymentSource)"// \(method.label)"
             }
         case .noPaymentMethod:
             return "Click to add a payment method"
@@ -69,9 +65,10 @@ class PaymentViewModel: NSObject {
     
     var icon: UIImage? {
         switch status {
-        case .ready(let paymentMethod):
-            guard let method = paymentMethod else { return nil }
-            return method.image
+        case .ready(let source):
+//            guard let method = paymentMethod else { return nil }
+//            return method.image
+            return nil
         default:
             return nil
         }

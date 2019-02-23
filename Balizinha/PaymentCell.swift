@@ -51,16 +51,12 @@ class PaymentCell: UITableViewCell {
         self.textLabel?.text = viewModel.labelTitle
         
         switch status {
-        case .ready(let paymentMethod):
-            if let paymentMethod = paymentMethod, let card = paymentMethod as? STPCard {
-                // always write card to firebase since it's an internal call
-                print("updated card")
-                paymentService.savePaymentInfo(userId: player.id, source: card.stripeID, last4: card.last4, label: card.label)
-            } else if let paymentMethod = paymentMethod, let source = paymentMethod as? STPSource {
-                // always write card to firebase since it's an internal call
-                print("updated source")
-                paymentService.savePaymentInfo(userId: player.id, source: source.stripeID, last4: source.cardDetails?.last4 ?? "", label: source.label)
-            }
+        case .ready(let paymentSource):
+            // always write card to firebase since it's an internal call
+            print("Working payment source \(paymentSource)")
+            
+            // BOBBY TODO: where to savePaymentInfo?
+//            paymentService.savePaymentInfo(userId: player.id, source: card.stripeID, last4: card.last4, label: card.label)
 
         default:
             break
