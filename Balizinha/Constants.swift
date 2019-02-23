@@ -10,6 +10,7 @@ import UIKit
 import Foundation
 import FirebaseDatabase
 import FirebaseAuth
+import RenderPay
 
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
@@ -22,6 +23,9 @@ var AIRPLANE_MODE = false
 
 let STRIPE_KEY_DEV = "pk_test_YYNWvzYJi3bTyOJi2SNK3IkE"
 let STRIPE_KEY_PROD = "pk_live_IziZ9EDk1374oI3rXjEciLBG"
+
+let STRIPE_CLIENT_ID_DEV = "ca_ECowy0cLCEaImKunoIsUfm2n4EbhxrMO"
+let STRIPE_CLIENT_ID_PROD = "ca_ECowdoBb2DfRFlBMQSZ2jT4SSXAUJ6Lx"
 
 var firRef = Database.database().reference()
 let firAuth = Auth.auth()
@@ -80,3 +84,8 @@ extension UIFont {
         return UIFont(name: "Montserrat-Light", size: size) ?? UIFont.systemFont(ofSize:size)
     }
 }
+
+class Globals {
+    static var stripeConnectService: StripeConnectService = StripeConnectService(clientId: TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD)
+}
+

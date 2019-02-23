@@ -416,7 +416,7 @@ extension MapViewController {
 extension MapViewController: TutorialDelegate {
     fileprivate var shouldShowTutorial: Bool {
         if AIRPLANE_MODE && TESTING {
-            return true
+            return false
         }
         if DefaultsManager.shared.value(forKey: DefaultsKey.showedTutorial.rawValue) as? Bool == true {
             return false
