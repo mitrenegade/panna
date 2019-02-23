@@ -25,8 +25,12 @@ class JoinEventHelper: NSObject {
     var rootViewController: UIViewController?
     var event: Balizinha.Event?
     weak var delegate: JoinEventDelegate?
-    let paymentService = StripePaymentService(apiService: FirebaseAPIService())
+    let paymentService: StripePaymentService
     private var disposeBag: DisposeBag = DisposeBag()
+
+    init(paymentService: StripePaymentService = Globals.stripePaymentService) {
+        self.paymentService = paymentService
+    }
 
     func checkIfPartOfLeague() {
         guard let event = event else { return }

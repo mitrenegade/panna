@@ -17,7 +17,7 @@ import RenderCloud
 class PaymentCell: UITableViewCell {
 
     var viewModel: PaymentViewModel?
-    let paymentService = StripePaymentService(apiService: FirebaseAPIService())
+    var paymentService: StripePaymentService!
     var hostController: UIViewController? {
         didSet {
             paymentService.hostController = hostController
@@ -27,6 +27,7 @@ class PaymentCell: UITableViewCell {
     fileprivate var disposeBag = DisposeBag()
     
     override func awakeFromNib() {
+        paymentService = Globals.stripePaymentService
         paymentService.statusObserver.subscribe(onNext: { [weak self] status in
             self?.viewModel = PaymentViewModel(status: status, privacy: true)
             self?.refreshPayment(status)
