@@ -60,14 +60,12 @@ class SplashViewController: UIViewController {
         
         Observable<(LoginState, String?)>.combineLatest(loginState, eventId, resultSelector: { state, eventId in
             let guestEventId = eventId as? String
-            print("BOBBYTEST: loginState \(state) eventId \(String(describing: guestEventId))")
             return (state, guestEventId)
         }).observeOn(MainScheduler.instance).subscribe(onNext: { [weak self] (state, eventId) in
             if state == .loggedIn {
                 self?.didLogin()
             } else if state == .loggedOut {
                 if let eventId = eventId {
-                    print("BOBBYTEST: Guest should see eventId \(eventId)")
                     self?.goToGuestEvent(eventId)
                 } else {
                     self?.didLogout()

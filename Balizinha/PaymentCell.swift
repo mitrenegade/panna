@@ -17,8 +17,8 @@ import RenderCloud
 class PaymentCell: UITableViewCell {
 
     var viewModel: PaymentViewModel?
-    var paymentService: StripePaymentService!
-    var hostController: UIViewController? {
+    weak var paymentService: StripePaymentService!
+    weak var hostController: UIViewController? {
         didSet {
             paymentService.loadPayment(hostController: hostController)
         }
@@ -30,18 +30,15 @@ class PaymentCell: UITableViewCell {
         paymentService = Globals.stripePaymentService
         paymentService.statusObserver.subscribe(onNext: { [weak self] status in
             self?.viewModel = PaymentViewModel(status: status, privacy: true)
+            print("BOBBYTEST status \(status)")
             self?.refreshPayment(status)
         }).disposed(by: disposeBag)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
     
     func refreshPayment(_ status: PaymentStatus) {
         guard let viewModel = viewModel else { return }
         guard let player = PlayerService.shared.current.value else { return }
-        self.textLabel?.text = viewModel.labelTitle
+        textLabel?.text = viewModel.labelTitle
         
         switch status {
         case .ready(let paymentSource):
