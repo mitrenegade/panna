@@ -60,14 +60,12 @@ class SplashViewController: UIViewController {
         
         Observable<(LoginState, String?)>.combineLatest(loginState, eventId, resultSelector: { state, eventId in
             let guestEventId = eventId as? String
-            print("BOBBYTEST: loginState \(state) eventId \(String(describing: guestEventId))")
             return (state, guestEventId)
         }).observeOn(MainScheduler.instance).subscribe(onNext: { [weak self] (state, eventId) in
             if state == .loggedIn {
                 self?.didLogin()
             } else if state == .loggedOut {
                 if let eventId = eventId {
-                    print("BOBBYTEST: Guest should see eventId \(eventId)")
                     self?.goToGuestEvent(eventId)
                 } else {
                     self?.didLogout()
@@ -122,6 +120,7 @@ class SplashViewController: UIViewController {
                 
                 // start loading stripe account info
                 Globals.stripeConnectService.startListeningForAccount(userId: player.id)
+                Globals.stripePaymentService.startListeningForAccount(userId: player.id)
             } else {
                 // player does not exist, save/create it.
                 // this should have been done on signup

@@ -18,7 +18,6 @@ fileprivate var loggingRef: DatabaseReference?
 enum LoggingEvent: String {
     case TutorialPageViewed
     case TutorialSkipped
-    case show_payment_controller
     case FeatureFlagError
     case BackgroundFetch
     case PreviewTutorialClicked
@@ -76,6 +75,10 @@ enum LoggingEvent: String {
     case GuestEventLeft
     case GuestEventNameEntered
     case OnboardingSignupClicked
+    
+    // payment/stripe
+    case show_payment_controller
+    case NeedsValidateCustomer // stripeCustomer doesn't exist
 }
 
 class LoggingService: NSObject {

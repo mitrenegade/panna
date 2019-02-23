@@ -25,8 +25,12 @@ class JoinEventHelper: NSObject {
     var rootViewController: UIViewController?
     var event: Balizinha.Event?
     weak var delegate: JoinEventDelegate?
-    let paymentService = StripePaymentService(apiService: FirebaseAPIService())
+    let paymentService: StripePaymentService
     private var disposeBag: DisposeBag = DisposeBag()
+
+    init(paymentService: StripePaymentService = Globals.stripePaymentService) {
+        self.paymentService = paymentService
+    }
 
     func checkIfPartOfLeague() {
         guard let event = event else { return }
@@ -104,17 +108,13 @@ class JoinEventHelper: NSObject {
         switch status {
         case .loading:
             delegate?.startActivityIndicator()
-        case .ready(let paymentMethod):
+        case .ready:
             delegate?.stopActivityIndicator()
             guard let event = event else {
                 rootViewController?.simpleAlert("Invalid event", message: "Could not join event. Please try again.")
                 return
             }
-            if let paymentMethod = paymentMethod {
-                shouldCharge(for: event, payment: paymentMethod)
-            } else {
-                paymentNeeded()
-            }
+            shouldCharge(for: event)
         default:
             delegate?.stopActivityIndicator()
             paymentNeeded()
@@ -156,7 +156,7 @@ class JoinEventHelper: NSObject {
         }
     }
     
-    func shouldCharge(for event: Balizinha.Event, payment: STPPaymentMethod) {
+    func shouldCharge(for event: Balizinha.Event) {
         calculateAmountForEvent(event: event) {[weak self] (amount) in
             guard let paymentString: String = EventService.amountString(from: NSNumber(value: amount)) else {
                 self?.rootViewController?.simpleAlert("Could not calculate payment", message: "Please let us know about this error.")

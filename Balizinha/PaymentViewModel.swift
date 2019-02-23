@@ -22,22 +22,18 @@ class PaymentViewModel: NSObject {
         switch status {
         case .loading:
             return "Loading your payment methods"
-        case .ready(let paymentMethod):
-            guard let method = paymentMethod else {
-                return "Click to add a payment method"
-            }
-            
+        case .ready(let paymentSource):
             if privacy {
                 return "Click to view payment methods"
             }
             else {
-                return "Payment method: \(method.label)"
+                return "Payment method: \(paymentSource .label)"
             }
         case .noPaymentMethod:
             return "Click to add a payment method"
         case .noCustomer:
-            //BOBBYTEST stripeCustomers/customerId doesn't work, probably currently still writing to customer_id
-            return "Click to update your customer"
+            // this will happen if stripeCustomers was not created correctly at time of user signup, or if it was somehow deleted
+            return "Click to enable payments"
         }
     }
     
@@ -60,14 +56,17 @@ class PaymentViewModel: NSObject {
     }
     
     var canAddPayment: Bool {
-        return !(status == PaymentStatus.loading)
+        return !(status == .loading || status == .noCustomer)
+    }
+    
+    var needsValidateCustomer: Bool {
+        return status == .noCustomer
     }
     
     var icon: UIImage? {
         switch status {
-        case .ready(let paymentMethod):
-            guard let method = paymentMethod else { return nil }
-            return method.image
+        case .ready(let source):
+            return source.image
         default:
             return nil
         }

@@ -11,6 +11,7 @@ import Foundation
 import FirebaseDatabase
 import FirebaseAuth
 import RenderPay
+import RenderCloud
 
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
@@ -87,5 +88,6 @@ extension UIFont {
 
 class Globals {
     static var stripeConnectService: StripeConnectService = StripeConnectService(clientId: TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD)
+    static var stripePaymentService: StripePaymentService = StripePaymentService(apiService: FirebaseAPIService())
 }
 

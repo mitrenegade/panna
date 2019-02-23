@@ -50,7 +50,7 @@ class AccountViewController: UIViewController {
                                                    .app: [.feedback, .about, .logout]]
 
     var service = EventService.shared
-    var paymentCell: PaymentCell?
+    weak var paymentCell: PaymentCell?
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
 
     @IBOutlet weak var tableView: UITableView!
@@ -143,9 +143,9 @@ class AccountViewController: UIViewController {
             DeepLinkService.shared.clearDestinations()
             switch accountDestination {
             case .profile:
-                self.performSegue(withIdentifier: "ToEditPlayerInfo", sender: nil)
+                performSegue(withIdentifier: "ToEditPlayerInfo", sender: nil)
             case .payments:
-                self.paymentCell?.shouldShowPaymentController()
+                paymentCell?.shouldShowPaymentController()
             }
         }
     }
@@ -278,7 +278,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
                 self.addPromotion()
             }
         case .payment:
-            self.paymentCell?.shouldShowPaymentController()
+            paymentCell?.shouldShowPaymentController()
         case .location:
             return
         case .about:
