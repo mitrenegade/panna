@@ -27,7 +27,7 @@ class PaymentViewModel: NSObject {
                 return "Click to view payment methods"
             }
             else {
-                return "Payment method: \(paymentSource)"// \(method.label)"
+                return "Payment method: \(paymentSource .label)"
             }
         case .noPaymentMethod:
             return "Click to add a payment method"
@@ -66,9 +66,7 @@ class PaymentViewModel: NSObject {
     var icon: UIImage? {
         switch status {
         case .ready(let source):
-//            guard let method = paymentMethod else { return nil }
-//            return method.image
-            return nil
+            return source.image
         default:
             return nil
         }
