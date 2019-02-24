@@ -188,7 +188,7 @@ class JoinEventHelper: NSObject {
         }
         delegate?.startActivityIndicator()
         
-        paymentService.holdPayment(userId: current.id, eventId: event.id) { [weak self] (result, error) in
+        paymentService.makePayment(userId: current.id, eventId: event.id) { [weak self] (result, error) in
             DispatchQueue.main.async {
                 self?.delegate?.stopActivityIndicator()
                 if let error = error as NSError? {

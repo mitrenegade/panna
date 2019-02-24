@@ -174,7 +174,6 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return menuSections.count
     }
-
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard section < menuSections.count else { return nil }
