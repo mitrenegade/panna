@@ -303,7 +303,7 @@
                                     <constraint firstAttribute="width" constant="200" id="daO-Z8-Yja"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                                <state key="normal" title="Add photo">
+                                <state key="normal" title="Add Photo">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                                 <connections>
