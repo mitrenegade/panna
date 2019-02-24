@@ -113,10 +113,8 @@ class PlayerInfoViewController: UIViewController {
         
         if let player = player {
             self.delegate?.didUpdatePlayer(player: player)
-        } else {
-            // BOBBY TODO create player? this shouldn't happen
-            // load player again? the server creates a player
         }
+        
         if self.navigationController?.viewControllers[0] == self {
             self.navigationController?.dismiss(animated: true, completion: {
             })

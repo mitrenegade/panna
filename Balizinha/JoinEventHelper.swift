@@ -46,7 +46,9 @@ class JoinEventHelper: NSObject {
                 // prompt to join league
                 LeagueService.shared.withId(id: leagueId, completion: { [weak self] (league) in
                     guard let league = league else {
-                        self?.checkIfAlreadyPaid()
+                        DispatchQueue.main.async {
+                            self?.checkIfAlreadyPaid()
+                        }
                         return
                     }
 
@@ -67,10 +69,14 @@ class JoinEventHelper: NSObject {
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
                         self?.delegate?.stopActivityIndicator()
                     }))
-                    self?.rootViewController?.present(alert, animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        self?.rootViewController?.present(alert, animated: true, completion: nil)
+                    }
                 })
             } else {
-                self?.checkIfAlreadyPaid()
+                DispatchQueue.main.async {
+                    self?.checkIfAlreadyPaid()
+                }
             }
         }
     }
@@ -102,6 +108,7 @@ class JoinEventHelper: NSObject {
         paymentService.statusObserver.subscribe(onNext: { [weak self] (status) in
             self?.refreshStripeStatus(status)
         }).disposed(by: disposeBag)
+        paymentService.loadPayment(hostController: rootViewController)
     }
     
     func refreshStripeStatus(_ status: PaymentStatus) {
@@ -115,11 +122,12 @@ class JoinEventHelper: NSObject {
                 return
             }
             shouldCharge(for: event)
+            disposeBag = DisposeBag()
         default:
             delegate?.stopActivityIndicator()
             paymentNeeded()
+            disposeBag = DisposeBag()
         }
-        disposeBag = DisposeBag()
     }
     
     func paymentNeeded() {

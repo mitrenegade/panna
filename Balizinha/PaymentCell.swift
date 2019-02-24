@@ -28,7 +28,7 @@ class PaymentCell: UITableViewCell {
     
     override func awakeFromNib() {
         paymentService = Globals.stripePaymentService
-        paymentService.statusObserver.subscribe(onNext: { [weak self] status in
+        paymentService.statusObserver.distinctUntilChanged({$0 == $1}).subscribe(onNext: { [weak self] status in
             self?.viewModel = PaymentViewModel(status: status, privacy: true)
             print("BOBBYTEST status \(status)")
             self?.refreshPayment(status)
@@ -45,8 +45,11 @@ class PaymentCell: UITableViewCell {
             // always write card to firebase since it's an internal call
             print("Working payment source \(paymentSource)")
             
-            // BOBBY TODO: where to savePaymentInfo?
-//            paymentService.savePaymentInfo(userId: player.id, source: card.stripeID, last4: card.last4, label: card.label)
+            // call savePaymentInfo only on change
+            let sourceId = paymentSource.stripeID
+            if sourceId != paymentService.storedPaymentSource {
+                paymentService.savePaymentInfo(userId: player.id, source: paymentSource.stripeID, last4: paymentSource.cardDetails?.last4 ?? "", label: paymentSource.label)
+            }
 
         default:
             break
@@ -62,7 +65,10 @@ class PaymentCell: UITableViewCell {
             LoggingService.shared.log(event: LoggingEvent.NeedsValidateCustomer, info: nil)
             if let player = PlayerService.shared.current.value, let email = player.email {
                 paymentService.createCustomer(userId: player.id, email: email) { [weak self] (customerId, error) in
-                    print("CustomerId \(customerId) error \(error)")
+                    DispatchQueue.main.async {
+                        print("CustomerId \(customerId) error \(error)")
+                        self?.paymentService.loadPayment(hostController: self?.hostController)
+                    }
                 }
             }
         }
