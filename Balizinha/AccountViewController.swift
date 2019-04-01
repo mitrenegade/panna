@@ -302,7 +302,16 @@ extension AccountViewController: ToggleCellDelegate {
         print("Switch changed to \(isOn)")
 
         if toggle.superview?.superview is PushTableViewCell {
-            NotificationService.shared.toggleUserReceivesNotifications(isOn)
+            NotificationService.shared.toggleUserReceivesNotifications(isOn) { [weak self] error in
+                DispatchQueue.main.async { [weak self] in
+                    if let error = error as NSError? {
+                        self?.simpleAlert("Notification update error", defaultMessage: "Your notification settings were not updated.", error: error)
+                        self?.tableView.reloadData()
+                    } else {
+                        PlayerService.shared.refreshCurrentPlayer() // update notification setting on player
+                    }
+                }
+            }
         } else if toggle.superview?.superview is LocationSettingCell {
             LocationService.shared.shouldFilterNearbyEvents = isOn
             self.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
