@@ -166,15 +166,15 @@ extension NotificationService {
     }
     
     // User notification preference
-    func toggleUserReceivesNotifications(_ enabled: Bool) {
+    func toggleUserReceivesNotifications(_ enabled: Bool, completion: ((Error?) -> Void)?) {
         // set notification option on player
         guard let player = PlayerService.shared.current.value else {
             return
         }
-        player.notificationsEnabled = enabled
         let params: [String: Any] = ["userId": player.id, "pushEnabled": enabled]
-        FirebaseAPIService().cloudFunction(functionName: "refreshPlayerSubscriptions", params: params) { (result, error) in
+        FirebaseAPIService().cloudFunction(functionName: "updateUserNotificationsEnabled", params: params) { (result, error) in
             print("Result \(String(describing: result)) error \(String(describing: error))")
+            completion?(error)
         }
 
         LoggingService.shared.log(event: LoggingEvent.PushNotificationsToggled, info: ["value": enabled])
