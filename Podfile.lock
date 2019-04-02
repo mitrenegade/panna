@@ -142,7 +142,7 @@ PODS:
   - Protobuf (3.6.1)
   - RACameraHelper (0.1.4)
   - RenderCloud (1.0.1)
-  - RenderPay (0.0.10):
+  - RenderPay (0.0.11):
     - Firebase
     - Firebase/Auth
     - Firebase/Core
@@ -177,7 +177,7 @@ DEPENDENCIES:
   - Firebase/DynamicLinks
   - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.4`)
   - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`, tag `1.0.1`)"
-  - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`, tag `0.0.10`)"
+  - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`, tag `0.0.11`)"
   - Stripe
 
 SPEC REPOS:
@@ -227,7 +227,7 @@ EXTERNAL SOURCES:
     :tag: 1.0.1
   RenderPay:
     :git: "git@bitbucket.org:renderapps/renderpay.git"
-    :tag: 0.0.10
+    :tag: 0.0.11
 
 CHECKOUT OPTIONS:
   Balizinha:
@@ -241,7 +241,7 @@ CHECKOUT OPTIONS:
     :tag: 1.0.1
   RenderPay:
     :git: "git@bitbucket.org:renderapps/renderpay.git"
-    :tag: 0.0.10
+    :tag: 0.0.11
 
 SPEC CHECKSUMS:
   Balizinha: 55b0717589198fa87b25f7ee4f46f956541a7ac1
@@ -274,13 +274,13 @@ SPEC CHECKSUMS:
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   RACameraHelper: 4131be7aa90a0e4e1a81989a1c535aaa9498628a
   RenderCloud: 17a47967c389a215e76a9cca77397d18d19990dd
-  RenderPay: fab37f0cb79dee90b520f2917868a7f90a14301c
+  RenderPay: 190bf56e8890fedec80f2361d3672436847c71f9
   RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
   RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
   RxOptional: 80426a0ddbd092573e4c482d8cc13302078c4d5e
   RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
 
-PODFILE CHECKSUM: 012fc50267188aec21bce748c308bea3c26f057e
+PODFILE CHECKSUM: a6f994b3950319236708f28dbc8ff47f265dbda1
 
 COCOAPODS: 1.6.1
