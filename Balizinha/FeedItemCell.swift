@@ -21,7 +21,11 @@ class FeedItemCell: ActionCell {
                 PlayerService.shared.withId(id: userId, completion: { [weak self] (player) in
                     if let name = player?.name {
                         DispatchQueue.main.async {
-                            self?.labelText.text = "\(name) said: \(message)"
+                            if let self = self {
+                                self.labelText.text = "\(name) said: \(message)"
+                                self.labelText.sizeToFit()
+                                self.constraintLabelHeight.constant = max(27, self.labelText.frame.size.height)
+                            }
                         }
                     }
                 })
@@ -29,7 +33,9 @@ class FeedItemCell: ActionCell {
         } else {
             labelText.text = feedItem.defaultMessage
         }
-        
+        labelText.sizeToFit()
+        constraintLabelHeight.constant = max(27, labelText.frame.size.height)
+
         if let actionId = feedItem.actionId {
             ActionService().withId(id: actionId) { [weak self] (action) in
                 if let action = action {
@@ -40,8 +46,6 @@ class FeedItemCell: ActionCell {
                 }
             }
         }
-        labelText.sizeToFit()
-        constraintLabelHeight.constant = max(27, self.labelText.frame.size.height)
 
         // load user profile
         guard let userId = feedItem.userId else { return }
