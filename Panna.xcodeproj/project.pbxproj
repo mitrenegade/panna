@@ -50,6 +50,7 @@
 		8E1F3CD61F8B9B8C005186AD /* PlayerIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */; };
 		8E1F3CD71F8B9B8C005186AD /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
 		8E1F3CD81F8B9B8C005186AD /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */; };
+		8E2EC3372255A31A004785E7 /* EventDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2EC3362255A31A004785E7 /* EventDetailsViewModel.swift */; };
 		8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E39FE8D1D237C710030CB96 /* NotificationService.swift */; };
 		8E48AF7C20DFD62600D814BE /* ResizableTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF7B20DFD62500D814BE /* ResizableTagView.swift */; };
 		8E48AF7E20DFDA0C00D814BE /* LeagueTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF7D20DFDA0C00D814BE /* LeagueTitleCell.swift */; };
@@ -204,6 +205,7 @@
 		8E1F3CBD1F8B9A95005186AD /* PannaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PannaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E1F3CBF1F8B9A95005186AD /* BalizinhaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalizinhaTests.swift; sourceTree = "<group>"; };
 		8E1F3CC11F8B9A95005186AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8E2EC3362255A31A004785E7 /* EventDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewModel.swift; sourceTree = "<group>"; };
 		8E39FE8D1D237C710030CB96 /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		8E48AF7B20DFD62500D814BE /* ResizableTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResizableTagView.swift; sourceTree = "<group>"; };
 		8E48AF7D20DFDA0C00D814BE /* LeagueTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueTitleCell.swift; sourceTree = "<group>"; };
@@ -468,6 +470,7 @@
 				8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */,
 				8E1B00551FC2E8FF00420256 /* TutorialButtonViewModel.swift */,
 				8E0F568620159931001E8909 /* OrganizerCellViewModel.swift */,
+				8E2EC3362255A31A004785E7 /* EventDetailsViewModel.swift */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -1023,6 +1026,7 @@
 				8E7A2FF81F8313C6004EAE6A /* OrganizerService.swift in Sources */,
 				8EF167F9208BEE4A00257354 /* LeagueIcon.swift in Sources */,
 				8ECD58E71CDFBF6B00AD2B13 /* Constants.swift in Sources */,
+				8E2EC3372255A31A004785E7 /* EventDetailsViewModel.swift in Sources */,
 				8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */,
 				8E48AF7E20DFDA0C00D814BE /* LeagueTitleCell.swift in Sources */,
 				8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */,

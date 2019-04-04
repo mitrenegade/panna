@@ -333,43 +333,36 @@ class EventDisplayViewController: UIViewController {
     @objc func refreshJoin() {
         activityOverlay.hide()
         guard let event = event else { return }
+        let viewModel = EventDetailsViewModel(event: event)
+        labelSpotsLeft.text = viewModel.spotsLeftLabelText
+
         if let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event.id {
             // anon user has joined an event
             constraintButtonJoinHeight.constant = 30 // if refresh is called after joining
             buttonJoin.isEnabled = true
             buttonJoin.alpha = 1
             buttonJoin.setTitle("Leave event", for: .normal)
-            labelSpotsLeft.text = "\(event.numPlayers) are playing"
         } else if let eventId = EventService.shared.featuredEventId, eventId == event.id {
             // anon user has an event invite but has not joined
             if event.isFull {
                 constraintButtonJoinHeight.constant = 0
-                labelSpotsLeft.text = "Event is full"
             } else {
                 buttonJoin.isEnabled = true
                 buttonJoin.alpha = 1
-                let spotsLeft = event.maxPlayers - event.numPlayers
-                labelSpotsLeft.text = "\(spotsLeft) spots available"
             }
         } else if let player = PlayerService.shared.current.value {
             if event.containsPlayer(player) || event.userIsOrganizer {
                 constraintButtonJoinHeight.constant = 0
-                labelSpotsLeft.text = "\(event.numPlayers) are playing"
             } else if event.isFull {
                 //            buttonJoin.isEnabled = false // may want to add waitlist functionality
                 //            buttonJoin.alpha = 0.5
                 constraintButtonJoinHeight.constant = 0
-                labelSpotsLeft.text = "Event is full"
             } else {
                 buttonJoin.isEnabled = true
                 buttonJoin.alpha = 1
-                let spotsLeft = event.maxPlayers - event.numPlayers
-                labelSpotsLeft.text = "\(spotsLeft) spots available"
             }
         } else {
             constraintButtonJoinHeight.constant = 0
-            labelSpotsLeft.text = "\(event.numPlayers) are playing"
-            return
         }
     }
     
