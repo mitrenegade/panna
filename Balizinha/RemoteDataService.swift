@@ -42,7 +42,7 @@ class RemoteDataService: NSObject {
     }
     
     func post(userId: String, message: String) {
-        let id = FirebaseAPIService().uniqueId()
+        let id = RenderAPIService().uniqueId()
         guard let ref = loggingRef?.child(userId).child(id) else { return }
         let params: [AnyHashable: Any] = ["message": message, "unread": true]
         ref.updateChildValues(params)

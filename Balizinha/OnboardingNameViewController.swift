@@ -126,7 +126,7 @@ extension OnboardingNameViewController {
         guard AuthService.currentUser?.isAnonymous == true else { return }
         guard PlayerService.shared.current.value == nil else { return }
         startActivityIndicator()
-        FirebaseAPIService().cloudFunction(functionName: "createPlayerForAnonymousUser", params: ["userId": userId, "name": name]) { [weak self] (results, error) in
+        RenderAPIService().cloudFunction(functionName: "createPlayerForAnonymousUser", params: ["userId": userId, "name": name]) { [weak self] (results, error) in
             if let dict = results as? [String: Any] {
                 print("Results \(dict)")
                 PlayerService.shared.withId(id: userId, completion: { [weak self] (player) in
