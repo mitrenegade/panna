@@ -159,6 +159,9 @@ class SplashViewController: UIViewController {
         else {
             self.goToSignupLogin()
         }
+        
+        Globals.stripePaymentService.resetOnLogout()
+        OrganizerService.resetOnLogout()
     }
     
     fileprivate func clearUserDefaults() {
