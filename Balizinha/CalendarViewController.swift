@@ -35,6 +35,11 @@ class CalendarViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NotificationService.shared.resetBadgeCount()
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)

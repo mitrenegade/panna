@@ -195,6 +195,8 @@ class EventDisplayViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.isNavigationBarHidden = true
+        
+        NotificationService.shared.resetBadgeCount()
     }
     
     fileprivate func loadPlayers() {
