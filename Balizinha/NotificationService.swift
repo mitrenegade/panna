@@ -222,19 +222,28 @@ extension NotificationService: UNUserNotificationCenterDelegate {
         let userInfo = response.notification.request.content.userInfo
         
         // FCM: when a user clicks on a notification while in the background
+        // data looks like:
+        /*
+        [AnyHashable("google.c.a.e"): 1, AnyHashable("aps"): {
+            alert =     {
+                body = "Philly Phanatic said: test1";
+                title = "Event chat";
+            };
+            badge = 1;
+            sound = default;
+            }, AnyHashable("gcm.message_id"): 0:1554433506759149%8923ce3e8923ce3e]
+        */
         
-        print("PUSH: didReceive response")
+        print("PUSH: didReceive response. userInfo: \(userInfo)")
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
         
-        // Print full message.
-        print(userInfo)
-        
         // analytics
         LoggingService.shared.log(event: LoggingEvent.PushNotificationReceived, info: ["inApp": false])
-
+        handle(notification: userInfo)
+        
         completionHandler()
     }
     
@@ -255,3 +264,27 @@ extension NotificationService: MessagingDelegate {
     }
 }
 
+extension NotificationService {
+    func handle(notification: [AnyHashable: Any]) {
+        guard let type = notification["type"] as? String else { return }
+        if let actionType = ActionType(rawValue: type) {
+            // handle supported actions
+            switch actionType {
+            case .chat, .joinEvent, .createEvent:
+                if let eventId = notification["eventId"] {
+                    notify(.DisplayFeaturedEvent, object: nil, userInfo: ["eventId": eventId])
+                }
+            default:
+                break
+            }
+        } else if type == "leagueChat" {
+            // handle league chat
+            if let leagueId = notification["leagueId"] {
+                notify(.DisplayFeaturedLeague, object: nil, userInfo: ["leagueId": leagueId])
+            }
+        } else if type == "cancelEvent" {
+            // handle event cancellation
+            notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
+        }
+    }
+}
