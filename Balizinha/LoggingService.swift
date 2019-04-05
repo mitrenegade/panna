@@ -99,7 +99,7 @@ class LoggingService: NSObject {
 
     fileprivate func writeLog(event: LoggingEvent, info: [String: Any]?) {
         let eventString = event.rawValue
-        let id = FirebaseAPIService().uniqueId()
+        let id = RenderAPIService().uniqueId()
         guard let ref = loggingRef?.child(eventString).child(id) else { return }
         var params = info ?? [:]
         params["timestamp"] = Date().timeIntervalSince1970
