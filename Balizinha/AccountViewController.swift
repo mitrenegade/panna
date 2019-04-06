@@ -43,10 +43,9 @@ class AccountViewController: UIViewController {
         case logout = "Logout"
     }
     
-    var menuSections: [MenuSection] = [.player, .options, .owner, .app]
+    var menuSections: [MenuSection] = [.player, .options, .app]
     var menuOptions: [MenuSection: [MenuItem]] = [ .player: [.profile, .payment],
                                                    .options: [.promo, .notifications, .location],
-                                                   .owner: [.stripe, .subscriptions],
                                                    .app: [.feedback, .about, .logout]]
 
     var service = EventService.shared
@@ -60,7 +59,7 @@ class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        menuSections = [.player, .options, .owner, .app]
+        menuSections = [.player, .options, .app]
         if !SettingsService.paymentRequired() {
             removeMenuOption(.payment)
         }
@@ -72,12 +71,6 @@ class AccountViewController: UIViewController {
         activityIndicator.center = view.center
         view.addSubview(activityIndicator)
         activityIndicator.color = UIColor.red
-        
-        Globals.stripeConnectService.accountState.skip(1).distinctUntilChanged().subscribe(onNext: { [weak self] (state) in
-            if let section = self?.menuSections.firstIndex(of: .owner) {
-                self?.tableView.reloadSections(IndexSet([section]), with: .automatic)
-            }
-        }).disposed(by: disposeBag)
     }
     
     private func removeMenuOption(_ option: MenuItem) {
