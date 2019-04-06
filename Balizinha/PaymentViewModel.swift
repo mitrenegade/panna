@@ -29,6 +29,8 @@ class PaymentViewModel: NSObject {
             else {
                 return "Payment method: \(paymentSource .label)"
             }
+        case .needsRefresh(let card):
+            return "Click to replace payment method"
         case .noPaymentMethod:
             return "Click to add a payment method"
         case .noCustomer:
@@ -39,15 +41,12 @@ class PaymentViewModel: NSObject {
     
     var iconWidth: CGFloat {
         switch status {
-        case .noPaymentMethod, .noCustomer:
+        case .noPaymentMethod, .noCustomer, .needsRefresh:
             return 0
         case .loading:
             return 40
         case .ready(let paymentMethod):
-            if paymentMethod != nil {
-                return 60
-            }
-            return 0
+            return 60
         }
     }
     
@@ -56,7 +55,12 @@ class PaymentViewModel: NSObject {
     }
     
     var canAddPayment: Bool {
-        return !(status == .loading || status == .noCustomer)
+        switch status {
+        case .needsRefresh, .loading, .noCustomer:
+            return false
+        default:
+            return true
+        }
     }
     
     var needsValidateCustomer: Bool {
@@ -69,6 +73,15 @@ class PaymentViewModel: NSObject {
             return source.image
         default:
             return nil
+        }
+    }
+    
+    var needsReplacePayment: Bool {
+        switch status {
+        case .needsRefresh:
+            return true
+        default:
+            return false
         }
     }
 }

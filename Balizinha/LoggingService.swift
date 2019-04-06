@@ -79,6 +79,7 @@ enum LoggingEvent: String {
     // payment/stripe
     case show_payment_controller
     case NeedsValidateCustomer // stripeCustomer doesn't exist
+    case NeedsRefreshPayment // need to change STPCard to STPSource
 }
 
 class LoggingService: NSObject {
