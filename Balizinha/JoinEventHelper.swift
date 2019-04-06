@@ -123,15 +123,24 @@ class JoinEventHelper: NSObject {
             }
             shouldCharge(for: event)
             disposeBag = DisposeBag()
-        default:
+        case .noCustomer, .noPaymentMethod, .needsRefresh:
             delegate?.stopActivityIndicator()
-            paymentNeeded()
+            paymentNeeded(status: status)
             disposeBag = DisposeBag()
         }
     }
     
-    func paymentNeeded() {
-        let alert = UIAlertController(title: "No payment method available", message: "This event has a fee. Please add a payment method in your profile.", preferredStyle: .alert)
+    func paymentNeeded(status: PaymentStatus) {
+        let title: String
+        let message: String
+        if case let .needsRefresh(_) = status {
+            title = "Invalid payment method"
+            message = "Your current payment method needs to be updated."
+        } else {
+            title = "No payment method available"
+            message = "This event has a fee. Please add a payment method in your profile."
+        }
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Edit Payments", style: .default, handler: { (action) in
             guard let url = URL(string: "panna://account/payments") else { return }
             DeepLinkService.shared.handle(url: url)
