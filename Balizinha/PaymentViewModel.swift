@@ -55,7 +55,12 @@ class PaymentViewModel: NSObject {
     }
     
     var canAddPayment: Bool {
-        return !(status == .loading || status == .noCustomer)
+        switch status {
+        case .needsRefresh, .loading, .noCustomer:
+            return false
+        default:
+            return true
+        }
     }
     
     var needsValidateCustomer: Bool {
@@ -68,6 +73,15 @@ class PaymentViewModel: NSObject {
             return source.image
         default:
             return nil
+        }
+    }
+    
+    var needsReplacePayment: Bool {
+        switch status {
+        case .needsRefresh:
+            return true
+        default:
+            return false
         }
     }
 }

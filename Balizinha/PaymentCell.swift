@@ -50,7 +50,6 @@ class PaymentCell: UITableViewCell {
             if sourceId != paymentService.storedPaymentSource {
                 paymentService.savePaymentInfo(userId: player.id, source: paymentSource.stripeID, last4: paymentSource.cardDetails?.last4 ?? "", label: paymentSource.label)
             }
-
         default:
             break
         }
@@ -70,6 +69,10 @@ class PaymentCell: UITableViewCell {
                         self?.paymentService.loadPayment(hostController: self?.hostController)
                     }
                 }
+            }
+        } else if viewModel.needsReplacePayment {
+            hostController?.simpleAlert("Invalid payment method", message: "Please delete your current card and replace your payment method.") { [weak self] in
+                self?.paymentService.shouldShowPaymentController()
             }
         }
     }
