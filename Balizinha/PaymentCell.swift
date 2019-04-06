@@ -71,6 +71,7 @@ class PaymentCell: UITableViewCell {
                 }
             }
         } else if viewModel.needsReplacePayment {
+            LoggingService.shared.log(event: LoggingEvent.NeedsRefreshPayment, info: ["source": "PaymentCell"])
             hostController?.simpleAlert("Updated payment method needed", message: "Please delete your current card or account and replace your payment method.") { [weak self] in
                 self?.paymentService.shouldShowPaymentController()
             }

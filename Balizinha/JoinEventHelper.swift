@@ -136,6 +136,7 @@ class JoinEventHelper: NSObject {
         if case let .needsRefresh(_) = status {
             title = "Invalid payment method"
             message = "Your current payment method needs to be updated."
+            LoggingService.shared.log(event: LoggingEvent.NeedsRefreshPayment, info: ["source": "JoinEventHelper"])
         } else {
             title = "No payment method available"
             message = "This event has a fee. Please add a payment method in your profile."
