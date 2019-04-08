@@ -7,6 +7,8 @@
 //
 
 import XCTest
+import Balizinha
+@testable import Panna
 
 class EventCellDonationTests: XCTestCase {
 
@@ -61,14 +63,12 @@ class EventCellDonationTests: XCTestCase {
     }
     
     fileprivate func setupPastEvent() {
-        event = Balizinha.Event()
         let hours = 5
-        event?.dict = ["name": "PastEvent", "endTime": (Date().timeIntervalSince1970 - Double(hours * 3600)) as AnyObject]
+        event = Balizinha.Event(key: "abc", dict: ["name": "PastEvent", "endTime": (Date().timeIntervalSince1970 - Double(hours * 3600)) as AnyObject])
     }
     
     fileprivate func setupFutureEvent() {
-        event = Balizinha.Event()
         let hours = 5
-        event?.dict = ["name": "FutureEvent", "endTime": (Date().timeIntervalSince1970 + Double(hours * 3600)) as AnyObject]
+        event = Balizinha.Event(key: "abc", dict: ["name": "FutureEvent", "endTime": (Date().timeIntervalSince1970 + Double(hours * 3600)) as AnyObject])
     }
 }

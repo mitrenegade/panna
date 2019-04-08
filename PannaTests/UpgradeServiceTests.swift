@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import Panna
 
 class UpgradeServiceTests: XCTestCase {
     
