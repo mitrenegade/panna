@@ -25,6 +25,5 @@ target 'Panna' do
     target 'PannaTests' do
        inherit! :search_paths
     end
-
 end
 

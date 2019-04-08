@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Balizinha
 
 class EventCellDonationTests: XCTestCase {
 

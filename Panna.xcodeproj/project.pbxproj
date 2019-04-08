@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29B162310BDE94DBE9AB247A /* Pods_PannaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4981281AEA3B60CCD66E677C /* Pods_PannaTests.framework */; };
 		8E09572521AAEAEE0037DA17 /* PlayerOnboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E09572421AAEAEE0037DA17 /* PlayerOnboarding.storyboard */; };
 		8E09572821AAEB670037DA17 /* OnboardingPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E09572721AAEB670037DA17 /* OnboardingPhotoViewController.swift */; };
 		8E09572A21AAEE570037DA17 /* OnboardingNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E09572921AAEE570037DA17 /* OnboardingNameViewController.swift */; };
@@ -306,6 +307,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29B162310BDE94DBE9AB247A /* Pods_PannaTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,6 +668,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8E7F7D8E22592C9100AE4C0B /* Build configuration list for PBXNativeTarget "PannaTests" */;
 			buildPhases = (
+				F9E91922F600D5FC1024F3AB /* [CP] Check Pods Manifest.lock */,
 				8E7F7D8322592C9100AE4C0B /* Sources */,
 				8E7F7D8422592C9100AE4C0B /* Frameworks */,
 				8E7F7D8522592C9100AE4C0B /* Resources */,
@@ -861,6 +864,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\"";
+		};
+		F9E91922F600D5FC1024F3AB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PannaTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1150,6 +1175,7 @@
 		};
 		8E7F7D8F22592C9100AE4C0B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 94979895EDCB6BB23785280B /* Pods-PannaTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1177,6 +1203,7 @@
 		};
 		8E7F7D9022592C9100AE4C0B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FEB029C312810BD330360991 /* Pods-PannaTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
