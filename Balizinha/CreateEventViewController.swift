@@ -27,13 +27,13 @@ fileprivate var FUTURE_DAYS = 90
 class CreateEventViewController: UIViewController, UITextViewDelegate {
     
     var options: [String]!
-    var eventTypes: [EventType] = [.other, .event3v3, .event5v5, .event7v7, .event11v11, .group, .social]
+    var eventTypes: [Balizinha.Event.EventType] = [.other, .event3v3, .event5v5, .event7v7, .event11v11, .group, .social]
     
     var currentField : UITextField?
     var currentTextView : UITextView?
     
     var name: String?
-    var type : EventType?
+    var type : Balizinha.Event.EventType?
     var venue: Venue?
     var date : Date?
     var dateString: String?
@@ -287,7 +287,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.venue = Venue(place, street, city, state, lat, lon)
         }
         if let type = UserDefaults.standard.string(forKey: "organizerCachedType") {
-            self.type = EventType(rawValue: type)
+            self.type = Balizinha.Event.EventType(rawValue: type)
         }
         if let info = UserDefaults.standard.string(forKey: "organizerCachedInfo") {
             self.info = info
@@ -425,7 +425,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         else {
             activityOverlay.show()
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? EventType.event3v3, city: city, state: state, lat: venue.lat, lon: venue.lon, place: venueName, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .event3v3, city: city, state: state, lat: venue.lat, lon: venue.lon, place: venueName, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
                 
                 self?.activityOverlay.hide()
                 
