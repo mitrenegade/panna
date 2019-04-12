@@ -19,7 +19,7 @@ fileprivate enum Sections: Int {
     case photo = 0
     case details = 1
     case notes = 2
-    case delete = 3
+    case cancel = 3
 }
 
 fileprivate var FUTURE_DAYS = 90
@@ -427,18 +427,18 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             activityOverlay.show()
             EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .event3v3, city: city, state: state, lat: venue.lat, lon: venue.lon, place: venueName, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
                 
-                self?.activityOverlay.hide()
-                
-                guard let event = event else {
-                    if let error = error {
-                        self?.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
-                    }
-                    self?.navigationItem.rightBarButtonItem?.isEnabled = true
-                    return
-                }
-                
-                // update photo if it has been changed
                 DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
+                    
+                    guard let event = event else {
+                        if let error = error {
+                            self?.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
+                        }
+                        self?.navigationItem.rightBarButtonItem?.isEnabled = true
+                        return
+                    }
+                    
+                    // update photo if it has been changed
                     if let image = self?.newEventImage {
                         self?.savePhoto(photo: image, event: event, completion: { url, id in
                             // no callback action
@@ -471,7 +471,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
     // MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        if eventToEdit?.userIsOrganizer == true {
+        if let event = eventToEdit, event.userIsOrganizer, CancelEventViewModel(event: event).shouldShow {
             return 4
         }
         return 3
@@ -485,7 +485,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             return options.count
         case Sections.notes.rawValue: // description
             return 1
-        case Sections.delete.rawValue:
+        case Sections.cancel.rawValue:
             return 1
         default:
             return 0
@@ -602,8 +602,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             }
 
             return cell
-        case Sections.delete.rawValue:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DeleteCell", for: indexPath)
+        case Sections.cancel.rawValue:
+            guard let event = eventToEdit, let cell = tableView.dequeueReusableCell(withIdentifier: "CancelEventCell", for: indexPath) as? CancelEventCell else { return UITableViewCell() }
+            cell.configure(event)
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath)
@@ -629,7 +630,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             label.text = "Details"
         case Sections.notes.rawValue:
             label.text = "Description"
-        case Sections.delete.rawValue:
+        case Sections.cancel.rawValue:
             view.backgroundColor = .white
             label.text = ""
         default:
@@ -643,7 +644,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         if section == Sections.photo.rawValue {
             return 100
         }
-        if section == Sections.delete.rawValue {
+        if section == Sections.cancel.rawValue {
             return 0.1
         }
         return 40
@@ -712,8 +713,8 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             if options[indexPath.row] == "Venue" {
                 performSegue(withIdentifier: "toLocationSearch", sender: nil)
             }
-        case Sections.delete.rawValue:
-            self.didClickDelete(nil)
+        case Sections.cancel.rawValue:
+            self.didClickCancelEvent(nil)
         default:
             break
         }
@@ -780,16 +781,17 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
 
 // MARK: Delete
 extension CreateEventViewController {
-    func didClickDelete(_ sender: UIButton?) {
+    func didClickCancelEvent(_ sender: UIButton?) {
         guard let event = eventToEdit else { return }
-        let alert = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Yes, delete this event", style: .default, handler: { (action) in
+        let viewModel = CancelEventViewModel(event: event)
+        let alert = UIAlertController(title: viewModel.alertTitle, message: viewModel.alertMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: viewModel.alertConfirmButtonText, style: .default, handler: { (action) in
             LoggingService.shared.log(event: .DeleteEvent, info: ["eventId": event.id])
             EventService.shared.deleteEvent(event)
             self.delegate?.eventsDidChange()
             self.navigationController?.dismiss(animated: true, completion: nil)
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
 }

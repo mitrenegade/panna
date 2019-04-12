@@ -70,6 +70,7 @@
 		8E73980D1FF921E500D48BA0 /* Montserrat-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8E7397EE1FF921C500D48BA0 /* Montserrat-ThinItalic.ttf */; };
 		8E74E54B1FA9FB51005F72DA /* PlaceSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E74E54A1FA9FB51005F72DA /* PlaceSearchViewController.swift */; };
 		8E74E54D1FA9FFF5005F72DA /* PlaceResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E74E54C1FA9FFF5005F72DA /* PlaceResultsViewController.swift */; };
+		8E78E5CD226018450005582D /* CancelEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E78E5CC226018450005582D /* CancelEventCell.swift */; };
 		8E7A2FF81F8313C6004EAE6A /* OrganizerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */; };
 		8E7A2FFC1F83256E004EAE6A /* Promotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFB1F83256E004EAE6A /* Promotion.swift */; };
 		8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */; };
@@ -221,6 +222,7 @@
 		8E7397FB1FF921D900D48BA0 /* Montserrat-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-ExtraLight.ttf"; sourceTree = "<group>"; };
 		8E74E54A1FA9FB51005F72DA /* PlaceSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchViewController.swift; sourceTree = "<group>"; };
 		8E74E54C1FA9FFF5005F72DA /* PlaceResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceResultsViewController.swift; sourceTree = "<group>"; };
+		8E78E5CC226018450005582D /* CancelEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelEventCell.swift; sourceTree = "<group>"; };
 		8E7A2FF71F8313C6004EAE6A /* OrganizerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizerService.swift; sourceTree = "<group>"; };
 		8E7A2FFB1F83256E004EAE6A /* Promotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promotion.swift; sourceTree = "<group>"; };
 		8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromoCell.swift; sourceTree = "<group>"; };
@@ -624,6 +626,7 @@
 				8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */,
 				C6B7412620FAD88B00B0FA00 /* LeagueButtonCell.swift */,
 				8E54EACF2164E5D000937355 /* FeedItemCell.swift */,
+				8E78E5CC226018450005582D /* CancelEventCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -895,6 +898,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E78E5CD226018450005582D /* CancelEventCell.swift in Sources */,
 				8EE5B3281E7F365200BC72A5 /* PlayerIcon.swift in Sources */,
 				8E7256AD1CDF7DB600C9E054 /* SignupViewController.swift in Sources */,
 				8E1B00541FC2CC8B00420256 /* TutoriaPageViewController.swift in Sources */,
