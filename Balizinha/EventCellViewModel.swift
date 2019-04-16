@@ -26,6 +26,25 @@ class EventCellViewModel: NSObject {
 
     var containsUser: Bool = false
 
+    var titleLabel: String {
+        let name = event.name ?? "Balizinha"
+        let type = event.type.rawValue
+        return "\(name) (\(type))"
+    }
+    
+    var placeLabel: String? {
+        return event.place
+    }
+    
+    var timeDateLabel: String {
+        if let startTime = event.startTime {
+            return "\(event.dateString(startTime)) \(event.timeString(startTime))"
+        }
+        else {
+            return "Date/Time TBD"
+        }
+    }
+
     var buttonTitle: String {
         guard !AuthService.isAnonymous else {
             return "Preview"
@@ -108,5 +127,22 @@ class EventCellViewModel: NSObject {
     
     var labelAttendanceText: String {
         return "\(event.numPlayers)"
+    }
+    
+    func getEventPhoto(_ completion: ((_ imageUrl: String?, _ image: UIImage?)->Void)?) {
+        if let leagueId = event.league {
+            FirebaseImageService().leaguePhotoUrl(with: leagueId) { (url) in
+                DispatchQueue.main.async {
+                    if let urlString = url?.absoluteString {
+                        completion?(urlString, nil)
+                    } else {
+                        completion?(nil, UIImage(named: "soccer"))
+                    }
+                }
+            }
+        } else {
+            // TODO: use different images based on event type
+            completion?(nil, UIImage(named: "soccer"))
+        }
     }
 }

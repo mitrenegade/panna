@@ -42,39 +42,19 @@ class EventCell: UITableViewCell {
 
     func setupWithEvent(_ event: Balizinha.Event) {
         self.event = event
-        let name = event.name ?? "Balizinha"
-        let type = event.type.rawValue
-        self.labelName.text = "\(name) (\(type))"
-        if let startTime = event.startTime {
-            self.labelTimeDate.text = "\(event.dateString(startTime)) \(event.timeString(startTime))"
-        }
-        else {
-            self.labelTimeDate.text = "Date/Time TBD"
-        }
-        let place = event.place
-        self.labelLocation.text = place
         let viewModel = EventCellViewModel(event: event)
 
-        if let leagueId = event.league {
-            FirebaseImageService().leaguePhotoUrl(with: leagueId) { [weak self] (url) in
-                DispatchQueue.main.async {
-                    if let urlString = url?.absoluteString {
-                        self?.eventLogo.imageUrl = urlString
-                    } else {
-                        self?.eventLogo.imageUrl = nil
-                        self?.eventLogo.image = UIImage(named: "soccer")
-                    }
-                }
-            }
-        } else {
-            eventLogo.imageUrl = nil
-            eventLogo.image = UIImage(named: "soccer")
+        labelName.text = viewModel.titleLabel
+        labelLocation.text = viewModel.placeLabel
+        labelTimeDate.text = viewModel.timeDateLabel
+
+        viewModel.getEventPhoto() { [weak self] imageUrl, image in
+            self?.eventLogo.imageUrl = imageUrl
+            self?.eventLogo.image = image
         }
 
-        let title = viewModel.buttonTitle
-        btnAction.setTitle(title, for: .normal)
+        btnAction.setTitle(viewModel.buttonTitle, for: .normal)
         btnAction.isHidden = viewModel.buttonHidden
-        btnAction.alpha = 1
         btnAction.titleLabel?.font = viewModel.buttonFont
         btnAction.isEnabled = viewModel.buttonActionEnabled
         
