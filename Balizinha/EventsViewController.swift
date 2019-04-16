@@ -19,8 +19,8 @@ class EventsViewController: UIViewController {
     var service = EventService.shared
     var joinHelper = JoinEventHelper()
     var allEvents : [Balizinha.Event] = []
-    var sortedEvents: [EventType: [Balizinha.Event]] = [:]
-    let eventOrder: [EventType] = [.event3v3, .event5v5, .event7v7, .event11v11, .group, .social, .other]
+    var sortedEvents: [Balizinha.Event.EventType: [Balizinha.Event]] = [:]
+    let eventOrder: [Balizinha.Event.EventType] = [.event3v3, .event5v5, .event7v7, .event11v11, .group, .social, .other]
 
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
     
