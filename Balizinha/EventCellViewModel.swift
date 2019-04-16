@@ -145,4 +145,23 @@ class EventCellViewModel: NSObject {
             completion?(nil, UIImage(named: "soccer"))
         }
     }
+    
+    func handleButtonTap(delegate: EventCellDelegate? = nil) {
+        guard !AuthService.isAnonymous else {
+            delegate?.previewEvent(event)
+            return
+        }
+        if event.userIsOrganizer {
+            // edit
+            if event.isCancelled {
+                print("Uncancel event")
+            } else {
+                delegate?.editEvent(event)
+            }
+        } else if !event.isPast {
+            let join = !containsUser
+            delegate?.joinOrLeaveEvent(event, join: join)
+        }
+
+    }
 }

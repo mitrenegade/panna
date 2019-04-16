@@ -65,26 +65,8 @@ class EventCell: UITableViewCell {
     @IBAction func didTapButton(_ sender: AnyObject) {
         print("Tapped Cancel/Join")
         guard let event = self.event else { return }
-        guard !AuthService.isAnonymous else {
-            delegate?.previewEvent(event)
-            return
-        }
 
         let viewModel = EventCellViewModel(event: event)
-
-        if event.userIsOrganizer {
-            // edit
-            self.delegate?.editEvent(event)
-        }
-        else if !event.isPast {
-            let containsUser: Bool
-            if let player = PlayerService.shared.current.value {
-                containsUser = event.containsPlayer(player)
-            } else {
-                containsUser = false
-            }
-            let join = !containsUser
-            delegate?.joinOrLeaveEvent(event, join: join)
-        }
+        viewModel.handleButtonTap(delegate: delegate)
     }
 }
