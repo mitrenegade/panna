@@ -53,7 +53,8 @@ class EventCell: UITableViewCell {
         }
         let place = event.place
         self.labelLocation.text = place
-        
+        let viewModel = EventCellViewModel(event: event)
+
         if let leagueId = event.league {
             FirebaseImageService().leaguePhotoUrl(with: leagueId) { [weak self] (url) in
                 DispatchQueue.main.async {
@@ -69,58 +70,16 @@ class EventCell: UITableViewCell {
             eventLogo.imageUrl = nil
             eventLogo.image = UIImage(named: "soccer")
         }
-        
-        let containsUser: Bool
-        if let player = PlayerService.shared.current.value {
-            containsUser = event.containsPlayer(player)
-        } else {
-            containsUser = false
-        }
-        
-        let viewModel = EventCellViewModel()
-        let title = viewModel.buttonTitle(eventStatus: (event.isPast, event.userIsOrganizer, containsUser))
+
+        let title = viewModel.buttonTitle
         btnAction.setTitle(title, for: .normal)
-        btnAction.isHidden = false
+        btnAction.isHidden = viewModel.buttonHidden
         btnAction.alpha = 1
-
-        let font = viewModel.buttonFont
-        btnAction.titleLabel?.font = font
-
-        if !event.isPast {
-            // Button display and action
-
-            if event.userIsOrganizer {
-                self.labelFull.text = "This is your event."
-                self.btnAction.isEnabled = true
-                btnAction.alpha = 1
-            }
-            else if containsUser {
-                self.labelFull.text = "You're going!" //To-Do: Add functionality whether or not event is full
-                self.btnAction.isEnabled = true
-                btnAction.alpha = 1
-            }
-            else {
-                if event.isFull {
-                    self.labelFull.text = "Event full"
-                    self.btnAction.isEnabled = false
-                    if !AuthService.isAnonymous {
-                        btnAction.alpha = 0.5
-                    }
-                }
-                else {
-                    let left = event.maxPlayers - event.numPlayers
-                    self.labelFull.text = "\(left) spots left"
-                    self.btnAction.isEnabled = true
-                    btnAction.alpha = 1
-                }
-            }
-            self.labelAttendance.text = "\(event.numPlayers)"
-        } else {
-            self.labelFull.isHidden = true
-            self.labelAttendance.text = "\(event.numPlayers)"
-            
-            self.btnAction.isHidden = true
-        }
+        btnAction.titleLabel?.font = viewModel.buttonFont
+        btnAction.isEnabled = viewModel.buttonActionEnabled
+        
+        labelFull.text = viewModel.labelFullText
+        labelAttendance.text = viewModel.labelAttendanceText
     }
 
     @IBAction func didTapButton(_ sender: AnyObject) {
@@ -130,6 +89,8 @@ class EventCell: UITableViewCell {
             delegate?.previewEvent(event)
             return
         }
+
+        let viewModel = EventCellViewModel(event: event)
 
         if event.userIsOrganizer {
             // edit
