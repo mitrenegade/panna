@@ -9,6 +9,8 @@
 import UIKit
 import Crashlytics
 import Balizinha
+import RxSwift
+import RxCocoa
 
 class CalendarViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -18,6 +20,7 @@ class CalendarViewController: UIViewController {
     fileprivate var allEvents: [Balizinha.Event] = []
     
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
+    let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +77,9 @@ class CalendarViewController: UIViewController {
         }
         
         // 2: Remove events the user has joined
-        EventService.shared.getEvents(for: user, completion: {[weak self] (eventIds) in
+        let service = EventService.shared
+        service.observeEvents(for: user)
+        service.userEventsObservable.subscribe(onNext: { [weak self] (eventIds) in
             guard let weakself = self else { return }
             let original = weakself.allEvents.filter({ (event) -> Bool in
                 eventIds.contains(event.id)
@@ -93,7 +98,7 @@ class CalendarViewController: UIViewController {
             })
             NotificationService.shared.refreshNotifications(self?.sortedUpcomingEvents)
             weakself.tableView.reloadData()
-        })
+        }).disposed(by: disposeBag)
     }
 }
 
