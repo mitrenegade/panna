@@ -721,6 +721,7 @@
                                         <connections>
                                             <outlet property="activityIndicator" destination="xWz-Q5-Drq" id="sA2-mB-vQU"/>
                                             <outlet property="btnAction" destination="lST-1o-YD0" id="MqL-lc-m0P"/>
+                                            <outlet property="constraintButtonWidth" destination="Zar-Ie-ZQa" id="14I-x1-5lo"/>
                                             <outlet property="eventLogo" destination="ORV-Tz-PEj" id="NtA-Ka-Nhc"/>
                                             <outlet property="labelAttendance" destination="qE8-7P-Oid" id="Nlg-gF-83X"/>
                                             <outlet property="labelFull" destination="fe4-ii-s0i" id="GfM-q6-PZZ"/>

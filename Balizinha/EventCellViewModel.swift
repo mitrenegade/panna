@@ -16,13 +16,13 @@ class EventCellViewModel: NSObject {
 
     private var containsUser: Bool = false
     private var status: (Bool, Bool, Bool, Bool) {
-        return (event.userIsOrganizer, event.isPast, event.isCancelled, containsUser)
+        return (event.userIsOrganizer, !event.isPast, !event.isCancelled, containsUser)
     }
     // convenience for switch statements
-    private let _isPast = true
     private let _isOrganizer = true
+    private let _isFuture = true
+    private let _isActive = true
     private let _containsUser = true
-    private let _isCancelled = true
 
     init(event: Balizinha.Event) {
         self.event = event
@@ -58,19 +58,19 @@ class EventCellViewModel: NSObject {
         }
 
         switch status {
-        case (_isOrganizer, !_isPast, let cancelled, _):
-            return cancelled ? "Edit" : "Uncancel"
-        case (_isOrganizer, _isPast, _, _):
-            break
-        case (_, !_isPast, _isCancelled, _):
+        case (_isOrganizer, _isFuture, _isActive, _): // organizer of active game
+            return "Edit"
+        case (_isOrganizer, _isFuture, !_isActive, _): // organizer of cancelled game
             return "Cancelled"
-        case (_, !_isPast, _, let containsUser):
+        case (_, _isFuture, _isActive, let containsUser): // nonorganizer of active game
             return containsUser ? "Leave" : "Join"
-        default:
-            break
+        case (_, _isFuture, !_isActive, _): // nonorganizer of cancelled game
+            return "Cancelled"
+        case (_, _, _isActive, let containsUser): // nonorganizer of past game
+            return ""
+        case (_, _, _, let containsUer): // nonorganizer of past cancelled game
+            return ""
         }
-        
-        return ""
     }
     
     var buttonFont: UIFont {
@@ -82,6 +82,17 @@ class EventCellViewModel: NSObject {
     
     var buttonHidden: Bool {
         return event.isPast
+    }
+    
+    var buttonWidth: CGFloat {
+        switch status {
+        case (_isOrganizer, _isFuture, !_isActive, _): // organizer of cancelled game
+            return 95
+        case (_, _isFuture, !_isActive, _): // nonorganizer of cancelled game
+            return 95
+        default:
+            return 60
+        }
     }
     
     var labelFullText: String? {

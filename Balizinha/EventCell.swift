@@ -25,6 +25,7 @@ class EventCell: UITableViewCell {
     @IBOutlet var labelTimeDate: UILabel!
     @IBOutlet var eventLogo: RAImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var constraintButtonWidth: NSLayoutConstraint?
     
     var event: Balizinha.Event?
     weak var delegate: EventCellDelegate?
@@ -60,6 +61,8 @@ class EventCell: UITableViewCell {
         
         labelFull.text = viewModel.labelFullText
         labelAttendance.text = viewModel.labelAttendanceText
+        
+        constraintButtonWidth?.constant = viewModel.buttonWidth
     }
 
     @IBAction func didTapButton(_ sender: AnyObject) {
