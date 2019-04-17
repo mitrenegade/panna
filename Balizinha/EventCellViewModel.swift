@@ -14,6 +14,16 @@ typealias EventStatus = (isPast: Bool, userIsOwner: Bool, userJoined: Bool)
 class EventCellViewModel: NSObject {
     var event: Balizinha.Event
 
+    private var containsUser: Bool = false
+    private var status: (Bool, Bool, Bool, Bool) {
+        return (event.userIsOrganizer, event.isPast, event.isCancelled, containsUser)
+    }
+    // convenience for switch statements
+    private let _isPast = true
+    private let _isOrganizer = true
+    private let _containsUser = true
+    private let _isCancelled = true
+
     init(event: Balizinha.Event) {
         self.event = event
         
@@ -23,17 +33,14 @@ class EventCellViewModel: NSObject {
             containsUser = false
         }
     }
-
-    var containsUser: Bool = false
-
     var titleLabel: String {
         let name = event.name ?? "Balizinha"
         let type = event.type.rawValue
         return "\(name) (\(type))"
     }
     
-    var placeLabel: String? {
-        return event.place
+    var placeLabel: String {
+        return event.place ?? "Location TBD"
     }
     
     var timeDateLabel: String {
@@ -50,23 +57,20 @@ class EventCellViewModel: NSObject {
             return "Preview"
         }
 
-        switch (event.isPast, event.userIsOrganizer, containsUser) {
-        case (true, false, true):
-            if SettingsService.donation() {
-                return "Pay" // donate
-            }
-            else {
-                return ""
-            }
-        case (true, false, false):
-            return ""
-        case (true, true, _):
-            return ""
-        case (false, true, _):
-            return "Edit"
-        case (false, false, let containsUser):
+        switch status {
+        case (_isOrganizer, !_isPast, let cancelled, _):
+            return cancelled ? "Edit" : "Uncancel"
+        case (_isOrganizer, _isPast, _, _):
+            break
+        case (_, !_isPast, _isCancelled, _):
+            return "Cancelled"
+        case (_, !_isPast, _, let containsUser):
             return containsUser ? "Leave" : "Join"
+        default:
+            break
         }
+        
+        return ""
     }
     
     var buttonFont: UIFont {
