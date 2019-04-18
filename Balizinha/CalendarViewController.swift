@@ -90,7 +90,7 @@ class CalendarViewController: UIViewController {
             })
 
             weakself.sortedPastEvents = original.filter({ (event) -> Bool in
-                event.isPast
+                event.isPast || event.isCancelled
             }).sorted(by: { (e1, e2) -> Bool in
                 // sort past events in descending time
                 guard let startTime1 = e1.startTime, let startTime2 = e2.startTime else { return true }
@@ -98,7 +98,7 @@ class CalendarViewController: UIViewController {
             })
             
             weakself.sortedUpcomingEvents = original.filter({ (event) -> Bool in
-                !event.isPast
+                !event.isPast && !event.isCancelled
             })
             NotificationService.shared.refreshNotifications(self?.sortedUpcomingEvents)
             DispatchQueue.main.async {

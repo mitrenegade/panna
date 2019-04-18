@@ -61,11 +61,11 @@ class EventCellViewModel: NSObject {
         case (_isOrganizer, _isFuture, _isActive, _): // organizer of active game
             return "Edit"
         case (_isOrganizer, _isFuture, !_isActive, _): // organizer of cancelled game
-            return "Cancelled"
+            return "Uncancel"
         case (_, _isFuture, _isActive, let containsUser): // nonorganizer of active game
             return containsUser ? "Leave" : "Join"
         case (_, _isFuture, !_isActive, _): // nonorganizer of cancelled game
-            return "Cancelled"
+            return ""
         case (_, _, _isActive, let containsUser): // nonorganizer of past game
             return ""
         case (_, _, _, let containsUer): // nonorganizer of past cancelled game
@@ -81,7 +81,14 @@ class EventCellViewModel: NSObject {
     }
     
     var buttonHidden: Bool {
-        return event.isPast
+        switch status {
+        case (_, !_isFuture, _, _): // past
+            return true
+        case (let organizer, _, !_isActive, _): // cancelled
+            return !organizer
+        default:
+            return false
+        }
     }
     
     var buttonWidth: CGFloat {
@@ -126,7 +133,7 @@ class EventCellViewModel: NSObject {
                 return true
             }
             else if containsUser {
-                return true
+                return !event.isCancelled
             }
             else {
                 if event.isFull {
