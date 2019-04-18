@@ -10,31 +10,30 @@ import Foundation
 import Balizinha
 
 class CancelEventViewModel {
+    let event: Balizinha.Event
     init(event: Balizinha.Event) {
+        self.event = event
+    }
+    
+    var cancelCellText: String {
         if event.isActive {
-            cancelCellText = "Cancel Event"
+            return "Cancel Event"
         } else if event.isCancelled {
-            cancelCellText = "Uncancel Event"
+            return "Uncancel Event"
         } else {
-            cancelCellText = ""
-        }
-        
-        shouldShow = !event.isPast
-        alertTitle = "Are you sure?"
-        alertMessage = nil
-        if event.isActive {
-            alertConfirmButtonText = "Yes, cancel this event"
-        } else if event.isCancelled {
-            alertConfirmButtonText = "Yes, uncancel this event"
+            return ""
         }
     }
     
-    // Cell
-    let shouldShow: Bool!
-    let cancelCellText: String!
-    
-    // alert
-    var alertTitle: String?
-    var alertMessage: String?
-    var alertConfirmButtonText: String?
+    var shouldShow: Bool { return !event.isPast }
+    var alertTitle: String? = "Are you sure?"
+    var alertMessage: String? = nil
+    var alertConfirmButtonText: String? {
+        if event.isActive {
+            return "Yes, cancel this event"
+        } else if event.isCancelled {
+            return "Yes, uncancel this event"
+        }
+        return "Yes"
+    }
 }
