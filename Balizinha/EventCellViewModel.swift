@@ -181,11 +181,7 @@ class EventCellViewModel: NSObject {
         }
         if event.userIsOrganizer {
             // edit
-            if event.isCancelled {
-                print("Uncancel event")
-            } else {
-                delegate?.editEvent(event)
-            }
+            delegate?.editEvent(event)
         } else if !event.isPast {
             let join = !containsUser
             delegate?.joinOrLeaveEvent(event, join: join)
