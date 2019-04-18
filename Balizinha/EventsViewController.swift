@@ -80,55 +80,66 @@ class EventsViewController: UIViewController {
     }
     
     @objc func refreshEvents() {
-        if SettingsService.usesGetAvailableEvents() {
-            service.getAvailableEvents { [weak self] (results) in
-                print("Results count \(results.count)")
-                self?.handleEvents(results)
-            }
-        } else {
-            service.getEvents(type: nil) { [weak self] (results) in
-                print("Results count \(results.count)")
-                self?.handleEvents(results)
-            }
+        guard let user = AuthService.currentUser else { return }
+        print("RefreshEvents called")
+        var availableEvents: [Balizinha.Event] = []
+        var userEvents: [String] = []
+        service.getAvailableEvents { [weak self] (results) in
+            guard let self = self else { return }
+            print("RefreshEvents: Results count \(results.count)")
+            availableEvents = results
+         
+            self.service.observeEvents(for: user)
+            self.service.userEventsObservable.subscribe(onNext: { [weak self] (eventIds) in
+                userEvents = eventIds
+                print("RefreshEvents: userEvents \(userEvents.count)")
+
+                self?.handleEvents(availableEvents, userEvents)
+            }).disposed(by: self.disposeBag)
         }
     }
     
-    fileprivate func handleEvents(_ results: [Balizinha.Event]) {
-        // completion function will get called once at the start, and each time events change
-        firstLoaded = true
+    func filterEvents(_ events: [Balizinha.Event], _ userEvents: [String]) {
+        // 1: Remove events the user has joined
+        allEvents = events.filter({ (event) -> Bool in
+            (!userEvents.contains(event.id) && !event.isPast)
+        })
         
-        // 1: sort all events by time
-        allEvents = filterByDistance(events: results).sorted { (event1, event2) -> Bool in
+        // 2. filter by distance
+        allEvents = filterByDistance(events: allEvents)
+        
+        // 3: sort events by time
+        allEvents = allEvents.sorted { (event1, event2) -> Bool in
             // ascending time
             guard let startTime1 = event1.startTime, let startTime2 = event2.startTime else { return true }
             return startTime1.timeIntervalSince(startTime2) < 0
         }
+    }
+    
+    fileprivate func handleEvents(_ results: [Balizinha.Event], _ eventIds: [String]) {
+        // completion function will get called once at the start, and each time events change
+        firstLoaded = true
         
-        // 2: Remove events the user has joined
-        guard let user = AuthService.currentUser else { return }
-        service.getEvents(for: user, completion: {[weak self] (eventIds) in
-            guard let weakself = self else { return }
-            
-            weakself.allEvents = weakself.allEvents.filter({ (event) -> Bool in
-                (!eventIds.contains(event.id) && !event.isPast)
-            })
-            
-            // 3: Organize events by type
-            weakself.sortedEvents = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .group: [], .social: [], .other: []]
-            
-            for event in weakself.allEvents {
-                if weakself.eventOrder.contains(event.type) {
-                    var eventArray = weakself.sortedEvents[event.type] ?? []
-                    eventArray.append(event)
-                    weakself.sortedEvents.updateValue(eventArray, forKey: event.type)
-                } else {
-                    var eventArray = weakself.sortedEvents[.other] ?? []
-                    eventArray.append(event)
-                    weakself.sortedEvents.updateValue(eventArray, forKey: .other)
-                }
+        // filter based on requirements
+        filterEvents(results, eventIds)
+        
+        // 4: Organize events by type
+        sortedEvents = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .group: [], .social: [], .other: []]
+        
+        for event in allEvents {
+            if eventOrder.contains(event.type) {
+                var eventArray = sortedEvents[event.type] ?? []
+                eventArray.append(event)
+                sortedEvents.updateValue(eventArray, forKey: event.type)
+            } else {
+                var eventArray = sortedEvents[.other] ?? []
+                eventArray.append(event)
+                sortedEvents.updateValue(eventArray, forKey: .other)
             }
-            weakself.reloadData()
-        })
+        }
+        DispatchQueue.main.async {
+            self.reloadData()
+        }
     }
     
     fileprivate func filterByDistance(events: [Balizinha.Event]) -> [Balizinha.Event]{
@@ -138,12 +149,10 @@ class EventsViewController: UIViewController {
         let threshold: Double = Double(SettingsService.eventFilterRadius * METERS_PER_MILE)
         let filtered = events.filter { (event) -> Bool in
             guard let lat = event.lat, let lon = event.lon else {
-                print("filtered event \(String(describing: event.name)) no lat lon")
                 return true
             }
             let coord = CLLocation(latitude: lat, longitude: lon)
             let dist = coord.distance(from: location)
-            print("filtered event \(String(describing: event.name)) coord \(coord) dist \(dist)")
             return dist < threshold
         }
         return filtered

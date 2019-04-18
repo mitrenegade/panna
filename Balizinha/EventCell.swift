@@ -15,41 +15,6 @@ protocol EventCellDelegate: class {
     func previewEvent(_ event: Balizinha.Event)
 }
 
-typealias EventStatus = (isPast: Bool, userIsOwner: Bool, userJoined: Bool)
-
-class EventCellViewModel: NSObject {
-    func buttonTitle(eventStatus: EventStatus) -> String {
-        guard !AuthService.isAnonymous else {
-            return "Preview"
-        }
-        
-        switch eventStatus {
-        case (true, false, true):
-            if SettingsService.donation() {
-                return "Pay" // donate
-            }
-            else {
-                return ""
-            }
-        case (true, false, false):
-            return ""
-        case (true, true, _):
-            return ""
-        case (false, true, _):
-            return "Edit"
-        case (false, false, let containsUser):
-            return containsUser ? "Leave" : "Join"
-        }
-    }
-    
-    var buttonFont: UIFont {
-        guard !AuthService.isAnonymous else {
-            return UIFont.montserrat(size: 13)
-        }
-        return UIFont.montserrat(size: 16)
-    }
-}
-
 class EventCell: UITableViewCell {
 
     @IBOutlet var btnAction: UIButton!
@@ -60,6 +25,7 @@ class EventCell: UITableViewCell {
     @IBOutlet var labelTimeDate: UILabel!
     @IBOutlet var eventLogo: RAImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var constraintButtonWidth: NSLayoutConstraint?
     
     var event: Balizinha.Event?
     weak var delegate: EventCellDelegate?
@@ -77,108 +43,33 @@ class EventCell: UITableViewCell {
 
     func setupWithEvent(_ event: Balizinha.Event) {
         self.event = event
-        let name = event.name ?? "Balizinha"
-        let type = event.type.rawValue
-        self.labelName.text = "\(name) (\(type))"
-        if let startTime = event.startTime {
-            self.labelTimeDate.text = "\(event.dateString(startTime)) \(event.timeString(startTime))"
-        }
-        else {
-            self.labelTimeDate.text = "Date/Time TBD"
-        }
-        let place = event.place
-        self.labelLocation.text = place
-        
-        if let leagueId = event.league {
-            FirebaseImageService().leaguePhotoUrl(with: leagueId) { [weak self] (url) in
-                DispatchQueue.main.async {
-                    if let urlString = url?.absoluteString {
-                        self?.eventLogo.imageUrl = urlString
-                    } else {
-                        self?.eventLogo.imageUrl = nil
-                        self?.eventLogo.image = UIImage(named: "soccer")
-                    }
-                }
-            }
-        } else {
-            eventLogo.imageUrl = nil
-            eventLogo.image = UIImage(named: "soccer")
-        }
-        
-        let containsUser: Bool
-        if let player = PlayerService.shared.current.value {
-            containsUser = event.containsPlayer(player)
-        } else {
-            containsUser = false
-        }
-        
-        let viewModel = EventCellViewModel()
-        let title = viewModel.buttonTitle(eventStatus: (event.isPast, event.userIsOrganizer, containsUser))
-        btnAction.setTitle(title, for: .normal)
-        btnAction.isHidden = false
-        btnAction.alpha = 1
+        let viewModel = EventCellViewModel(event: event)
 
-        let font = viewModel.buttonFont
-        btnAction.titleLabel?.font = font
+        labelName.text = viewModel.titleLabel
+        labelLocation.text = viewModel.placeLabel
+        labelTimeDate.text = viewModel.timeDateLabel
 
-        if !event.isPast {
-            // Button display and action
-
-            if event.userIsOrganizer {
-                self.labelFull.text = "This is your event."
-                self.btnAction.isEnabled = true
-                btnAction.alpha = 1
-            }
-            else if containsUser {
-                self.labelFull.text = "You're going!" //To-Do: Add functionality whether or not event is full
-                self.btnAction.isEnabled = true
-                btnAction.alpha = 1
-            }
-            else {
-                if event.isFull {
-                    self.labelFull.text = "Event full"
-                    self.btnAction.isEnabled = false
-                    if !AuthService.isAnonymous {
-                        btnAction.alpha = 0.5
-                    }
-                }
-                else {
-                    let left = event.maxPlayers - event.numPlayers
-                    self.labelFull.text = "\(left) spots left"
-                    self.btnAction.isEnabled = true
-                    btnAction.alpha = 1
-                }
-            }
-            self.labelAttendance.text = "\(event.numPlayers)"
-        } else {
-            self.labelFull.isHidden = true
-            self.labelAttendance.text = "\(event.numPlayers)"
-            
-            self.btnAction.isHidden = true
+        viewModel.getEventPhoto() { [weak self] imageUrl, image in
+            self?.eventLogo.imageUrl = imageUrl
+            self?.eventLogo.image = image
         }
+
+        btnAction.setTitle(viewModel.buttonTitle, for: .normal)
+        btnAction.isHidden = viewModel.buttonHidden
+        btnAction.titleLabel?.font = viewModel.buttonFont
+        btnAction.isEnabled = viewModel.buttonActionEnabled
+        
+        labelFull.text = viewModel.labelFullText
+        labelAttendance.text = viewModel.labelAttendanceText
+        
+        constraintButtonWidth?.constant = viewModel.buttonWidth
     }
 
     @IBAction func didTapButton(_ sender: AnyObject) {
         print("Tapped Cancel/Join")
         guard let event = self.event else { return }
-        guard !AuthService.isAnonymous else {
-            delegate?.previewEvent(event)
-            return
-        }
 
-        if event.userIsOrganizer {
-            // edit
-            self.delegate?.editEvent(event)
-        }
-        else if !event.isPast {
-            let containsUser: Bool
-            if let player = PlayerService.shared.current.value {
-                containsUser = event.containsPlayer(player)
-            } else {
-                containsUser = false
-            }
-            let join = !containsUser
-            delegate?.joinOrLeaveEvent(event, join: join)
-        }
+        let viewModel = EventCellViewModel(event: event)
+        viewModel.handleButtonTap(delegate: delegate)
     }
 }

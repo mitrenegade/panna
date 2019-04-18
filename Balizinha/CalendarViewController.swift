@@ -5,10 +5,15 @@
 //  Created by Tom Strissel on 5/18/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.
 //
+// TODO: this has enough similarity to EventsViewController
+// - subclass in order to reuse: refreshEvents, handleEvents, filterEvents
+// - override tableview delegate and sorting functions
 
 import UIKit
 import Crashlytics
 import Balizinha
+import RxSwift
+import RxCocoa
 
 class CalendarViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -18,6 +23,7 @@ class CalendarViewController: UIViewController {
     fileprivate var allEvents: [Balizinha.Event] = []
     
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
+    let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +68,7 @@ class CalendarViewController: UIViewController {
     
     fileprivate func handleEvents(_ results: [Balizinha.Event]) {
         // completion function will get called once at the start, and each time events change
+        // TODO: filter first then sort
         // 1: sort all events by time, ascending
         allEvents = results.sorted { (event1, event2) -> Bool in
             guard let startTime1 = event1.startTime, let startTime2 = event2.startTime else { return true }
@@ -74,12 +81,14 @@ class CalendarViewController: UIViewController {
         }
         
         // 2: Remove events the user has joined
-        EventService.shared.getEvents(for: user, completion: {[weak self] (eventIds) in
+        let service = EventService.shared
+        service.observeEvents(for: user)
+        service.userEventsObservable.subscribe(onNext: { [weak self] (eventIds) in
             guard let weakself = self else { return }
             let original = weakself.allEvents.filter({ (event) -> Bool in
                 eventIds.contains(event.id)
             })
-            
+
             weakself.sortedPastEvents = original.filter({ (event) -> Bool in
                 event.isPast
             }).sorted(by: { (e1, e2) -> Bool in
@@ -92,8 +101,10 @@ class CalendarViewController: UIViewController {
                 !event.isPast
             })
             NotificationService.shared.refreshNotifications(self?.sortedUpcomingEvents)
-            weakself.tableView.reloadData()
-        })
+            DispatchQueue.main.async {
+                weakself.tableView.reloadData()
+            }
+        }).disposed(by: disposeBag)
     }
 }
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.23.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="aVY-9Q-EzE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="aVY-9Q-EzE">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.16.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -167,6 +167,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="btnAction" destination="lED-BZ-iYf" id="hF4-jO-nVU"/>
+                                            <outlet property="constraintButtonWidth" destination="2hQ-zi-uck" id="Atn-c4-Jhw"/>
                                             <outlet property="eventLogo" destination="HrK-CS-LJ8" id="WUM-rc-oQM"/>
                                             <outlet property="labelAttendance" destination="3sn-6M-rAu" id="yKo-eV-156"/>
                                             <outlet property="labelFull" destination="kxj-cc-oj5" id="ipb-gs-b8H"/>
@@ -202,6 +203,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="profile30" width="30" height="30"/>
+        <image name="profile30" width="45" height="45"/>
     </resources>
 </document>
