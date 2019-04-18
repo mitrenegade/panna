@@ -128,6 +128,12 @@ class MapViewController: EventsViewController {
             constraintTableHeight.constant = self.view.frame.size.height
         }
     }
+    
+    override func filterEvents(_ events: [Event], _ userEvents: [String]) {
+        super.filterEvents(events, userEvents)
+        // for mapView, do not show cancelled events
+        allEvents = allEvents.filter { return !$0.isCancelled }
+    }
 }
 
 extension MapViewController {

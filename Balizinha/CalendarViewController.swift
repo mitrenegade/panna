@@ -5,6 +5,9 @@
 //  Created by Tom Strissel on 5/18/16.
 //  Copyright © 2016 Bobby Ren. All rights reserved.
 //
+// TODO: this has enough similarity to EventsViewController
+// - subclass in order to reuse: refreshEvents, handleEvents, filterEvents
+// - override tableview delegate and sorting functions
 
 import UIKit
 import Crashlytics
@@ -65,6 +68,7 @@ class CalendarViewController: UIViewController {
     
     fileprivate func handleEvents(_ results: [Balizinha.Event]) {
         // completion function will get called once at the start, and each time events change
+        // TODO: filter first then sort
         // 1: sort all events by time, ascending
         allEvents = results.sorted { (event1, event2) -> Bool in
             guard let startTime1 = event1.startTime, let startTime2 = event2.startTime else { return true }
@@ -97,7 +101,9 @@ class CalendarViewController: UIViewController {
                 !event.isPast
             })
             NotificationService.shared.refreshNotifications(self?.sortedUpcomingEvents)
-            weakself.tableView.reloadData()
+            DispatchQueue.main.async {
+                weakself.tableView.reloadData()
+            }
         }).disposed(by: disposeBag)
     }
 }

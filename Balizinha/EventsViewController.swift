@@ -106,24 +106,29 @@ class EventsViewController: UIViewController {
         }
     }
     
-    fileprivate func handleEvents(_ results: [Balizinha.Event], _ eventIds: [String]) {
-        // completion function will get called once at the start, and each time events change
-        firstLoaded = true
-        
+    func filterEvents(_ events: [Balizinha.Event], _ userEvents: [String]) {
         // 1: Remove events the user has joined
-        allEvents = results.filter({ (event) -> Bool in
-            (!eventIds.contains(event.id) && !event.isPast)
+        allEvents = events.filter({ (event) -> Bool in
+            (!userEvents.contains(event.id) && !event.isPast)
         })
         
         // 2. filter by distance
         allEvents = filterByDistance(events: allEvents)
-
+        
         // 3: sort events by time
         allEvents = allEvents.sorted { (event1, event2) -> Bool in
             // ascending time
             guard let startTime1 = event1.startTime, let startTime2 = event2.startTime else { return true }
             return startTime1.timeIntervalSince(startTime2) < 0
         }
+    }
+    
+    fileprivate func handleEvents(_ results: [Balizinha.Event], _ eventIds: [String]) {
+        // completion function will get called once at the start, and each time events change
+        firstLoaded = true
+        
+        // filter based on requirements
+        filterEvents(results, eventIds)
         
         // 4: Organize events by type
         sortedEvents = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .group: [], .social: [], .other: []]
