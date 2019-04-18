@@ -788,12 +788,18 @@ extension CreateEventViewController {
         alert.addAction(UIAlertAction(title: viewModel.alertConfirmButtonText, style: .default, handler: { (action) in
             let cancel = !event.isCancelled
             LoggingService.shared.log(event: .CancelEvent, info: ["eventId": event.id, "cancelled": cancel])
-            EventService.shared.cancelEvent(event, isCancelled: cancel, completion: { (error) in
-                if let error = error {
-                    print("Error \(error)")
+            self.activityOverlay.show()
+            EventService.shared.cancelEvent(event, isCancelled: cancel, completion: { [weak self] (error) in
+                DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
+                    if let error = error as NSError? {
+                        let title = cancel ? "cancel" : "uncancel"
+                        self?.simpleAlert("Could not \(title) event", defaultMessage: nil, error: error)
+                    } else {
+                        self?.delegate?.eventsDidChange()
+                        self?.navigationController?.dismiss(animated: true, completion: nil)
+                    }
                 }
-                self.delegate?.eventsDidChange()
-                self.navigationController?.dismiss(animated: true, completion: nil)
             })
         }))
         alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: nil))
