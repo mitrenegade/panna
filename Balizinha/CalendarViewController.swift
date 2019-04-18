@@ -88,7 +88,7 @@ class CalendarViewController: UIViewController {
             let original = weakself.allEvents.filter({ (event) -> Bool in
                 eventIds.contains(event.id)
             })
-            
+
             weakself.sortedPastEvents = original.filter({ (event) -> Bool in
                 event.isPast
             }).sorted(by: { (e1, e2) -> Bool in

@@ -60,6 +60,7 @@ enum LoggingEvent: String {
     case ToggleEventPaymentRequired
     case ChangeEventPaymentAmount
     case DeleteEvent
+    case CancelEvent
     
     // push
     case PushNotificationsToggled
