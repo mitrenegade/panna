@@ -35,6 +35,9 @@ class CalendarViewController: UIViewController {
         
         activityOverlay.setup(frame: view.frame)
         view.addSubview(activityOverlay)
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 44
     }
 
     deinit {

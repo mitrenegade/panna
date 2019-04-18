@@ -36,7 +36,11 @@ class EventCellViewModel: NSObject {
     var titleLabel: String {
         let name = event.name ?? "Balizinha"
         let type = event.type.rawValue
-        return "\(name) (\(type))"
+        if event.isCancelled {
+            return "\(name) (\(type)\n🚫 (CANCELLED)"
+        } else {
+            return "\(name) (\(type))"
+        }
     }
     
     var placeLabel: String {
@@ -95,8 +99,6 @@ class EventCellViewModel: NSObject {
         switch status {
         case (_isOrganizer, _isFuture, !_isActive, _): // organizer of cancelled game
             return 95
-        case (_, _isFuture, !_isActive, _): // nonorganizer of cancelled game
-            return 95
         default:
             return 60
         }
@@ -110,7 +112,11 @@ class EventCellViewModel: NSObject {
                 return "This is your event."
             }
             else if containsUser {
-                return "You're going!" //To-Do: Add functionality whether or not event is full
+                if event.isCancelled {
+                    return "You joined"
+                } else {
+                    return "You're going!"
+                }
             }
             else {
                 if event.isFull {
