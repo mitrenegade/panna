@@ -36,7 +36,11 @@ class EventCellViewModel: NSObject {
     var titleLabel: String {
         let name = event.name ?? "Balizinha"
         let type = event.type.rawValue
-        return "\(name) (\(type))"
+        var title = "\(name) (\(type))"
+        if event.isCancelled {
+            title = title + "\n🚫 (CANCELLED)"
+        }
+        return title
     }
     
     var placeLabel: String {
@@ -61,11 +65,11 @@ class EventCellViewModel: NSObject {
         case (_isOrganizer, _isFuture, _isActive, _): // organizer of active game
             return "Edit"
         case (_isOrganizer, _isFuture, !_isActive, _): // organizer of cancelled game
-            return "Cancelled"
+            return "Uncancel"
         case (_, _isFuture, _isActive, let containsUser): // nonorganizer of active game
             return containsUser ? "Leave" : "Join"
         case (_, _isFuture, !_isActive, _): // nonorganizer of cancelled game
-            return "Cancelled"
+            return ""
         case (_, _, _isActive, let containsUser): // nonorganizer of past game
             return ""
         case (_, _, _, let containsUer): // nonorganizer of past cancelled game
@@ -81,14 +85,19 @@ class EventCellViewModel: NSObject {
     }
     
     var buttonHidden: Bool {
-        return event.isPast
+        switch status {
+        case (_, !_isFuture, _, _): // past
+            return true
+        case (let organizer, _, !_isActive, _): // cancelled
+            return !organizer
+        default:
+            return false
+        }
     }
     
     var buttonWidth: CGFloat {
         switch status {
         case (_isOrganizer, _isFuture, !_isActive, _): // organizer of cancelled game
-            return 95
-        case (_, _isFuture, !_isActive, _): // nonorganizer of cancelled game
             return 95
         default:
             return 60
@@ -103,7 +112,11 @@ class EventCellViewModel: NSObject {
                 return "This is your event."
             }
             else if containsUser {
-                return "You're going!" //To-Do: Add functionality whether or not event is full
+                if event.isCancelled {
+                    return "You joined"
+                } else {
+                    return "You're going!"
+                }
             }
             else {
                 if event.isFull {
@@ -126,7 +139,7 @@ class EventCellViewModel: NSObject {
                 return true
             }
             else if containsUser {
-                return true
+                return !event.isCancelled
             }
             else {
                 if event.isFull {
@@ -168,11 +181,7 @@ class EventCellViewModel: NSObject {
         }
         if event.userIsOrganizer {
             // edit
-            if event.isCancelled {
-                print("Uncancel event")
-            } else {
-                delegate?.editEvent(event)
-            }
+            delegate?.editEvent(event)
         } else if !event.isPast {
             let join = !containsUser
             delegate?.joinOrLeaveEvent(event, join: join)

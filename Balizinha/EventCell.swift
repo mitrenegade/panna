@@ -58,6 +58,7 @@ class EventCell: UITableViewCell {
         btnAction.isHidden = viewModel.buttonHidden
         btnAction.titleLabel?.font = viewModel.buttonFont
         btnAction.isEnabled = viewModel.buttonActionEnabled
+        btnAction.alpha = viewModel.buttonActionEnabled ? 1 : 0.5
         
         labelFull.text = viewModel.labelFullText
         labelAttendance.text = viewModel.labelAttendanceText

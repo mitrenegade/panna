@@ -26,8 +26,22 @@ class CancelEventViewModel {
     }
     
     var shouldShow: Bool { return !event.isPast }
-    var alertTitle: String? = "Are you sure?"
-    var alertMessage: String? = nil
+    var alertTitle: String? {
+        if event.isCancelled {
+            return "This event is inactive"
+        } else {
+            return "This event is active"
+        }
+    }
+
+    var alertMessage: String? {
+        if event.isCancelled {
+            return "Are you sure you want to uncancel it? It will become available to join."
+        } else {
+            return "Are you sure you want to cancel this event? It will no longer be available."
+        }
+    }
+
     var alertConfirmButtonText: String? {
         if event.isActive {
             return "Yes, cancel this event"

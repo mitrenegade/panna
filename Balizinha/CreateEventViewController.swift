@@ -112,6 +112,9 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         
         if eventToEdit == nil && eventToClone == nil && CACHE_ORGANIZER_FAVORITE_LOCATION {
             self.loadCachedOrganizerFavorites()
+        } else if let event = eventToEdit, event.isCancelled {
+            // prompt to uncancel event right away
+            didClickCancelEvent(nil)
         }
         
         view.addSubview(activityOverlay)
