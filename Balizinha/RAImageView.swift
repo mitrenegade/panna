@@ -9,11 +9,14 @@
 import UIKit
 
 class RAImageManager: NSObject {
-    static var imageCache = [String: UIImage]()
     let defaultSession = URLSession(configuration: .default)
     var task: URLSessionDataTask?
     var loadingUrl: String?
     fileprivate var imageView: RAImageView?
+    
+    // image cache and read write queue
+    private static var imageCache = [String: UIImage]()
+    private static let readWriteQueue = DispatchQueue(label: "imageCacheReadWrite", attributes: .concurrent)
     
     init(imageView: RAImageView?) {
         self.imageView = imageView
@@ -25,8 +28,8 @@ class RAImageManager: NSObject {
             return
         }
         cancel()
-
-        if let cached = RAImageManager.imageCache[imageUrl] {
+        
+        if let cached = cachedImage(for: imageUrl) {
             completion?(cached)
             return
         }
@@ -46,10 +49,8 @@ class RAImageManager: NSObject {
                 completion?(nil)
             } else if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
                 let image = UIImage(data: data)
-                RAImageManager.imageCache[currentUrl] = image
-                guard self?.loadingUrl == currentUrl else {
-                    print("url has changed - cancel")
-                    return
+                if let image = image {
+                    self?.cache(image: image, url: currentUrl)
                 }
                 completion?(image)
             }
@@ -62,6 +63,20 @@ class RAImageManager: NSObject {
         task = nil
         loadingUrl = nil
         imageView?.activityIndicator?.stopAnimating()
+    }
+    
+    private func cache(image: UIImage, url: String) {
+        RAImageManager.readWriteQueue.async(flags: .barrier) {
+            RAImageManager.imageCache[url] = image
+        }
+    }
+    
+    private func cachedImage(for url: String) -> UIImage? {
+        var image: UIImage?
+        RAImageManager.readWriteQueue.sync {
+            image = RAImageManager.imageCache[url]
+        }
+        return image
     }
 }
 
