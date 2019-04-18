@@ -36,11 +36,11 @@ class EventCellViewModel: NSObject {
     var titleLabel: String {
         let name = event.name ?? "Balizinha"
         let type = event.type.rawValue
+        var title = "\(name) (\(type))"
         if event.isCancelled {
-            return "\(name) (\(type)\n🚫 (CANCELLED)"
-        } else {
-            return "\(name) (\(type))"
+            title = title + "\n🚫 (CANCELLED)"
         }
+        return title
     }
     
     var placeLabel: String {

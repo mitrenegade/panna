@@ -71,10 +71,19 @@ class EventDisplayViewController: UIViewController {
 
         // Setup event details
         self.view.bringSubview(toFront: labelType.superview!)
-        let name = self.event?.name ?? "Balizinha"
-        let type = self.event?.type.rawValue ?? ""
-        self.labelType.text = "\(name)\n\(type)"
         
+        guard let event = event else {
+            imageShare?.isHidden = true
+            buttonShare?.isHidden = true
+            constraintButtonJoinHeight.constant = 0
+            return
+        }
+
+        let viewModel = EventDetailsViewModel(event: event)
+
+        labelType.text = viewModel.labelTitleText
+        labelSpotsLeft.text = viewModel.spotsLeftLabelText
+
         imageShare?.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
         imageClone?.image = UIImage(named: "copy30")?.withRenderingMode(.alwaysTemplate)
 
@@ -117,14 +126,7 @@ class EventDisplayViewController: UIViewController {
         else {
             constraintPaymentHeight?.constant = 0
         }
-        
-        guard let event = event else {
-            imageShare?.isHidden = true
-            buttonShare?.isHidden = true
-            constraintButtonJoinHeight.constant = 0
-            return
-        }
-        
+
         // reserve spot
         listenFor(NotificationType.EventsChanged, action: #selector(refreshJoin), object: nil)
         refreshJoin()
@@ -145,8 +147,6 @@ class EventDisplayViewController: UIViewController {
             imageClone?.isHidden = true
             buttonClone?.isHidden = true
             
-            //constraintButtonJoinHeight.constant = 0
-            labelSpotsLeft.text = "\(event.numPlayers) are playing"
             self.hideChat()
             return
         }
