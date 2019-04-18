@@ -30,7 +30,9 @@ class EventDetailsViewModel: NSObject {
             return "\(event.numPlayers) are playing"
         }
         
-        if event.isPast {
+        if event.isCancelled {
+            return ""
+        } else if event.isPast {
             return "\(event.numPlayers) joined this event"
         } else {
             if event.isFull {
