@@ -82,7 +82,11 @@ class EventsViewController: UIViewController {
     @objc func refreshEvents() {
         var availableEvents: [Balizinha.Event] = []
         var userEvents: [String] = []
-        service.getAvailableEvents { [weak self] (results) in
+        var userId = ""
+        if let user = AuthService.currentUser {
+            userId = user.uid
+        }
+        service.getAvailableEvents(for: userId) { [weak self] (results) in
             guard let self = self else { return }
             availableEvents = results
          

@@ -56,16 +56,10 @@ class CalendarViewController: UIViewController {
     }
 
     @objc func refreshEvents() {
-        if SettingsService.usesGetAvailableEvents() {
-            EventService.shared.getAvailableEvents { [weak self] (results) in
-                print("Results count \(results.count)")
-                self?.handleEvents(results)
-            }
-        } else {
-            EventService.shared.getEvents(type: nil) { [weak self] (results) in
-                print("Results count \(results.count)")
-                self?.handleEvents(results)
-            }
+        guard let user = AuthService.currentUser else { return }
+        EventService.shared.getAvailableEvents(for: user.uid) { [weak self] (results) in
+            print("Results count \(results.count)")
+            self?.handleEvents(results)
         }
     }
     
