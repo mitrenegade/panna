@@ -23,7 +23,7 @@ class OrganizerViewController: UIViewController {
         // Do any additional setup after loading the view.
         playerIcon.frame = CGRect(x: 0, y: 0, width: iconView.frame.size.width, height: iconView.frame.size.height)
         iconView.addSubview(playerIcon)
-        if let event = event, let ownerId = event.owner {
+        if let event = event, let ownerId = event.organizer {
             PlayerService.shared.withId(id: ownerId, completion: { (player) in
                 self.playerIcon.object = player
                 if let player = player {

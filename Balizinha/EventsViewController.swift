@@ -80,22 +80,26 @@ class EventsViewController: UIViewController {
     }
     
     @objc func refreshEvents() {
-        guard let user = AuthService.currentUser else { return }
-        print("RefreshEvents called")
         var availableEvents: [Balizinha.Event] = []
         var userEvents: [String] = []
-        service.getAvailableEvents { [weak self] (results) in
+        var userId = ""
+        if let user = AuthService.currentUser {
+            userId = user.uid
+        }
+        service.getAvailableEvents(for: userId) { [weak self] (results) in
             guard let self = self else { return }
-            print("RefreshEvents: Results count \(results.count)")
             availableEvents = results
          
-            self.service.observeEvents(for: user)
-            self.service.userEventsObservable.subscribe(onNext: { [weak self] (eventIds) in
-                userEvents = eventIds
-                print("RefreshEvents: userEvents \(userEvents.count)")
-
-                self?.handleEvents(availableEvents, userEvents)
-            }).disposed(by: self.disposeBag)
+            if let user = AuthService.currentUser, !user.isAnonymous {
+                self.service.observeEvents(for: user)
+                self.service.userEventsObservable.subscribe(onNext: { [weak self] (eventIds) in
+                    userEvents = eventIds
+                    
+                    self?.handleEvents(availableEvents, userEvents)
+                }).disposed(by: self.disposeBag)
+            } else {
+                self.handleEvents(availableEvents, [])
+            }
         }
     }
     
