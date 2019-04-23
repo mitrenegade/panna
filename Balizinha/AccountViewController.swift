@@ -19,7 +19,7 @@ class AccountViewController: UIViewController {
     enum MenuSection: String {
         case player = "Player"
         case options = "Options"
-        case owner = "League Owner"
+//        case owner = "League Owner"
         case app = "App"
     }
     
@@ -32,10 +32,11 @@ class AccountViewController: UIViewController {
         case promo = "Promo program"
         case notifications = "Push notifications"
         case location = "Use my location"
+        case owner = "Switch to owner mode"
 
         // owner
-        case stripe = "Stripe account"
-        case subscriptions = "Subscriptions"
+//        case stripe = "Stripe account"
+//        case subscriptions = "Subscriptions"
         
         // app
         case feedback = "Feedback"
@@ -45,7 +46,7 @@ class AccountViewController: UIViewController {
     
     var menuSections: [MenuSection] = [.player, .options, .app]
     var menuOptions: [MenuSection: [MenuItem]] = [ .player: [.profile, .payment],
-                                                   .options: [.promo, .notifications, .location],
+                                                   .options: [.promo, .notifications, .location, .owner],
                                                    .app: [.feedback, .about, .logout]]
 
     var service = EventService.shared
@@ -64,6 +65,16 @@ class AccountViewController: UIViewController {
             removeMenuOption(.payment)
         }
 
+        var isOwner: Bool = false
+        for league in LeagueService.shared.allLeagues {
+            if league.ownerId == PlayerService.shared.current.value?.id {
+                isOwner = true
+                break
+            }
+        }
+        if !isOwner {
+            removeMenuOption(.owner)
+        }
         navigationItem.title = "Account"
         listenFor(NotificationType.LocationOptionsChanged, action: #selector(self.reloadTableData), object: nil)
         
@@ -194,26 +205,12 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard section < menuSections.count else { return nil }
-        if menuSections[section] == .owner {
-            if case .account = Globals.stripeConnectService.accountState.value {
-                return menuSections[section].rawValue
-            } else {
-                return nil
-            }
-        }
         return menuSections[section].rawValue
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard section < menuSections.count else { return 0 }
         guard let options = menuOptions[menuSections[section]] else { return 0}
-        if menuSections[section] == .owner {
-            if case .account = Globals.stripeConnectService.accountState.value {
-                return options.count
-            } else {
-                return 0
-            }
-        }
         return options.count
     }
     
@@ -231,7 +228,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             cell.configure()
             return cell
             
-        case .profile, .about, .feedback, .stripe, .subscriptions, .logout:
+        case .profile, .about, .feedback, .logout, .owner:
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             cell.textLabel?.text = option.rawValue
             cell.accessoryType = .disclosureIndicator
@@ -305,10 +302,12 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             showAboutOptions()
         case .feedback:
             performSegue(withIdentifier: "toFeedback", sender: nil)
-        case .stripe:
-            performSegue(withIdentifier: "toStripe", sender: nil)
-        case .subscriptions:
-            performSegue(withIdentifier: "toSubscriptions", sender: nil)
+        case .owner:
+            break
+//        case .stripe:
+//            performSegue(withIdentifier: "toStripe", sender: nil)
+//        case .subscriptions:
+//            performSegue(withIdentifier: "toSubscriptions", sender: nil)
         }
     }
     
