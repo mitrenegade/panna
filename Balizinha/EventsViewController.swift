@@ -61,6 +61,9 @@ class EventsViewController: UIViewController {
         
         activityOverlay.setup(frame: self.view.frame)
         view.addSubview(activityOverlay)
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 44
     }
     
     deinit {

@@ -24,6 +24,7 @@ class EventCell: UITableViewCell {
     @IBOutlet var labelName: UILabel!
     @IBOutlet var labelTimeDate: UILabel!
     @IBOutlet var eventLogo: RAImageView!
+    @IBOutlet var labelType: UILabel?
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var constraintButtonWidth: NSLayoutConstraint?
     
@@ -46,6 +47,7 @@ class EventCell: UITableViewCell {
         let viewModel = EventCellViewModel(event: event)
 
         labelName.text = viewModel.titleLabel
+        labelType?.text = viewModel.typeLabel
         labelLocation.text = viewModel.placeLabel
         labelTimeDate.text = viewModel.timeDateLabel
 
