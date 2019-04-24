@@ -61,25 +61,25 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uh7-53-B5o">
-                                                    <rect key="frame" x="85" y="19" width="41" height="18.5"/>
+                                                    <rect key="frame" x="85" y="19" width="37" height="17.5"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tL6-xl-BWA">
-                                                    <rect key="frame" x="85" y="39.5" width="41" height="15"/>
+                                                    <rect key="frame" x="85" y="38.5" width="37" height="14"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ce0-0E-fsL">
-                                                    <rect key="frame" x="85" y="54.5" width="41" height="15"/>
+                                                    <rect key="frame" x="85" y="52.5" width="37" height="14"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Eb4-WT-gtg">
-                                                    <rect key="frame" x="285" y="117" width="82" height="66"/>
+                                                    <rect key="frame" x="285" y="117.5" width="82" height="65"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="siC-IH-43i" userLabel="View - Attendance">
                                                             <rect key="frame" x="21" y="0.0" width="40" height="17"/>
@@ -115,7 +115,7 @@
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kxj-cc-oj5">
-                                                            <rect key="frame" x="0.0" y="19" width="82" height="15"/>
+                                                            <rect key="frame" x="0.0" y="19" width="82" height="14"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="82" id="Uzt-qe-Uh0"/>
                                                             </constraints>
@@ -124,7 +124,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lED-BZ-iYf">
-                                                            <rect key="frame" x="11" y="36" width="60" height="30"/>
+                                                            <rect key="frame" x="11" y="35" width="60" height="30"/>
                                                             <color key="backgroundColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="60" id="2hQ-zi-uck"/>
@@ -146,25 +146,36 @@
                                                         </button>
                                                     </subviews>
                                                 </stackView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="VhI-Ky-fOl">
+                                                    <rect key="frame" x="25" y="73" width="50" height="15.5"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="tL6-xl-BWA" firstAttribute="top" secondItem="uh7-53-B5o" secondAttribute="bottom" constant="2" id="1QT-h2-qb6"/>
+                                                <constraint firstItem="VhI-Ky-fOl" firstAttribute="trailing" secondItem="HrK-CS-LJ8" secondAttribute="trailing" id="2Yf-os-fOb"/>
                                                 <constraint firstItem="tL6-xl-BWA" firstAttribute="leading" secondItem="uh7-53-B5o" secondAttribute="leading" id="9gC-Bo-mIE"/>
                                                 <constraint firstItem="Eb4-WT-gtg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="uh7-53-B5o" secondAttribute="trailing" constant="8" id="GGF-av-ezN"/>
                                                 <constraint firstItem="ce0-0E-fsL" firstAttribute="leading" secondItem="HrK-CS-LJ8" secondAttribute="trailing" constant="10" id="I62-IA-CUl"/>
+                                                <constraint firstItem="VhI-Ky-fOl" firstAttribute="leading" secondItem="HrK-CS-LJ8" secondAttribute="leading" id="I64-B3-8z9"/>
                                                 <constraint firstItem="Eb4-WT-gtg" firstAttribute="centerY" secondItem="eSO-h7-nx5" secondAttribute="centerY" id="Ki4-HU-k0H"/>
                                                 <constraint firstItem="tL6-xl-BWA" firstAttribute="leading" secondItem="HrK-CS-LJ8" secondAttribute="trailing" constant="10" id="M4t-du-evx"/>
                                                 <constraint firstItem="ce0-0E-fsL" firstAttribute="trailing" secondItem="uh7-53-B5o" secondAttribute="trailing" id="R6e-sx-4pB"/>
+                                                <constraint firstItem="VhI-Ky-fOl" firstAttribute="top" secondItem="HrK-CS-LJ8" secondAttribute="bottom" constant="4" id="S1s-LI-2TS"/>
                                                 <constraint firstItem="HrK-CS-LJ8" firstAttribute="leading" secondItem="eSO-h7-nx5" secondAttribute="leadingMargin" constant="10" id="TrN-NK-hYl"/>
                                                 <constraint firstItem="uh7-53-B5o" firstAttribute="top" secondItem="HrK-CS-LJ8" secondAttribute="top" id="VXh-rs-vQu"/>
                                                 <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="ce0-0E-fsL" secondAttribute="bottom" constant="8" id="YSN-bC-cu6"/>
                                                 <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="Eb4-WT-gtg" secondAttribute="bottom" constant="8" id="ZCH-OL-hiN"/>
+                                                <constraint firstItem="VhI-Ky-fOl" firstAttribute="centerX" secondItem="HrK-CS-LJ8" secondAttribute="centerX" id="fX8-gC-KaD"/>
                                                 <constraint firstItem="uh7-53-B5o" firstAttribute="leading" secondItem="HrK-CS-LJ8" secondAttribute="trailing" constant="10" id="mqG-Z7-z8z"/>
                                                 <constraint firstItem="HrK-CS-LJ8" firstAttribute="top" secondItem="eSO-h7-nx5" secondAttribute="topMargin" constant="8" id="o8u-ik-WMj"/>
                                                 <constraint firstItem="tL6-xl-BWA" firstAttribute="trailing" secondItem="uh7-53-B5o" secondAttribute="trailing" id="qaL-mZ-zxA"/>
                                                 <constraint firstItem="ce0-0E-fsL" firstAttribute="top" secondItem="tL6-xl-BWA" secondAttribute="bottom" id="rwV-nJ-mMy"/>
                                                 <constraint firstAttribute="trailing" secondItem="Eb4-WT-gtg" secondAttribute="trailing" constant="8" id="tGl-kv-Odl"/>
                                                 <constraint firstItem="ce0-0E-fsL" firstAttribute="leading" secondItem="uh7-53-B5o" secondAttribute="leading" id="uQm-QH-hai"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="VhI-Ky-fOl" secondAttribute="bottom" constant="8" id="yGS-7c-gRA"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -177,6 +188,7 @@
                                             <outlet property="labelLocation" destination="ce0-0E-fsL" id="unb-Ox-GSe"/>
                                             <outlet property="labelName" destination="uh7-53-B5o" id="4Va-dw-CFy"/>
                                             <outlet property="labelTimeDate" destination="tL6-xl-BWA" id="0Jz-5Q-xjR"/>
+                                            <outlet property="labelType" destination="VhI-Ky-fOl" id="f5l-uG-rEi"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
