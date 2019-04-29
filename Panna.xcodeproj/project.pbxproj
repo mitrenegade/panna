@@ -804,7 +804,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Panna/Pods-Panna-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Panna/Pods-Panna-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -841,7 +841,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Panna/Pods-Panna-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Panna/Pods-Panna-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BD4034CDECCE5F82AD70949C /* [CP] Check Pods Manifest.lock */ = {
