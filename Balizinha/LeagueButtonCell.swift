@@ -71,7 +71,7 @@ class ShareLeagueButtonViewModel: LeagueButtonCellViewModel {
             return false
         }
         
-        if league.owner == PlayerService.shared.current.value?.id {
+        if league.ownerId == PlayerService.shared.current.value?.id {
             return true
         }
         

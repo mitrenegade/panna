@@ -114,7 +114,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.loadCachedOrganizerFavorites()
         } else if let event = eventToEdit, event.isCancelled {
             // prompt to uncancel event right away
-            didClickCancelEvent(nil)
+            promptForCancelDeleteEvent(event)
         }
         
         view.addSubview(activityOverlay)
@@ -717,7 +717,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 performSegue(withIdentifier: "toLocationSearch", sender: nil)
             }
         case Sections.cancel.rawValue:
-            self.didClickCancelEvent(nil)
+            guard let event = eventToEdit else { return }
+
+            promptForCancelDeleteEvent(event)
         default:
             break
         }
@@ -784,11 +786,25 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
 
 // MARK: Delete
 extension CreateEventViewController {
-    func didClickCancelEvent(_ sender: UIButton?) {
-        guard let event = eventToEdit else { return }
+    private func promptForCancelDeleteEvent(_ event: Balizinha.Event) {
         let viewModel = CancelEventViewModel(event: event)
-        let alert = UIAlertController(title: viewModel.alertTitle, message: viewModel.alertMessage, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: viewModel.alertConfirmButtonText, style: .default, handler: { (action) in
+        let title = "Event options"
+        let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: viewModel.cancelOptionText, style: .default) { [weak self] (action) in
+            self?.doCancel(event)
+        })
+        alert.addAction(UIAlertAction(title: viewModel.deleteOptionText, style: .default) { [weak self] (action) in
+            self?.doDelete(event)
+        })
+        alert.addAction(UIAlertAction(title: "Never mind", style: .cancel) { (action) in
+        })
+        present(alert, animated: true, completion: nil)
+    }
+
+    private func doCancel(_ event: Balizinha.Event) {
+        let viewModel = CancelEventViewModel(event: event)
+        let alert = UIAlertController(title: viewModel.alertTitle, message: viewModel.cancelMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: viewModel.cancelConfirmButtonText, style: .default, handler: { (action) in
             let cancel = !event.isCancelled
             LoggingService.shared.log(event: .CancelEvent, info: ["eventId": event.id, "cancelled": cancel])
             self.activityOverlay.show()
@@ -805,8 +821,28 @@ extension CreateEventViewController {
                 }
             })
         }))
-        alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: viewModel.alertCancelText, style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func doDelete(_ event: Balizinha.Event) {
+        let viewModel = CancelEventViewModel(event: event)
+        let alert = UIAlertController(title: viewModel.alertTitle, message: viewModel.deleteMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: viewModel.deleteConfirmButtonText, style: .default, handler: { (action) in
+            EventService.shared.deleteEvent(event) { [weak self] (error) in
+                if let error = error as NSError? {
+                    print("Event \(event.id) delete with error \(error)")
+                    let title = "Could not delete event"
+                    self?.simpleAlert(title, defaultMessage: "There was an error with deletion.", error: error)
+                } else {
+                    self?.delegate?.eventsDidChange()
+                    self?.navigationController?.dismiss(animated: true, completion: nil)
+                }
+            }
+        }))
+        alert.addAction(UIAlertAction(title: viewModel.alertCancelText, style: .cancel) { (action) in
+        })
+        present(alert, animated: true, completion: nil)
     }
 }
 

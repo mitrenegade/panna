@@ -69,7 +69,7 @@ class EventCellViewModel: NSObject {
         case (_isOrganizer, _isFuture, _isActive, _): // organizer of active game
             return "Edit"
         case (_isOrganizer, _isFuture, !_isActive, _): // organizer of cancelled game
-            return "Uncancel"
+            return "Options"
         case (_, _isFuture, _isActive, let containsUser): // nonorganizer of active game
             return containsUser ? "Leave" : "Join"
         case (_, _isFuture, !_isActive, _): // nonorganizer of cancelled game

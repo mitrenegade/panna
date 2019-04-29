@@ -17,12 +17,24 @@ class CancelEventViewModel {
     
     var cancelCellText: String {
         if event.isActive {
-            return "Cancel Event"
+            return "Cancel/Delete Event"
         } else if event.isCancelled {
-            return "Uncancel Event"
+            return "Uncancel/Delete Event"
         } else {
             return ""
         }
+    }
+    
+    var cancelOptionText: String {
+        if event.isActive {
+            return "Cancel Event"
+        } else {
+            return "Uncancel Event"
+        }
+    }
+    
+    var deleteOptionText: String {
+        return "Delete Event"
     }
     
     var shouldShow: Bool { return !event.isPast }
@@ -34,7 +46,7 @@ class CancelEventViewModel {
         }
     }
 
-    var alertMessage: String? {
+    var cancelMessage: String? {
         if event.isCancelled {
             return "Are you sure you want to uncancel it? It will become available to join."
         } else {
@@ -42,12 +54,24 @@ class CancelEventViewModel {
         }
     }
 
-    var alertConfirmButtonText: String? {
+    var cancelConfirmButtonText: String? {
         if event.isActive {
             return "Yes, cancel this event"
         } else if event.isCancelled {
             return "Yes, uncancel this event"
         }
         return "Yes"
+    }
+    
+    var deleteMessage: String? {
+        return "Are you sure you want to delete this event? This cannot be undone."
+    }
+    
+    var deleteConfirmButtonText: String? {
+        return "Confirm delete"
+    }
+    
+    var alertCancelText: String {
+        return "Not now"
     }
 }

@@ -37,7 +37,8 @@ class SettingsService: NSObject {
     static let defaults: [String: Any] = [SettingsKey.newestVersionIOS.rawValue:"0.1.0",
                                           SettingsKey.eventRadius.rawValue: EVENT_RADIUS_MILES_DEFAULT,
                                           SettingsKey.softUpgradeInterval.rawValue: SOFT_UPGRADE_INTERVAL_DEFAULT,
-                                          SettingsKey.useGetAvailableEvents.rawValue: false]
+                                          SettingsKey.useGetAvailableEvents.rawValue: false,
+                                          SettingsKey.paymentRequired.rawValue: true]
 
     static var shared: SettingsService {
         if singleton == nil {
