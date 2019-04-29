@@ -114,7 +114,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.loadCachedOrganizerFavorites()
         } else if let event = eventToEdit, event.isCancelled {
             // prompt to uncancel event right away
-            didClickCancelEvent(event)
+            promptForCancelDeleteEvent(event)
         }
         
         view.addSubview(activityOverlay)
@@ -719,18 +719,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         case Sections.cancel.rawValue:
             guard let event = eventToEdit else { return }
 
-            let viewModel = CancelEventViewModel(event: event)
-            let title = "Event options"
-            let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
-            alert.addAction(UIAlertAction(title: viewModel.cancelOptionText, style: .default) { [weak self] (action) in
-                self?.didClickCancelEvent(event)
-            })
-            alert.addAction(UIAlertAction(title: viewModel.deleteOptionText, style: .default) { [weak self] (action) in
-                self?.didClickDeleteEvent(event)
-            })
-            alert.addAction(UIAlertAction(title: "Never mind", style: .cancel) { (action) in
-            })
-            present(alert, animated: true, completion: nil)
+            promptForCancelDeleteEvent(event)
         default:
             break
         }
@@ -797,7 +786,22 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
 
 // MARK: Delete
 extension CreateEventViewController {
-    func didClickCancelEvent(_ event: Balizinha.Event) {
+    private func promptForCancelDeleteEvent(_ event: Balizinha.Event) {
+        let viewModel = CancelEventViewModel(event: event)
+        let title = "Event options"
+        let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: viewModel.cancelOptionText, style: .default) { [weak self] (action) in
+            self?.doCancel(event)
+        })
+        alert.addAction(UIAlertAction(title: viewModel.deleteOptionText, style: .default) { [weak self] (action) in
+            self?.doDelete(event)
+        })
+        alert.addAction(UIAlertAction(title: "Never mind", style: .cancel) { (action) in
+        })
+        present(alert, animated: true, completion: nil)
+    }
+
+    private func doCancel(_ event: Balizinha.Event) {
         let viewModel = CancelEventViewModel(event: event)
         let alert = UIAlertController(title: viewModel.alertTitle, message: viewModel.cancelMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: viewModel.cancelConfirmButtonText, style: .default, handler: { (action) in
@@ -821,7 +825,7 @@ extension CreateEventViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func didClickDeleteEvent(_ event: Balizinha.Event) {
+    private func doDelete(_ event: Balizinha.Event) {
         let viewModel = CancelEventViewModel(event: event)
         let alert = UIAlertController(title: viewModel.alertTitle, message: viewModel.deleteMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: viewModel.deleteConfirmButtonText, style: .default, handler: { (action) in
