@@ -27,6 +27,7 @@ class JoinEventHelper: NSObject {
     weak var delegate: JoinEventDelegate?
     let paymentService: StripePaymentService
     private var disposeBag: DisposeBag = DisposeBag()
+    var amountRequired: Double = 0
 
     init(paymentService: StripePaymentService = Globals.stripePaymentService) {
         self.paymentService = paymentService
@@ -35,7 +36,7 @@ class JoinEventHelper: NSObject {
     func checkIfPartOfLeague() {
         guard let event = event else { return }
         guard let leagueId = event.league, !leagueId.isEmpty, let player = PlayerService.shared.current.value else {
-            checkIfAlreadyPaid()
+            shouldChargeForEvent()
             return
         }
             
@@ -47,7 +48,7 @@ class JoinEventHelper: NSObject {
                 LeagueService.shared.withId(id: leagueId, completion: { [weak self] (league) in
                     guard let league = league else {
                         DispatchQueue.main.async {
-                            self?.checkIfAlreadyPaid()
+                            self?.shouldChargeForEvent()
                         }
                         return
                     }
@@ -59,10 +60,11 @@ class JoinEventHelper: NSObject {
                         // join league
                         LeagueService.shared.join(league: league, completion: { [weak self] (result, error) in
                             if let error = error as NSError? {
+                                self?.delegate?.stopActivityIndicator()
                                 self?.rootViewController?.simpleAlert("Could not join league", defaultMessage: "There was an error joining the league.", error: error)
                             } else {
                                 self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
-                                self?.checkIfAlreadyPaid()
+                                self?.shouldChargeForEvent()
                             }
                         })
                     }))
@@ -75,7 +77,35 @@ class JoinEventHelper: NSObject {
                 })
             } else {
                 DispatchQueue.main.async {
-                    self?.checkIfAlreadyPaid()
+                    self?.shouldChargeForEvent()
+                }
+            }
+        }
+    }
+    
+    func shouldChargeForEvent() {
+        guard let event = event else { return }
+        guard let current = PlayerService.shared.current.value else {
+            rootViewController?.simpleAlert("Could not load event", message: "Please update your player profile!")
+            return
+        }
+        let params: [String: Any] = ["eventId": event.id, "userId": current.id]
+        delegate?.startActivityIndicator()
+        RenderAPIService().cloudFunction(functionName: "shouldChargeForEvent", method: "POST", params: params) { [weak self] (result, error) in
+            DispatchQueue.main.async {
+                if let dict = result as? [String: Any] {
+                    let paymentRequired = dict["paymentRequired"] as? Bool ?? false
+                    if let amount: Double = dict["amount"] as? Double {
+                        self?.amountRequired = amount
+                    }
+                    if paymentRequired {
+                        self?.checkIfAlreadyPaid()
+                    } else {
+                        self?.joinEvent(event, userId: current.id)
+                    }
+                } else {
+                    self?.delegate?.stopActivityIndicator()
+                    self?.rootViewController?.simpleAlert("Could not load event", defaultMessage: "There was an error with this event.", error: error as? NSError)
                 }
             }
         }
@@ -119,9 +149,10 @@ class JoinEventHelper: NSObject {
             delegate?.stopActivityIndicator()
             guard let event = event else {
                 rootViewController?.simpleAlert("Invalid event", message: "Could not join event. Please try again.")
+                delegate?.stopActivityIndicator()
                 return
             }
-            shouldCharge(for: event)
+            doCharge(for: event)
             disposeBag = DisposeBag()
         case .noCustomer, .noPaymentMethod, .needsRefresh:
             delegate?.stopActivityIndicator()
@@ -152,48 +183,26 @@ class JoinEventHelper: NSObject {
         rootViewController?.present(alert, animated: true, completion: nil)
     }
     
-    fileprivate func calculateAmountForEvent(event: Balizinha.Event, completion:@escaping ((Double)->Void)) {
-        let amount = event.amount?.doubleValue ?? 0
-        if let promotionId = PlayerService.shared.current.value?.promotionId {
-            delegate?.startActivityIndicator()
-            PromotionService.shared.withId(id: promotionId, completion: { [weak self] (promotion, error) in
-                self?.delegate?.stopActivityIndicator()
-                if let promotion = promotion, let discount = promotion.discountFactor {
-                    print("Balizinha.Event cost with discount of \(discount) = \(amount * discount)")
-                    completion(amount * discount)
-                }
-                else {
-                    print("Balizinha.Event cost either has no promotion or no discount. Error: \(String(describing: error))")
-                    completion(amount)
-                }
-            })
+    func doCharge(for event: Balizinha.Event) {
+        guard let paymentString: String = EventService.amountString(from: NSNumber(value: amountRequired)) else {
+            rootViewController?.simpleAlert("Could not calculate payment", message: "Please let us know about this error.")
+            delegate?.stopActivityIndicator()
+            return
         }
-        else {
-            print("Balizinha.Event cost has no promotion")
-            completion(amount)
-        }
-    }
-    
-    func shouldCharge(for event: Balizinha.Event) {
-        calculateAmountForEvent(event: event) {[weak self] (amount) in
-            guard let paymentString: String = EventService.amountString(from: NSNumber(value: amount)) else {
-                self?.rootViewController?.simpleAlert("Could not calculate payment", message: "Please let us know about this error.")
-                return
-            }
-            let alert = UIAlertController(title: "Confirm payment", message: "Press Ok to pay \(paymentString) for this game.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { [weak self] (action) in
-                self?.chargeAndWait(event: event, amount: amount)
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
-                self?.delegate?.didCancelPayment()
-            }))
-            self?.rootViewController?.present(alert, animated: true, completion: nil)
-        }
+        let alert = UIAlertController(title: "Confirm payment", message: "Press Ok to pay \(paymentString) for this game.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+            self.chargeAndWait(event: event, amount: self.amountRequired)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+            self.delegate?.didCancelPayment()
+        }))
+        rootViewController?.present(alert, animated: true, completion: nil)
     }
     
     func chargeAndWait(event: Balizinha.Event, amount: Double) {
         guard let current = PlayerService.shared.current.value else {
             rootViewController?.simpleAlert("Could not make payment", message: "Please update your player profile!")
+            delegate?.stopActivityIndicator()
             return
         }
         delegate?.startActivityIndicator()
