@@ -40,20 +40,14 @@ class PromotionService: NSObject {
     }
 
     func withId(id: String, completion: @escaping ((Promotion?, NSError?)->Void)) {
-        let reference = ref.child(path: "promotions").child(path: id)
-        reference.observeValue() { (snapshot) in
-            guard snapshot.exists() else {
-                completion(nil, NSError(domain: "balizinha.promo", code: 0, userInfo: ["reason": "Does not exist"]))
-                return
-            }
-
-            reference.removeAllObservers()
-            let promotion = Promotion(snapshot: snapshot)
-            if promotion.active {
+        apiService.cloudFunction(functionName: "promotionWithId", method: "POST", params: ["promotionId": id]) { (result, error) in
+            if let error = error as NSError? {
+                completion(nil, error)
+            } else if let dict = result as? [String: Any] {
+                let promotion = Promotion(key: id, dict: dict)
                 completion(promotion, nil)
-            }
-            else {
-                completion(nil, NSError(domain: "balizinha.promo", code: 1, userInfo: ["reason": "No longer active", "id": id]))
+            } else {
+                completion(nil, nil)
             }
         }
     }

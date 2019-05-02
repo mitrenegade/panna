@@ -111,15 +111,17 @@ class AccountViewController: UIViewController {
             if let textField = alert.textFields?[0], let promo = textField.text {
                 print("Using promo code \(promo)")
                 PromotionService.shared.withId(id: promo, completion: { [weak self] (promotion, error) in
-                    if let promotion = promotion {
-                        print("\(promotion)")
-                        current.promotionId = promotion.id
-                        self?.tableView.reloadData()
-                        LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "success", info: ["code":promo], error: nil)
-                    }
-                    else {
-                        self?.simpleAlert("Invalid promo code", message: "The promo code \(promo) seems to be invalid.")
-                        LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "invalid", info: ["code":promo], error: error)
+                    DispatchQueue.main.async {
+                        if let promotion = promotion {
+                            print("\(promotion)")
+                            current.promotionId = promotion.id
+                            self?.tableView.reloadData()
+                            LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "success", info: ["code":promo], error: nil)
+                        }
+                        else {
+                            self?.simpleAlert("Invalid promo code", message: "The promo code \(promo) seems to be invalid.")
+                            LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "invalid", info: ["code":promo], error: error)
+                        }
                     }
                 })
             }
@@ -258,11 +260,13 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             guard let player = PlayerService.shared.current.value else { return }
             if let promoId = player.promotionId {
                 PromotionService.shared.withId(id: promoId) { (promo, error) in
-                    if let promo = promo, promo.active {
-                        return
-                    }
-                    else {
-                        self.addPromotion()
+                    DispatchQueue.main.async {
+                        if let promo = promo, promo.active {
+                            return
+                        }
+                        else {
+                            self.addPromotion()
+                        }
                     }
                 }
             }

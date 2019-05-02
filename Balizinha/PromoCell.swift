@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseDatabase
 import Balizinha
+import RenderCloud
 
 class PromoCell: UITableViewCell {
 
@@ -28,12 +29,14 @@ class PromoCell: UITableViewCell {
         self.textLabel?.text = "Loading promotion"
         self.detailTextLabel?.text = nil
         PromotionService.shared.withId(id: promoId) { (promotion, error) in
-            if let promotion = promotion {
-                self.textLabel?.text = "Current promo: \(promotion.id)"
-                self.detailTextLabel?.text = promotion.info
-            }
-            else {
-                self.reset()
+            DispatchQueue.main.async {
+                if let promotion = promotion {
+                    self.textLabel?.text = "Current promo: \(promotion.id)"
+                    self.detailTextLabel?.text = promotion.info
+                }
+                else {
+                    self.reset()
+                }
             }
         }
     }
