@@ -124,21 +124,28 @@ class AccountViewController: UIViewController {
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (action) in
             if let textField = alert.textFields?[0], let promo = textField.text {
-                print("Using promo code \(promo)")
-                PromotionService.shared.withId(id: promo, completion: { [weak self] (promotion, error) in
-                    DispatchQueue.main.async {
-                        if let promotion = promotion {
-                            print("\(promotion)")
-                            LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "success", info: ["code":promo, "oldCode": currentPromotion?.id ?? "none"], error: nil)
-                            current.promotionId = promotion.id
-                            self?.tableView.reloadData()
+                if promo.isEmpty {
+                    // remove promo
+                    current.promotionId = nil
+                    LoggingService.shared.log(event: LoggingEvent.RemovePromoCode, message: "success", info: ["oldCode": currentPromotion?.id ?? "none"], error: nil)
+                    self?.reloadTableData()
+                }
+                else {
+                    PromotionService.shared.withId(id: promo, completion: { [weak self] (promotion, error) in
+                        DispatchQueue.main.async {
+                            if let promotion = promotion {
+                                print("\(promotion)")
+                                LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "success", info: ["code":promo, "oldCode": currentPromotion?.id ?? "none"], error: nil)
+                                current.promotionId = promotion.id
+                                self?.reloadTableData()
+                            }
+                            else {
+                                self?.simpleAlert("Invalid promo code", message: "The promo code \(promo) seems to be invalid.")
+                                LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "invalid", info: ["code":promo, "oldCode": currentPromotion?.id ?? "none"], error: error)
+                            }
                         }
-                        else {
-                            self?.simpleAlert("Invalid promo code", message: "The promo code \(promo) seems to be invalid.")
-                            LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "invalid", info: ["code":promo, "oldCode": currentPromotion?.id ?? "none"], error: error)
-                        }
-                    }
-                })
+                    })
+                }
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -319,7 +326,7 @@ extension AccountViewController: ToggleCellDelegate {
                 DispatchQueue.main.async { [weak self] in
                     if let error = error as NSError? {
                         self?.simpleAlert("Notification update error", defaultMessage: "Your notification settings were not updated.", error: error)
-                        self?.tableView.reloadData()
+                        self?.reloadTableData()
                     } else {
                         PlayerService.shared.refreshCurrentPlayer() // update notification setting on player
                     }

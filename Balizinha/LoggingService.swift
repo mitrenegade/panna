@@ -23,7 +23,6 @@ enum LoggingEvent: String {
     case PreviewTutorialClicked
     case PreviewEventClicked
     case PreviewSignupClicked
-    case AddPromoCode
     case WebsiteViewedFromAbout
     
     // sharing
@@ -81,6 +80,10 @@ enum LoggingEvent: String {
     case show_payment_controller
     case NeedsValidateCustomer // stripeCustomer doesn't exist
     case NeedsRefreshPayment // need to change STPCard to STPSource
+    
+    // promo
+    case AddPromoCode
+    case RemovePromoCode
 }
 
 class LoggingService: NSObject {

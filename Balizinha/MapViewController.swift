@@ -121,10 +121,10 @@ class MapViewController: EventsViewController {
                 constraintTableHeight.constant = 60
                 tableView.isScrollEnabled = false
             } else if count < 3 {
-                constraintTableHeight.constant = 100 * CGFloat(count)
+                constraintTableHeight.constant = 100.0 * CGFloat(count)
                 tableView.isScrollEnabled = false
             } else {
-                constraintTableHeight.constant = 100 * 2.5
+                constraintTableHeight.constant = 100.0 * 2.5
                 tableView.isScrollEnabled = true
             }
         } else {
