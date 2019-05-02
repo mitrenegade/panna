@@ -115,13 +115,16 @@ class MapViewController: EventsViewController {
     
     func refreshMap() {
         if shouldShowMap {
-            let cellHeight: CGFloat = 100
-            if allEvents.isEmpty || allEvents.count == 1 {
+            let count = allEvents.count
+            if allEvents.isEmpty {
                 // leave only 1 cell height on. the ratio is 3/7 of the frame height to start
-                constraintTableHeight.constant = cellHeight
+                constraintTableHeight.constant = 60
+                tableView.isScrollEnabled = false
+            } else if count < 3 {
+                constraintTableHeight.constant = 100 * CGFloat(count)
                 tableView.isScrollEnabled = false
             } else {
-                constraintTableHeight.constant = cellHeight * 2.5
+                constraintTableHeight.constant = 100 * 2.5
                 tableView.isScrollEnabled = true
             }
         } else {
