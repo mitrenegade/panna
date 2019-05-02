@@ -102,8 +102,23 @@ class AccountViewController: UIViewController {
 
     // MARK: - Promotions
     func addPromotion() {
+        promptForPromotion(nil)
+    }
+    
+    func promptForPromotion(_ currentPromotion: Promotion?) {
         guard let current = PlayerService.shared.current.value else { return }
-        let alert = UIAlertController(title: "Please enter a promo code", message: nil, preferredStyle: .alert)
+        let title: String
+        var message: String?
+        if let currentPromotion = currentPromotion {
+            title = "Change your promo code?"
+            message = "Your current promotion code is \"\(currentPromotion.id)\""
+            if let info = currentPromotion.info {
+                message = "Your current promotion code is \"\(currentPromotion.id)\"" + ": " + info
+            }
+        } else {
+            title = "Please enter a promo code"
+        }
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "Promo code"
         }
@@ -127,7 +142,7 @@ class AccountViewController: UIViewController {
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -258,20 +273,22 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             AuthService.shared.logout()
         case .promo:
             guard let player = PlayerService.shared.current.value else { return }
+            // TODO: use PromotionService to cache and automatically load current player's promotion.
+            // use a viewModel to determine the cell's UI
             if let promoId = player.promotionId {
-                PromotionService.shared.withId(id: promoId) { (promo, error) in
+                PromotionService.shared.withId(id: promoId) { [weak self] (promo, error) in
                     DispatchQueue.main.async {
                         if let promo = promo, promo.active {
-                            return
+                            self?.promptForPromotion(promo)
                         }
                         else {
-                            self.addPromotion()
+                            self?.addPromotion()
                         }
                     }
                 }
             }
             else {
-                self.addPromotion()
+                addPromotion()
             }
         case .payment:
             paymentCell?.shouldShowPaymentController()
