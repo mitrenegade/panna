@@ -129,13 +129,13 @@ class AccountViewController: UIViewController {
                     DispatchQueue.main.async {
                         if let promotion = promotion {
                             print("\(promotion)")
+                            LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "success", info: ["code":promo, "oldCode": currentPromotion?.id ?? "none"], error: nil)
                             current.promotionId = promotion.id
                             self?.tableView.reloadData()
-                            LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "success", info: ["code":promo], error: nil)
                         }
                         else {
                             self?.simpleAlert("Invalid promo code", message: "The promo code \(promo) seems to be invalid.")
-                            LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "invalid", info: ["code":promo], error: error)
+                            LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "invalid", info: ["code":promo, "oldCode": currentPromotion?.id ?? "none"], error: error)
                         }
                     }
                 })
