@@ -102,8 +102,23 @@ class AccountViewController: UIViewController {
 
     // MARK: - Promotions
     func addPromotion() {
+        promptForPromotion(nil)
+    }
+    
+    func promptForPromotion(_ currentPromotion: Promotion?) {
         guard let current = PlayerService.shared.current.value else { return }
-        let alert = UIAlertController(title: "Please enter a promo code", message: nil, preferredStyle: .alert)
+        let title: String
+        var message: String?
+        if let currentPromotion = currentPromotion {
+            title = "Change your promo code?"
+            message = "Your current promotion code is \"\(currentPromotion.id)\""
+            if let info = currentPromotion.info {
+                message = "Your current promotion code is \"\(currentPromotion.id)\"" + ": " + info
+            }
+        } else {
+            title = "Please enter a promo code"
+        }
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "Promo code"
         }
@@ -111,21 +126,23 @@ class AccountViewController: UIViewController {
             if let textField = alert.textFields?[0], let promo = textField.text {
                 print("Using promo code \(promo)")
                 PromotionService.shared.withId(id: promo, completion: { [weak self] (promotion, error) in
-                    if let promotion = promotion {
-                        print("\(promotion)")
-                        current.promotionId = promotion.id
-                        self?.tableView.reloadData()
-                        LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "success", info: ["code":promo], error: nil)
-                    }
-                    else {
-                        self?.simpleAlert("Invalid promo code", message: "The promo code \(promo) seems to be invalid.")
-                        LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "invalid", info: ["code":promo], error: error)
+                    DispatchQueue.main.async {
+                        if let promotion = promotion {
+                            print("\(promotion)")
+                            LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "success", info: ["code":promo, "oldCode": currentPromotion?.id ?? "none"], error: nil)
+                            current.promotionId = promotion.id
+                            self?.tableView.reloadData()
+                        }
+                        else {
+                            self?.simpleAlert("Invalid promo code", message: "The promo code \(promo) seems to be invalid.")
+                            LoggingService.shared.log(event: LoggingEvent.AddPromoCode, message: "invalid", info: ["code":promo, "oldCode": currentPromotion?.id ?? "none"], error: error)
+                        }
                     }
                 })
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -256,18 +273,22 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             AuthService.shared.logout()
         case .promo:
             guard let player = PlayerService.shared.current.value else { return }
+            // TODO: use PromotionService to cache and automatically load current player's promotion.
+            // use a viewModel to determine the cell's UI
             if let promoId = player.promotionId {
-                PromotionService.shared.withId(id: promoId) { (promo, error) in
-                    if let promo = promo, promo.active {
-                        return
-                    }
-                    else {
-                        self.addPromotion()
+                PromotionService.shared.withId(id: promoId) { [weak self] (promo, error) in
+                    DispatchQueue.main.async {
+                        if let promo = promo, promo.active {
+                            self?.promptForPromotion(promo)
+                        }
+                        else {
+                            self?.addPromotion()
+                        }
                     }
                 }
             }
             else {
-                self.addPromotion()
+                addPromotion()
             }
         case .payment:
             paymentCell?.shouldShowPaymentController()
