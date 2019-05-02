@@ -18,12 +18,22 @@ class EventsViewController: UIViewController {
     
     var service = EventService.shared
     var joinHelper = JoinEventHelper()
-    var allEvents : [Balizinha.Event] = []
     var sortedEvents: [Balizinha.Event.EventType: [Balizinha.Event]] = [:]
     let eventOrder: [Balizinha.Event.EventType] = [.event3v3, .event5v5, .event7v7, .event11v11, .group, .social, .other]
+    private var _allEvents: [Balizinha.Event] = []
+    
+    // getter to keep event read synchronous
+    var allEvents: [Balizinha.Event] {
+        var events: [Balizinha.Event] = []
+        readWriteQueue.sync {
+            events = _allEvents
+        }
+        return events
+    }
 
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
     
+    let readWriteQueue = DispatchQueue(label: "eventsReadWriteQueue", attributes: .concurrent)
     let disposeBag = DisposeBag()
     var recentLocation: CLLocation?
     var firstLoaded: Bool = false
@@ -106,21 +116,18 @@ class EventsViewController: UIViewController {
         }
     }
     
-    func filterEvents(_ events: [Balizinha.Event], _ userEvents: [String]) {
-        // 1: Remove events the user has joined
-        allEvents = events.filter({ (event) -> Bool in
-            (!userEvents.contains(event.id) && !event.isPast)
-        })
-        
+    func doFilter(_ events: [Balizinha.Event]) -> [Balizinha.Event] {
         // 2. filter by distance
-        allEvents = filterByDistance(events: allEvents)
+        var results: [Balizinha.Event] = filterByDistance(events: events)
         
         // 3: sort events by time
-        allEvents = allEvents.sorted { (event1, event2) -> Bool in
+        results = results.sorted { (event1, event2) -> Bool in
             // ascending time
             guard let startTime1 = event1.startTime, let startTime2 = event2.startTime else { return true }
             return startTime1.timeIntervalSince(startTime2) < 0
         }
+        
+        return results
     }
     
     fileprivate func handleEvents(_ results: [Balizinha.Event], _ eventIds: [String]) {
@@ -128,12 +135,18 @@ class EventsViewController: UIViewController {
         firstLoaded = true
         
         // filter based on requirements
-        filterEvents(results, eventIds)
+        // 1: Remove events the user has joined
+        var filteredEvents: [Balizinha.Event] = results.filter({ (event) -> Bool in
+            (!eventIds.contains(event.id) && !event.isPast)
+        })
         
-        // 4: Organize events by type
+        // 2. additional filtering
+        filteredEvents = doFilter(filteredEvents)
+        
+        // 3: Organize events by type
         sortedEvents = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .group: [], .social: [], .other: []]
         
-        for event in allEvents {
+        for event in filteredEvents {
             if eventOrder.contains(event.type) {
                 var eventArray = sortedEvents[event.type] ?? []
                 eventArray.append(event)
@@ -144,8 +157,14 @@ class EventsViewController: UIViewController {
                 sortedEvents.updateValue(eventArray, forKey: .other)
             }
         }
-        DispatchQueue.main.async {
-            self.reloadData()
+
+        // 4: write in queue
+        readWriteQueue.async(flags: .barrier) { [weak self] in
+            self?._allEvents = filteredEvents
+            
+            DispatchQueue.main.async {
+                self?.reloadData()
+            }
         }
     }
     
