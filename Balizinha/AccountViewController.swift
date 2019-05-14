@@ -32,7 +32,7 @@ class AccountViewController: UIViewController {
         case promo = "Promo program"
         case notifications = "Push notifications"
         case location = "Use my location"
-        case owner = "Switch to owner mode"
+        case switchMode = "Switch mode"
 
         // owner
         case stripe = "Stripe account"
@@ -44,10 +44,19 @@ class AccountViewController: UIViewController {
         case logout = "Logout"
     }
     
-    var menuSections: [MenuSection] = [.player, .options, .app]
+    enum MenuMode {
+        case player
+        case owner
+    }
+    
+    // owner mode
+    var menuMode: MenuMode = .player
+    var isOwner: Bool = false
+    
+    var menuSections: [MenuSection] = []
     var menuOptions: [MenuSection: [MenuItem]] = [ .player: [.profile, .payment],
                                                    .owner: [.stripe, .subscriptions],
-                                                   .options: [.promo, .notifications, .location, .owner],
+                                                   .options: [.promo, .notifications, .location, .switchMode],
                                                    .app: [.feedback, .about, .logout]]
 
     var service = EventService.shared
@@ -66,16 +75,14 @@ class AccountViewController: UIViewController {
             removeMenuOption(.payment)
         }
 
-        var isOwner: Bool = false
         for league in LeagueService.shared.allLeagues {
             if league.ownerId == PlayerService.shared.current.value?.id {
                 isOwner = true
                 break
             }
+            reloadMenu()
         }
-        if !isOwner {
-            removeMenuOption(.owner)
-        }
+
         navigationItem.title = "Account"
         listenFor(NotificationType.LocationOptionsChanged, action: #selector(self.reloadTableData), object: nil)
         
@@ -94,7 +101,7 @@ class AccountViewController: UIViewController {
             }
         }
     }
-
+    
     @objc func reloadTableData() {
         tableView.reloadData()
     }
@@ -195,6 +202,18 @@ class AccountViewController: UIViewController {
         navigationController?.present(alert, animated: true, completion: nil)
         
     }
+    
+    func reloadMenu() {
+        switch (isOwner, menuMode) {
+        case (false, _):
+            menuSections = [.player, .options, .app]
+        case (true, .player):
+            menuSections = [.player, .options, .app]
+        case (true, .owner):
+            menuSections = [.player, .options, .owner, .app]
+        }
+        reloadTableData()
+    }
 }
 
 extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
@@ -229,7 +248,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             cell.configure()
             return cell
             
-        case .profile, .about, .feedback, .logout, .owner:
+        case .profile, .about, .feedback, .logout:
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             cell.textLabel?.text = option.rawValue
             cell.accessoryType = .disclosureIndicator
@@ -257,12 +276,20 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             cell.selectionStyle = .none
             cell.delegate = self
             return cell
-        case .stripe:
-            print("stripe")
-            return UITableViewCell()
-        case .subscriptions:
-            print("subscriptions")
-            return UITableViewCell()
+        case  .switchMode, .stripe, .subscriptions:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            if option == .switchMode {
+                switch menuMode {
+                case .player:
+                    cell.textLabel?.text = "Switch to owner mode"
+                case .owner:
+                    cell.textLabel?.text = "Switch to player mode"
+                }
+            } else {
+                cell.textLabel?.text = option.rawValue
+            }
+            cell.accessoryType = .disclosureIndicator
+            return cell
         }
     }
     
@@ -309,8 +336,13 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             showAboutOptions()
         case .feedback:
             performSegue(withIdentifier: "toFeedback", sender: nil)
-        case .owner:
-            break
+        case .switchMode:
+            if menuMode == .player {
+                menuMode = .owner
+            } else {
+                menuMode = .player
+            }
+            reloadMenu()
         case .stripe:
             performSegue(withIdentifier: "toStripe", sender: nil)
         case .subscriptions:
