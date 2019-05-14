@@ -19,7 +19,7 @@ class AccountViewController: UIViewController {
     enum MenuSection: String {
         case player = "Player"
         case options = "Options"
-//        case owner = "League Owner"
+        case owner = "League Owner"
         case app = "App"
     }
     
@@ -35,8 +35,8 @@ class AccountViewController: UIViewController {
         case owner = "Switch to owner mode"
 
         // owner
-//        case stripe = "Stripe account"
-//        case subscriptions = "Subscriptions"
+        case stripe = "Stripe account"
+        case subscriptions = "Subscriptions"
         
         // app
         case feedback = "Feedback"
@@ -46,6 +46,7 @@ class AccountViewController: UIViewController {
     
     var menuSections: [MenuSection] = [.player, .options, .app]
     var menuOptions: [MenuSection: [MenuItem]] = [ .player: [.profile, .payment],
+                                                   .owner: [.stripe, .subscriptions],
                                                    .options: [.promo, .notifications, .location, .owner],
                                                    .app: [.feedback, .about, .logout]]
 
@@ -256,12 +257,18 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             cell.selectionStyle = .none
             cell.delegate = self
             return cell
+        case .stripe:
+            print("stripe")
+            return UITableViewCell()
+        case .subscriptions:
+            print("subscriptions")
+            return UITableViewCell()
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-       
+        
         let row = indexPath.row
         let section = menuSections[indexPath.section]
         guard let option = menuOptions[section]?[row] else { return }
@@ -304,18 +311,17 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             performSegue(withIdentifier: "toFeedback", sender: nil)
         case .owner:
             break
-//        case .stripe:
-//            performSegue(withIdentifier: "toStripe", sender: nil)
-//        case .subscriptions:
-//            performSegue(withIdentifier: "toSubscriptions", sender: nil)
+        case .stripe:
+            performSegue(withIdentifier: "toStripe", sender: nil)
+        case .subscriptions:
+            performSegue(withIdentifier: "toSubscriptions", sender: nil)
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.1
     }
 }
-
 extension AccountViewController: ToggleCellDelegate {
     func didToggle(_ toggle: UISwitch, isOn: Bool) {
         print("Switch changed to \(isOn)")
