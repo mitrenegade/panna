@@ -7,24 +7,36 @@
 //
 
 import UIKit
+import Balizinha
+import RenderCloud
 
 class SubscriptionsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        loadSubscriptions()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func didClickButton(_ sender: UIButton?) {
+        createSubscription()
     }
-    */
 
+    func loadSubscriptions() {
+        guard let userId = PlayerService.shared.current.value?.id else { return }
+        let params = ["userId": userId]
+        RenderAPIService().cloudFunction(functionName: "getSubscriptions", params: params) { (result, error) in
+            print("Result \(result) error \(error)")
+        }
+    }
+    
+    func createSubscription() {
+        guard let userId = PlayerService.shared.current.value?.id else { return }
+        let params = ["userId": userId, "leagueId": "123", "type": "owner"]
+        RenderAPIService().cloudFunction(functionName: "createSubscription", params: params) { (result, error) in
+            print("Result \(result) error \(error)")
+            
+            self.loadSubscriptions()
+        }
+    }
 }

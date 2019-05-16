@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -28,17 +28,40 @@
         <!--Subscriptions View Controller-->
         <scene sceneID="D9N-6s-gY8">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nWf-s8-sx8" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="SubscriptionsViewController" id="Lfq-33-0th" customClass="SubscriptionsViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TVb-S7-gId">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.0" green="1" blue="0.10985147112332161" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current stripe subscription:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BGE-gn-8rw">
+                                <rect key="frame" x="16" y="20" width="343" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fPB-AF-Z5e">
+                                <rect key="frame" x="16" y="48.5" width="343" height="30"/>
+                                <state key="normal" title="Create stripe subscription"/>
+                                <connections>
+                                    <action selector="didClickButton:" destination="Lfq-33-0th" eventType="touchUpInside" id="Euk-iI-nFK"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="BGE-gn-8rw" firstAttribute="leading" secondItem="rC7-2c-G1a" secondAttribute="leading" constant="16" id="0cB-Su-8Pe"/>
+                            <constraint firstItem="rC7-2c-G1a" firstAttribute="trailing" secondItem="fPB-AF-Z5e" secondAttribute="trailing" constant="16" id="2cZ-O5-C9V"/>
+                            <constraint firstItem="fPB-AF-Z5e" firstAttribute="leading" secondItem="rC7-2c-G1a" secondAttribute="leading" constant="16" id="8wz-38-lWB"/>
+                            <constraint firstItem="fPB-AF-Z5e" firstAttribute="top" secondItem="BGE-gn-8rw" secondAttribute="bottom" constant="8" id="HJZ-IJ-SD3"/>
+                            <constraint firstItem="rC7-2c-G1a" firstAttribute="trailing" secondItem="BGE-gn-8rw" secondAttribute="trailing" constant="16" id="cji-kq-4Lx"/>
+                            <constraint firstItem="BGE-gn-8rw" firstAttribute="top" secondItem="rC7-2c-G1a" secondAttribute="top" id="seY-yx-W2a"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="rC7-2c-G1a"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nWf-s8-sx8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="721" y="135"/>
+            <point key="canvasLocation" x="720.79999999999995" y="134.48275862068968"/>
         </scene>
     </scenes>
 </document>
