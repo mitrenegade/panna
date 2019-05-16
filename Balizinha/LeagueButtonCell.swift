@@ -37,7 +37,7 @@ class JoinLeagueButtonViewModel: LeagueButtonCellViewModel {
             return "Leave league"
         } else {
             // join league
-            if league.isPrivate {
+            if league.isPrivate && league.id != LeagueService.shared.featuredLeagueId {
                 return "League is private"
             } else {
                 return "Join league"
