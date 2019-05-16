@@ -156,6 +156,7 @@ class DeepLinkService: NSObject {
         hasQueuedDeepLinkOnOpen = true
         LeagueService.shared.withId(id: leagueId) { [weak self] league in
             guard league != nil else { return }
+            LeagueService.shared.featuredLeagueId = leagueId
             self?.notify(.DisplayFeaturedLeague, object: nil, userInfo: ["leagueId": leagueId])
             LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedLeagueOpened, info: ["leagueId": leagueId])
             self?.hasQueuedDeepLinkOnOpen = false
