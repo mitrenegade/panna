@@ -23,6 +23,7 @@ class PlayerInfoViewController: UIViewController {
     @IBOutlet weak var buttonLeague: UIButton!
 
     weak var currentInput: UITextField?
+    var cityPickerView: UIPickerView = UIPickerView()
 
     var player: Player?
     weak var delegate: PlayerDelegate?
@@ -65,6 +66,13 @@ class PlayerInfoViewController: UIViewController {
         self.inputName.inputAccessoryView = keyboardDoneButtonView
         self.inputCity.inputAccessoryView = keyboardDoneButtonView
         self.inputNotes.inputAccessoryView = keyboardDoneButtonView
+        
+        cityPickerView.sizeToFit()
+        cityPickerView.backgroundColor = .white
+        cityPickerView.delegate = self
+        cityPickerView.dataSource = self
+        
+        inputCity.inputView = cityPickerView
     }
     
     func refresh() {
@@ -353,6 +361,74 @@ extension PlayerInfoViewController {
             LeagueService.shared.leagueMemberships(for: player, completion: { (results) in
                 print("Leagues for player \(player.id): \(results)")
             })
+        }
+    }
+}
+
+extension PlayerInfoViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    //MARK: - Delegates and data sources
+    //MARK: Data Sources
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        //print("Reloaded number of rows")
+        if pickerView == self.typePickerView {
+            return eventTypes.count
+        }
+        else if pickerView == self.numberPickerView {
+            return 64
+        }
+        return FUTURE_DAYS // datePickerView: default 3 months
+    }
+    
+    // The data to return for the row and component (column) that's being passed in
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        //print("Reloaded components")
+        
+        if pickerView == self.typePickerView {
+            if eventTypes[row] == .other {
+                return "Select event type"
+            }
+            return eventTypes[row].rawValue
+        }
+        else if pickerView == self.datePickerView {
+            if row < self.datesForPicker.count {
+                return self.datesForPicker[row].dateStringForPicker()
+            }
+        }
+        if row == 0 {
+            return "Select a number"
+        }
+        return "\(row + 1)"
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        // let user pick more dates and click done
+        guard pickerView != self.datePickerView else { return }
+        guard let currentField = currentField else { return }
+        guard row > 0 else { return }
+        
+        updateLabel()
+        currentField.isUserInteractionEnabled = false
+        currentField.resignFirstResponder()
+    }
+    
+    func datePickerValueChanged(_ sender:UIPickerView) {
+        let row = sender.selectedRow(inComponent: 0)
+        guard row < self.datesForPicker.count else { return }
+        self.date = self.datesForPicker[row]
+        self.dateString = self.datesForPicker[row].dateStringForPicker()
+        currentField!.text = dateString
+    }
+    
+    @objc func timePickerValueChanged(_ sender:UIDatePicker) {
+        currentField!.text = sender.date.timeStringForPicker()
+        if (sender == startTimePickerView) {
+            self.startTime = sender.clampedDate
+        } else {
+            self.endTime = sender.clampedDate
         }
     }
 }
