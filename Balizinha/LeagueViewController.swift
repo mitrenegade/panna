@@ -257,7 +257,7 @@ extension LeagueViewController: UITableViewDataSource {
     fileprivate func feedIndex(for indexPath: IndexPath) -> Int? {
         let row = indexPath.row
         let index = feedItems.count - row - 1
-        guard index < feedItems.count, index > 0 else { return nil }
+        guard index < feedItems.count, index >= 0 else { return nil }
         return index
     }
     
