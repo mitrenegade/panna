@@ -20,7 +20,11 @@ target 'Panna' do
 
     pod 'Batch'
 
-    pod 'Stripe'
+    pod 'Stripe', '~> 14.0.0'
+
+    pod 'RxSwift', '~> 4.5.0'
+    pod 'RxCocoa', '~> 4.5.0'
+    pod 'RxOptional', '~>3.6.2'
 
     target 'PannaTests' do
        inherit! :search_paths
