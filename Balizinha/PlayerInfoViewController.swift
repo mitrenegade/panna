@@ -30,6 +30,7 @@ class PlayerInfoViewController: UIViewController {
     var isCreatingPlayer = false
     
     fileprivate var askedForPhoto = false
+    var service: VenueService?
     var cities: [City] = []
     
     override func viewDidLoad() {
@@ -76,14 +77,18 @@ class PlayerInfoViewController: UIViewController {
         inputCity.inputView = cityPickerView
         
         // load cities if needed
-        let service: VenueService = AIRPLANE_MODE ? MockVenueService.shared : VenueService.shared
-        if service.cities.isEmpty {
-            service.getCities { [weak self] (cities) in
+        if AIRPLANE_MODE {
+            service = MockVenueService()
+        } else {
+            service = VenueService.shared
+        }
+        if service?.cities.isEmpty ?? true {
+            service?.getCities { [weak self] (cities) in
                 print("loaded \(cities) cities")
                 self?.cities = cities
             }
         } else {
-            cities = service.cities
+            cities = service?.cities ?? []
         }
     }
     
@@ -401,9 +406,39 @@ extension PlayerInfoViewController: UIPickerViewDataSource, UIPickerViewDelegate
         // let user pick more dates and click done
         if row < cities.count {
             print("Picked city \(cities[row])")
-            inputCity.text = cities[row].shortString
+            let city = cities[row]
+            player?.city = city.shortString
+            player?.cityId = city.firebaseKey
+            inputCity.text = city.shortString
         } else {
             print("Add a city")
+            promptForNewCity()
         }
+    }
+}
+
+// Creating a new city
+extension PlayerInfoViewController {
+    func promptForNewCity() {
+        inputCity.resignFirstResponder()
+        let alert = UIAlertController(title: "Please enter a city name", message: nil, preferredStyle: .alert)
+        alert.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Boston"
+        }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            if let textField = alert.textFields?[0], let value = textField.text, !value.isEmpty {
+                self.service?.createCity(value, state: nil, lat: 0, lon: 0, completion: { [weak self] (city, error) in
+                    if let city = city {
+                        self?.player?.city = city.shortString
+                        self?.player?.cityId = city.firebaseKey
+                        self?.inputCity.text = city.shortString
+                    } else if let error = error as? NSError {
+                        self?.simpleAlert("Could not create city", defaultMessage: nil, error: error)
+                    }
+                })
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
     }
 }
