@@ -19,8 +19,8 @@ enum UserSettings: String {
     case DisplayedJoinEventMessage
 }
 
-var TESTING = false
-var AIRPLANE_MODE = false
+var TESTING = true
+var AIRPLANE_MODE = true
 
 let STRIPE_KEY_DEV = "pk_test_YYNWvzYJi3bTyOJi2SNK3IkE"
 let STRIPE_KEY_PROD = "pk_live_IziZ9EDk1374oI3rXjEciLBG"

@@ -76,13 +76,14 @@ class PlayerInfoViewController: UIViewController {
         inputCity.inputView = cityPickerView
         
         // load cities if needed
-        if VenueService.shared.cities.isEmpty {
-            VenueService.shared.getCities { [weak self] (cities) in
+        let service: VenueService = AIRPLANE_MODE ? MockVenueService.shared : VenueService.shared
+        if service.cities.isEmpty {
+            service.getCities { [weak self] (cities) in
                 print("loaded \(cities) cities")
                 self?.cities = cities
             }
         } else {
-            cities = VenueService.shared.cities
+            cities = service.cities
         }
     }
     
@@ -172,7 +173,7 @@ class PlayerInfoViewController: UIViewController {
             return
         }
         
-        if let text = self.inputName.text, text.characters.count > 0 {
+        if let text = self.inputName.text, text.count > 0 {
             player.name = text
         }
         else if isCreatingPlayer {
@@ -393,13 +394,14 @@ extension PlayerInfoViewController: UIPickerViewDataSource, UIPickerViewDelegate
         if row < cities.count {
             return cities[row].shortString
         }
-        return "Add a cities"
+        return "Add a city"
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         // let user pick more dates and click done
         if row < cities.count {
             print("Picked city \(cities[row])")
+            inputCity.text = cities[row].shortString
         } else {
             print("Add a city")
         }
