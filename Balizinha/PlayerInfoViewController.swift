@@ -30,6 +30,7 @@ class PlayerInfoViewController: UIViewController {
     var isCreatingPlayer = false
     
     fileprivate var askedForPhoto = false
+    var cities: [City] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,6 +74,16 @@ class PlayerInfoViewController: UIViewController {
         cityPickerView.dataSource = self
         
         inputCity.inputView = cityPickerView
+        
+        // load cities if needed
+        if VenueService.shared.cities.isEmpty {
+            VenueService.shared.getCities { [weak self] (cities) in
+                print("loaded \(cities) cities")
+                self?.cities = cities
+            }
+        } else {
+            cities = VenueService.shared.cities
+        }
     }
     
     func refresh() {
@@ -373,62 +384,24 @@ extension PlayerInfoViewController: UIPickerViewDataSource, UIPickerViewDelegate
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        //print("Reloaded number of rows")
-        if pickerView == self.typePickerView {
-            return eventTypes.count
-        }
-        else if pickerView == self.numberPickerView {
-            return 64
-        }
-        return FUTURE_DAYS // datePickerView: default 3 months
+        return cities.count + 1
     }
     
     // The data to return for the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         //print("Reloaded components")
-        
-        if pickerView == self.typePickerView {
-            if eventTypes[row] == .other {
-                return "Select event type"
-            }
-            return eventTypes[row].rawValue
+        if row < cities.count {
+            return cities[row].shortString
         }
-        else if pickerView == self.datePickerView {
-            if row < self.datesForPicker.count {
-                return self.datesForPicker[row].dateStringForPicker()
-            }
-        }
-        if row == 0 {
-            return "Select a number"
-        }
-        return "\(row + 1)"
+        return "Add a cities"
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         // let user pick more dates and click done
-        guard pickerView != self.datePickerView else { return }
-        guard let currentField = currentField else { return }
-        guard row > 0 else { return }
-        
-        updateLabel()
-        currentField.isUserInteractionEnabled = false
-        currentField.resignFirstResponder()
-    }
-    
-    func datePickerValueChanged(_ sender:UIPickerView) {
-        let row = sender.selectedRow(inComponent: 0)
-        guard row < self.datesForPicker.count else { return }
-        self.date = self.datesForPicker[row]
-        self.dateString = self.datesForPicker[row].dateStringForPicker()
-        currentField!.text = dateString
-    }
-    
-    @objc func timePickerValueChanged(_ sender:UIDatePicker) {
-        currentField!.text = sender.date.timeStringForPicker()
-        if (sender == startTimePickerView) {
-            self.startTime = sender.clampedDate
+        if row < cities.count {
+            print("Picked city \(cities[row])")
         } else {
-            self.endTime = sender.clampedDate
+            print("Add a city")
         }
     }
 }
