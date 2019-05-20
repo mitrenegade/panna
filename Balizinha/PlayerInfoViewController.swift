@@ -26,6 +26,7 @@ class PlayerInfoViewController: UIViewController {
     weak var currentInput: UITextField?
     var cityPickerView: UIPickerView = UIPickerView()
     var statePickerView: UIPickerView = UIPickerView()
+    var pickerRow: Int = -1
 
     var player: Player?
     weak var delegate: PlayerDelegate?
@@ -206,9 +207,16 @@ class PlayerInfoViewController: UIViewController {
         player?.info = self.inputNotes.text
         if currentInput == inputName, inputName.text?.isEmpty == false {
             player?.name = inputName.text
-        }
-        else if currentInput == inputCity, inputCity.text?.isEmpty == false {
-            player?.city = inputCity.text
+        } else if currentInput == inputCity {
+            if pickerRow >= 0 && pickerRow < cities.count {
+                let city = cities[pickerRow]
+                player?.city = city.shortString
+                player?.cityId = city.firebaseKey
+                inputCity.text = city.shortString
+            } else if pickerRow == cities.count {
+                print("Add a city")
+                promptForNewCity()
+            }
         }
     }
 
@@ -414,16 +422,7 @@ extension PlayerInfoViewController: UIPickerViewDataSource, UIPickerViewDelegate
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == cityPickerView {
-            if row < cities.count {
-                print("Picked city \(cities[row])")
-                let city = cities[row]
-                player?.city = city.shortString
-                player?.cityId = city.firebaseKey
-                inputCity.text = city.shortString
-            } else {
-                print("Add a city")
-                promptForNewCity()
-            }
+            pickerRow = row
         } else if pickerView == statePickerView {
             if row < stateAbbreviations.count {
                 print("Picked state \(stateAbbreviations[row])")
@@ -472,5 +471,9 @@ extension PlayerInfoViewController {
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true)
+        
+        // force first element in state list to be selected to populate textfield
+        statePickerView.selectRow(0, inComponent: 0, animated: true)
+        pickerView(statePickerView, didSelectRow: 0, inComponent: 0)
     }
 }
