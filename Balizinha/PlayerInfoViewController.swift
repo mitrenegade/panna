@@ -246,6 +246,18 @@ class PlayerInfoViewController: UIViewController {
 extension PlayerInfoViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         currentInput = textField
+        
+        if currentInput == inputCity {
+            // if player's city exists
+            if let cityId = player?.cityId, let city = cities.first(where: { (city) -> Bool in
+                return city.id == cityId
+            }) {
+                pickerRow = cities.index(of: city) ?? -1
+            }
+            // force first element in state list to be selected to populate textfield
+            cityPickerView.selectRow(pickerRow, inComponent: 0, animated: true)
+            pickerView(cityPickerView, didSelectRow: pickerRow, inComponent: 0)
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
