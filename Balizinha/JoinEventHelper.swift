@@ -59,12 +59,14 @@ class JoinEventHelper: NSObject {
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                         // join league
                         LeagueService.shared.join(league: league, completion: { [weak self] (result, error) in
-                            if let error = error as NSError? {
-                                self?.delegate?.stopActivityIndicator()
-                                self?.rootViewController?.simpleAlert("Could not join league", defaultMessage: "There was an error joining the league.", error: error)
-                            } else {
-                                self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
-                                self?.shouldChargeForEvent()
+                            DispatchQueue.main.async {
+                                if let error = error as NSError? {
+                                    self?.delegate?.stopActivityIndicator()
+                                    self?.rootViewController?.simpleAlert("Could not join league", defaultMessage: "There was an error joining the league.", error: error)
+                                } else {
+                                    self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
+                                    self?.shouldChargeForEvent()
+                                }
                             }
                         })
                     }))
