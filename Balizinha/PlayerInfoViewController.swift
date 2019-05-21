@@ -208,12 +208,12 @@ class PlayerInfoViewController: UIViewController {
         if currentInput == inputName, inputName.text?.isEmpty == false {
             player?.name = inputName.text
         } else if currentInput == inputCity {
-            if pickerRow >= 0 && pickerRow < cities.count {
-                let city = cities[pickerRow]
+            if pickerRow > 0 && pickerRow <= cities.count {
+                let city = cities[pickerRow - 1]
                 player?.city = city.shortString
                 player?.cityId = city.firebaseKey
                 inputCity.text = city.shortString
-            } else if pickerRow == cities.count {
+            } else if pickerRow == 0 {
                 print("Add a city")
                 promptForNewCity()
             }
@@ -422,10 +422,11 @@ extension PlayerInfoViewController: UIPickerViewDataSource, UIPickerViewDelegate
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView == cityPickerView {
-            if row < cities.count {
-                return cities[row].shortString
+            if row == 0 {
+                return "Add a city"
+            } else if row <= cities.count {
+                return cities[row - 1].shortString
             }
-            return "Add a city"
         } else if pickerView == statePickerView, row < stateAbbreviations.count {
             return stateAbbreviations[row]
         }
