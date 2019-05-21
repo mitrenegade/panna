@@ -1,5 +1,5 @@
 PODS:
-  - Balizinha (0.8.2):
+  - Balizinha (0.8.3):
     - Firebase
     - Firebase/Analytics
     - Firebase/Auth
@@ -163,7 +163,7 @@ PODS:
   - Stripe (14.0.0)
 
 DEPENDENCIES:
-  - Balizinha (from `https://bitbucket.org/renderapps/balizinha-pod`, tag `0.8.2`)
+  - Balizinha (from `https://bitbucket.org/renderapps/balizinha-pod`, tag `0.8.3`)
   - Batch
   - Crashlytics (~> 3.10.7)
   - DateTools
@@ -218,7 +218,7 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Balizinha:
     :git: https://bitbucket.org/renderapps/balizinha-pod
-    :tag: 0.8.2
+    :tag: 0.8.3
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
     :tag: 0.1.5
@@ -232,7 +232,7 @@ EXTERNAL SOURCES:
 CHECKOUT OPTIONS:
   Balizinha:
     :git: https://bitbucket.org/renderapps/balizinha-pod
-    :tag: 0.8.2
+    :tag: 0.8.3
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
     :tag: 0.1.5
@@ -244,7 +244,7 @@ CHECKOUT OPTIONS:
     :tag: 0.1.3
 
 SPEC CHECKSUMS:
-  Balizinha: 308e4aedce4b4c2609d6b8819983e77df884c8e2
+  Balizinha: 6ff5e13516226125a51cb90a0262ce1b34cbd539
   Batch: b629959502f20fc0e117894aa5420bdc90cb7db4
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Crashlytics: 55e24fc23989680285a21cb1146578d9d18e432c
@@ -280,6 +280,6 @@ SPEC CHECKSUMS:
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
 
-PODFILE CHECKSUM: 4d3affba532b894024e26957ee1dfec1c1b5c4a8
+PODFILE CHECKSUM: c695c1e8dad9781372cfbbec0fb7b9a0fc0ba76b
 
 COCOAPODS: 1.6.1
