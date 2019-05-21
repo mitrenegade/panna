@@ -89,11 +89,13 @@ class SignupViewController: UIViewController {
                         self?.simpleAlert("Could not log in", defaultMessage: nil, error: error)
                     }
                     else if let user = result {
-                        guard let disposeBag = self?.disposeBag else { return }
-                        let _ = PlayerService.shared.current.value // invoke listener
-                        PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
-                            PlayerService.shared.needsToCreateProfile = true
-                        }).disposed(by: disposeBag)
+                        PlayerService.shared.needsToCreateProfile = true
+
+//                        guard let disposeBag = self?.disposeBag else { return }
+//                        let _ = PlayerService.shared.current.value // invoke listener
+//                        PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
+//                            PlayerService.shared.needsToCreateProfile = true
+//                        }).disposed(by: disposeBag)
                     } else {
                         self?.simpleAlert("Could not log in", message: "Unknown error. Result: \(result)")
                     }
