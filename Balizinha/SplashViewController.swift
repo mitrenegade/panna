@@ -162,6 +162,10 @@ class SplashViewController: UIViewController {
         
         Globals.stripePaymentService.resetOnLogout()
         OrganizerService.resetOnLogout()
+        
+        LeagueService.resetOnLogout()
+        PlayerService.resetOnLogout()
+        EventService.resetOnLogout()
     }
     
     fileprivate func clearUserDefaults() {
