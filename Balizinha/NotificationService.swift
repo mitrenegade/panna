@@ -17,8 +17,6 @@ import RxOptional
 import Balizinha
 import RenderCloud
 
-let kEventNotificationMessage: String = "You have an event in 1 hour!"
-
 let gcmMessageIDKey = "gcm.message_id"
 
 enum NotificationType: String {
@@ -66,15 +64,34 @@ class NotificationService: NSObject {
     func scheduleNotificationForEvent(_ event: Balizinha.Event) {
         //create local notification
         guard let startTime = event.startTime else { return }
+        let interval = SettingsService.eventReminderInterval
+        let nameString: String
+        if let name = event.name {
+            nameString = name + " starts "
+        } else {
+            nameString = "You have an event "
+        }
+
+        let timeString: String
+        if interval < 3600 {
+            timeString = "soon!"
+        } else if interval == 3600 {
+            timeString = " in an hour!"
+        } else if interval == 7200 {
+            timeString = " in two hours!"
+        } else {
+            timeString = " at " + startTime.timeStringForPicker() + "."
+        }
+        
         
         let content = UNMutableNotificationContent()
         content.title = NSString.localizedUserNotificationString(forKey: "Are you ready?", arguments: nil)
-        content.body = NSString.localizedUserNotificationString(forKey: kEventNotificationMessage,
+        content.body = NSString.localizedUserNotificationString(forKey: "\(nameString) \(timeString)",
                                                                 arguments: nil)
         content.userInfo = ["type": "eventReminder", "eventId": event.id]
         
         // Configure the trigger
-        let date = startTime.addingTimeInterval(-1 * SettingsService.eventReminderInterval)
+        let date = startTime.addingTimeInterval(-1 * interval)
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
