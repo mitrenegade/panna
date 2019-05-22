@@ -17,7 +17,6 @@ import RxOptional
 import Balizinha
 import RenderCloud
 
-let kEventNotificationIntervalSeconds: TimeInterval = -3600
 let kEventNotificationMessage: String = "You have an event in 1 hour!"
 
 let gcmMessageIDKey = "gcm.message_id"
@@ -75,7 +74,7 @@ class NotificationService: NSObject {
         content.userInfo = ["type": "eventReminder", "eventId": event.id]
         
         // Configure the trigger
-        let date = startTime.addingTimeInterval(kEventNotificationIntervalSeconds)
+        let date = startTime.addingTimeInterval(-1 * SettingsService.eventReminderInterval)
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
