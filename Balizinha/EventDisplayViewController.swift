@@ -151,7 +151,7 @@ class EventDisplayViewController: UIViewController {
             return
         }
         
-        if !event.containsPlayer(player) {
+        if !event.containsPlayer(player) && !event.userIsOrganizer {
             self.hideChat()
         }
         
