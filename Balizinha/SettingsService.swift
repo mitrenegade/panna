@@ -29,6 +29,7 @@ class SettingsService: NSObject {
         case ownerPayment
         case maps
         case useGetAvailableEvents
+        case eventReminderInterval
 
         // experiments
         case showPreview
@@ -38,7 +39,8 @@ class SettingsService: NSObject {
                                           SettingsKey.eventRadius.rawValue: EVENT_RADIUS_MILES_DEFAULT,
                                           SettingsKey.softUpgradeInterval.rawValue: SOFT_UPGRADE_INTERVAL_DEFAULT,
                                           SettingsKey.useGetAvailableEvents.rawValue: false,
-                                          SettingsKey.paymentRequired.rawValue: true]
+                                          SettingsKey.paymentRequired.rawValue: true,
+                                          SettingsKey.eventReminderInterval.rawValue: 7200]
 
     static var shared: SettingsService {
         if singleton == nil {
@@ -135,6 +137,10 @@ extension SettingsService {
     
     class var websiteUrl: String {
         return shared.featureValue(.websiteUrl).stringValue ?? "" // stringValue for a config doesn't return nil but returns empty string
+    }
+    
+    class var eventReminderInterval: TimeInterval {
+        return shared.featureValue(.eventReminderInterval).numberValue?.doubleValue ?? (defaults[SettingsKey.eventReminderInterval.rawValue] as! TimeInterval)
     }
 }
 
