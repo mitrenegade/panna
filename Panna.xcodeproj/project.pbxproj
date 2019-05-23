@@ -43,6 +43,7 @@
 		8E5421401E70DF8700AE4F3A /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54213F1E70DF8700AE4F3A /* ActionCell.swift */; };
 		8E54EAD02164E5D000937355 /* FeedItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54EACF2164E5D000937355 /* FeedItemCell.swift */; };
 		8E571A0320E25E2B003AB202 /* RAImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E571A0220E25E2B003AB202 /* RAImageView.swift */; };
+		8E5C817B22963C10009D8630 /* NotificationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C817A22963C10009D8630 /* NotificationServiceTests.swift */; };
 		8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */; };
 		8E7016D2207A9D0400A4C28C /* UpgradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7016D1207A9D0400A4C28C /* UpgradeService.swift */; };
 		8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256991CDF793200C9E054 /* AppDelegate.swift */; };
@@ -194,6 +195,7 @@
 		8E54EACF2164E5D000937355 /* FeedItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemCell.swift; sourceTree = "<group>"; };
 		8E571A0220E25E2B003AB202 /* RAImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAImageView.swift; sourceTree = "<group>"; };
 		8E59662C1F8B98BA007A814A /* EventCellDonationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCellDonationTests.swift; sourceTree = "<group>"; };
+		8E5C817A22963C10009D8630 /* NotificationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceTests.swift; sourceTree = "<group>"; };
 		8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewModel.swift; sourceTree = "<group>"; };
 		8E7016D1207A9D0400A4C28C /* UpgradeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeService.swift; sourceTree = "<group>"; };
 		8E7016D3207AA8A200A4C28C /* UpgradeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeServiceTests.swift; sourceTree = "<group>"; };
@@ -532,6 +534,7 @@
 				8E59662C1F8B98BA007A814A /* EventCellDonationTests.swift */,
 				8E7016D3207AA8A200A4C28C /* UpgradeServiceTests.swift */,
 				8E7F7D8B22592C9100AE4C0B /* Info.plist */,
+				8E5C817A22963C10009D8630 /* NotificationServiceTests.swift */,
 			);
 			path = PannaTests;
 			sourceTree = "<group>";
@@ -1001,6 +1004,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E5C817B22963C10009D8630 /* NotificationServiceTests.swift in Sources */,
 				8E7F7D91225B07DB00AE4C0B /* EventCellDonationTests.swift in Sources */,
 				8E7F7D92225B07DE00AE4C0B /* UpgradeServiceTests.swift in Sources */,
 			);

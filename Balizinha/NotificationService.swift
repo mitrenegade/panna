@@ -61,33 +61,44 @@ class NotificationService: NSObject {
         
     }
     
+    private func nameStringForEventReminder(_ event: Balizinha.Event) -> String {
+        if let name = event.name {
+            return name + " starts"
+        } else {
+            return "You have an event"
+        }
+    }
+    
+    private func timeStringForEventReminder(_ event: Balizinha.Event, interval: TimeInterval) -> String {
+        if interval < 3600 {
+            return "soon!"
+        } else if interval == 3600 {
+            return "in an hour!"
+        } else if interval == 7200 {
+            return "in two hours!"
+        } else {
+            if let time = event.startTime {
+                return "at " + time.timeStringForPicker() + "."
+            } else {
+                return "sometime." // this hsould never happen
+            }
+        }
+    }
+    
+    func eventReminderString(_ event: Balizinha.Event, interval: TimeInterval) -> String {
+        let nameString: String = nameStringForEventReminder(event)
+        let timeString: String = timeStringForEventReminder(event, interval: interval)
+        return "\(nameString) \(timeString)"
+    }
+    
     func scheduleNotificationForEvent(_ event: Balizinha.Event) {
         //create local notification
         guard let startTime = event.startTime else { return }
         let interval = SettingsService.eventReminderInterval
-        let nameString: String
-        if let name = event.name {
-            nameString = name + " starts "
-        } else {
-            nameString = "You have an event "
-        }
-
-        let timeString: String
-        if interval < 3600 {
-            timeString = "soon!"
-        } else if interval == 3600 {
-            timeString = " in an hour!"
-        } else if interval == 7200 {
-            timeString = " in two hours!"
-        } else {
-            timeString = " at " + startTime.timeStringForPicker() + "."
-        }
-        
-        
         let content = UNMutableNotificationContent()
+        let message = eventReminderString(event, interval: interval)
         content.title = NSString.localizedUserNotificationString(forKey: "Are you ready?", arguments: nil)
-        content.body = NSString.localizedUserNotificationString(forKey: "\(nameString) \(timeString)",
-                                                                arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
         content.userInfo = ["type": "eventReminder", "eventId": event.id]
         
         // Configure the trigger
