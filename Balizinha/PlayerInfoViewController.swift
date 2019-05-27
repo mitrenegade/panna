@@ -103,7 +103,17 @@ class PlayerInfoViewController: UIViewController {
         if let name = player.name {
             self.inputName.text = name
         }
-        if let city = player.city {
+        if let cityId = player.cityId {
+            VenueService.shared.withId(id: cityId) { [weak self] (city) in
+                DispatchQueue.main.async {
+                    if let city = city {
+                        self?.inputCity.text = city.shortString
+                    } else if let city = player.city {
+                        self?.inputCity.text = city
+                    }
+                }
+            }
+        } else if let city = player.city {
             self.inputCity.text = city
         }
         if let notes = player.info {
@@ -436,6 +446,10 @@ extension PlayerInfoViewController: UIPickerViewDataSource, UIPickerViewDelegate
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == cityPickerView {
             pickerRow = row
+            if pickerRow > 0 && pickerRow <= cities.count {
+                let city = cities[pickerRow - 1]
+                inputCity.text = city.shortString
+            }
         } else if pickerView == statePickerView {
             if row < stateAbbreviations.count {
                 print("Picked state \(stateAbbreviations[row])")
@@ -471,13 +485,17 @@ extension PlayerInfoViewController {
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             if let textField = alert.textFields?[0], let value = textField.text, !value.isEmpty {
+                self.showLoadingIndicator()
                 self.service?.createCity(city, state: value, lat: 0, lon: 0, completion: { [weak self] (city, error) in
-                    if let city = city {
-                        self?.player?.city = city.shortString
-                        self?.player?.cityId = city.firebaseKey
-                        self?.inputCity.text = city.shortString
-                    } else if let error = error {
-                        self?.simpleAlert("Could not create city", defaultMessage: nil, error: error)
+                    DispatchQueue.main.async {
+                        self?.hideLoadingIndicator()
+                        if let city = city {
+                            self?.player?.city = city.shortString
+                            self?.player?.cityId = city.firebaseKey
+                            self?.inputCity.text = city.shortString
+                        } else if let error = error {
+                            self?.simpleAlert("Could not create city", defaultMessage: nil, error: error)
+                        }
                     }
                 })
             }
