@@ -103,7 +103,17 @@ class PlayerInfoViewController: UIViewController {
         if let name = player.name {
             self.inputName.text = name
         }
-        if let city = player.city {
+        if let cityId = player.cityId {
+            VenueService.shared.withId(id: cityId) { [weak self] (city) in
+                DispatchQueue.main.async {
+                    if let city = city {
+                        self?.inputCity.text = city.shortString
+                    } else if let city = player.city {
+                        self?.inputCity.text = city
+                    }
+                }
+            }
+        } else if let city = player.city {
             self.inputCity.text = city
         }
         if let notes = player.info {
