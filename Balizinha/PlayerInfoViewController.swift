@@ -436,6 +436,10 @@ extension PlayerInfoViewController: UIPickerViewDataSource, UIPickerViewDelegate
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == cityPickerView {
             pickerRow = row
+            if pickerRow > 0 && pickerRow <= cities.count {
+                let city = cities[pickerRow - 1]
+                inputCity.text = city.shortString
+            }
         } else if pickerView == statePickerView {
             if row < stateAbbreviations.count {
                 print("Picked state \(stateAbbreviations[row])")
