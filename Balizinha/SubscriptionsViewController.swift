@@ -19,6 +19,7 @@ class SubscriptionsViewController: UIViewController {
     
     var subscriptions: [Subscription] = []
     var leagues: [League] = []
+    var subscriptionForLeague: [String: Subscription] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +67,7 @@ class SubscriptionsViewController: UIViewController {
                 if let league = league {
                     print("Loaded league \(leagueId)")
                     self?.leagues.append(league)
+                    self?.subscriptionForLeague[leagueId] = subscription
                 } else {
                     print("No league for \(leagueId)")
                 }
@@ -119,10 +121,13 @@ extension SubscriptionsViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "LoadingCell", for: indexPath)
             return cell
         }
-        let cell : LeagueCell = tableView.dequeueReusableCell(withIdentifier: "SubscriptionCell", for: indexPath) as! LeagueCell
+        let cell : SubscriptionCell = tableView.dequeueReusableCell(withIdentifier: "SubscriptionCell", for: indexPath) as! SubscriptionCell
         let row = indexPath.row
-        let league = subscriptions[row]
-//        cell.configure(league: league)
+        let league = leagues[row]
+        guard let subscription = subscriptionForLeague[league.id] else {
+            return cell
+        }
+        cell.configure(league: league, subscription: subscription)
         return cell
     }
 }
@@ -152,6 +157,30 @@ class Subscription: FirebaseBaseModel {
         }
         set {
             //            update(key: "type", value: newValue)
+        }
+    }
+    
+    public var status: String? {
+        get {
+            return self.dict["status"] as? String
+        }
+        set {
+            //            update(key: "league", value: newValue)
+        }
+    }
+    
+    // amount in dollars
+    public var amount: Double? {
+        get {
+            guard let subscription = dict["subscription"] as? [String: Any],
+            let plan = subscription["plan"] as? [String: Any],
+            let amount = plan["amount"] as? Double else {
+                    return nil
+            }
+            return amount / 100.0
+        }
+        set {
+            //            update(key: "league", value: newValue)
         }
     }
 }
