@@ -17,7 +17,7 @@ class SubscriptionsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var isLoading: Bool = true
     
-    var subscriptions: [String: Any] = [:]
+    var subscriptions: [Subscription] = []
     var leagues: [League] = []
 
     override func viewDidLoad() {
@@ -43,6 +43,14 @@ class SubscriptionsViewController: UIViewController {
         
         service.loadSubscriptions(userId: userId) { [weak self] results, error in
             print("results \(results)")
+            DispatchQueue.main.async {
+                if let error = error as? NSError {
+                    self?.simpleAlert("Error loading subscriptions", defaultMessage: nil, error: error)
+                } else {
+                    self?.subscriptions = results
+                    self?.reloadTableData()
+                }
+            }
         }
     }
     
@@ -62,6 +70,7 @@ class SubscriptionsViewController: UIViewController {
         }
     }
 }
+
 
 extension SubscriptionsViewController: UITableViewDataSource {
     fileprivate func reloadTableData() {
@@ -84,16 +93,44 @@ extension SubscriptionsViewController: UITableViewDataSource {
         let cell : LeagueCell = tableView.dequeueReusableCell(withIdentifier: "SubscriptionCell", for: indexPath) as! LeagueCell
         let row = indexPath.row
         let league = subscriptions[row]
-        cell.configure(league: league)
+//        cell.configure(league: league)
         return cell
     }
 }
 
+// TODO: move this into Balizinha
+enum SubscriptionType: String {
+    case owner
+    case membership
+    case none
+}
+class Subscription: FirebaseBaseModel {
+    public var leagueId: String? {
+        get {
+            return self.dict["league"] as? String
+        }
+        set {
+            //            update(key: "league", value: newValue)
+        }
+    }
+    
+    public var type: SubscriptionType {
+        get {
+            if let string = self.dict["type"] as? String, let newType = SubscriptionType(rawValue: string) {
+                return newType
+            }
+            return .none
+        }
+        set {
+            //            update(key: "type", value: newValue)
+        }
+    }
+}
 
 
 // TODO: move this into RenderPay
 extension StripePaymentService {
-    func loadSubscriptions(userId: String, completion: (([String:[String: Any]]?, Error?)->Void)?) {
+    func loadSubscriptions(userId: String, completion: (([Subscription]?, Error?)->Void)?) {
         let params = ["userId": userId]
         
         apiService?.cloudFunction(functionName: "getSubscriptions", method: "POST", params: params) { (result, error) in
@@ -101,7 +138,16 @@ extension StripePaymentService {
             if let error = error {
                 completion?(nil, error)
             } else {
-                completion?(result as? [String:[String: Any]], nil)
+                var results: [Subscription] = []
+                if let result = result as? [String:[String: Any]] {
+                    for (key, value) in result {
+                        let subscription = Subscription(key: key, dict: value)
+                        results.append(subscription)
+                    }
+                    completion?(results, nil)
+                } else {
+                    completion?(nil, nil)
+                }
             }
         }
     }
