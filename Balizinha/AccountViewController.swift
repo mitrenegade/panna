@@ -75,6 +75,10 @@ class AccountViewController: UIViewController {
             removeMenuOption(.payment)
         }
 
+        if AIRPLANE_MODE {
+            isOwner = false
+            reloadMenu()
+        }
         for league in LeagueService.shared.allLeagues {
             if league.ownerId == PlayerService.shared.current.value?.id {
                 isOwner = true
@@ -207,6 +211,7 @@ class AccountViewController: UIViewController {
         switch (isOwner, menuMode) {
         case (false, _):
             menuSections = [.player, .options, .app]
+            removeMenuOption(.switchMode)
         case (true, .player):
             menuSections = [.player, .options, .app]
         case (true, .owner):
