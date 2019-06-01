@@ -76,7 +76,7 @@ class AccountViewController: UIViewController {
         }
 
         if AIRPLANE_MODE {
-            isOwner = false
+            isOwner = true
             reloadMenu()
         }
         for league in LeagueService.shared.allLeagues {

@@ -13,9 +13,20 @@ import RenderPay
 
 class SubscriptionsViewController: UIViewController {
     let service: StripePaymentService = StripePaymentService(apiService: RenderAPIService())
+    
+    @IBOutlet weak var tableView: UITableView!
+    var isLoading: Bool = true
+    
+    var subscriptions: [String: Any] = [:]
+    var leagues: [League] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didClickAdd(sender:)))
+
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 80
 
         loadSubscriptions()
     }
@@ -35,7 +46,7 @@ class SubscriptionsViewController: UIViewController {
         }
     }
     
-    @IBAction func didClickButton(_ sender: UIButton?) {
+    @objc private func didClickAdd(sender: Any?) {
         var userId: String
         if AIRPLANE_MODE {
             userId = "123"
@@ -49,6 +60,32 @@ class SubscriptionsViewController: UIViewController {
         service.createSubscription(userId: userId, leagueId: leagueId, type: type) { [weak self] results, error in
             print("Received subscriptions \(results)")
         }
+    }
+}
+
+extension SubscriptionsViewController: UITableViewDataSource {
+    fileprivate func reloadTableData() {
+        tableView.reloadData()
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard !isLoading else {
+            return 1
+        }
+        
+        return subscriptions.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard !isLoading else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LoadingCell", for: indexPath)
+            return cell
+        }
+        let cell : LeagueCell = tableView.dequeueReusableCell(withIdentifier: "SubscriptionCell", for: indexPath) as! LeagueCell
+        let row = indexPath.row
+        let league = subscriptions[row]
+        cell.configure(league: league)
+        return cell
     }
 }
 
