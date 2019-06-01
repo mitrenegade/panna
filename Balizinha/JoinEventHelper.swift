@@ -219,7 +219,6 @@ class JoinEventHelper: NSObject {
                     }
                     self?.rootViewController?.simpleAlert("Could not join game", message: "There was an issue making a payment. \(errorMessage)")
                 } else {
-                    print("Result \(result)")
                     self?.joinEvent(event, userId: current.id)
                     self?.event = nil
                 }

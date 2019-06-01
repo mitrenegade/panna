@@ -41,16 +41,40 @@ class SubscriptionsViewController: UIViewController {
             userId = id
         }
         
+        showLoadingIndicator()
         service.loadSubscriptions(userId: userId) { [weak self] results, error in
             print("results \(results)")
             DispatchQueue.main.async {
                 if let error = error as? NSError {
                     self?.simpleAlert("Error loading subscriptions", defaultMessage: nil, error: error)
-                } else {
-                    self?.subscriptions = results
-                    self?.reloadTableData()
+                } else if let subscriptions = results as? [Subscription] {
+                    self?.hideLoadingIndicator()
+                    self?.subscriptions = subscriptions
+                    self?.loadLeaguesForSubscriptions()
                 }
             }
+        }
+    }
+    
+    private func loadLeaguesForSubscriptions() {
+        let group = DispatchGroup()
+        leagues.removeAll()
+        for subscription in subscriptions {
+            guard let leagueId = subscription.leagueId else { continue }
+            group.enter()
+            LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
+                if let league = league {
+                    print("Loaded league \(leagueId)")
+                    self?.leagues.append(league)
+                } else {
+                    print("No league for \(leagueId)")
+                }
+                group.leave()
+            }
+        }
+        group.notify(queue: DispatchQueue.main) {
+            self.isLoading = false
+            self.reloadTableData()
         }
     }
     
@@ -66,7 +90,12 @@ class SubscriptionsViewController: UIViewController {
         let leagueId = "abc"
         let type = "owner"
         service.createSubscription(userId: userId, leagueId: leagueId, type: type) { [weak self] results, error in
-            print("Received subscriptions \(results)")
+            if let error = error as? NSError {
+                self?.simpleAlert("Error creating subscription", defaultMessage: nil, error: error)
+            } else if let subscriptions = results as? [Subscription] {
+                self?.subscriptions = subscriptions
+                self?.reloadTableData()
+            }
         }
     }
 }
@@ -82,7 +111,7 @@ extension SubscriptionsViewController: UITableViewDataSource {
             return 1
         }
         
-        return subscriptions.count
+        return leagues.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -107,7 +136,7 @@ enum SubscriptionType: String {
 class Subscription: FirebaseBaseModel {
     public var leagueId: String? {
         get {
-            return self.dict["league"] as? String
+            return self.dict["leagueId"] as? String
         }
         set {
             //            update(key: "league", value: newValue)
@@ -137,17 +166,17 @@ extension StripePaymentService {
             print("Result \(result) error \(error)")
             if let error = error {
                 completion?(nil, error)
-            } else {
-                var results: [Subscription] = []
-                if let result = result as? [String:[String: Any]] {
-                    for (key, value) in result {
-                        let subscription = Subscription(key: key, dict: value)
-                        results.append(subscription)
+            } else if let result = result as? [String: Any], let dict = result["result"] as? [String: Any] {
+                var subscriptions: [Subscription] = []
+                for (key, value) in dict {
+                    if let dict = value as? [String: Any] {
+                        let subscription = Subscription(key: key, dict: dict)
+                        subscriptions.append(subscription)
                     }
-                    completion?(results, nil)
-                } else {
-                    completion?(nil, nil)
                 }
+                completion?(subscriptions, nil)
+            } else {
+                completion?(nil, nil)
             }
         }
     }
