@@ -92,41 +92,41 @@ class SplashViewController: UIViewController {
         }
         print("LoginLogout: didLogin userId \(user.uid)")
         Crashlytics.sharedInstance().setUserIdentifier(user.uid)
-
+        
         // loads player from web or cache - don't use player.current yet
         let isFirstLogin = PlayerService.shared.current.value == nil
         PlayerService.shared.withId(id: user.uid) { (player) in
-            if let player = player {
-                player.os = Player.Platform.ios.rawValue // fixme if there's already a value (android) this doesn't change it
-                
-                let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
-                let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "unknown"
-                player.appVersion = "\(version) (\(build))"
-                
-                // on first login, downloadFacebookPhoto gets skipped the first time because player has not been created yet
-                if isFirstLogin, AuthService.shared.hasFacebookProvider {
-                    PlayerService.shared.current.value = player
-                    FacebookService.downloadFacebookInfo(completion: { (image, name, error) in
-                        if let error = error as NSError?, error.code == 400 {
-                            print("error \(error)")
-                            AuthService.shared.logout()
-                            return
-                        }
-                        if let name = name {
-                            player.name = name
-                        }
-                    })
-                }
-                
-                // start loading stripe account info
-                Globals.stripeConnectService.startListeningForAccount(userId: player.id)
-                Globals.stripePaymentService.startListeningForAccount(userId: player.id)
-            } else {
+            guard let player = player else {
                 // player does not exist, save/create it.
                 // this should have been done on signup
                 PlayerService.shared.storeUserInfo()
+                return
             }
-
+            player.os = Player.Platform.ios.rawValue // fixme if there's already a value (android) this doesn't change it
+            
+            let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
+            let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "unknown"
+            player.appVersion = "\(version) (\(build))"
+            
+            // on first login, downloadFacebookPhoto gets skipped the first time because player has not been created yet
+            if isFirstLogin, AuthService.shared.hasFacebookProvider {
+                PlayerService.shared.current.value = player
+                FacebookService.downloadFacebookInfo(completion: { (image, name, error) in
+                    if let error = error as NSError?, error.code == 400 {
+                        print("error \(error)")
+                        AuthService.shared.logout()
+                        return
+                    }
+                    if let name = name {
+                        player.name = name
+                    }
+                })
+            }
+            
+            // start loading stripe account info
+            Globals.stripeConnectService.startListeningForAccount(userId: player.id)
+            Globals.stripePaymentService.startListeningForAccount(userId: player.id)
+            
             if AuthService.shared.hasFacebookProvider {
                 FacebookService.downloadFacebookInfo { (image, name, error) in
                     if let error = error as NSError?, error.code == 400 {
@@ -135,19 +135,22 @@ class SplashViewController: UIViewController {
                         return
                     } // for other errors, ignore but don't load profile
                     
-                    if player?.name == nil {
-                        player?.name = name
+                    if player.name == nil {
+                        player.name = name
                     }
                 }
             }
+            
+            LeagueService.shared.leagueMemberships(for: player, completion: { [weak self] (memberships) in
+                print("Memberships \(memberships)")
+                self?.goToMain()
+            })
         }
-
-        self.goToMain()
-        
+    
         // notifications
         NotificationService.shared.registerForRemoteNotifications()
     }
-    
+
     @objc func didLogout() {
         print("LoginLogout: didLogout")
         NotificationService.shared.clearAllNotifications()
@@ -192,7 +195,15 @@ class SplashViewController: UIViewController {
             return controller
         }
         let storyboardName = "Main"
-        _homeViewController = UIStoryboard(name: storyboardName, bundle: nil).instantiateInitialViewController() as! UITabBarController
+        var sceneId = "PlayerModeTabBarController"
+        for league in LeagueService.shared.allLeagues {
+            if league.ownerId == PlayerService.shared.current.value?.id {
+                sceneId = "OwnerModeTabBarController"
+                break
+            }
+        }
+
+        _homeViewController = UIStoryboard(name: storyboardName, bundle: nil).instantiateViewController(withIdentifier: sceneId) as? UITabBarController
         return _homeViewController!
     }
     

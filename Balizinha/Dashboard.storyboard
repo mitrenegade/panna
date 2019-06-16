@@ -14,10 +14,10 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Dashboard View Controller-->
+        <!--Account View Controller-->
         <scene sceneID="ize-OW-pTM">
             <objects>
-                <viewController storyboardIdentifier="AccountViewController" id="WKC-Oj-i9z" customClass="DashboardViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AccountViewController" id="WKC-Oj-i9z" customClass="AccountViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="iF2-ex-wFr"/>
                         <viewControllerLayoutGuide type="bottom" id="BPk-RK-og5"/>
