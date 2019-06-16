@@ -141,10 +141,11 @@ class SplashViewController: UIViewController {
                 }
             }
             
-            LeagueService.shared.leagueMemberships(for: player, completion: { [weak self] (memberships) in
-                print("Memberships \(memberships)")
+            LeagueService.shared.getLeagues { [weak self] (leagues) in
+                // causes _leagues to exist, so homeViewController can determine whether user is an owner
+                print("Result \(leagues)")
                 self?.goToMain()
-            })
+            }
         }
     
         // notifications
@@ -237,9 +238,6 @@ class SplashViewController: UIViewController {
         let _ = PlayerService.shared.current.value // invoke listener
         let _ = OrganizerService.shared // trigger organizer loading
         let _ = PromotionService.shared
-        LeagueService.shared.getLeagues { (leagues) in
-            // causes _leagues to exist
-        }
     }
     
     func goToSignupLogin() {
