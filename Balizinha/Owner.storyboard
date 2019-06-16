@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Vt1-Zp-jFG">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Payments-->
+        <scene sceneID="B7b-GN-Rgs">
+            <objects>
+                <viewController id="rLM-Yp-ztS" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4zv-ev-9ka">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="llO-ie-9or"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Payments" id="ekR-tM-Cl7"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Bmf-LS-jkv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1001" y="594"/>
+        </scene>
+        <!--Events-->
+        <scene sceneID="qcF-dN-HOz">
+            <objects>
+                <viewController id="dCx-MX-eoo" customClass="OwnerEventsViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bzh-S8-7oa">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="B4R-zI-TYH">
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="dCx-MX-eoo" id="lXL-3Z-rsK"/>
+                                    <outlet property="delegate" destination="dCx-MX-eoo" id="f2d-fk-PG5"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="B4R-zI-TYH" firstAttribute="top" secondItem="EQ9-zx-0Bk" secondAttribute="top" id="Jp9-s6-bb8"/>
+                            <constraint firstItem="B4R-zI-TYH" firstAttribute="leading" secondItem="EQ9-zx-0Bk" secondAttribute="leading" id="OoJ-3q-GuO"/>
+                            <constraint firstItem="EQ9-zx-0Bk" firstAttribute="trailing" secondItem="B4R-zI-TYH" secondAttribute="trailing" id="ZBh-hc-aqZ"/>
+                            <constraint firstItem="EQ9-zx-0Bk" firstAttribute="bottom" secondItem="B4R-zI-TYH" secondAttribute="bottom" id="lQl-s0-GOE"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="EQ9-zx-0Bk"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Events" id="6Bj-WZ-5HO"/>
+                    <connections>
+                        <outlet property="tableView" destination="B4R-zI-TYH" id="W2M-by-zkk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7tD-Pb-bZi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1000" y="-143"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="5Fx-HJ-dzJ">
+            <objects>
+                <tabBarController id="Vt1-Zp-jFG" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ofo-0j-Qy7">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="dCx-MX-eoo" kind="relationship" relationship="viewControllers" id="41Q-4r-I3y"/>
+                        <segue destination="rLM-Yp-ztS" kind="relationship" relationship="viewControllers" id="MDG-7G-eOP"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6vS-nh-Q4C" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>

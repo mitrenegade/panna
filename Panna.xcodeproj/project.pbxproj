@@ -77,8 +77,11 @@
 		8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */; };
 		8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A2FFF1F833969004EAE6A /* PromotionService.swift */; };
 		8E7CABFE1F8D8B8D0095084D /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */; };
+		8E7DCF1422A2DB7C00536ADA /* SubscriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7DCF1322A2DB7C00536ADA /* SubscriptionCell.swift */; };
 		8E7F7D91225B07DB00AE4C0B /* EventCellDonationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E59662C1F8B98BA007A814A /* EventCellDonationTests.swift */; };
 		8E7F7D92225B07DE00AE4C0B /* UpgradeServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7016D3207AA8A200A4C28C /* UpgradeServiceTests.swift */; };
+		8E81A2D5226BBF2900EAA6EF /* Owner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E81A2D4226BBF2900EAA6EF /* Owner.storyboard */; };
+		8E81A2D7226BC1BF00EAA6EF /* OwnerEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E81A2D6226BC1BF00EAA6EF /* OwnerEventsViewController.swift */; };
 		8E9D41912138169300BEBA79 /* GoogleService-Info-prod.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E9D41902138169200BEBA79 /* GoogleService-Info-prod.plist */; };
 		8E9D4193213816E400BEBA79 /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E9D4192213816E300BEBA79 /* GoogleService-Info-dev.plist */; };
 		8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */; };
@@ -232,8 +235,11 @@
 		8E7A2FFD1F8329D8004EAE6A /* PromoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromoCell.swift; sourceTree = "<group>"; };
 		8E7A2FFF1F833969004EAE6A /* PromotionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionService.swift; sourceTree = "<group>"; };
 		8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCell.swift; sourceTree = "<group>"; };
+		8E7DCF1322A2DB7C00536ADA /* SubscriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionCell.swift; sourceTree = "<group>"; };
 		8E7F7D8722592C9100AE4C0B /* PannaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PannaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7F7D8B22592C9100AE4C0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8E81A2D4226BBF2900EAA6EF /* Owner.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Owner.storyboard; sourceTree = "<group>"; };
+		8E81A2D6226BC1BF00EAA6EF /* OwnerEventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerEventsViewController.swift; sourceTree = "<group>"; };
 		8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Balizinha-Bridging-Header.h"; sourceTree = "<group>"; };
 		8E9D41902138169200BEBA79 /* GoogleService-Info-prod.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-prod.plist"; sourceTree = "<group>"; };
 		8E9D4192213816E300BEBA79 /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
@@ -429,6 +435,7 @@
 				C651AB892096D7FC0046B03C /* League.storyboard */,
 				8EF634782153198B00652833 /* Feedback.storyboard */,
 				C6B7D7B4221E0B8A00B58C72 /* Stripe.storyboard */,
+				8E81A2D4226BBF2900EAA6EF /* Owner.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -636,6 +643,7 @@
 				C6B7412620FAD88B00B0FA00 /* LeagueButtonCell.swift */,
 				8E54EACF2164E5D000937355 /* FeedItemCell.swift */,
 				8E78E5CC226018450005582D /* CancelEventCell.swift */,
+				8E7DCF1322A2DB7C00536ADA /* SubscriptionCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -649,6 +657,7 @@
 				8EC799261E35AA02004ACC52 /* MapViewController.swift */,
 				F2048F7D1CED59A50039F7BB /* CalendarViewController.swift */,
 				8EDD97A220E915B100D9A1A2 /* EventLeagueSelectorViewController.swift */,
+				8E81A2D6226BC1BF00EAA6EF /* OwnerEventsViewController.swift */,
 			);
 			name = Events;
 			sourceTree = "<group>";
@@ -757,6 +766,7 @@
 				8EC7992D1E3635A8004ACC52 /* Calendar.storyboard in Resources */,
 				C651AB882096D6650046B03C /* read.me in Resources */,
 				8E7397FD1FF921E500D48BA0 /* Montserrat-BlackItalic.ttf in Resources */,
+				8E81A2D5226BBF2900EAA6EF /* Owner.storyboard in Resources */,
 				8E7256A11CDF793200C9E054 /* Assets.xcassets in Resources */,
 				8E179078207B0324004FF5D2 /* Attendance.storyboard in Resources */,
 				8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */,
@@ -917,6 +927,7 @@
 				8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */,
 				8EB29279212F77AA0007BAF8 /* PinpointViewController.swift in Sources */,
 				8EDFB1BA1E3D3F00006DD187 /* LocationService.swift in Sources */,
+				8E81A2D7226BC1BF00EAA6EF /* OwnerEventsViewController.swift in Sources */,
 				8ED3FE5320E3325E00D43F7E /* LeaguePlayersViewController.swift in Sources */,
 				8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */,
 				8E16A59E1FECB34400D24D69 /* DeepLinkService.swift in Sources */,
@@ -948,6 +959,7 @@
 				8E74E54D1FA9FFF5005F72DA /* PlaceResultsViewController.swift in Sources */,
 				8EFEC00E1F8B9CEB00B2242E /* EventPhotoCell.swift in Sources */,
 				8EB865FA208BE8440029079A /* PlayerLeaguesViewController.swift in Sources */,
+				8E7DCF1422A2DB7C00536ADA /* SubscriptionCell.swift in Sources */,
 				F2C0F1201CF3E8BB00CB98F1 /* EventsViewController.swift in Sources */,
 				8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */,
 				8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */,

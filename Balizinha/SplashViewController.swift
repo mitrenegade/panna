@@ -226,6 +226,9 @@ class SplashViewController: UIViewController {
         let _ = PlayerService.shared.current.value // invoke listener
         let _ = OrganizerService.shared // trigger organizer loading
         let _ = PromotionService.shared
+        LeagueService.shared.getLeagues { (leagues) in
+            // causes _leagues to exist
+        }
     }
     
     func goToSignupLogin() {

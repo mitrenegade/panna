@@ -32,6 +32,7 @@ class AccountViewController: UIViewController {
         case promo = "Promo program"
         case notifications = "Push notifications"
         case location = "Use my location"
+        case switchMode = "Switch mode"
 
         // owner
         case stripe = "Stripe account"
@@ -43,9 +44,19 @@ class AccountViewController: UIViewController {
         case logout = "Logout"
     }
     
-    var menuSections: [MenuSection] = [.player, .options, .app]
+    enum MenuMode {
+        case player
+        case owner
+    }
+    
+    // owner mode
+    var menuMode: MenuMode = .player
+    var isOwner: Bool = false
+    
+    var menuSections: [MenuSection] = []
     var menuOptions: [MenuSection: [MenuItem]] = [ .player: [.profile, .payment],
-                                                   .options: [.promo, .notifications, .location],
+                                                   .owner: [.stripe, .subscriptions],
+                                                   .options: [.promo, .notifications, .location, .switchMode],
                                                    .app: [.feedback, .about, .logout]]
 
     var service = EventService.shared
@@ -62,6 +73,18 @@ class AccountViewController: UIViewController {
         menuSections = [.player, .options, .app]
         if !SettingsService.paymentRequired() {
             removeMenuOption(.payment)
+        }
+
+        if AIRPLANE_MODE {
+            isOwner = true
+            reloadMenu()
+        }
+        for league in LeagueService.shared.allLeagues {
+            if league.ownerId == PlayerService.shared.current.value?.id {
+                isOwner = true
+                break
+            }
+            reloadMenu()
         }
 
         navigationItem.title = "Account"
@@ -82,7 +105,7 @@ class AccountViewController: UIViewController {
             }
         }
     }
-
+    
     @objc func reloadTableData() {
         tableView.reloadData()
     }
@@ -183,6 +206,19 @@ class AccountViewController: UIViewController {
         navigationController?.present(alert, animated: true, completion: nil)
         
     }
+    
+    func reloadMenu() {
+        switch (isOwner, menuMode) {
+        case (false, _):
+            menuSections = [.player, .options, .app]
+            removeMenuOption(.switchMode)
+        case (true, .player):
+            menuSections = [.player, .options, .app]
+        case (true, .owner):
+            menuSections = [.player, .options, .owner, .app]
+        }
+        reloadTableData()
+    }
 }
 
 extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
@@ -194,26 +230,12 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard section < menuSections.count else { return nil }
-        if menuSections[section] == .owner {
-            if case .account = Globals.stripeConnectService.accountState.value {
-                return menuSections[section].rawValue
-            } else {
-                return nil
-            }
-        }
         return menuSections[section].rawValue
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard section < menuSections.count else { return 0 }
         guard let options = menuOptions[menuSections[section]] else { return 0}
-        if menuSections[section] == .owner {
-            if case .account = Globals.stripeConnectService.accountState.value {
-                return options.count
-            } else {
-                return 0
-            }
-        }
         return options.count
     }
     
@@ -231,7 +253,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             cell.configure()
             return cell
             
-        case .profile, .about, .feedback, .stripe, .subscriptions, .logout:
+        case .profile, .about, .feedback, .logout:
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             cell.textLabel?.text = option.rawValue
             cell.accessoryType = .disclosureIndicator
@@ -259,12 +281,26 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             cell.selectionStyle = .none
             cell.delegate = self
             return cell
+        case  .switchMode, .stripe, .subscriptions:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            if option == .switchMode {
+                switch menuMode {
+                case .player:
+                    cell.textLabel?.text = "Switch to owner mode"
+                case .owner:
+                    cell.textLabel?.text = "Switch to player mode"
+                }
+            } else {
+                cell.textLabel?.text = option.rawValue
+            }
+            cell.accessoryType = .disclosureIndicator
+            return cell
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-       
+        
         let row = indexPath.row
         let section = menuSections[indexPath.section]
         guard let option = menuOptions[section]?[row] else { return }
@@ -305,18 +341,24 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             showAboutOptions()
         case .feedback:
             performSegue(withIdentifier: "toFeedback", sender: nil)
+        case .switchMode:
+            if menuMode == .player {
+                menuMode = .owner
+            } else {
+                menuMode = .player
+            }
+            reloadMenu()
         case .stripe:
             performSegue(withIdentifier: "toStripe", sender: nil)
         case .subscriptions:
             performSegue(withIdentifier: "toSubscriptions", sender: nil)
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.1
     }
 }
-
 extension AccountViewController: ToggleCellDelegate {
     func didToggle(_ toggle: UISwitch, isOn: Bool) {
         print("Switch changed to \(isOn)")
