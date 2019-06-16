@@ -111,6 +111,7 @@
 		8EDFB1BA1E3D3F00006DD187 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFB1B91E3D3F00006DD187 /* LocationService.swift */; };
 		8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */; };
 		8EE5B3281E7F365200BC72A5 /* PlayerIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */; };
+		8EE5FCCE22B673EE00F7FF68 /* Dashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE5FCCD22B673EE00F7FF68 /* Dashboard.storyboard */; };
 		8EE94E471FF93DB700129EC2 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE94E461FF93DB700129EC2 /* Launch.storyboard */; };
 		8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */; };
 		8EF167F9208BEE4A00257354 /* LeagueIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F8208BEE4A00257354 /* LeagueIcon.swift */; };
@@ -272,6 +273,7 @@
 		8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventPhotoCell.swift; sourceTree = "<group>"; };
 		8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizerViewController.swift; sourceTree = "<group>"; };
 		8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerIcon.swift; sourceTree = "<group>"; };
+		8EE5FCCD22B673EE00F7FF68 /* Dashboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Dashboard.storyboard; sourceTree = "<group>"; };
 		8EE94E461FF93DB700129EC2 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModelIcon.swift; sourceTree = "<group>"; };
 		8EF167F8208BEE4A00257354 /* LeagueIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueIcon.swift; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 				8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */,
 				8E11E42B1E31B80800DB4B27 /* Main.storyboard */,
 				8EC799281E363549004ACC52 /* Account.storyboard */,
+				8EE5FCCD22B673EE00F7FF68 /* Dashboard.storyboard */,
 				8E09572421AAEAEE0037DA17 /* PlayerOnboarding.storyboard */,
 				8EC7992A1E3635A0004ACC52 /* Events.storyboard */,
 				8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */,
@@ -786,6 +789,7 @@
 				8E7398061FF921E500D48BA0 /* Montserrat-LightItalic.ttf in Resources */,
 				8E73980C1FF921E500D48BA0 /* Montserrat-Thin.ttf in Resources */,
 				8E7397FF1FF921E500D48BA0 /* Montserrat-BoldItalic.ttf in Resources */,
+				8EE5FCCE22B673EE00F7FF68 /* Dashboard.storyboard in Resources */,
 				8E7398081FF921E500D48BA0 /* Montserrat-MediumItalic.ttf in Resources */,
 				8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */,
 				8EC7992F1E3636A0004ACC52 /* EventDetails.storyboard in Resources */,
