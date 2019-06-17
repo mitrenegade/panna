@@ -198,13 +198,14 @@ class SplashViewController: UIViewController {
         }
         let storyboardName = "Main"
         var sceneId = "PlayerModeTabBarController"
-        for league in LeagueService.shared.allLeagues {
-            if league.ownerId == PlayerService.shared.current.value?.id {
-                sceneId = "OwnerModeTabBarController"
-                break
+        if SettingsService.organizerDashboard {
+            for league in LeagueService.shared.allLeagues {
+                if league.ownerId == PlayerService.shared.current.value?.id {
+                    sceneId = "OwnerModeTabBarController"
+                    break
+                }
             }
         }
-
         _homeViewController = UIStoryboard(name: storyboardName, bundle: nil).instantiateViewController(withIdentifier: sceneId) as? UITabBarController
         return _homeViewController!
     }

@@ -30,6 +30,7 @@ class SettingsService: NSObject {
         case maps
         case useGetAvailableEvents
         case eventReminderInterval
+        case organizerDashboard
 
         // experiments
         case showPreview
@@ -40,7 +41,8 @@ class SettingsService: NSObject {
                                           SettingsKey.softUpgradeInterval.rawValue: SOFT_UPGRADE_INTERVAL_DEFAULT,
                                           SettingsKey.useGetAvailableEvents.rawValue: false,
                                           SettingsKey.paymentRequired.rawValue: true,
-                                          SettingsKey.eventReminderInterval.rawValue: 7200]
+                                          SettingsKey.eventReminderInterval.rawValue: 7200
+                                        ]
 
     static var shared: SettingsService {
         if singleton == nil {
@@ -65,6 +67,7 @@ class SettingsService: NSObject {
                 print("Settings: * newestVersion \(SettingsService.newestVersion)")
                 print("Settings: * featureAvailable useGetAvailableEvents \(SettingsService.usesGetAvailableEvents())")
                 print("Settings: * eventFilterRadius \(SettingsService.eventFilterRadius)")
+                print("Settings: * organizerDashboard \(SettingsService.organizerDashboard)")
                 self.recordExperimentGroups()
                 observer.onNext("done")
             })
@@ -115,6 +118,10 @@ extension SettingsService {
 
     class var usesMaps: Bool {
         return shared.featureAvailable(.maps)
+    }
+    
+    class var organizerDashboard: Bool {
+        return shared.featureAvailable(.organizerDashboard)
     }
     
     // remote values
