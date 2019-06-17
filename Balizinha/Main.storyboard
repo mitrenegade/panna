@@ -90,7 +90,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="rootStoryboardName" value="Calendar"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="rootStoryboardName" value="Dashboard"/>
                     </userDefinedRuntimeAttributes>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eiL-m5-no7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -125,8 +125,8 @@
         <image name="location40" width="40" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="AOw-Vk-ldQ"/>
-        <segue reference="iJr-BC-1tj"/>
-        <segue reference="H94-9p-6GZ"/>
+        <segue reference="LFT-lm-fIp"/>
+        <segue reference="kyq-k8-cfX"/>
+        <segue reference="QOt-ki-hFa"/>
     </inferredMetricsTieBreakers>
 </document>

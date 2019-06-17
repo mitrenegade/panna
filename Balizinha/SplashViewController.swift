@@ -24,6 +24,7 @@ class SplashViewController: UIViewController {
         case leagues
         case map
         case calendar
+        case dashboard
     }
     fileprivate var tabs = Tab.allCases
     
