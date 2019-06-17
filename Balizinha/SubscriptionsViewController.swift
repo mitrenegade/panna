@@ -5,6 +5,16 @@
 //  Created by Bobby Ren on 2/21/19.
 //  Copyright © 2019 Bobby Ren. All rights reserved.
 //
+// TODO: flow for paying:
+// Display all leagues for the owner.
+// Display subscription status, which also translates to league tier
+// On selection of a league, the user is prompted for confirmation.
+// If the user doesn't have an active stripe payment method, they are shown an error and directed to the same payment view as regular players.
+// After confirmation of the subscription, the leagues are reloaded, and the new one is updated with new subscription status.
+//
+// For a new owner who does not have any leagues:
+// TODO: how to create a new league for an owner?
+// Same as new subscription?
 
 import UIKit
 import Balizinha
@@ -20,6 +30,7 @@ class SubscriptionsViewController: UIViewController {
     var subscriptions: [Subscription] = []
     var leagues: [League] = []
     var subscriptionForLeague: [String: Subscription] = [:]
+    var playerLeagues: [League] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,10 +40,58 @@ class SubscriptionsViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 80
 
-        loadSubscriptions()
+        loadAllData()
     }
     
-    private func loadSubscriptions() {
+    private func loadAllData() {
+        let dispatchGroup = DispatchGroup()
+        
+        showLoadingIndicator()
+
+        dispatchGroup.enter()
+        loadLeagues {
+            dispatchGroup.leave()
+        }
+        
+        loadSubscriptions() {
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: DispatchQueue.main) {
+            self.hideLoadingIndicator()
+            self.reloadTableData()
+        }
+    }
+    
+    private func loadLeagues(completion:(()->Void)?) {
+        guard let player = PlayerService.shared.current.value else {
+            return
+        }
+        
+        playerLeagues.removeAll()
+        
+        LeagueService.shared.leagueMemberships(for: player) { [weak self] (roster) in
+            guard let ids = roster else {
+                return
+            }
+            
+            var organizerCount = 0
+            for (leagueId, status) in ids {
+                guard status == Membership.Status.organizer else { continue }
+                organizerCount += 1
+                LeagueService.shared.withId(id: leagueId, completion: { [weak self] (league) in
+                    if let league = league {
+                        self?.playerLeagues.append(league)
+                        DispatchQueue.main.async {
+                            self?.reloadTableData()
+                        }
+                    }
+                })
+            }
+        }
+    }
+
+    private func loadSubscriptions(completion: (()->Void)?) {
         var userId: String
         if AIRPLANE_MODE {
             userId = "123"
@@ -42,14 +101,12 @@ class SubscriptionsViewController: UIViewController {
             userId = id
         }
         
-        showLoadingIndicator()
         service.loadSubscriptions(userId: userId) { [weak self] results, error in
             print("results \(results)")
             DispatchQueue.main.async {
                 if let error = error as? NSError {
                     self?.simpleAlert("Error loading subscriptions", defaultMessage: nil, error: error)
                 } else if let subscriptions = results as? [Subscription] {
-                    self?.hideLoadingIndicator()
                     self?.subscriptions = subscriptions
                     self?.loadLeaguesForSubscriptions()
                 }

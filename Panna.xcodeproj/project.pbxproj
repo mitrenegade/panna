@@ -111,6 +111,8 @@
 		8EDFB1BA1E3D3F00006DD187 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFB1B91E3D3F00006DD187 /* LocationService.swift */; };
 		8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */; };
 		8EE5B3281E7F365200BC72A5 /* PlayerIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */; };
+		8EE5FCCE22B673EE00F7FF68 /* Dashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE5FCCD22B673EE00F7FF68 /* Dashboard.storyboard */; };
+		8EE5FCD322B7218800F7FF68 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5FCD222B7218800F7FF68 /* DashboardViewController.swift */; };
 		8EE94E471FF93DB700129EC2 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE94E461FF93DB700129EC2 /* Launch.storyboard */; };
 		8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */; };
 		8EF167F9208BEE4A00257354 /* LeagueIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F8208BEE4A00257354 /* LeagueIcon.swift */; };
@@ -272,6 +274,8 @@
 		8EE5B31C1E7C109B00BC72A5 /* EventPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventPhotoCell.swift; sourceTree = "<group>"; };
 		8EE5B3251E7F363A00BC72A5 /* OrganizerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizerViewController.swift; sourceTree = "<group>"; };
 		8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerIcon.swift; sourceTree = "<group>"; };
+		8EE5FCCD22B673EE00F7FF68 /* Dashboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Dashboard.storyboard; sourceTree = "<group>"; };
+		8EE5FCD222B7218800F7FF68 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		8EE94E461FF93DB700129EC2 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModelIcon.swift; sourceTree = "<group>"; };
 		8EF167F8208BEE4A00257354 /* LeagueIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueIcon.swift; sourceTree = "<group>"; };
@@ -427,6 +431,7 @@
 				8E72569D1CDF793200C9E054 /* LoginSignup.storyboard */,
 				8E11E42B1E31B80800DB4B27 /* Main.storyboard */,
 				8EC799281E363549004ACC52 /* Account.storyboard */,
+				8EE5FCCD22B673EE00F7FF68 /* Dashboard.storyboard */,
 				8E09572421AAEAEE0037DA17 /* PlayerOnboarding.storyboard */,
 				8EC7992A1E3635A0004ACC52 /* Events.storyboard */,
 				8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */,
@@ -498,6 +503,7 @@
 				F2F7C3BE1CEE11BE00350115 /* Events */,
 				8E19A4A81E6C933400D301EC /* Event Details */,
 				C651AB8B2096D81F0046B03C /* Leagues */,
+				8EE5FCD122B7216800F7FF68 /* Dashboard */,
 				8E710D61212F7748004A8D48 /* Places */,
 				8EF6347A215319BA00652833 /* Feedback */,
 				C6B7D7B8221E7A8D00B58C72 /* Stripe */,
@@ -559,6 +565,14 @@
 				8ED897552109FA5B0062D345 /* ActivityIndicatorOverlay.swift */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		8EE5FCD122B7216800F7FF68 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				8EE5FCD222B7218800F7FF68 /* DashboardViewController.swift */,
+			);
+			name = Dashboard;
 			sourceTree = "<group>";
 		};
 		8EF6347A215319BA00652833 /* Feedback */ = {
@@ -786,6 +800,7 @@
 				8E7398061FF921E500D48BA0 /* Montserrat-LightItalic.ttf in Resources */,
 				8E73980C1FF921E500D48BA0 /* Montserrat-Thin.ttf in Resources */,
 				8E7397FF1FF921E500D48BA0 /* Montserrat-BoldItalic.ttf in Resources */,
+				8EE5FCCE22B673EE00F7FF68 /* Dashboard.storyboard in Resources */,
 				8E7398081FF921E500D48BA0 /* Montserrat-MediumItalic.ttf in Resources */,
 				8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */,
 				8EC7992F1E3636A0004ACC52 /* EventDetails.storyboard in Resources */,
@@ -942,6 +957,7 @@
 				8EBEDDC020DFD13800FD8BCE /* LeagueViewController.swift in Sources */,
 				F21571F51D200B7C00D2F59A /* EventDisplayViewController.swift in Sources */,
 				F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */,
+				8EE5FCD322B7218800F7FF68 /* DashboardViewController.swift in Sources */,
 				8E19A4B01E6C9CF200D301EC /* PaymentTypesViewController.swift in Sources */,
 				C6FDE5C420431ECB00FE0C76 /* ChatService.swift in Sources */,
 				8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */,

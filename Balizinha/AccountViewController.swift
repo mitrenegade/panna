@@ -385,3 +385,34 @@ extension AccountViewController: ToggleCellDelegate {
     }
 }
 
+extension LeagueService {
+    // calls getOwnerLeaguesAndSubscriptions. TODO: move this to LeagueService
+
+    func getOwnerLeaguesAndSubscriptions(completion: ((Any?, Error?)->Void)?) {
+        guard let user = AuthService.currentUser else { return }
+        let params = ["userId": user.uid]
+        RenderAPIService().cloudFunction(functionName: "getOwnerLeaguesAndSubscriptions", method: "POST", params: params, completion: { (result, error) in
+            guard error == nil else {
+                print("Load league error \(error)")
+                completion?(nil, error)
+                return
+            }
+            print("Load league result \(result)")
+            
+            // parse leagues
+            var leagues: [League] = []
+            if let resultDict = result as? [String: Any], let leagueDict = resultDict["leagues"] as? [String: [String: Any]] {
+                for (key, dict) in leagueDict {
+                    let league = League(key: key, dict: dict)
+                    leagues.append(league)
+                    // TODO: add caching
+                    //                    LeagueService.shared.cache(league)
+                }
+            }
+            
+            // TODO: parse subscriptions
+            
+            completion?([], nil)
+        })
+    }
+}
