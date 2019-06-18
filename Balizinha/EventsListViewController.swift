@@ -74,11 +74,11 @@ class EventsListViewController: ListViewController {
         }
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "toPlayers", let controller = segue.destination as? EventPlayersViewController {
-//            controller.event = sender as? Balizinha.Event
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toPlayers", let controller = segue.destination as? EventPlayersViewController {
+            controller.event = sender as? Balizinha.Event
+        }
+    }
     
     private func doCancelEvent(event: Balizinha.Event) {
         service?.cancelEvent(event, isCancelled: !event.isCancelled, completion: { [weak self] (error) in
