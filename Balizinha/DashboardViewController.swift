@@ -86,7 +86,9 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
             let item = menuItems[row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             cell.textLabel?.text = item.rawValue
-            cell.accessoryType = .disclosureIndicator
+            cell.accessoryType = (league != nil) ? .disclosureIndicator : .none
+            
+            cell.textLabel?.alpha = (league != nil) ? 1.0 : 0.25
             return cell
         }
     }
@@ -99,7 +101,9 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
             promptForLeague()
         } else {
             let option = menuItems[row]
-            performSegue(withIdentifier: option.rawValue, sender: nil)
+            if league != nil {
+                performSegue(withIdentifier: option.rawValue, sender: nil)
+            }
         }
     }
     
@@ -114,24 +118,23 @@ extension DashboardViewController: UIPickerViewDataSource, UIPickerViewDelegate 
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return leagues.count + 1
+        return leagues.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if row == 0 {
-            return "Pick a league"
-        } else if row - 1 < leagues.count {
-            return leagues[row-1].name ?? "No name"
+        if row < leagues.count {
+            return leagues[row].name ?? "No name"
         }
         return nil
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if row > 0 && row - 1 < leagues.count {
-            print("Picked league \(leagues[row-1].name)")
-            league = leagues[row-1]
+        if row < leagues.count {
+            print("Picked league \(leagues[row].name)")
+            league = leagues[row]
             leagueInput.resignFirstResponder()
-            title = "Dashboard for " + (league?.name ?? "")
+            
+            tableView.reloadData()
         }
     }
 }
