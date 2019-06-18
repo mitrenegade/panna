@@ -14,7 +14,7 @@ import RxSwift
 enum DashboardMenuItem: String, CaseIterable {
     // player
     case players = "Players"
-    case games = "Games"
+    case events = "Events"
     case actions = "Actions"
     case payments = "Payments"
     case feed = "Feed"
@@ -37,9 +37,7 @@ class DashboardViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let controller = segue.destination as? ListViewController,
-            let identifier = segue.identifier,
-            let menuItem = DashboardMenuItem(rawValue: identifier) else { return }
+        guard let controller = segue.destination as? ListViewController else { return }
         controller.league = league
     }
 }
@@ -66,8 +64,6 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-        
-        guard let league = league else { return }
         
         let row = indexPath.row
         let option = menuItems[row]
