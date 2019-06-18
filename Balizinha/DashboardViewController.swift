@@ -40,7 +40,6 @@ class DashboardViewController: UIViewController {
         guard let controller = segue.destination as? ListViewController,
             let identifier = segue.identifier,
             let menuItem = DashboardMenuItem(rawValue: identifier) else { return }
-        controller.type = menuItem
         controller.league = league
     }
 }

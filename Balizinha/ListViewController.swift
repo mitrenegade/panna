@@ -14,7 +14,6 @@ import RenderCloud
 
 class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    var type: DashboardMenuItem?
     var league: League?
 
     internal var refName: String {

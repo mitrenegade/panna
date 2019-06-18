@@ -12,8 +12,9 @@ import Firebase
 
 class PlayerListViewController: ListViewController {
     var players: [(player: Player, expanded: Bool)] = []
-    var profileImageUrl: [String: String] = [:]
-    
+    var roster: [Membership]?
+
+    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,27 +23,49 @@ class PlayerListViewController: ListViewController {
     }
     
     override func load() {
-        let playerRef = firRef.child("players").queryOrdered(byChild: "createdAt")
-        playerRef.observe(.value) {[weak self] (snapshot) in
-            guard snapshot.exists() else { return }
-            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
-                self?.players.removeAll()
-                for playerDict: DataSnapshot in allObjects {
-                    let player = Player(snapshot: playerDict)
-                    FirebaseImageService().profileUrl(with: player.id) {[weak self] (url) in
-                        if let urlString = url?.absoluteString {
-                            self?.profileImageUrl[player.id] = urlString
-                        }
-                    }
+        loadRoster()
+    }
+    
+    func loadRoster() {
+        activityOverlay.show()
+        
+        guard let league = league else { return }
+        LeagueService.shared.memberships(for: league) { [weak self] (results) in
+            self?.roster = results
+            self?.observePlayers()
+            DispatchQueue.main.async {
+                self?.activityOverlay.hide()
+            }
+        }
+    }
+    
+    func observePlayers() {
+        DispatchQueue.main.async {
+            self.activityOverlay.show()
+        }
+        players.removeAll()
+        let dispatchGroup = DispatchGroup()
+        for membership in roster ?? [] {
+            let playerId = membership.playerId
+            guard membership.isActive else { continue }
+            dispatchGroup.enter()
+            print("Loading player id \(playerId)")
+            PlayerService.shared.withId(id: playerId, completion: {[weak self] (player) in
+                if let player = player {
+                    print("Finished player id \(playerId)")
                     self?.players.append((player, false))
                 }
-                self?.players.sort(by: { (p1, p2) -> Bool in
-                    guard let t1 = p1.player.createdAt else { return false }
-                    guard let t2 = p2.player.createdAt else { return true}
-                    return t1 > t2
-                })
-                self?.reloadTable()
-            }
+                dispatchGroup.leave()
+            })
+        }
+        dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            self?.players.sort(by: { (p1, p2) -> Bool in
+                guard let t1 = p1.player.createdAt else { return false }
+                guard let t2 = p2.player.createdAt else { return true}
+                return t1 > t2
+            })
+            self?.reloadTable()
+            self?.activityOverlay.hide()
         }
     }
 }

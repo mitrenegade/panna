@@ -147,10 +147,8 @@ class LeagueViewController: UIViewController {
         }
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
             if let index = self?.rows.index(of: .players) {
-                DispatchQueue.main.async {
-                    self?.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
-                    self?.activityOverlay.hide()
-                }
+                self?.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                self?.activityOverlay.hide()
             }
         }
     }
