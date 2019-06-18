@@ -16,9 +16,9 @@ enum DashboardMenuItem: String, CaseIterable {
     case league = "League"
     case players = "Players"
     case events = "Events"
-    case actions = "Actions"
-    case payments = "Payments"
-    case feed = "Feed"
+//    case actions = "Actions"
+//    case payments = "Payments"
+//    case feed = "Feed"
 }
 
 class DashboardViewController: UIViewController {
