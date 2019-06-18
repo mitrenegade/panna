@@ -25,15 +25,28 @@ class DashboardViewController: UIViewController {
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
     
     @IBOutlet weak var tableView: UITableView!
-    
+    var leaguePickerView: UIPickerView = UIPickerView()
+    var pickerRow: Int = -1
+    let leagueInput: UITextField = UITextField()
+
     private let disposeBag = DisposeBag()
     
     var league: League?
+    var leagues: [League] = []
     let menuItems: [DashboardMenuItem] = DashboardMenuItem.allCases
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Dashboard"
+        
+        leaguePickerView.sizeToFit()
+        leaguePickerView.backgroundColor = .white
+        leaguePickerView.delegate = self
+        leaguePickerView.dataSource = self
+        leagueInput.inputView = leaguePickerView
+        tableView.addSubview(leagueInput)
+        
+        leagues = LeagueService.shared.ownerLeagues
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -42,7 +55,7 @@ class DashboardViewController: UIViewController {
     }
     
     func promptForLeague() {
-        //        league = LeagueService.shared.ownerLeagues.first
+        leagueInput.becomeFirstResponder()
     }
 }
 
@@ -70,7 +83,7 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
             }
             return cell
         } else {
-            let item = menuItems[row - 1]
+            let item = menuItems[row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             cell.textLabel?.text = item.rawValue
             cell.accessoryType = .disclosureIndicator
@@ -85,12 +98,40 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         if row == 0 {
             promptForLeague()
         } else {
-            let option = menuItems[row - 1]
+            let option = menuItems[row]
             performSegue(withIdentifier: option.rawValue, sender: nil)
         }
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.1
+    }
+}
+
+extension DashboardViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return leagues.count + 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if row == 0 {
+            return "Pick a league"
+        } else if row - 1 < leagues.count {
+            return leagues[row-1].name ?? "No name"
+        }
+        return nil
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if row > 0 && row - 1 < leagues.count {
+            print("Picked league \(leagues[row-1].name)")
+            league = leagues[row-1]
+            leagueInput.resignFirstResponder()
+            title = "Dashboard for " + (league?.name ?? "")
+        }
     }
 }
