@@ -113,6 +113,8 @@
 		8EE5B3281E7F365200BC72A5 /* PlayerIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */; };
 		8EE5FCCE22B673EE00F7FF68 /* Dashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE5FCCD22B673EE00F7FF68 /* Dashboard.storyboard */; };
 		8EE5FCD322B7218800F7FF68 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5FCD222B7218800F7FF68 /* DashboardViewController.swift */; };
+		8EE5FCD522B7528300F7FF68 /* PlayerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5FCD422B7528300F7FF68 /* PlayerListViewController.swift */; };
+		8EE5FCD722B86C3000F7FF68 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5FCD622B86C2E00F7FF68 /* ListViewController.swift */; };
 		8EE94E471FF93DB700129EC2 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE94E461FF93DB700129EC2 /* Launch.storyboard */; };
 		8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */; };
 		8EF167F9208BEE4A00257354 /* LeagueIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F8208BEE4A00257354 /* LeagueIcon.swift */; };
@@ -276,6 +278,8 @@
 		8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerIcon.swift; sourceTree = "<group>"; };
 		8EE5FCCD22B673EE00F7FF68 /* Dashboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Dashboard.storyboard; sourceTree = "<group>"; };
 		8EE5FCD222B7218800F7FF68 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
+		8EE5FCD422B7528300F7FF68 /* PlayerListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerListViewController.swift; sourceTree = "<group>"; };
+		8EE5FCD622B86C2E00F7FF68 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		8EE94E461FF93DB700129EC2 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModelIcon.swift; sourceTree = "<group>"; };
 		8EF167F8208BEE4A00257354 /* LeagueIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueIcon.swift; sourceTree = "<group>"; };
@@ -571,6 +575,8 @@
 			isa = PBXGroup;
 			children = (
 				8EE5FCD222B7218800F7FF68 /* DashboardViewController.swift */,
+				8EE5FCD622B86C2E00F7FF68 /* ListViewController.swift */,
+				8EE5FCD422B7528300F7FF68 /* PlayerListViewController.swift */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -940,6 +946,7 @@
 				F2F7C3C21CEE2CDD00350115 /* PushTableViewCell.swift in Sources */,
 				8E17907A207B03C9004FF5D2 /* AttendeesViewController.swift in Sources */,
 				8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */,
+				8EE5FCD722B86C3000F7FF68 /* ListViewController.swift in Sources */,
 				8EB29279212F77AA0007BAF8 /* PinpointViewController.swift in Sources */,
 				8EDFB1BA1E3D3F00006DD187 /* LocationService.swift in Sources */,
 				8E81A2D7226BC1BF00EAA6EF /* OwnerEventsViewController.swift in Sources */,
@@ -990,6 +997,7 @@
 				8E49E7292100B847009F1B5D /* JoinEventHelper.swift in Sources */,
 				8EA99E0F21533475001BC643 /* LeagueInquiryViewController.swift in Sources */,
 				8E7016D2207A9D0400A4C28C /* UpgradeService.swift in Sources */,
+				8EE5FCD522B7528300F7FF68 /* PlayerListViewController.swift in Sources */,
 				8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */,
 				C6B7412720FAD88B00B0FA00 /* LeagueButtonCell.swift in Sources */,
 				8E17907C207B043F004FF5D2 /* PlayerCell.swift in Sources */,

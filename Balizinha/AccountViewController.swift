@@ -387,7 +387,6 @@ extension AccountViewController: ToggleCellDelegate {
 
 extension LeagueService {
     // calls getOwnerLeaguesAndSubscriptions. TODO: move this to LeagueService
-
     func getOwnerLeaguesAndSubscriptions(completion: ((Any?, Error?)->Void)?) {
         guard let user = AuthService.currentUser else { return }
         let params = ["userId": user.uid]
@@ -414,5 +413,16 @@ extension LeagueService {
             
             completion?([], nil)
         })
+    }
+    
+    var ownerLeagues: [League] {
+        guard let ownerId = PlayerService.shared.current.value?.id else { return [] }
+        var leagues: [League] = []
+        for league in allLeagues {
+            if league.ownerId == ownerId{
+                leagues.append(league)
+            }
+        }
+        return leagues
     }
 }

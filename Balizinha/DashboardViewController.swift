@@ -11,27 +11,37 @@ import Balizinha
 import RxCocoa
 import RxSwift
 
+enum DashboardMenuItem: String, CaseIterable {
+    // player
+    case players = "Players"
+    case games = "Games"
+    case actions = "Actions"
+    case payments = "Payments"
+    case feed = "Feed"
+}
+
 class DashboardViewController: UIViewController {
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
     
     @IBOutlet weak var tableView: UITableView!
     
     private let disposeBag = DisposeBag()
-
-    enum MenuItem: String, CaseIterable {
-        // player
-        case players = "Players"
-        case games = "Games"
-        case actions = "Actions"
-        case payments = "Payments"
-        case feed = "Feed"
-    }
     
-    let menuItems: [MenuItem] = MenuItem.allCases
+    var league: League?
+    let menuItems: [DashboardMenuItem] = DashboardMenuItem.allCases
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Dashboard"
+        league = LeagueService.shared.ownerLeagues.first
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let controller = segue.destination as? ListViewController,
+            let identifier = segue.identifier,
+            let menuItem = DashboardMenuItem(rawValue: identifier) else { return }
+        controller.type = menuItem
+        controller.league = league
     }
 }
 
@@ -57,6 +67,8 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard let league = league else { return }
         
         let row = indexPath.row
         let option = menuItems[row]
