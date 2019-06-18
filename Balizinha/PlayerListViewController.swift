@@ -11,7 +11,7 @@ import Balizinha
 import Firebase
 
 class PlayerListViewController: ListViewController {
-    var players: [(player: Player, expanded: Bool)] = []
+    var players: [Player] = []
     var roster: [Membership]?
 
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
@@ -53,15 +53,15 @@ class PlayerListViewController: ListViewController {
             PlayerService.shared.withId(id: playerId, completion: {[weak self] (player) in
                 if let player = player {
                     print("Finished player id \(playerId)")
-                    self?.players.append((player, false))
+                    self?.players.append(player)
                 }
                 dispatchGroup.leave()
             })
         }
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
             self?.players.sort(by: { (p1, p2) -> Bool in
-                guard let t1 = p1.player.createdAt else { return false }
-                guard let t2 = p2.player.createdAt else { return true}
+                guard let t1 = p1.createdAt else { return false }
+                guard let t2 = p2.createdAt else { return true}
                 return t1 > t2
             })
             self?.reloadTable()
@@ -78,10 +78,8 @@ extension PlayerListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerCell", for: indexPath) as! PlayerCell
         if indexPath.row < players.count {
-            let tuple = players[indexPath.row]
-            let player = tuple.player
-            let expanded = tuple.expanded
-            cell.configure(player: player, expanded: expanded)
+            let player = players[indexPath.row]
+            cell.configure(player: player, expanded: false)
         } else {
             cell.reset()
         }
@@ -92,12 +90,9 @@ extension PlayerListViewController {
 extension PlayerListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         super.tableView(tableView, didSelectRowAt: indexPath)
-        
         guard indexPath.row < players.count else { return }
-        
-        var tuple = players[indexPath.row]
-        tuple.expanded = !tuple.expanded
-        players[indexPath.row] = tuple
-        tableView.reloadRows(at: [indexPath], with: .automatic)
+        let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
+        controller.player = players[indexPath.row]
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
