@@ -13,6 +13,9 @@ import FirebaseAuth
 import RenderPay
 import RenderCloud
 
+var TESTING = false
+var AIRPLANE_MODE = false
+
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 var stateAbbreviations = [ "AK",
                            "AL",
@@ -73,9 +76,6 @@ var stateAbbreviations = [ "AK",
 enum UserSettings: String {
     case DisplayedJoinEventMessage
 }
-
-var TESTING = false
-var AIRPLANE_MODE = false
 
 let STRIPE_KEY_DEV = "pk_test_YYNWvzYJi3bTyOJi2SNK3IkE"
 let STRIPE_KEY_PROD = "pk_live_IziZ9EDk1374oI3rXjEciLBG"
