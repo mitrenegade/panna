@@ -31,7 +31,11 @@ class DashboardViewController: UIViewController {
 
     private let disposeBag = DisposeBag()
     
-    var league: League?
+    var league: League? {
+        didSet {
+            DefaultsManager.shared.setValue(league?.id, forKey: "DashboardLeagueId")
+        }
+    }
     var leagues: [League] = []
     let menuItems: [DashboardMenuItem] = DashboardMenuItem.allCases
     override func viewDidLoad() {
@@ -51,6 +55,12 @@ class DashboardViewController: UIViewController {
             guard let name2 = l2.name?.lowercased() else { return false }
             return name1 < name2
         })
+        
+        if let leagueId = DefaultsManager.shared.value(forKey: "DashboardLeagueId") as? String {
+            league = leagues.first(where: { (l) -> Bool in
+                return l.id == leagueId
+            })
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

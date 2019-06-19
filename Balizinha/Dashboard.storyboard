@@ -201,7 +201,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.24313725489999999" green="0.32156862749999998" blue="0.39607843139999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="OOf-GL-nE1" firstAttribute="top" secondItem="u5c-rE-oGh" secondAttribute="top" id="6Ae-0Y-STc"/>
                             <constraint firstItem="OOf-GL-nE1" firstAttribute="leading" secondItem="ecZ-Eu-d54" secondAttribute="leading" id="bB2-WA-7Ug"/>
