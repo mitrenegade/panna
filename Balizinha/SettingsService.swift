@@ -57,19 +57,24 @@ class SettingsService: NSObject {
         print("Settings: created observedSettings")
         return Observable.create({ (observer) -> Disposable in
             self.remoteConfig.setDefaults(SettingsService.defaults as? [String : NSObject])
-            self.remoteConfig.fetch(completionHandler: { (status, error) in
-                self.remoteConfig.activateFetched()
-                print("Settings: * featureAvailable donation \(SettingsService.donation())")
-                print("Settings: * featureAvailable paymentRequired \(SettingsService.paymentRequired())")
-                print("Settings: * featureAvailable ownerPaymentRequired \(SettingsService.ownerPaymentRequired())")
-                print("Settings: * featureAvailable maps \(SettingsService.usesMaps)")
-                print("Settings: * showPreview \(SettingsService.shared.featureExperiment(.showPreview)) testGroup \(SettingsService.showPreviewTestGroup())")
-                print("Settings: * newestVersion \(SettingsService.newestVersion)")
-                print("Settings: * featureAvailable useGetAvailableEvents \(SettingsService.usesGetAvailableEvents())")
-                print("Settings: * eventFilterRadius \(SettingsService.eventFilterRadius)")
-                print("Settings: * organizerDashboard \(SettingsService.organizerDashboard)")
-                self.recordExperimentGroups()
-                observer.onNext("done")
+            self.remoteConfig.fetch(withExpirationDuration: 10, completionHandler: { (status, error) in
+                if let error = error {
+                    print("Error \(error)")
+                    observer.onNext("faild")
+                } else {
+                    self.remoteConfig.activateFetched()
+                    print("Settings: * featureAvailable donation \(SettingsService.donation())")
+                    print("Settings: * featureAvailable paymentRequired \(SettingsService.paymentRequired())")
+                    print("Settings: * featureAvailable ownerPaymentRequired \(SettingsService.ownerPaymentRequired())")
+                    print("Settings: * featureAvailable maps \(SettingsService.usesMaps)")
+                    print("Settings: * showPreview \(SettingsService.shared.featureExperiment(.showPreview)) testGroup \(SettingsService.showPreviewTestGroup())")
+                    print("Settings: * newestVersion \(SettingsService.newestVersion)")
+                    print("Settings: * featureAvailable useGetAvailableEvents \(SettingsService.usesGetAvailableEvents())")
+                    print("Settings: * eventFilterRadius \(SettingsService.eventFilterRadius)")
+                    print("Settings: * organizerDashboard \(SettingsService.organizerDashboard)")
+                    self.recordExperimentGroups()
+                    observer.onNext("done")
+                }
             })
 
             return Disposables.create()

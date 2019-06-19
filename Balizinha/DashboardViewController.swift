@@ -26,12 +26,16 @@ class DashboardViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var leaguePickerView: UIPickerView = UIPickerView()
-    var pickerRow: Int = -1
+    var pickerRow: Int = 0
     let leagueInput: UITextField = UITextField()
 
     private let disposeBag = DisposeBag()
     
-    var league: League?
+    var league: League? {
+        didSet {
+            DefaultsManager.shared.setValue(league?.id, forKey: "DashboardLeagueId")
+        }
+    }
     var leagues: [League] = []
     let menuItems: [DashboardMenuItem] = DashboardMenuItem.allCases
     override func viewDidLoad() {
@@ -39,23 +43,77 @@ class DashboardViewController: UIViewController {
 
         title = "Dashboard"
         
+        setupLeagueSelector()
+        leagues = LeagueService.shared.ownerLeagues.sorted(by: { (l1, l2) -> Bool in
+            guard let name1 = l1.name?.lowercased() else { return true }
+            guard let name2 = l2.name?.lowercased() else { return false }
+            return name1 < name2
+        })
+        
+        if let leagueId = DefaultsManager.shared.value(forKey: "DashboardLeagueId") as? String {
+            league = leagues.first(where: { (l) -> Bool in
+                return l.id == leagueId
+            })
+        }
+        
+        if let league = league, let index = leagues.index(of: league) {
+            pickerRow = index
+        } else {
+            selectLeague(showPrompt: true)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let nav = segue.destination as? UINavigationController, let controller = nav.viewControllers[0] as? ListViewController else { return }
+        controller.league = league
+    }
+    
+    private func setupLeagueSelector() {
         leaguePickerView.sizeToFit()
         leaguePickerView.backgroundColor = .white
         leaguePickerView.delegate = self
         leaguePickerView.dataSource = self
         leagueInput.inputView = leaguePickerView
-        tableView.addSubview(leagueInput)
         
-        leagues = LeagueService.shared.ownerLeagues
+        let keyboardNextButtonView = UIToolbar()
+        keyboardNextButtonView.sizeToFit()
+        keyboardNextButtonView.barStyle = UIBarStyle.black
+        keyboardNextButtonView.isTranslucent = true
+        keyboardNextButtonView.tintColor = UIColor.white
+        let cancel: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.done, target: self, action: #selector(cancelInput))
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let select: UIBarButtonItem = UIBarButtonItem(title: "Select", style: UIBarButtonItemStyle.done, target: self, action: #selector(saveInput))
+        keyboardNextButtonView.setItems([cancel, flex, select], animated: true)
+        leagueInput.inputAccessoryView = keyboardNextButtonView
+        
+        tableView.addSubview(leagueInput)
+    }
+
+    func selectLeague(showPrompt: Bool) {
+        if showPrompt {
+            simpleAlert("Select a league", message: "Please choose which league to view in the dashboard. You can change this later.") {
+                self.leagueInput.becomeFirstResponder()
+                self.leaguePickerView.selectRow(self.pickerRow, inComponent: 0, animated: false)
+            }
+        } else {
+            leagueInput.becomeFirstResponder()
+            leaguePickerView.selectRow(pickerRow, inComponent: 0, animated: false)
+        }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let controller = segue.destination as? ListViewController else { return }
-        controller.league = league
+    @objc private func cancelInput() {
+        view.endEditing(true)
     }
     
-    func promptForLeague() {
-        leagueInput.becomeFirstResponder()
+    @objc private func saveInput() {
+        view.endEditing(true)
+        if pickerRow < leagues.count {
+            print("Picked league \(leagues[pickerRow].name)")
+            league = leagues[pickerRow]
+            leagueInput.resignFirstResponder()
+            
+            tableView.reloadData()
+        }
     }
 }
 
@@ -94,11 +152,11 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
         
         let row = indexPath.row
         if row == 0 {
-            promptForLeague()
+            selectLeague(showPrompt: false)
         } else {
             let option = menuItems[row]
             if league != nil {
@@ -129,12 +187,28 @@ extension DashboardViewController: UIPickerViewDataSource, UIPickerViewDelegate 
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if row < leagues.count {
-            print("Picked league \(leagues[row].name)")
-            league = leagues[row]
-            leagueInput.resignFirstResponder()
-            
-            tableView.reloadData()
+        pickerRow = row
+    }
+}
+
+extension DashboardViewController {
+    func simpleInputAlert(_ title: String, message: String?, placeholder: String?, inputView: UIView? = nil, inputAccessoryView: UIView? = nil, completion: ((String) -> Void)?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = placeholder
+            if let inputView = inputView {
+                textField.inputView = inputView
+            }
+            if let accessory = inputAccessoryView {
+                textField.inputAccessoryView = accessory
+            }
         }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            if let textField = alert.textFields?[0], let text = textField.text {
+                completion?(text)
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true)
     }
 }

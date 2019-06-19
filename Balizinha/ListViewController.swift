@@ -30,8 +30,14 @@ class ListViewController: UIViewController {
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))
 
         load()
+    }
+
+    @objc func didClickCancel(_ sender: AnyObject?) {
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
 
     func load() {

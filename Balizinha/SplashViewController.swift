@@ -184,6 +184,7 @@ class SplashViewController: UIViewController {
         UserDefaults.standard.set(nil, forKey: "organizerCachedLat")
         UserDefaults.standard.set(nil, forKey: "organizerCachedLon")
         UserDefaults.standard.set(nil, forKey: "organizerCachedEventPhotoUrl")
+        DefaultsManager.shared.setValue(nil, forKey: "DashboardLeagueId")
 
         UserDefaults.standard.set(false, forKey: UserSettings.DisplayedJoinEventMessage.rawValue)
 
