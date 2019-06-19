@@ -107,14 +107,14 @@
         <!--Player List View Controller-->
         <scene sceneID="yYu-TF-bPg">
             <objects>
-                <viewController id="Xad-8r-nAa" customClass="PlayerListViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="Xad-8r-nAa" customClass="PlayerListViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="u5c-rE-oGh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OOf-GL-nE1">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.24313725490196078" green="0.32156862745098036" blue="0.396078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlayerCell" rowHeight="300" id="5lm-Iv-OJi" customClass="PlayerCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="300"/>
@@ -206,10 +206,11 @@
                             <constraint firstItem="OOf-GL-nE1" firstAttribute="top" secondItem="u5c-rE-oGh" secondAttribute="top" id="6Ae-0Y-STc"/>
                             <constraint firstItem="OOf-GL-nE1" firstAttribute="leading" secondItem="ecZ-Eu-d54" secondAttribute="leading" id="bB2-WA-7Ug"/>
                             <constraint firstItem="OOf-GL-nE1" firstAttribute="trailing" secondItem="ecZ-Eu-d54" secondAttribute="trailing" id="cVi-Ct-iCs"/>
-                            <constraint firstAttribute="bottom" secondItem="OOf-GL-nE1" secondAttribute="bottom" id="jSV-mC-NYV"/>
+                            <constraint firstItem="OOf-GL-nE1" firstAttribute="bottom" secondItem="ecZ-Eu-d54" secondAttribute="bottom" id="uES-h7-AVQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ecZ-Eu-d54"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" id="wPR-tD-j0c"/>
                     <connections>
                         <outlet property="tableView" destination="OOf-GL-nE1" id="mgO-2F-Yyb"/>
