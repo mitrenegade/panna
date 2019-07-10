@@ -86,7 +86,7 @@ class PlayerCell: UITableViewCell {
     
     func reset() {
         labelName.text = nil
-        labelId.text = nil
+        labelId?.text = nil
         labelDate.text = nil
     }
 }

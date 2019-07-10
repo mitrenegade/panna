@@ -1,11 +1,3 @@
-//
-//  EventPlayersViewController.swift
-//  Balizinha_Example
-//
-//  Created by Ren, Bobby on 8/17/18.
-//  Copyright © 2018 CocoaPods. All rights reserved.
-//
-
 import UIKit
 import FirebaseCore
 import Balizinha
@@ -41,7 +33,7 @@ class SearchableListViewController: ListViewController {
     }
     
     // to be implemented by subclasses
-    var filterFunc = { ((_ object: FirebaseBaseModel)->Bool) in
+    var filterFunc = { (_ object: FirebaseBaseModel) in
         return true
     }
 }
@@ -99,7 +91,7 @@ extension SearchableListViewController {
         }
         
         updateSections(filtered)
-        reloadTableData()
+        reloadTable()
     }
     
     @objc func updateSections(_ newObjects: [FirebaseBaseModel]) {

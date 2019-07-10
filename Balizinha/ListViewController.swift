@@ -49,7 +49,7 @@ class ListViewController: UIViewController {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
 
-    func load() {
+    func load(completion:(()->Void)? = nil) {
         let ref: Query
         ref = baseRef.child(path: refName).queryOrdered(by: "createdAt")
         ref.observeSingleValue() {[weak self] (snapshot) in
@@ -69,6 +69,7 @@ class ListViewController: UIViewController {
 
                 self?.reloadTable()
             }
+            completion?()
         }
     }
     

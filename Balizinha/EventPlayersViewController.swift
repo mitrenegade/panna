@@ -9,7 +9,7 @@
 import UIKit
 import Balizinha
 
-class EventPlayersViewController: SearchablePlayersViewController {
+class EventPlayersViewController: SearchableListViewController {
     var event: Balizinha.Event?
 
     @objc override var cellIdentifier: String {
@@ -36,10 +36,10 @@ class EventPlayersViewController: SearchablePlayersViewController {
         super.viewDidLoad()
         navigationItem.title = "Players"
         
-        loadFromRef {
-            self.loadEventPlayers() {
-                self.search(for: nil)
-                self.reloadTableData()
+        load() { [weak self] in
+            self?.loadEventPlayers() { [weak self] in
+                self?.search(for: nil)
+                self?.reloadTable()
             }
         }
         
@@ -77,14 +77,13 @@ extension EventPlayersViewController { // UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! LeaguePlayerCell // using leaguePlayerCell is fine
         cell.reset()
         let section = sections[indexPath.section]
-        let array = section.players
+        let array = section.objects
         if indexPath.row < array.count {
             let playerId = array[indexPath.row].id
             PlayerService.shared.withId(id: playerId) { [weak self] (player) in
                 if let player = player {
-                    let status: Membership.Status = self?.memberships[player.id] ?? .none
                     DispatchQueue.main.async {
-                        cell.configure(player: player, status: status)
+                        cell.configure(player: player, status: nil)
                     }
                 }
             }
@@ -94,8 +93,8 @@ extension EventPlayersViewController { // UITableViewDataSource
     }
 }
 
-extension EventPlayersViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+extension EventPlayersViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
         guard let event = event else { return }
@@ -103,8 +102,8 @@ extension EventPlayersViewController: UITableViewDelegate {
         // TODO: what happens when a player is clicked?
         // TODO: clicking allows the organizer to add or remove players?
         let section = sections[indexPath.section]
-        guard indexPath.row < section.players.count else { return }
-        let playerId: String = section.players[indexPath.row].id
+        guard indexPath.row < section.objects.count else { return }
+        let playerId: String = section.objects[indexPath.row].id
         
         let message: String
         switch section.name {
@@ -132,7 +131,7 @@ extension EventPlayersViewController: UITableViewDelegate {
                 } else {
                     self?.loadEventPlayers() {
                         self?.search(for: nil)
-                        self?.reloadTableData()
+                        self?.reloadTable()
                     }
                 }
             }
@@ -143,7 +142,7 @@ extension EventPlayersViewController: UITableViewDelegate {
                 } else {
                     self?.loadEventPlayers() {
                         self?.search(for: nil)
-                        self?.reloadTableData()
+                        self?.reloadTable()
                     }
                 }
             }
@@ -155,9 +154,9 @@ extension EventPlayersViewController: UITableViewDelegate {
 
 // MARK: - Search
 extension EventPlayersViewController {
-    @objc override func updateSections(_ players: [Player]) {
+    @objc override func updateSections(_ newObjects: [FirebaseBaseModel]) {
         // filter for event attendance
-        eventPlayers = players.filter() { return attendingPlayerIds.contains($0.id) }
-        otherPlayers = players.filter() { return !attendingPlayerIds.contains($0.id) }
+        eventPlayers = newObjects.filter { return attendingPlayerIds.contains($0.id) }.compactMap{$0 as? Player}
+        otherPlayers = newObjects.filter { return !attendingPlayerIds.contains($0.id) }.compactMap{$0 as? Player}
     }
 }

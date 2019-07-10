@@ -22,11 +22,11 @@ class PlayerListViewController: ListViewController {
         navigationItem.title = "Players"
     }
     
-    override func load() {
-        loadRoster()
+    override func load(completion:(()->Void)? = nil) {
+        loadRoster(completion: completion)
     }
     
-    func loadRoster() {
+    func loadRoster(completion:(()->Void)? = nil) {
         activityOverlay.show()
         
         guard let league = league else { return }
@@ -35,6 +35,7 @@ class PlayerListViewController: ListViewController {
             self?.observePlayers()
             DispatchQueue.main.async {
                 self?.activityOverlay.hide()
+                completion?()
             }
         }
     }

@@ -47,7 +47,7 @@ class EventsListViewController: ListViewController {
         }
     }
     
-    override func load() {
+    override func load(completion:(()->Void)? = nil) {
         guard let league = league else { return }
         LeagueService.shared.events(for: league) { [weak self] (events) in
             for event in events ?? [] {
@@ -70,6 +70,7 @@ class EventsListViewController: ListViewController {
             })
             DispatchQueue.main.async {
                 self?.reloadTable()
+                completion?()
             }
         }
     }

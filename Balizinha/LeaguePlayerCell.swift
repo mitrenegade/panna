@@ -26,12 +26,14 @@ class LeaguePlayerCell: UITableViewCell {
         labelInitials.textAlignment = .center
     }
     
-    func configure(player: Player, status: Membership.Status) {
+    func configure(player: Player, status: Membership.Status?) {
         labelName.text = player.name ?? "Anon"
         labelEmail?.text = player.email
         labelCreated?.text = player.createdAt?.dateString()
         
-        labelStatus?.text = status.rawValue
+        if let status = status {
+            labelStatus?.text = status.rawValue
+        }
 
         imagePhoto.image = nil
         imagePhoto.layer.cornerRadius = imagePhoto.frame.size.height / 2
