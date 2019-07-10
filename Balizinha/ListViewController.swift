@@ -12,18 +12,22 @@ import Balizinha
 import FirebaseDatabase
 import RenderCloud
 
+typealias Section = (name: String, objects: [FirebaseBaseModel])
 class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var league: League?
 
     internal var refName: String {
-        assertionFailure("Must be implemented")
+        assertionFailure("refName ust be implemented by subclass")
         return ""
     }
     internal var baseRef: Reference {
         return firRef
     }
     var objects: [FirebaseBaseModel] = []
+    var sections: [Section] {
+        return [("All", objects)]
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +38,11 @@ class ListViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))
 
         load()
+    }
+
+    @objc var cellIdentifier: String {
+        assertionFailure("cellIdentifier must be implemented by subclass")
+        return ""
     }
 
     @objc func didClickCancel(_ sender: AnyObject?) {

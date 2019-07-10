@@ -11,7 +11,11 @@ import Balizinha
 
 class EventPlayersViewController: SearchablePlayersViewController {
     var event: Balizinha.Event?
-    
+
+    @objc override var cellIdentifier: String {
+        return "LeaguePlayerCell"
+    }
+
     override var sections: [Section] {
         let string: String
         if event?.isPast ?? false {
