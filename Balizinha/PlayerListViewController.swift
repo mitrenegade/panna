@@ -10,11 +10,9 @@ import UIKit
 import Balizinha
 import Firebase
 
-class PlayerListViewController: ListViewController {
-    var players: [Player] = []
+class PlayerListViewController: SearchableListViewController {
     var roster: [Membership]?
 
-    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,7 +42,7 @@ class PlayerListViewController: ListViewController {
         DispatchQueue.main.async {
             self.activityOverlay.show()
         }
-        players.removeAll()
+        objects.removeAll()
         let dispatchGroup = DispatchGroup()
         for membership in roster ?? [] {
             let playerId = membership.playerId
@@ -54,13 +52,13 @@ class PlayerListViewController: ListViewController {
             PlayerService.shared.withId(id: playerId, completion: {[weak self] (player) in
                 if let player = player {
                     print("Finished player id \(playerId)")
-                    self?.players.append(player)
+                    self?.objects.append(player)
                 }
                 dispatchGroup.leave()
             })
         }
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
-            self?.players.sort(by: { (p1, p2) -> Bool in
+            self?.objects.sort(by: { (p1, p2) -> Bool in
                 guard let t1 = p1.createdAt else { return false }
                 guard let t2 = p2.createdAt else { return true}
                 return t1 > t2
@@ -72,15 +70,11 @@ class PlayerListViewController: ListViewController {
 }
 
 extension PlayerListViewController {
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return players.count
-    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerCell", for: indexPath) as! PlayerCell
-        if indexPath.row < players.count {
-            let player = players[indexPath.row]
-            cell.configure(player: player, expanded: false)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayerCell", for: indexPath) as! LeaguePlayerCell
+        if indexPath.row < objects.count, let player = objects[indexPath.row] as? Player {
+            // TODO: include player status in league
+            cell.configure(player: player, status: nil)
         } else {
             cell.reset()
         }
@@ -91,9 +85,9 @@ extension PlayerListViewController {
 extension PlayerListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         super.tableView(tableView, didSelectRowAt: indexPath)
-        guard indexPath.row < players.count else { return }
+        guard indexPath.row < objects.count else { return }
         let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
-        controller.player = players[indexPath.row]
+        controller.player = objects[indexPath.row] as? Player
         navigationController?.pushViewController(controller, animated: true)
     }
 }

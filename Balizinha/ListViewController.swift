@@ -29,6 +29,8 @@ class ListViewController: UIViewController {
         return [("All", objects)]
     }
 
+    let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
