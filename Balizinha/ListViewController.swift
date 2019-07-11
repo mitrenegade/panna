@@ -35,8 +35,8 @@ class ListViewController: UIViewController {
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))
-
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))
+//
         load()
     }
 
@@ -67,9 +67,14 @@ class ListViewController: UIViewController {
                     return t1 > t2
                 })
 
-                self?.reloadTable()
+                if let completion = completion {
+                    completion()
+                } else {
+                    self?.reloadTable()
+                }
+            } else {
+                completion?()
             }
-            completion?()
         }
     }
     

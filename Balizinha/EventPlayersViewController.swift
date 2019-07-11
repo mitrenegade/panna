@@ -16,6 +16,10 @@ class EventPlayersViewController: SearchableListViewController {
         return "LeaguePlayerCell"
     }
 
+    override var refName: String {
+        return "players"
+    }
+
     override var sections: [Section] {
         let string: String
         if event?.isPast ?? false {
@@ -37,16 +41,14 @@ class EventPlayersViewController: SearchableListViewController {
         navigationItem.title = "Players"
         
         load() { [weak self] in
-            self?.loadEventPlayers() { [weak self] in
-                self?.search(for: nil)
-                self?.reloadTable()
-            }
+            self?.search(for: nil)
+            self?.reloadTable()
         }
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Teams", style: .done, target: self, action: #selector(didClickTeams(_:)))
     }
     
-    func loadEventPlayers(completion: (()->())?) {
+    override func load(completion: (()->())?) {
         guard let event = event else {
             completion?()
             return
@@ -129,7 +131,7 @@ extension EventPlayersViewController {
                 if let error = error as NSError? {
                     self?.simpleAlert("Could not remove player", defaultMessage: "The player \(playerId) could not be removed from the event", error: error)
                 } else {
-                    self?.loadEventPlayers() {
+                    self?.load() {
                         self?.search(for: nil)
                         self?.reloadTable()
                     }
@@ -140,7 +142,7 @@ extension EventPlayersViewController {
                 if let error = error as NSError? {
                     self?.simpleAlert("Could not add player", defaultMessage: "The player \(playerId) could not be added to the event", error: error)
                 } else {
-                    self?.loadEventPlayers() {
+                    self?.load() {
                         self?.search(for: nil)
                         self?.reloadTable()
                     }
