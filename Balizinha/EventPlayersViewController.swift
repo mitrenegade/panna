@@ -8,10 +8,32 @@
 
 import UIKit
 import Balizinha
+import RenderCloud
 
 class EventPlayersViewController: SearchableListViewController {
     var event: Balizinha.Event?
 
+    fileprivate var attendingPlayerIds: [String] = []
+    
+    // lists filtered based on search and membership
+    fileprivate var eventPlayers: [Player] = []
+    fileprivate var otherPlayers: [Player] = []
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.title = "Players"
+        
+        load() { [weak self] in
+            print("all players: \(self?.objects.count)")
+            self?.loadEventPlayers() { [weak self] in
+                self?.search(for: nil)
+                self?.reloadTable()
+            }
+        }
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Teams", style: .done, target: self, action: #selector(didClickTeams(_:)))
+    }
+    
     @objc override var cellIdentifier: String {
         return "LeaguePlayerCell"
     }
@@ -30,25 +52,21 @@ class EventPlayersViewController: SearchableListViewController {
         return [(string, eventPlayers), ("Other", otherPlayers)]
     }
     
-    fileprivate var attendingPlayerIds: [String] = []
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
+        return Player(snapshot: snapshot)
+    }
 
-    // lists filtered based on search and membership
-    fileprivate var eventPlayers: [Player] = []
-    fileprivate var otherPlayers: [Player] = []
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationItem.title = "Players"
-        
-        load() { [weak self] in
-            self?.search(for: nil)
-            self?.reloadTable()
+    override func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
+        return objects.filter {(_ object: FirebaseBaseModel) in
+            guard let player = object as? Player else { return false }
+            let nameMatch = player.name?.lowercased().contains(currentSearch) ?? false
+            let emailMatch = player.email?.lowercased().contains(currentSearch) ?? false
+            let idMatch = player.id.lowercased().contains(currentSearch)
+            return nameMatch || emailMatch || idMatch
         }
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Teams", style: .done, target: self, action: #selector(didClickTeams(_:)))
     }
     
-    override func load(completion: (()->())?) {
+    func loadEventPlayers(completion: (()->())?) {
         guard let event = event else {
             completion?()
             return
@@ -131,7 +149,7 @@ extension EventPlayersViewController {
                 if let error = error as NSError? {
                     self?.simpleAlert("Could not remove player", defaultMessage: "The player \(playerId) could not be removed from the event", error: error)
                 } else {
-                    self?.load() {
+                    self?.loadEventPlayers() {
                         self?.search(for: nil)
                         self?.reloadTable()
                     }
@@ -142,7 +160,7 @@ extension EventPlayersViewController {
                 if let error = error as NSError? {
                     self?.simpleAlert("Could not add player", defaultMessage: "The player \(playerId) could not be added to the event", error: error)
                 } else {
-                    self?.load() {
+                    self?.loadEventPlayers() {
                         self?.search(for: nil)
                         self?.reloadTable()
                     }

@@ -33,8 +33,8 @@ class SearchableListViewController: ListViewController {
     }
     
     // to be implemented by subclasses
-    var filterFunc = { (_ object: FirebaseBaseModel) in
-        return true
+    func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
+        return objects
     }
 }
 
@@ -81,13 +81,7 @@ extension SearchableListViewController {
         searchTerm = string
         var filtered: [FirebaseBaseModel] = objects
         if let currentSearch = searchTerm?.lowercased(), !currentSearch.isEmpty {
-            filtered = objects.filter(filterFunc)
-//            filteredPlayers = allPlayers.filter() { player in
-//                let nameMatch = player.name?.lowercased().contains(currentSearch) ?? false
-//                let emailMatch = player.email?.lowercased().contains(currentSearch) ?? false
-//                let idMatch = player.id.lowercased().contains(currentSearch)
-//                return nameMatch || emailMatch || idMatch
-//            }
+            filtered = doFilter(currentSearch)
         }
         
         updateSections(filtered)
