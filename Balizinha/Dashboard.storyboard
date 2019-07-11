@@ -335,13 +335,16 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="999" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Uad-Ro-IXu" userLabel="UserId">
-                                                    <rect key="frame" x="73" y="62" width="48.5" height="20"/>
-                                                    <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="999" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Uad-Ro-IXu" userLabel="Email">
+                                                    <rect key="frame" x="73" y="62" width="48" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="SjK-aR-cl6"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Italic" family="Montserrat" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ydj-Yp-gDn" userLabel="Date">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ydj-Yp-gDn" userLabel="Date">
                                                     <rect key="frame" x="317.5" y="24" width="42.5" height="17"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Italic" family="Montserrat" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -354,12 +357,6 @@
                                                         <constraint firstAttribute="height" constant="50" id="e2u-Il-c7Z"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="yfJ-Bu-9hM">
-                                                    <rect key="frame" x="313.5" y="61" width="46.5" height="21"/>
-                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0xR-CX-JQV">
                                                     <rect key="frame" x="15" y="11" width="50" height="50"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
@@ -370,30 +367,28 @@
                                             <constraints>
                                                 <constraint firstItem="WVw-gW-pKj" firstAttribute="leading" secondItem="pgC-gd-coL" secondAttribute="leadingMargin" id="4Sy-Pu-YkG"/>
                                                 <constraint firstItem="ydj-Yp-gDn" firstAttribute="trailing" secondItem="pgC-gd-coL" secondAttribute="trailingMargin" id="9Er-v2-7eL"/>
-                                                <constraint firstItem="yfJ-Bu-9hM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Uad-Ro-IXu" secondAttribute="trailing" constant="8" id="Gnx-K2-sXG"/>
                                                 <constraint firstItem="Uad-Ro-IXu" firstAttribute="top" secondItem="DnK-pi-vgX" secondAttribute="bottom" constant="8" id="LFt-Ce-8cF"/>
                                                 <constraint firstItem="WVw-gW-pKj" firstAttribute="bottom" secondItem="0xR-CX-JQV" secondAttribute="bottom" id="MWd-G8-D3q"/>
                                                 <constraint firstItem="DnK-pi-vgX" firstAttribute="top" secondItem="pgC-gd-coL" secondAttribute="topMargin" id="NOp-RC-EGy"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="Uad-Ro-IXu" secondAttribute="bottom" constant="6" id="OPS-2z-2cG"/>
                                                 <constraint firstItem="ydj-Yp-gDn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="DnK-pi-vgX" secondAttribute="trailing" constant="8" id="OhS-Eg-05O"/>
+                                                <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="Uad-Ro-IXu" secondAttribute="trailing" constant="8" id="e00-KP-pob"/>
                                                 <constraint firstItem="Uad-Ro-IXu" firstAttribute="leading" secondItem="DnK-pi-vgX" secondAttribute="leading" id="kwh-VS-yig"/>
                                                 <constraint firstItem="WVw-gW-pKj" firstAttribute="leading" secondItem="0xR-CX-JQV" secondAttribute="leading" id="mPt-LD-fXk"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="yfJ-Bu-9hM" secondAttribute="bottom" constant="6" id="mTA-7h-EPc"/>
                                                 <constraint firstItem="WVw-gW-pKj" firstAttribute="top" secondItem="0xR-CX-JQV" secondAttribute="top" id="mwE-KN-GTE"/>
                                                 <constraint firstItem="DnK-pi-vgX" firstAttribute="leading" secondItem="WVw-gW-pKj" secondAttribute="trailing" constant="8" id="oiE-pA-xXO"/>
                                                 <constraint firstItem="WVw-gW-pKj" firstAttribute="top" secondItem="pgC-gd-coL" secondAttribute="topMargin" id="qCC-CO-x0p"/>
                                                 <constraint firstItem="ydj-Yp-gDn" firstAttribute="top" secondItem="pgC-gd-coL" secondAttribute="topMargin" constant="13" id="tKC-oN-VDF"/>
                                                 <constraint firstItem="ydj-Yp-gDn" firstAttribute="centerY" secondItem="DnK-pi-vgX" secondAttribute="centerY" id="tRJ-sV-JAu"/>
                                                 <constraint firstItem="WVw-gW-pKj" firstAttribute="trailing" secondItem="0xR-CX-JQV" secondAttribute="trailing" id="v6g-cH-A6L"/>
-                                                <constraint firstItem="yfJ-Bu-9hM" firstAttribute="trailing" secondItem="pgC-gd-coL" secondAttribute="trailingMargin" id="x8g-fb-1to"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="imagePhoto" destination="WVw-gW-pKj" id="TMs-rH-xQI"/>
                                             <outlet property="labelCreated" destination="ydj-Yp-gDn" id="6ks-9V-NZS"/>
+                                            <outlet property="labelEmail" destination="Uad-Ro-IXu" id="IMd-WV-l6Z"/>
                                             <outlet property="labelInitials" destination="0xR-CX-JQV" id="xmY-pO-5f9"/>
                                             <outlet property="labelName" destination="DnK-pi-vgX" id="6U5-17-zh2"/>
-                                            <outlet property="labelStatus" destination="Uad-Ro-IXu" id="mJG-bw-BWt"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
