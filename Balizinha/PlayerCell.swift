@@ -12,7 +12,7 @@ import Balizinha
 class PlayerCell: UITableViewCell {
     @IBOutlet weak var imagePhoto: RAImageView!
     @IBOutlet weak var labelName: UILabel!
-    @IBOutlet weak var labelId: UILabel!
+    @IBOutlet weak var labelId: UILabel?
     @IBOutlet weak var labelDate: UILabel!
     @IBOutlet weak var labelDetails: UILabel!
     
@@ -26,7 +26,7 @@ class PlayerCell: UITableViewCell {
 
     func configure(player: Player, expanded: Bool) {
         labelName.text = player.name ?? player.email ?? "Anon"
-        labelId.text = player.id
+        labelId?.text = player.id
         labelDate.text = player.createdAt?.dateString()
 
         FirebaseImageService().profileUrl(with: player.id) {[weak self] (url) in
@@ -86,7 +86,7 @@ class PlayerCell: UITableViewCell {
     
     func reset() {
         labelName.text = nil
-        labelId.text = nil
+        labelId?.text = nil
         labelDate.text = nil
     }
 }

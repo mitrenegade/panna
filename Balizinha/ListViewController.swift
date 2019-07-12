@@ -12,35 +12,42 @@ import Balizinha
 import FirebaseDatabase
 import RenderCloud
 
+typealias Section = (name: String, objects: [FirebaseBaseModel])
 class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var league: League?
 
     internal var refName: String {
-        assertionFailure("Must be implemented")
+        assertionFailure("refName ust be implemented by subclass")
         return ""
     }
     internal var baseRef: Reference {
         return firRef
     }
     var objects: [FirebaseBaseModel] = []
+    var sections: [Section] {
+        return [("All", objects)]
+    }
+
+    let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))
+    }
 
-        load()
+    @objc var cellIdentifier: String {
+        assertionFailure("cellIdentifier must be implemented by subclass")
+        return ""
     }
 
     @objc func didClickCancel(_ sender: AnyObject?) {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
 
-    func load() {
+    func load(completion:(()->Void)? = nil) {
         let ref: Query
         ref = baseRef.child(path: refName).queryOrdered(by: "createdAt")
         ref.observeSingleValue() {[weak self] (snapshot) in
@@ -58,7 +65,13 @@ class ListViewController: UIViewController {
                     return t1 > t2
                 })
 
-                self?.reloadTable()
+                if let completion = completion {
+                    completion()
+                } else {
+                    self?.reloadTable()
+                }
+            } else {
+                completion?()
             }
         }
     }

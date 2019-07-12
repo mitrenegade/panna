@@ -41,13 +41,18 @@ class EventsListViewController: ListViewController {
         }
         
         super.viewDidLoad()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))
         
+        load {
+            // no op
+        }
+
         service?.listenForEventUsers { [weak self] in
             self?.reloadTable()
         }
     }
     
-    override func load() {
+    override func load(completion:(()->Void)? = nil) {
         guard let league = league else { return }
         LeagueService.shared.events(for: league) { [weak self] (events) in
             for event in events ?? [] {
@@ -70,6 +75,7 @@ class EventsListViewController: ListViewController {
             })
             DispatchQueue.main.async {
                 self?.reloadTable()
+                completion?()
             }
         }
     }
