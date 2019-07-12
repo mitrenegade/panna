@@ -49,7 +49,6 @@ class PlayerListViewController: SearchableListViewController {
                 dispatchGroup.enter()
                 PlayerService.shared.withId(id: playerId, completion: {[weak self] (player) in
                     if let player = player {
-                        print("Finished player id \(playerId) name \(player.name) status \(membership.status)")
                         self?.objects.append(player)
                     }
                     dispatchGroup.leave()
@@ -98,10 +97,8 @@ extension PlayerListViewController {
             return t1 > t2
         })
         
-        leagueOrganizers = players.filter {
-            print("Filtering for player \($0.name) \(roster[$0.id]?.status)")
-            return roster[$0.id]?.status == Membership.Status.organizer }
-        leagueMembers = players.filter { return roster[$0.id]?.status == Membership.Status.organizer }
+        leagueOrganizers = players.filter { return roster[$0.id]?.status == Membership.Status.organizer }
+        leagueMembers = players.filter { return roster[$0.id]?.status == Membership.Status.member }
     }
     
     override func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
