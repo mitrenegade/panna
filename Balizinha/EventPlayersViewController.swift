@@ -53,21 +53,11 @@ class EventPlayersViewController: SearchableListViewController {
         }
         return [(string, eventPlayers), ("Other", otherPlayers)]
     }
-    
+
     override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
         return Player(snapshot: snapshot)
     }
 
-    override func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
-        return objects.filter {(_ object: FirebaseBaseModel) in
-            guard let player = object as? Player else { return false }
-            let nameMatch = player.name?.lowercased().contains(currentSearch) ?? false
-            let emailMatch = player.email?.lowercased().contains(currentSearch) ?? false
-            let idMatch = player.id.lowercased().contains(currentSearch)
-            return nameMatch || emailMatch || idMatch
-        }
-    }
-    
     func loadEventPlayers(completion: (()->())?) {
         guard let event = event else {
             completion?()
@@ -180,5 +170,15 @@ extension EventPlayersViewController {
         // filter for event attendance
         eventPlayers = newObjects.filter { return attendingPlayerIds.contains($0.id) }.compactMap{$0 as? Player}
         otherPlayers = newObjects.filter { return !attendingPlayerIds.contains($0.id) }.compactMap{$0 as? Player}
+    }
+    
+    override func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
+        return objects.filter {(_ object: FirebaseBaseModel) in
+            guard let player = object as? Player else { return false }
+            let nameMatch = player.name?.lowercased().contains(currentSearch) ?? false
+            let emailMatch = player.email?.lowercased().contains(currentSearch) ?? false
+            let idMatch = player.id.lowercased().contains(currentSearch)
+            return nameMatch || emailMatch || idMatch
+        }
     }
 }

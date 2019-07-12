@@ -31,11 +31,6 @@ class SearchableListViewController: ListViewController {
     @objc func keyboardWillHide(_ notification: Notification) {
         self.constraintBottomOffset.constant = 0
     }
-    
-    // to be implemented by subclasses
-    func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
-        return objects
-    }
 }
 
 // UITableViewDataSource
@@ -92,5 +87,10 @@ extension SearchableListViewController {
         // no op unless the controller needs to have sections
         objects = newObjects
         return
+    }
+
+    // to be implemented by subclasses
+    func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
+        return objects
     }
 }

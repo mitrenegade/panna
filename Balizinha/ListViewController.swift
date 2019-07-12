@@ -36,8 +36,6 @@ class ListViewController: UIViewController {
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
-        
-        load()
     }
 
     @objc var cellIdentifier: String {

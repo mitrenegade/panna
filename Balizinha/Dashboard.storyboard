@@ -616,7 +616,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="999" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KtF-CV-SRd" userLabel="UserId">
                                                     <rect key="frame" x="73" y="62" width="48" height="20"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="n0Z-sj-Tce"/>
+                                                        <constraint firstAttribute="height" constant="20" id="RUj-1m-Lom"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Montserrat-Italic" family="Montserrat" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -635,6 +635,12 @@
                                                         <constraint firstAttribute="height" constant="50" id="kSF-9I-0LE"/>
                                                     </constraints>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="uCA-eZ-7aH">
+                                                    <rect key="frame" x="313.5" y="61" width="46.5" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ylO-ph-vd3">
                                                     <rect key="frame" x="15" y="11" width="50" height="50"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
@@ -650,23 +656,26 @@
                                                 <constraint firstItem="72Q-nE-nNY" firstAttribute="leading" secondItem="76l-wD-nKY" secondAttribute="trailing" constant="8" id="Orw-xf-zKy"/>
                                                 <constraint firstItem="76l-wD-nKY" firstAttribute="leading" secondItem="ylO-ph-vd3" secondAttribute="leading" id="SvM-SY-bMf"/>
                                                 <constraint firstItem="76l-wD-nKY" firstAttribute="trailing" secondItem="ylO-ph-vd3" secondAttribute="trailing" id="U05-Ib-mFJ"/>
+                                                <constraint firstItem="uCA-eZ-7aH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="KtF-CV-SRd" secondAttribute="trailing" constant="8" id="UOL-0A-jgg"/>
                                                 <constraint firstItem="lTk-Ta-t5j" firstAttribute="centerY" secondItem="72Q-nE-nNY" secondAttribute="centerY" id="Wxw-zB-mQO"/>
+                                                <constraint firstItem="uCA-eZ-7aH" firstAttribute="trailing" secondItem="gxs-eE-51k" secondAttribute="trailingMargin" id="YMR-1P-qPY"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="KtF-CV-SRd" secondAttribute="bottom" constant="6" id="YPr-vg-hwj"/>
                                                 <constraint firstItem="76l-wD-nKY" firstAttribute="top" secondItem="gxs-eE-51k" secondAttribute="topMargin" id="cTH-ED-rgp"/>
                                                 <constraint firstItem="72Q-nE-nNY" firstAttribute="top" secondItem="gxs-eE-51k" secondAttribute="topMargin" id="eHW-8r-Zdb"/>
                                                 <constraint firstItem="KtF-CV-SRd" firstAttribute="top" secondItem="72Q-nE-nNY" secondAttribute="bottom" constant="8" id="fTh-8s-oHw"/>
-                                                <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="KtF-CV-SRd" secondAttribute="trailing" constant="8" id="kCt-Vh-FUe"/>
                                                 <constraint firstItem="76l-wD-nKY" firstAttribute="bottom" secondItem="ylO-ph-vd3" secondAttribute="bottom" id="mkx-y3-yuW"/>
                                                 <constraint firstItem="lTk-Ta-t5j" firstAttribute="trailing" secondItem="gxs-eE-51k" secondAttribute="trailingMargin" id="p0B-vp-YWh"/>
                                                 <constraint firstItem="lTk-Ta-t5j" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="72Q-nE-nNY" secondAttribute="trailing" constant="8" id="wUF-iL-G2R"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="uCA-eZ-7aH" secondAttribute="bottom" constant="6" id="wmP-d7-BEI"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="imagePhoto" destination="76l-wD-nKY" id="c50-bL-lEM"/>
                                             <outlet property="labelCreated" destination="lTk-Ta-t5j" id="J4k-9R-8yA"/>
+                                            <outlet property="labelEmail" destination="KtF-CV-SRd" id="hEd-9I-A5i"/>
                                             <outlet property="labelInitials" destination="ylO-ph-vd3" id="5dt-ub-16F"/>
                                             <outlet property="labelName" destination="72Q-nE-nNY" id="eV4-lt-2eb"/>
-                                            <outlet property="labelStatus" destination="KtF-CV-SRd" id="vK9-Q1-ztj"/>
+                                            <outlet property="labelStatus" destination="uCA-eZ-7aH" id="WaP-aG-G3A"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
