@@ -33,7 +33,9 @@ class EventPlayersViewController: SearchableListViewController {
             }
         }
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Teams", style: .done, target: self, action: #selector(didClickTeams(_:)))
+        if !(event?.isPast ?? false) {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Teams", style: .done, target: self, action: #selector(didClickTeams(_:)))
+        }
     }
     
     @objc override var cellIdentifier: String {
@@ -45,13 +47,11 @@ class EventPlayersViewController: SearchableListViewController {
     }
 
     override var sections: [Section] {
-        let string: String
         if event?.isPast ?? false {
-            string = "Attended"
+            return [("Attended", eventPlayers)]
         } else {
-            string = "Attending"
+            return [("Attending", eventPlayers), ("Other", otherPlayers)]
         }
-        return [(string, eventPlayers), ("Other", otherPlayers)]
     }
 
     override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
