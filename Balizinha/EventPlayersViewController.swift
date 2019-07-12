@@ -91,17 +91,11 @@ extension EventPlayersViewController { // UITableViewDataSource
         let section = sections[indexPath.section]
         let array = section.objects
         if indexPath.row < array.count {
-            let playerId = array[indexPath.row].id
-            PlayerService.shared.withId(id: playerId) { [weak self] (player) in
-                if let player = player {
-                    DispatchQueue.main.async {
-                        cell.configure(player: player, status: nil)
-                    }
-                }
+            if let player = array[indexPath.row] as? Player {
+                cell.configure(player: player, status: nil)
             }
         }
         return cell
-        
     }
 }
 

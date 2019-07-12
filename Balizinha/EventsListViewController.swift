@@ -42,6 +42,10 @@ class EventsListViewController: ListViewController {
         
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))
+        
+        load {
+            // no op
+        }
 
         service?.listenForEventUsers { [weak self] in
             self?.reloadTable()

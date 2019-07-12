@@ -47,10 +47,9 @@ class PlayerListViewController: SearchableListViewController {
                 self?.roster[playerId] = membership
                 
                 dispatchGroup.enter()
-                print("Loading player id \(playerId)")
                 PlayerService.shared.withId(id: playerId, completion: {[weak self] (player) in
                     if let player = player {
-                        print("Finished player id \(playerId)")
+                        print("Finished player id \(playerId) name \(player.name) status \(membership.status)")
                         self?.objects.append(player)
                     }
                     dispatchGroup.leave()
@@ -66,11 +65,14 @@ class PlayerListViewController: SearchableListViewController {
 extension PlayerListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayerCell", for: indexPath) as! LeaguePlayerCell
-        if indexPath.row < objects.count, let player = objects[indexPath.row] as? Player {
-            // TODO: include player status in league
-            cell.configure(player: player, status: nil)
-        } else {
-            cell.reset()
+        cell.reset()
+        let section = sections[indexPath.section]
+        let array = section.objects
+        if indexPath.row < array.count {
+            if let player = array[indexPath.row] as? Player {
+                let status = roster[player.id]?.status ?? .none
+                cell.configure(player: player, status: status)
+            }
         }
         return cell
     }
@@ -96,7 +98,9 @@ extension PlayerListViewController {
             return t1 > t2
         })
         
-        leagueOrganizers = players.filter { return roster[$0.id]?.status == Membership.Status.organizer }
+        leagueOrganizers = players.filter {
+            print("Filtering for player \($0.name) \(roster[$0.id]?.status)")
+            return roster[$0.id]?.status == Membership.Status.organizer }
         leagueMembers = players.filter { return roster[$0.id]?.status == Membership.Status.organizer }
     }
     
