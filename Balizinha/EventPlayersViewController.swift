@@ -113,10 +113,16 @@ extension EventPlayersViewController {
         
         let message: String
         switch section.name {
-        case "Attending", "Attended":
+        case "Attending":
             message = "Remove player from event?"
         case "Other":
             message = "Add player to event?"
+        case "Attended":
+            let player: Player? = section.objects[indexPath.row] as? Player
+            let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
+            controller.player = player
+            navigationController?.pushViewController(controller, animated: true)
+            return
         default:
             message = "Clicking on this player will do nothing."
         }

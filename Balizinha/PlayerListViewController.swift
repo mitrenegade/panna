@@ -80,9 +80,11 @@ extension PlayerListViewController {
 extension PlayerListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         super.tableView(tableView, didSelectRowAt: indexPath)
-        guard indexPath.row < objects.count else { return }
+        let section = sections[indexPath.section]
+        guard indexPath.row < section.objects.count else { return }
+        let player: Player? = section.objects[indexPath.row] as? Player
         let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
-        controller.player = objects[indexPath.row] as? Player
+        controller.player = player
         navigationController?.pushViewController(controller, animated: true)
     }
 }
