@@ -113,11 +113,18 @@ class DashboardViewController: UIViewController {
     @objc private func saveInput() {
         view.endEditing(true)
         if pickerRow < leagues.count {
-            print("Picked league \(leagues[pickerRow].name)")
-            league = leagues[pickerRow]
+            let selected = leagues[pickerRow]
+            print("Picked league \(String(describing: selected.name))")
+            league = selected
             leagueInput.resignFirstResponder()
             
             tableView.reloadData()
+            
+            var info: [String: Any] = ["leagueId": selected.id]
+            if let name = selected.name {
+                info["league"] = name
+            }
+            LoggingService.shared.log(event: .DashboardLeagueSelected, info: info)
         }
     }
 }

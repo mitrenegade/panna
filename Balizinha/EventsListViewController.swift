@@ -50,6 +50,9 @@ class EventsListViewController: ListViewController {
         service?.listenForEventUsers { [weak self] in
             self?.reloadTable()
         }
+        
+        let info: [String: Any] = ["leagueId": league?.id ?? ""]
+        LoggingService.shared.log(event: .DashboardViewLeagueEvents, info: info)
     }
     
     override func load(completion:(()->Void)? = nil) {
