@@ -14,6 +14,7 @@ class ActionCell: UITableViewCell {
     @IBOutlet weak var labelText: UILabel!
     @IBOutlet weak var labelDate: UILabel?
     @IBOutlet weak var photoView: RAImageView?
+
     @IBOutlet weak var constraintLabelHeight: NSLayoutConstraint!
     var objectId: String?
     
