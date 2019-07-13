@@ -199,7 +199,7 @@ class SplashViewController: UIViewController {
         }
         let storyboardName = "Main"
         var sceneId = "PlayerModeTabBarController"
-        if SettingsService.organizerDashboard {
+        if SettingsService.showOrganizerDashboard {
             if !LeagueService.shared.ownerLeagues.isEmpty {
                 sceneId = "OwnerModeTabBarController"
             }

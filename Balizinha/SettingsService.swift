@@ -30,6 +30,7 @@ class SettingsService: NSObject {
         case maps
         case useGetAvailableEvents
         case eventReminderInterval
+        case ownerAccountSettings
         case organizerDashboard
 
         // experiments
@@ -71,7 +72,7 @@ class SettingsService: NSObject {
                     print("Settings: * newestVersion \(SettingsService.newestVersion)")
                     print("Settings: * featureAvailable useGetAvailableEvents \(SettingsService.usesGetAvailableEvents())")
                     print("Settings: * eventFilterRadius \(SettingsService.eventFilterRadius)")
-                    print("Settings: * organizerDashboard \(SettingsService.organizerDashboard)")
+                    print("Settings: * organizerDashboard \(SettingsService.showOrganizerDashboard)")
                     self.recordExperimentGroups()
                     observer.onNext("done")
                 }
@@ -125,14 +126,18 @@ extension SettingsService {
         return shared.featureAvailable(.maps)
     }
     
-    class var organizerDashboard: Bool {
+    class var showOrganizerDashboard: Bool {
         return shared.featureAvailable(.organizerDashboard)
+    }
+    
+    class var showOwnerAccountSettings: Bool {
+        return false // shared.featureAvailable(.ownerAccountSettings)
     }
     
     // remote values
     class var eventFilterRadius: Double {
         let value = shared.featureValue(.eventRadius)
-        return shared.featureValue(.eventRadius).numberValue?.doubleValue ?? defaults[SettingsKey.eventRadius.rawValue] as! Double
+        return value.numberValue?.doubleValue ?? defaults[SettingsKey.eventRadius.rawValue] as! Double
     }
     
     class var showPreview: Bool {
