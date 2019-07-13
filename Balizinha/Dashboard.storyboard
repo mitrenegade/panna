@@ -315,7 +315,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="d5u-bv-T7h">
                                 <rect key="frame" x="0.0" y="114" width="375" height="553"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.2419034243" green="0.32027676700000002" blue="0.3954539299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeaguePlayerCell" rowHeight="99" id="B46-vv-cAh" customClass="LeaguePlayerCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="99"/>
@@ -429,7 +429,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.2419034243" green="0.32027676700000002" blue="0.3954539299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="d5u-bv-T7h" secondAttribute="bottom" id="Fjv-ya-WgP"/>
                             <constraint firstItem="d5u-bv-T7h" firstAttribute="top" secondItem="7KE-0L-8ZB" secondAttribute="bottom" id="Jhf-gt-wLb"/>
@@ -612,7 +612,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6tN-Px-oec">
                                 <rect key="frame" x="0.0" y="114" width="375" height="553"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.2419034243" green="0.32027676700000002" blue="0.3954539299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeaguePlayerCell" rowHeight="99" id="eYf-OF-Sou" customClass="LeaguePlayerCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="99"/>
@@ -735,7 +735,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.2419034243" green="0.32027676700000002" blue="0.3954539299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6tN-Px-oec" firstAttribute="leading" secondItem="9QO-TO-0ee" secondAttribute="leading" id="6yO-dN-e26"/>
                             <constraint firstItem="6tN-Px-oec" firstAttribute="top" secondItem="duf-Rc-POb" secondAttribute="bottom" id="8Rj-6w-3BI"/>
@@ -763,14 +763,14 @@
         <!--Action List View Controller-->
         <scene sceneID="xKB-1f-k5L">
             <objects>
-                <viewController id="DIf-SO-r79" customClass="ActionListViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="DIf-SO-r79" customClass="ActionListViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QAo-u9-7ed">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ydA-wS-22D">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" red="0.2419034243" green="0.32027676700000002" blue="0.3954539299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActionCell" rowHeight="44" id="46B-yu-3Pm" customClass="ActionCell" customModule="Admin" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
@@ -828,15 +828,16 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.2419034243" green="0.32027676700000002" blue="0.3954539299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="ydA-wS-22D" firstAttribute="top" secondItem="121-XM-Gvz" secondAttribute="top" id="6Db-4Y-hGc"/>
                             <constraint firstItem="ydA-wS-22D" firstAttribute="leading" secondItem="121-XM-Gvz" secondAttribute="leading" id="Aca-cb-RvI"/>
                             <constraint firstAttribute="bottom" secondItem="ydA-wS-22D" secondAttribute="bottom" id="Fnz-VG-NiI"/>
                             <constraint firstItem="ydA-wS-22D" firstAttribute="trailing" secondItem="121-XM-Gvz" secondAttribute="trailing" id="Wzf-Iz-aSn"/>
-                            <constraint firstItem="ydA-wS-22D" firstAttribute="top" secondItem="QAo-u9-7ed" secondAttribute="top" id="yg6-yx-lTE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="121-XM-Gvz"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" id="9pz-rk-Php"/>
                     <connections>
                         <outlet property="tableView" destination="ydA-wS-22D" id="6lS-Xr-K4y"/>
@@ -844,7 +845,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4wC-aA-wBj" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1190" y="600"/>
+            <point key="canvasLocation" x="1189.5999999999999" y="599.55022488755628"/>
         </scene>
     </scenes>
     <resources>
