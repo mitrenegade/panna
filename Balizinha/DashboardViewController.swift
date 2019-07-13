@@ -68,6 +68,11 @@ class DashboardViewController: UIViewController {
         controller.league = league
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        LoggingService.shared.log(event: .DashboardTabClicked, info: nil)
+    }
+
     private func setupLeagueSelector() {
         leaguePickerView.sizeToFit()
         leaguePickerView.backgroundColor = .white

@@ -204,6 +204,10 @@ class SplashViewController: UIViewController {
                 sceneId = "OwnerModeTabBarController"
             }
         }
+        if AIRPLANE_MODE {
+            sceneId = "OwnerModeTabBarController"
+        }
+
         _homeViewController = UIStoryboard(name: storyboardName, bundle: nil).instantiateViewController(withIdentifier: sceneId) as? UITabBarController
         return _homeViewController!
     }
