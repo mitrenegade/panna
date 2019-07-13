@@ -101,7 +101,7 @@ extension EventActivityViewController: UITableViewDataSource {
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ActionCell
-        cell.configureWith(action: action)
+        cell.configure(action: action)
         return cell
     }
     
