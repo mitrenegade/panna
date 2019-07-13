@@ -217,6 +217,10 @@ class AccountViewController: UIViewController {
         case (true, .owner):
             menuSections = [.player, .options, .owner, .app]
         }
+        
+        if !SettingsService.showOwnerAccountSettings {
+            removeMenuOption(.switchMode)
+        }
         reloadTableData()
     }
 }
