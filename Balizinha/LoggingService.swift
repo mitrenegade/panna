@@ -119,13 +119,13 @@ class LoggingService: NSObject {
         // native firebase analytics
         Analytics.logEvent(eventString, parameters: info)
         
-//        #if TARGET_OS_SIMULATOR
+        #if targetEnvironment(simulator)
         var debugString = "LoggingService: event \(event)"
         if info?.isEmpty == false {
             debugString = debugString + " params: \(params)"
         }
         print(debugString)
-//        #endif
+        #endif
     }
     
     func log(event: LoggingEvent, message: String? = nil, info: [String: Any]? = nil, error: NSError? = nil) {
