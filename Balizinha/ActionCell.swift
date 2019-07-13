@@ -11,22 +11,31 @@ import Balizinha
 
 class ActionCell: UITableViewCell {
     
-    @IBOutlet var labelText: UILabel!
-    @IBOutlet var photoView: RAImageView?
-    @IBOutlet var constraintLabelHeight: NSLayoutConstraint!
-    var objectId: String?
+    @IBOutlet weak var labelText: UILabel!
+    @IBOutlet weak var labelDate: UILabel?
+    @IBOutlet weak var photoView: RAImageView?
 
-    func configureWith(action: Action) {
-        let viewModel = ActionViewModel(action: action)
-        self.labelText.text = viewModel.displayString
-        self.labelText.sizeToFit()
-        self.constraintLabelHeight.constant = max(40, self.labelText.frame.size.height)
+    @IBOutlet weak var constraintLabelHeight: NSLayoutConstraint!
+    var objectId: String?
+    
+    func configure(action: Action) {
+        labelText.text = ActionViewModel(action: action).displayString
+        labelText.sizeToFit()
+        self.constraintLabelHeight.constant = max(40, labelText.frame.size.height)
         
         guard let userId = action.userId else { return }
         
         let objectId = action.id
         self.objectId = objectId
         self.refreshPhoto(userId: userId, currentId: objectId)
+        
+        labelDate?.text = action.createdAt?.dateString()
+        
+        if !action.visible {
+            self.contentView.alpha = 0.25
+        } else {
+            self.contentView.alpha = 1
+        }
     }
     
     func refreshPhoto(userId: String, currentId: String) {
@@ -46,5 +55,4 @@ class ActionCell: UITableViewCell {
             }
         }
     }
-
 }
