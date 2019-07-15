@@ -70,7 +70,8 @@ extension SearchableListViewController {
     }
     
     func search(for string: String?) {
-        print("Search for string \(String(describing: string))")
+        let info: [String: Any] = ["search": string ?? "N/A"]
+        LoggingService.shared.log(event: .DashboardSearchForTerm, info: info)
         
         // filter for search string; if string is nil, uses all players
         searchTerm = string

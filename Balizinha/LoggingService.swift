@@ -92,6 +92,7 @@ enum LoggingEvent: String {
     case DashboardViewLeagueEvents
     case DashboardViewLeagueActions
     case DashboardViewEventPlayers
+    case DashboardSearchForTerm
 }
 
 class LoggingService: NSObject {

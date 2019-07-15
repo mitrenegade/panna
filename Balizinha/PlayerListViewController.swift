@@ -85,10 +85,11 @@ extension PlayerListViewController {
         super.tableView(tableView, didSelectRowAt: indexPath)
         let section = sections[indexPath.section]
         guard indexPath.row < section.objects.count else { return }
-        let player: Player? = section.objects[indexPath.row] as? Player
-        let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
-        controller.player = player
-        navigationController?.pushViewController(controller, animated: true)
+        if player: Player? = section.objects[indexPath.row] as? Player {
+            let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
+            controller.player = player
+            navigationController?.pushViewController(controller, animated: true)
+        }
     }
 }
 
