@@ -70,9 +70,11 @@ extension SearchableListViewController {
     }
     
     func search(for string: String?) {
-        let info: [String: Any] = ["search": string ?? "N/A"]
-        LoggingService.shared.log(event: .DashboardSearchForTerm, info: info)
-        
+        if let term = string {
+            let info: [String: Any] = ["search": term]
+            LoggingService.shared.log(event: .DashboardSearchForTerm, info: info)
+        }
+
         // filter for search string; if string is nil, uses all players
         searchTerm = string
         var filtered: [FirebaseBaseModel] = objects
