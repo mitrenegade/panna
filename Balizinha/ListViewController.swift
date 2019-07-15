@@ -38,6 +38,11 @@ class ListViewController: UIViewController {
         self.tableView.estimatedRowHeight = 44
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        activityOverlay.setup(frame: view.frame)
+    }
+
     @objc var cellIdentifier: String {
         assertionFailure("cellIdentifier must be implemented by subclass")
         return ""
