@@ -36,6 +36,9 @@ class EventPlayersViewController: SearchableListViewController {
         if !(event?.isPast ?? false) {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Teams", style: .done, target: self, action: #selector(didClickTeams(_:)))
         }
+
+        let info: [String: Any] = ["leagueId": league?.id ?? "", "eventId": event?.id ?? "", "isPast": event?.isPast ?? false]
+        LoggingService.shared.log(event: .DashboardViewEventPlayers, info: info)
     }
     
     @objc override var cellIdentifier: String {

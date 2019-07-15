@@ -84,6 +84,15 @@ enum LoggingEvent: String {
     // promo
     case AddPromoCode
     case RemovePromoCode
+    
+    // dashboard
+    case DashboardTabClicked
+    case DashboardLeagueSelected
+    case DashboardViewLeaguePlayers
+    case DashboardViewLeagueEvents
+    case DashboardViewLeagueActions
+    case DashboardViewEventPlayers
+    case DashboardSearchForTerm
 }
 
 class LoggingService: NSObject {
@@ -115,9 +124,17 @@ class LoggingService: NSObject {
         
         // native firebase analytics
         Analytics.logEvent(eventString, parameters: info)
+        
+        #if targetEnvironment(simulator)
+        var debugString = "LoggingService: event \(event)"
+        if info?.isEmpty == false {
+            debugString = debugString + " params: \(params)"
+        }
+        print(debugString)
+        #endif
     }
     
-    func log(event: LoggingEvent, message: String? = nil, info: [String: Any]?, error: NSError? = nil) {
+    func log(event: LoggingEvent, message: String? = nil, info: [String: Any]? = nil, error: NSError? = nil) {
         var params: [String: Any] = info ?? [:]
         if let message = message {
             params["message"] = message

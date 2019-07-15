@@ -66,7 +66,7 @@ class PinpointViewController: UIViewController {
             LocationService.shared.observedLocation.asObservable().subscribe(onNext: { [weak self] (state) in
                 switch state {
                 case .located(let location):
-                    #if TARGET_OS_SIMULATOR
+                    #if targetEnvironment(simulator)
                     self?.externalSource = false // trigger a geocode in simulator. not needed on device
                     #endif
                     self?.currentLocation = location.coordinate

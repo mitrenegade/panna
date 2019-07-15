@@ -50,6 +50,9 @@ class EventsListViewController: ListViewController {
         service?.listenForEventUsers { [weak self] in
             self?.reloadTable()
         }
+        
+        let info: [String: Any] = ["leagueId": league?.id ?? ""]
+        LoggingService.shared.log(event: .DashboardViewLeagueEvents, info: info)
     }
     
     override func load(completion:(()->Void)? = nil) {
@@ -81,8 +84,10 @@ class EventsListViewController: ListViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toPlayers", let controller = segue.destination as? EventPlayersViewController {
-            controller.event = sender as? Balizinha.Event
+        if segue.identifier == "toPlayers", let controller = segue.destination as? EventPlayersViewController, let event = sender as? Balizinha.Event {
+            controller.event = event
+            let info: [String: Any] = ["eventId": event.id]
+            LoggingService.shared.log(event: .DashboardViewEventPlayers, info: info)
         }
     }
     

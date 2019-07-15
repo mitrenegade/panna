@@ -31,6 +31,9 @@ class PlayerListViewController: SearchableListViewController {
         }
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))
+        
+        let info: [String: Any] = ["leagueId": league?.id ?? ""]
+        LoggingService.shared.log(event: .DashboardViewLeaguePlayers, info: info)
     }
     
     override func load(completion:(()->Void)? = nil) {
@@ -82,10 +85,11 @@ extension PlayerListViewController {
         super.tableView(tableView, didSelectRowAt: indexPath)
         let section = sections[indexPath.section]
         guard indexPath.row < section.objects.count else { return }
-        let player: Player? = section.objects[indexPath.row] as? Player
-        let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
-        controller.player = player
-        navigationController?.pushViewController(controller, animated: true)
+        if let player: Player? = section.objects[indexPath.row] as? Player {
+            let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
+            controller.player = player
+            navigationController?.pushViewController(controller, animated: true)
+        }
     }
 }
 
