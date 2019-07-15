@@ -61,6 +61,9 @@ class DashboardViewController: UIViewController {
         } else {
             selectLeague(showPrompt: true)
         }
+
+        // this log event only happens once per launch but shows when the user does open the dashboard
+        LoggingService.shared.log(event: .DashboardTabClicked, info: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -68,11 +71,6 @@ class DashboardViewController: UIViewController {
         controller.league = league
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        LoggingService.shared.log(event: .DashboardTabClicked, info: nil)
-    }
-
     private func setupLeagueSelector() {
         leaguePickerView.sizeToFit()
         leaguePickerView.backgroundColor = .white
