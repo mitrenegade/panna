@@ -10,9 +10,18 @@ import UIKit
 
 class ActivityIndicatorOverlay: UIView {
     var activityIndicator: UIActivityIndicatorView?
-    func setup(frame: CGRect) {
-        self.frame = frame
-        
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         if activityIndicator == nil {
             let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
             activityIndicator.hidesWhenStopped = false
@@ -20,11 +29,17 @@ class ActivityIndicatorOverlay: UIView {
             activityIndicator.color = UIColor.red
             addSubview(activityIndicator)
             self.activityIndicator = activityIndicator
+            
         }
+        hide()
+//        activityIndicator?.isHidden = true
+    }
+    
+    func setup(frame: CGRect) {
+        self.frame = frame
+        
         activityIndicator?.center = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
-
         backgroundColor = UIColor(white: 0, alpha: 0.5)
-        isHidden = true
     }
     
     func show() {

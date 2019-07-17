@@ -57,7 +57,7 @@ class PlayerListViewController: SearchableListViewController {
                     dispatchGroup.leave()
                 })
             }
-            dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            dispatchGroup.notify(queue: DispatchQueue.main) {
                 completion?()
             }
         }

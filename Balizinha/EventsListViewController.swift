@@ -43,10 +43,10 @@ class EventsListViewController: ListViewController {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))
         
-        load {
-            DispatchQueue.main.async { [weak self] in
-                self?.reloadTable()
-            }
+        activityOverlay.show()
+        load { [weak self] in
+            self?.reloadTable()
+            self?.activityOverlay.hide()
         }
 
         service?.listenForEventUsers { [weak self] in
@@ -78,7 +78,9 @@ class EventsListViewController: ListViewController {
                 guard let t2 = p2.startTime else { return true}
                 return t1 < t2
             })
-            completion?()
+            DispatchQueue.main.async {
+                completion?()
+            }
         }
     }
     
