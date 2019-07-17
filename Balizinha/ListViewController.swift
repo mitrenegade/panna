@@ -36,6 +36,8 @@ class ListViewController: UIViewController {
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
+        
+        view.addSubview(activityOverlay)
     }
 
     override func viewDidLayoutSubviews() {
