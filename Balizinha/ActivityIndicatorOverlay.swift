@@ -31,6 +31,7 @@ class ActivityIndicatorOverlay: UIView {
             self.activityIndicator = activityIndicator
             
         }
+        hide()
 //        activityIndicator?.isHidden = true
     }
     
