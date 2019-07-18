@@ -44,12 +44,16 @@ class DashboardViewController: UIViewController {
         title = "Dashboard"
         
         setupLeagueSelector()
-        leagues = LeagueService.shared.ownerLeagues.sorted(by: { (l1, l2) -> Bool in
-            guard let name1 = l1.name?.lowercased() else { return true }
-            guard let name2 = l2.name?.lowercased() else { return false }
-            return name1 < name2
-        })
-        
+        if AIRPLANE_MODE {
+            leagues = [MockService.mockLeague()]
+        } else {
+            leagues = LeagueService.shared.ownerLeagues.sorted(by: { (l1, l2) -> Bool in
+                guard let name1 = l1.name?.lowercased() else { return true }
+                guard let name2 = l2.name?.lowercased() else { return false }
+                return name1 < name2
+            })
+        }
+
         if let leagueId = DefaultsManager.shared.value(forKey: "DashboardLeagueId") as? String {
             league = leagues.first(where: { (l) -> Bool in
                 return l.id == leagueId
