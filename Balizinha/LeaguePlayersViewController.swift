@@ -10,10 +10,10 @@ import UIKit
 import Balizinha
 import FirebaseDatabase
 
-TODO: consolidate this with PlayersListViewController
-Ordinary user should only see the list of league players and see player details
-Organizers can search for players and add them as members in the dashboard
-Owners will see players and be able to add them as organizers
+//TODO: consolidate this with PlayersListViewController
+//Ordinary user should only see the list of league players and see player details
+//Organizers can search for players and add them as members in the dashboard
+//Owners will see players and be able to add them as organizers
 
 protocol LeaguePlayersDelegate: class {
     func didUpdateRoster()
