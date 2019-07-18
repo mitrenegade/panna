@@ -35,7 +35,7 @@ class LeagueViewController: UIViewController {
     
     var league: League?
     var players: [Player] = []
-    var roster: [Membership]?
+    var roster: [String: Membership]?
     
     weak var joinLeagueCell: LeagueButtonCell?
     weak var shareLeagueCell: LeagueButtonCell?
@@ -102,7 +102,7 @@ class LeagueViewController: UIViewController {
 
     func loadRoster() {
         guard !AIRPLANE_MODE else {
-            roster = [Membership(id: "1", status: "organizer")]
+            roster = ["1": Membership(id: "1", status: "organizer")]
             observePlayers()
             return
         }
@@ -110,7 +110,10 @@ class LeagueViewController: UIViewController {
 
         guard let league = league else { return }
         LeagueService.shared.memberships(for: league) { [weak self] (results) in
-            self?.roster = results
+            self?.roster?.removeAll()
+            for membership in results ?? [] {
+                self?.roster?[membership.playerId] = membership
+            }
             self?.observePlayers()
             DispatchQueue.main.async {
                 self?.activityOverlay.hide()
@@ -142,8 +145,7 @@ class LeagueViewController: UIViewController {
         }
         players.removeAll()
         let dispatchGroup = DispatchGroup()
-        for membership in roster ?? [] {
-            let playerId = membership.playerId
+        for (playerId, membership) in roster ?? [:] {
             guard membership.isActive else { continue }
             dispatchGroup.enter()
             print("Loading player id \(playerId)")
@@ -173,10 +175,12 @@ class LeagueViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toLeaguePlayers", let controller = segue.destination as? LeaguePlayersViewController {
+        if segue.identifier == "toLeaguePlayers", let controller = segue.destination as? PlayerListViewController {
             controller.league = league
-            controller.delegate = self
-            controller.roster = roster
+//            controller.delegate = self
+            if let roster = roster {
+                controller.roster = roster
+            }
         }
     }
     
@@ -251,7 +255,7 @@ extension LeagueViewController: UITableViewDataSource {
                 cell.handleAddPlayers = { [weak self] in
                     self?.goToAddPlayers()
                 }
-                cell.roster = roster
+                cell.roster = roster?.compactMap {$0.value}
                 cell.configure(players: players)
                 return cell
             }
