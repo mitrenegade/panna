@@ -102,7 +102,7 @@ class LeagueViewController: UIViewController {
 
     func loadRoster() {
         guard !AIRPLANE_MODE else {
-            roster = [Membership.member]
+            roster = [Membership(id: "1", status: "member")]
             return
         }
         activityOverlay.show()
