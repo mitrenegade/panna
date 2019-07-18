@@ -169,16 +169,11 @@ extension LeaguePlayersViewController: UITableViewDataSource {
         cell.reset()
         if indexPath.row < array.count {
             let playerId = array[indexPath.row]
-            PlayerService.shared.withId(id: playerId) { (player) in
-                if let player = player {
-                    DispatchQueue.main.async {
-                        cell.configure(player: player, status: status)
-                    }
-                }
+            if let player = allPlayers.first(where: {$0.id == playerId}) {
+                cell.configure(player: player, status: status)
             }
         }
         return cell
-        
     }
 }
 
