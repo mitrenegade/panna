@@ -69,6 +69,12 @@ class LeaguePlayersViewController: UIViewController {
     }
 
     func loadFromRef() { // loads all players, using observed player endpoint
+        guard !AIRPLANE_MODE else {
+            allPlayers = [MockService.mockPlayerOrganizer(), MockService.mockPlayerMember()]
+            search(for: nil)
+            reloadTableData()
+            return
+        }
         let playerRef = firRef.child("players").queryOrdered(byChild: "createdAt")
         playerRef.observe(.value) {[weak self] (snapshot) in
             guard snapshot.exists() else {

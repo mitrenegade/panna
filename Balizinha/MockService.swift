@@ -15,8 +15,12 @@ class MockService: NSObject {
         return League(key: "abc", dict: ["name": "My league", "city": "Philadelphia", "info": "Airplane mode league", "ownerId": "1"])
     }
 
-    static func mockPlayer() -> Player {
+    static func mockPlayerOrganizer() -> Player {
         return Player(key: "1", dict: ["name":"Philly Phanatic", "city": "Philadelphia", "email": "test@gmail.com"])
+    }
+
+    static func mockPlayerMember() -> Player {
+        return Player(key: "2", dict: ["name":"Gritty", "city": "Philadelphia", "email": "grittest@gmail.com"])
     }
 
     static func mockEventService() -> EventService {
