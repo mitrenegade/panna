@@ -213,6 +213,9 @@ extension LeaguePlayersViewController: UITableViewDelegate {
         memberships[playerId] = newStatus
         search(for: searchTerm)
         
+        guard !AIRPLANE_MODE else {
+            return
+        }
         LeagueService.shared.changeLeaguePlayerStatus(playerId: playerId, league: league, status: newStatus.rawValue, completion: { [weak self] (result, error) in
             print("Result \(result) error \(error)")
             if let error = error as? NSError {
