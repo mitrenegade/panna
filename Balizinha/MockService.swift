@@ -12,9 +12,13 @@ import RenderCloud
 
 class MockService: NSObject {
     static func mockLeague() -> League {
-        return League(key: "abc", dict: ["name": "My league", "city": "Philadelphia", "info": "Airplane mode league", "ownerId": 1])
+        return League(key: "abc", dict: ["name": "My league", "city": "Philadelphia", "info": "Airplane mode league", "ownerId": "1"])
     }
-    
+
+    static func mockPlayer() -> Player {
+        return Player(key: "1", dict: ["name":"Philly Phanatic", "city": "Philadelphia", "email": "test@gmail.com"])
+    }
+
     static func mockEventService() -> EventService {
         let eventDict: [String: Any] = ["name": "Test event",
                                         "status": "active",
