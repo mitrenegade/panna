@@ -10,6 +10,10 @@ import UIKit
 import Balizinha
 import Firebase
 
+protocol PlayerListDelegate: class {
+    func didUpdateRoster()
+}
+
 class PlayerListViewController: SearchableListViewController {
     var roster: [String:Membership] = [:]
     var leagueOrganizers: [Player] = []
@@ -18,6 +22,8 @@ class PlayerListViewController: SearchableListViewController {
         return [("Organizers", leagueOrganizers), ("Members", leagueMembers)]
     }
 
+    weak var delegate: PlayerListDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,6 +73,37 @@ class PlayerListViewController: SearchableListViewController {
             }
         }
     }
+    
+    // TODO
+    func loadFromRef() { // loads all players, using observed player endpoint
+        guard !AIRPLANE_MODE else {
+            objects = [MockService.mockPlayerOrganizer(), MockService.mockPlayerMember()]
+            search(for: nil)
+            reloadTable()
+            return
+        }
+        let playerRef = firRef.child("players").queryOrdered(byChild: "createdAt")
+        playerRef.observe(.value) {[weak self] (snapshot) in
+            guard snapshot.exists() else {
+                return
+            }
+            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
+                self?.objects.removeAll()
+                for playerDict: DataSnapshot in allObjects {
+                    let player = Player(snapshot: playerDict)
+                    self?.objects.append(player)
+                }
+                self?.objects.sort(by: { (p1, p2) -> Bool in
+                    guard let t1 = p1.createdAt else { return false }
+                    guard let t2 = p2.createdAt else { return true}
+                    return t1 > t2
+                })
+                self?.search(for: nil)
+                self?.reloadTable()
+            }
+        }
+    }
+    
 }
 
 extension PlayerListViewController {
@@ -90,7 +127,7 @@ extension PlayerListViewController {
         super.tableView(tableView, didSelectRowAt: indexPath)
         let section = sections[indexPath.section]
         guard indexPath.row < section.objects.count else { return }
-        if let player: Player? = section.objects[indexPath.row] as? Player {
+        if let player: Player = section.objects[indexPath.row] as? Player {
             let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
             controller.player = player
             navigationController?.pushViewController(controller, animated: true)
@@ -120,5 +157,45 @@ extension PlayerListViewController {
             let idMatch = player.id.lowercased().contains(currentSearch)
             return nameMatch || emailMatch || idMatch
         }
+    }
+}
+
+extension PlayerListViewController {
+    func updateStatus(playerId: String, oldStatus: Membership.Status) {
+        guard let league = league else { return }
+        let newStatus: Membership.Status
+        switch oldStatus {
+        case .organizer:
+            newStatus = .member
+        case .member :
+            // TODO: show alert
+            newStatus = .organizer
+//            newStatus = .none
+        case .none:
+            newStatus = .member
+        default:
+            return
+        }
+        
+        // update first before web request returns
+        let oldMembership = roster[playerId]
+        roster[playerId] = Membership(id: playerId, status: oldStatus.rawValue)
+        search(for: searchTerm)
+        
+        guard !AIRPLANE_MODE else {
+            return
+        }
+        LeagueService.shared.changeLeaguePlayerStatus(playerId: playerId, league: league, status: newStatus.rawValue, completion: { [weak self] (result, error) in
+            if let error = error as NSError? {
+                self?.roster[playerId] = oldMembership
+                DispatchQueue.main.async {
+                    self?.simpleAlert("Update failed", defaultMessage: "Could not update status to \(newStatus.rawValue). ", error: error)
+                }
+            }
+            DispatchQueue.main.async {
+                self?.search(for: self?.searchTerm)
+                self?.delegate?.didUpdateRoster()
+            }
+        })
     }
 }

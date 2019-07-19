@@ -189,51 +189,7 @@ extension LeaguePlayersViewController: UITableViewDelegate {
         guard let league = league else { return }
         let newStatus: Membership.Status
         let playerId: String
-        
-        switch sections[indexPath.section] {
-        case "Organizers":
-            guard indexPath.row < organizers.count else { return }
-            playerId = organizers[indexPath.row]
-            newStatus = .member
-        case "Members" :
-            guard indexPath.row < members.count else { return }
-            playerId = members[indexPath.row]
-            if isEditOrganizerMode {
-                newStatus = .organizer
-            } else {
-                newStatus = .none
-            }
-        case "Players":
-            guard indexPath.row < players.count else { return }
-            playerId = players[indexPath.row]
-            newStatus = .member
-        default:
-            return
-        }
-        
-        // cache old value in case of failure, to revert
-        let oldStatus = memberships[playerId]
-        
-        // update first before web request returns
-        memberships[playerId] = newStatus
-        search(for: searchTerm)
-        
-        guard !AIRPLANE_MODE else {
-            return
-        }
-        LeagueService.shared.changeLeaguePlayerStatus(playerId: playerId, league: league, status: newStatus.rawValue, completion: { [weak self] (result, error) in
-            print("Result \(result) error \(error)")
-            if let error = error as? NSError {
-                self?.memberships[playerId] = oldStatus
-                DispatchQueue.main.async {
-                    self?.simpleAlert("Update failed", defaultMessage: "Could not update status to \(newStatus.rawValue). ", error: error)
-                }
-            }
-            DispatchQueue.main.async {
-                self?.search(for: self?.searchTerm)
-                self?.delegate?.didUpdateRoster()
-            }
-        })
+
     }
 }
 
