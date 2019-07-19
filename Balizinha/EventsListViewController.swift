@@ -15,7 +15,6 @@ class EventsListViewController: ListViewController {
     var currentEvents: [Balizinha.Event] = []
     var pastEvents: [Balizinha.Event] = []
     var service: EventService?
-    var reference: Reference?
 
     override func viewDidLoad() {
         // Do any additional setup after loading the view.
@@ -25,19 +24,9 @@ class EventsListViewController: ListViewController {
         }
         
         if AIRPLANE_MODE {
-            let eventDict: [String: Any] = ["name": "Test event",
-                                            "status": "active",
-                                            "startTime": (Date().timeIntervalSince1970 + Double(Int(arc4random_uniform(72)) * 3600))]
-            let referenceSnapshot = MockDataSnapshot(exists: true,
-                                                     key: "1",
-                                                     value: eventDict,
-                                                     ref: nil)
-            reference = MockDatabaseReference(snapshot: referenceSnapshot)
-            let apiService = MockCloudAPIService(uniqueId: "abc", results: ["success": true])
-            service = EventService(reference: reference!, apiService: apiService)
+            service = MockService.mockEventService()
         } else {
             service = EventService.shared
-            reference = firRef
         }
         
         super.viewDidLoad()

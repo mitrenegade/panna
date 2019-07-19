@@ -76,6 +76,13 @@ class LeaguesViewController: UIViewController {
     }
     
     @objc fileprivate func loadData() {
+        guard !AIRPLANE_MODE else {
+            let league = MockService.mockLeague()
+            playerLeagues = [league]
+            isLoading = false
+            reloadTableData()
+            return
+        }
         guard let player = PlayerService.shared.current.value else { return }
         
         otherLeagues.removeAll()

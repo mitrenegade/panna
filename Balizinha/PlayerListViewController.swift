@@ -37,8 +37,13 @@ class PlayerListViewController: SearchableListViewController {
     }
     
     override func load(completion:(()->Void)? = nil) {
+        guard !AIRPLANE_MODE else {
+            objects = [MockService.mockPlayerOrganizer(), MockService.mockPlayerMember()]
+            roster = ["1": Membership(id: "1", status: "organizer"), "2": Membership(id: "2", status: "member")]
+            completion?()
+            return
+        }
         activityOverlay.show()
-        
         guard let league = league else { return }
         objects.removeAll()
         roster.removeAll()

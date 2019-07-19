@@ -101,6 +101,11 @@ class LeagueViewController: UIViewController {
     }
 
     func loadRoster() {
+        guard !AIRPLANE_MODE else {
+            roster = [Membership(id: "1", status: "organizer")]
+            observePlayers()
+            return
+        }
         activityOverlay.show()
 
         guard let league = league else { return }
@@ -127,6 +132,11 @@ class LeagueViewController: UIViewController {
     }
     
     func observePlayers() {
+        guard !AIRPLANE_MODE else {
+            players = [MockService.mockPlayerOrganizer()]
+            tableView.reloadData()
+            return
+        }
         DispatchQueue.main.async {
             self.activityOverlay.show()
         }

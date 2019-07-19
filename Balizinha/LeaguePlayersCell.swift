@@ -30,7 +30,7 @@ class LeaguePlayersCell: UITableViewCell {
         playersView.refresh()
         
         // organizer is allowed to edit players
-        let isOrganizer = roster?.filter() { $0.playerId == PlayerService.shared.current.value?.id }.first?.isOrganizer ?? false
+        let isOrganizer = roster?.filter() { $0.playerId == PlayerService.shared.current.value?.id }.first?.isOrganizer ?? AIRPLANE_MODE
         constraintEditPlayerHeight.constant = isOrganizer ? 30 : 0
     }
     

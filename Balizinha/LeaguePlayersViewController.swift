@@ -10,6 +10,11 @@ import UIKit
 import Balizinha
 import FirebaseDatabase
 
+TODO: consolidate this with PlayersListViewController
+Ordinary user should only see the list of league players and see player details
+Organizers can search for players and add them as members in the dashboard
+Owners will see players and be able to add them as organizers
+
 protocol LeaguePlayersDelegate: class {
     func didUpdateRoster()
 }
@@ -69,6 +74,12 @@ class LeaguePlayersViewController: UIViewController {
     }
 
     func loadFromRef() { // loads all players, using observed player endpoint
+        guard !AIRPLANE_MODE else {
+            allPlayers = [MockService.mockPlayerOrganizer(), MockService.mockPlayerMember()]
+            search(for: nil)
+            reloadTableData()
+            return
+        }
         let playerRef = firRef.child("players").queryOrdered(byChild: "createdAt")
         playerRef.observe(.value) {[weak self] (snapshot) in
             guard snapshot.exists() else {
@@ -163,16 +174,11 @@ extension LeaguePlayersViewController: UITableViewDataSource {
         cell.reset()
         if indexPath.row < array.count {
             let playerId = array[indexPath.row]
-            PlayerService.shared.withId(id: playerId) { (player) in
-                if let player = player {
-                    DispatchQueue.main.async {
-                        cell.configure(player: player, status: status)
-                    }
-                }
+            if let player = allPlayers.first(where: {$0.id == playerId}) {
+                cell.configure(player: player, status: status)
             }
         }
         return cell
-        
     }
 }
 
@@ -212,6 +218,9 @@ extension LeaguePlayersViewController: UITableViewDelegate {
         memberships[playerId] = newStatus
         search(for: searchTerm)
         
+        guard !AIRPLANE_MODE else {
+            return
+        }
         LeagueService.shared.changeLeaguePlayerStatus(playerId: playerId, league: league, status: newStatus.rawValue, completion: { [weak self] (result, error) in
             print("Result \(result) error \(error)")
             if let error = error as? NSError {
