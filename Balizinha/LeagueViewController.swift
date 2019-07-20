@@ -177,6 +177,9 @@ class LeagueViewController: UIViewController {
             controller.league = league
             controller.delegate = self
             controller.roster = roster
+            
+            let isOwner = league?.ownerId == PlayerService.shared.current.value?.id
+            controller.isEditOrganizerMode = isOwner || AIRPLANE_MODE
         }
     }
     

@@ -18,6 +18,8 @@ class PlayerListViewController: SearchableListViewController {
     var roster: [String:Membership] = [:]
     var leagueOrganizers: [Player] = []
     var leagueMembers: [Player] = []
+    var isEditOrganizerMode: Bool = false
+
     override var sections: [Section] {
         return [("Organizers", leagueOrganizers), ("Members", leagueMembers)]
     }
@@ -125,11 +127,69 @@ extension PlayerListViewController {
         super.tableView(tableView, didSelectRowAt: indexPath)
         let section = sections[indexPath.section]
         guard indexPath.row < section.objects.count else { return }
-        if let player: Player = section.objects[indexPath.row] as? Player {
-            let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
-            controller.player = player
-            navigationController?.pushViewController(controller, animated: true)
+        guard let player: Player = section.objects[indexPath.row] as? Player else { return }
+
+        let oldStatus = roster[player.id]?.status ?? .none
+        let alert = UIAlertController(title: "Player options", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "View player", style: .default, handler: { (action) in
+            self.viewPlayerDetails(player)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+            // no op
+        }))
+
+        switch oldStatus {
+        case .organizer:
+            if isEditOrganizerMode {
+                alert.addAction(UIAlertAction(title: "Remove organizer", style: .default, handler: { (action) in
+                    self.changeMemberStatus(playerId: player.id, newStatus: .member)
+                }))
+            }
+        case .member :
+            alert.addAction(UIAlertAction(title: "Remove member from league", style: .default, handler: { (action) in
+                self.changeMemberStatus(playerId: player.id, newStatus: .none)
+            }))
+            if isEditOrganizerMode {
+                alert.addAction(UIAlertAction(title: "Make into organizer", style: .default, handler: { (action) in
+                    self.changeMemberStatus(playerId: player.id, newStatus: .organizer)
+                }))
+            }
+        case .none:
+            alert.addAction(UIAlertAction(title: "Add to league", style: .default, handler: { (action) in
+                self.changeMemberStatus(playerId: player.id, newStatus: .member)
+            }))
         }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func viewPlayerDetails(_ player: Player) {
+        let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
+        controller.player = player
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
+    private func changeMemberStatus(playerId: String, newStatus: Membership.Status) {
+        guard let league = league else { return }
+        // update first before web request returns
+        let oldMembership = roster[playerId]
+        roster[playerId] = Membership(id: playerId, status: oldMembership?.status.rawValue ?? "none")
+        search(for: searchTerm)
+        
+        guard !AIRPLANE_MODE else {
+            return
+        }
+        LeagueService.shared.changeLeaguePlayerStatus(playerId: playerId, league: league, status: newStatus.rawValue, completion: { [weak self] (result, error) in
+            if let error = error as NSError? {
+                self?.roster[playerId] = oldMembership
+                DispatchQueue.main.async {
+                    self?.simpleAlert("Update failed", defaultMessage: "Could not update status to \(newStatus.rawValue). ", error: error)
+                }
+            }
+            DispatchQueue.main.async {
+                self?.search(for: self?.searchTerm)
+                self?.delegate?.didUpdateRoster()
+            }
+        })
     }
 }
 
@@ -155,45 +215,5 @@ extension PlayerListViewController {
             let idMatch = player.id.lowercased().contains(currentSearch)
             return nameMatch || emailMatch || idMatch
         }
-    }
-}
-
-extension PlayerListViewController {
-    func updateStatus(playerId: String, oldStatus: Membership.Status) {
-        guard let league = league else { return }
-        let newStatus: Membership.Status
-        switch oldStatus {
-        case .organizer:
-            newStatus = .member
-        case .member :
-            // TODO: show alert
-            newStatus = .organizer
-//            newStatus = .none
-        case .none:
-            newStatus = .member
-        default:
-            return
-        }
-        
-        // update first before web request returns
-        let oldMembership = roster[playerId]
-        roster[playerId] = Membership(id: playerId, status: oldStatus.rawValue)
-        search(for: searchTerm)
-        
-        guard !AIRPLANE_MODE else {
-            return
-        }
-        LeagueService.shared.changeLeaguePlayerStatus(playerId: playerId, league: league, status: newStatus.rawValue, completion: { [weak self] (result, error) in
-            if let error = error as NSError? {
-                self?.roster[playerId] = oldMembership
-                DispatchQueue.main.async {
-                    self?.simpleAlert("Update failed", defaultMessage: "Could not update status to \(newStatus.rawValue). ", error: error)
-                }
-            }
-            DispatchQueue.main.async {
-                self?.search(for: self?.searchTerm)
-                self?.delegate?.didUpdateRoster()
-            }
-        })
     }
 }
