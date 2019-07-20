@@ -38,6 +38,10 @@ class ListViewController: UIViewController {
         self.tableView.estimatedRowHeight = 44
         
         view.addSubview(activityOverlay)
+
+        if let nav = self.navigationController, nav.viewControllers[0] == self {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))
+        }        
     }
 
     override func viewDidLayoutSubviews() {

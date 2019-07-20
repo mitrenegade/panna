@@ -36,8 +36,6 @@ class PlayerListViewController: SearchableListViewController {
             self?.activityOverlay.hide()
         }
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))
-        
         let info: [String: Any] = ["leagueId": league?.id ?? ""]
         LoggingService.shared.log(event: .DashboardViewLeaguePlayers, info: info)
     }
