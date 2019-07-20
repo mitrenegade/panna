@@ -35,7 +35,7 @@ class LeagueViewController: UIViewController {
     
     var league: League?
     var players: [Player] = []
-    var roster: [String: Membership]?
+    var roster: [String: Membership] = [:]
     
     weak var joinLeagueCell: LeagueButtonCell?
     weak var shareLeagueCell: LeagueButtonCell?
@@ -107,17 +107,15 @@ class LeagueViewController: UIViewController {
             return
         }
         activityOverlay.show()
+        roster.removeAll()
 
         guard let league = league else { return }
         LeagueService.shared.memberships(for: league) { [weak self] (results) in
-            self?.roster?.removeAll()
+            self?.roster.removeAll()
             for membership in results ?? [] {
-                self?.roster?[membership.playerId] = membership
+                self?.roster[membership.playerId] = membership
             }
             self?.observePlayers()
-            DispatchQueue.main.async {
-                self?.activityOverlay.hide()
-            }
         }
     }
     
@@ -145,7 +143,7 @@ class LeagueViewController: UIViewController {
         }
         players.removeAll()
         let dispatchGroup = DispatchGroup()
-        for (playerId, membership) in roster ?? [:] {
+        for (playerId, membership) in roster {
             guard membership.isActive else { continue }
             dispatchGroup.enter()
             print("Loading player id \(playerId)")
@@ -178,9 +176,7 @@ class LeagueViewController: UIViewController {
         if segue.identifier == "toLeaguePlayers", let controller = segue.destination as? PlayerListViewController {
             controller.league = league
             controller.delegate = self
-            if let roster = roster {
-                controller.roster = roster
-            }
+            controller.roster = roster
         }
     }
     
@@ -255,7 +251,7 @@ extension LeagueViewController: UITableViewDataSource {
                 cell.handleAddPlayers = { [weak self] in
                     self?.goToAddPlayers()
                 }
-                cell.roster = roster?.compactMap {$0.value}
+                cell.roster = roster.compactMap {$0.value}
                 cell.configure(players: players)
                 return cell
             }
