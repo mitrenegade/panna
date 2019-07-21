@@ -144,6 +144,9 @@ extension PlayerListViewController {
                 alert.addAction(UIAlertAction(title: "Remove organizer", style: .default, handler: { (action) in
                     self.changeMemberStatus(playerId: player.id, newStatus: .member)
                 }))
+            } else {
+                viewPlayerDetails(player)
+                return
             }
         case .member :
             alert.addAction(UIAlertAction(title: "Remove member from league", style: .default, handler: { (action) in
