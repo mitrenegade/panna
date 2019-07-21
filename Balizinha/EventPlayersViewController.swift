@@ -10,8 +10,9 @@ import UIKit
 import Balizinha
 import RenderCloud
 
-class EventPlayersViewController: SearchableListViewController {
+class EventPlayersViewController: SearchableListViewController, LeagueList {
     var event: Balizinha.Event?
+    var league: League?
 
     fileprivate var attendingPlayerIds: [String] = []
     
