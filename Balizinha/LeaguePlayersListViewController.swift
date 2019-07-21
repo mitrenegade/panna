@@ -80,6 +80,7 @@ class LeaguePlayersListViewController: SearchableListViewController, LeagueList 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toAddPlayer", let controller = segue.destination as? PlayersListViewController {
             controller.roster = roster
+            controller.delegate = self
         }
     }
 }
@@ -98,9 +99,7 @@ extension LeaguePlayersListViewController {
         }
         return cell
     }
-}
 
-extension LeaguePlayersListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         super.tableView(tableView, didSelectRowAt: indexPath)
         let section = sections[indexPath.section]
@@ -196,5 +195,12 @@ extension LeaguePlayersListViewController {
             let idMatch = player.id.lowercased().contains(currentSearch)
             return nameMatch || emailMatch || idMatch
         }
+    }
+}
+
+extension LeaguePlayersListViewController: PlayersListDelegate {
+    func didSelectPlayer(_ player: Player) {
+        // TODO: log
+        changeMemberStatus(playerId: player.id, newStatus: .member)
     }
 }
