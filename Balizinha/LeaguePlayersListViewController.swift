@@ -27,7 +27,7 @@ class LeaguePlayersListViewController: SearchableListViewController, LeagueList 
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        navigationItem.title = "Players"
+        navigationItem.title = "League Members"
         
         activityOverlay.show()
         load() { [weak self] in
@@ -37,6 +37,8 @@ class LeaguePlayersListViewController: SearchableListViewController, LeagueList 
 
         let info: [String: Any] = ["leagueId": league?.id ?? ""]
         LoggingService.shared.log(event: .DashboardViewLeaguePlayers, info: info)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .done, target: self, action: #selector(didClickAdd(_:)))
     }
     
     override func load(completion:(()->Void)? = nil) {
@@ -70,37 +72,16 @@ class LeaguePlayersListViewController: SearchableListViewController, LeagueList 
             }
         }
     }
-    
-    // TODO
-    func loadFromRef() { // loads all players, using observed player endpoint
-        guard !AIRPLANE_MODE else {
-            objects = [MockService.mockPlayerOrganizer(), MockService.mockPlayerMember()]
-            search(for: nil)
-            reloadTable()
-            return
-        }
-        let playerRef = firRef.child("players").queryOrdered(byChild: "createdAt")
-        playerRef.observe(.value) {[weak self] (snapshot) in
-            guard snapshot.exists() else {
-                return
-            }
-            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
-                self?.objects.removeAll()
-                for playerDict: DataSnapshot in allObjects {
-                    let player = Player(snapshot: playerDict)
-                    self?.objects.append(player)
-                }
-                self?.objects.sort(by: { (p1, p2) -> Bool in
-                    guard let t1 = p1.createdAt else { return false }
-                    guard let t2 = p2.createdAt else { return true}
-                    return t1 > t2
-                })
-                self?.search(for: nil)
-                self?.reloadTable()
-            }
+ 
+    func didClickAdd(_ sender: UIButton) {
+        performSegue(withIdentifier: "toAddPlayer", sender: nil)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toAddPlayer", let controller = segue.destination as? PlayersListViewController {
+            controller.roster = roster
         }
     }
-    
 }
 
 extension LeaguePlayersListViewController {

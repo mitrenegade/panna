@@ -34,13 +34,27 @@ class PlayersListViewController: SearchableListViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        navigationItem.title = "Players"
+        navigationItem.title = "Other Players"
         
         activityOverlay.show()
         load() { [weak self] in
-            // TODO: filter out players already in the league
+            // filter out players already in the league
+            self?.objects = (self?.objects ?? []).filter{ self?.roster[$0.id] == nil }
             self?.search(for: nil)
             self?.activityOverlay.hide()
         }
+    }
+}
+
+extension PlayersListViewController {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayerCell", for: indexPath) as! LeaguePlayerCell
+        cell.reset()
+        let section = sections[indexPath.section]
+        let array = section.objects
+        if indexPath.row < array.count, let player = array[indexPath.row] as? Player {
+            cell.configure(player: player, status: .none)
+        }
+        return cell
     }
 }
