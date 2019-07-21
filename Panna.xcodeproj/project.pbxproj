@@ -120,7 +120,7 @@
 		8EE5B3281E7F365200BC72A5 /* PlayerIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */; };
 		8EE5FCCE22B673EE00F7FF68 /* Dashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE5FCCD22B673EE00F7FF68 /* Dashboard.storyboard */; };
 		8EE5FCD322B7218800F7FF68 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5FCD222B7218800F7FF68 /* DashboardViewController.swift */; };
-		8EE5FCD522B7528300F7FF68 /* PlayerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5FCD422B7528300F7FF68 /* PlayerListViewController.swift */; };
+		8EE5FCD522B7528300F7FF68 /* LeaguePlayerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5FCD422B7528300F7FF68 /* LeaguePlayerListViewController.swift */; };
 		8EE5FCD722B86C3000F7FF68 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5FCD622B86C2E00F7FF68 /* ListViewController.swift */; };
 		8EE94E471FF93DB700129EC2 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE94E461FF93DB700129EC2 /* Launch.storyboard */; };
 		8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */; };
@@ -292,7 +292,7 @@
 		8EE5B3271E7F365200BC72A5 /* PlayerIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerIcon.swift; sourceTree = "<group>"; };
 		8EE5FCCD22B673EE00F7FF68 /* Dashboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Dashboard.storyboard; sourceTree = "<group>"; };
 		8EE5FCD222B7218800F7FF68 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
-		8EE5FCD422B7528300F7FF68 /* PlayerListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerListViewController.swift; sourceTree = "<group>"; };
+		8EE5FCD422B7528300F7FF68 /* LeaguePlayerListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguePlayerListViewController.swift; sourceTree = "<group>"; };
 		8EE5FCD622B86C2E00F7FF68 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		8EE94E461FF93DB700129EC2 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModelIcon.swift; sourceTree = "<group>"; };
@@ -593,7 +593,7 @@
 				8EE5FCD222B7218800F7FF68 /* DashboardViewController.swift */,
 				8EE5FCD622B86C2E00F7FF68 /* ListViewController.swift */,
 				8E7A59FF22B8962800DDBB01 /* SearchableListViewController.swift */,
-				8EE5FCD422B7528300F7FF68 /* PlayerListViewController.swift */,
+				8EE5FCD422B7528300F7FF68 /* LeaguePlayerListViewController.swift */,
 				8E7A59FD22B891E900DDBB01 /* EventsListViewController.swift */,
 				8E7A5A0122B8963200DDBB01 /* EventPlayersViewController.swift */,
 				8E7A5A0322B8965700DDBB01 /* TeamsViewController.swift */,
@@ -1020,7 +1020,7 @@
 				8E49E7292100B847009F1B5D /* JoinEventHelper.swift in Sources */,
 				8EA99E0F21533475001BC643 /* LeagueInquiryViewController.swift in Sources */,
 				8E7016D2207A9D0400A4C28C /* UpgradeService.swift in Sources */,
-				8EE5FCD522B7528300F7FF68 /* PlayerListViewController.swift in Sources */,
+				8EE5FCD522B7528300F7FF68 /* LeaguePlayerListViewController.swift in Sources */,
 				8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */,
 				C6B7412720FAD88B00B0FA00 /* LeagueButtonCell.swift in Sources */,
 				8E17907C207B043F004FF5D2 /* PlayerCell.swift in Sources */,
