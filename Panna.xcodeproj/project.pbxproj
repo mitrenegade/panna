@@ -97,6 +97,7 @@
 		8EB90B3B1FB2BABE007C60F0 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */; };
 		8EBABEBB211616A2009DD867 /* FacebookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBABEBA211616A2009DD867 /* FacebookService.swift */; };
 		8EBD898422E01FB100FD3B18 /* MockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBD898322E01FB100FD3B18 /* MockService.swift */; };
+		8EBD898622E0528600FD3B18 /* Player.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EBD898522E0528600FD3B18 /* Player.storyboard */; };
 		8EBEDDC020DFD13800FD8BCE /* LeagueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBEDDBF20DFD13800FD8BCE /* LeagueViewController.swift */; };
 		8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBF1C381E7965BA0057871F /* PlayerViewController.swift */; };
 		8EC2EFEB1F60D6F90081FF68 /* UIDatePickerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */; };
@@ -267,6 +268,7 @@
 		8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		8EBABEBA211616A2009DD867 /* FacebookService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookService.swift; sourceTree = "<group>"; };
 		8EBD898322E01FB100FD3B18 /* MockService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockService.swift; sourceTree = "<group>"; };
+		8EBD898522E0528600FD3B18 /* Player.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Player.storyboard; sourceTree = "<group>"; };
 		8EBEDDBF20DFD13800FD8BCE /* LeagueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueViewController.swift; sourceTree = "<group>"; };
 		8EBF1C381E7965BA0057871F /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		8EC2EFEA1F60D6F90081FF68 /* UIDatePickerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDatePickerHelper.swift; sourceTree = "<group>"; };
@@ -459,6 +461,7 @@
 				8EF634782153198B00652833 /* Feedback.storyboard */,
 				C6B7D7B4221E0B8A00B58C72 /* Stripe.storyboard */,
 				8E81A2D4226BBF2900EAA6EF /* Owner.storyboard */,
+				8EBD898522E0528600FD3B18 /* Player.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -807,6 +810,7 @@
 				8EC7992D1E3635A8004ACC52 /* Calendar.storyboard in Resources */,
 				C651AB882096D6650046B03C /* read.me in Resources */,
 				8E7397FD1FF921E500D48BA0 /* Montserrat-BlackItalic.ttf in Resources */,
+				8EBD898622E0528600FD3B18 /* Player.storyboard in Resources */,
 				8E81A2D5226BBF2900EAA6EF /* Owner.storyboard in Resources */,
 				8E7256A11CDF793200C9E054 /* Assets.xcassets in Resources */,
 				8E179078207B0324004FF5D2 /* Attendance.storyboard in Resources */,
