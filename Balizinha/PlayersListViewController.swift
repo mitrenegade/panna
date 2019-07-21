@@ -40,7 +40,10 @@ class PlayersListViewController: SearchableListViewController {
         activityOverlay.show()
         load() { [weak self] in
             // filter out players already in the league
-            self?.objects = (self?.objects ?? []).filter{ self?.roster[$0.id] == nil }
+            self?.objects = (self?.objects ?? []).filter{
+                let active = self?.roster[$0.id]?.isActive ?? false
+                return !active
+            }
             self?.search(for: nil)
             self?.activityOverlay.hide()
         }
