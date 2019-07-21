@@ -17,9 +17,10 @@ protocol PlayersListDelegate: class {
 class PlayersListViewController: SearchableListViewController {
     var roster: [String:Membership] = [:]
     weak var delegate: PlayersListDelegate?
+    var players: [Player] = []
 
     override var sections: [Section] {
-        return [("Players", objects)]
+        return [("Players", players)]
     }
     
     override var refName: String {
@@ -56,5 +57,27 @@ extension PlayersListViewController {
             cell.configure(player: player, status: .none)
         }
         return cell
+    }
+}
+
+// search and filtering
+extension PlayersListViewController {
+    @objc override func updateSections(_ newObjects: [FirebaseBaseModel]) {
+        players = newObjects.compactMap { $0 as? Player }
+        players.sort(by: { (p1, p2) -> Bool in
+            guard let t1 = p1.createdAt else { return false }
+            guard let t2 = p2.createdAt else { return true}
+            return t1 > t2
+        })
+    }
+    
+    override func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
+        return objects.filter {(_ object: FirebaseBaseModel) in
+            guard let player = object as? Player else { return false }
+            let nameMatch = player.name?.lowercased().contains(currentSearch) ?? false
+            let emailMatch = player.email?.lowercased().contains(currentSearch) ?? false
+            let idMatch = player.id.lowercased().contains(currentSearch)
+            return nameMatch || emailMatch || idMatch
+        }
     }
 }
