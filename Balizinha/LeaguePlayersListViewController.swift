@@ -10,11 +10,7 @@ import UIKit
 import Balizinha
 import Firebase
 
-protocol PlayerListDelegate: class {
-    func didUpdateRoster()
-}
-
-class PlayerListViewController: SearchableListViewController, LeagueList {
+class LeaguePlayersListViewController: SearchableListViewController, LeagueList {
     var roster: [String:Membership] = [:]
     var league: League?
     var leagueOrganizers: [Player] = []
@@ -25,7 +21,7 @@ class PlayerListViewController: SearchableListViewController, LeagueList {
         return [("Organizers", leagueOrganizers), ("Members", leagueMembers)]
     }
 
-    weak var delegate: PlayerListDelegate?
+    weak var delegate: LeagueListDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,7 +103,7 @@ class PlayerListViewController: SearchableListViewController, LeagueList {
     
 }
 
-extension PlayerListViewController {
+extension LeaguePlayersListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayerCell", for: indexPath) as! LeaguePlayerCell
         cell.reset()
@@ -123,7 +119,7 @@ extension PlayerListViewController {
     }
 }
 
-extension PlayerListViewController {
+extension LeaguePlayersListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         super.tableView(tableView, didSelectRowAt: indexPath)
         let section = sections[indexPath.section]
@@ -198,7 +194,7 @@ extension PlayerListViewController {
 }
 
 // search and filtering
-extension PlayerListViewController {
+extension LeaguePlayersListViewController {
     @objc override func updateSections(_ newObjects: [FirebaseBaseModel]) {
         var players = newObjects.compactMap { $0 as? Player }
         players.sort(by: { (p1, p2) -> Bool in

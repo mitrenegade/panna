@@ -18,6 +18,10 @@ protocol LeagueList: class {
     var league: League? { get set }
 }
 
+protocol LeagueListDelegate: class {
+    func didUpdateRoster()
+}
+
 class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 

@@ -172,8 +172,12 @@ class LeagueViewController: UIViewController {
         }
     }
     
+    func goToAddPlayers() {
+        performSegue(withIdentifier: "toLeaguePlayers", sender: nil)
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toLeaguePlayers", let controller = segue.destination as? PlayerListViewController {
+        if segue.identifier == "toLeaguePlayers", let controller = segue.destination as? LeaguePlayersListViewController {
             controller.league = league
             controller.delegate = self
             controller.roster = roster
@@ -355,13 +359,9 @@ extension LeagueViewController: PlayersScrollViewDelegate {
     }
 }
 
-extension LeagueViewController: PlayerListDelegate {
+extension LeagueViewController: LeagueListDelegate {
     func didUpdateRoster() {
         loadRoster()
-    }
-
-    func goToAddPlayers() {
-        performSegue(withIdentifier: "toLeaguePlayers", sender: nil)
     }
 }
 

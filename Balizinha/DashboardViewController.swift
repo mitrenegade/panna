@@ -76,7 +76,7 @@ class DashboardViewController: UIViewController {
         if let leagueListController = controller as? LeagueList {
             leagueListController.league = league
         }
-        if let playerListController = controller as? PlayerListViewController {
+        if let playerListController = controller as? LeaguePlayersListViewController {
             let isOwner = league?.ownerId == PlayerService.shared.current.value?.id
             playerListController.isEditOrganizerMode = isOwner || AIRPLANE_MODE
         }

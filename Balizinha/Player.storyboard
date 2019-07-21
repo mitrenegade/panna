@@ -34,10 +34,10 @@
             </objects>
             <point key="canvasLocation" x="716" y="-900"/>
         </scene>
-        <!--Player List View Controller-->
+        <!--League Players List View Controller-->
         <scene sceneID="Svs-kJ-KTO">
             <objects>
-                <viewController storyboardIdentifier="PlayerListViewController" id="b3I-1E-9M0" customClass="PlayerListViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LeaguePlayersListViewController" id="b3I-1E-9M0" customClass="LeaguePlayersListViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oZD-wm-GQL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -72,7 +72,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZRu-JM-qxe" userLabel="Date">
-                                                    <rect key="frame" x="312.5" y="24" width="42.5" height="17"/>
+                                                    <rect key="frame" x="351.5" y="24" width="42.5" height="17"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Italic" family="Montserrat" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -85,7 +85,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kQs-mw-leL">
-                                                    <rect key="frame" x="316.5" y="64.5" width="38.5" height="17.5"/>
+                                                    <rect key="frame" x="355.5" y="64.5" width="38.5" height="17.5"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
