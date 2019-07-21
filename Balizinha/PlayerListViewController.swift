@@ -172,7 +172,7 @@ extension PlayerListViewController {
         guard let league = league else { return }
         // update first before web request returns
         let oldMembership = roster[playerId]
-        roster[playerId] = Membership(id: playerId, status: oldMembership?.status.rawValue ?? "none")
+        roster[playerId] = Membership(id: playerId, status: newStatus.rawValue)
         search(for: searchTerm)
         
         guard !AIRPLANE_MODE else {
