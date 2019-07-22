@@ -75,6 +75,7 @@ class LeaguePlayersListViewController: SearchableListViewController, LeagueList 
  
     func didClickAdd(_ sender: UIButton) {
         performSegue(withIdentifier: "toAddPlayer", sender: nil)
+        view.endEditing(true)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
