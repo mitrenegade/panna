@@ -775,10 +775,10 @@ Type</string>
             </objects>
             <point key="canvasLocation" x="837.60000000000002" y="151.12443778110946"/>
         </scene>
-        <!--PlayerListViewController-->
+        <!--LeaguePlayersListViewController-->
         <scene sceneID="5ht-X5-fGg">
             <objects>
-                <viewControllerPlaceholder storyboardName="Player" referencedIdentifier="PlayerListViewController" id="2ig-aR-CUu" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Player" referencedIdentifier="LeaguePlayersListViewController" id="2ig-aR-CUu" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kEY-Tc-NuV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1404" y="13"/>

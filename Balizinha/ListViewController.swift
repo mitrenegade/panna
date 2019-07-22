@@ -13,9 +13,17 @@ import FirebaseDatabase
 import RenderCloud
 
 typealias Section = (name: String, objects: [FirebaseBaseModel])
+
+protocol LeagueList: class {
+    var league: League? { get set }
+}
+
+protocol LeagueListDelegate: class {
+    func didUpdateRoster()
+}
+
 class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    var league: League?
 
     internal var refName: String {
         assertionFailure("refName ust be implemented by subclass")

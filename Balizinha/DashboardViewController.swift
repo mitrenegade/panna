@@ -72,9 +72,11 @@ class DashboardViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let nav = segue.destination as? UINavigationController, let controller = nav.viewControllers[0] as? ListViewController else { return }
-        controller.league = league
         
-        if let playerListController = controller as? PlayerListViewController {
+        if let leagueListController = controller as? LeagueList {
+            leagueListController.league = league
+        }
+        if let playerListController = controller as? LeaguePlayersListViewController {
             let isOwner = league?.ownerId == PlayerService.shared.current.value?.id
             playerListController.isEditOrganizerMode = isOwner || AIRPLANE_MODE
         }

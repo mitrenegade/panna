@@ -10,12 +10,9 @@ import UIKit
 import Balizinha
 import Firebase
 
-protocol PlayerListDelegate: class {
-    func didUpdateRoster()
-}
-
-class PlayerListViewController: SearchableListViewController {
+class LeaguePlayersListViewController: SearchableListViewController, LeagueList {
     var roster: [String:Membership] = [:]
+    var league: League?
     var leagueOrganizers: [Player] = []
     var leagueMembers: [Player] = []
     var isEditOrganizerMode: Bool = false
@@ -24,13 +21,13 @@ class PlayerListViewController: SearchableListViewController {
         return [("Organizers", leagueOrganizers), ("Members", leagueMembers)]
     }
 
-    weak var delegate: PlayerListDelegate?
+    weak var delegate: LeagueListDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        navigationItem.title = "Players"
+        navigationItem.title = "League Members"
         
         activityOverlay.show()
         load() { [weak self] in
@@ -40,6 +37,8 @@ class PlayerListViewController: SearchableListViewController {
 
         let info: [String: Any] = ["leagueId": league?.id ?? ""]
         LoggingService.shared.log(event: .DashboardViewLeaguePlayers, info: info)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .done, target: self, action: #selector(didClickAdd(_:)))
     }
     
     override func load(completion:(()->Void)? = nil) {
@@ -73,40 +72,21 @@ class PlayerListViewController: SearchableListViewController {
             }
         }
     }
-    
-    // TODO
-    func loadFromRef() { // loads all players, using observed player endpoint
-        guard !AIRPLANE_MODE else {
-            objects = [MockService.mockPlayerOrganizer(), MockService.mockPlayerMember()]
-            search(for: nil)
-            reloadTable()
-            return
-        }
-        let playerRef = firRef.child("players").queryOrdered(byChild: "createdAt")
-        playerRef.observe(.value) {[weak self] (snapshot) in
-            guard snapshot.exists() else {
-                return
-            }
-            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
-                self?.objects.removeAll()
-                for playerDict: DataSnapshot in allObjects {
-                    let player = Player(snapshot: playerDict)
-                    self?.objects.append(player)
-                }
-                self?.objects.sort(by: { (p1, p2) -> Bool in
-                    guard let t1 = p1.createdAt else { return false }
-                    guard let t2 = p2.createdAt else { return true}
-                    return t1 > t2
-                })
-                self?.search(for: nil)
-                self?.reloadTable()
-            }
+ 
+    func didClickAdd(_ sender: UIButton) {
+        performSegue(withIdentifier: "toAddPlayer", sender: nil)
+        view.endEditing(true)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toAddPlayer", let controller = segue.destination as? PlayersListViewController {
+            controller.roster = roster
+            controller.delegate = self
         }
     }
-    
 }
 
-extension PlayerListViewController {
+extension LeaguePlayersListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayerCell", for: indexPath) as! LeaguePlayerCell
         cell.reset()
@@ -120,9 +100,7 @@ extension PlayerListViewController {
         }
         return cell
     }
-}
 
-extension PlayerListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         super.tableView(tableView, didSelectRowAt: indexPath)
         let section = sections[indexPath.section]
@@ -197,7 +175,7 @@ extension PlayerListViewController {
 }
 
 // search and filtering
-extension PlayerListViewController {
+extension LeaguePlayersListViewController {
     @objc override func updateSections(_ newObjects: [FirebaseBaseModel]) {
         var players = newObjects.compactMap { $0 as? Player }
         players.sort(by: { (p1, p2) -> Bool in
@@ -218,5 +196,12 @@ extension PlayerListViewController {
             let idMatch = player.id.lowercased().contains(currentSearch)
             return nameMatch || emailMatch || idMatch
         }
+    }
+}
+
+extension LeaguePlayersListViewController: PlayersListDelegate {
+    func didSelectPlayer(_ player: Player) {
+        // TODO: log
+        changeMemberStatus(playerId: player.id, newStatus: .member)
     }
 }

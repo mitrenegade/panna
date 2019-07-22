@@ -11,10 +11,11 @@ import Firebase
 import Balizinha
 import RenderCloud
 
-class EventsListViewController: ListViewController {
+class EventsListViewController: ListViewController, LeagueList {
     var currentEvents: [Balizinha.Event] = []
     var pastEvents: [Balizinha.Event] = []
     var service: EventService?
+    var league: League?
 
     override func viewDidLoad() {
         // Do any additional setup after loading the view.

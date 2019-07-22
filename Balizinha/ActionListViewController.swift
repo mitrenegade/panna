@@ -12,7 +12,8 @@ import FirebaseCore
 import FirebaseDatabase
 import RenderCloud
 
-class ActionListViewController: ListViewController {
+class ActionListViewController: ListViewController, LeagueList {
+    var league: League?
 
     override var refName: String {
         return "actions"
