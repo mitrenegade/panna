@@ -15,10 +15,10 @@ protocol PlayersListDelegate: class {
 }
 
 class PlayersListViewController: SearchableListViewController {
-    var roster: [String:Membership] = [:]
+    var roster: [String:Membership]?
     weak var delegate: PlayersListDelegate?
     var players: [Player] = []
-
+    
     override var sections: [Section] {
         return [("Players", players)]
     }
@@ -35,18 +35,33 @@ class PlayersListViewController: SearchableListViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        navigationItem.title = "Other Players"
+        if roster != nil {
+            navigationItem.title = "Other Players"
+        } else {
+            navigationItem.title = "All Players"
+        }
         
         activityOverlay.show()
         load() { [weak self] in
             // filter out players already in the league
             self?.objects = (self?.objects ?? []).filter{
-                let active = self?.roster[$0.id]?.isActive ?? false
+                let active = self?.roster?[$0.id]?.isActive ?? false
                 return !active
             }
             self?.search(for: nil)
             self?.activityOverlay.hide()
         }
+    }
+    
+    override func load(completion: (() -> Void)? = nil) {
+        guard !AIRPLANE_MODE else {
+            objects = [MockService.mockPlayerOrganizer(), MockService.mockPlayerMember()]
+            roster = ["1": Membership(id: "1", status: "none"), "2": Membership(id: "2", status: "none")]
+            completion?()
+            return
+        }
+        
+        super.load(completion: completion)
     }
 }
 

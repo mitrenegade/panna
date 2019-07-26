@@ -1,5 +1,5 @@
 //
-//  ListViewController.swift
+//  LeaguePlayersListViewController.swift
 //  Panna
 //
 //  Created by Bobby Ren on 6/17/19.
