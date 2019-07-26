@@ -97,7 +97,7 @@ class AccountViewController: UIViewController {
     }
     
     private func removeMenuOption(_ option: MenuItem) {
-        for var (section, menuItems) in menuOptions {
+        for var (_, menuItems) in menuOptions {
             if let index = menuItems.firstIndex(of: option) {
                 menuItems.remove(at: index)
                 menuOptions[section] = menuItems
