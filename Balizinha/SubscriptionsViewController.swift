@@ -103,10 +103,11 @@ class SubscriptionsViewController: UIViewController {
         
         service.loadSubscriptions(userId: userId) { [weak self] results, error in
             DispatchQueue.main.async {
-                if let error = error as? NSError {
+                if let error = error as NSError? {
                     self?.simpleAlert("Error loading subscriptions", defaultMessage: nil, error: error)
-                } else if let subscriptions = results as? [Subscription] {
-                    self?.subscriptions = subscriptions
+                } else if let subscriptions = results {
+                    // TODO: convert subscriptions
+                    //self?.subscriptions = subscriptions
                     self?.loadLeaguesForSubscriptions()
                 }
             }

@@ -120,7 +120,6 @@ class PlayerInfoViewController: UIViewController {
             self.inputNotes.text = notes
         }
         self.refreshPhoto()
-        refreshLeagueButton()
     }
     
     func refreshPhoto() {
@@ -356,34 +355,6 @@ extension PlayerInfoViewController: UIImagePickerControllerDelegate, UINavigatio
         self.dismissCamera()
     }
     
-}
-
-// MARK: - Leagues
-extension PlayerInfoViewController {
-    func refreshLeagueButton() {
-        guard let player = player else {
-            buttonLeague.isHidden = true
-            return
-        }
-
-//        guard let leagueId: String = player.leagues.first else {
-//            buttonLeague.setTitle("Join a league", for: .normal)
-//            return
-//        }
-
-//        buttonLeague.setTitle("League", for: .normal)
-//        LeagueService.shared.withId(id: leagueId) {[weak self] (league) in
-//            guard let league = league else {
-//                DispatchQueue.main.async {
-//                    self?.buttonLeague.setTitle("Invalid league", for: .normal)
-//                }
-//                return
-//            }
-//            DispatchQueue.main.async {
-//                self?.buttonLeague.setTitle("Leave \(league.name ?? "")", for: .normal)
-//            }
-//        }
-    }
 }
 
 extension PlayerInfoViewController: UIPickerViewDataSource, UIPickerViewDelegate {
