@@ -288,7 +288,6 @@ class SplashViewController: UIViewController {
         let nav = UINavigationController(rootViewController: homeViewController)
 
         firAuth.signInAnonymously {[weak self] (user, error) in
-            print("sign in anonymously with result \(user) error \(String(describing: error))")
             if let presented = self?.presentedViewController {
                 guard nav != presented else { return }
                 self?.dismiss(animated: true, completion: {

@@ -102,7 +102,6 @@ class SubscriptionsViewController: UIViewController {
         }
         
         service.loadSubscriptions(userId: userId) { [weak self] results, error in
-            print("results \(results)")
             DispatchQueue.main.async {
                 if let error = error as? NSError {
                     self?.simpleAlert("Error loading subscriptions", defaultMessage: nil, error: error)
@@ -149,10 +148,11 @@ class SubscriptionsViewController: UIViewController {
         let leagueId = "abc"
         let type = "owner"
         service.createSubscription(userId: userId, leagueId: leagueId, type: type) { [weak self] results, error in
-            if let error = error as? NSError {
+            if let error = error as NSError? {
                 self?.simpleAlert("Error creating subscription", defaultMessage: nil, error: error)
-            } else if let subscriptions = results as? [Subscription] {
-                self?.subscriptions = subscriptions
+            } else if let subscriptions = results {
+                // TODO: must convert
+                //self?.subscriptions = subscriptions
                 self?.reloadTableData()
             }
         }
@@ -249,7 +249,6 @@ extension StripePaymentService {
         let params = ["userId": userId]
         
         apiService?.cloudFunction(functionName: "getSubscriptions", method: "POST", params: params) { (result, error) in
-            print("Result \(result) error \(error)")
             if let error = error {
                 completion?(nil, error)
             } else if let result = result as? [String: Any], let dict = result["result"] as? [String: Any] {
@@ -270,7 +269,6 @@ extension StripePaymentService {
     func createSubscription(userId: String, leagueId: String, type: String, completion: (([String: Any]?, Error?)->Void)?) {
         let params = ["userId": userId, "leagueId": "123", "type": "owner"]
         apiService?.cloudFunction(functionName: "createSubscription", method: "POST", params: params) { (result, error) in
-            print("Result \(result) error \(error)")
             if let error = error {
                 completion?(nil, error)
             } else {

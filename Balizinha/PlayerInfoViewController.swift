@@ -384,36 +384,6 @@ extension PlayerInfoViewController {
 //            }
 //        }
     }
-    
-    @IBAction func didClickLeague(_ sender: Any?) {
-        // FOR TESTING
-//        let leagueId = "1523416155-990463"
-        let leagueId = "1523426391-995740"
-        guard let player = player else { return }
-        
-        // test join league
-        LeagueService.shared.withId(id: leagueId) { (league) in
-            guard let league = league else { return }
-            
-            // test join league
-            LeagueService.shared.join(league: league, completion: {[weak self] (result, error) in
-                DispatchQueue.main.async {
-                    PlayerService.shared.refreshCurrentPlayer() // todo: this happens asynchronously
-                    self?.refreshLeagueButton()
-                }
-            })
-            
-            // test player for league
-            LeagueService.shared.players(for: league, completion: { (results) in
-                print("Players in league \(league.id): \(results)")
-            })
-
-            // test league for player
-            LeagueService.shared.leagueMemberships(for: player, completion: { (results) in
-                print("Leagues for player \(player.id): \(results)")
-            })
-        }
-    }
 }
 
 extension PlayerInfoViewController: UIPickerViewDataSource, UIPickerViewDelegate {

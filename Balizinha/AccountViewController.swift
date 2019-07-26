@@ -396,11 +396,9 @@ extension LeagueService {
         let params = ["userId": user.uid]
         RenderAPIService().cloudFunction(functionName: "getOwnerLeaguesAndSubscriptions", method: "POST", params: params, completion: { (result, error) in
             guard error == nil else {
-                print("Load league error \(error)")
                 completion?(nil, error)
                 return
             }
-            print("Load league result \(result)")
             
             // parse leagues
             var leagues: [League] = []

@@ -39,7 +39,6 @@ class ChatInputViewController: UIViewController {
     }
     
     @objc func send() {
-        print("sending text: \(self.inputText.text)")
         guard let text = self.inputText.text, !text.isEmpty else {
             self.clear()
             return

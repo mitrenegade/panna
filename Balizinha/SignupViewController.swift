@@ -85,10 +85,9 @@ class SignupViewController: UIViewController {
                 print("createUser results: \(String(describing: result))")
                 AuthService.shared.loginUser(email: email, password: password, completion: { [weak self] (error) in
                     if let error = error as NSError? {
-                        print("Error: \(error)")
                         self?.simpleAlert("Could not log in", defaultMessage: nil, error: error)
                     }
-                    else if let user = result {
+                    else if result != nil {
                         PlayerService.shared.needsToCreateProfile = true
 
 //                        guard let disposeBag = self?.disposeBag else { return }
@@ -97,7 +96,7 @@ class SignupViewController: UIViewController {
 //                            PlayerService.shared.needsToCreateProfile = true
 //                        }).disposed(by: disposeBag)
                     } else {
-                        self?.simpleAlert("Could not log in", message: "Unknown error. Result: \(result)")
+                        self?.simpleAlert("Could not log in", message: "Unknown error.")
                     }
                 })
             }
