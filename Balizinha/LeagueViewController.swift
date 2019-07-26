@@ -396,7 +396,7 @@ extension LeagueViewController: LeagueButtonCellDelegate {
     
     fileprivate func joinLeague() {
         guard let league = league else { return }
-        guard let player = PlayerService.shared.current.value else {
+        guard PlayerService.shared.current.value != nil else {
             promptForSignup()
             return
         }

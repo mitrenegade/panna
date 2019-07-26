@@ -44,10 +44,10 @@ class PlayersScrollView: UIView {
     func refresh() {
         // TODO: this does not refresh correctly when a user leaves
         var x: CGFloat = borderWidth
-        var y: CGFloat = (scrollView.frame.size.height - iconSize) / 2
+        let y: CGFloat = (scrollView.frame.size.height - iconSize) / 2
         var width: CGFloat = 0
         scrollView.subviews.forEach() { $0.removeFromSuperview() }
-        for (id, icon) in icons {
+        for (_, icon) in icons {
             let view = icon
             let frame = CGRect(x: x, y: y, width: iconSize, height: iconSize)
             view.frame = frame
@@ -64,7 +64,7 @@ class PlayersScrollView: UIView {
     @objc func didTap(_ gesture: UITapGestureRecognizer?) {
         // open player info
         guard let point = gesture?.location(ofTouch: 0, in: self.scrollView) else { return }
-        for (id, icon) in self.icons {
+        for (_, icon) in self.icons {
             if icon.frame.contains(point), let player = icon.object as? Player {
                 delegate?.didSelectPlayer(player: player)
             }
