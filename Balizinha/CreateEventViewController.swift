@@ -101,7 +101,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             options.append("Payment")
         }
         
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 44
         
         self.setupPickers()

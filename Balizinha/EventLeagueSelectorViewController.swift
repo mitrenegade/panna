@@ -24,7 +24,7 @@ class EventLeagueSelectorViewController: UIViewController {
         // Do any additional setup after loading the view.
         loadData()
 
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))

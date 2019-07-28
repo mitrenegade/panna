@@ -72,7 +72,7 @@ class EventsViewController: UIViewController {
         activityOverlay.setup(frame: self.view.frame)
         view.addSubview(activityOverlay)
         
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
     }
     
@@ -243,7 +243,7 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard section < eventOrder.count else { return 0 }
         let array = sortedEvents[eventOrder[section]] ?? []
-        return array.isEmpty ? 0 : UITableViewAutomaticDimension
+        return array.isEmpty ? 0 : UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
