@@ -218,7 +218,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         keyboardDoneButtonView.sizeToFit()
         keyboardDoneButtonView.barStyle = UIBarStyle.default
         keyboardDoneButtonView.tintColor = UIColor.white
-        let save: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(CreateEventViewController.done))
+        let save: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(CreateEventViewController.done))
         save.tintColor = self.view.tintColor
         
         let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
@@ -230,7 +230,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         keyboardDoneButtonView2.sizeToFit()
         keyboardDoneButtonView2.barStyle = UIBarStyle.default
         keyboardDoneButtonView2.tintColor = UIColor.white
-        let save2: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self.view, action: #selector(UIView.endEditing(_:)))
+        let save2: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self.view, action: #selector(UIView.endEditing(_:)))
         save2.tintColor = self.view.tintColor
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         

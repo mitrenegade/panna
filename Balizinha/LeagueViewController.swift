@@ -539,7 +539,7 @@ extension LeagueViewController {
         keyboardDoneButtonView.sizeToFit()
         keyboardDoneButtonView.barStyle = UIBarStyle.black
         keyboardDoneButtonView.tintColor = UIColor.white
-        let clearBtn: UIBarButtonItem = UIBarButtonItem(title: "Clear", style: UIBarButtonItemStyle.done, target: self, action: #selector(clear))
+        let clearBtn: UIBarButtonItem = UIBarButtonItem(title: "Clear", style: .done, target: self, action: #selector(clear))
         
         keyboardDoneButtonView.setItems([clearBtn], animated: true)
         inputMessage.inputAccessoryView = keyboardDoneButtonView

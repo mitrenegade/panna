@@ -39,9 +39,9 @@ class LeagueInquiryViewController: FeedbackViewController {
         keyboardNextButtonView.barStyle = UIBarStyle.black
         keyboardNextButtonView.isTranslucent = true
         keyboardNextButtonView.tintColor = UIColor.white
-        let cancel: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.done, target: self, action: #selector(cancelInput))
+        let cancel: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelInput))
         let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let next: UIBarButtonItem = UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.done, target: self, action: #selector(nextInput))
+        let next: UIBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(nextInput))
         keyboardNextButtonView.setItems([flex, cancel, next], animated: true)
         
         inputSubject.inputAccessoryView = keyboardNextButtonView
