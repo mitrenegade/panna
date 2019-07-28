@@ -197,11 +197,11 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             picker.dataSource = self
         }
         
-        self.startTimePickerView.datePickerMode = UIDatePickerMode.time
-        self.startTimePickerView.addTarget(self, action: #selector(timePickerValueChanged), for: UIControlEvents.valueChanged)
+        self.startTimePickerView.datePickerMode = .time
+        self.startTimePickerView.addTarget(self, action: #selector(timePickerValueChanged), for: .valueChanged)
         
-        self.endTimePickerView.datePickerMode = UIDatePickerMode.time
-        self.endTimePickerView.addTarget(self, action: #selector(timePickerValueChanged), for: UIControlEvents.valueChanged)
+        self.endTimePickerView.datePickerMode = .time
+        self.endTimePickerView.addTarget(self, action: #selector(timePickerValueChanged), for: .valueChanged)
 
         for picker in [startTimePickerView, endTimePickerView] {
             picker.sizeToFit()
