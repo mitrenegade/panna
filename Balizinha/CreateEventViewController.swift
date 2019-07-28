@@ -121,7 +121,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(CreateEventViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CreateEventViewController.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
