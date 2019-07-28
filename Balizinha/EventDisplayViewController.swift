@@ -265,7 +265,7 @@ class EventDisplayViewController: UIViewController {
                 viewController.loadDefaultRootViewController()
             }
             let alert = UIAlertController(title: "Please add your name", message: "Before joining a game, it'll be nice to know who you are. Update your profile now?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                 guard let url = URL(string: "panna://account/profile") else { return }
                 DeepLinkService.shared.handle(url: url)
             }))
@@ -418,7 +418,7 @@ class EventDisplayViewController: UIViewController {
                     displayString = "this event"
                 }
                 let alertController = UIAlertController(title: "", message: "Copied share link for \(displayString)", preferredStyle: UIAlertControllerStyle.alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
             }))
         }
@@ -447,7 +447,7 @@ class EventDisplayViewController: UIViewController {
         guard PlayerService.shared.current.value == nil else { return }
 
         let alert = UIAlertController(title: "Login or Sign up", message: "Before reserving a spot for this game, you need to join Panna Social Leagues.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             SplashViewController.shared?.goToSignupLogin()
             LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "OK"])
         }))

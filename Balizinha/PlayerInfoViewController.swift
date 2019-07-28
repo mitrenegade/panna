@@ -242,7 +242,7 @@ class PlayerInfoViewController: UIViewController {
     fileprivate func promptForPhotoOnce() {
         askedForPhoto = true
         let alert = UIAlertController(title: "Add a photo?", message: "Hey, including your picture will make it easier for the organizer and the other players to recognize you. Would you like to add a photo?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             // clicking ok cancels the save action
         }))
         alert.addAction(UIAlertAction(title: "Not now", style: .cancel) { (action) in

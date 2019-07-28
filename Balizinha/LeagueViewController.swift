@@ -469,7 +469,7 @@ extension LeagueViewController: LeagueButtonCellDelegate {
                     displayString = "this league"
                 }
                 let alertController = UIAlertController(title: "", message: "Copied share link for \(displayString)", preferredStyle: UIAlertControllerStyle.alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
             }))
         }
@@ -498,7 +498,7 @@ extension LeagueViewController: LeagueButtonCellDelegate {
     
     func promptForSignup() {
         let alert = UIAlertController(title: "Login or Sign up", message: "Before joining this league, you need to join Panna Social Leagues.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {[weak self] (action) in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {[weak self] (action) in
             SplashViewController.shared?.goToSignupLogin()
             LoggingService.shared.log(event: .SignupFromSharedLeague, info: ["action": "OK"])
             self?.joinLeagueCell?.reset()

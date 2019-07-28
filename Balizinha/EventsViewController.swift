@@ -268,7 +268,7 @@ extension EventsViewController: EventCellDelegate {
                 viewController.loadDefaultRootViewController()
             }
             let alert = UIAlertController(title: "Please add your name", message: "Before joining a game, it'll be nice to know who you are. Update your profile now?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {[weak self] (action) in
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {[weak self] (action) in
                 self?.goToAddName()
             }))
             alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: { _ in
