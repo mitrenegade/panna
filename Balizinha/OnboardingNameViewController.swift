@@ -74,7 +74,7 @@ class OnboardingNameViewController: UIViewController {
 
     @objc func keyboardWillShow(_ notification: Notification) {
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
-        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height
         
