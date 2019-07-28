@@ -332,7 +332,7 @@ extension LeagueViewController: UITableViewDelegate {
     }
     
 
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard let index = feedIndex(for: indexPath) else { return }
         let item = feedItems[index]
 
