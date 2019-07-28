@@ -468,7 +468,7 @@ extension LeagueViewController: LeagueButtonCellDelegate {
                 } else {
                     displayString = "this league"
                 }
-                let alertController = UIAlertController(title: "", message: "Copied share link for \(displayString)", preferredStyle: UIAlertControllerStyle.alert)
+                let alertController = UIAlertController(title: "", message: "Copied share link for \(displayString)", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
             }))
@@ -518,7 +518,7 @@ extension LeagueViewController: FBSDKSharingDelegate {
     }
     
     func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable: Any]!) {
-        let alert = UIAlertController(title: "Success", message: "League shared!", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Success", message: "League shared!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         
         self.present(alert, animated: true, completion: nil)

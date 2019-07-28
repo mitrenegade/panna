@@ -32,7 +32,7 @@ class SignupViewController: UIViewController {
         keyboardNextButtonView.isTranslucent = true
         keyboardNextButtonView.tintColor = UIColor.white
         let button: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelInput))
-        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         keyboardNextButtonView.setItems([flex, button], animated: true)
         
         inputEmail.inputAccessoryView = keyboardNextButtonView

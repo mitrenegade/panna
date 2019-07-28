@@ -242,7 +242,7 @@ class EventDisplayViewController: UIViewController {
         
         if let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event.id {
             let title = "Leave \(event.name ?? "event")?"
-            let alert = UIAlertController(title: title, message: "You are currently in the event as a guest. If you leave, you will have to sign in to join again.", preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: title, message: "You are currently in the event as a guest. If you leave, you will have to sign in to join again.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
                 self.leaveGuestEvent()
             }))
@@ -417,7 +417,7 @@ class EventDisplayViewController: UIViewController {
                 } else {
                     displayString = "this event"
                 }
-                let alertController = UIAlertController(title: "", message: "Copied share link for \(displayString)", preferredStyle: UIAlertControllerStyle.alert)
+                let alertController = UIAlertController(title: "", message: "Copied share link for \(displayString)", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
             }))
@@ -510,7 +510,7 @@ extension EventDisplayViewController: FBSDKSharingDelegate {
     }
     
     func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable: Any]!) {
-        let alert = UIAlertController(title: "Success", message: "Event shared!", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Success", message: "Event shared!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         
         self.present(alert, animated: true, completion: nil)
