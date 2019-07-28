@@ -612,7 +612,7 @@ extension LeagueViewController: CameraHelperDelegate {
 }
 
 extension LeagueViewController {
-    func handleEventDeepLink(_ notification: Notification?) {
+    @objc func handleEventDeepLink(_ notification: Notification?) {
         guard let userInfo = notification?.userInfo, let eventId = userInfo["eventId"] as? String else { return }
         guard let controller = UIStoryboard(name: "EventDetails", bundle: nil).instantiateViewController(withIdentifier: "EventDisplayViewController") as? EventDisplayViewController else { return }
         EventService.shared.withId(id: eventId) { [weak self] (event) in

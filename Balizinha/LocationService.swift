@@ -63,7 +63,7 @@ class LocationService: NSObject {
             self?.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
             self?.notify(NotificationType.LocationOptionsChanged, object: nil, userInfo: nil)
         }))
-        if let url = URL(string: UIApplicationOpenSettingsURLString) {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
             alert.addAction(UIAlertAction(title: "Go to Settings", style: .default, handler: { (action) -> Void in
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }))

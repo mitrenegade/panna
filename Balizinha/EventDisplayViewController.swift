@@ -70,8 +70,9 @@ class EventDisplayViewController: UIViewController {
         view.addSubview(activityOverlay)
 
         // Setup event details
-        self.view.bringSubview(toFront: labelType.superview!)
-        
+        if let superview = labelType?.superview {
+            view.bringSubviewToFront(superview)
+        }
         guard let event = event else {
             imageShare?.isHidden = true
             buttonShare?.isHidden = true
@@ -134,7 +135,7 @@ class EventDisplayViewController: UIViewController {
         // players
         playersScrollView.delegate = self
         loadPlayers()
-        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: .UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
 
         // guest event
         if let id = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, event.id == id {

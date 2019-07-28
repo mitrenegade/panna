@@ -53,7 +53,7 @@ class LeagueInquiryViewController: FeedbackViewController {
         navigationController?.dismiss(animated: true, completion: nil)
     }
     
-    func nextInput() {
+    @objc func nextInput() {
         inputSubject.resignFirstResponder()
         if let email = inputEmail.text, email.isValidEmail() {
             inputDetails.becomeFirstResponder()
