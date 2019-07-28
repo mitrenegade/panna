@@ -41,10 +41,10 @@ class ExpandableMapViewController: UIViewController {
             text = event?.locationString ?? "Location TBA"
         }
         
-        let string = NSMutableAttributedString(string:text, attributes:[NSAttributedStringKey.font: UIFont.montserratMedium(size: 15)])
+        let string = NSMutableAttributedString(string:text, attributes:[NSAttributedString.Key.font: UIFont.montserratMedium(size: 15)])
         if let locationString = event?.locationString {
             let range = (text as NSString).range(of: locationString)
-            string.addAttributes([NSAttributedStringKey.font : UIFont.montserrat(size: 14)], range: range)
+            string.addAttributes([NSAttributedString.Key.font : UIFont.montserrat(size: 14)], range: range)
         }
         labelLocation.attributedText = string
         

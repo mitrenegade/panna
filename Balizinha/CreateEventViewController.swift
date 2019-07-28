@@ -990,7 +990,7 @@ extension CreateEventViewController: UITextFieldDelegate {
        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.keyboardHeight, right: 0)
         
         let indexPath = IndexPath(row: 0, section: Sections.notes.rawValue)
-        self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
+        self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {

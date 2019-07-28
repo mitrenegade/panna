@@ -96,7 +96,7 @@ class EventDisplayViewController: UIViewController {
         
         if let infoText = self.event?.info, infoText.count > 0 {
             self.labelInfo.text = infoText
-            let size = (infoText as NSString).boundingRect(with: CGSize(width: labelInfo.frame.size.width, height: view.frame.size.height), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: labelInfo.font], context: nil)
+            let size = (infoText as NSString).boundingRect(with: CGSize(width: labelInfo.frame.size.width, height: view.frame.size.height), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: labelInfo.font], context: nil)
             constraintDetailHeight.constant = size.height
         } else {
             self.labelInfo.text = nil
@@ -134,7 +134,7 @@ class EventDisplayViewController: UIViewController {
         // players
         playersScrollView.delegate = self
         loadPlayers()
-        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: .UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: .UIApplication.didBecomeActiveNotification, object: nil)
 
         // guest event
         if let id = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, event.id == id {
