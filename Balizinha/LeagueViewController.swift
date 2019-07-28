@@ -81,7 +81,7 @@ class LeagueViewController: UIViewController {
         listenFor(.PlayerLeaguesChanged, action: #selector(loadPlayerLeagues), object: nil)
         self.listenFor(NotificationType.DisplayFeaturedEvent, action: #selector(handleEventDeepLink(_:)), object: nil)
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(close))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(close))
         
         cameraHelper.delegate = self
         setupFeedInput()
