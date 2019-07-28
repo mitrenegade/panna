@@ -87,13 +87,13 @@ extension SearchableListViewController {
     }
     
     @objc func updateSections(_ newObjects: [FirebaseBaseModel]) {
-        // no op unless the controller needs to have sections
+        // no op unless the controller @objc needs to have sections
         objects = newObjects
         return
     }
 
     // to be implemented by subclasses
-    func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
+    @objc func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
         return objects
     }
 }

@@ -293,7 +293,7 @@ extension EventsViewController: EventCellDelegate {
         // does not implement this
     }
     
-    func previewEvent(_ event: Balizinha.Event) {
+    @objc func previewEvent(_ event: Balizinha.Event) {
         // nothing
     }
 }

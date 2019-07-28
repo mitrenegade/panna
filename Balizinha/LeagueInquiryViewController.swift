@@ -49,7 +49,7 @@ class LeagueInquiryViewController: FeedbackViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(close))
     }
     
-    override func close() {
+    @objc override func close() {
         navigationController?.dismiss(animated: true, completion: nil)
     }
     
