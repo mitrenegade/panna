@@ -61,7 +61,7 @@ class AccountViewController: UIViewController {
 
     var service = EventService.shared
     weak var paymentCell: PaymentCell?
-    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
 
     @IBOutlet weak var tableView: UITableView!
     

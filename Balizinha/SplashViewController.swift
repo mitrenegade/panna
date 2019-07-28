@@ -213,7 +213,7 @@ class SplashViewController: UIViewController {
     }
     
     private func goToMain() {
-        let index = tabs.index(of: .map) ?? 0
+        let index = tabs.firstIndex(of: .map) ?? 0
         homeViewController.selectedIndex = index
         if let presented = presentedViewController {
             guard homeViewController != presented else { return }
@@ -266,7 +266,7 @@ class SplashViewController: UIViewController {
         if homeViewController.presentedViewController != nil {
             homeViewController.dismiss(animated: true, completion: nil)
         }
-        let index = tabs.index(of: .calendar) ?? 0
+        let index = tabs.firstIndex(of: .calendar) ?? 0
         homeViewController.selectedIndex = index
     }
     
@@ -278,7 +278,7 @@ class SplashViewController: UIViewController {
         if homeViewController.presentedViewController != nil {
             homeViewController.dismiss(animated: true, completion: nil)
         }
-        let index = tabs.index(of: .map) ?? 0
+        let index = tabs.firstIndex(of: .map) ?? 0
         homeViewController.selectedIndex = index
     }
     
@@ -328,7 +328,7 @@ class SplashViewController: UIViewController {
         if let url = URL(string: APP_STORE_URL), UIApplication.shared.canOpenURL(url)
         {
             alert.addAction(UIAlertAction(title: "Open in App Store", style: .default, handler: { (action) in
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
                 LoggingService.shared.log(event: .softUpgradeDismissed, info: ["action": "appStore"])
                 UpgradeService().softUpgradeDismissed(neverShowAgain: false)
             }))
@@ -352,7 +352,7 @@ class SplashViewController: UIViewController {
         guard let homeViewController = presentedViewController as? UITabBarController else {
             return
         }
-        let index = tabs.index(of: .calendar) ?? 0
+        let index = tabs.firstIndex(of: .calendar) ?? 0
         homeViewController.selectedIndex = index
     }
 }
@@ -386,7 +386,7 @@ extension SplashViewController {
             controller.league = league
             
             if let homeViewController = self?.presentedViewController as? UITabBarController {
-                let index = self?.tabs.index(of: .leagues) ?? 0
+                let index = self?.tabs.firstIndex(of: .leagues) ?? 0
                 homeViewController.selectedIndex = index
                 homeViewController.present(nav, animated: true, completion: nil)
             } else if AuthService.isAnonymous {
@@ -394,4 +394,9 @@ extension SplashViewController {
             }
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }
