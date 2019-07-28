@@ -49,7 +49,7 @@ class ExpandableMapViewController: UIViewController {
         labelLocation.attributedText = string
         
         if let event = event, let lat = event.lat, let lon = event.lon {
-            let region = MKCoordinateRegionMake(CLLocationCoordinate2D(latitude: lat, longitude: lon), MKCoordinateSpanMake(0.005, 0.005))
+            let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat, longitude: lon), span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
             mapView.setRegion(region, animated: false)
             
             let annotation = MKPointAnnotation()

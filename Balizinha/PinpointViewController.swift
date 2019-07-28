@@ -40,9 +40,9 @@ class PinpointViewController: UIViewController {
             if let location = currentLocation {
                 var span = mapView.region.span
                 if externalSource {
-                    span = MKCoordinateSpanMake(0.05, 0.05)
+                    span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
                 }
-                let region = MKCoordinateRegionMake(location, span)
+                let region = MKCoordinateRegion(center: location, span: span)
                 mapView.setRegion(region, animated: true)
             }
         }
