@@ -264,9 +264,6 @@ extension EventsViewController: EventCellDelegate {
             return
         }
         guard current.name != nil else {
-            if let tab = tabBarController, let controllers = tab.viewControllers, let viewController = controllers[0] as? ConfigurableNavigationController {
-                viewController.loadDefaultRootViewController()
-            }
             let alert = UIAlertController(title: "Please add your name", message: "Before joining a game, it'll be nice to know who you are. Update your profile now?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {[weak self] (action) in
                 self?.goToAddName()
