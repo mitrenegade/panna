@@ -193,9 +193,9 @@ extension LocationService {
         var city: String?
         var state: String?
         name = place.name
-        street = place.addressDictionary?["Street"] as? String
-        city = place.addressDictionary?["City"] as? String
-        state = place.addressDictionary?["State"] as? String
+        street = place.thoroughfare
+        city = place.locality
+        state = place.administrativeArea
         completion?(name, street, city, state)
     }
     
