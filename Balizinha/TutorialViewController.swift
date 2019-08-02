@@ -106,7 +106,7 @@ class TutorialViewController: UIViewController {
 
 extension TutorialViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
+        guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
             return nil
         }
         
@@ -124,7 +124,7 @@ extension TutorialViewController: UIPageViewControllerDataSource {
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
+        guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
             return nil
         }
         
@@ -149,7 +149,7 @@ extension TutorialViewController: UIPageViewControllerDelegate {
                             previousViewControllers: [UIViewController],
                             transitionCompleted completed: Bool) {
         if let firstViewController = pageViewController.viewControllers?.first,
-            let index = orderedViewControllers.index(of: firstViewController) {
+            let index = orderedViewControllers.firstIndex(of: firstViewController) {
             viewModel?.currentPage = index
             pageControl.currentPage = index
             refreshButtons()

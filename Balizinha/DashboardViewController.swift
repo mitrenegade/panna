@@ -60,7 +60,7 @@ class DashboardViewController: UIViewController {
             })
         }
         
-        if let league = league, let index = leagues.index(of: league) {
+        if let league = league, let index = leagues.firstIndex(of: league) {
             pickerRow = index
         } else {
             selectLeague(showPrompt: true)
