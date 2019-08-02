@@ -120,7 +120,7 @@ class LoginViewController: UIViewController {
                 let accessToken = FBSDKAccessToken.current().tokenString
                 
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken!)
-                firAuth.signInAndRetrieveData(with: credential, completion: { [weak self] (result, error) in
+                firAuth.signIn(with: credential) { [weak self] (result, error) in
                     if let error = error as NSError? {
                         // TODO: handle this. will give an error for facebook email already exists as an email user
                         print("Login failed. \(String(describing: error))")
@@ -131,7 +131,7 @@ class LoginViewController: UIViewController {
                         print("LoginLogout: LoginSuccess from facebook, results: \(String(describing: result))")
                         // let observer handle things
                     }
-                })
+                }
             }
         }
     }
