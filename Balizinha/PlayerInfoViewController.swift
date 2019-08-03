@@ -282,6 +282,9 @@ extension PlayerInfoViewController: UITextFieldDelegate {
 // MARK: Camera
 // photo
 extension PlayerInfoViewController {
+    override var prefersStatusBarHidden: Bool {
+        return false
+    }
     func selectPhoto(camera: Bool) {
         self.view.endEditing(true)
         
@@ -290,7 +293,6 @@ extension PlayerInfoViewController {
         picker.allowsEditing = true
 
         picker.view.backgroundColor = .blue
-        UIApplication.shared.isStatusBarHidden = false
 
         if camera, UIImagePickerController.isSourceTypeAvailable(.camera) {
             picker.sourceType = .camera

@@ -1038,7 +1038,6 @@ extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigati
         picker.allowsEditing = true
         
         picker.view.backgroundColor = .blue
-        UIApplication.shared.isStatusBarHidden = false
         
         if camera, UIImagePickerController.isSourceTypeAvailable(.camera) {
             picker.sourceType = .camera
@@ -1056,6 +1055,10 @@ extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigati
         }
         
         self.present(picker, animated: true)
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return false
     }
 
     func didTakePhoto(image: UIImage) {
