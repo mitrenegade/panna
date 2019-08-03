@@ -45,7 +45,7 @@ class DeepLinkService: NSObject {
     }
 
     // handles deeplinks sent through a click
-    func handle(url: URL) -> Bool {
+    @discardableResult func handle(url: URL) -> Bool {
         deeplinkType = parseUniversalLink(url) ?? parseDeepLink(url) // use universal links first, then fall back to deeplink (ios only)
         guard let type = deeplinkType else { return false }
         proceedToDeeplink(type)

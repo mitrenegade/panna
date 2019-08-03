@@ -65,7 +65,6 @@ class PaymentCell: UITableViewCell {
             if let player = PlayerService.shared.current.value, let email = player.email {
                 paymentService.createCustomer(userId: player.id, email: email) { [weak self] (customerId, error) in
                     DispatchQueue.main.async {
-                        print("CustomerId \(customerId) error \(error)")
                         self?.paymentService.loadPayment(hostController: self?.hostController)
                     }
                 }

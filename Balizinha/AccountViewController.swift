@@ -97,10 +97,11 @@ class AccountViewController: UIViewController {
     }
     
     private func removeMenuOption(_ option: MenuItem) {
-        for var (section, menuItems) in menuOptions {
+        for (section, menuItems) in menuOptions {
             if let index = menuItems.firstIndex(of: option) {
-                menuItems.remove(at: index)
-                menuOptions[section] = menuItems
+                var items = menuItems
+                items.remove(at: index)
+                menuOptions[section] = items
                 return
             }
         }
@@ -396,11 +397,9 @@ extension LeagueService {
         let params = ["userId": user.uid]
         RenderAPIService().cloudFunction(functionName: "getOwnerLeaguesAndSubscriptions", method: "POST", params: params, completion: { (result, error) in
             guard error == nil else {
-                print("Load league error \(error)")
                 completion?(nil, error)
                 return
             }
-            print("Load league result \(result)")
             
             // parse leagues
             var leagues: [League] = []

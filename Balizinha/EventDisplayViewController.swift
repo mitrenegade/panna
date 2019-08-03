@@ -516,7 +516,7 @@ extension EventDisplayViewController: FBSDKSharingDelegate {
     
     func sharer(_ sharer: FBSDKSharing!, didFailWithError error: Error!) {
         print("Error: \(String(describing: error))")
-        simpleAlert("Could not share", defaultMessage: "Event could not be shared at this time.", error: error as? NSError)
+        simpleAlert("Could not share", defaultMessage: "Event could not be shared at this time.", error: error as NSError?)
     }
 }
 

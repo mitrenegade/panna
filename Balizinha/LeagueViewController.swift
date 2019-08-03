@@ -65,12 +65,12 @@ class LeagueViewController: UIViewController {
         
         navigationItem.title = league?.name
         
-        if league?.info.isEmpty == true, let index = rows.index(of: .info){
+        if league?.info.isEmpty == true, let index = rows.firstIndex(of: .info){
             rows.remove(at: index)
         }
         if let league = league {
             let viewModel = ShareLeagueButtonViewModel(league: league)
-            if !viewModel.buttonEnabled, let index = rows.index(of: .share){
+            if !viewModel.buttonEnabled, let index = rows.firstIndex(of: .share){
                 rows.remove(at: index)
             }
         }
@@ -156,7 +156,7 @@ class LeagueViewController: UIViewController {
             })
         }
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
-            if let index = self?.rows.index(of: .players) {
+            if let index = self?.rows.firstIndex(of: .players) {
                 self?.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
                 self?.activityOverlay.hide()
             }
@@ -314,11 +314,11 @@ extension LeagueViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if indexPath.section == sections.index(of: .info), let index = rows.index(of: .tags), index == indexPath.row {
+        if indexPath.section == sections.firstIndex(of: .info), let index = rows.firstIndex(of: .tags), index == indexPath.row {
             inputTag()
         }
         
-        if indexPath.section == sections.index(of: .feed), indexPath.row < feedItems.count, let index = feedIndex(for: indexPath) {
+        if indexPath.section == sections.firstIndex(of: .feed), indexPath.row < feedItems.count, let index = feedIndex(for: indexPath) {
             let feedItem = feedItems[index]
             if let actionId = feedItem.actionId {
                 ActionService().withId(id: actionId) { (action) in
@@ -396,7 +396,7 @@ extension LeagueViewController: LeagueButtonCellDelegate {
     
     fileprivate func joinLeague() {
         guard let league = league else { return }
-        guard let player = PlayerService.shared.current.value else {
+        guard PlayerService.shared.current.value != nil else {
             promptForSignup()
             return
         }

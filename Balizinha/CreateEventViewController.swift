@@ -548,7 +548,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     self.typeField?.inputView = self.typePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView2
                     
-                    if let type = type, let index = self.eventTypes.index(of: type) {
+                    if let type = type, let index = self.eventTypes.firstIndex(of: type) {
                         if eventTypes[index] == .other {
                             typeField!.text = "Select event type"
                         } else {
@@ -939,7 +939,7 @@ extension CreateEventViewController: UITextFieldDelegate {
             endTimePickerView.date = endTimePickerView.futureClampedDate
         }
         
-        if textField == amountField, let index = options.index(of: "Payment") {
+        if textField == amountField, let index = options.firstIndex(of: "Payment") {
             tableView.scrollToRow(at: IndexPath(row: index, section: Sections.details.rawValue), at: .top, animated: true)
         }
     }

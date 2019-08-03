@@ -29,7 +29,7 @@ class PaymentViewModel: NSObject {
             else {
                 return "Payment method: \(paymentSource .label)"
             }
-        case .needsRefresh(let card):
+        case .needsRefresh:
             return "Click to replace payment method"
         case .noPaymentMethod:
             return "Click to add a payment method"
@@ -45,7 +45,7 @@ class PaymentViewModel: NSObject {
             return 0
         case .loading:
             return 40
-        case .ready(let paymentMethod):
+        case .ready:
             return 60
         }
     }

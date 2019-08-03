@@ -81,6 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         print("local notification received: \(notification)")
         if let info = notification.userInfo {
+            print("local notification has info \(info)")
         }
         else {
             let alert = UIAlertController(title: "Alert", message: "You have an event in one hour!", preferredStyle: UIAlertController.Style.alert)
