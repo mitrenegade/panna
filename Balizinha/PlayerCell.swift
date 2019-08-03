@@ -71,7 +71,7 @@ class PlayerCell: UITableViewCell {
             detailText = detailText + "Location: \(lat), \(lon)\nActive: \(time)"
         }
         labelDetails.text = detailText
-        let bounds = (detailText as NSString).size(withAttributes: [NSAttributedString.Key.font: labelDetails.font])
+        let bounds = (detailText as NSString).size(withAttributes: [NSAttributedString.Key.font: labelDetails.font ?? UIFont.systemFont(ofSize: 10)])
         if expanded {
             constraintDetailHeight.constant = bounds.height + 50
         } else {

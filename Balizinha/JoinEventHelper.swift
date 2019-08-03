@@ -107,7 +107,7 @@ class JoinEventHelper: NSObject {
                     }
                 } else {
                     self?.delegate?.stopActivityIndicator()
-                    self?.rootViewController?.simpleAlert("Could not load event", defaultMessage: "There was an error with this event.", error: error as? NSError)
+                    self?.rootViewController?.simpleAlert("Could not load event", defaultMessage: "There was an error with this event.", error: error as NSError?)
                 }
             }
         }
