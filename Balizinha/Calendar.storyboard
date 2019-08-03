@@ -14,21 +14,31 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Configurable Navigation Controller-->
+        <!--Navigation Controller-->
         <scene sceneID="3yj-c0-li8">
             <objects>
-                <navigationController id="2fN-C8-XxG" customClass="ConfigurableNavigationController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController id="2fN-C8-XxG" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Pm5-g1-yLh">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="rootStoryboardName" value="EventDetails"/>
-                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="4M3-81-J5g" kind="relationship" relationship="rootViewController" id="Qn0-3a-Cnc"/>
+                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jza-9o-wm7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1492" y="936"/>
+        </scene>
+        <!--EventDetails-->
+        <scene sceneID="XKc-v3-uUt">
+            <objects>
+                <viewControllerPlaceholder storyboardName="EventDetails" id="4M3-81-J5g" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="tvw-6e-Hc8"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jk9-Zv-T5q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1982" y="936"/>
         </scene>
         <!--Calendar View Controller-->
         <scene sceneID="aGA-QS-ieq">
@@ -61,25 +71,25 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uh7-53-B5o">
-                                                    <rect key="frame" x="85" y="19" width="37" height="17.5"/>
+                                                    <rect key="frame" x="85" y="19" width="41" height="18.5"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tL6-xl-BWA">
-                                                    <rect key="frame" x="85" y="38.5" width="37" height="14"/>
+                                                    <rect key="frame" x="85" y="39.5" width="41" height="15"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ce0-0E-fsL">
-                                                    <rect key="frame" x="85" y="52.5" width="37" height="14"/>
+                                                    <rect key="frame" x="85" y="54.5" width="41" height="15"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Eb4-WT-gtg">
-                                                    <rect key="frame" x="285" y="117.5" width="82" height="65"/>
+                                                    <rect key="frame" x="285" y="117" width="82" height="66"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="siC-IH-43i" userLabel="View - Attendance">
                                                             <rect key="frame" x="21" y="0.0" width="40" height="17"/>
@@ -115,7 +125,7 @@
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kxj-cc-oj5">
-                                                            <rect key="frame" x="0.0" y="19" width="82" height="14"/>
+                                                            <rect key="frame" x="0.0" y="19" width="82" height="15"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="82" id="Uzt-qe-Uh0"/>
                                                             </constraints>
@@ -124,7 +134,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lED-BZ-iYf">
-                                                            <rect key="frame" x="11" y="35" width="60" height="30"/>
+                                                            <rect key="frame" x="11" y="36" width="60" height="30"/>
                                                             <color key="backgroundColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="60" id="2hQ-zi-uck"/>

@@ -16,7 +16,6 @@
 		8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D551F7209C40067B6F5 /* SettingsService.swift */; };
 		8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E4291E31B07900DB4B27 /* SplashViewController.swift */; };
 		8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E11E42B1E31B80800DB4B27 /* Main.storyboard */; };
-		8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */; };
 		8E16A59E1FECB34400D24D69 /* DeepLinkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E16A59D1FECB34400D24D69 /* DeepLinkService.swift */; };
 		8E179078207B0324004FF5D2 /* Attendance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E179077207B0324004FF5D2 /* Attendance.storyboard */; };
 		8E17907A207B03C9004FF5D2 /* AttendeesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E179079207B03C9004FF5D2 /* AttendeesViewController.swift */; };
@@ -182,7 +181,6 @@
 		8E116D551F7209C40067B6F5 /* SettingsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
 		8E11E4291E31B07900DB4B27 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		8E11E42B1E31B80800DB4B27 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurableNavigationController.swift; sourceTree = "<group>"; };
 		8E16A59D1FECB34400D24D69 /* DeepLinkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkService.swift; sourceTree = "<group>"; };
 		8E179077207B0324004FF5D2 /* Attendance.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Attendance.storyboard; sourceTree = "<group>"; };
 		8E179079207B03C9004FF5D2 /* AttendeesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendeesViewController.swift; sourceTree = "<group>"; };
@@ -514,7 +512,6 @@
 			children = (
 				8ED3DE761E330CB700947040 /* Balizinha.entitlements */,
 				8E7256991CDF793200C9E054 /* AppDelegate.swift */,
-				8E11E42D1E31B8E700DB4B27 /* ConfigurableNavigationController.swift */,
 				F20AD03C1D26C10000969990 /* Login/Signup */,
 				8E09572621AAEB4E0037DA17 /* Onboarding */,
 				8E379F061CE58AFB00C91A12 /* Models */,
@@ -971,7 +968,6 @@
 				8E48AF7C20DFD62600D814BE /* ResizableTagView.swift in Sources */,
 				F2F7C3C21CEE2CDD00350115 /* PushTableViewCell.swift in Sources */,
 				8E17907A207B03C9004FF5D2 /* AttendeesViewController.swift in Sources */,
-				8E11E42E1E31B8E700DB4B27 /* ConfigurableNavigationController.swift in Sources */,
 				8EE5FCD722B86C3000F7FF68 /* ListViewController.swift in Sources */,
 				8EB29279212F77AA0007BAF8 /* PinpointViewController.swift in Sources */,
 				8EDFB1BA1E3D3F00006DD187 /* LocationService.swift in Sources */,
