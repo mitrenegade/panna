@@ -60,7 +60,7 @@ class LeagueViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 80
         
         navigationItem.title = league?.name
@@ -81,14 +81,14 @@ class LeagueViewController: UIViewController {
         listenFor(.PlayerLeaguesChanged, action: #selector(loadPlayerLeagues), object: nil)
         self.listenFor(NotificationType.DisplayFeaturedEvent, action: #selector(handleEventDeepLink(_:)), object: nil)
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(close))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(close))
         
         cameraHelper.delegate = self
         setupFeedInput()
         loadFeedItems()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc fileprivate func close() {
@@ -189,7 +189,7 @@ class LeagueViewController: UIViewController {
     
     @objc func keyboardWillShow(_ notification: Notification) {
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
-        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height
         constraintBottomOffset.constant = keyboardHeight
@@ -332,7 +332,7 @@ extension LeagueViewController: UITableViewDelegate {
     }
     
 
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard let index = feedIndex(for: indexPath) else { return }
         let item = feedItems[index]
 
@@ -468,8 +468,8 @@ extension LeagueViewController: LeagueButtonCellDelegate {
                 } else {
                     displayString = "this league"
                 }
-                let alertController = UIAlertController(title: "", message: "Copied share link for \(displayString)", preferredStyle: UIAlertControllerStyle.alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                let alertController = UIAlertController(title: "", message: "Copied share link for \(displayString)", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
             }))
         }
@@ -498,7 +498,7 @@ extension LeagueViewController: LeagueButtonCellDelegate {
     
     func promptForSignup() {
         let alert = UIAlertController(title: "Login or Sign up", message: "Before joining this league, you need to join Panna Social Leagues.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {[weak self] (action) in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {[weak self] (action) in
             SplashViewController.shared?.goToSignupLogin()
             LoggingService.shared.log(event: .SignupFromSharedLeague, info: ["action": "OK"])
             self?.joinLeagueCell?.reset()
@@ -518,7 +518,7 @@ extension LeagueViewController: FBSDKSharingDelegate {
     }
     
     func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable: Any]!) {
-        let alert = UIAlertController(title: "Success", message: "League shared!", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Success", message: "League shared!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         
         self.present(alert, animated: true, completion: nil)
@@ -539,7 +539,7 @@ extension LeagueViewController {
         keyboardDoneButtonView.sizeToFit()
         keyboardDoneButtonView.barStyle = UIBarStyle.black
         keyboardDoneButtonView.tintColor = UIColor.white
-        let clearBtn: UIBarButtonItem = UIBarButtonItem(title: "Clear", style: UIBarButtonItemStyle.done, target: self, action: #selector(clear))
+        let clearBtn: UIBarButtonItem = UIBarButtonItem(title: "Clear", style: .done, target: self, action: #selector(clear))
         
         keyboardDoneButtonView.setItems([clearBtn], animated: true)
         inputMessage.inputAccessoryView = keyboardDoneButtonView
@@ -612,7 +612,7 @@ extension LeagueViewController: CameraHelperDelegate {
 }
 
 extension LeagueViewController {
-    func handleEventDeepLink(_ notification: Notification?) {
+    @objc func handleEventDeepLink(_ notification: Notification?) {
         guard let userInfo = notification?.userInfo, let eventId = userInfo["eventId"] as? String else { return }
         guard let controller = UIStoryboard(name: "EventDetails", bundle: nil).instantiateViewController(withIdentifier: "EventDisplayViewController") as? EventDisplayViewController else { return }
         EventService.shared.withId(id: eventId) { [weak self] (event) in

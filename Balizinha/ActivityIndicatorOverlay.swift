@@ -23,7 +23,7 @@ class ActivityIndicatorOverlay: UIView {
     
     private func commonInit() {
         if activityIndicator == nil {
-            let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+            let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
             activityIndicator.hidesWhenStopped = false
             activityIndicator.startAnimating()
             activityIndicator.color = UIColor.red

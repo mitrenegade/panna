@@ -70,8 +70,9 @@ class EventDisplayViewController: UIViewController {
         view.addSubview(activityOverlay)
 
         // Setup event details
-        self.view.bringSubview(toFront: labelType.superview!)
-        
+        if let superview = labelType?.superview {
+            view.bringSubviewToFront(superview)
+        }
         guard let event = event else {
             imageShare?.isHidden = true
             buttonShare?.isHidden = true
@@ -96,7 +97,7 @@ class EventDisplayViewController: UIViewController {
         
         if let infoText = self.event?.info, infoText.count > 0 {
             self.labelInfo.text = infoText
-            let size = (infoText as NSString).boundingRect(with: CGSize(width: labelInfo.frame.size.width, height: view.frame.size.height), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: labelInfo.font], context: nil)
+            let size = (infoText as NSString).boundingRect(with: CGSize(width: labelInfo.frame.size.width, height: view.frame.size.height), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: labelInfo.font], context: nil)
             constraintDetailHeight.constant = size.height
         } else {
             self.labelInfo.text = nil
@@ -116,8 +117,8 @@ class EventDisplayViewController: UIViewController {
         constraintWidth.constant = UIScreen.main.bounds.size.width
         
         // keyboard
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
 
         // update payment display
         if SettingsService.paymentRequired() {
@@ -134,7 +135,7 @@ class EventDisplayViewController: UIViewController {
         // players
         playersScrollView.delegate = self
         loadPlayers()
-        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: .UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
 
         // guest event
         if let id = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, event.id == id {
@@ -242,7 +243,7 @@ class EventDisplayViewController: UIViewController {
         
         if let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event.id {
             let title = "Leave \(event.name ?? "event")?"
-            let alert = UIAlertController(title: title, message: "You are currently in the event as a guest. If you leave, you will have to sign in to join again.", preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: title, message: "You are currently in the event as a guest. If you leave, you will have to sign in to join again.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
                 self.leaveGuestEvent()
             }))
@@ -265,7 +266,7 @@ class EventDisplayViewController: UIViewController {
                 viewController.loadDefaultRootViewController()
             }
             let alert = UIAlertController(title: "Please add your name", message: "Before joining a game, it'll be nice to know who you are. Update your profile now?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                 guard let url = URL(string: "panna://account/profile") else { return }
                 DeepLinkService.shared.handle(url: url)
             }))
@@ -417,8 +418,8 @@ class EventDisplayViewController: UIViewController {
                 } else {
                     displayString = "this event"
                 }
-                let alertController = UIAlertController(title: "", message: "Copied share link for \(displayString)", preferredStyle: UIAlertControllerStyle.alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                let alertController = UIAlertController(title: "", message: "Copied share link for \(displayString)", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
             }))
         }
@@ -447,7 +448,7 @@ class EventDisplayViewController: UIViewController {
         guard PlayerService.shared.current.value == nil else { return }
 
         let alert = UIAlertController(title: "Login or Sign up", message: "Before reserving a spot for this game, you need to join Panna Social Leagues.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             SplashViewController.shared?.goToSignupLogin()
             LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "OK"])
         }))
@@ -488,7 +489,7 @@ extension EventDisplayViewController {
     // MARK - Keyboard
     @objc func keyboardWillShow(_ notification: Notification) {
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
-        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height
         
@@ -510,7 +511,7 @@ extension EventDisplayViewController: FBSDKSharingDelegate {
     }
     
     func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable: Any]!) {
-        let alert = UIAlertController(title: "Success", message: "Event shared!", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Success", message: "Event shared!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         
         self.present(alert, animated: true, completion: nil)

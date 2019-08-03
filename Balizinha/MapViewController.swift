@@ -143,7 +143,7 @@ class MapViewController: EventsViewController {
 extension MapViewController {
     func centerMapOnLocation(location: CLLocation, animated: Bool = true) {
         guard shouldShowMap else { return }
-        let span = MKCoordinateSpanMake(0.05, 0.05)
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         let region = MKCoordinateRegion(center: location.coordinate, span: span)
         mapView.setRegion(region, animated: animated)
     }

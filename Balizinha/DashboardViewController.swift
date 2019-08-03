@@ -22,7 +22,7 @@ enum DashboardMenuItem: String, CaseIterable {
 }
 
 class DashboardViewController: UIViewController {
-    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
     
     @IBOutlet weak var tableView: UITableView!
     var leaguePickerView: UIPickerView = UIPickerView()
@@ -94,9 +94,9 @@ class DashboardViewController: UIViewController {
         keyboardNextButtonView.barStyle = UIBarStyle.black
         keyboardNextButtonView.isTranslucent = true
         keyboardNextButtonView.tintColor = UIColor.white
-        let cancel: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.done, target: self, action: #selector(cancelInput))
-        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let select: UIBarButtonItem = UIBarButtonItem(title: "Select", style: UIBarButtonItemStyle.done, target: self, action: #selector(saveInput))
+        let cancel: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelInput))
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let select: UIBarButtonItem = UIBarButtonItem(title: "Select", style: .done, target: self, action: #selector(saveInput))
         keyboardNextButtonView.setItems([cancel, flex, select], animated: true)
         leagueInput.inputAccessoryView = keyboardNextButtonView
         

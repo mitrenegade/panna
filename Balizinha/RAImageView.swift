@@ -113,7 +113,7 @@ class RAImageView: UIImageView {
     
     fileprivate func commonInit() {
         if activityIndicator == nil {
-            let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+            let activityIndicator = UIActivityIndicatorView(style: .gray)
             activityIndicator.hidesWhenStopped = true
             addSubview(activityIndicator)
             self.activityIndicator = activityIndicator

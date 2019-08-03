@@ -101,7 +101,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             options.append("Payment")
         }
         
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 44
         
         self.setupPickers()
@@ -121,7 +121,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(CreateEventViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CreateEventViewController.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -197,11 +197,11 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             picker.dataSource = self
         }
         
-        self.startTimePickerView.datePickerMode = UIDatePickerMode.time
-        self.startTimePickerView.addTarget(self, action: #selector(timePickerValueChanged), for: UIControlEvents.valueChanged)
+        self.startTimePickerView.datePickerMode = .time
+        self.startTimePickerView.addTarget(self, action: #selector(timePickerValueChanged), for: .valueChanged)
         
-        self.endTimePickerView.datePickerMode = UIDatePickerMode.time
-        self.endTimePickerView.addTarget(self, action: #selector(timePickerValueChanged), for: UIControlEvents.valueChanged)
+        self.endTimePickerView.datePickerMode = .time
+        self.endTimePickerView.addTarget(self, action: #selector(timePickerValueChanged), for: .valueChanged)
 
         for picker in [startTimePickerView, endTimePickerView] {
             picker.sizeToFit()
@@ -218,10 +218,10 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         keyboardDoneButtonView.sizeToFit()
         keyboardDoneButtonView.barStyle = UIBarStyle.default
         keyboardDoneButtonView.tintColor = UIColor.white
-        let save: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(CreateEventViewController.done))
+        let save: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(CreateEventViewController.done))
         save.tintColor = self.view.tintColor
         
-        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         
         keyboardDoneButtonView.setItems([flex, save], animated: true)
         
@@ -230,7 +230,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         keyboardDoneButtonView2.sizeToFit()
         keyboardDoneButtonView2.barStyle = UIBarStyle.default
         keyboardDoneButtonView2.tintColor = UIColor.white
-        let save2: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self.view, action: #selector(UIView.endEditing(_:)))
+        let save2: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self.view, action: #selector(UIView.endEditing(_:)))
         save2.tintColor = self.view.tintColor
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
@@ -990,7 +990,7 @@ extension CreateEventViewController: UITextFieldDelegate {
        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.keyboardHeight, right: 0)
         
         let indexPath = IndexPath(row: 0, section: Sections.notes.rawValue)
-        self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
+        self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -1001,7 +1001,7 @@ extension CreateEventViewController: UITextFieldDelegate {
     // MARK - Keyboard
     @objc func keyboardWillShow(_ notification: Notification) {
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
-        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height
         
@@ -1070,8 +1070,8 @@ extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigati
         dismiss(animated: true, completion: completion)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let img = info[UIImagePickerControllerEditedImage] ?? info[UIImagePickerControllerOriginalImage]
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let img = info[UIImagePickerController.InfoKey.editedImage] ?? info[UIImagePickerController.InfoKey.originalImage]
         guard let photo = img as? UIImage else { return }
         self.didTakePhoto(image: photo)
     }

@@ -72,7 +72,7 @@ class EventsViewController: UIViewController {
         activityOverlay.setup(frame: self.view.frame)
         view.addSubview(activityOverlay)
         
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
     }
     
@@ -243,7 +243,7 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard section < eventOrder.count else { return 0 }
         let array = sortedEvents[eventOrder[section]] ?? []
-        return array.isEmpty ? 0 : UITableViewAutomaticDimension
+        return array.isEmpty ? 0 : UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -268,7 +268,7 @@ extension EventsViewController: EventCellDelegate {
                 viewController.loadDefaultRootViewController()
             }
             let alert = UIAlertController(title: "Please add your name", message: "Before joining a game, it'll be nice to know who you are. Update your profile now?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {[weak self] (action) in
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {[weak self] (action) in
                 self?.goToAddName()
             }))
             alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: { _ in
@@ -293,7 +293,7 @@ extension EventsViewController: EventCellDelegate {
         // does not implement this
     }
     
-    func previewEvent(_ event: Balizinha.Event) {
+    @objc func previewEvent(_ event: Balizinha.Event) {
         // nothing
     }
 }

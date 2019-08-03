@@ -25,7 +25,7 @@ class EventActivityViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 120
         
         self.tableView.layer.borderWidth = 2
@@ -114,7 +114,7 @@ extension EventActivityViewController: UITableViewDataSource {
         return action.type == .chat && viewModel.userPerformedAction
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard let actions = self.sortedActions, indexPath.row < actions.count else {
             return
         }

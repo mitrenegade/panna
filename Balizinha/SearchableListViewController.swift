@@ -16,13 +16,13 @@ class SearchableListViewController: ListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
-        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height
         constraintBottomOffset.constant = keyboardHeight
@@ -87,13 +87,13 @@ extension SearchableListViewController {
     }
     
     @objc func updateSections(_ newObjects: [FirebaseBaseModel]) {
-        // no op unless the controller needs to have sections
+        // no op unless the controller @objc needs to have sections
         objects = newObjects
         return
     }
 
     // to be implemented by subclasses
-    func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
+    @objc func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
         return objects
     }
 }

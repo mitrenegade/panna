@@ -73,7 +73,7 @@ class LeaguePlayersListViewController: SearchableListViewController, LeagueList 
         }
     }
  
-    func didClickAdd(_ sender: UIButton) {
+    @objc func didClickAdd(_ sender: UIButton) {
         performSegue(withIdentifier: "toAddPlayer", sender: nil)
         view.endEditing(true)
     }

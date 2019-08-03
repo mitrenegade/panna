@@ -33,7 +33,7 @@ class LeaguesViewController: UIViewController {
         infoButton.addTarget(self, action: #selector(didClickInfo(_:)), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: infoButton)
 
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 80
 
         listenFor(.PlayerLeaguesChanged, action: #selector(loadData), object: nil)
