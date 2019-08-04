@@ -284,7 +284,7 @@ extension PlayerInfoViewController: UITextFieldDelegate {
 extension PlayerInfoViewController {
     override var prefersStatusBarHidden: Bool {
         return false
-    }
+    }                   
     func selectPhoto(camera: Bool) {
         self.view.endEditing(true)
         
