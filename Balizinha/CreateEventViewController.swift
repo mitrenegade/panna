@@ -159,7 +159,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             venue = Venue(place, nil, city, state, lat, lon)
         }
         
-        if let leagueId = event.league {
+        if let leagueId = event.leagueId {
             LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
                 self?.league = league
                 // in case this takes time to load

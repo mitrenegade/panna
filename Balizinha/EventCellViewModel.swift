@@ -162,7 +162,7 @@ class EventCellViewModel: NSObject {
     }
     
     func getEventPhoto(_ completion: ((_ imageUrl: String?, _ image: UIImage?)->Void)?) {
-        if let leagueId = event.league {
+        if let leagueId = event.leagueId {
             FirebaseImageService().leaguePhotoUrl(with: leagueId) { (url) in
                 DispatchQueue.main.async {
                     if let urlString = url?.absoluteString {

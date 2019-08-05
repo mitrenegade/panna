@@ -163,7 +163,7 @@ class EventDisplayViewController: UIViewController {
             if event.userIsOrganizer {
                 buttonClone?.isHidden = false
                 imageClone?.isHidden = false
-            } else if let leagueId = event.league {
+            } else if let leagueId = event.leagueId {
                 // TODO: if user is an organizer of the same league, allow them to clone
             }
         }

@@ -35,7 +35,7 @@ class JoinEventHelper: NSObject {
 
     func checkIfPartOfLeague() {
         guard let event = event else { return }
-        guard let leagueId = event.league, !leagueId.isEmpty, let player = PlayerService.shared.current.value else {
+        guard let leagueId = event.leagueId, !leagueId.isEmpty, let player = PlayerService.shared.current.value else {
             shouldChargeForEvent()
             return
         }
