@@ -87,7 +87,7 @@
 		8E7F7D92225B07DE00AE4C0B /* UpgradeServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7016D3207AA8A200A4C28C /* UpgradeServiceTests.swift */; };
 		8E81A2D5226BBF2900EAA6EF /* Owner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E81A2D4226BBF2900EAA6EF /* Owner.storyboard */; };
 		8E81A2D7226BC1BF00EAA6EF /* OwnerEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E81A2D6226BC1BF00EAA6EF /* OwnerEventsViewController.swift */; };
-		8E9D41912138169300BEBA79 /* GoogleService-Info-prod.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E9D41902138169200BEBA79 /* GoogleService-Info-prod.plist */; };
+		8E9D41912138169300BEBA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E9D41902138169200BEBA79 /* GoogleService-Info.plist */; };
 		8E9D4193213816E400BEBA79 /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E9D4192213816E300BEBA79 /* GoogleService-Info-dev.plist */; };
 		8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */; };
 		8EA99E0F21533475001BC643 /* LeagueInquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA99E0E21533475001BC643 /* LeagueInquiryViewController.swift */; };
@@ -257,7 +257,7 @@
 		8E81A2D4226BBF2900EAA6EF /* Owner.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Owner.storyboard; sourceTree = "<group>"; };
 		8E81A2D6226BC1BF00EAA6EF /* OwnerEventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerEventsViewController.swift; sourceTree = "<group>"; };
 		8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Balizinha-Bridging-Header.h"; sourceTree = "<group>"; };
-		8E9D41902138169200BEBA79 /* GoogleService-Info-prod.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-prod.plist"; sourceTree = "<group>"; };
+		8E9D41902138169200BEBA79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E9D4192213816E300BEBA79 /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
 		8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSettingCell.swift; sourceTree = "<group>"; };
 		8EA99E0E21533475001BC643 /* LeagueInquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueInquiryViewController.swift; sourceTree = "<group>"; };
@@ -633,7 +633,7 @@
 			isa = PBXGroup;
 			children = (
 				8E9D4192213816E300BEBA79 /* GoogleService-Info-dev.plist */,
-				8E9D41902138169200BEBA79 /* GoogleService-Info-prod.plist */,
+				8E9D41902138169200BEBA79 /* GoogleService-Info.plist */,
 				8E19A4A11E6C658600D301EC /* String+Utils.swift */,
 				8E4D36741F8BA47900B8B0B5 /* Date+Utils.swift */,
 				8E4D36711F8BA45900B8B0B5 /* NSObject+Utils.swift */,
@@ -817,7 +817,7 @@
 				8E73980A1FF921E500D48BA0 /* Montserrat-SemiBold.ttf in Resources */,
 				8E7398091FF921E500D48BA0 /* Montserrat-Regular.ttf in Resources */,
 				8E7398051FF921E500D48BA0 /* Montserrat-Light.ttf in Resources */,
-				8E9D41912138169300BEBA79 /* GoogleService-Info-prod.plist in Resources */,
+				8E9D41912138169300BEBA79 /* GoogleService-Info.plist in Resources */,
 				8E7398041FF921E500D48BA0 /* Montserrat-Italic.ttf in Resources */,
 				8ECD58E11CDF853500AD2B13 /* Splash.storyboard in Resources */,
 				8E7397FE1FF921E500D48BA0 /* Montserrat-Bold.ttf in Resources */,
