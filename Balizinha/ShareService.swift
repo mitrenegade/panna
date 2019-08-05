@@ -97,6 +97,7 @@ extension ShareService: MFMessageComposeViewControllerDelegate {
         case .cancelled: resultString = "cancelled"
         case .failed: resultString = "failed"
         case .sent: resultString = "sent"
+        @unknown default: resultString = "unknown"
         }
         LoggingService.shared.log(event: LoggingEvent.ShareEventCompleted, info: ["method": "contacts", "result": resultString])
         controller.dismiss(animated: true, completion: nil)
