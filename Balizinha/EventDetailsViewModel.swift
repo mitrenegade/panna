@@ -11,8 +11,12 @@ import Balizinha
 
 class EventDetailsViewModel: NSObject {
     let event: Balizinha.Event
-    init(event: Balizinha.Event) {
+    var userType: UserType? // used only to determine isAnonymous for guest users
+    let defaults: DefaultsProvider
+    init(event: Balizinha.Event, user: UserType? = AuthService.currentUser, defaults: DefaultsProvider = DefaultsManager.shared) {
         self.event = event
+        userType = user
+        self.defaults = defaults
     }
     
     var labelTitleText: String {
@@ -43,4 +47,20 @@ class EventDetailsViewModel: NSObject {
             }
         }
     }
+    
+    // buttonClose
+    var buttonCloseHidden: Bool {
+        // handles anonymous user with a guest event
+        guard let type = userType, type.isAnonymous, let eventId = defaults.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event.id else { return false }
+        
+        return true
+    }
+    
+    var buttonCloseEnabled: Bool {
+        return !buttonCloseHidden
+    }
+    
+    // buttonShare
+    
+    // buttonCopy
 }

@@ -193,11 +193,10 @@ class EventDisplayViewController: UIViewController {
     }
     
     func handleGuestEvent() {
-        // handles anonymous user with a guest event
-        guard AuthService.isAnonymous, let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event?.id else { return }
-        
-        buttonClose?.isHidden = true
-        buttonClose?.isEnabled = false
+        guard let event = event else { return }
+        let viewModel = EventDetailsViewModel(event: event)
+        buttonClose?.isHidden = viewModel.buttonCloseHidden
+        buttonClose?.isEnabled = viewModel.buttonCloseEnabled
     }
     
     override func viewDidLayoutSubviews() {
@@ -588,6 +587,7 @@ extension EventDisplayViewController: JoinEventDelegate {
 
 extension EventDisplayViewController: OnboardingDelegate {
     func didJoinAsGuest() {
+        // NOT USED because we require users to login right now
         refreshJoin()
         handleGuestEvent()
     }
