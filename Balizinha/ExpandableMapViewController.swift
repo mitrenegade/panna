@@ -16,8 +16,6 @@ class ExpandableMapViewController: UIViewController {
     @IBOutlet weak var buttonExpand: UIButton!
     @IBOutlet weak var buttonDirections: UIButton?
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var constraintLabel: NSLayoutConstraint!
-    @IBOutlet weak var constraintMapHeight: NSLayoutConstraint!
     
     fileprivate var shouldShowMap: Bool = true {
         didSet {
@@ -63,6 +61,11 @@ class ExpandableMapViewController: UIViewController {
         
         // show map based on default
         shouldShowMap = true
+        if case .denied = LocationService.shared.locationState.value {
+            shouldShowMap = false
+            buttonExpand.isHidden = true
+            mapView.isHidden = true
+        }
     }
 
     @IBAction func didClickButtonExpand(_ sender: Any?) {
@@ -73,13 +76,13 @@ class ExpandableMapViewController: UIViewController {
     
     fileprivate func toggleMap(show: Bool) {
         if show {
-            constraintMapHeight.constant = 200
-            delegate?.componentHeightChanged(controller: self, newHeight: mapView.frame.origin.y + constraintMapHeight.constant)
+            mapView.isHidden = false
+            delegate?.componentHeightChanged(controller: self, newHeight: view.frame.size.height)
             buttonExpand.setTitle("Hide map", for: .normal)
         }
         else {
-            constraintMapHeight.constant = 0
-            delegate?.componentHeightChanged(controller: self, newHeight: mapView.frame.origin.y + constraintMapHeight.constant)
+            mapView.isHidden = true
+            delegate?.componentHeightChanged(controller: self, newHeight: view.frame.size.height)
             buttonExpand.setTitle("Show map", for: .normal)
         }
     }
