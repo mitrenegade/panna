@@ -17,6 +17,9 @@ class ExpandableMapViewController: UIViewController {
     @IBOutlet weak var buttonDirections: UIButton?
     @IBOutlet weak var mapView: MKMapView!
     
+    private let HEIGHT_MAP: CGFloat = 300
+    private let HEIGHT_NO_MAP: CGFloat = 100
+    
     fileprivate var shouldShowMap: Bool = true {
         didSet {
             toggleMap(show: shouldShowMap)
@@ -65,6 +68,7 @@ class ExpandableMapViewController: UIViewController {
             shouldShowMap = false
             buttonExpand.isHidden = true
             mapView.isHidden = true
+            delegate?.componentHeightChanged(controller: self, newHeight: HEIGHT_NO_MAP)
         }
     }
 
@@ -77,12 +81,12 @@ class ExpandableMapViewController: UIViewController {
     fileprivate func toggleMap(show: Bool) {
         if show {
             mapView.isHidden = false
-            delegate?.componentHeightChanged(controller: self, newHeight: view.frame.size.height)
+            delegate?.componentHeightChanged(controller: self, newHeight: HEIGHT_MAP)
             buttonExpand.setTitle("Hide map", for: .normal)
         }
         else {
             mapView.isHidden = true
-            delegate?.componentHeightChanged(controller: self, newHeight: view.frame.size.height)
+            delegate?.componentHeightChanged(controller: self, newHeight: HEIGHT_NO_MAP)
             buttonExpand.setTitle("Show map", for: .normal)
         }
     }
