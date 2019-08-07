@@ -19,7 +19,8 @@ class ExpandableMapViewController: UIViewController {
     
     private let HEIGHT_MAP: CGFloat = 300
     private let HEIGHT_NO_MAP: CGFloat = 100
-    
+    private let HEIGHT_NO_LOCATION: CGFloat = 60
+
     fileprivate var shouldShowMap: Bool = true {
         didSet {
             toggleMap(show: shouldShowMap)
@@ -68,7 +69,7 @@ class ExpandableMapViewController: UIViewController {
             shouldShowMap = false
             buttonExpand.isHidden = true
             mapView.isHidden = true
-            delegate?.componentHeightChanged(controller: self, newHeight: HEIGHT_NO_MAP)
+            delegate?.componentHeightChanged(controller: self, newHeight: HEIGHT_NO_LOCATION)
         }
     }
 
