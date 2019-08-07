@@ -14,6 +14,7 @@ class ExpandableMapViewController: UIViewController {
 
     @IBOutlet weak var labelLocation: UILabel!
     @IBOutlet weak var buttonExpand: UIButton!
+    @IBOutlet weak var buttonDirections: UIButton?
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var constraintLabel: NSLayoutConstraint!
     @IBOutlet weak var constraintMapHeight: NSLayoutConstraint!
