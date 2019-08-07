@@ -164,7 +164,19 @@ class EventDisplayViewController: UIViewController {
                 buttonClone?.isHidden = false
                 imageClone?.isHidden = false
             } else if let leagueId = event.leagueId {
-                // TODO: if user is an organizer of the same league, allow them to clone
+                // if user is an organizer of the same league, allow them to clone
+                LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
+                    if let league = league {
+                        LeagueService.shared.players(for: league, completion: { (roster) in
+                            if let status = roster[player.id], status == .organizer {
+                                DispatchQueue.main.async {
+                                    self?.buttonClone?.isHidden = false
+                                    self?.imageClone?.isHidden = false
+                                }
+                            }
+                        })
+                    }
+                }
             }
         }
         // TODO: do players need to update in real time?
