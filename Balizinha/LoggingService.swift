@@ -53,6 +53,7 @@ enum LoggingEvent: String {
     
     // view event details
     case ShowOrHideMap
+    case ShowMapDirections
     
     // edit event details
     case RenameEvent

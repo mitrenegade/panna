@@ -79,6 +79,11 @@ class ExpandableMapViewController: UIViewController {
         LoggingService.shared.log(event: .ShowOrHideMap, info: ["show": shouldShowMap])
     }
     
+    @IBAction func didClickButtonDirections(_ sender: Any?) {
+        goToMapDirections()
+        LoggingService.shared.log(event: .ShowMapDirections, info: nil)
+    }
+    
     fileprivate func toggleMap(show: Bool) {
         if show {
             mapView.isHidden = false
@@ -116,5 +121,28 @@ extension ExpandableMapViewController: MKMapViewDelegate {
         view.canShowCallout = true
         view.calloutOffset = CGPoint(x: -20, y: -20)
         return view
+    }
+}
+
+extension ExpandableMapViewController {
+    private func goToMapDirections() {
+        guard let event = event else { return }
+        guard var urlComponents = URLComponents(string: "https://www.google.com/maps/dir/") else { return }
+        var queryParams: [String: String] = ["api": "1"]
+        var destination: String = ""
+        // TODO: incorporate venue
+        if let place = event.place {
+            destination = "\(destination) \(place)"
+        }
+        if let location = event.locationString {
+            // open using city, state, or lat lon
+            destination = "\(destination) \(location)"
+        }
+        queryParams["destination"] = destination
+        urlComponents.queryItems = queryParams.map { URLQueryItem(name: $0.key, value: $0.value)}
+        if let url = urlComponents.url {
+            print("BOBBYTEST url \(urlComponents.url)")
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
 }

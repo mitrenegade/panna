@@ -378,6 +378,9 @@ City, State</string>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tng-qL-9oQ">
                                                 <rect key="frame" x="200" y="19" width="184" height="30"/>
                                                 <state key="normal" title="Open in Maps"/>
+                                                <connections>
+                                                    <action selector="didClickButtonDirections:" destination="heN-tZ-ESE" eventType="touchUpInside" id="Iep-bY-Z7N"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
