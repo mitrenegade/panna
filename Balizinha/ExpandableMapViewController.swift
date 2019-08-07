@@ -81,7 +81,6 @@ class ExpandableMapViewController: UIViewController {
     
     @IBAction func didClickButtonDirections(_ sender: Any?) {
         goToMapDirections()
-        LoggingService.shared.log(event: .ShowMapDirections, info: nil)
     }
     
     fileprivate func toggleMap(show: Bool) {
@@ -140,9 +139,12 @@ extension ExpandableMapViewController {
         }
         queryParams["destination"] = destination
         urlComponents.queryItems = queryParams.map { URLQueryItem(name: $0.key, value: $0.value)}
+
         if let url = urlComponents.url {
-            print("BOBBYTEST url \(urlComponents.url)")
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            LoggingService.shared.log(event: .ShowMapDirections, info: ["destination": destination])
+        } else {
+            LoggingService.shared.log(event: .ShowMapDirections, info: ["error": "invalidUrl", "destination": destination])
         }
     }
 }
