@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -49,7 +50,7 @@
                                                                 <color key="backgroundColor" red="0.24433648590000001" green="0.32035863399999998" blue="0.39528042079999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="rfV-G2-Hlb">
-                                                                <rect key="frame" x="12" y="126.5" width="351" height="48"/>
+                                                                <rect key="frame" x="12" y="122" width="351" height="50"/>
                                                                 <string key="text">Date
 Time</string>
                                                                 <fontDescription key="fontDescription" name="Montserrat-SemiBoldItalic" family="Montserrat" pointSize="20"/>
@@ -59,7 +60,7 @@ Time</string>
                                                                 <size key="shadowOffset" width="1" height="1"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0hR-vD-Xwe">
-                                                                <rect key="frame" x="12" y="182.5" width="351" height="59.5"/>
+                                                                <rect key="frame" x="12" y="180" width="351" height="62"/>
                                                                 <string key="text">Name
 Type</string>
                                                                 <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="25"/>
@@ -89,7 +90,7 @@ Type</string>
                                                         <rect key="frame" x="0.0" y="250" width="375" height="40"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="share_icon" translatesAutoresizingMaskIntoConstraints="NO" id="m28-12-C4h">
-                                                                <rect key="frame" x="337" y="5" width="30" height="30"/>
+                                                                <rect key="frame" x="337" y="5" width="30" height="30.000000000000114"/>
                                                                 <color key="tintColor" red="0.34552389379999998" green="0.47989076380000001" blue="0.40351730590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="30" id="uuz-Vx-a1s"/>
@@ -357,68 +358,89 @@ Type</string>
             <objects>
                 <viewController id="heN-tZ-ESE" customClass="ExpandableMapViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8GG-8c-txV">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="geF-hY-DMd">
-                                <rect key="frame" x="8" y="8" width="76.5" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="VI5-Jv-EkL"/>
-                                </constraints>
-                                <string key="text">Location
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="ITz-d3-Nmm">
+                                <rect key="frame" x="8" y="0.0" width="384" height="300"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gxh-cA-pqz">
+                                        <rect key="frame" x="0.0" y="0.0" width="384" height="68"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="geF-hY-DMd">
+                                                <rect key="frame" x="0.0" y="15.5" width="256" height="37"/>
+                                                <string key="text">Location
 City, State</string>
-                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0EM-bS-25f">
-                                <rect key="frame" x="8" y="58" width="359" height="30"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tng-qL-9oQ">
+                                                <rect key="frame" x="264" y="19" width="120" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="120" id="QWf-PD-is2"/>
+                                                </constraints>
+                                                <state key="normal" title="Open in Maps"/>
+                                                <connections>
+                                                    <action selector="didClickButtonDirections:" destination="heN-tZ-ESE" eventType="touchUpInside" id="Iep-bY-Z7N"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0EM-bS-25f">
+                                        <rect key="frame" x="0.0" y="69" width="384" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="2uy-cU-D8c"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
+                                        <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Show Map" image="map">
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didClickButtonExpand:" destination="heN-tZ-ESE" eventType="touchUpInside" id="kC2-9y-JRB"/>
+                                        </connections>
+                                    </button>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" scrollEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o6b-RA-c91">
+                                        <rect key="frame" x="0.0" y="100" width="384" height="200"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="200" id="cTi-Vb-TNZ"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="delegate" destination="heN-tZ-ESE" id="a38-Hv-RGU"/>
+                                        </connections>
+                                    </mapView>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="kIF-pA-NJh"/>
+                                    <constraint firstItem="o6b-RA-c91" firstAttribute="leading" secondItem="ITz-d3-Nmm" secondAttribute="leading" id="3nC-1Z-yac"/>
+                                    <constraint firstItem="0EM-bS-25f" firstAttribute="leading" secondItem="ITz-d3-Nmm" secondAttribute="leading" id="86b-ap-Tuq"/>
+                                    <constraint firstItem="gxh-cA-pqz" firstAttribute="leading" secondItem="ITz-d3-Nmm" secondAttribute="leading" id="HQG-6c-ngo"/>
+                                    <constraint firstAttribute="trailing" secondItem="0EM-bS-25f" secondAttribute="trailing" id="IxP-0P-wwk"/>
+                                    <constraint firstAttribute="trailing" secondItem="gxh-cA-pqz" secondAttribute="trailing" id="MJZ-d3-dMd"/>
+                                    <constraint firstAttribute="trailing" secondItem="o6b-RA-c91" secondAttribute="trailing" id="epV-0l-ShC"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
-                                <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="Show Map" image="map">
-                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="didClickButtonExpand:" destination="heN-tZ-ESE" eventType="touchUpInside" id="kC2-9y-JRB"/>
-                                </connections>
-                            </button>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" scrollEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o6b-RA-c91">
-                                <rect key="frame" x="0.0" y="90" width="375" height="0.0"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" id="E57-A6-3qD"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="delegate" destination="heN-tZ-ESE" id="a38-Hv-RGU"/>
-                                </connections>
-                            </mapView>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="o6b-RA-c91" firstAttribute="leading" secondItem="HSy-Gt-YeG" secondAttribute="leading" id="2JH-VW-aXk"/>
-                            <constraint firstItem="geF-hY-DMd" firstAttribute="top" secondItem="HSy-Gt-YeG" secondAttribute="top" constant="8" id="4Fr-lC-ts8"/>
-                            <constraint firstItem="o6b-RA-c91" firstAttribute="top" secondItem="0EM-bS-25f" secondAttribute="bottom" constant="2" id="4dG-tH-Trb"/>
-                            <constraint firstItem="HSy-Gt-YeG" firstAttribute="trailing" secondItem="0EM-bS-25f" secondAttribute="trailing" constant="8" id="Fo2-Ft-buQ"/>
-                            <constraint firstItem="0EM-bS-25f" firstAttribute="top" secondItem="geF-hY-DMd" secondAttribute="bottom" id="LfP-Na-10Z"/>
-                            <constraint firstItem="geF-hY-DMd" firstAttribute="leading" secondItem="HSy-Gt-YeG" secondAttribute="leading" constant="8" id="qbH-W3-kKW"/>
-                            <constraint firstItem="0EM-bS-25f" firstAttribute="leading" secondItem="HSy-Gt-YeG" secondAttribute="leading" constant="8" id="qiu-6B-09Y"/>
-                            <constraint firstItem="HSy-Gt-YeG" firstAttribute="trailing" secondItem="o6b-RA-c91" secondAttribute="trailing" id="tSh-uP-Bie"/>
+                            <constraint firstItem="ITz-d3-Nmm" firstAttribute="top" secondItem="HSy-Gt-YeG" secondAttribute="top" id="3P2-NF-hbs"/>
+                            <constraint firstItem="HSy-Gt-YeG" firstAttribute="trailing" secondItem="ITz-d3-Nmm" secondAttribute="trailing" constant="8" id="BbJ-LE-LDR"/>
+                            <constraint firstItem="ITz-d3-Nmm" firstAttribute="leading" secondItem="HSy-Gt-YeG" secondAttribute="leading" constant="8" id="Duc-gn-ATK"/>
+                            <constraint firstItem="HSy-Gt-YeG" firstAttribute="bottom" secondItem="ITz-d3-Nmm" secondAttribute="bottom" id="W1k-b5-Ygb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="HSy-Gt-YeG"/>
                     </view>
+                    <size key="freeformSize" width="400" height="300"/>
                     <connections>
+                        <outlet property="buttonDirections" destination="tng-qL-9oQ" id="X7Z-HX-bGR"/>
                         <outlet property="buttonExpand" destination="0EM-bS-25f" id="Pqy-SZ-RSp"/>
-                        <outlet property="constraintLabel" destination="VI5-Jv-EkL" id="W5u-Tl-6vS"/>
-                        <outlet property="constraintMapHeight" destination="E57-A6-3qD" id="GcK-WN-fkI"/>
                         <outlet property="labelLocation" destination="geF-hY-DMd" id="wq7-Do-tzg"/>
                         <outlet property="mapView" destination="o6b-RA-c91" id="EiT-7G-d3U"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p1q-7T-q6k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3104.8000000000002" y="721.43928035982015"/>
+            <point key="canvasLocation" x="3104" y="625.18740629685158"/>
         </scene>
         <!--Payment Types View Controller-->
         <scene sceneID="ixL-Hm-iv9">

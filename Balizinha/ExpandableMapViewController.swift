@@ -14,10 +14,13 @@ class ExpandableMapViewController: UIViewController {
 
     @IBOutlet weak var labelLocation: UILabel!
     @IBOutlet weak var buttonExpand: UIButton!
+    @IBOutlet weak var buttonDirections: UIButton?
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var constraintLabel: NSLayoutConstraint!
-    @IBOutlet weak var constraintMapHeight: NSLayoutConstraint!
     
+    private let HEIGHT_MAP: CGFloat = 300
+    private let HEIGHT_NO_MAP: CGFloat = 100
+    private let HEIGHT_NO_LOCATION: CGFloat = 60
+
     fileprivate var shouldShowMap: Bool = true {
         didSet {
             toggleMap(show: shouldShowMap)
@@ -62,6 +65,12 @@ class ExpandableMapViewController: UIViewController {
         
         // show map based on default
         shouldShowMap = true
+        if case .denied = LocationService.shared.locationState.value {
+            shouldShowMap = false
+            buttonExpand.isHidden = true
+            mapView.isHidden = true
+            delegate?.componentHeightChanged(controller: self, newHeight: HEIGHT_NO_LOCATION)
+        }
     }
 
     @IBAction func didClickButtonExpand(_ sender: Any?) {
@@ -70,15 +79,19 @@ class ExpandableMapViewController: UIViewController {
         LoggingService.shared.log(event: .ShowOrHideMap, info: ["show": shouldShowMap])
     }
     
+    @IBAction func didClickButtonDirections(_ sender: Any?) {
+        goToMapDirections()
+    }
+    
     fileprivate func toggleMap(show: Bool) {
         if show {
-            constraintMapHeight.constant = 200
-            delegate?.componentHeightChanged(controller: self, newHeight: mapView.frame.origin.y + constraintMapHeight.constant)
+            mapView.isHidden = false
+            delegate?.componentHeightChanged(controller: self, newHeight: HEIGHT_MAP)
             buttonExpand.setTitle("Hide map", for: .normal)
         }
         else {
-            constraintMapHeight.constant = 0
-            delegate?.componentHeightChanged(controller: self, newHeight: mapView.frame.origin.y + constraintMapHeight.constant)
+            mapView.isHidden = true
+            delegate?.componentHeightChanged(controller: self, newHeight: HEIGHT_NO_MAP)
             buttonExpand.setTitle("Show map", for: .normal)
         }
     }
@@ -107,5 +120,31 @@ extension ExpandableMapViewController: MKMapViewDelegate {
         view.canShowCallout = true
         view.calloutOffset = CGPoint(x: -20, y: -20)
         return view
+    }
+}
+
+extension ExpandableMapViewController {
+    private func goToMapDirections() {
+        guard let event = event else { return }
+        guard var urlComponents = URLComponents(string: "https://www.google.com/maps/dir/") else { return }
+        var queryParams: [String: String] = ["api": "1"]
+        var destination: String = ""
+        // TODO: incorporate venue
+        if let place = event.place {
+            destination = "\(destination) \(place)"
+        }
+        if let location = event.locationString {
+            // open using city, state, or lat lon
+            destination = "\(destination) \(location)"
+        }
+        queryParams["destination"] = destination
+        urlComponents.queryItems = queryParams.map { URLQueryItem(name: $0.key, value: $0.value)}
+
+        if let url = urlComponents.url {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            LoggingService.shared.log(event: .ShowMapDirections, info: ["destination": destination])
+        } else {
+            LoggingService.shared.log(event: .ShowMapDirections, info: ["error": "invalidUrl", "destination": destination])
+        }
     }
 }
