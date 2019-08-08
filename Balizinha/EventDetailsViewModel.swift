@@ -60,7 +60,11 @@ class EventDetailsViewModel: NSObject {
         return !buttonCloseHidden
     }
     
-    // buttonShare
-    
-    // buttonCopy
+    // buttonClone
+    var buttonCloneHidden: Bool {
+        if event.userIsOrganizer() {
+            return true
+        }
+        return false
+    }
 }

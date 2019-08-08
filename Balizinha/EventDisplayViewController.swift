@@ -152,7 +152,7 @@ class EventDisplayViewController: UIViewController {
             return
         }
         
-        if !event.containsPlayer(player) && !event.userIsOrganizer {
+        if !event.containsPlayer(player) && !event.userIsOrganizer() {
             self.hideChat()
         }
         
@@ -160,7 +160,7 @@ class EventDisplayViewController: UIViewController {
         buttonClone?.isHidden = true
         imageClone?.isHidden = true
         if delegate != nil {
-            if event.userIsOrganizer {
+            if event.userIsOrganizer() {
                 buttonClone?.isHidden = false
                 imageClone?.isHidden = false
             } else if let leagueId = event.leagueId {
@@ -362,7 +362,7 @@ class EventDisplayViewController: UIViewController {
                 buttonJoin.alpha = 1
             }
         } else if let player = PlayerService.shared.current.value {
-            if event.containsPlayer(player) || event.userIsOrganizer {
+            if event.containsPlayer(player) || event.userIsOrganizer() {
                 constraintButtonJoinHeight.constant = 0
             } else if event.isFull {
                 //            buttonJoin.isEnabled = false // may want to add waitlist functionality
