@@ -23,7 +23,7 @@ class PaymentTypesViewController: UIViewController {
             labelAmount.text = "Could not load event cost"
             return
         }
-        if event.userIsOrganizer {
+        if event.userIsOrganizer() {
             self.showPaymentTotal()
         }
         else {

@@ -16,7 +16,7 @@ class EventCellViewModel: NSObject {
 
     private var containsUser: Bool = false
     private var status: (Bool, Bool, Bool, Bool) {
-        return (event.userIsOrganizer, !event.isPast, !event.isCancelled, containsUser)
+        return (event.userIsOrganizer(), !event.isPast, !event.isCancelled, containsUser)
     }
     // convenience for switch statements
     private let _isOrganizer = true
@@ -112,7 +112,7 @@ class EventCellViewModel: NSObject {
         if !event.isPast {
             // Button display and action
             
-            if event.userIsOrganizer {
+            if event.userIsOrganizer() {
                 return "This is your event."
             }
             else if containsUser {
@@ -139,7 +139,7 @@ class EventCellViewModel: NSObject {
         if !event.isPast {
             // Button display and action
             
-            if event.userIsOrganizer {
+            if event.userIsOrganizer() {
                 return true
             }
             else if containsUser {
@@ -183,7 +183,7 @@ class EventCellViewModel: NSObject {
             delegate?.previewEvent(event)
             return
         }
-        if event.userIsOrganizer {
+        if event.userIsOrganizer() {
             // edit
             delegate?.editEvent(event)
         } else if !event.isPast {

@@ -152,7 +152,7 @@ class EventDisplayViewController: UIViewController {
             return
         }
         
-        if !event.containsPlayer(player) && !event.userIsOrganizer {
+        if !event.containsPlayer(player) && !event.userIsOrganizer() {
             self.hideChat()
         }
         
@@ -160,11 +160,23 @@ class EventDisplayViewController: UIViewController {
         buttonClone?.isHidden = true
         imageClone?.isHidden = true
         if delegate != nil {
-            if event.userIsOrganizer {
+            if event.userIsOrganizer() {
                 buttonClone?.isHidden = false
                 imageClone?.isHidden = false
             } else if let leagueId = event.leagueId {
-                // TODO: if user is an organizer of the same league, allow them to clone
+                // if user is an organizer of the same league, allow them to clone
+                LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
+                    if let league = league {
+                        LeagueService.shared.players(for: league, completion: { (roster) in
+                            if let status = roster[player.id], status == .organizer {
+                                DispatchQueue.main.async {
+                                    self?.buttonClone?.isHidden = false
+                                    self?.imageClone?.isHidden = false
+                                }
+                            }
+                        })
+                    }
+                }
             }
         }
         // TODO: do players need to update in real time?
@@ -181,11 +193,10 @@ class EventDisplayViewController: UIViewController {
     }
     
     func handleGuestEvent() {
-        // handles anonymous user with a guest event
-        guard AuthService.isAnonymous, let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event?.id else { return }
-        
-        buttonClose?.isHidden = true
-        buttonClose?.isEnabled = false
+        guard let event = event else { return }
+        let viewModel = EventDetailsViewModel(event: event)
+        buttonClose?.isHidden = viewModel.buttonCloseHidden
+        buttonClose?.isEnabled = viewModel.buttonCloseEnabled
     }
     
     override func viewDidLayoutSubviews() {
@@ -351,7 +362,7 @@ class EventDisplayViewController: UIViewController {
                 buttonJoin.alpha = 1
             }
         } else if let player = PlayerService.shared.current.value {
-            if event.containsPlayer(player) || event.userIsOrganizer {
+            if event.containsPlayer(player) || event.userIsOrganizer() {
                 constraintButtonJoinHeight.constant = 0
             } else if event.isFull {
                 //            buttonJoin.isEnabled = false // may want to add waitlist functionality
@@ -576,6 +587,7 @@ extension EventDisplayViewController: JoinEventDelegate {
 
 extension EventDisplayViewController: OnboardingDelegate {
     func didJoinAsGuest() {
+        // NOT USED because we require users to login right now
         refreshJoin()
         handleGuestEvent()
     }

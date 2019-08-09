@@ -44,6 +44,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var paymentRequired: Bool = false
     var amount: NSNumber?
     
+    private var clonedDateRow: Int = -1
+    
     var nameField: UITextField?
     var typeField: UITextField?
     var placeField: UITextField?
@@ -187,6 +189,19 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                 }
             }
         }
+        
+        // preselect picker values
+        generatePickerDates() // picker dates must be set ahead of time
+        if let startDate = event.startTime {
+            startTime = event.startTime
+            endTime = event.endTime
+            for i in 0..<datesForPicker.count {
+                let date = datesForPicker[i]
+                if date.dateStringForPicker() == startDate.dateStringForPicker() {
+                    clonedDateRow = i
+                }
+            }
+        }
     }
     
     func setupPickers() {
@@ -210,6 +225,10 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
 
         self.generatePickerDates()
+        
+        if clonedDateRow != -1 {
+            datePickerView.selectRow(clonedDateRow, inComponent: 0, animated: true)
+        }
     }
     
     func setupTextFields() {
@@ -474,7 +493,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
     // MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        if let event = eventToEdit, event.userIsOrganizer, CancelEventViewModel(event: event).shouldShow {
+        if let event = eventToEdit, event.userIsOrganizer(), CancelEventViewModel(event: event).shouldShow {
             return 4
         }
         return 3
