@@ -780,10 +780,9 @@
 			};
 			buildConfigurationList = 8E7256911CDF793100C9E054 /* Build configuration list for PBXProject "Panna" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
