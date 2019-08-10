@@ -13,7 +13,7 @@ import FirebaseAuth
 import RenderPay
 import RenderCloud
 
-var TESTING = true
+var TESTING = false
 var AIRPLANE_MODE = false
 
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
