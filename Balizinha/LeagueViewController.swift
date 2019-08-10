@@ -122,6 +122,7 @@ class LeagueViewController: UIViewController {
     @objc func loadPlayerLeagues() {
         // on join or leave, update the join button and also update player roster
         guard let player = PlayerService.shared.current.value else { return }
+        // TODO: join/shareLeagueCell should be able to use roster and not require loading player's leagues
         LeagueService.shared.leagueMemberships(for: player) { [weak self] _ in
             DispatchQueue.main.async {
                 self?.joinLeagueCell?.reset()
