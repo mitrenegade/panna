@@ -143,7 +143,7 @@ class SplashViewController: UIViewController {
             }
             
             LeagueService.shared.getLeagues { [weak self] (leagues) in
-                // causes _leagues to exist, so homeViewController can determine whether user is an owner
+                // causes _leagues to exist, so homeViewController can determine whether user is an owner/organizer
                 print("Result \(leagues)")
                 self?.goToMain()
             }
