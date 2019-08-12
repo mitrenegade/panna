@@ -56,7 +56,7 @@ class AccountViewController: UIViewController {
     var menuSections: [MenuSection] = []
     var menuOptions: [MenuSection: [MenuItem]] = [ .player: [.profile, .payment],
                                                    .owner: [.stripe, .subscriptions],
-                                                   .options: [.promo, .notifications, .location, .switchMode],
+                                                   .options: [.promo, .notifications, .location],
                                                    .app: [.feedback, .about, .logout]]
 
     var service = EventService.shared
@@ -84,8 +84,8 @@ class AccountViewController: UIViewController {
                 isOwner = true
                 break
             }
-            reloadMenu()
         }
+        reloadMenu()
 
         navigationItem.title = "Account"
         listenFor(NotificationType.LocationOptionsChanged, action: #selector(self.reloadTableData), object: nil)
