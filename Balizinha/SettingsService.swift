@@ -37,12 +37,13 @@ class SettingsService: NSObject {
         case showPreview
         case organizerTrial
     }
-    static let defaults: [String: Any] = [SettingsKey.newestVersionIOS.rawValue:"0.1.0",
+    static let defaults: [String: Any] = [SettingsKey.newestVersionIOS.rawValue: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.1.0",
                                           SettingsKey.eventRadius.rawValue: EVENT_RADIUS_MILES_DEFAULT,
                                           SettingsKey.softUpgradeInterval.rawValue: SOFT_UPGRADE_INTERVAL_DEFAULT,
                                           SettingsKey.useGetAvailableEvents.rawValue: false,
                                           SettingsKey.paymentRequired.rawValue: true,
-                                          SettingsKey.eventReminderInterval.rawValue: 7200
+                                          SettingsKey.eventReminderInterval.rawValue: 7200,
+                                          SettingsKey.organizerDashboard.rawValue: true
                                         ]
 
     static var shared: SettingsService {
@@ -58,12 +59,10 @@ class SettingsService: NSObject {
         print("Settings: created observedSettings")
         return Observable.create({ (observer) -> Disposable in
             self.remoteConfig.setDefaults(SettingsService.defaults as? [String : NSObject])
-            self.remoteConfig.fetch(withExpirationDuration: 10, completionHandler: { (status, error) in
-                if let error = error {
-                    print("Error \(error)")
+            self.remoteConfig.fetchAndActivate(completionHandler: { (status, error) in
+                if error != nil {
                     observer.onNext("faild")
                 } else {
-                    self.remoteConfig.activateFetched()
                     print("Settings: * featureAvailable donation \(SettingsService.donation())")
                     print("Settings: * featureAvailable paymentRequired \(SettingsService.paymentRequired())")
                     print("Settings: * featureAvailable ownerPaymentRequired \(SettingsService.ownerPaymentRequired())")

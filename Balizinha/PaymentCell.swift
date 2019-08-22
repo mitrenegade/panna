@@ -30,7 +30,6 @@ class PaymentCell: UITableViewCell {
         paymentService = Globals.stripePaymentService
         paymentService.statusObserver.distinctUntilChanged({$0 == $1}).subscribe(onNext: { [weak self] status in
             self?.viewModel = PaymentViewModel(status: status, privacy: true)
-            print("BOBBYTEST status \(status)")
             self?.refreshPayment(status)
         }).disposed(by: disposeBag)
     }
