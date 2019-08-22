@@ -21,11 +21,13 @@ class PlaceSearchViewController: UIViewController {
     
     weak var pinpointController: PinpointViewController?
     var currentVenue: Venue?
+    private let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
+        view.addSubview(activityOverlay)
         setupSearch()
         
         let button = UIButton(type: .custom)
@@ -33,12 +35,17 @@ class PlaceSearchViewController: UIViewController {
         button.addTarget(self, action: #selector(cancel), for: .touchUpInside)
         let cancelButton = UIBarButtonItem(customView: button)
         self.navigationItem.leftBarButtonItem = cancelButton
-
+        
         let button2 = UIButton(type: .custom)
         button2.setTitle("Save", for: .normal)
         button2.addTarget(self, action: #selector(selectLocation), for: .touchUpInside)
         let saveButton = UIBarButtonItem(customView: button2)
         self.navigationItem.rightBarButtonItem = saveButton
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        activityOverlay.setup(frame: view.frame)
     }
     
     @objc func cancel() {
@@ -47,7 +54,7 @@ class PlaceSearchViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "embedMap", let controller = segue.destination as? PinpointViewController {
-            controller.venue = currentVenue
+            controller.existingVenue = currentVenue
             pinpointController = controller
         }
     }
@@ -85,7 +92,34 @@ extension PlaceSearchViewController {
     
     @objc func selectLocation() {
         // user saved the location poinpointed on map
-        delegate?.didSelect(venue: pinpointController?.venue)
+        // TODO: check if venue exists within some distance.
+        // TODO: if new venue, create a venue and add venueId to the event
+        guard let player = PlayerService.shared.current.value else { return }
+        if let venue = currentVenue {
+            let alert = UIAlertController(title: "Update venue?", message: "Are you sure you want to save the changes to this venue?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Save changes", style: .default, handler: { [weak self] _ in
+                guard let controller = self?.pinpointController else { return }
+                venue.name = controller.name
+                venue.street = controller.street
+                venue.city = controller.city
+                venue.state = controller.state
+                venue.lat = controller.lat
+                venue.lon = controller.lon
+                self?.delegate?.didSelect(venue: venue)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+        } else {
+            activityOverlay.show()
+            VenueService.shared.createVenue(player.id, pinpointController?.name, pinpointController?.street, pinpointController?.city, pinpointController?.state, pinpointController?.lat, pinpointController?.lon) { [weak self] (venue, error) in
+                self?.activityOverlay.hide()
+                if let venue = venue {
+                    self?.delegate?.didSelect(venue: venue)
+                } else if let error = error as NSError? {
+                    self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error)
+                }
+            }
+        }
     }
     
     @objc fileprivate func cancelSearch() {
@@ -111,6 +145,3 @@ extension PlaceSearchViewController: PlaceResultsDelegate {
         LoggingService.shared.log(event: .SearchForVenue, info: info)
     }
 }
-
-
-
