@@ -167,8 +167,8 @@ class SplashViewController: UIViewController {
         Globals.stripePaymentService.resetOnLogout()
         OrganizerService.resetOnLogout()
         
-        LeagueService.resetOnLogout()
-        PlayerService.resetOnLogout()
+        LeagueService.shared.resetOnLogout()
+        PlayerService.resetOnLogout() // TODO: move these to shared instance and use BaseService
         EventService.resetOnLogout()
     }
     

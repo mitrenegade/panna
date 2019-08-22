@@ -87,13 +87,14 @@ class PlayerInfoViewController: UIViewController {
         } else {
             service = VenueService.shared
         }
-        if service?.cities.isEmpty ?? true {
+        // TODO: expose getCities in VenueService on a readWriteQueue
+        if service?._cities.isEmpty ?? true {
             service?.getCities { [weak self] (cities) in
                 print("loaded \(cities) cities")
                 self?.cities = cities
             }
         } else {
-            cities = service?.cities ?? []
+            cities = service?._cities ?? []
         }
     }
     
