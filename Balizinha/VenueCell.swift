@@ -27,7 +27,7 @@ class VenueCell: UITableViewCell {
         // TODO: load venue image
     }
     
-    @IBAction func didTapMap(_ sender: UIButton?) {
+    @IBAction func didClickMap(_ sender: UIButton?) {
         // TODO: open google map to show location
     }
 }

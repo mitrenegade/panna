@@ -20,9 +20,9 @@ class PlaceSearchViewController: UIViewController {
     weak var delegate: PlaceSelectDelegate?
     
     weak var pinpointController: PinpointViewController?
-    var currentVenue: Venue?
+    var currentVenue: Venue? // for editing a venue
     private let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         

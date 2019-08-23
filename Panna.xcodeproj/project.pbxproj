@@ -47,6 +47,7 @@
 		8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */; };
 		8E6EEF09230F7A02009D0AEA /* VenuesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6EEF08230F7A02009D0AEA /* VenuesListViewController.swift */; };
 		8E6EEF0B230F7A3C009D0AEA /* VenueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6EEF0A230F7A3C009D0AEA /* VenueCell.swift */; };
+		8E6EEF0D230F7C23009D0AEA /* Venues.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E6EEF0C230F7C23009D0AEA /* Venues.storyboard */; };
 		8E7016D2207A9D0400A4C28C /* UpgradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7016D1207A9D0400A4C28C /* UpgradeService.swift */; };
 		8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256991CDF793200C9E054 /* AppDelegate.swift */; };
 		8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E72569B1CDF793200C9E054 /* LoginViewController.swift */; };
@@ -215,6 +216,7 @@
 		8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewModel.swift; sourceTree = "<group>"; };
 		8E6EEF08230F7A02009D0AEA /* VenuesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenuesListViewController.swift; sourceTree = "<group>"; };
 		8E6EEF0A230F7A3C009D0AEA /* VenueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueCell.swift; sourceTree = "<group>"; };
+		8E6EEF0C230F7C23009D0AEA /* Venues.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Venues.storyboard; sourceTree = "<group>"; };
 		8E7016D1207A9D0400A4C28C /* UpgradeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeService.swift; sourceTree = "<group>"; };
 		8E7016D3207AA8A200A4C28C /* UpgradeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeServiceTests.swift; sourceTree = "<group>"; };
 		8E7256961CDF793100C9E054 /* Panna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Panna.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -464,6 +466,7 @@
 				C6B7D7B4221E0B8A00B58C72 /* Stripe.storyboard */,
 				8E81A2D4226BBF2900EAA6EF /* Owner.storyboard */,
 				8EBD898522E0528600FD3B18 /* Player.storyboard */,
+				8E6EEF0C230F7C23009D0AEA /* Venues.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -846,6 +849,7 @@
 				8E7398071FF921E500D48BA0 /* Montserrat-Medium.ttf in Resources */,
 				8E9D4193213816E400BEBA79 /* GoogleService-Info-dev.plist in Resources */,
 				8EC799291E363549004ACC52 /* Account.storyboard in Resources */,
+				8E6EEF0D230F7C23009D0AEA /* Venues.storyboard in Resources */,
 				C6B7D7B5221E0B8A00B58C72 /* Stripe.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

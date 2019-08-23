@@ -11,9 +11,17 @@ import Firebase
 import Balizinha
 import RenderCloud
 
+protocol VenuesListDelegate: class {
+    func didCancelSelection()
+    func didSelectVenue(_ venue: Venue)
+    func didCreateVenue(_ venue: Venue) // TODO. can this just be didSelectVenue?
+}
+
 class VenuesListViewController: SearchableListViewController {
     var reference: Reference?
     var venues: [Venue] = []
+    
+    weak var delegate: VenuesListDelegate?
 
     override var refName: String {
         return "venues"
@@ -44,20 +52,8 @@ class VenuesListViewController: SearchableListViewController {
             self?.activityOverlay.hide()
         }
 
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createVenue))
-    }
-    
-    @objc func createVenue() {
-        performSegue(withIdentifier: "toLocationSearch", sender: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toLocationSearch", let controller = segue.destination as? PlaceSearchViewController {
-            controller.delegate = self
-            if let venue = sender as? Venue {
-                controller.currentVenue = venue
-            }
-        }
+        // TODO: createVenue mode
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createVenue))
     }
 }
 
@@ -81,6 +77,7 @@ extension VenuesListViewController {
         // TODO: if creating/editing event, set event's venue
         // if viewing/editing venue, go to venue creation page
         //performSegue(withIdentifier: "toLocationSearch", sender: venue)
+        delegate?.didSelectVenue(venue)
     }
 }
 
@@ -109,6 +106,21 @@ extension VenuesListViewController {
     }
 }
 
+// MARK: Venue creation
+extension VenuesListViewController {
+    //    @objc func createVenue() {
+    //        performSegue(withIdentifier: "toLocationSearch", sender: nil)
+    //    }
+    
+    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    //        if segue.identifier == "toLocationSearch", let controller = segue.destination as? PlaceSearchViewController {
+    //            controller.delegate = self
+    //            if let venue = sender as? Venue {
+    //                controller.currentVenue = venue
+    //            }
+    //        }
+    //    }
+}
 // MARK: PlaceSearchDelegate
 extension VenuesListViewController: PlaceSelectDelegate {
     func didSelect(venue: Venue?) {

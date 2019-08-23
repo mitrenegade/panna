@@ -776,13 +776,13 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toLocationSearch", let controller = segue.destination as? PlaceSearchViewController {
+        if segue.identifier == "toLocationSearch", let controller = segue.destination as? VenuesListViewController {
             controller.delegate = self
-            if let eventToEdit = eventToEdit, let venueId = eventToEdit.venueId {
-                VenueService.shared.withId(id: venueId) { (venue) in
-                    controller.currentVenue = venue
-                }
-            }
+//            if let eventToEdit = eventToEdit, let venueId = eventToEdit.venueId {
+//                VenueService.shared.withId(id: venueId) { (venue) in
+//                    controller.currentVenue = venue
+//                }
+//            }
         }
     }
 }
@@ -1137,13 +1137,21 @@ extension CreateEventViewController: ToggleCellDelegate {
     }
 }
 
-// MARK: PlaceSearchDelegate
-extension CreateEventViewController: PlaceSelectDelegate {
-    func didSelect(venue: Venue?) {
-        if let location = venue?.name {
+// MARK: VenuesListDelegate
+extension CreateEventViewController: VenuesListDelegate {
+    func didCancelSelection() {
+        
+    }
+    
+    func didCreateVenue(_ venue: Venue) {
+        
+    }
+    
+    func didSelectVenue(_ venue: Venue) {
+        if let location = venue.name {
             self.placeField?.text = location
         }
-        else if let street = venue?.street {
+        else if let street = venue.street {
             self.placeField?.text = street
         }
 
