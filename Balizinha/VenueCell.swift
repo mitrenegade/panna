@@ -10,7 +10,7 @@ import UIKit
 import Balizinha
 
 class VenueCell: UITableViewCell {
-    @IBOutlet weak var photoView: UIImageView?
+    @IBOutlet weak var photoView: RAImageView?
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var buttonMap: UIButton?
@@ -25,6 +25,14 @@ class VenueCell: UITableViewCell {
         addressLabel.text = venue.shortString ?? nil
         
         // TODO: load venue image
+        if let url = venue.photoUrl {
+            photoView?.imageUrl = url
+        } else {
+            photoView?.isHidden = true
+        }
+        if venue.lat == nil || venue.lon == nil {
+            buttonMap?.isHidden = true
+        }
     }
     
     @IBAction func didClickMap(_ sender: UIButton?) {
