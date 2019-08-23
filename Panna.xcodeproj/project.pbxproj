@@ -45,6 +45,8 @@
 		8E571A0320E25E2B003AB202 /* RAImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E571A0220E25E2B003AB202 /* RAImageView.swift */; };
 		8E5C817B22963C10009D8630 /* NotificationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C817A22963C10009D8630 /* NotificationServiceTests.swift */; };
 		8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */; };
+		8E6EEF09230F7A02009D0AEA /* VenuesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6EEF08230F7A02009D0AEA /* VenuesListViewController.swift */; };
+		8E6EEF0B230F7A3C009D0AEA /* VenueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6EEF0A230F7A3C009D0AEA /* VenueCell.swift */; };
 		8E7016D2207A9D0400A4C28C /* UpgradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7016D1207A9D0400A4C28C /* UpgradeService.swift */; };
 		8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7256991CDF793200C9E054 /* AppDelegate.swift */; };
 		8E72569C1CDF793200C9E054 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E72569B1CDF793200C9E054 /* LoginViewController.swift */; };
@@ -211,6 +213,8 @@
 		8E59662C1F8B98BA007A814A /* EventCellDonationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCellDonationTests.swift; sourceTree = "<group>"; };
 		8E5C817A22963C10009D8630 /* NotificationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceTests.swift; sourceTree = "<group>"; };
 		8E6AE5441F8E5DBA0062DCF5 /* PaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewModel.swift; sourceTree = "<group>"; };
+		8E6EEF08230F7A02009D0AEA /* VenuesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenuesListViewController.swift; sourceTree = "<group>"; };
+		8E6EEF0A230F7A3C009D0AEA /* VenueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueCell.swift; sourceTree = "<group>"; };
 		8E7016D1207A9D0400A4C28C /* UpgradeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeService.swift; sourceTree = "<group>"; };
 		8E7016D3207AA8A200A4C28C /* UpgradeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeServiceTests.swift; sourceTree = "<group>"; };
 		8E7256961CDF793100C9E054 /* Panna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Panna.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -598,6 +602,7 @@
 				8E7A5A0122B8963200DDBB01 /* EventPlayersViewController.swift */,
 				8E7A5A0322B8965700DDBB01 /* TeamsViewController.swift */,
 				8EDBBB8222D980170018497C /* ActionListViewController.swift */,
+				8E6EEF08230F7A02009D0AEA /* VenuesListViewController.swift */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -685,6 +690,7 @@
 				8E78E5CC226018450005582D /* CancelEventCell.swift */,
 				8E7DCF1322A2DB7C00536ADA /* SubscriptionCell.swift */,
 				8E7A5A0522B8969000DDBB01 /* TeamPlayerCell.swift */,
+				8E6EEF0A230F7A3C009D0AEA /* VenueCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -964,6 +970,7 @@
 			files = (
 				8E78E5CD226018450005582D /* CancelEventCell.swift in Sources */,
 				8EE5B3281E7F365200BC72A5 /* PlayerIcon.swift in Sources */,
+				8E6EEF09230F7A02009D0AEA /* VenuesListViewController.swift in Sources */,
 				8E7256AD1CDF7DB600C9E054 /* SignupViewController.swift in Sources */,
 				8E1B00541FC2CC8B00420256 /* TutoriaPageViewController.swift in Sources */,
 				8E48AF7C20DFD62600D814BE /* ResizableTagView.swift in Sources */,
@@ -998,6 +1005,7 @@
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
 				8E48AF8220DFE21800D814BE /* LeagueInfoCell.swift in Sources */,
 				8E54EAD02164E5D000937355 /* FeedItemCell.swift in Sources */,
+				8E6EEF0B230F7A3C009D0AEA /* VenueCell.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */,
 				8E48AF8420DFE91C00D814BE /* LeaguePlayersCell.swift in Sources */,
