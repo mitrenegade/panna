@@ -33,7 +33,7 @@ class PlayerInfoViewController: UIViewController {
     var isCreatingPlayer = false
     
     fileprivate var askedForPhoto = false
-    var service: VenueService?
+    var service: CityService?
     var cities: [City] = []
     
     override func viewDidLoad() {
@@ -83,9 +83,9 @@ class PlayerInfoViewController: UIViewController {
         
         // load cities if needed
         if AIRPLANE_MODE {
-            service = MockVenueService()
+            service = MockCityService()
         } else {
-            service = VenueService.shared
+            service = CityService.shared
         }
         // TODO: expose getCities in VenueService on a readWriteQueue
         if service?._cities.isEmpty ?? true {

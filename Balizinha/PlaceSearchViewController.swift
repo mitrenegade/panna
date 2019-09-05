@@ -111,7 +111,7 @@ extension PlaceSearchViewController {
             present(alert, animated: true, completion: nil)
         } else {
             activityOverlay.show()
-            VenueService.shared.createVenue(player.id, pinpointController?.name, pinpointController?.street, pinpointController?.city, pinpointController?.state, pinpointController?.lat, pinpointController?.lon) { [weak self] (venue, error) in
+            VenueService.shared.createVenue(userId: player.id, type:.unknown, name: pinpointController?.name, street: pinpointController?.street, city: pinpointController?.city, state: pinpointController?.state, lat: pinpointController?.lat, lon: pinpointController?.lon, placeId: nil) { [weak self] (venue, error) in
                 self?.activityOverlay.hide()
                 if let venue = venue {
                     self?.delegate?.didSelect(venue: venue)
