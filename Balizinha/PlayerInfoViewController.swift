@@ -23,11 +23,9 @@ class PlayerInfoViewController: UIViewController {
     @IBOutlet weak var photoView: RAImageView!
     @IBOutlet weak var buttonLeague: UIButton!
 
+    var cityHelper: CityHelper?
+    
     weak var currentInput: UITextField?
-    var cityPickerView: UIPickerView = UIPickerView()
-    var statePickerView: UIPickerView = UIPickerView()
-    var pickerRow: Int = -1
-
     var player: Player?
     weak var delegate: PlayerDelegate?
     var isCreatingPlayer = false
@@ -56,6 +54,8 @@ class PlayerInfoViewController: UIViewController {
         
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.barTintColor = UIColor.mediumBlue
+        
+        cityHelper = CityHelper(inputField: inputCity, delegate: self)
     }
     
     func setupInputs() {
@@ -72,15 +72,6 @@ class PlayerInfoViewController: UIViewController {
         self.inputCity.inputAccessoryView = keyboardDoneButtonView
         self.inputNotes.inputAccessoryView = keyboardDoneButtonView
 
-        for picker in [cityPickerView, statePickerView] {
-            picker.sizeToFit()
-            picker.backgroundColor = .white
-            picker.delegate = self
-            picker.dataSource = self
-        }
-
-        inputCity.inputView = cityPickerView
-        
         // load cities if needed
         if AIRPLANE_MODE {
             service = MockCityService()
@@ -218,15 +209,7 @@ class PlayerInfoViewController: UIViewController {
         if currentInput == inputName, inputName.text?.isEmpty == false {
             player?.name = inputName.text
         } else if currentInput == inputCity {
-            if pickerRow > 0 && pickerRow <= cities.count {
-                let city = cities[pickerRow - 1]
-                player?.city = city.shortString
-                player?.cityId = city.firebaseKey
-                inputCity.text = city.shortString
-            } else if pickerRow == 0 {
-                print("Add a city")
-                promptForNewCity()
-            }
+            // TODO: what happens if we click save when user is still selecting a city?
         }
     }
 
@@ -259,14 +242,17 @@ extension PlayerInfoViewController: UITextFieldDelegate {
         
         if currentInput == inputCity {
             // if player's city exists
+            let pickerRow: Int
             if let cityId = player?.cityId, let city = cities.first(where: { (city) -> Bool in
                 return city.id == cityId
             }) {
                 pickerRow = (cities.firstIndex(of: city) ?? -1) + 1
+            } else {
+                pickerRow = -1
             }
-            // force first element in state list to be selected to populate textfield
-            cityPickerView.selectRow(pickerRow, inComponent: 0, animated: true)
-            pickerView(cityPickerView, didSelectRow: pickerRow, inComponent: 0)
+            
+            cityHelper?.cities = cities // TODO: set selected row
+            cityHelper?.showCitySelector(from: self)
         }
     }
     
@@ -360,95 +346,19 @@ extension PlayerInfoViewController: UIImagePickerControllerDelegate, UINavigatio
     
 }
 
-extension PlayerInfoViewController: UIPickerViewDataSource, UIPickerViewDelegate {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+extension PlayerInfoViewController: CityHelperDelegate {
+    func didSelectCity(_ city: City?) {
+        DispatchQueue.main.async { [weak self] in
+            self?.hideLoadingIndicator()
+            if let city = city {
+                self?.player?.city = city.shortString
+                self?.player?.cityId = city.firebaseKey
+                self?.inputCity.text = city.shortString
+            }
+        }
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == cityPickerView {
-            return cities.count + 1
-        } else if pickerView == statePickerView {
-            return stateAbbreviations.count
-        }
-        return 0
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView == cityPickerView {
-            if row == 0 {
-                return "Add a city"
-            } else if row <= cities.count {
-                return cities[row - 1].shortString
-            }
-        } else if pickerView == statePickerView, row < stateAbbreviations.count {
-            return stateAbbreviations[row]
-        }
-        return nil
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView == cityPickerView {
-            pickerRow = row
-            if pickerRow > 0 && pickerRow <= cities.count {
-                let city = cities[pickerRow - 1]
-                inputCity.text = city.shortString
-            }
-        } else if pickerView == statePickerView {
-            if row < stateAbbreviations.count {
-                print("Picked state \(stateAbbreviations[row])")
-                inputState?.text = stateAbbreviations[row]
-            }
-        }
-    }
-}
-
-// Creating a new city
-extension PlayerInfoViewController {
-    func promptForNewCity() {
-        inputCity.resignFirstResponder()
-        let alert = UIAlertController(title: "Please enter a city name", message: nil, preferredStyle: .alert)
-        alert.addTextField { (textField : UITextField!) -> Void in
-            textField.placeholder = "Boston"
-        }
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-            if let textField = alert.textFields?[0], let value = textField.text, !value.isEmpty {
-                self.promptForNewState(value)
-            }
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alert, animated: true)
-    }
-    
-    func promptForNewState(_ city: String) {
-        let alert = UIAlertController(title: "Please select the state", message: nil, preferredStyle: .alert)
-        alert.addTextField { (textField : UITextField!) -> Void in
-            textField.placeholder = "MA"
-            textField.inputView = self.statePickerView
-            self.inputState = textField
-        }
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-            if let textField = alert.textFields?[0], let value = textField.text, !value.isEmpty {
-                self.showLoadingIndicator()
-                self.service?.createCity(city, state: value, lat: 0, lon: 0, completion: { [weak self] (city, error) in
-                    DispatchQueue.main.async {
-                        self?.hideLoadingIndicator()
-                        if let city = city {
-                            self?.player?.city = city.shortString
-                            self?.player?.cityId = city.firebaseKey
-                            self?.inputCity.text = city.shortString
-                        } else if let error = error {
-                            self?.simpleAlert("Could not create city", defaultMessage: nil, error: error)
-                        }
-                    }
-                })
-            }
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alert, animated: true)
-        
-        // force first element in state list to be selected to populate textfield
-        statePickerView.selectRow(0, inComponent: 0, animated: true)
-        pickerView(statePickerView, didSelectRow: 0, inComponent: 0)
+    func didFailSelectCity(with error: Error?) {
+        simpleAlert("Could not create city", defaultMessage: "There was an issue creating a city", error: error as? NSError)
     }
 }
