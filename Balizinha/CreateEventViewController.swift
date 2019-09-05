@@ -151,16 +151,14 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         paymentRequired = event.paymentRequired
         amount = event.amount
         
-        // TODO: replace with event.venue
-        if let place = event.place,
-            let city = event.city,
-            let state = event.state,
-            let lat = event.lat,
-            let lon = event.lon
-        {
-            venue = Venue(place, nil, city, state, lat, lon)
+        if let venueId = event.venueId {
+            VenueService.shared.withId(id: venueId) { [weak self] (result) in
+                if let venue = result {
+                    self?.venue = venue
+                }
+            }
         }
-        
+
         if let leagueId = event.leagueId {
             LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
                 self?.league = league
@@ -296,47 +294,33 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     }
 
     fileprivate func loadCachedOrganizerFavorites() {
-        if let name = UserDefaults.standard.string(forKey: "organizerCachedName") {
+        if let name = DefaultsManager.shared.value(forKey: "organizerCachedName") as? String {
             self.name = name
         }
-        if let place = UserDefaults.standard.string(forKey: "organizerCachedPlace"),
-            let street = UserDefaults.standard.string(forKey: "organizerCachedStreet"),
-            let city = UserDefaults.standard.string(forKey: "organizerCachedCity"),
-            let state = UserDefaults.standard.string(forKey: "organizerCachedState"),
-            let lat = UserDefaults.standard.value(forKey: "organizerCachedLat") as? Double,
-            let lon = UserDefaults.standard.value(forKey: "organizerCachedLon") as? Double
-        {
-            self.venue = Venue(place, street, city, state, lat, lon)
+        if let venueId = DefaultsManager.shared.value(forKey: "organizerCachedVenueId") as? String {
+            VenueService.shared.withId(id: venueId) { [weak self] (venue) in
+                self?.venue = venue
+            }
         }
-        if let type = UserDefaults.standard.string(forKey: "organizerCachedType") {
+        if let type = DefaultsManager.shared.value(forKey: "organizerCachedType") as? String {
             self.type = Balizinha.Event.EventType(rawValue: type)
         }
-        if let info = UserDefaults.standard.string(forKey: "organizerCachedInfo") {
+        if let info = DefaultsManager.shared.value(forKey: "organizerCachedInfo") as? String {
             self.info = info
         }
     }
     
     fileprivate func cacheOrganizerFavorites() {
         if let name = name {
-            UserDefaults.standard.set(name, forKey: "organizerCachedName")
+            DefaultsManager.shared.setValue(name, forKey: "organizerCachedName")
         } else {
-            UserDefaults.standard.set(nil, forKey: "organizerCachedName")
+            DefaultsManager.shared.setValue(nil, forKey: "organizerCachedName")
         }
         
         if let venue = venue {
-            UserDefaults.standard.set(venue.name, forKey: "organizerCachedPlace")
-            UserDefaults.standard.set(venue.street, forKey: "organizerCachedStreet")
-            UserDefaults.standard.set(venue.city, forKey: "organizerCachedCity")
-            UserDefaults.standard.set(venue.state, forKey: "organizerCachedState")
-            UserDefaults.standard.set(venue.lat, forKey: "organizerCachedLat")
-            UserDefaults.standard.set(venue.lon, forKey: "organizerCachedLon")
+            DefaultsManager.shared.setValue(venue.id, forKey: "organizerCachedVenueId")
         } else {
-            UserDefaults.standard.set(nil, forKey: "organizerCachedPlace")
-            UserDefaults.standard.set(nil, forKey: "organizerCachedStreet")
-            UserDefaults.standard.set(nil, forKey: "organizerCachedCity")
-            UserDefaults.standard.set(nil, forKey: "organizerCachedState")
-            UserDefaults.standard.set(nil, forKey: "organizerCachedLat")
-            UserDefaults.standard.set(nil, forKey: "organizerCachedLon")
+            DefaultsManager.shared.setValue(nil, forKey: "organizerCachedVenueId")
         }
         
         if let type = type {
@@ -447,7 +431,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         else {
             activityOverlay.show()
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .event3v3, city: city, state: state, lat: venue.lat, lon: venue.lon, place: venueName, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .event3v3, venue: nil, city: city, state: state, lat: venue.lat, lon: venue.lon, place: venueName, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
                 
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
@@ -792,13 +776,13 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toLocationSearch", let controller = segue.destination as? PlaceSearchViewController {
+        if segue.identifier == "toLocationSearch", let controller = segue.destination as? VenuesListViewController {
             controller.delegate = self
-            if let eventToEdit = eventToEdit {
-                // TODO: replace with event.venue
-                let venue = Venue(eventToEdit.place, nil, eventToEdit.city, eventToEdit.state, eventToEdit.lat, eventToEdit.lon)
-                controller.currentVenue = venue
-            }
+//            if let eventToEdit = eventToEdit, let venueId = eventToEdit.venueId {
+//                VenueService.shared.withId(id: venueId) { (venue) in
+//                    controller.currentVenue = venue
+//                }
+//            }
         }
     }
 }
@@ -1153,13 +1137,21 @@ extension CreateEventViewController: ToggleCellDelegate {
     }
 }
 
-// MARK: PlaceSearchDelegate
-extension CreateEventViewController: PlaceSelectDelegate {
-    func didSelect(venue: Venue?) {
-        if let location = venue?.name {
+// MARK: VenuesListDelegate
+extension CreateEventViewController: VenuesListDelegate {
+    func didCancelSelection() {
+        
+    }
+    
+    func didCreateVenue(_ venue: Venue) {
+        
+    }
+    
+    func didSelectVenue(_ venue: Venue) {
+        if let location = venue.name {
             self.placeField?.text = location
         }
-        else if let street = venue?.street {
+        else if let street = venue.street {
             self.placeField?.text = street
         }
 
