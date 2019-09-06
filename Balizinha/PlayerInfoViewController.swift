@@ -347,6 +347,10 @@ extension PlayerInfoViewController: UIImagePickerControllerDelegate, UINavigatio
 }
 
 extension PlayerInfoViewController: CityHelperDelegate {
+    func didStartCreatingCity() {
+        showLoadingIndicator()
+    }
+
     func didSelectCity(_ city: City?) {
         DispatchQueue.main.async { [weak self] in
             self?.hideLoadingIndicator()
