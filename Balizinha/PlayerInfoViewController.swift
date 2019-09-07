@@ -83,6 +83,10 @@ class PlayerInfoViewController: UIViewController {
             service?.getCities { [weak self] (cities) in
                 print("loaded \(cities) cities")
                 self?.cities = cities
+                self?.cityHelper?.cities = cities // TODO: set selected row
+                DispatchQueue.main.async { [weak self] in
+                    self?.cityHelper?.refreshCities()
+                }
             }
         } else {
             cities = service?._cities ?? []
