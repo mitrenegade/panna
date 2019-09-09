@@ -31,8 +31,6 @@ class PlayerInfoViewController: UIViewController {
     var isCreatingPlayer = false
     
     fileprivate var askedForPhoto = false
-    var service: CityService?
-    var cities: [City] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,26 +69,6 @@ class PlayerInfoViewController: UIViewController {
         self.inputName.inputAccessoryView = keyboardDoneButtonView
         self.inputCity.inputAccessoryView = keyboardDoneButtonView
         self.inputNotes.inputAccessoryView = keyboardDoneButtonView
-
-        // load cities if needed
-        if AIRPLANE_MODE {
-            service = MockCityService()
-        } else {
-            service = CityService.shared
-        }
-        // TODO: expose getCities in VenueService on a readWriteQueue
-        if service?._cities.isEmpty ?? true {
-            service?.getCities { [weak self] (cities) in
-                print("loaded \(cities) cities")
-                self?.cities = cities
-                self?.cityHelper?.cities = cities
-                DispatchQueue.main.async { [weak self] in
-                    self?.cityHelper?.refreshCities()
-                }
-            }
-        } else {
-            cities = service?._cities ?? []
-        }
     }
     
     func refresh() {
@@ -246,10 +224,8 @@ extension PlayerInfoViewController: UITextFieldDelegate {
         
         if currentInput == inputCity {
             // if player's city exists
-            if let cityId = player?.cityId, let city = cities.first(where: { (city) -> Bool in
-                return city.id == cityId
-            }) {
-                cityHelper?.currentCity = city
+            if let cityId = player?.cityId {
+                cityHelper?.currentCityId = cityId
                 cityHelper?.refreshCities()
             }
             cityHelper?.showCitySelector(from: self)
