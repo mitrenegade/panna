@@ -85,7 +85,7 @@ class PlayerInfoViewController: UIViewController {
                 self?.cities = cities
                 self?.cityHelper?.cities = cities // TODO: set selected row
                 DispatchQueue.main.async { [weak self] in
-                    self?.cityHelper?.refreshCities()
+                    self?.cityHelper?.refreshCities(with: nil)
                 }
             }
         } else {
@@ -257,6 +257,7 @@ extension PlayerInfoViewController: UITextFieldDelegate {
             
             cityHelper?.cities = cities // TODO: set selected row
             cityHelper?.showCitySelector(from: self)
+            cityHelper?.refreshCities(with: pickerRow)
         }
     }
     
