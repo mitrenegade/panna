@@ -111,12 +111,14 @@ extension PlaceSearchViewController {
             present(alert, animated: true, completion: nil)
         } else {
             activityOverlay.show()
-            VenueService.shared.createVenue(player.id, pinpointController?.name, pinpointController?.street, pinpointController?.city, pinpointController?.state, pinpointController?.lat, pinpointController?.lon) { [weak self] (venue, error) in
-                self?.activityOverlay.hide()
-                if let venue = venue {
-                    self?.delegate?.didSelect(venue: venue)
-                } else if let error = error as NSError? {
-                    self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error)
+            VenueService.shared.createVenue(userId: player.id, type:.unknown, name: pinpointController?.name, street: pinpointController?.street, city: pinpointController?.city, state: pinpointController?.state, lat: pinpointController?.lat, lon: pinpointController?.lon, placeId: nil) { [weak self] (venue, error) in
+                DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
+                    if let venue = venue {
+                        self?.delegate?.didSelect(venue: venue)
+                    } else if let error = error as NSError? {
+                        self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error)
+                    }
                 }
             }
         }
