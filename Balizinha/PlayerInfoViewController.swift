@@ -83,9 +83,9 @@ class PlayerInfoViewController: UIViewController {
             service?.getCities { [weak self] (cities) in
                 print("loaded \(cities) cities")
                 self?.cities = cities
-                self?.cityHelper?.cities = cities // TODO: set selected row
+                self?.cityHelper?.cities = cities
                 DispatchQueue.main.async { [weak self] in
-                    self?.cityHelper?.refreshCities(with: nil)
+                    self?.cityHelper?.refreshCities()
                 }
             }
         } else {
@@ -246,18 +246,13 @@ extension PlayerInfoViewController: UITextFieldDelegate {
         
         if currentInput == inputCity {
             // if player's city exists
-            let pickerRow: Int
             if let cityId = player?.cityId, let city = cities.first(where: { (city) -> Bool in
                 return city.id == cityId
             }) {
-                pickerRow = (cities.firstIndex(of: city) ?? -1) + 1
-            } else {
-                pickerRow = -1
+                cityHelper?.currentCity = city
+                cityHelper?.refreshCities()
             }
-            
-            cityHelper?.cities = cities // TODO: set selected row
             cityHelper?.showCitySelector(from: self)
-            cityHelper?.refreshCities(with: pickerRow)
         }
     }
     
