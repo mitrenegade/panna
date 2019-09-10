@@ -276,20 +276,20 @@
                                             <outlet property="switchToggle" destination="iBy-md-neX" id="iOS-AM-1Rg"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecurringToggleCell" id="3HI-0M-pfU" customClass="ToggleCell" customModule="Panna" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecurrenceToggleCell" id="kKB-6o-GFu" customClass="ToggleCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="456.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3HI-0M-pfU" id="kfT-7C-P9s">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kKB-6o-GFu" id="MMG-EG-yzz">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4eF-Yk-mGb">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3ai-qU-u2h">
                                                     <rect key="frame" x="318" y="6" width="51" height="31.5"/>
                                                     <connections>
-                                                        <action selector="didToggleSwitch:" destination="3HI-0M-pfU" eventType="valueChanged" id="EA3-1n-9i7"/>
+                                                        <action selector="didToggleSwitch:" destination="kKB-6o-GFu" eventType="valueChanged" id="eFm-rl-Mp2"/>
                                                     </connections>
                                                 </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recurring event" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="LIc-Js-mlq">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recurring event" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="fCD-Aa-x9Q">
                                                     <rect key="frame" x="16" y="11.5" width="137" height="21"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -297,16 +297,16 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="4eF-Yk-mGb" secondAttribute="bottom" constant="6" id="29c-jf-moV"/>
-                                                <constraint firstItem="4eF-Yk-mGb" firstAttribute="top" secondItem="kfT-7C-P9s" secondAttribute="top" constant="6" id="7lL-lR-N11"/>
-                                                <constraint firstAttribute="trailing" secondItem="4eF-Yk-mGb" secondAttribute="trailing" constant="8" id="Fdq-oO-fLB"/>
-                                                <constraint firstItem="LIc-Js-mlq" firstAttribute="centerY" secondItem="kfT-7C-P9s" secondAttribute="centerY" id="TXo-Tl-OEH"/>
-                                                <constraint firstItem="LIc-Js-mlq" firstAttribute="leading" secondItem="kfT-7C-P9s" secondAttribute="leading" constant="16" id="sPO-mI-2xe"/>
+                                                <constraint firstItem="fCD-Aa-x9Q" firstAttribute="centerY" secondItem="MMG-EG-yzz" secondAttribute="centerY" id="IAl-9j-rQs"/>
+                                                <constraint firstItem="3ai-qU-u2h" firstAttribute="top" secondItem="MMG-EG-yzz" secondAttribute="top" constant="6" id="Ou1-5W-8i3"/>
+                                                <constraint firstItem="fCD-Aa-x9Q" firstAttribute="leading" secondItem="MMG-EG-yzz" secondAttribute="leading" constant="16" id="Qm8-yB-hnb"/>
+                                                <constraint firstAttribute="trailing" secondItem="3ai-qU-u2h" secondAttribute="trailing" constant="8" id="swD-zN-DpA"/>
+                                                <constraint firstAttribute="bottom" secondItem="3ai-qU-u2h" secondAttribute="bottom" constant="6" id="y5V-qT-7gV"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="labelText" destination="LIc-Js-mlq" id="rIB-jR-r6W"/>
-                                            <outlet property="switchToggle" destination="4eF-Yk-mGb" id="2AP-52-hPM"/>
+                                            <outlet property="labelText" destination="fCD-Aa-x9Q" id="Q8z-nm-F9v"/>
+                                            <outlet property="switchToggle" destination="3ai-qU-u2h" id="Pwz-F6-667"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CancelEventCell" id="Eee-7J-p1z" userLabel="CancelEventCell" customClass="CancelEventCell" customModule="Panna" customModuleProvider="target">

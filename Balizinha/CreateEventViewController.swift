@@ -33,6 +33,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         case start = "Start Time"
         case end = "End Time"
         case recurrence = "Recurrence"
+        case lastRecurrence = "To date"
         case players = "Max Players"
         case payment = "Payment"
     }
@@ -53,6 +54,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var maxPlayers : UInt?
     var info : String?
     var paymentRequired: Bool = false
+    var recurrence: Date.Recurrence = .none
+    var recurrenceDate: Date?
     var amount: NSNumber?
     
     private var clonedDateRow: Int = -1
@@ -67,7 +70,10 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var descriptionTextView : UITextView?
     var amountField: UITextField?
     var paymentSwitch: UISwitch?
-    
+    var recurrenceSwitch: UISwitch?
+    var recurrenceLabel: UILabel?
+    var recurrenceField: UITextField?
+
     var keyboardDoneButtonView: UIToolbar!
     var keyboardDoneButtonView2: UIToolbar!
     var keyboardHeight : CGFloat!
@@ -109,10 +115,11 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.navigationItem.title = "Edit Event"
         }
         
-        options = [.name, .type, .venue, .day, .start, .end, .recurrence, .players]
+        options = [.name, .type, .venue, .day, .start, .end, .recurrence, .lastRecurrence, .players]
         if SettingsService.paymentRequired() {
             options.append(.payment)
         }
+        // TODO: make recurrence feature flagged
         
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 44
@@ -160,6 +167,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         maxPlayers = UInt(event.maxPlayers)
         info = event.info
         paymentRequired = event.paymentRequired
+        recurrence = event.recurrence
+        recurrenceDate = event.recurrenceEndDate
         amount = event.amount
         
         if let venueId = event.venueId {
@@ -549,12 +558,13 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 self.didToggle(cell.switchToggle, isOn: paymentRequired)
                 return cell
             case .recurrence:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentToggleCell", for: indexPath) as! ToggleCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "RecurrenceToggleCell", for: indexPath) as! ToggleCell
                 cell.input?.inputAccessoryView = keyboardDoneButtonView
                 cell.delegate = self
-                self.amountField = cell.input
-                self.paymentSwitch = cell.switchToggle
-                self.didToggle(cell.switchToggle, isOn: paymentRequired)
+                self.recurrenceSwitch = cell.switchToggle
+                self.recurrenceLabel = cell.labelText
+                
+                self.didToggle(cell.switchToggle, isOn: recurrence != .none)
                 return cell
             default:
                 cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
@@ -604,6 +614,10 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     if let max = maxPlayers {
                         self.maxPlayersField?.text = "\(max)"
                     }
+                case .lastRecurrence:
+                    self.recurrenceField = cell.valueTextField
+                    self.recurrenceField?.inputView = self.datePickerView
+                    cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
                 default:
                     break
                 }
@@ -1135,17 +1149,21 @@ extension CreateEventViewController {
 // MARK: ToggleCell
 extension CreateEventViewController: ToggleCellDelegate {
     func didToggle(_ toggle: UISwitch, isOn: Bool) {
-        paymentRequired = isOn
-        self.paymentSwitch?.isOn = isOn
-        self.amountField?.isEnabled = isOn
-        self.amountField?.isHidden = !isOn
-        if isOn {
-            self.revertAmount()
-        }
-        
-        // logging to track event changes
-        if let event = eventToEdit {
-            LoggingService.shared.log(event: .ToggleEventPaymentRequired, info: ["eventId": event.id, "paymentRequired": paymentRequired])
+        if toggle == paymentSwitch {
+            paymentRequired = isOn
+            self.paymentSwitch?.isOn = isOn
+            self.amountField?.isEnabled = isOn
+            self.amountField?.isHidden = !isOn
+            if isOn {
+                self.revertAmount()
+            }
+            
+            // logging to track event changes
+            if let event = eventToEdit {
+                LoggingService.shared.log(event: .ToggleEventPaymentRequired, info: ["eventId": event.id, "paymentRequired": paymentRequired])
+            }
+        } else if toggle == recurrenceSwitch {
+            recurrenceSwitch?.isOn = isOn
         }
     }
     
