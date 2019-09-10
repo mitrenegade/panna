@@ -230,7 +230,7 @@
                                             <outlet property="DescriptionTextView" destination="gvB-YD-bA5" id="yXx-D5-aid"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToggleCell" id="nVH-jy-zl1" customClass="ToggleCell" customModule="Panna" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PaymentToggleCell" id="nVH-jy-zl1" customClass="ToggleCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="412.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nVH-jy-zl1" id="zIs-Js-93s">
@@ -276,8 +276,41 @@
                                             <outlet property="switchToggle" destination="iBy-md-neX" id="iOS-AM-1Rg"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CancelEventCell" id="Eee-7J-p1z" userLabel="CancelEventCell" customClass="CancelEventCell" customModule="Panna" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecurringToggleCell" id="3HI-0M-pfU" customClass="ToggleCell" customModule="Panna" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="456.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3HI-0M-pfU" id="kfT-7C-P9s">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4eF-Yk-mGb">
+                                                    <rect key="frame" x="318" y="6" width="51" height="31.5"/>
+                                                    <connections>
+                                                        <action selector="didToggleSwitch:" destination="3HI-0M-pfU" eventType="valueChanged" id="EA3-1n-9i7"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recurring event" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="LIc-Js-mlq">
+                                                    <rect key="frame" x="16" y="11.5" width="137" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="4eF-Yk-mGb" secondAttribute="bottom" constant="6" id="29c-jf-moV"/>
+                                                <constraint firstItem="4eF-Yk-mGb" firstAttribute="top" secondItem="kfT-7C-P9s" secondAttribute="top" constant="6" id="7lL-lR-N11"/>
+                                                <constraint firstAttribute="trailing" secondItem="4eF-Yk-mGb" secondAttribute="trailing" constant="8" id="Fdq-oO-fLB"/>
+                                                <constraint firstItem="LIc-Js-mlq" firstAttribute="centerY" secondItem="kfT-7C-P9s" secondAttribute="centerY" id="TXo-Tl-OEH"/>
+                                                <constraint firstItem="LIc-Js-mlq" firstAttribute="leading" secondItem="kfT-7C-P9s" secondAttribute="leading" constant="16" id="sPO-mI-2xe"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="labelText" destination="LIc-Js-mlq" id="rIB-jR-r6W"/>
+                                            <outlet property="switchToggle" destination="4eF-Yk-mGb" id="2AP-52-hPM"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CancelEventCell" id="Eee-7J-p1z" userLabel="CancelEventCell" customClass="CancelEventCell" customModule="Panna" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="500.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Eee-7J-p1z" id="vtb-py-ud0">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>

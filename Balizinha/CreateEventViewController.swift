@@ -25,8 +25,19 @@ fileprivate enum Sections: Int {
 fileprivate var FUTURE_DAYS = 90
 
 class CreateEventViewController: UIViewController, UITextViewDelegate {
-    
-    var options: [String]!
+    private enum Options: String {
+        case name = "Name"
+        case type = "Event Type"
+        case venue = "Venue"
+        case day = "Day"
+        case start = "Start Time"
+        case end = "End Time"
+        case recurrence = "Recurrence"
+        case players = "Max Players"
+        case payment = "Payment"
+    }
+
+    private var options: [Options]!
     var eventTypes: [Balizinha.Event.EventType] = [.other, .event3v3, .event5v5, .event7v7, .event11v11, .group, .social]
     
     var currentField : UITextField?
@@ -98,9 +109,9 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.navigationItem.title = "Edit Event"
         }
         
-        options = ["Name", "Event Type", "Venue", "Day", "Start Time", "End Time", "Max Players"]
+        options = [.name, .type, .venue, .day, .start, .end, .recurrence, .players]
         if SettingsService.paymentRequired() {
-            options.append("Payment")
+            options.append(.payment)
         }
         
         self.tableView.rowHeight = UITableView.automaticDimension
@@ -431,7 +442,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         else {
             activityOverlay.show()
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .event3v3, venue: nil, city: city, state: state, lat: venue.lat, lon: venue.lon, place: venueName, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .event3v3, venue: venue, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
                 
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
@@ -512,41 +523,47 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             return cell
         case Sections.details.rawValue:
             let cell : DetailCell
-            if options[indexPath.row] == "Venue" || options[indexPath.row] == "City" || options[indexPath.row] == "Name" {
+            switch options[indexPath.row] {
+            case .venue, .name:
                 cell = tableView.dequeueReusableCell(withIdentifier: "cityCell", for: indexPath) as! DetailCell
                 cell.valueTextField.delegate = self
                 cell.valueTextField.inputAccessoryView = nil
                 
-                if options[indexPath.row] == "Venue" {
+                if options[indexPath.row] == .venue {
                     cell.valueTextField.placeholder = "Fenway Park"
                     self.placeField = cell.valueTextField
                     self.placeField?.text = venue?.name
                     self.placeField?.isUserInteractionEnabled = false
-                } else if options[indexPath.row] == "Name" {
+                } else if options[indexPath.row] == .name {
                     cell.valueTextField.placeholder = "Balizinha"
                     self.nameField = cell.valueTextField
                     self.nameField?.text = name
                     self.nameField?.isUserInteractionEnabled = true
                 }
-                
-            }
-            else if options[indexPath.row] == "Payment" {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell", for: indexPath) as! ToggleCell
+            case .payment:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentToggleCell", for: indexPath) as! ToggleCell
                 cell.input?.inputAccessoryView = keyboardDoneButtonView
                 cell.delegate = self
                 self.amountField = cell.input
                 self.paymentSwitch = cell.switchToggle
                 self.didToggle(cell.switchToggle, isOn: paymentRequired)
                 return cell
-            }
-            else {
+            case .recurrence:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentToggleCell", for: indexPath) as! ToggleCell
+                cell.input?.inputAccessoryView = keyboardDoneButtonView
+                cell.delegate = self
+                self.amountField = cell.input
+                self.paymentSwitch = cell.switchToggle
+                self.didToggle(cell.switchToggle, isOn: paymentRequired)
+                return cell
+            default:
                 cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
                 
                 cell.valueTextField.isUserInteractionEnabled = false;
                 cell.valueTextField.delegate = self
                 
                 switch options[indexPath.row] {
-                case "Event Type":
+                case .type:
                     self.typeField = cell.valueTextField
                     self.typeField?.inputView = self.typePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView2
@@ -558,28 +575,28 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                             typeField!.text = eventTypes[index].rawValue
                         }
                     }
-                case "Day":
+                case .day:
                     self.dayField = cell.valueTextField
                     self.dayField?.inputView = self.datePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
                     if let date = date {
                         self.dayField?.text = date.dateStringForPicker()
                     }
-                case "Start Time":
+                case .start:
                     self.startField = cell.valueTextField
                     self.startField?.inputView = self.startTimePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
                     if let date = startTime {
                         self.startField?.text = date.timeStringForPicker()
                     }
-                case "End Time":
+                case .end:
                     self.endField = cell.valueTextField
                     self.endField?.inputView = self.endTimePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
                     if let date = endTime {
                         self.endField?.text = date.timeStringForPicker()
                     }
-                case "Max Players":
+                case .players:
                     self.maxPlayersField = cell.valueTextField
                     self.maxPlayersField?.inputView = self.numberPickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView2
@@ -592,7 +609,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 }
 
             }
-            cell.labelAttribute.text = options[indexPath.row]
+            cell.labelAttribute.text = options[indexPath.row].rawValue
 
             return cell
 
@@ -690,20 +707,20 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             
             let textField: UITextField?
             switch options[indexPath.row] {
-            case "Name":
+            case .name:
                 textField = self.nameField
-            case "Event Type":
+            case .type:
                 textField = self.typeField
                 typePickerView.reloadAllComponents()
-            case "Venue":
+            case .venue:
                 textField = self.placeField
-            case "Day":
+            case .day:
                 textField = self.dayField
-            case "Start Time":
+            case .start:
                 textField = self.startField
-            case "End Time":
+            case .end:
                 textField = self.endField
-            case "Max Players":
+            case .players:
                 textField = self.maxPlayersField
                 print("Tapped number of players")
                 numberPickerView.reloadAllComponents()
@@ -716,7 +733,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             textField?.becomeFirstResponder()
             currentField = textField
             
-            if options[indexPath.row] == "Venue" {
+            if options[indexPath.row] == .venue {
                 performSegue(withIdentifier: "toLocationSearch", sender: nil)
             }
         case Sections.cancel.rawValue:
@@ -942,7 +959,7 @@ extension CreateEventViewController: UITextFieldDelegate {
             endTimePickerView.date = endTimePickerView.futureClampedDate
         }
         
-        if textField == amountField, let index = options.firstIndex(of: "Payment") {
+        if textField == amountField, let index = options.firstIndex(of: .payment) {
             tableView.scrollToRow(at: IndexPath(row: index, section: Sections.details.rawValue), at: .top, animated: true)
         }
     }
