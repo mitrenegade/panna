@@ -1165,9 +1165,11 @@ extension CreateEventViewController: ToggleCellDelegate {
 }
 
 extension CreateEventViewController: RecurrenceCellDelegate {
-    func didSelectRecurrence(_ recurrence: Date.Recurrence) {
+    func didSelectRecurrence(_ recurrence: Date.Recurrence, _ recurrenceEndDate: Date?) {
         self.recurrence = recurrence
-        print("Recurrence selected: \(recurrence)")
+        if let recurrenceEndDate = recurrenceDate {
+            recurrenceDate = recurrenceEndDate
+        }
         if let index = options.firstIndex(of: .recurrence) {
             tableView.reloadData()
         }

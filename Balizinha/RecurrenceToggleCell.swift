@@ -9,7 +9,7 @@
 import UIKit
 
 protocol RecurrenceCellDelegate: class {
-    func didSelectRecurrence(_ recurrence: Date.Recurrence)
+    func didSelectRecurrence(_ recurrence: Date.Recurrence, _ recurrenceEndDate: Date?)
 }
 
 class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -117,8 +117,8 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
         self.recurrence = recurrence
         refresh()
         
-        recurrenceDelegate?.didSelectRecurrence(recurrence)
         // select date
+        recurrenceDelegate?.didSelectRecurrence(recurrence, nil)
         if recurrence != .none {
             promptForDate()
         }
@@ -133,7 +133,8 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
         recurrenceField.resignFirstResponder()
         let row = datePickerView.selectedRow(inComponent: 0)
         guard row < self.datesForPicker.count else { return }
-        self.date = self.datesForPicker[row]
+        date = self.datesForPicker[row]
+        recurrenceDelegate?.didSelectRecurrence(recurrence, date)
         refresh()
     }
 
