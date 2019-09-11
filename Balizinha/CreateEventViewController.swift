@@ -55,7 +55,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var paymentRequired: Bool = false
     var recurrence: Date.Recurrence = .none
     var recurrenceDate: Date?
-    var recurrenceDateCompletionHandler: ((Date)->Void)?
     var amount: NSNumber?
     
     private var clonedDateRow: Int = -1
@@ -70,7 +69,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var descriptionTextView : UITextView?
     var amountField: UITextField?
     var paymentSwitch: UISwitch?
-    var recurrenceSwitch: UISwitch?
 
     var keyboardDoneButtonView: UIToolbar!
     var keyboardDoneButtonView2: UIToolbar!
@@ -559,9 +557,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "RecurrenceToggleCell", for: indexPath) as! RecurrenceToggleCell
                 cell.recurrenceDelegate = self
                 cell.presenter = self
-                self.recurrenceSwitch = cell.switchToggle
                 
                 cell.recurrence = recurrence
+                cell.date = recurrenceDate
                 cell.refresh()
                 return cell
             default:

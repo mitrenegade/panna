@@ -18,10 +18,10 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet private weak var button: UIButton!
 
     private var recurrenceField: UITextField = UITextField()
-    private var date: Date?
     private var datesForPicker: [Date] = [Date(), Date(), Date()]
 
     var recurrence: Date.Recurrence = .none
+    var date: Date?
     weak var presenter: UIViewController?
     weak var recurrenceDelegate: RecurrenceCellDelegate?
 
@@ -58,6 +58,7 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     func generatePickerDates() {
+        // TODO: generate each time a recurrence is selected. Make sure the dates are either daily, weekly, or monthly, and contain the time of the event, inclusive
         /*
         guard self.datesForPicker.count == 0 else { return }
         
