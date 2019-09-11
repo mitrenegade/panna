@@ -10,6 +10,7 @@ import UIKit
 
 protocol RecurrenceCellDelegate: class {
     func didSelectRecurrence(_ recurrence: Date.Recurrence)
+    func promptForDate(completion: @escaping ((Date?) -> Void))
 }
 class RecurrenceToggleCell: ToggleCell {
     @IBOutlet weak var containerRecurrence: UIView!
@@ -17,6 +18,7 @@ class RecurrenceToggleCell: ToggleCell {
     @IBOutlet weak var button: UIButton!
     weak var presenter: UIViewController?
     var recurrence: Date.Recurrence = .none
+    var date: Date?
     weak var recurrenceDelegate: RecurrenceCellDelegate?
     
     override func didToggleSwitch(_ sender: UISwitch?) {
@@ -28,8 +30,17 @@ class RecurrenceToggleCell: ToggleCell {
     }
     override func refresh() {
         switchToggle.isOn = recurrence != .none
-        labelRecurrence.text = recurrence.rawValue
+        labelRecurrence.text = recurrenceDateLabelText(recurrence, date)
         containerRecurrence.isHidden = !switchToggle.isOn
+    }
+    
+    internal func recurrenceDateLabelText(_ recurrence: Date.Recurrence, _ date: Date?) -> String {
+        var string = recurrence.rawValue.capitalized
+        if let date = date {
+            let dateString = date.dateString()
+            string = string + " until " + dateString
+        }
+        return string
     }
     
     @IBAction func didClickButton(_ sender: Any?) {
@@ -59,10 +70,16 @@ class RecurrenceToggleCell: ToggleCell {
         refresh()
         
         recurrenceDelegate?.didSelectRecurrence(recurrence)
-        // TODO: select date
+        // select date
+        if recurrence != .none {
+            promptForDate()
+        }
     }
     
     func promptForDate() {
-        print("Ask for date alert")
+        recurrenceDelegate?.promptForDate(completion: { [weak self] (date) in
+            self?.date = date
+            self?.refresh()
+        })
     }
 }

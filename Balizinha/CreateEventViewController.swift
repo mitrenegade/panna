@@ -33,7 +33,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         case start = "Start Time"
         case end = "End Time"
         case recurrence = "Recurrence"
-        case lastRecurrence = "To date"
         case players = "Max Players"
         case payment = "Payment"
     }
@@ -56,6 +55,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var paymentRequired: Bool = false
     var recurrence: Date.Recurrence = .none
     var recurrenceDate: Date?
+    var recurrenceDateCompletionHandler: ((Date)->Void)?
     var amount: NSNumber?
     
     private var clonedDateRow: Int = -1
@@ -71,7 +71,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var amountField: UITextField?
     var paymentSwitch: UISwitch?
     var recurrenceSwitch: UISwitch?
-    var recurrenceField: UITextField?
+    var recurrenceField: UITextField = UITextField()
 
     var keyboardDoneButtonView: UIToolbar!
     var keyboardDoneButtonView2: UIToolbar!
@@ -114,7 +114,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.navigationItem.title = "Edit Event"
         }
         
-        options = [.name, .type, .venue, .day, .start, .end, .recurrence, .lastRecurrence, .players]
+        options = [.name, .type, .venue, .day, .start, .end, .recurrence, .players]
         if SettingsService.paymentRequired() {
             options.append(.payment)
         }
@@ -276,6 +276,13 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.endTime = Date()+3600
             maxPlayers = 10
         }
+        
+        recurrenceField.inputView = datePickerView
+        recurrenceField.inputAccessoryView = keyboardDoneButtonView
+        if recurrenceField.superview == nil {
+            self.view.addSubview(recurrenceField)
+        }
+        recurrenceField.delegate = self
     }
     
     fileprivate var leaguePhotoView: RAImageView?
@@ -558,7 +565,6 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 return cell
             case .recurrence:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "RecurrenceToggleCell", for: indexPath) as! RecurrenceToggleCell
-                cell.input?.inputAccessoryView = keyboardDoneButtonView
                 cell.recurrenceDelegate = self
                 cell.presenter = self
                 self.recurrenceSwitch = cell.switchToggle
@@ -614,10 +620,6 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     if let max = maxPlayers {
                         self.maxPlayersField?.text = "\(max)"
                     }
-                case .lastRecurrence:
-                    self.recurrenceField = cell.valueTextField
-                    self.recurrenceField?.inputView = self.datePickerView
-                    cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
                 default:
                     break
                 }
@@ -793,6 +795,9 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         else if currentField == self.dayField {
             self.datePickerValueChanged(self.datePickerView)
         }
+        else if currentField == self.recurrenceField {
+            self.datePickerValueChanged(self.datePickerView)
+        }
         else if currentField == self.amountField {
             if let formattedAmount = EventService.amountNumber(from: self.amountField?.text) {
                 self.amount = formattedAmount
@@ -941,16 +946,21 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
     func datePickerValueChanged(_ sender:UIPickerView) {
         let row = sender.selectedRow(inComponent: 0)
         guard row < self.datesForPicker.count else { return }
-        self.date = self.datesForPicker[row]
-        self.dateString = self.datesForPicker[row].dateStringForPicker()
-        currentField!.text = dateString
+        if currentField == dayField {
+            self.date = self.datesForPicker[row]
+            self.dateString = self.datesForPicker[row].dateStringForPicker()
+            currentField?.text = dateString
+        } else if currentField == recurrenceField {
+            self.recurrenceDate = self.datesForPicker[row]
+            recurrenceDateCompletionHandler?(self.datesForPicker[row])
+        }
     }
     
     @objc func timePickerValueChanged(_ sender:UIDatePicker) {
         currentField!.text = sender.date.timeStringForPicker()
         if (sender == startTimePickerView) {
             self.startTime = sender.clampedDate
-        } else {
+        } else if (sender == endTimePickerView) {
             self.endTime = sender.clampedDate
         }
     }
@@ -1171,13 +1181,16 @@ extension CreateEventViewController: ToggleCellDelegate {
 }
 
 extension CreateEventViewController: RecurrenceCellDelegate {
+    func promptForDate(completion: @escaping ((Date?) -> Void)) {
+        recurrenceField.becomeFirstResponder()
+        recurrenceDateCompletionHandler = completion
+    }
+    
     func didSelectRecurrence(_ recurrence: Date.Recurrence) {
         self.recurrence = recurrence
         print("Recurrence selected: \(recurrence)")
         if let index = options.firstIndex(of: .recurrence) {
             tableView.reloadData()
-//            let indexPath = IndexPath(row: index, section: 0)
-//            tableView.reloadRows(at: [indexPath], with: .automatic)
         }
     }
 }
