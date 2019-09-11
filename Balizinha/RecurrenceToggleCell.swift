@@ -23,7 +23,7 @@ class RecurrenceToggleCell: ToggleCell {
         if switchToggle.isOn {
             promptForRecurrence()
         } else {
-            refresh()
+            selectRecurrence(.none)
         }
     }
     override func refresh() {
@@ -38,13 +38,13 @@ class RecurrenceToggleCell: ToggleCell {
     
     func promptForRecurrence() {
         let alert = UIAlertController(title: "Select recurrence", message: nil, preferredStyle: .actionSheet)
-        for option in [Date.Recurrence.none, Date.Recurrence.daily, Date.Recurrence.weekly, Date.Recurrence.monthly] {
-            alert.addAction(UIAlertAction(title: option.rawValue, style: .default, handler: { (action) in
-                print("Selected \(option.rawValue)")
+        for option in [Date.Recurrence.daily, Date.Recurrence.weekly, Date.Recurrence.monthly] {
+            alert.addAction(UIAlertAction(title: option.rawValue.capitalized, style: .default, handler: { (action) in
                 self.selectRecurrence(option)
             }))
         }
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            self.selectRecurrence(.none)
         })
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
         {
