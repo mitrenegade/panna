@@ -10,16 +10,63 @@ import UIKit
 
 protocol RecurrenceCellDelegate: class {
     func didSelectRecurrence(_ recurrence: Date.Recurrence)
-    func promptForDate(completion: @escaping ((Date?) -> Void))
 }
-class RecurrenceToggleCell: ToggleCell {
-    @IBOutlet weak var containerRecurrence: UIView!
-    @IBOutlet weak var labelRecurrence: UILabel!
-    @IBOutlet weak var button: UIButton!
-    weak var presenter: UIViewController?
+
+class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSource {
+    @IBOutlet private weak var containerRecurrence: UIView!
+    @IBOutlet private weak var labelRecurrence: UILabel!
+    @IBOutlet private weak var button: UIButton!
+
+    private var recurrenceField: UITextField = UITextField()
+    private var date: Date?
+    private var datesForPicker: [Date] = [Date(), Date(), Date()]
+
     var recurrence: Date.Recurrence = .none
-    var date: Date?
+    weak var presenter: UIViewController?
     weak var recurrenceDelegate: RecurrenceCellDelegate?
+
+    private var datePickerView: UIPickerView = UIPickerView()
+    private var keyboardDoneButtonView: UIToolbar = UIToolbar()
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        setupInputs()
+    }
+
+    private func setupInputs() {
+        // textfield keyboard
+        keyboardDoneButtonView.sizeToFit()
+        keyboardDoneButtonView.barStyle = UIBarStyle.default
+        keyboardDoneButtonView.tintColor = UIColor.red
+        let save: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(done))
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
+        keyboardDoneButtonView.setItems([flex, save], animated: true)
+
+        recurrenceField.inputView = datePickerView
+        recurrenceField.inputAccessoryView = keyboardDoneButtonView
+        if recurrenceField.superview == nil {
+            self.addSubview(recurrenceField)
+        }
+
+        datePickerView.sizeToFit()
+        datePickerView.backgroundColor = .white
+        datePickerView.delegate = self
+        datePickerView.dataSource = self
+        self.generatePickerDates()
+    }
+    
+    func generatePickerDates() {
+        /*
+        guard self.datesForPicker.count == 0 else { return }
+        
+        for row in 0..<FUTURE_DAYS {
+            let date = Date().addingTimeInterval(3600*24*TimeInterval(row))
+            datesForPicker.append(date)
+        }
+        */
+    }
     
     override func didToggleSwitch(_ sender: UISwitch?) {
         if switchToggle.isOn {
@@ -77,9 +124,41 @@ class RecurrenceToggleCell: ToggleCell {
     }
     
     func promptForDate() {
-        recurrenceDelegate?.promptForDate(completion: { [weak self] (date) in
-            self?.date = date
-            self?.refresh()
-        })
+        recurrenceField.becomeFirstResponder()
+    }
+    
+    @objc func done() {
+        // on button click on toolbar for day, time pickers
+        recurrenceField.resignFirstResponder()
+        datePickerValueChanged(datePickerView)
+        refresh()
+    }
+
+    func datePickerValueChanged(_ sender:UIPickerView) {
+        let row = sender.selectedRow(inComponent: 0)
+        guard row < self.datesForPicker.count else { return }
+        self.date = self.datesForPicker[row]
+    }
+
+    // MARK: - UIPickerViewDataSource, UIPickerViewDelegate
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 10 // how many total recurrence dates?
+    }
+    
+    // The data to return for the row and component (column) that's being passed in
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if row < self.datesForPicker.count {
+            return self.datesForPicker[row].dateStringForPicker()
+        }
+        return ""
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        // let user pick more dates and click done
+        print("Didselectrow")
     }
 }

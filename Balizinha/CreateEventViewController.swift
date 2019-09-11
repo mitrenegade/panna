@@ -71,7 +71,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var amountField: UITextField?
     var paymentSwitch: UISwitch?
     var recurrenceSwitch: UISwitch?
-    var recurrenceField: UITextField = UITextField()
 
     var keyboardDoneButtonView: UIToolbar!
     var keyboardDoneButtonView2: UIToolbar!
@@ -276,13 +275,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.endTime = Date()+3600
             maxPlayers = 10
         }
-        
-        recurrenceField.inputView = datePickerView
-        recurrenceField.inputAccessoryView = keyboardDoneButtonView
-        if recurrenceField.superview == nil {
-            self.view.addSubview(recurrenceField)
-        }
-        recurrenceField.delegate = self
     }
     
     fileprivate var leaguePhotoView: RAImageView?
@@ -795,9 +787,6 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         else if currentField == self.dayField {
             self.datePickerValueChanged(self.datePickerView)
         }
-        else if currentField == self.recurrenceField {
-            self.datePickerValueChanged(self.datePickerView)
-        }
         else if currentField == self.amountField {
             if let formattedAmount = EventService.amountNumber(from: self.amountField?.text) {
                 self.amount = formattedAmount
@@ -950,9 +939,6 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
             self.date = self.datesForPicker[row]
             self.dateString = self.datesForPicker[row].dateStringForPicker()
             currentField?.text = dateString
-        } else if currentField == recurrenceField {
-            self.recurrenceDate = self.datesForPicker[row]
-            recurrenceDateCompletionHandler?(self.datesForPicker[row])
         }
     }
     
@@ -1181,11 +1167,6 @@ extension CreateEventViewController: ToggleCellDelegate {
 }
 
 extension CreateEventViewController: RecurrenceCellDelegate {
-    func promptForDate(completion: @escaping ((Date?) -> Void)) {
-        recurrenceField.becomeFirstResponder()
-        recurrenceDateCompletionHandler = completion
-    }
-    
     func didSelectRecurrence(_ recurrence: Date.Recurrence) {
         self.recurrence = recurrence
         print("Recurrence selected: \(recurrence)")
