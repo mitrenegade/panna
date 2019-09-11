@@ -71,7 +71,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var amountField: UITextField?
     var paymentSwitch: UISwitch?
     var recurrenceSwitch: UISwitch?
-    var recurrenceLabel: UILabel?
     var recurrenceField: UITextField?
 
     var keyboardDoneButtonView: UIToolbar!
@@ -558,13 +557,14 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 self.didToggle(cell.switchToggle, isOn: paymentRequired)
                 return cell
             case .recurrence:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "RecurrenceToggleCell", for: indexPath) as! ToggleCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "RecurrenceToggleCell", for: indexPath) as! RecurrenceToggleCell
                 cell.input?.inputAccessoryView = keyboardDoneButtonView
-                cell.delegate = self
+                cell.recurrenceDelegate = self
+                cell.presenter = self
                 self.recurrenceSwitch = cell.switchToggle
-                self.recurrenceLabel = cell.labelText
                 
-                self.didToggle(cell.switchToggle, isOn: recurrence != .none)
+                cell.recurrence = recurrence
+                cell.refresh()
                 return cell
             default:
                 cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
@@ -1162,13 +1162,23 @@ extension CreateEventViewController: ToggleCellDelegate {
             if let event = eventToEdit {
                 LoggingService.shared.log(event: .ToggleEventPaymentRequired, info: ["eventId": event.id, "paymentRequired": paymentRequired])
             }
-        } else if toggle == recurrenceSwitch {
-            recurrenceSwitch?.isOn = isOn
         }
     }
-    
+
     func revertAmount() {
         self.amountField?.text = EventService.amountString(from: self.amount)
+    }
+}
+
+extension CreateEventViewController: RecurrenceCellDelegate {
+    func didSelectRecurrence(_ recurrence: Date.Recurrence) {
+        self.recurrence = recurrence
+        print("Recurrence selected: \(recurrence)")
+        if let index = options.firstIndex(of: .recurrence) {
+            tableView.reloadData()
+//            let indexPath = IndexPath(row: index, section: 0)
+//            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
     }
 }
 
