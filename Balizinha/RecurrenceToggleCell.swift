@@ -131,14 +131,10 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
     @objc func done() {
         // on button click on toolbar for day, time pickers
         recurrenceField.resignFirstResponder()
-        datePickerValueChanged(datePickerView)
-        refresh()
-    }
-
-    func datePickerValueChanged(_ sender:UIPickerView) {
-        let row = sender.selectedRow(inComponent: 0)
+        let row = datePickerView.selectedRow(inComponent: 0)
         guard row < self.datesForPicker.count else { return }
         self.date = self.datesForPicker[row]
+        refresh()
     }
 
     // MARK: - UIPickerViewDataSource, UIPickerViewDelegate
