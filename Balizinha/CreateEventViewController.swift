@@ -422,6 +422,10 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             if paymentRequired {
                 dict["amount"] = self.amount
             }
+            dict["recurrence"] = recurrence.rawValue
+            if let date = recurrenceDate {
+                dict["recurrenceEndDate"] = date.timeIntervalSince1970
+            }
             event.dict = dict
             event.firebaseRef?.updateChildValues(dict) // update all these values without multiple update calls
 
@@ -1167,9 +1171,7 @@ extension CreateEventViewController: ToggleCellDelegate {
 extension CreateEventViewController: RecurrenceCellDelegate {
     func didSelectRecurrence(_ recurrence: Date.Recurrence, _ recurrenceEndDate: Date?) {
         self.recurrence = recurrence
-        if let recurrenceEndDate = recurrenceDate {
-            recurrenceDate = recurrenceEndDate
-        }
+        recurrenceDate = recurrenceEndDate
         if let index = options.firstIndex(of: .recurrence) {
             tableView.reloadData()
         }
