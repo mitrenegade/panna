@@ -69,7 +69,9 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
     
     func refreshToggleEnabled() {
         // switch should only be enabled if a start date exists
-        switchToggle.isEnabled = recurrenceStartDate != nil
+        let enabled: Bool = recurrenceStartDate != nil
+        switchToggle.isEnabled = enabled
+        labelRecurrence.alpha = enabled ? 1 : 0
     }
     
     func generatePickerDates() {
