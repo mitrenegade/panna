@@ -21,7 +21,12 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
     private var datesForPicker: [Date] = [Date(), Date(), Date()]
 
     var recurrence: Date.Recurrence = .none
-    var date: Date?
+    var recurrenceStartDate: Date? {
+        didSet {
+            refreshToggleEnabled()
+        }
+    }
+    var recurrenceEndDate: Date?
     weak var presenter: UIViewController?
     weak var recurrenceDelegate: RecurrenceCellDelegate?
 
@@ -32,6 +37,7 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
         super.awakeFromNib()
         
         setupInputs()
+        refreshToggleEnabled()
     }
 
     private func setupInputs() {
@@ -57,7 +63,13 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
         datePickerView.backgroundColor = .white
         datePickerView.delegate = self
         datePickerView.dataSource = self
-        self.generatePickerDates()
+        
+        generatePickerDates()
+    }
+    
+    func refreshToggleEnabled() {
+        // switch should only be enabled if a start date exists
+        switchToggle.isEnabled = recurrenceStartDate != nil
     }
     
     func generatePickerDates() {
@@ -81,7 +93,7 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
     }
     override func refresh() {
         switchToggle.isOn = recurrence != .none
-        labelRecurrence.text = recurrenceDateLabelText(recurrence, date)
+        labelRecurrence.text = recurrenceDateLabelText(recurrence, recurrenceEndDate)
         containerRecurrence.isHidden = !switchToggle.isOn
     }
     
@@ -136,8 +148,8 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
         recurrenceField.resignFirstResponder()
         let row = datePickerView.selectedRow(inComponent: 0)
         guard row < self.datesForPicker.count else { return }
-        date = self.datesForPicker[row]
-        recurrenceDelegate?.didSelectRecurrence(recurrence, date)
+        recurrenceEndDate = self.datesForPicker[row]
+        recurrenceDelegate?.didSelectRecurrence(recurrence, recurrenceEndDate)
         refresh()
     }
     
