@@ -40,9 +40,12 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
         keyboardDoneButtonView.barStyle = UIBarStyle.default
         keyboardDoneButtonView.tintColor = UIColor.red
         let save: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(done))
+        let cancel: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelRecurrence))
         let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        
-        keyboardDoneButtonView.setItems([flex, save], animated: true)
+        save.tintColor = UIColor(red: 62.0/255.0, green: 82.0/255.0, blue: 101.0/255.0, alpha: 1)
+        cancel.tintColor = UIColor(red: 62.0/255.0, green: 82.0/255.0, blue: 101.0/255.0, alpha: 1)
+
+        keyboardDoneButtonView.setItems([cancel, flex, save], animated: true)
 
         recurrenceField.inputView = datePickerView
         recurrenceField.inputAccessoryView = keyboardDoneButtonView
@@ -73,7 +76,7 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
         if switchToggle.isOn {
             promptForRecurrence()
         } else {
-            selectRecurrence(.none)
+            cancelRecurrence()
         }
     }
     override func refresh() {
@@ -103,7 +106,7 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
             }))
         }
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) in
-            self.selectRecurrence(.none)
+            self.cancelRecurrence()
         })
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
         {
@@ -136,6 +139,11 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
         date = self.datesForPicker[row]
         recurrenceDelegate?.didSelectRecurrence(recurrence, date)
         refresh()
+    }
+    
+    @objc func cancelRecurrence() {
+        selectRecurrence(.none)
+        recurrenceField.resignFirstResponder()
     }
 
     // MARK: - UIPickerViewDataSource, UIPickerViewDelegate
