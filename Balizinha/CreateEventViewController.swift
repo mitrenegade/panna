@@ -1173,7 +1173,8 @@ extension CreateEventViewController: RecurrenceCellDelegate {
         self.recurrence = recurrence
         recurrenceDate = recurrenceEndDate
         if let index = options.firstIndex(of: .recurrence) {
-            tableView.reloadData()
+            let indexPath = IndexPath(row: index, section: Sections.details.rawValue)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
         }
     }
 }
