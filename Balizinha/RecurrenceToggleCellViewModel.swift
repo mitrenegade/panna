@@ -18,9 +18,10 @@ struct RecurrenceToggleCellViewModel {
         }
         var dates: [Date] = []
         var date: Date = startDate
-        while date < endDate {
+        while date <= endDate {
             dates.append(date)
-            guard let nextDate = date.getNextRecurrence(recurrence: recurrence, from: date) else { break }
+            let date2 = date.getNextRecurrence(recurrence: recurrence, from: date.addingTimeInterval(1))
+            guard let nextDate = date2, nextDate != date else { break }
             date = nextDate
         }
         
