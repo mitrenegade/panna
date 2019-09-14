@@ -18,7 +18,7 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet private weak var button: UIButton!
 
     private var recurrenceField: UITextField = UITextField()
-    private var datesForPicker: [Date] = [Date(), Date(), Date()]
+    private (set) var datesForPicker: [Date] = [Date(), Date(), Date()]
 
     var recurrence: Date.Recurrence = .none
     var recurrenceStartDate: Date? {
@@ -32,6 +32,8 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
 
     private var datePickerView: UIPickerView = UIPickerView()
     private var keyboardDoneButtonView: UIToolbar = UIToolbar()
+    
+    private var viewModel: RecurrenceToggleCellViewModel?
     
     override func awakeFromNib() {
         super.awakeFromNib()
