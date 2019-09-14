@@ -18,7 +18,7 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet private weak var button: UIButton!
 
     private var recurrenceField: UITextField = UITextField()
-    private (set) var datesForPicker: [Date] = [Date(), Date(), Date()]
+    private (set) var datesForPicker: [Date] = []
 
     var recurrence: Date.Recurrence = .none
     var recurrenceStartDate: Date? {
@@ -33,7 +33,7 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
     private var datePickerView: UIPickerView = UIPickerView()
     private var keyboardDoneButtonView: UIToolbar = UIToolbar()
     
-    private var viewModel: RecurrenceToggleCellViewModel?
+    private var viewModel: RecurrenceToggleCellViewModel = RecurrenceToggleCellViewModel()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -65,8 +65,6 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
         datePickerView.backgroundColor = .white
         datePickerView.delegate = self
         datePickerView.dataSource = self
-        
-        generatePickerDates()
     }
     
     func refreshToggleEnabled() {
@@ -77,15 +75,9 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     func generatePickerDates() {
-        // TODO: generate each time a recurrence is selected. Make sure the dates are either daily, weekly, or monthly, and contain the time of the event, inclusive
-        /*
-        guard self.datesForPicker.count == 0 else { return }
-        
-        for row in 0..<FUTURE_DAYS {
-            let date = Date().addingTimeInterval(3600*24*TimeInterval(row))
-            datesForPicker.append(date)
-        }
-        */
+        guard let startDate = recurrenceStartDate else { return }
+        let endDate = startDate.addingTimeInterval(24*3600*7*52)
+        self.datesForPicker = viewModel.datesForRecurrence(recurrence, startDate: startDate, endDate: endDate)
     }
     
     override func didToggleSwitch(_ sender: UISwitch?) {
@@ -144,6 +136,7 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     func promptForDate() {
+        generatePickerDates()
         recurrenceField.becomeFirstResponder()
     }
     

@@ -51,6 +51,6 @@ class RecurrenceToggleCellTests: XCTestCase {
         let dates = viewModel.datesForRecurrence(recurrence, startDate: startDate, endDate: endDate)
         XCTAssertTrue(dates.count == 8)
         XCTAssertTrue(dates[0] == startDate)
-        XCTAssertTrue(floor(dates.last?.timeIntervalSince1970 ?? 0) == floor(endDate.timeIntervalSince1970))
+        XCTAssertTrue(floor(dates.last?.timeIntervalSince1970 ?? 0 ) == floor(endDate.timeIntervalSince1970))
     }
 }

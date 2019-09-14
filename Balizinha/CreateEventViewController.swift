@@ -563,6 +563,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 cell.presenter = self
                 
                 cell.recurrence = recurrence
+                cell.recurrenceStartDate = startTime
                 cell.recurrenceEndDate = recurrenceDate
                 cell.refresh()
                 return cell
