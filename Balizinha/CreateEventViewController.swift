@@ -48,7 +48,11 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var venue: Venue?
     var date : Date?
     var dateString: String?
-    var startTime: Date?
+    var startTime: Date? {
+        didSet {
+            recurrenceToggleCell?.recurrenceStartDate = startTime
+        }
+    }
     var endTime: Date?
     var maxPlayers : UInt?
     var info : String?
@@ -69,6 +73,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var descriptionTextView : UITextView?
     var amountField: UITextField?
     var paymentSwitch: UISwitch?
+    weak var recurrenceToggleCell: RecurrenceToggleCell?
 
     var keyboardDoneButtonView: UIToolbar!
     var keyboardDoneButtonView2: UIToolbar!
@@ -451,7 +456,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         else {
             activityOverlay.show()
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .event3v3, venue: venue, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .event3v3, venue: venue, startTime: start, endTime: end, recurrence: self.recurrence, recurrenceEndDate: self.recurrenceDate, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
                 
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
@@ -566,6 +571,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 cell.recurrenceStartDate = startTime
                 cell.recurrenceEndDate = recurrenceDate
                 cell.refresh()
+                recurrenceToggleCell = cell
                 return cell
             default:
                 cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
