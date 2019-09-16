@@ -38,7 +38,6 @@
 		8E48AF8620DFEE9700D814BE /* PlayersScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48AF8520DFEE9700D814BE /* PlayersScrollView.swift */; };
 		8E49E7292100B847009F1B5D /* JoinEventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E49E7282100B847009F1B5D /* JoinEventHelper.swift */; };
 		8E4D36721F8BA45900B8B0B5 /* NSObject+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4D36711F8BA45900B8B0B5 /* NSObject+Utils.swift */; };
-		8E4D36751F8BA47A00B8B0B5 /* Date+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4D36741F8BA47900B8B0B5 /* Date+Utils.swift */; };
 		8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54213D1E70CEF100AE4F3A /* ChatInputViewController.swift */; };
 		8E5421401E70DF8700AE4F3A /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54213F1E70DF8700AE4F3A /* ActionCell.swift */; };
 		8E54EAD02164E5D000937355 /* FeedItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E54EACF2164E5D000937355 /* FeedItemCell.swift */; };
@@ -212,7 +211,6 @@
 		8E48AF8520DFEE9700D814BE /* PlayersScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersScrollView.swift; sourceTree = "<group>"; };
 		8E49E7282100B847009F1B5D /* JoinEventHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinEventHelper.swift; sourceTree = "<group>"; };
 		8E4D36711F8BA45900B8B0B5 /* NSObject+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Utils.swift"; sourceTree = "<group>"; };
-		8E4D36741F8BA47900B8B0B5 /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
 		8E54213D1E70CEF100AE4F3A /* ChatInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputViewController.swift; sourceTree = "<group>"; };
 		8E54213F1E70DF8700AE4F3A /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
 		8E54EACF2164E5D000937355 /* FeedItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemCell.swift; sourceTree = "<group>"; };
@@ -654,7 +652,6 @@
 				8E9D4192213816E300BEBA79 /* GoogleService-Info-dev.plist */,
 				8E9D41902138169200BEBA79 /* GoogleService-Info.plist */,
 				8E19A4A11E6C658600D301EC /* String+Utils.swift */,
-				8E4D36741F8BA47900B8B0B5 /* Date+Utils.swift */,
 				8E4D36711F8BA45900B8B0B5 /* NSObject+Utils.swift */,
 				8E99730A1CE9FA2A00054664 /* Balizinha-Bridging-Header.h */,
 				8E7256A01CDF793200C9E054 /* Assets.xcassets */,
@@ -1016,7 +1013,6 @@
 				8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */,
 				8E09572821AAEB670037DA17 /* OnboardingPhotoViewController.swift in Sources */,
 				8E0F568720159931001E8909 /* OrganizerCellViewModel.swift in Sources */,
-				8E4D36751F8BA47A00B8B0B5 /* Date+Utils.swift in Sources */,
 				8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
 				8E48AF8220DFE21800D814BE /* LeagueInfoCell.swift in Sources */,
