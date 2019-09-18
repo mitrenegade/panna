@@ -477,20 +477,19 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                             })
                         })
                     } else {
-                        self?.checkRecurrenceForDST(start, self?.recurrenceDate) { [weak self] changed in
-                            if changed {
-                                self?.simpleAlert("Check event dates", message: "Your events have been created, but a change in Daylight Saving Time may affect some dates.", completion: {
-                                    self?.navigationController?.dismiss(animated: true, completion: {
-                                        // event created
-                                        self?.delegate?.eventsDidChange()
-                                    })
-                                })
-                            } else {
+                        let changed = Date.didDaylightSavingsChange(start, self?.recurrenceDate)
+                        if changed {
+                            self?.simpleAlert("Check event dates", message: "Your events have been created, but a change in Daylight Saving Time may affect some dates.", completion: {
                                 self?.navigationController?.dismiss(animated: true, completion: {
                                     // event created
                                     self?.delegate?.eventsDidChange()
                                 })
-                            }
+                            })
+                        } else {
+                            self?.navigationController?.dismiss(animated: true, completion: {
+                                // event created
+                                self?.delegate?.eventsDidChange()
+                            })
                         }
                     }
                 }
@@ -1192,15 +1191,6 @@ extension CreateEventViewController: RecurrenceCellDelegate {
             let indexPath = IndexPath(row: index, section: Sections.details.rawValue)
             tableView.reloadRows(at: [indexPath], with: .automatic)
         }
-    }
-    
-    // not delegate func but relating to recurrence
-    func checkRecurrenceForDST(_ start: Date, _ end: Date?, completion:((Bool)->Void)) {
-        guard let end = end else { completion(false); return }
-        let timezone = TimeZone.current
-        let startDST = timezone.isDaylightSavingTime(for: start)
-        let endDST = timezone.isDaylightSavingTime(for: end)
-        completion(startDST != endDST)
     }
 }
 
