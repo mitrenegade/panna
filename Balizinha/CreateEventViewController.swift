@@ -458,13 +458,11 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             activityOverlay.show()
             EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .event3v3, venue: venue, startTime: start, endTime: end, recurrence: self.recurrence, recurrenceEndDate: self.recurrenceDate, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
                 
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [weak self] in
                     self?.activityOverlay.hide()
                     
                     guard let event = event else {
-                        if let error = error {
-                            self?.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
-                        }
+                        self?.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
                         self?.navigationItem.rightBarButtonItem?.isEnabled = true
                         return
                     }
@@ -479,10 +477,21 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                             })
                         })
                     } else {
-                        self?.navigationController?.dismiss(animated: true, completion: {
-                            // event created
-                            self?.delegate?.eventsDidChange()
-                        })
+                        self?.checkRecurrenceForDST(start, self?.recurrenceDate) { [weak self] changed in
+                            if changed {
+                                self?.simpleAlert("Check event dates", message: "Your events have been created, but a change in Daylight Saving Time may affect some dates.", completion: {
+                                    self?.navigationController?.dismiss(animated: true, completion: {
+                                        // event created
+                                        self?.delegate?.eventsDidChange()
+                                    })
+                                })
+                            } else {
+                                self?.navigationController?.dismiss(animated: true, completion: {
+                                    // event created
+                                    self?.delegate?.eventsDidChange()
+                                })
+                            }
+                        }
                     }
                 }
             })
@@ -1183,6 +1192,15 @@ extension CreateEventViewController: RecurrenceCellDelegate {
             let indexPath = IndexPath(row: index, section: Sections.details.rawValue)
             tableView.reloadRows(at: [indexPath], with: .automatic)
         }
+    }
+    
+    // not delegate func but relating to recurrence
+    func checkRecurrenceForDST(_ start: Date, _ end: Date?, completion:((Bool)->Void)) {
+        guard let end = end else { completion(false); return }
+        let timezone = TimeZone.current
+        let startDST = timezone.isDaylightSavingTime(for: start)
+        let endDST = timezone.isDaylightSavingTime(for: end)
+        completion(startDST != endDST)
     }
 }
 
