@@ -28,6 +28,7 @@
 		8E1B00541FC2CC8B00420256 /* TutoriaPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1B00531FC2CC8B00420256 /* TutoriaPageViewController.swift */; };
 		8E1B00561FC2E8FF00420256 /* TutorialButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1B00551FC2E8FF00420256 /* TutorialButtonViewModel.swift */; };
 		8E20BF1A233341DA004E5407 /* MapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E20BF19233341DA004E5407 /* MapService.swift */; };
+		8E20BF1C233348F3004E5407 /* MapServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E20BF1B233348F3004E5407 /* MapServiceTests.swift */; };
 		8E214F8222E4F58A0093A385 /* PlayersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E214F8122E4F58A0093A385 /* PlayersListViewController.swift */; };
 		8E2EC3372255A31A004785E7 /* EventDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2EC3362255A31A004785E7 /* EventDetailsViewModel.swift */; };
 		8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E39FE8D1D237C710030CB96 /* NotificationService.swift */; };
@@ -202,6 +203,7 @@
 		8E1B00531FC2CC8B00420256 /* TutoriaPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutoriaPageViewController.swift; sourceTree = "<group>"; };
 		8E1B00551FC2E8FF00420256 /* TutorialButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialButtonViewModel.swift; sourceTree = "<group>"; };
 		8E20BF19233341DA004E5407 /* MapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapService.swift; sourceTree = "<group>"; };
+		8E20BF1B233348F3004E5407 /* MapServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapServiceTests.swift; sourceTree = "<group>"; };
 		8E214F8122E4F58A0093A385 /* PlayersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersListViewController.swift; sourceTree = "<group>"; };
 		8E2EC3362255A31A004785E7 /* EventDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewModel.swift; sourceTree = "<group>"; };
 		8E39FE8D1D237C710030CB96 /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -586,6 +588,7 @@
 				8E7F7D8B22592C9100AE4C0B /* Info.plist */,
 				8E5C817A22963C10009D8630 /* NotificationServiceTests.swift */,
 				8EFC5E67232B698E00D613EF /* RecurrenceToggleCellTests.swift */,
+				8E20BF1B233348F3004E5407 /* MapServiceTests.swift */,
 			);
 			path = PannaTests;
 			sourceTree = "<group>";
@@ -1098,6 +1101,7 @@
 			files = (
 				8EFC5E69232B6B4B00D613EF /* RecurrenceToggleCell.swift in Sources */,
 				8EFC5E6A232B6C0500D613EF /* ToggleCell.swift in Sources */,
+				8E20BF1C233348F3004E5407 /* MapServiceTests.swift in Sources */,
 				8E5C817B22963C10009D8630 /* NotificationServiceTests.swift in Sources */,
 				8EFC5E68232B698E00D613EF /* RecurrenceToggleCellTests.swift in Sources */,
 				8EFC5E6D232B74E300D613EF /* RecurrenceToggleCellViewModel.swift in Sources */,
