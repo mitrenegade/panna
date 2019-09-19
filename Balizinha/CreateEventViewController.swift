@@ -25,8 +25,19 @@ fileprivate enum Sections: Int {
 fileprivate var FUTURE_DAYS = 90
 
 class CreateEventViewController: UIViewController, UITextViewDelegate {
-    
-    var options: [String]!
+    private enum Options: String {
+        case name = "Name"
+        case type = "Event Type"
+        case venue = "Venue"
+        case day = "Day"
+        case start = "Start Time"
+        case end = "End Time"
+        case recurrence = "Recurrence"
+        case players = "Max Players"
+        case payment = "Payment"
+    }
+
+    private var options: [Options]!
     var eventTypes: [Balizinha.Event.EventType] = [.other, .event3v3, .event5v5, .event7v7, .event11v11, .group, .social]
     
     var currentField : UITextField?
@@ -35,13 +46,27 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var name: String?
     var type : Balizinha.Event.EventType?
     var venue: Venue?
-    var date : Date?
+    var eventDate : Date? {
+        didSet {
+            if let eventDate = eventDate, let startTime = startTime {
+                recurrenceToggleCell?.recurrenceStartDate = combineDateAndTime(eventDate, time: startTime)
+            }
+        }
+    }
     var dateString: String?
-    var startTime: Date?
+    var startTime: Date? {
+        didSet {
+            if let eventDate = eventDate, let startTime = startTime {
+                recurrenceToggleCell?.recurrenceStartDate = combineDateAndTime(eventDate, time: startTime)
+            }
+        }
+    }
     var endTime: Date?
     var maxPlayers : UInt?
     var info : String?
     var paymentRequired: Bool = false
+    var recurrence: Date.Recurrence = .none
+    var recurrenceDate: Date?
     var amount: NSNumber?
     
     private var clonedDateRow: Int = -1
@@ -56,7 +81,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var descriptionTextView : UITextView?
     var amountField: UITextField?
     var paymentSwitch: UISwitch?
-    
+    weak var recurrenceToggleCell: RecurrenceToggleCell?
+
     var keyboardDoneButtonView: UIToolbar!
     var keyboardDoneButtonView2: UIToolbar!
     var keyboardHeight : CGFloat!
@@ -98,10 +124,11 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.navigationItem.title = "Edit Event"
         }
         
-        options = ["Name", "Event Type", "Venue", "Day", "Start Time", "End Time", "Max Players"]
+        options = [.name, .type, .venue, .day, .start, .end, .recurrence, .players]
         if SettingsService.paymentRequired() {
-            options.append("Payment")
+            options.append(.payment)
         }
+        // TODO: make recurrence feature flagged
         
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 44
@@ -142,13 +169,15 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         type = event.type
         if event == eventToEdit {
             // only include date if event is being edited
-            date = eventToEdit?.startTime
+            eventDate = eventToEdit?.startTime
             startTime = eventToEdit?.startTime
             endTime = eventToEdit?.endTime
         }
         maxPlayers = UInt(event.maxPlayers)
         info = event.info
         paymentRequired = event.paymentRequired
+        recurrence = event.recurrence
+        recurrenceDate = event.recurrenceEndDate
         amount = event.amount
         
         if let venueId = event.venueId {
@@ -252,7 +281,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
         if TESTING, eventToEdit == nil, eventToClone == nil {
-            self.date = Date()
+            self.eventDate = Date()
             self.startTime = Date()+1800
             self.endTime = Date()+3600
             maxPlayers = 10
@@ -352,7 +381,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.simpleAlert("Invalid selection", message: "Invalid state for selected venue")
             return
         }
-        guard let date = self.date else {
+        guard let eventDate = self.eventDate else {
             self.simpleAlert("Invalid selection", message: "Please select the event date")
             return
         }
@@ -382,8 +411,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.cacheOrganizerFavorites()
         }
 
-        let start = self.combineDateAndTime(date, time: startTime)
-        var end = self.combineDateAndTime(date, time: endTime)
+        let start = self.combineDateAndTime(eventDate, time: startTime)
+        var end = self.combineDateAndTime(eventDate, time: endTime)
         // most like scenario is that endTime is past midnight so it gets interpreted as midnight of the day before.
         if end.timeIntervalSince(start) < 0 {
             end = end.addingTimeInterval(24*3600)
@@ -405,6 +434,10 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             dict["paymentRequired"] = self.paymentRequired
             if paymentRequired {
                 dict["amount"] = self.amount
+            }
+            dict["recurrence"] = recurrence.rawValue
+            if let date = recurrenceDate {
+                dict["recurrenceEndDate"] = date.timeIntervalSince1970
             }
             event.dict = dict
             event.firebaseRef?.updateChildValues(dict) // update all these values without multiple update calls
@@ -431,15 +464,13 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         else {
             activityOverlay.show()
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .event3v3, venue: nil, city: city, state: state, lat: venue.lat, lon: venue.lon, place: venueName, startTime: start, endTime: end, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .event3v3, venue: venue, startTime: start, endTime: end, recurrence: self.recurrence, recurrenceEndDate: self.recurrenceDate, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
                 
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [weak self] in
                     self?.activityOverlay.hide()
                     
                     guard let event = event else {
-                        if let error = error {
-                            self?.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
-                        }
+                        self?.simpleAlert("Could not create event", defaultMessage: "There was an error creating your event.", error: error)
                         self?.navigationItem.rightBarButtonItem?.isEnabled = true
                         return
                     }
@@ -454,10 +485,20 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                             })
                         })
                     } else {
-                        self?.navigationController?.dismiss(animated: true, completion: {
-                            // event created
-                            self?.delegate?.eventsDidChange()
-                        })
+                        let changed = Date.didDaylightSavingsChange(start, self?.recurrenceDate)
+                        if changed {
+                            self?.simpleAlert("Check event dates", message: "Your events have been created, but a change in Daylight Saving Time may affect some dates.", completion: {
+                                self?.navigationController?.dismiss(animated: true, completion: {
+                                    // event created
+                                    self?.delegate?.eventsDidChange()
+                                })
+                            })
+                        } else {
+                            self?.navigationController?.dismiss(animated: true, completion: {
+                                // event created
+                                self?.delegate?.eventsDidChange()
+                            })
+                        }
                     }
                 }
             })
@@ -512,41 +553,50 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             return cell
         case Sections.details.rawValue:
             let cell : DetailCell
-            if options[indexPath.row] == "Venue" || options[indexPath.row] == "City" || options[indexPath.row] == "Name" {
+            switch options[indexPath.row] {
+            case .venue, .name:
                 cell = tableView.dequeueReusableCell(withIdentifier: "cityCell", for: indexPath) as! DetailCell
                 cell.valueTextField.delegate = self
                 cell.valueTextField.inputAccessoryView = nil
                 
-                if options[indexPath.row] == "Venue" {
+                if options[indexPath.row] == .venue {
                     cell.valueTextField.placeholder = "Fenway Park"
                     self.placeField = cell.valueTextField
                     self.placeField?.text = venue?.name
                     self.placeField?.isUserInteractionEnabled = false
-                } else if options[indexPath.row] == "Name" {
+                } else if options[indexPath.row] == .name {
                     cell.valueTextField.placeholder = "Balizinha"
                     self.nameField = cell.valueTextField
                     self.nameField?.text = name
                     self.nameField?.isUserInteractionEnabled = true
                 }
-                
-            }
-            else if options[indexPath.row] == "Payment" {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell", for: indexPath) as! ToggleCell
+            case .payment:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentToggleCell", for: indexPath) as! ToggleCell
                 cell.input?.inputAccessoryView = keyboardDoneButtonView
                 cell.delegate = self
                 self.amountField = cell.input
                 self.paymentSwitch = cell.switchToggle
                 self.didToggle(cell.switchToggle, isOn: paymentRequired)
                 return cell
-            }
-            else {
+            case .recurrence:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "RecurrenceToggleCell", for: indexPath) as! RecurrenceToggleCell
+                cell.recurrenceDelegate = self
+                cell.presenter = self
+                
+                cell.recurrence = recurrence
+                cell.recurrenceStartDate = startTime
+                cell.recurrenceEndDate = recurrenceDate
+                cell.refresh()
+                recurrenceToggleCell = cell
+                return cell
+            default:
                 cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
                 
                 cell.valueTextField.isUserInteractionEnabled = false;
                 cell.valueTextField.delegate = self
                 
                 switch options[indexPath.row] {
-                case "Event Type":
+                case .type:
                     self.typeField = cell.valueTextField
                     self.typeField?.inputView = self.typePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView2
@@ -558,28 +608,28 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                             typeField!.text = eventTypes[index].rawValue
                         }
                     }
-                case "Day":
+                case .day:
                     self.dayField = cell.valueTextField
                     self.dayField?.inputView = self.datePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
-                    if let date = date {
-                        self.dayField?.text = date.dateStringForPicker()
+                    if let eventDate = eventDate {
+                        self.dayField?.text = eventDate.dateStringForPicker()
                     }
-                case "Start Time":
+                case .start:
                     self.startField = cell.valueTextField
                     self.startField?.inputView = self.startTimePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
                     if let date = startTime {
                         self.startField?.text = date.timeStringForPicker()
                     }
-                case "End Time":
+                case .end:
                     self.endField = cell.valueTextField
                     self.endField?.inputView = self.endTimePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
                     if let date = endTime {
                         self.endField?.text = date.timeStringForPicker()
                     }
-                case "Max Players":
+                case .players:
                     self.maxPlayersField = cell.valueTextField
                     self.maxPlayersField?.inputView = self.numberPickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView2
@@ -592,7 +642,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 }
 
             }
-            cell.labelAttribute.text = options[indexPath.row]
+            cell.labelAttribute.text = options[indexPath.row].rawValue
 
             return cell
 
@@ -690,20 +740,20 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             
             let textField: UITextField?
             switch options[indexPath.row] {
-            case "Name":
+            case .name:
                 textField = self.nameField
-            case "Event Type":
+            case .type:
                 textField = self.typeField
                 typePickerView.reloadAllComponents()
-            case "Venue":
+            case .venue:
                 textField = self.placeField
-            case "Day":
+            case .day:
                 textField = self.dayField
-            case "Start Time":
+            case .start:
                 textField = self.startField
-            case "End Time":
+            case .end:
                 textField = self.endField
-            case "Max Players":
+            case .players:
                 textField = self.maxPlayersField
                 print("Tapped number of players")
                 numberPickerView.reloadAllComponents()
@@ -716,7 +766,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             textField?.becomeFirstResponder()
             currentField = textField
             
-            if options[indexPath.row] == "Venue" {
+            if options[indexPath.row] == .venue {
                 performSegue(withIdentifier: "toLocationSearch", sender: nil)
             }
         case Sections.cancel.rawValue:
@@ -910,16 +960,18 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
     func datePickerValueChanged(_ sender:UIPickerView) {
         let row = sender.selectedRow(inComponent: 0)
         guard row < self.datesForPicker.count else { return }
-        self.date = self.datesForPicker[row]
-        self.dateString = self.datesForPicker[row].dateStringForPicker()
-        currentField!.text = dateString
+        if currentField == dayField {
+            eventDate = self.datesForPicker[row]
+            dateString = self.datesForPicker[row].dateStringForPicker()
+            currentField?.text = dateString
+        }
     }
     
     @objc func timePickerValueChanged(_ sender:UIDatePicker) {
         currentField!.text = sender.date.timeStringForPicker()
         if (sender == startTimePickerView) {
             self.startTime = sender.clampedDate
-        } else {
+        } else if (sender == endTimePickerView) {
             self.endTime = sender.clampedDate
         }
     }
@@ -942,7 +994,7 @@ extension CreateEventViewController: UITextFieldDelegate {
             endTimePickerView.date = endTimePickerView.futureClampedDate
         }
         
-        if textField == amountField, let index = options.firstIndex(of: "Payment") {
+        if textField == amountField, let index = options.firstIndex(of: .payment) {
             tableView.scrollToRow(at: IndexPath(row: index, section: Sections.details.rawValue), at: .top, animated: true)
         }
     }
@@ -1118,22 +1170,35 @@ extension CreateEventViewController {
 // MARK: ToggleCell
 extension CreateEventViewController: ToggleCellDelegate {
     func didToggle(_ toggle: UISwitch, isOn: Bool) {
-        paymentRequired = isOn
-        self.paymentSwitch?.isOn = isOn
-        self.amountField?.isEnabled = isOn
-        self.amountField?.isHidden = !isOn
-        if isOn {
-            self.revertAmount()
-        }
-        
-        // logging to track event changes
-        if let event = eventToEdit {
-            LoggingService.shared.log(event: .ToggleEventPaymentRequired, info: ["eventId": event.id, "paymentRequired": paymentRequired])
+        if toggle == paymentSwitch {
+            paymentRequired = isOn
+            self.paymentSwitch?.isOn = isOn
+            self.amountField?.isEnabled = isOn
+            self.amountField?.isHidden = !isOn
+            if isOn {
+                self.revertAmount()
+            }
+            
+            // logging to track event changes
+            if let event = eventToEdit {
+                LoggingService.shared.log(event: .ToggleEventPaymentRequired, info: ["eventId": event.id, "paymentRequired": paymentRequired])
+            }
         }
     }
-    
+
     func revertAmount() {
         self.amountField?.text = EventService.amountString(from: self.amount)
+    }
+}
+
+extension CreateEventViewController: RecurrenceCellDelegate {
+    func didSelectRecurrence(_ recurrence: Date.Recurrence, _ recurrenceEndDate: Date?) {
+        self.recurrence = recurrence
+        recurrenceDate = recurrenceEndDate
+        if let index = options.firstIndex(of: .recurrence) {
+            let indexPath = IndexPath(row: index, section: Sections.details.rawValue)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
     }
 }
 
