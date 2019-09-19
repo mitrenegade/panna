@@ -27,6 +27,8 @@
 		8E19A4B01E6C9CF200D301EC /* PaymentTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4AF1E6C9CF200D301EC /* PaymentTypesViewController.swift */; };
 		8E1B00541FC2CC8B00420256 /* TutoriaPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1B00531FC2CC8B00420256 /* TutoriaPageViewController.swift */; };
 		8E1B00561FC2E8FF00420256 /* TutorialButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1B00551FC2E8FF00420256 /* TutorialButtonViewModel.swift */; };
+		8E20BF1A233341DA004E5407 /* MapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E20BF19233341DA004E5407 /* MapService.swift */; };
+		8E20BF1C233348F3004E5407 /* MapServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E20BF1B233348F3004E5407 /* MapServiceTests.swift */; };
 		8E214F8222E4F58A0093A385 /* PlayersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E214F8122E4F58A0093A385 /* PlayersListViewController.swift */; };
 		8E2EC3372255A31A004785E7 /* EventDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2EC3362255A31A004785E7 /* EventDetailsViewModel.swift */; };
 		8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E39FE8D1D237C710030CB96 /* NotificationService.swift */; };
@@ -200,6 +202,8 @@
 		8E19A4AF1E6C9CF200D301EC /* PaymentTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentTypesViewController.swift; sourceTree = "<group>"; };
 		8E1B00531FC2CC8B00420256 /* TutoriaPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutoriaPageViewController.swift; sourceTree = "<group>"; };
 		8E1B00551FC2E8FF00420256 /* TutorialButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialButtonViewModel.swift; sourceTree = "<group>"; };
+		8E20BF19233341DA004E5407 /* MapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapService.swift; sourceTree = "<group>"; };
+		8E20BF1B233348F3004E5407 /* MapServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapServiceTests.swift; sourceTree = "<group>"; };
 		8E214F8122E4F58A0093A385 /* PlayersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersListViewController.swift; sourceTree = "<group>"; };
 		8E2EC3362255A31A004785E7 /* EventDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewModel.swift; sourceTree = "<group>"; };
 		8E39FE8D1D237C710030CB96 /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -449,6 +453,7 @@
 				8E7A2FFF1F833969004EAE6A /* PromotionService.swift */,
 				8EDD13E81FEB78C10039F1A7 /* ShareService.swift */,
 				8E16A59D1FECB34400D24D69 /* DeepLinkService.swift */,
+				8E20BF19233341DA004E5407 /* MapService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -583,6 +588,7 @@
 				8E7F7D8B22592C9100AE4C0B /* Info.plist */,
 				8E5C817A22963C10009D8630 /* NotificationServiceTests.swift */,
 				8EFC5E67232B698E00D613EF /* RecurrenceToggleCellTests.swift */,
+				8E20BF1B233348F3004E5407 /* MapServiceTests.swift */,
 			);
 			path = PannaTests;
 			sourceTree = "<group>";
@@ -1001,6 +1007,7 @@
 				8E7A5A0222B8963200DDBB01 /* EventPlayersViewController.swift in Sources */,
 				8E0F5685201598CD001E8909 /* OrganizerCell.swift in Sources */,
 				8E74E54B1FA9FB51005F72DA /* PlaceSearchViewController.swift in Sources */,
+				8E20BF1A233341DA004E5407 /* MapService.swift in Sources */,
 				8EB90B3B1FB2BABE007C60F0 /* TutorialViewController.swift in Sources */,
 				8E5421401E70DF8700AE4F3A /* ActionCell.swift in Sources */,
 				8EDA009E1F6597BC0080F446 /* LoggingService.swift in Sources */,
@@ -1094,6 +1101,7 @@
 			files = (
 				8EFC5E69232B6B4B00D613EF /* RecurrenceToggleCell.swift in Sources */,
 				8EFC5E6A232B6C0500D613EF /* ToggleCell.swift in Sources */,
+				8E20BF1C233348F3004E5407 /* MapServiceTests.swift in Sources */,
 				8E5C817B22963C10009D8630 /* NotificationServiceTests.swift in Sources */,
 				8EFC5E68232B698E00D613EF /* RecurrenceToggleCellTests.swift in Sources */,
 				8EFC5E6D232B74E300D613EF /* RecurrenceToggleCellViewModel.swift in Sources */,

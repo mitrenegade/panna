@@ -36,7 +36,7 @@ class VenueCell: UITableViewCell {
     }
     
     @IBAction func didClickMap(_ sender: UIButton?) {
-        // TODO: open google map to show location
+        MapService.goToMapLocation(venue: venue)
     }
 }
 
