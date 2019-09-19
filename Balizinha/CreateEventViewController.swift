@@ -46,11 +46,19 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var name: String?
     var type : Balizinha.Event.EventType?
     var venue: Venue?
-    var date : Date?
+    var eventDate : Date? {
+        didSet {
+            if let eventDate = eventDate, let startTime = startTime {
+                recurrenceToggleCell?.recurrenceStartDate = combineDateAndTime(eventDate, time: startTime)
+            }
+        }
+    }
     var dateString: String?
     var startTime: Date? {
         didSet {
-            recurrenceToggleCell?.recurrenceStartDate = startTime
+            if let eventDate = eventDate, let startTime = startTime {
+                recurrenceToggleCell?.recurrenceStartDate = combineDateAndTime(eventDate, time: startTime)
+            }
         }
     }
     var endTime: Date?
@@ -161,7 +169,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         type = event.type
         if event == eventToEdit {
             // only include date if event is being edited
-            date = eventToEdit?.startTime
+            eventDate = eventToEdit?.startTime
             startTime = eventToEdit?.startTime
             endTime = eventToEdit?.endTime
         }
@@ -273,7 +281,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         keyboardDoneButtonView2.setItems([flex, save2], animated: true)
         
         if TESTING, eventToEdit == nil, eventToClone == nil {
-            self.date = Date()
+            self.eventDate = Date()
             self.startTime = Date()+1800
             self.endTime = Date()+3600
             maxPlayers = 10
@@ -373,7 +381,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.simpleAlert("Invalid selection", message: "Invalid state for selected venue")
             return
         }
-        guard let date = self.date else {
+        guard let eventDate = self.eventDate else {
             self.simpleAlert("Invalid selection", message: "Please select the event date")
             return
         }
@@ -403,8 +411,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.cacheOrganizerFavorites()
         }
 
-        let start = self.combineDateAndTime(date, time: startTime)
-        var end = self.combineDateAndTime(date, time: endTime)
+        let start = self.combineDateAndTime(eventDate, time: startTime)
+        var end = self.combineDateAndTime(eventDate, time: endTime)
         // most like scenario is that endTime is past midnight so it gets interpreted as midnight of the day before.
         if end.timeIntervalSince(start) < 0 {
             end = end.addingTimeInterval(24*3600)
@@ -604,8 +612,8 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     self.dayField = cell.valueTextField
                     self.dayField?.inputView = self.datePickerView
                     cell.valueTextField.inputAccessoryView = self.keyboardDoneButtonView
-                    if let date = date {
-                        self.dayField?.text = date.dateStringForPicker()
+                    if let eventDate = eventDate {
+                        self.dayField?.text = eventDate.dateStringForPicker()
                     }
                 case .start:
                     self.startField = cell.valueTextField
@@ -953,8 +961,8 @@ extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegat
         let row = sender.selectedRow(inComponent: 0)
         guard row < self.datesForPicker.count else { return }
         if currentField == dayField {
-            self.date = self.datesForPicker[row]
-            self.dateString = self.datesForPicker[row].dateStringForPicker()
+            eventDate = self.datesForPicker[row]
+            dateString = self.datesForPicker[row].dateStringForPicker()
             currentField?.text = dateString
         }
     }
