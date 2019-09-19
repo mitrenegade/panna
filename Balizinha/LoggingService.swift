@@ -94,6 +94,10 @@ enum LoggingEvent: String {
     case DashboardViewLeagueActions
     case DashboardViewEventPlayers
     case DashboardSearchForTerm
+    
+    // venue
+    case ShowVenueLocationOnMap
+
 }
 
 class LoggingService: NSObject {

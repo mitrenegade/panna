@@ -36,7 +36,34 @@ class VenueCell: UITableViewCell {
     }
     
     @IBAction func didClickMap(_ sender: UIButton?) {
-        // TODO: open google map to show location
+        goToMapLocation()
     }
-}
+
+    private func goToMapLocation() {
+        // https://developers.google.com/maps/documentation/urls/guide
+        guard let venue = venue else { return }
+        guard var urlComponents = URLComponents(string: "https://www.google.com/maps/search/") else { return }
+        var queryParams: [String: String] = ["api": "1"]
+        var query: String = ""
+        if let place = venue.name {
+            query = "\(query) \(place)"
+        }
+        if let shortString = venue.shortString {
+            // open using city, state
+            query = "\(query) \(shortString)"
+        }
+        queryParams["query"] = query
+        if let placeId = venue.placeId {
+            // placeId is used first if it can be found
+            queryParams["query_place_id"] = placeId
+        }
+        urlComponents.queryItems = queryParams.map { URLQueryItem(name: $0.key, value: $0.value)}
+        
+        if let url = urlComponents.url {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            LoggingService.shared.log(event: .ShowVenueLocationOnMap, info: queryParams)
+        } else {
+            LoggingService.shared.log(event: .ShowVenueLocationOnMap, info: ["error": "invalidUrl"].merging(queryParams, uniquingKeysWith: { old, new in new }))
+        }
+    }}
 
