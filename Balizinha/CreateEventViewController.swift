@@ -441,6 +441,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             if let date = recurrenceDate {
                 dict["recurrenceEndDate"] = date.timeIntervalSince1970
             }
+            dict["venueId"] = venue.id
             event.dict = dict
             event.firebaseRef?.updateChildValues(dict) // update all these values without multiple update calls
 
