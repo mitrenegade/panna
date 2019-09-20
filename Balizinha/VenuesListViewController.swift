@@ -52,8 +52,7 @@ class VenuesListViewController: SearchableListViewController {
             self?.activityOverlay.hide()
         }
 
-        // TODO: createVenue mode
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createVenue))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New", style: .plain, target: self, action: #selector(createVenue))
     }
 }
 
@@ -108,18 +107,15 @@ extension VenuesListViewController {
 
 // MARK: Venue creation
 extension VenuesListViewController {
-    //    @objc func createVenue() {
-    //        performSegue(withIdentifier: "toLocationSearch", sender: nil)
-    //    }
+    @objc func createVenue() {
+        performSegue(withIdentifier: "toLocationSearch", sender: nil)
+    }
     
-    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    //        if segue.identifier == "toLocationSearch", let controller = segue.destination as? PlaceSearchViewController {
-    //            controller.delegate = self
-    //            if let venue = sender as? Venue {
-    //                controller.currentVenue = venue
-    //            }
-    //        }
-    //    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toLocationSearch", let controller = segue.destination as? PlaceSearchViewController {
+            controller.delegate = self
+        }
+    }
 }
 // MARK: PlaceSearchDelegate
 extension VenuesListViewController: PlaceSelectDelegate {
