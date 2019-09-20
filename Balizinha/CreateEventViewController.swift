@@ -181,9 +181,12 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         amount = event.amount
         
         if let venueId = event.venueId {
+            self.placeField?.placeholder = "Loading..."
             VenueService.shared.withId(id: venueId) { [weak self] (result) in
                 if let venue = result {
-                    self?.venue = venue
+                    DispatchQueue.main.async {
+                        self?.didSelectVenue(venue)
+                    }
                 }
             }
         }
@@ -439,6 +442,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             if let date = recurrenceDate {
                 dict["recurrenceEndDate"] = date.timeIntervalSince1970
             }
+            dict["venueId"] = venue.id
             event.dict = dict
             event.firebaseRef?.updateChildValues(dict) // update all these values without multiple update calls
 
