@@ -183,7 +183,9 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         if let venueId = event.venueId {
             VenueService.shared.withId(id: venueId) { [weak self] (result) in
                 if let venue = result {
-                    self?.venue = venue
+                    DispatchQueue.main.async {
+                        self?.didSelectVenue(venue)
+                    }
                 }
             }
         }
