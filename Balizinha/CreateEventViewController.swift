@@ -179,17 +179,18 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         recurrence = event.recurrence
         recurrenceDate = event.recurrenceEndDate
         amount = event.amount
-        
-        if let venueId = event.venueId {
-            self.placeField?.placeholder = "Loading..."
-            VenueService.shared.withId(id: venueId) { [weak self] (result) in
-                if let venue = result {
-                    DispatchQueue.main.async {
-                        self?.didSelectVenue(venue)
-                    }
-                }
-            }
-        }
+
+        // this causes it to lock up. for now, a cloned event doesn't have to copy the venue
+//        if let venueId = event.venueId {
+//            placeField?.placeholder = "Loading..."
+//            VenueService.shared.withId(id: venueId) { [weak self] (result) in
+//                if let clonedVenue = result {
+//                    DispatchQueue.main.async { [weak self] in
+//                        self?.didSelectVenue(clonedVenue)
+//                    }
+//                }
+//            }
+//        }
 
         if let leagueId = event.leagueId {
             LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
@@ -1216,15 +1217,15 @@ extension CreateEventViewController: VenuesListDelegate {
         
     }
     
-    func didSelectVenue(_ venue: Venue) {
-        if let location = venue.name {
-            self.placeField?.text = location
+    func didSelectVenue(_ newVenue: Venue) {
+        if let location = newVenue.name {
+            placeField?.text = location
         }
-        else if let street = venue.street {
-            self.placeField?.text = street
+        else if let street = newVenue.street {
+            placeField?.text = street
         }
 
-        self.venue = venue
-        self.navigationController?.popToViewController(self, animated: true)
+        venue = newVenue
+        navigationController?.popToViewController(self, animated: true)
     }
 }
