@@ -180,16 +180,16 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         recurrenceDate = event.recurrenceEndDate
         amount = event.amount
         
-        if let venueId = event.venueId {
-            self.placeField?.placeholder = "Loading..."
-            VenueService.shared.withId(id: venueId) { [weak self] (result) in
-                if let venue = result {
-                    DispatchQueue.main.async {
-                        self?.didSelectVenue(venue)
-                    }
-                }
-            }
-        }
+//        if let venueId = event.venueId {
+//            self.placeField?.placeholder = "Loading..."
+//            VenueService.shared.withId(id: venueId) { [weak self] (result) in
+//                if let venue = result {
+//                    DispatchQueue.main.async {
+//                        self?.didSelectVenue(venue)
+//                    }
+//                }
+//            }
+//        }
 
         if let leagueId = event.leagueId {
             LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
