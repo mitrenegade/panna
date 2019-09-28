@@ -144,7 +144,9 @@ class SplashViewController: UIViewController {
 
             LeagueService.shared.leagueMemberships(for: player, completion: { [weak self] _ in
                 // causes _playerLeagues to exist, so homeViewController can determine whether user is an owner/organizer
-                self?.goToMain()
+                DispatchQueue.main.asyncAfter(deadline: time, execute: {
+                    self?.goToMain()
+                })
             })
         }
     
