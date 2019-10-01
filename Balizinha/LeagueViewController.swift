@@ -322,6 +322,7 @@ extension LeagueViewController: UITableViewDelegate {
         
         if indexPath.section == sections.firstIndex(of: .feed), indexPath.row < feedItems.count, let index = feedIndex(for: indexPath) {
             let feedItem = feedItems[index]
+            LoggingService.shared.log(event: .FeedItemClicked, info: ["type": feedItem.type, "id": feedItem.id])
             if let actionId = feedItem.actionId {
                 ActionService().withId(id: actionId) { [weak self] (action) in
                     if let action = action, action.type == ActionType.chat {
@@ -336,6 +337,7 @@ extension LeagueViewController: UITableViewDelegate {
                 }
             } else {
                 if feedItem.type == FeedItemType.chat, let userId = feedItem.userId {
+                    LoggingService.shared.log(event: .FeedItemChatViewed, info: ["id": feedItem.id])
                     PlayerService.shared.withId(id: userId, completion: { [weak self] (player) in
                         let displayMessage = feedItem.message ?? feedItem.defaultMessage
                         DispatchQueue.main.async {

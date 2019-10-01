@@ -104,6 +104,10 @@ enum LoggingEvent: String {
     case RecurringEventToggled
     case RecurringEventEndDateClicked
     case RecurringEventDaylightSavingsWarned
+    
+    // feed item clicks
+    case FeedItemClicked
+    case FeedItemChatViewed
 }
 
 class LoggingService: NSObject {
