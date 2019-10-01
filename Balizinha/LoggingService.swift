@@ -98,6 +98,7 @@ enum LoggingEvent: String {
     // venue
     case ShowVenueLocationOnMap
     case FilterVenueBySearchTerm
+    case CreateVenueStarted
 }
 
 class LoggingService: NSObject {

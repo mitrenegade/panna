@@ -115,6 +115,7 @@ extension VenuesListViewController {
 // MARK: Venue creation
 extension VenuesListViewController {
     @objc func createVenue() {
+        LoggingService.shared.log(event: .CreateVenueStarted)
         performSegue(withIdentifier: "toLocationSearch", sender: nil)
     }
     
