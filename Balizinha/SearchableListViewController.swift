@@ -69,7 +69,7 @@ extension SearchableListViewController {
         return true
     }
     
-    func search(for string: String?) {
+    @objc func search(for string: String?) {
         if let term = string {
             let info: [String: Any] = ["search": term]
             LoggingService.shared.log(event: .DashboardSearchForTerm, info: info)

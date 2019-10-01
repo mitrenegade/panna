@@ -498,6 +498,13 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                                     self?.delegate?.eventsDidChange()
                                 })
                             })
+                            
+                            // logging only
+                            var info = ["start": start.dateString()]
+                            if let end = self?.recurrenceDate {
+                                info["end"] = end.dateString()
+                            }
+                            LoggingService.shared.log(event: .RecurringEventDaylightSavingsWarned, info: info)
                         } else {
                             self?.navigationController?.dismiss(animated: true, completion: {
                                 // event created

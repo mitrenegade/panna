@@ -97,7 +97,17 @@ enum LoggingEvent: String {
     
     // venue
     case ShowVenueLocationOnMap
-
+    case FilterVenueBySearchTerm
+    case CreateVenueStarted
+    
+    // recurring events
+    case RecurringEventToggled
+    case RecurringEventEndDateClicked
+    case RecurringEventDaylightSavingsWarned
+    
+    // feed item clicks
+    case FeedItemClicked
+    case FeedItemChatViewed
 }
 
 class LoggingService: NSObject {

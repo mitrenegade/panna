@@ -54,6 +54,13 @@ class VenuesListViewController: SearchableListViewController {
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New", style: .plain, target: self, action: #selector(createVenue))
     }
+    
+    override func search(for string: String?) {
+        super.search(for: string)
+        if let string = string, !string.isEmpty {
+            LoggingService.shared.log(event: .FilterVenueBySearchTerm, info: ["search": string])
+        }
+    }
 }
 
 // MARK: - TableView Datasource and Delegate
@@ -108,6 +115,7 @@ extension VenuesListViewController {
 // MARK: Venue creation
 extension VenuesListViewController {
     @objc func createVenue() {
+        LoggingService.shared.log(event: .CreateVenueStarted)
         performSegue(withIdentifier: "toLocationSearch", sender: nil)
     }
     
