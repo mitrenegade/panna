@@ -323,11 +323,32 @@ extension LeagueViewController: UITableViewDelegate {
         if indexPath.section == sections.firstIndex(of: .feed), indexPath.row < feedItems.count, let index = feedIndex(for: indexPath) {
             let feedItem = feedItems[index]
             if let actionId = feedItem.actionId {
-                ActionService().withId(id: actionId) { (action) in
-                    if let eventId = action?.eventId, let url = URL(string: "panna://events/\(eventId)") {
-                        // use internal deeplink for easy navigation to event
-                        DeepLinkService.shared.handle(url: url)
+                ActionService().withId(id: actionId) { [weak self] (action) in
+                    if let action = action, action.type == ActionType.chat {
+                        let viewModel = ActionViewModel(action: action)
+                        self?.simpleAlert(viewModel.displayDate, message: viewModel.displayString)
+                    } else {
+                        if let eventId = action?.eventId, let url = URL(string: "panna://events/\(eventId)") {
+                            // use internal deeplink for easy navigation to event
+                            DeepLinkService.shared.handle(url: url)
+                        }
                     }
+                }
+            } else {
+                if feedItem.type == FeedItemType.chat, let userId = feedItem.userId {
+                    PlayerService.shared.withId(id: userId, completion: { [weak self] (player) in
+                        let displayMessage = feedItem.message ?? feedItem.defaultMessage
+                        DispatchQueue.main.async {
+                            if let name = player?.name {
+                                let title = "\(name) said:"
+                                self?.simpleAlert(title, message: displayMessage)
+                            } else {
+                                self?.simpleAlert("Chat message:", message: displayMessage)
+                            }
+                        }
+                    })
+                } else if feedItem.type == FeedItemType.photo {
+                    // TODO
                 }
             }
         }
