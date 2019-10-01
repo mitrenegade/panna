@@ -99,6 +99,11 @@ enum LoggingEvent: String {
     case ShowVenueLocationOnMap
     case FilterVenueBySearchTerm
     case CreateVenueStarted
+    
+    // recurring events
+    case RecurringEventToggled
+    case RecurringEventEndDateClicked
+    case RecurringEventDaylightSavingsWarned
 }
 
 class LoggingService: NSObject {
