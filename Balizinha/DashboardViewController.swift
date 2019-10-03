@@ -28,6 +28,8 @@ class DashboardViewController: UIViewController {
     var leaguePickerView: UIPickerView = UIPickerView()
     var pickerRow: Int = 0
     let leagueInput: UITextField = UITextField()
+    
+    private var loaded: Bool = false
 
     private let disposeBag = DisposeBag()
     
@@ -44,26 +46,10 @@ class DashboardViewController: UIViewController {
         title = "Dashboard"
         
         setupLeagueSelector()
-        if AIRPLANE_MODE {
-            leagues = [MockService.mockLeague()]
-        } else {
-            leagues = LeagueService.shared.ownerLeagues.sorted(by: { (l1, l2) -> Bool in
-                guard let name1 = l1.name?.lowercased() else { return true }
-                guard let name2 = l2.name?.lowercased() else { return false }
-                return name1 < name2
-            })
-        }
-
-        if let leagueId = DefaultsManager.shared.value(forKey: "DashboardLeagueId") as? String {
-            league = leagues.first(where: { (l) -> Bool in
-                return l.id == leagueId
-            })
-        }
-        
-        if let league = league, let index = leagues.firstIndex(of: league) {
-            pickerRow = index
-        } else {
-            selectLeague(showPrompt: true)
+        LeagueService.shared.getLeagues { [weak self] (leagues) in
+            self?.loaded = true
+            self?.refreshLeagues()
+            self?.loadCachedLeague()
         }
 
         // this log event only happens once per launch but shows when the user does open the dashboard
@@ -103,6 +89,33 @@ class DashboardViewController: UIViewController {
         tableView.addSubview(leagueInput)
     }
 
+    func refreshLeagues() {
+        if AIRPLANE_MODE {
+            leagues = [MockService.mockLeague()]
+        } else {
+            leagues = LeagueService.shared.ownerLeagues.sorted(by: { (l1, l2) -> Bool in
+                guard let name1 = l1.name?.lowercased() else { return true }
+                guard let name2 = l2.name?.lowercased() else { return false }
+                return name1 < name2
+            })
+        }
+    }
+    
+    func loadCachedLeague() {
+        if let leagueId = DefaultsManager.shared.value(forKey: "DashboardLeagueId") as? String {
+            league = leagues.first(where: { (l) -> Bool in
+                return l.id == leagueId
+            })
+        }
+        
+        if let league = league, let index = leagues.firstIndex(of: league) {
+            pickerRow = index
+            saveInput()
+        } else {
+            selectLeague(showPrompt: true)
+        }
+    }
+    
     func selectLeague(showPrompt: Bool) {
         if showPrompt {
             simpleAlert("Select a league", message: "Please choose which league to view in the dashboard. You can change this later.") {
@@ -177,7 +190,11 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         
         let row = indexPath.row
         if row == 0 {
-            selectLeague(showPrompt: false)
+            if leagues.isEmpty {
+                refreshLeagues()
+            } else {
+                selectLeague(showPrompt: false)
+            }
         } else {
             let option = menuItems[row]
             if league != nil {
