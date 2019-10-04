@@ -430,8 +430,8 @@ extension LeagueViewController: LeagueButtonCellDelegate {
             activityOverlay.show()
             LeagueService.shared.leave(league: league) { [weak self] (result, error) in
                 print("Leave league result \(String(describing: result)) error \(String(describing: error))")
-                self?.joinLeagueCell?.reset()
                 DispatchQueue.main.async {
+                    self?.joinLeagueCell?.reset()
                     self?.activityOverlay.hide()
                     if let error = error as NSError? {
                         self?.simpleAlert("Could not leave league", defaultMessage: nil, error: error)
