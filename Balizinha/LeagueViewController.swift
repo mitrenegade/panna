@@ -430,7 +430,6 @@ extension LeagueViewController: LeagueButtonCellDelegate {
             activityOverlay.show()
             LeagueService.shared.leave(league: league) { [weak self] (result, error) in
                 print("Leave league result \(String(describing: result)) error \(String(describing: error))")
-                self?.joinLeagueCell?.reset()
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
                     if let error = error as NSError? {
@@ -438,7 +437,7 @@ extension LeagueViewController: LeagueButtonCellDelegate {
                     }
                     // forces cell/button to reload
                     self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
-                    self?.joinLeagueCell?.refresh()
+                    self?.joinLeagueCell?.reset()
                     self?.shareLeagueCell?.refresh()
                     
                     // when a user leaves a private league
@@ -459,7 +458,7 @@ extension LeagueViewController: LeagueButtonCellDelegate {
                     }
                     // forces cell/button to reload
                     self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
-                    self?.joinLeagueCell?.refresh()
+                    self?.joinLeagueCell?.reset()
                     self?.shareLeagueCell?.refresh()
                     
                     // when user joins a private league
