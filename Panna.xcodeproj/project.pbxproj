@@ -131,9 +131,9 @@
 		8EEC5538235232D9000BC39F /* MockLocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC553623522CE8000BC39F /* MockLocationProvider.swift */; };
 		8EEC5539235232DB000BC39F /* MockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBD898322E01FB100FD3B18 /* MockService.swift */; };
 		8EEC553A235232F1000BC39F /* MockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBD898322E01FB100FD3B18 /* MockService.swift */; };
-		8EEC553B2352330B000BC39F /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC553323522930000BC39F /* LocationProvider.swift */; };
 		8EEC553C23523364000BC39F /* RecurrenceToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFC5E652327E78C00D613EF /* RecurrenceToggleCell.swift */; };
 		8EEC553E23523465000BC39F /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFB1B91E3D3F00006DD187 /* LocationService.swift */; };
+		8EEC5542235235E1000BC39F /* LoggingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5541235235E1000BC39F /* LoggingProvider.swift */; };
 		8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */; };
 		8EF167F9208BEE4A00257354 /* LeagueIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F8208BEE4A00257354 /* LeagueIcon.swift */; };
 		8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
@@ -318,6 +318,7 @@
 		8EEC5531235228CA000BC39F /* LocationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
 		8EEC553323522930000BC39F /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
 		8EEC553623522CE8000BC39F /* MockLocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocationProvider.swift; sourceTree = "<group>"; };
+		8EEC5541235235E1000BC39F /* LoggingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingProvider.swift; sourceTree = "<group>"; };
 		8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModelIcon.swift; sourceTree = "<group>"; };
 		8EF167F8208BEE4A00257354 /* LeagueIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueIcon.swift; sourceTree = "<group>"; };
 		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
@@ -559,6 +560,7 @@
 				F2F7C3BB1CEE10F700350115 /* Cells */,
 				F20AD03B1D26C0F500969990 /* Utils */,
 				8E7397E91FF921AA00D48BA0 /* Fonts */,
+				8EEC5540235235D3000BC39F /* Protocols */,
 				8EEC553523522CD1000BC39F /* Mocks */,
 			);
 			path = Balizinha;
@@ -644,6 +646,15 @@
 			name = Mocks;
 			sourceTree = "<group>";
 		};
+		8EEC5540235235D3000BC39F /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				8EEC553323522930000BC39F /* LocationProvider.swift */,
+				8EEC5541235235E1000BC39F /* LoggingProvider.swift */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
 		8EF6347A215319BA00652833 /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
@@ -684,7 +695,6 @@
 				8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */,
 				8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */,
 				C651AB872096D6650046B03C /* read.me */,
-				8EEC553323522930000BC39F /* LocationProvider.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -1046,6 +1056,7 @@
 				8E48AF8220DFE21800D814BE /* LeagueInfoCell.swift in Sources */,
 				8E54EAD02164E5D000937355 /* FeedItemCell.swift in Sources */,
 				8E6EEF0B230F7A3C009D0AEA /* VenueCell.swift in Sources */,
+				8EEC5542235235E1000BC39F /* LoggingProvider.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */,
 				8E48AF8420DFE91C00D814BE /* LeaguePlayersCell.swift in Sources */,
@@ -1126,7 +1137,6 @@
 				8EEC5532235228CA000BC39F /* LocationServiceTests.swift in Sources */,
 				8EEC5538235232D9000BC39F /* MockLocationProvider.swift in Sources */,
 				8E20BF1C233348F3004E5407 /* MapServiceTests.swift in Sources */,
-				8EEC553B2352330B000BC39F /* LocationProvider.swift in Sources */,
 				8E5C817B22963C10009D8630 /* NotificationServiceTests.swift in Sources */,
 				8EFC5E68232B698E00D613EF /* RecurrenceToggleCellTests.swift in Sources */,
 				8EFC5E6D232B74E300D613EF /* RecurrenceToggleCellViewModel.swift in Sources */,

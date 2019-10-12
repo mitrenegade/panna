@@ -29,7 +29,7 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
     var recurrenceEndDate: Date?
     weak var presenter: UIViewController?
     weak var recurrenceDelegate: RecurrenceCellDelegate?
-    var loggingService: LoggingService?
+    var loggingService: LoggingProvider?
 
     private var datePickerView: UIPickerView = UIPickerView()
     private var keyboardDoneButtonView: UIToolbar = UIToolbar()

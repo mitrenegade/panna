@@ -110,7 +110,7 @@ enum LoggingEvent: String {
     case FeedItemChatViewed
 }
 
-class LoggingService: NSObject {
+class LoggingService: NSObject, LoggingProvider {
     private lazy var __once: () = {
         // firRef is the global firebase ref
         loggingRef = firRef.child("logs") // this creates a query on the endpoint /logs
@@ -149,7 +149,15 @@ class LoggingService: NSObject {
         #endif
     }
     
-    func log(event: LoggingEvent, message: String? = nil, info: [String: Any]? = nil, error: NSError? = nil) {
+    func log(event: LoggingEvent) {
+        log(event: event, message: nil, info: nil, error: nil)
+    }
+    
+    func log(event: LoggingEvent, info: [String: Any]? = nil) {
+        log(event: event, message: nil, info: info, error: nil)
+    }
+
+    func log(event: LoggingEvent, message: String?, info: [String: Any]?, error: NSError?) {
         var params: [String: Any] = info ?? [:]
         if let message = message {
             params["message"] = message

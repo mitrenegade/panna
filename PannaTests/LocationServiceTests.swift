@@ -17,7 +17,7 @@ class LocationServiceTests: XCTestCase {
 
     override func setUp() {
         locationManager = MockLocationProvider()
-        locationManager.mockAuthorizationStatus = .alwaysInUse
+        locationManager.mockAuthorizationStatus = .notDetermined
         locationManager.mockLocation = CLLocation(latitude: 75, longitude: -122)
 
         service = LocationService(provider: locationManager)
