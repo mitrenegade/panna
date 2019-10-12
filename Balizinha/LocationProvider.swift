@@ -10,8 +10,8 @@
 import CoreLocation
 
 protocol LocationProvider {
-    static func locationServicesEnabled() -> Bool
-    static func authorizationStatus() -> CLAuthorizationStatus
+    func locationServicesEnabled() -> Bool
+    func authorizationStatus() -> CLAuthorizationStatus
 
     var delegate: CLLocationManagerDelegate? { get set }
     var desiredAccuracy: CLLocationAccuracy { get set }
@@ -31,5 +31,11 @@ protocol LocationProvider {
 }
 
 extension CLLocationManager: LocationProvider {
-    // no changes needed
+    func locationServicesEnabled() -> Bool {
+        return CLLocationManager.locationServicesEnabled()
+    }
+    
+    func authorizationStatus() -> CLAuthorizationStatus {
+        return CLLocationManager.authorizationStatus()
+    }
 }

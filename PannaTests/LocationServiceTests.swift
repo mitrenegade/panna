@@ -7,16 +7,20 @@
 //
 
 import XCTest
+import CoreLocation
 
 class LocationServiceTests: XCTestCase {
 
     var service: LocationService!
 
     override func setUp() {
-        service = LocationService()
+        service = MockLocationService()
+        service.mockAuthorizationStatus = .alwaysInUse
+        service.mockLocation = CLLocation(latitude: 75, longitude: -122)
     }
 
     override func tearDown() {
+        service = nil
     }
 
     func testExample() {

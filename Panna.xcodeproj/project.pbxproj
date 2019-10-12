@@ -129,6 +129,7 @@
 		8EE94E471FF93DB700129EC2 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE94E461FF93DB700129EC2 /* Launch.storyboard */; };
 		8EEC5532235228CA000BC39F /* LocationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5531235228CA000BC39F /* LocationServiceTests.swift */; };
 		8EEC553423522930000BC39F /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC553323522930000BC39F /* LocationProvider.swift */; };
+		8EEC553723522CE8000BC39F /* MockLocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC553623522CE8000BC39F /* MockLocationProvider.swift */; };
 		8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */; };
 		8EF167F9208BEE4A00257354 /* LeagueIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F8208BEE4A00257354 /* LeagueIcon.swift */; };
 		8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
@@ -313,6 +314,7 @@
 		8EE94E461FF93DB700129EC2 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		8EEC5531235228CA000BC39F /* LocationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
 		8EEC553323522930000BC39F /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
+		8EEC553623522CE8000BC39F /* MockLocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocationProvider.swift; sourceTree = "<group>"; };
 		8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModelIcon.swift; sourceTree = "<group>"; };
 		8EF167F8208BEE4A00257354 /* LeagueIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueIcon.swift; sourceTree = "<group>"; };
 		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
@@ -554,7 +556,7 @@
 				F2F7C3BB1CEE10F700350115 /* Cells */,
 				F20AD03B1D26C0F500969990 /* Utils */,
 				8E7397E91FF921AA00D48BA0 /* Fonts */,
-				8EBD898322E01FB100FD3B18 /* MockService.swift */,
+				8EEC553523522CD1000BC39F /* Mocks */,
 			);
 			path = Balizinha;
 			sourceTree = "<group>";
@@ -628,6 +630,15 @@
 				8E6EEF08230F7A02009D0AEA /* VenuesListViewController.swift */,
 			);
 			name = Dashboard;
+			sourceTree = "<group>";
+		};
+		8EEC553523522CD1000BC39F /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				8EBD898322E01FB100FD3B18 /* MockService.swift */,
+				8EEC553623522CE8000BC39F /* MockLocationProvider.swift */,
+			);
+			name = Mocks;
 			sourceTree = "<group>";
 		};
 		8EF6347A215319BA00652833 /* Feedback */ = {
@@ -1028,6 +1039,7 @@
 				8E0F568720159931001E8909 /* OrganizerCellViewModel.swift in Sources */,
 				8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */,
 				F2F7C3B81CEE109000350115 /* DetailCell.swift in Sources */,
+				8EEC553723522CE8000BC39F /* MockLocationProvider.swift in Sources */,
 				8E48AF8220DFE21800D814BE /* LeagueInfoCell.swift in Sources */,
 				8E54EAD02164E5D000937355 /* FeedItemCell.swift in Sources */,
 				8E6EEF0B230F7A3C009D0AEA /* VenueCell.swift in Sources */,
