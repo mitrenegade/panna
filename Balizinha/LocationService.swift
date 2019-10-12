@@ -9,6 +9,7 @@
 import RxSwift
 import MapKit
 import Balizinha
+import CoreLocation
 
 enum LocationState {
     case denied

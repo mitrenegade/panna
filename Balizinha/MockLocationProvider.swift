@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+@testable import Panna
 
 class MockLocationProvider: NSObject, LocationProvider {
     var mockAuthorizationStatus: CLAuthorizationStatus = .notDetermined

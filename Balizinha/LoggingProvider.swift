@@ -6,6 +6,8 @@
 //  Copyright © 2019 Bobby Ren. All rights reserved.
 //
 
+import Foundation
+
 protocol LoggingProvider {
     func log(event: LoggingEvent)
     func log(event: LoggingEvent, info: [String : Any]?)
