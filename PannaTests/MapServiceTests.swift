@@ -8,6 +8,7 @@
 
 import XCTest
 import Balizinha
+@testable import Panna
 
 class MapServiceTests: XCTestCase {
 

@@ -8,15 +8,19 @@
 
 import XCTest
 import CoreLocation
+@testable import Panna
 
 class LocationServiceTests: XCTestCase {
 
     var service: LocationService!
+    var locationManager: MockLocationProvider!
 
     override func setUp() {
-        service = MockLocationService()
-        service.mockAuthorizationStatus = .alwaysInUse
-        service.mockLocation = CLLocation(latitude: 75, longitude: -122)
+        locationManager = MockLocationProvider()
+        locationManager.mockAuthorizationStatus = .alwaysInUse
+        locationManager.mockLocation = CLLocation(latitude: 75, longitude: -122)
+
+        service = LocationService(provider: locationManager)
     }
 
     override func tearDown() {

@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import Panna
 
 class RecurrenceToggleCellTests: XCTestCase {
     let cell = RecurrenceToggleCell()
