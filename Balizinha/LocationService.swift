@@ -6,9 +6,6 @@
 //  Copyright © 2017 Bobby Ren. All rights reserved.
 //
 
-import Foundation
-import UIKit
-import CoreLocation
 import RxSwift
 import MapKit
 import Balizinha
@@ -19,12 +16,16 @@ enum LocationState {
     case located(CLLocation)
 }
 class LocationService: NSObject {
-    static let shared = LocationService()
+    static let shared = LocationService(provider: CLLocationManager())
     
-    let locationManager = CLLocationManager()
+    private (set) var locationManager: LocationProvider
     var locationState: Variable<LocationState> = Variable(.noLocation)
     var lastLocation: CLLocation?
     
+    init(provider: LocationProvider) {
+        locationManager = provider
+    }
+
     var observedLocation: Observable<LocationState> {
         return locationState.asObservable()
     }

@@ -127,6 +127,8 @@
 		8EE5FCD522B7528300F7FF68 /* LeaguePlayersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5FCD422B7528300F7FF68 /* LeaguePlayersListViewController.swift */; };
 		8EE5FCD722B86C3000F7FF68 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5FCD622B86C2E00F7FF68 /* ListViewController.swift */; };
 		8EE94E471FF93DB700129EC2 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE94E461FF93DB700129EC2 /* Launch.storyboard */; };
+		8EEC5532235228CA000BC39F /* LocationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5531235228CA000BC39F /* LocationServiceTests.swift */; };
+		8EEC553423522930000BC39F /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC553323522930000BC39F /* LocationProvider.swift */; };
 		8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */; };
 		8EF167F9208BEE4A00257354 /* LeagueIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F8208BEE4A00257354 /* LeagueIcon.swift */; };
 		8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
@@ -309,6 +311,8 @@
 		8EE5FCD422B7528300F7FF68 /* LeaguePlayersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguePlayersListViewController.swift; sourceTree = "<group>"; };
 		8EE5FCD622B86C2E00F7FF68 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		8EE94E461FF93DB700129EC2 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
+		8EEC5531235228CA000BC39F /* LocationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
+		8EEC553323522930000BC39F /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
 		8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModelIcon.swift; sourceTree = "<group>"; };
 		8EF167F8208BEE4A00257354 /* LeagueIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueIcon.swift; sourceTree = "<group>"; };
 		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
@@ -589,6 +593,7 @@
 				8E5C817A22963C10009D8630 /* NotificationServiceTests.swift */,
 				8EFC5E67232B698E00D613EF /* RecurrenceToggleCellTests.swift */,
 				8E20BF1B233348F3004E5407 /* MapServiceTests.swift */,
+				8EEC5531235228CA000BC39F /* LocationServiceTests.swift */,
 			);
 			path = PannaTests;
 			sourceTree = "<group>";
@@ -665,6 +670,7 @@
 				8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */,
 				8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */,
 				C651AB872096D6650046B03C /* read.me */,
+				8EEC553323522930000BC39F /* LocationProvider.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -1078,6 +1084,7 @@
 				8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */,
 				8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */,
 				8E48AF8620DFEE9700D814BE /* PlayersScrollView.swift in Sources */,
+				8EEC553423522930000BC39F /* LocationProvider.swift in Sources */,
 				8E1B00561FC2E8FF00420256 /* TutorialButtonViewModel.swift in Sources */,
 				8ED897562109FA5C0062D345 /* ActivityIndicatorOverlay.swift in Sources */,
 				8E7A5A0422B8965700DDBB01 /* TeamsViewController.swift in Sources */,
@@ -1101,6 +1108,7 @@
 			files = (
 				8EFC5E69232B6B4B00D613EF /* RecurrenceToggleCell.swift in Sources */,
 				8EFC5E6A232B6C0500D613EF /* ToggleCell.swift in Sources */,
+				8EEC5532235228CA000BC39F /* LocationServiceTests.swift in Sources */,
 				8E20BF1C233348F3004E5407 /* MapServiceTests.swift in Sources */,
 				8E5C817B22963C10009D8630 /* NotificationServiceTests.swift in Sources */,
 				8EFC5E68232B698E00D613EF /* RecurrenceToggleCellTests.swift in Sources */,
