@@ -53,6 +53,28 @@ class LocationServiceTests: XCTestCase {
     }
 
     func testUsesCityForLocationIfPlayerLocationDoesNotExist() {
+        let player = Player(key: "abc", dict: ["name": "John", "cityId": "123"])
+        playerService.current.value = player // trigger city search
+        let expectationCity = XCTestExpectation(description: "Observable location should first return player city's location")
+        service.observableLocation
+            .filterNil()
+            .take(1)
+            .subscribe(onNext: { (location) in
+                // TODO: lat = 75, lon = -122
+                expectationCity.fulfill()
+            }).disposed(by: self.disposeBag)
+
+        let loc = CLLocation(latitude: 75.1, longitude: -122.1)
+        locationManager.mockLocation = loc
+        let expectationLocationManager = XCTestExpectation(description: "Observable location should return location from LocationProvider")
+        service.observableLocation
+            .filterNil()
+            .take(1)
+            .subscribe(onNext: { (location) in
+                // TODO: lat = 75.1, lon = -122.1
+                expectationLocationManager.fulfill()
+            }).disposed(by: self.disposeBag)
         
+        wait(for: [expectationCity, expectationLocationManager], timeout: 1)
     }
 }

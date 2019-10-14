@@ -22,7 +22,6 @@ class LocationService: NSObject {
     
     var locationState: BehaviorRelay<LocationState> = BehaviorRelay(value: .noLocation)
     var playerCity: BehaviorRelay<City?> = BehaviorRelay(value: nil)
-    var lastLocation: CLLocation?
     let disposeBag = DisposeBag()
     
     // injectible
@@ -40,8 +39,19 @@ class LocationService: NSObject {
         observePlayerCity()
     }
 
-    var observedLocation: Observable<LocationState> {
-        return locationState.asObservable()
+    var observableLocation: Observable<CLLocation?> {
+        return Observable.combineLatest(locationState.asObservable(), playerCity.asObservable()) { currentLocationState, currentPlayerCity in
+            switch currentLocationState {
+            case .located(let location):
+                return location
+            case .denied, .noLocation:
+                guard let lat = currentPlayerCity?.lat, let lon = currentPlayerCity?.lon else {
+                    return nil
+                }
+                let loc = CLLocation(latitude: lat, longitude: lon) 
+                return loc
+            }
+        }
     }
     
     private func observePlayerCity() {
@@ -136,7 +146,6 @@ extension LocationService: CLLocationManagerDelegate {
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first as CLLocation? {
             self.locationState.accept(.located(location))
-            lastLocation = location
         }
     }
 }
