@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import RxCocoa
 import MapKit
 import Balizinha
 import CoreLocation
@@ -19,16 +20,38 @@ enum LocationState {
 class LocationService: NSObject {
     static let shared = LocationService(provider: CLLocationManager())
     
-    private (set) var locationManager: LocationProvider
-    var locationState: Variable<LocationState> = Variable(.noLocation)
+    var locationState: BehaviorRelay<LocationState> = BehaviorRelay(value: .noLocation)
+    var playerCity: BehaviorRelay<City?> = BehaviorRelay(value: nil)
     var lastLocation: CLLocation?
+    let disposeBag = DisposeBag()
     
-    init(provider: LocationProvider) {
+    // injectible
+    var locationManager: LocationProvider
+    let playerService: PlayerService
+    let cityService: CityService
+    
+    init(provider: LocationProvider, playerService: PlayerService = PlayerService.shared, cityService: CityService = CityService.shared) {
         locationManager = provider
+        self.playerService = playerService
+        self.cityService = cityService
     }
 
     var observedLocation: Observable<LocationState> {
         return locationState.asObservable()
+    }
+    
+    private func observePlayerCity() {
+        playerService.current
+            .asObservable()
+            .filterNil()
+            .subscribe(onNext: { [weak self] (player) in
+                guard let cityId = player.cityId else { return }
+                self?.cityService.withId(id: cityId) { [weak self] (city) in
+                    if let city = city {
+                        self?.playerCity.accept(city)
+                    }
+                }
+            }).disposed(by: disposeBag)
     }
     
     func startLocation(from controller: UIViewController?) {
@@ -41,7 +64,7 @@ class LocationService: NSObject {
         }
         else if loc == CLAuthorizationStatus.denied {
             self.warnForLocationPermission(from: controller)
-            locationState.value = .denied
+            locationState.accept(.denied)
         }
         else {
             locationManager.requestWhenInUseAuthorization()
@@ -99,7 +122,7 @@ extension LocationService: CLLocationManagerDelegate {
         else if status == .denied {
             warnForLocationPermission(from: nil)
             print("Authorization is not available")
-            locationState.value = .denied
+            locationState.accept(.denied)
         }
         else {
             print("status unknown")
@@ -108,7 +131,7 @@ extension LocationService: CLLocationManagerDelegate {
     
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first as CLLocation? {
-            self.locationState.value = .located(location)
+            self.locationState.accept(.located(location))
             lastLocation = location
         }
     }
