@@ -90,7 +90,7 @@ class LocationService: NSObject {
         guard DefaultsManager.shared.value(forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue) as? Bool != true else {
             return
         }
-        let message: String = "Balizina needs location access to find events near you. Please go to your phone settings to enable location access."
+        let message: String = "Panna needs location access to find events near you. Please go to your phone settings to enable location access."
         
         let alert: UIAlertController = UIAlertController(title: "Could not access location", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Disable Location", style: .cancel, handler: {[weak self] action in
@@ -115,7 +115,7 @@ class LocationService: NSObject {
     }
     
     func warnForLocationAvailability(from controller: UIViewController?) {
-        let message: String = "Balizinha needs to pinpoint your location to find events. Please make sure your phone can receive accurate location information."
+        let message: String = "Panna needs to pinpoint your location to find events. Please make sure your phone can receive accurate location information."
         let alert: UIAlertController = UIAlertController(title: "Accurate location not found", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
         if let controller = controller {
