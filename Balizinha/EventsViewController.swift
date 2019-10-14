@@ -48,10 +48,9 @@ class EventsViewController: UIViewController {
         listenFor(NotificationType.EventsChanged, action: #selector(self.refreshEvents), object: nil)
         
         if LocationService.shared.shouldFilterNearbyEvents {
-            LocationService.shared.observedLocation.subscribe(onNext: {[weak self] locationState in
-                switch locationState {
-                case .located(let location):
-                    print("location \(location)")
+            LocationService.shared.observableLocation
+                .filterNil()
+                .subscribe(onNext: {[weak self] location in
                     if let recent = self?.recentLocation {
                         if recent.distance(from: location) > 100 {
                             self?.refreshEvents()
@@ -61,10 +60,8 @@ class EventsViewController: UIViewController {
                         self?.refreshEvents()
                     }
                     self?.recentLocation = location
-                default:
-                    print("no location yet")
-                }
-            }).disposed(by: disposeBag)
+                    })
+                .disposed(by: disposeBag)
         } else {
             refreshEvents()
         }
@@ -169,19 +166,23 @@ class EventsViewController: UIViewController {
     }
     
     fileprivate func filterByDistance(events: [Balizinha.Event]) -> [Balizinha.Event]{
-        guard let location = LocationService.shared.lastLocation else { return events }
         guard LocationService.shared.shouldFilterNearbyEvents else { return events }
-        
-        let threshold: Double = Double(SettingsService.eventFilterRadius * METERS_PER_MILE)
-        let filtered = events.filter { (event) -> Bool in
-            guard let lat = event.lat, let lon = event.lon else {
-                return true
+
+        switch LocationService.shared.locationState.value {
+        case .located(let location):
+            let threshold: Double = Double(SettingsService.eventFilterRadius * METERS_PER_MILE)
+            let filtered = events.filter { (event) -> Bool in
+                guard let lat = event.lat, let lon = event.lon else {
+                    return true
+                }
+                let coord = CLLocation(latitude: lat, longitude: lon)
+                let dist = coord.distance(from: location)
+                return dist < threshold
             }
-            let coord = CLLocation(latitude: lat, longitude: lon)
-            let dist = coord.distance(from: location)
-            return dist < threshold
+            return filtered
+        default:
+            return events
         }
-        return filtered
     }
     
     func reloadData() {

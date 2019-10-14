@@ -48,7 +48,7 @@ class LocationService: NSObject {
                 guard let lat = currentPlayerCity?.lat, let lon = currentPlayerCity?.lon else {
                     return nil
                 }
-                let loc = CLLocation(latitude: lat, longitude: lon) 
+                let loc = CLLocation(latitude: lat, longitude: lon)
                 return loc
             }
         }
@@ -145,6 +145,10 @@ extension LocationService: CLLocationManagerDelegate {
     
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first as CLLocation? {
+            playerService.current.value?.lat = location.coordinate.latitude
+            playerService.current.value?.lon = location.coordinate.longitude
+            playerService.current.value?.lastLocationTimestamp = Date()
+
             self.locationState.accept(.located(location))
         }
     }

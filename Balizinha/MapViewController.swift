@@ -69,15 +69,11 @@ class MapViewController: EventsViewController {
         // deeplink actions available from this controller
         self.listenFor(NotificationType.GoToAccountDeepLink, action: #selector(didClickProfile(_:)), object: nil)
 
-        LocationService.shared.locationState
-            .asObservable()
-            .filter { (state) -> Bool in
-                if case .denied = state {
-                    return true
-                }
-                return false
-            }.take(1).subscribe({_ in
-                self.refreshMap()
+        LocationService.shared.observableLocation
+            .filterNil()
+        .take(1)
+            .subscribe(onNext: {[weak self] location in
+                self?.refreshMap()
             }).disposed(by: disposeBag)
     }
     
@@ -168,15 +164,15 @@ extension MapViewController {
 
 extension MapViewController: MKMapViewDelegate {
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        if first, let location = LocationService.shared.lastLocation {
+        guard first else { return }
+        switch LocationService.shared.locationState.value {
+        case .located(let location):
             centerMapOnLocation(location: location, animated: false)
-            
-            PlayerService.shared.current.value?.lat = location.coordinate.latitude
-            PlayerService.shared.current.value?.lon = location.coordinate.longitude
-            PlayerService.shared.current.value?.lastLocationTimestamp = Date()
+        default:
+            break
         }
     }
-    
+
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         print("mapview: region changed ")
     }

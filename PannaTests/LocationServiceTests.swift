@@ -53,6 +53,9 @@ class LocationServiceTests: XCTestCase {
     }
 
     func testUsesCityForLocationIfPlayerLocationDoesNotExist() {
+    }
+    
+    func testReplacesCityLocationWithPlayerLocationWhenLocationIsFound() {
         let player = Player(key: "abc", dict: ["name": "John", "cityId": "123"])
         playerService.current.value = player // trigger city search
         let expectationCity = XCTestExpectation(description: "Observable location should first return player city's location")
@@ -76,5 +79,8 @@ class LocationServiceTests: XCTestCase {
             }).disposed(by: self.disposeBag)
         
         wait(for: [expectationCity, expectationLocationManager], timeout: 1)
+    }
+    
+    func testReplacesPlayerLocationWithCityLocationWhenLocationIsLost() {
     }
 }
