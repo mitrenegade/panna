@@ -26,7 +26,7 @@ class LocationServiceTests: XCTestCase {
         locationManager.mockAuthorizationStatus = .notDetermined
         locationManager.mockLocation = CLLocation(latitude: 75, longitude: -122)
         
-        cityService = CityService()
+        cityService = MockService.mockCityService()
         playerService = PlayerService()
 
         service = LocationService(provider: locationManager, playerService: playerService, cityService: cityService)
@@ -39,6 +39,7 @@ class LocationServiceTests: XCTestCase {
     }
 
     func testLocationServiceLoadsPlayerCityWhenLoggedIn() {
+        let player = Player(key: "abc", dict: ["name": "John", "cityId": "123"])
         let expectation = XCTestExpectation(description: "Service should load player city")
         service.playerCity
             .asObservable()
@@ -47,17 +48,10 @@ class LocationServiceTests: XCTestCase {
             .subscribe(onNext: { (city) in
                 expectation.fulfill()
             }).disposed(by: self.disposeBag)
+        playerService.current.value = player // trigger city search
         wait(for: [expectation], timeout: 1)
     }
 
-    func testLocationServiceLoadsPlayerCityIfPlayerExists() {
-//        let expectation = XCTestExpectation(description: "Service should load player city")
-//        service.getPlayerCity {
-//            expectation.fulfill()
-//        }
-//        wait(for: [expectation], timeout: 1)
-    }
-    
     func testUsesCityForLocationIfPlayerLocationDoesNotExist() {
         
     }

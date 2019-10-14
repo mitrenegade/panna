@@ -34,6 +34,10 @@ class LocationService: NSObject {
         locationManager = provider
         self.playerService = playerService
         self.cityService = cityService
+        
+        super.init()
+        
+        observePlayerCity()
     }
 
     var observedLocation: Observable<LocationState> {
