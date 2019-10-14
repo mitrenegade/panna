@@ -23,13 +23,12 @@ class LocationServiceTests: XCTestCase {
 
     override func setUp() {
         locationManager = MockLocationProvider()
-        locationManager.mockAuthorizationStatus = .notDetermined
-        locationManager.mockLocation = CLLocation(latitude: 75, longitude: -122)
         
         cityService = MockService.mockCityService()
         playerService = PlayerService()
 
         service = LocationService(provider: locationManager, playerService: playerService, cityService: cityService)
+        service.startLocation(from: nil)
         disposeBag = DisposeBag()
     }
 
@@ -53,9 +52,6 @@ class LocationServiceTests: XCTestCase {
     }
 
     func testUsesCityForLocationIfPlayerLocationDoesNotExist() {
-    }
-    
-    func testReplacesCityLocationWithPlayerLocationWhenLocationIsFound() {
         let player = Player(key: "abc", dict: ["name": "John", "cityId": "123"])
         playerService.current.value = player // trigger city search
         let expectationCity = XCTestExpectation(description: "Observable location should first return player city's location")
@@ -64,23 +60,51 @@ class LocationServiceTests: XCTestCase {
             .take(1)
             .subscribe(onNext: { (location) in
                 // TODO: lat = 75, lon = -122
+                XCTAssertEqual(location.coordinate.latitude, 75)
+                XCTAssertEqual(location.coordinate.longitude, -122)
                 expectationCity.fulfill()
             }).disposed(by: self.disposeBag)
+    }
+    
+    func testReplacesCityLocationWithPlayerLocationWhenLocationIsFound() {
+        let player = Player(key: "abc", dict: ["name": "John", "cityId": "123"])
+        playerService.current.value = player // trigger city search
 
         let loc = CLLocation(latitude: 75.1, longitude: -122.1)
         locationManager.mockLocation = loc
+        locationManager.mockAuthorizationStatus = .authorizedWhenInUse
+        
         let expectationLocationManager = XCTestExpectation(description: "Observable location should return location from LocationProvider")
         service.observableLocation
             .filterNil()
             .take(1)
             .subscribe(onNext: { (location) in
                 // TODO: lat = 75.1, lon = -122.1
+                XCTAssertEqual(location.coordinate.latitude, 75.1)
+                XCTAssertEqual(location.coordinate.longitude, -122.1)
                 expectationLocationManager.fulfill()
             }).disposed(by: self.disposeBag)
         
-        wait(for: [expectationCity, expectationLocationManager], timeout: 1)
+        wait(for: [expectationLocationManager], timeout: 1)
     }
     
     func testReplacesPlayerLocationWithCityLocationWhenLocationIsLost() {
+        let player = Player(key: "abc", dict: ["name": "John", "cityId": "123"])
+        playerService.current.value = player // trigger city search
+        let expectationCity = XCTestExpectation(description: "Observable location should only return player city's location")
+
+        let loc = CLLocation(latitude: 75.1, longitude: -122.1)
+        locationManager.mockLocation = loc
+        locationManager.mockAuthorizationStatus = .denied
+        service.observableLocation
+            .filterNil()
+            .take(1)
+            .subscribe(onNext: { (location) in
+                XCTAssertEqual(location.coordinate.latitude, 75)
+                XCTAssertEqual(location.coordinate.longitude, -122)
+                expectationCity.fulfill()
+            }).disposed(by: self.disposeBag)
+
+        wait(for: [expectationCity], timeout: 1)
     }
 }

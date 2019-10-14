@@ -11,8 +11,18 @@ import CoreLocation
 @testable import Panna
 
 class MockLocationProvider: NSObject, LocationProvider {
-    var mockAuthorizationStatus: CLAuthorizationStatus = .notDetermined
-    var mockLocation: CLLocation?
+    var mockAuthorizationStatus: CLAuthorizationStatus = .notDetermined {
+        didSet {
+            delegate?.locationManager?(CLLocationManager(), didChangeAuthorization: mockAuthorizationStatus)
+        }
+    }
+    var mockLocation: CLLocation? {
+        didSet {
+            if let location = mockLocation {
+                delegate?.locationManager?(CLLocationManager(), didUpdateLocations: [location])
+            }
+        }
+    }
 
     func locationServicesEnabled() -> Bool {
         return true
