@@ -77,23 +77,34 @@ class LocationService: NSObject {
             locationManager.startUpdatingLocation()
         }
         else if loc == CLAuthorizationStatus.denied {
-            self.warnForLocationPermission(from: controller)
             locationState.accept(.denied)
+            self.warnForLocationPermission(from: controller)
         }
         else {
             locationManager.requestWhenInUseAuthorization()
         }
     }
-    
+
+    // TODO: move this to a City extension?
+    func isCityLocationValid(city: City?) -> Bool {
+        guard let city = city, let lat = city.lat, let lon = city.lon else { return false }
+        guard lat != 0 && lon != 0 else { return false }
+        return city.verified == true
+    }
+
     // MARK: location
     func warnForLocationPermission(from controller: UIViewController?) {
         guard DefaultsManager.shared.value(forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue) as? Bool != true else {
             return
         }
-        let message: String = "Panna needs location access to find events near you. Please go to your phone settings to enable location access."
+        let alternateLocation = isCityLocationValid(city: playerCity.value)
+        var message: String = "Panna needs location access to find events near you. Please go to your phone settings to enable location access."
+        if alternateLocation {
+            message = "Your events, leagues and venues will be filtered by your city. You can change your city by editing your profile, or enable location access for live updates."
+        }
         
-        let alert: UIAlertController = UIAlertController(title: "Could not access location", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Disable Location", style: .cancel, handler: {[weak self] action in
+        let alert: UIAlertController = UIAlertController(title: "Could not access GPS", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Disable Location", style: alternateLocation ? .default : .cancel, handler: {[weak self] action in
             // disable location popup for the future, and turn on global view
             DefaultsManager.shared.setValue(true, forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue)
             DefaultsManager.shared.setValue(false, forKey: DefaultsKey.shouldFilterNearbyEvents.rawValue)
@@ -105,6 +116,11 @@ class LocationService: NSObject {
         if let url = URL(string: UIApplication.openSettingsURLString) {
             alert.addAction(UIAlertAction(title: "Go to Settings", style: .default, handler: { (action) -> Void in
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }))
+        }
+        if alternateLocation {
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) -> Void in
+                // close
             }))
         }
         if let controller = controller {
