@@ -29,7 +29,7 @@ class LocationService: NSObject {
     let playerService: PlayerService
     let cityService: CityService
     
-    init(provider: LocationProvider, playerService: PlayerService = PlayerService.shared, cityService: CityService = CityService.shared) {
+    init(provider: LocationProvider = CLLocationManager(), playerService: PlayerService = PlayerService.shared, cityService: CityService = CityService.shared) {
         locationManager = provider
         self.playerService = playerService
         self.cityService = cityService

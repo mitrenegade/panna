@@ -23,7 +23,6 @@ class LocationServiceTests: XCTestCase {
 
     override func setUp() {
         locationManager = MockLocationProvider()
-        
         cityService = MockService.mockCityService()
         playerService = PlayerService()
 

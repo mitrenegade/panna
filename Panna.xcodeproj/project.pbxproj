@@ -141,6 +141,15 @@
 		8EEC554923523A38000BC39F /* LoggingEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC554823523A38000BC39F /* LoggingEvent.swift */; };
 		8EEC554A23523A39000BC39F /* LoggingEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC554823523A38000BC39F /* LoggingEvent.swift */; };
 		8EEC554B23523AFA000BC39F /* NSObject+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4D36711F8BA45900B8B0B5 /* NSObject+Utils.swift */; };
+		8EEC555023554041000BC39F /* MapViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC554F23554041000BC39F /* MapViewModelTests.swift */; };
+		8EEC5552235540C6000BC39F /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5551235540C6000BC39F /* MapViewModel.swift */; };
+		8EEC5553235540C6000BC39F /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5551235540C6000BC39F /* MapViewModel.swift */; };
+		8EEC55552355436D000BC39F /* MockSettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC55542355436D000BC39F /* MockSettingsService.swift */; };
+		8EEC55562355436D000BC39F /* MockSettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC55542355436D000BC39F /* MockSettingsService.swift */; };
+		8EEC5557235545A3000BC39F /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D551F7209C40067B6F5 /* SettingsService.swift */; };
+		8EEC55582355464F000BC39F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
+		8EEC555A235548AB000BC39F /* MockLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5559235548AB000BC39F /* MockLocationService.swift */; };
+		8EEC555B235548AB000BC39F /* MockLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5559235548AB000BC39F /* MockLocationService.swift */; };
 		8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */; };
 		8EF167F9208BEE4A00257354 /* LeagueIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F8208BEE4A00257354 /* LeagueIcon.swift */; };
 		8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
@@ -328,6 +337,10 @@
 		8EEC5541235235E1000BC39F /* LoggingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingProvider.swift; sourceTree = "<group>"; };
 		8EEC5543235238EE000BC39F /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
 		8EEC554823523A38000BC39F /* LoggingEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingEvent.swift; sourceTree = "<group>"; };
+		8EEC554F23554041000BC39F /* MapViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModelTests.swift; sourceTree = "<group>"; };
+		8EEC5551235540C6000BC39F /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		8EEC55542355436D000BC39F /* MockSettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingsService.swift; sourceTree = "<group>"; };
+		8EEC5559235548AB000BC39F /* MockLocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocationService.swift; sourceTree = "<group>"; };
 		8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModelIcon.swift; sourceTree = "<group>"; };
 		8EF167F8208BEE4A00257354 /* LeagueIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueIcon.swift; sourceTree = "<group>"; };
 		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
@@ -512,6 +525,7 @@
 				C61D719622656696005790D8 /* CancelEventViewModel.swift */,
 				C61D71982265670E005790D8 /* EventCellViewModel.swift */,
 				8EFC5E6B232B725800D613EF /* RecurrenceToggleCellViewModel.swift */,
+				8EEC5551235540C6000BC39F /* MapViewModel.swift */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -610,6 +624,7 @@
 				8EFC5E67232B698E00D613EF /* RecurrenceToggleCellTests.swift */,
 				8E20BF1B233348F3004E5407 /* MapServiceTests.swift */,
 				8EEC5531235228CA000BC39F /* LocationServiceTests.swift */,
+				8EEC554F23554041000BC39F /* MapViewModelTests.swift */,
 			);
 			path = PannaTests;
 			sourceTree = "<group>";
@@ -651,6 +666,8 @@
 			children = (
 				8EBD898322E01FB100FD3B18 /* MockService.swift */,
 				8EEC553623522CE8000BC39F /* MockLocationProvider.swift */,
+				8EEC55542355436D000BC39F /* MockSettingsService.swift */,
+				8EEC5559235548AB000BC39F /* MockLocationService.swift */,
 			);
 			name = Mocks;
 			sourceTree = "<group>";
@@ -1045,6 +1062,7 @@
 				8EDA009C1F6597060080F446 /* RemoteDataService.swift in Sources */,
 				8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */,
 				C69E4E832097543400F4D74B /* LeagueCell.swift in Sources */,
+				8EEC55552355436D000BC39F /* MockSettingsService.swift in Sources */,
 				8E7A5A0222B8963200DDBB01 /* EventPlayersViewController.swift in Sources */,
 				8E0F5685201598CD001E8909 /* OrganizerCell.swift in Sources */,
 				8E74E54B1FA9FB51005F72DA /* PlaceSearchViewController.swift in Sources */,
@@ -1083,12 +1101,14 @@
 				8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */,
 				8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */,
 				8EDD13E91FEB78C10039F1A7 /* ShareService.swift in Sources */,
+				8EEC555A235548AB000BC39F /* MockLocationService.swift in Sources */,
 				8EF7F9F520E339A30037962E /* LeaguePlayerCell.swift in Sources */,
 				C6B7D7BC221E7AB500B58C72 /* SubscriptionsViewController.swift in Sources */,
 				8EFC5E6C232B725800D613EF /* RecurrenceToggleCellViewModel.swift in Sources */,
 				8EFC5E662327E78C00D613EF /* RecurrenceToggleCell.swift in Sources */,
 				C6B7D7BA221E7AAA00B58C72 /* StripeViewController.swift in Sources */,
 				8E571A0320E25E2B003AB202 /* RAImageView.swift in Sources */,
+				8EEC5552235540C6000BC39F /* MapViewModel.swift in Sources */,
 				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,
 				C61D719722656696005790D8 /* CancelEventViewModel.swift in Sources */,
 				8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */,
@@ -1144,6 +1164,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EEC55562355436D000BC39F /* MockSettingsService.swift in Sources */,
+				8EEC55582355464F000BC39F /* Constants.swift in Sources */,
 				8EEC553E23523465000BC39F /* LocationService.swift in Sources */,
 				8EFC5E6A232B6C0500D613EF /* ToggleCell.swift in Sources */,
 				8EEC5539235232DB000BC39F /* MockService.swift in Sources */,
@@ -1155,12 +1177,16 @@
 				8E5C817B22963C10009D8630 /* NotificationServiceTests.swift in Sources */,
 				8EEC554B23523AFA000BC39F /* NSObject+Utils.swift in Sources */,
 				8EFC5E68232B698E00D613EF /* RecurrenceToggleCellTests.swift in Sources */,
+				8EEC5557235545A3000BC39F /* SettingsService.swift in Sources */,
+				8EEC5553235540C6000BC39F /* MapViewModel.swift in Sources */,
 				8EEC5547235239F7000BC39F /* LocationProvider.swift in Sources */,
 				8EFC5E6D232B74E300D613EF /* RecurrenceToggleCellViewModel.swift in Sources */,
+				8EEC555023554041000BC39F /* MapViewModelTests.swift in Sources */,
 				8EEC553C23523364000BC39F /* RecurrenceToggleCell.swift in Sources */,
 				8E7F7D91225B07DB00AE4C0B /* EventCellDonationTests.swift in Sources */,
 				8EEC554623523950000BC39F /* LoggingProvider.swift in Sources */,
 				8E7F7D92225B07DE00AE4C0B /* UpgradeServiceTests.swift in Sources */,
+				8EEC555B235548AB000BC39F /* MockLocationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

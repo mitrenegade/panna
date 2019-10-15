@@ -66,7 +66,7 @@ class SettingsService: NSObject {
                     print("Settings: * featureAvailable donation \(SettingsService.donation())")
                     print("Settings: * featureAvailable paymentRequired \(SettingsService.paymentRequired())")
                     print("Settings: * featureAvailable ownerPaymentRequired \(SettingsService.ownerPaymentRequired())")
-                    print("Settings: * featureAvailable maps \(SettingsService.usesMaps)")
+                    print("Settings: * featureAvailable maps \(SettingsService.shared.usesMaps)")
                     print("Settings: * showPreview \(SettingsService.shared.featureExperiment(.showPreview)) testGroup \(SettingsService.showPreviewTestGroup())")
                     print("Settings: * newestVersion \(SettingsService.newestVersion)")
                     print("Settings: * featureAvailable useGetAvailableEvents \(SettingsService.usesGetAvailableEvents())")
@@ -121,8 +121,8 @@ extension SettingsService {
         return shared.featureAvailable(.useGetAvailableEvents)
     }
 
-    class var usesMaps: Bool {
-        return shared.featureAvailable(.maps)
+    @objc var usesMaps: Bool {
+        return featureAvailable(.maps)
     }
     
     class var showOrganizerDashboard: Bool {
