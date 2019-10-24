@@ -170,19 +170,30 @@ class EventsViewController: UIViewController {
 
         switch LocationService.shared.locationState.value {
         case .located(let location):
-            let threshold: Double = Double(SettingsService.eventFilterRadius * METERS_PER_MILE)
-            let filtered = events.filter { (event) -> Bool in
-                guard let lat = event.lat, let lon = event.lon else {
-                    return true
-                }
-                let coord = CLLocation(latitude: lat, longitude: lon)
-                let dist = coord.distance(from: location)
-                return dist < threshold
-            }
+            let filtered = doDistanceFeature(events, location: location)
             return filtered
         default:
-            return events
+            if let city = LocationService.shared.playerCity.value, let lat = city.lat, let lon = city.lon, LocationService.shared.isCityLocationValid(city: city) {
+                let location = CLLocation(latitude: lat, longitude: lon)
+                let filtered = doDistanceFeature(events, location: location)
+                return filtered
+            } else {
+                return events
+            }
         }
+    }
+    
+    private func doDistanceFeature(_ events: [Balizinha.Event], location: CLLocation) -> [Balizinha.Event] {
+        let threshold: Double = Double(SettingsService.eventFilterRadius * METERS_PER_MILE)
+        let filtered = events.filter { (event) -> Bool in
+            guard let lat = event.lat, let lon = event.lon else {
+                return true
+            }
+            let coord = CLLocation(latitude: lat, longitude: lon)
+            let dist = coord.distance(from: location)
+            return dist < threshold
+        }
+        return filtered
     }
     
     func reloadData() {

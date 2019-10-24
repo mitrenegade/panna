@@ -61,7 +61,7 @@ class MapViewController: EventsViewController {
 
         LocationService.shared.observableLocation
             .filterNil()
-        .take(1)
+            .take(1)
             .subscribe(onNext: {[weak self] location in
                 self?.refreshMap()
             }).disposed(by: disposeBag)
