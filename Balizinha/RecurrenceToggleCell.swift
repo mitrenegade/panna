@@ -29,6 +29,7 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
     var recurrenceEndDate: Date?
     weak var presenter: UIViewController?
     weak var recurrenceDelegate: RecurrenceCellDelegate?
+    var loggingService: LoggingProvider?
 
     private var datePickerView: UIPickerView = UIPickerView()
     private var keyboardDoneButtonView: UIToolbar = UIToolbar()
@@ -86,7 +87,7 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
         } else {
             cancelRecurrence()
         }
-        LoggingService.shared.log(event: .RecurringEventToggled, info: ["value": switchToggle.isOn])
+        loggingService?.log(event: .RecurringEventToggled, info: ["value": switchToggle.isOn])
     }
     override func refresh() {
         switchToggle.isOn = recurrence != .none
@@ -105,7 +106,7 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
     
     @IBAction func didClickButton(_ sender: Any?) {
         promptForDate()
-        LoggingService.shared.log(event: .RecurringEventEndDateClicked)
+        loggingService?.log(event: .RecurringEventEndDateClicked)
     }
     
     func promptForRecurrence() {

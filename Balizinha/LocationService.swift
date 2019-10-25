@@ -6,12 +6,11 @@
 //  Copyright © 2017 Bobby Ren. All rights reserved.
 //
 
-import Foundation
-import UIKit
-import CoreLocation
 import RxSwift
+import RxCocoa
 import MapKit
 import Balizinha
+import CoreLocation
 
 enum LocationState {
     case denied
@@ -19,14 +18,54 @@ enum LocationState {
     case located(CLLocation)
 }
 class LocationService: NSObject {
-    static let shared = LocationService()
+    static let shared = LocationService(provider: CLLocationManager())
     
-    let locationManager = CLLocationManager()
-    var locationState: Variable<LocationState> = Variable(.noLocation)
-    var lastLocation: CLLocation?
+    var locationState: BehaviorRelay<LocationState> = BehaviorRelay(value: .noLocation)
+    var playerCity: BehaviorRelay<City?> = BehaviorRelay(value: nil)
+    let disposeBag = DisposeBag()
     
-    var observedLocation: Observable<LocationState> {
-        return locationState.asObservable()
+    // injectible
+    var locationManager: LocationProvider
+    let playerService: PlayerService
+    let cityService: CityService
+    
+    init(provider: LocationProvider = CLLocationManager(), playerService: PlayerService = PlayerService.shared, cityService: CityService = CityService.shared) {
+        locationManager = provider
+        self.playerService = playerService
+        self.cityService = cityService
+        
+        super.init()
+        
+        observePlayerCity()
+    }
+
+    var observableLocation: Observable<CLLocation?> {
+        return Observable.combineLatest(locationState.asObservable(), playerCity.asObservable()) { currentLocationState, currentPlayerCity in
+            switch currentLocationState {
+            case .located(let location):
+                return location
+            case .denied, .noLocation:
+                guard let lat = currentPlayerCity?.lat, let lon = currentPlayerCity?.lon else {
+                    return nil
+                }
+                let loc = CLLocation(latitude: lat, longitude: lon)
+                return loc
+            }
+        }
+    }
+    
+    private func observePlayerCity() {
+        playerService.current
+            .asObservable()
+            .filterNil()
+            .subscribe(onNext: { [weak self] (player) in
+                guard let cityId = player.cityId else { return }
+                self?.cityService.withId(id: cityId) { [weak self] (city) in
+                    if let city = city {
+                        self?.playerCity.accept(city)
+                    }
+                }
+            }).disposed(by: disposeBag)
     }
     
     func startLocation(from controller: UIViewController?) {
@@ -38,23 +77,34 @@ class LocationService: NSObject {
             locationManager.startUpdatingLocation()
         }
         else if loc == CLAuthorizationStatus.denied {
+            locationState.accept(.denied)
             self.warnForLocationPermission(from: controller)
-            locationState.value = .denied
         }
         else {
             locationManager.requestWhenInUseAuthorization()
         }
     }
-    
+
+    // TODO: move this to a City extension?
+    func isCityLocationValid(city: City?) -> Bool {
+        guard let city = city, let lat = city.lat, let lon = city.lon else { return false }
+        guard lat != 0 && lon != 0 else { return false }
+        return city.verified == true
+    }
+
     // MARK: location
     func warnForLocationPermission(from controller: UIViewController?) {
         guard DefaultsManager.shared.value(forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue) as? Bool != true else {
             return
         }
-        let message: String = "Balizina needs location access to find events near you. Please go to your phone settings to enable location access."
+        let alternateLocation = isCityLocationValid(city: playerCity.value)
+        var message: String = "Panna needs location access to find events near you. Please go to your phone settings to enable location access."
+        if alternateLocation {
+            message = "Your events, leagues and venues will be filtered by your city. You can change your city by editing your profile, or enable location access for live updates."
+        }
         
-        let alert: UIAlertController = UIAlertController(title: "Could not access location", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Disable Location", style: .cancel, handler: {[weak self] action in
+        let alert: UIAlertController = UIAlertController(title: "Could not access GPS", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Disable Location", style: alternateLocation ? .default : .cancel, handler: {[weak self] action in
             // disable location popup for the future, and turn on global view
             DefaultsManager.shared.setValue(true, forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue)
             DefaultsManager.shared.setValue(false, forKey: DefaultsKey.shouldFilterNearbyEvents.rawValue)
@@ -68,6 +118,11 @@ class LocationService: NSObject {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }))
         }
+        if alternateLocation {
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) -> Void in
+                // close
+            }))
+        }
         if let controller = controller {
             controller.present(alert, animated: true, completion: nil)
         } else if let controller = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController {
@@ -76,7 +131,7 @@ class LocationService: NSObject {
     }
     
     func warnForLocationAvailability(from controller: UIViewController?) {
-        let message: String = "Balizinha needs to pinpoint your location to find events. Please make sure your phone can receive accurate location information."
+        let message: String = "Panna needs to pinpoint your location to find events. Please make sure your phone can receive accurate location information."
         let alert: UIAlertController = UIAlertController(title: "Accurate location not found", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
         if let controller = controller {
@@ -97,7 +152,7 @@ extension LocationService: CLLocationManagerDelegate {
         else if status == .denied {
             warnForLocationPermission(from: nil)
             print("Authorization is not available")
-            locationState.value = .denied
+            locationState.accept(.denied)
         }
         else {
             print("status unknown")
@@ -106,8 +161,11 @@ extension LocationService: CLLocationManagerDelegate {
     
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first as CLLocation? {
-            self.locationState.value = .located(location)
-            lastLocation = location
+            playerService.current.value?.lat = location.coordinate.latitude
+            playerService.current.value?.lon = location.coordinate.longitude
+            playerService.current.value?.lastLocationTimestamp = Date()
+
+            self.locationState.accept(.located(location))
         }
     }
 }

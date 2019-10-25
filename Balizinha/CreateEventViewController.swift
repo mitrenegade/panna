@@ -594,6 +594,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "RecurrenceToggleCell", for: indexPath) as! RecurrenceToggleCell
                 cell.recurrenceDelegate = self
                 cell.presenter = self
+                cell.loggingService = LoggingService.shared
                 
                 cell.recurrence = recurrence
                 cell.recurrenceStartDate = startTime

@@ -100,7 +100,6 @@
 		8EB90B391FB2B8D5007C60F0 /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EB90B381FB2B8D5007C60F0 /* Tutorial.storyboard */; };
 		8EB90B3B1FB2BABE007C60F0 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB90B3A1FB2BABE007C60F0 /* TutorialViewController.swift */; };
 		8EBABEBB211616A2009DD867 /* FacebookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBABEBA211616A2009DD867 /* FacebookService.swift */; };
-		8EBD898422E01FB100FD3B18 /* MockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBD898322E01FB100FD3B18 /* MockService.swift */; };
 		8EBD898622E0528600FD3B18 /* Player.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EBD898522E0528600FD3B18 /* Player.storyboard */; };
 		8EBEDDC020DFD13800FD8BCE /* LeagueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBEDDBF20DFD13800FD8BCE /* LeagueViewController.swift */; };
 		8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBF1C381E7965BA0057871F /* PlayerViewController.swift */; };
@@ -127,6 +126,30 @@
 		8EE5FCD522B7528300F7FF68 /* LeaguePlayersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5FCD422B7528300F7FF68 /* LeaguePlayersListViewController.swift */; };
 		8EE5FCD722B86C3000F7FF68 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5FCD622B86C2E00F7FF68 /* ListViewController.swift */; };
 		8EE94E471FF93DB700129EC2 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE94E461FF93DB700129EC2 /* Launch.storyboard */; };
+		8EEC5532235228CA000BC39F /* LocationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5531235228CA000BC39F /* LocationServiceTests.swift */; };
+		8EEC553423522930000BC39F /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC553323522930000BC39F /* LocationProvider.swift */; };
+		8EEC5538235232D9000BC39F /* MockLocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC553623522CE8000BC39F /* MockLocationProvider.swift */; };
+		8EEC5539235232DB000BC39F /* MockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBD898322E01FB100FD3B18 /* MockService.swift */; };
+		8EEC553A235232F1000BC39F /* MockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBD898322E01FB100FD3B18 /* MockService.swift */; };
+		8EEC553C23523364000BC39F /* RecurrenceToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFC5E652327E78C00D613EF /* RecurrenceToggleCell.swift */; };
+		8EEC553E23523465000BC39F /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFB1B91E3D3F00006DD187 /* LocationService.swift */; };
+		8EEC5542235235E1000BC39F /* LoggingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5541235235E1000BC39F /* LoggingProvider.swift */; };
+		8EEC5544235238EE000BC39F /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5543235238EE000BC39F /* NotificationType.swift */; };
+		8EEC5545235238EE000BC39F /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5543235238EE000BC39F /* NotificationType.swift */; };
+		8EEC554623523950000BC39F /* LoggingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5541235235E1000BC39F /* LoggingProvider.swift */; };
+		8EEC5547235239F7000BC39F /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC553323522930000BC39F /* LocationProvider.swift */; };
+		8EEC554923523A38000BC39F /* LoggingEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC554823523A38000BC39F /* LoggingEvent.swift */; };
+		8EEC554A23523A39000BC39F /* LoggingEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC554823523A38000BC39F /* LoggingEvent.swift */; };
+		8EEC554B23523AFA000BC39F /* NSObject+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4D36711F8BA45900B8B0B5 /* NSObject+Utils.swift */; };
+		8EEC555023554041000BC39F /* MapViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC554F23554041000BC39F /* MapViewModelTests.swift */; };
+		8EEC5552235540C6000BC39F /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5551235540C6000BC39F /* MapViewModel.swift */; };
+		8EEC5553235540C6000BC39F /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5551235540C6000BC39F /* MapViewModel.swift */; };
+		8EEC55552355436D000BC39F /* MockSettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC55542355436D000BC39F /* MockSettingsService.swift */; };
+		8EEC55562355436D000BC39F /* MockSettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC55542355436D000BC39F /* MockSettingsService.swift */; };
+		8EEC5557235545A3000BC39F /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E116D551F7209C40067B6F5 /* SettingsService.swift */; };
+		8EEC55582355464F000BC39F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */; };
+		8EEC555A235548AB000BC39F /* MockLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5559235548AB000BC39F /* MockLocationService.swift */; };
+		8EEC555B235548AB000BC39F /* MockLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC5559235548AB000BC39F /* MockLocationService.swift */; };
 		8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */; };
 		8EF167F9208BEE4A00257354 /* LeagueIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF167F8208BEE4A00257354 /* LeagueIcon.swift */; };
 		8EF25BC51E88161A0079E90B /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
@@ -135,7 +158,6 @@
 		8EF7F9F520E339A30037962E /* LeaguePlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF7F9F420E339A20037962E /* LeaguePlayerCell.swift */; };
 		8EFC5E662327E78C00D613EF /* RecurrenceToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFC5E652327E78C00D613EF /* RecurrenceToggleCell.swift */; };
 		8EFC5E68232B698E00D613EF /* RecurrenceToggleCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFC5E67232B698E00D613EF /* RecurrenceToggleCellTests.swift */; };
-		8EFC5E69232B6B4B00D613EF /* RecurrenceToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFC5E652327E78C00D613EF /* RecurrenceToggleCell.swift */; };
 		8EFC5E6A232B6C0500D613EF /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF25BC41E88161A0079E90B /* ToggleCell.swift */; };
 		8EFC5E6C232B725800D613EF /* RecurrenceToggleCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFC5E6B232B725800D613EF /* RecurrenceToggleCellViewModel.swift */; };
 		8EFC5E6D232B74E300D613EF /* RecurrenceToggleCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFC5E6B232B725800D613EF /* RecurrenceToggleCellViewModel.swift */; };
@@ -309,6 +331,16 @@
 		8EE5FCD422B7528300F7FF68 /* LeaguePlayersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguePlayersListViewController.swift; sourceTree = "<group>"; };
 		8EE5FCD622B86C2E00F7FF68 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		8EE94E461FF93DB700129EC2 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
+		8EEC5531235228CA000BC39F /* LocationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
+		8EEC553323522930000BC39F /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
+		8EEC553623522CE8000BC39F /* MockLocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocationProvider.swift; sourceTree = "<group>"; };
+		8EEC5541235235E1000BC39F /* LoggingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingProvider.swift; sourceTree = "<group>"; };
+		8EEC5543235238EE000BC39F /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
+		8EEC554823523A38000BC39F /* LoggingEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingEvent.swift; sourceTree = "<group>"; };
+		8EEC554F23554041000BC39F /* MapViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModelTests.swift; sourceTree = "<group>"; };
+		8EEC5551235540C6000BC39F /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		8EEC55542355436D000BC39F /* MockSettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingsService.swift; sourceTree = "<group>"; };
+		8EEC5559235548AB000BC39F /* MockLocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocationService.swift; sourceTree = "<group>"; };
 		8EF167F6208BEBA200257354 /* FirebaseModelIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModelIcon.swift; sourceTree = "<group>"; };
 		8EF167F8208BEE4A00257354 /* LeagueIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueIcon.swift; sourceTree = "<group>"; };
 		8EF25BC41E88161A0079E90B /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
@@ -493,6 +525,7 @@
 				C61D719622656696005790D8 /* CancelEventViewModel.swift */,
 				C61D71982265670E005790D8 /* EventCellViewModel.swift */,
 				8EFC5E6B232B725800D613EF /* RecurrenceToggleCellViewModel.swift */,
+				8EEC5551235540C6000BC39F /* MapViewModel.swift */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -550,7 +583,8 @@
 				F2F7C3BB1CEE10F700350115 /* Cells */,
 				F20AD03B1D26C0F500969990 /* Utils */,
 				8E7397E91FF921AA00D48BA0 /* Fonts */,
-				8EBD898322E01FB100FD3B18 /* MockService.swift */,
+				8EEC5540235235D3000BC39F /* Protocols */,
+				8EEC553523522CD1000BC39F /* Mocks */,
 			);
 			path = Balizinha;
 			sourceTree = "<group>";
@@ -589,6 +623,8 @@
 				8E5C817A22963C10009D8630 /* NotificationServiceTests.swift */,
 				8EFC5E67232B698E00D613EF /* RecurrenceToggleCellTests.swift */,
 				8E20BF1B233348F3004E5407 /* MapServiceTests.swift */,
+				8EEC5531235228CA000BC39F /* LocationServiceTests.swift */,
+				8EEC554F23554041000BC39F /* MapViewModelTests.swift */,
 			);
 			path = PannaTests;
 			sourceTree = "<group>";
@@ -623,6 +659,28 @@
 				8E6EEF08230F7A02009D0AEA /* VenuesListViewController.swift */,
 			);
 			name = Dashboard;
+			sourceTree = "<group>";
+		};
+		8EEC553523522CD1000BC39F /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				8EBD898322E01FB100FD3B18 /* MockService.swift */,
+				8EEC553623522CE8000BC39F /* MockLocationProvider.swift */,
+				8EEC55542355436D000BC39F /* MockSettingsService.swift */,
+				8EEC5559235548AB000BC39F /* MockLocationService.swift */,
+			);
+			name = Mocks;
+			sourceTree = "<group>";
+		};
+		8EEC5540235235D3000BC39F /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				8EEC553323522930000BC39F /* LocationProvider.swift */,
+				8EEC5541235235E1000BC39F /* LoggingProvider.swift */,
+				8EEC5543235238EE000BC39F /* NotificationType.swift */,
+				8EEC554823523A38000BC39F /* LoggingEvent.swift */,
+			);
+			name = Protocols;
 			sourceTree = "<group>";
 		};
 		8EF6347A215319BA00652833 /* Feedback */ = {
@@ -1004,11 +1062,13 @@
 				8EDA009C1F6597060080F446 /* RemoteDataService.swift in Sources */,
 				8EBF1C391E7965BA0057871F /* PlayerViewController.swift in Sources */,
 				C69E4E832097543400F4D74B /* LeagueCell.swift in Sources */,
+				8EEC55552355436D000BC39F /* MockSettingsService.swift in Sources */,
 				8E7A5A0222B8963200DDBB01 /* EventPlayersViewController.swift in Sources */,
 				8E0F5685201598CD001E8909 /* OrganizerCell.swift in Sources */,
 				8E74E54B1FA9FB51005F72DA /* PlaceSearchViewController.swift in Sources */,
 				8E20BF1A233341DA004E5407 /* MapService.swift in Sources */,
 				8EB90B3B1FB2BABE007C60F0 /* TutorialViewController.swift in Sources */,
+				8EEC5544235238EE000BC39F /* NotificationType.swift in Sources */,
 				8E5421401E70DF8700AE4F3A /* ActionCell.swift in Sources */,
 				8EDA009E1F6597BC0080F446 /* LoggingService.swift in Sources */,
 				8EBEDDC020DFD13800FD8BCE /* LeagueViewController.swift in Sources */,
@@ -1016,8 +1076,10 @@
 				F2F7C3BA1CEE10E800350115 /* DescriptionCell.swift in Sources */,
 				8EE5FCD322B7218800F7FF68 /* DashboardViewController.swift in Sources */,
 				8E19A4B01E6C9CF200D301EC /* PaymentTypesViewController.swift in Sources */,
+				8EEC554923523A38000BC39F /* LoggingEvent.swift in Sources */,
 				C6FDE5C420431ECB00FE0C76 /* ChatService.swift in Sources */,
 				8E116D561F7209C40067B6F5 /* SettingsService.swift in Sources */,
+				8EEC553A235232F1000BC39F /* MockService.swift in Sources */,
 				8E09572821AAEB670037DA17 /* OnboardingPhotoViewController.swift in Sources */,
 				8E0F568720159931001E8909 /* OrganizerCellViewModel.swift in Sources */,
 				8EE5B3261E7F363A00BC72A5 /* OrganizerViewController.swift in Sources */,
@@ -1025,6 +1087,7 @@
 				8E48AF8220DFE21800D814BE /* LeagueInfoCell.swift in Sources */,
 				8E54EAD02164E5D000937355 /* FeedItemCell.swift in Sources */,
 				8E6EEF0B230F7A3C009D0AEA /* VenueCell.swift in Sources */,
+				8EEC5542235235E1000BC39F /* LoggingProvider.swift in Sources */,
 				8E72569A1CDF793200C9E054 /* AppDelegate.swift in Sources */,
 				8E7A30001F83396A004EAE6A /* PromotionService.swift in Sources */,
 				8E48AF8420DFE91C00D814BE /* LeaguePlayersCell.swift in Sources */,
@@ -1038,12 +1101,14 @@
 				8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */,
 				8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */,
 				8EDD13E91FEB78C10039F1A7 /* ShareService.swift in Sources */,
+				8EEC555A235548AB000BC39F /* MockLocationService.swift in Sources */,
 				8EF7F9F520E339A30037962E /* LeaguePlayerCell.swift in Sources */,
 				C6B7D7BC221E7AB500B58C72 /* SubscriptionsViewController.swift in Sources */,
 				8EFC5E6C232B725800D613EF /* RecurrenceToggleCellViewModel.swift in Sources */,
 				8EFC5E662327E78C00D613EF /* RecurrenceToggleCell.swift in Sources */,
 				C6B7D7BA221E7AAA00B58C72 /* StripeViewController.swift in Sources */,
 				8E571A0320E25E2B003AB202 /* RAImageView.swift in Sources */,
+				8EEC5552235540C6000BC39F /* MapViewModel.swift in Sources */,
 				8E39FE8E1D237C710030CB96 /* NotificationService.swift in Sources */,
 				C61D719722656696005790D8 /* CancelEventViewModel.swift in Sources */,
 				8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */,
@@ -1054,7 +1119,6 @@
 				8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */,
 				C6B7412720FAD88B00B0FA00 /* LeagueButtonCell.swift in Sources */,
 				8E17907C207B043F004FF5D2 /* PlayerCell.swift in Sources */,
-				8EBD898422E01FB100FD3B18 /* MockService.swift in Sources */,
 				F2F7C3C01CEE296A00350115 /* AccountViewController.swift in Sources */,
 				8EC799271E35AA02004ACC52 /* MapViewController.swift in Sources */,
 				8E214F8222E4F58A0093A385 /* PlayersListViewController.swift in Sources */,
@@ -1078,6 +1142,7 @@
 				8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */,
 				8EF167F7208BEBA200257354 /* FirebaseModelIcon.swift in Sources */,
 				8E48AF8620DFEE9700D814BE /* PlayersScrollView.swift in Sources */,
+				8EEC553423522930000BC39F /* LocationProvider.swift in Sources */,
 				8E1B00561FC2E8FF00420256 /* TutorialButtonViewModel.swift in Sources */,
 				8ED897562109FA5C0062D345 /* ActivityIndicatorOverlay.swift in Sources */,
 				8E7A5A0422B8965700DDBB01 /* TeamsViewController.swift in Sources */,
@@ -1099,14 +1164,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8EFC5E69232B6B4B00D613EF /* RecurrenceToggleCell.swift in Sources */,
+				8EEC55562355436D000BC39F /* MockSettingsService.swift in Sources */,
+				8EEC55582355464F000BC39F /* Constants.swift in Sources */,
+				8EEC553E23523465000BC39F /* LocationService.swift in Sources */,
 				8EFC5E6A232B6C0500D613EF /* ToggleCell.swift in Sources */,
+				8EEC5539235232DB000BC39F /* MockService.swift in Sources */,
+				8EEC5532235228CA000BC39F /* LocationServiceTests.swift in Sources */,
+				8EEC5538235232D9000BC39F /* MockLocationProvider.swift in Sources */,
+				8EEC5545235238EE000BC39F /* NotificationType.swift in Sources */,
+				8EEC554A23523A39000BC39F /* LoggingEvent.swift in Sources */,
 				8E20BF1C233348F3004E5407 /* MapServiceTests.swift in Sources */,
 				8E5C817B22963C10009D8630 /* NotificationServiceTests.swift in Sources */,
+				8EEC554B23523AFA000BC39F /* NSObject+Utils.swift in Sources */,
 				8EFC5E68232B698E00D613EF /* RecurrenceToggleCellTests.swift in Sources */,
+				8EEC5557235545A3000BC39F /* SettingsService.swift in Sources */,
+				8EEC5553235540C6000BC39F /* MapViewModel.swift in Sources */,
+				8EEC5547235239F7000BC39F /* LocationProvider.swift in Sources */,
 				8EFC5E6D232B74E300D613EF /* RecurrenceToggleCellViewModel.swift in Sources */,
+				8EEC555023554041000BC39F /* MapViewModelTests.swift in Sources */,
+				8EEC553C23523364000BC39F /* RecurrenceToggleCell.swift in Sources */,
 				8E7F7D91225B07DB00AE4C0B /* EventCellDonationTests.swift in Sources */,
+				8EEC554623523950000BC39F /* LoggingProvider.swift in Sources */,
 				8E7F7D92225B07DE00AE4C0B /* UpgradeServiceTests.swift in Sources */,
+				8EEC555B235548AB000BC39F /* MockLocationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

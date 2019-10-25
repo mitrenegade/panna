@@ -23,21 +23,30 @@ class MapServiceTests: XCTestCase {
     func testMapSearchWithVenueName() {
         let dict = ["name": "Name", "city": "City", "state": "State"]
         let venue = Venue(key: "abc", dict: dict)
-        let (url, params) = MapService.urlStringForSearch(venue: venue)
-        XCTAssertEqual(url!.absoluteString, "https://www.google.com/maps/search/?api=1&query=%20Name%20City,%20State")
+        let (url, _) = MapService.urlStringForSearch(venue: venue)
+        // result is something like https://www.google.com/maps/search/?api=1&query=%20Name%20City,%20State" but location of queries are not determinate
+        XCTAssert(url!.absoluteString.contains("https://www.google.com/maps/search"))
+        XCTAssert(url!.absoluteString.contains("api=1"))
+        XCTAssert(url!.absoluteString.contains("query=%20Name%20City,%20State"))
     }
 
     func testMapSearchWithVenuePlaceId() {
         let dict = ["name": "Name", "placeId": "123"]
         let venue = Venue(key: "abc", dict: dict)
-        let (url, params) = MapService.urlStringForSearch(venue: venue)
-        XCTAssertEqual(url!.absoluteString, "https://www.google.com/maps/search/?api=1&query=%20Name&query_place_id=123")
+        let (url, _) = MapService.urlStringForSearch(venue: venue)
+        // "https://www.google.com/maps/search/?api=1&query=%20Name&query_place_id=123"
+        XCTAssert(url!.absoluteString.contains("https://www.google.com/maps/search"))
+        XCTAssert(url!.absoluteString.contains("api=1"))
+        XCTAssert(url!.absoluteString.contains("query_place_id=123"))
     }
 
     func testMapDirectionsWithEventName() {
         let dict = ["place": "Name", "city": "City", "state": "State"]
         let event = Event(key: "abc", dict: dict)
-        let (url, params) = MapService.urlStringForDirections(event: event)
-        XCTAssertEqual(url!.absoluteString, "https://www.google.com/maps/dir/?destination=%20Name%20City,%20State&api=1")
+        let (url, _) = MapService.urlStringForDirections(event: event)
+        // https://www.google.com/maps/dir/?destination=%20Name%20City,%20State&api=1
+        XCTAssert(url!.absoluteString.contains("https://www.google.com/maps/dir"))
+        XCTAssert(url!.absoluteString.contains("api=1"))
+        XCTAssert(url!.absoluteString.contains("destination=%20Name%20City,%20State"))
     }
 }

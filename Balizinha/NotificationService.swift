@@ -19,23 +19,6 @@ import RenderCloud
 
 let gcmMessageIDKey = "gcm.message_id"
 
-enum NotificationType: String {
-    case EventsChanged
-    case PaymentContextChanged
-    case LocationOptionsChanged
-    case GoToMapForSharedEvent
-    case GoToAccountDeepLink
-    case PlayerLeaguesChanged // on join or leave
-   
-    // sharing/notifications
-    case DisplayFeaturedEvent
-    case DisplayFeaturedLeague
-
-    func name() -> Notification.Name {
-        return Notification.Name(self.rawValue)
-    }
-}
-
 @available(iOS 10.0, *)
 class NotificationService: NSObject {
     var scheduledEvents: [Balizinha.Event]?

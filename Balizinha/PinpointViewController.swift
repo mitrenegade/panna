@@ -86,17 +86,14 @@ class PinpointViewController: UIViewController {
             externalSource = true
             nameLocked = true
         } else {
-            LocationService.shared.observedLocation.asObservable().subscribe(onNext: { [weak self] (state) in
-                switch state {
-                case .located(let location):
-                    #if targetEnvironment(simulator)
-                    self?.externalSource = false // trigger a geocode in simulator. not needed on device
-                    #endif
-                    self?.currentLocation = location.coordinate
-                    self?.disposeBag = DisposeBag()
-                default:
-                    print("still locating")
-                }
+            LocationService.shared.observableLocation
+                .filterNil()
+                .take(1)
+                .subscribe(onNext: { [weak self] (location) in
+                #if targetEnvironment(simulator)
+                self?.externalSource = false // trigger a geocode in simulator. not needed on device
+                #endif
+                self?.currentLocation = location.coordinate
             }).disposed(by: disposeBag)
         }
     }

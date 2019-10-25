@@ -31,18 +31,8 @@ class MapViewController: EventsViewController {
         })
     }
     
-    fileprivate var shouldShowMap: Bool {
-        let mapsEnabled: Bool = SettingsService.usesMaps
-        let locationEnabled: Bool
-        switch LocationService.shared.locationState.value {
-        case .denied:
-            locationEnabled = false
-        default:
-            locationEnabled = true
-        }
-        return mapsEnabled && locationEnabled
-    }
-
+    var viewModel: MapViewModel = MapViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -69,15 +59,11 @@ class MapViewController: EventsViewController {
         // deeplink actions available from this controller
         self.listenFor(NotificationType.GoToAccountDeepLink, action: #selector(didClickProfile(_:)), object: nil)
 
-        LocationService.shared.locationState
-            .asObservable()
-            .filter { (state) -> Bool in
-                if case .denied = state {
-                    return true
-                }
-                return false
-            }.take(1).subscribe({_ in
-                self.refreshMap()
+        LocationService.shared.observableLocation
+            .filterNil()
+            .take(1)
+            .subscribe(onNext: {[weak self] location in
+                self?.refreshMap()
             }).disposed(by: disposeBag)
     }
     
@@ -114,7 +100,7 @@ class MapViewController: EventsViewController {
     }
     
     func refreshMap() {
-        if shouldShowMap {
+        if viewModel.shouldShowMap {
             let count = allEvents.count
             if allEvents.isEmpty {
                 // leave only 1 cell height on. the ratio is 3/7 of the frame height to start
@@ -142,14 +128,14 @@ class MapViewController: EventsViewController {
 
 extension MapViewController {
     func centerMapOnLocation(location: CLLocation, animated: Bool = true) {
-        guard shouldShowMap else { return }
+        guard viewModel.shouldShowMap else { return }
         let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         let region = MKCoordinateRegion(center: location.coordinate, span: span)
         mapView.setRegion(region, animated: animated)
     }
     
     func addAnnotation(for event: Balizinha.Event) {
-        guard shouldShowMap else { return }
+        guard viewModel.shouldShowMap else { return }
         guard let lat = event.lat, let lon = event.lon else { return }
         if let oldAnnotation = annotations[event.id] {
             mapView.removeAnnotations([oldAnnotation])
@@ -168,15 +154,15 @@ extension MapViewController {
 
 extension MapViewController: MKMapViewDelegate {
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        if first, let location = LocationService.shared.lastLocation {
+        guard first else { return }
+        switch LocationService.shared.locationState.value {
+        case .located(let location):
             centerMapOnLocation(location: location, animated: false)
-            
-            PlayerService.shared.current.value?.lat = location.coordinate.latitude
-            PlayerService.shared.current.value?.lon = location.coordinate.longitude
-            PlayerService.shared.current.value?.lastLocationTimestamp = Date()
+        default:
+            break
         }
     }
-    
+
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         print("mapview: region changed ")
     }

@@ -24,15 +24,28 @@ class MockService: NSObject {
     }
 
     static func mockEventService() -> EventService {
-        let eventDict: [String: Any] = ["name": "Test event",
+        let dict: [String: Any] = ["name": "Test event",
                                         "status": "active",
                                         "startTime": (Date().timeIntervalSince1970 + Double(Int(arc4random_uniform(72)) * 3600))]
         let referenceSnapshot = MockDataSnapshot(exists: true,
                                                  key: "1",
-                                                 value: eventDict,
+                                                 value: dict,
                                                  ref: nil)
         let reference = MockDatabaseReference(snapshot: referenceSnapshot)
         let apiService = MockCloudAPIService(uniqueId: "abc", results: ["success": true])
         return EventService(reference: reference, apiService: apiService)
+    }
+    
+    static func mockCityService() -> CityService {
+        let dict: [String: Any] = ["name": "Boston",
+                                        "lat": 75,
+                                        "lon": -122]
+        let referenceSnapshot = MockDataSnapshot(exists: true,
+                                                 key: "123",
+                                                 value: dict,
+                                                 ref: nil)
+        let reference = MockDatabaseReference(snapshot: referenceSnapshot)
+        let apiService = MockCloudAPIService(uniqueId: "abc", results: ["success": true])
+        return CityService(reference: reference, apiService: apiService)
     }
 }
