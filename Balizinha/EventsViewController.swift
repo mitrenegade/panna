@@ -173,7 +173,7 @@ class EventsViewController: UIViewController {
             let filtered = doDistanceFeature(events, location: location)
             return filtered
         default:
-            if let city = LocationService.shared.playerCity.value, let lat = city.lat, let lon = city.lon, LocationService.shared.isCityLocationValid(city: city) {
+            if let city = LocationService.shared.playerCity.value, let lat = city.lat, let lon = city.lon, CityService.shared.isCityLocationValid(city: city) {
                 let location = CLLocation(latitude: lat, longitude: lon)
                 let filtered = doDistanceFeature(events, location: location)
                 return filtered

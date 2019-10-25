@@ -48,6 +48,9 @@ class LocationService: NSObject {
                 guard let lat = currentPlayerCity?.lat, let lon = currentPlayerCity?.lon else {
                     return nil
                 }
+                guard CityService.shared.isCityLocationValid(city: currentPlayerCity) else {
+                    return nil
+                }
                 let loc = CLLocation(latitude: lat, longitude: lon)
                 return loc
             }
@@ -85,20 +88,13 @@ class LocationService: NSObject {
         }
     }
 
-    // TODO: move this to a City extension?
-    func isCityLocationValid(city: City?) -> Bool {
-        guard let city = city, let lat = city.lat, let lon = city.lon else { return false }
-        guard lat != 0 && lon != 0 else { return false }
-        return city.verified == true
-    }
-
     // MARK: location
     func warnForLocationPermission(from controller: UIViewController?) {
         guard DefaultsManager.shared.value(forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue) as? Bool != true else {
             return
         }
-        let alternateLocation = isCityLocationValid(city: playerCity.value)
         var message: String = "Panna needs location access to find events near you. Please go to your phone settings to enable location access."
+        let alternateLocation = CityService.shared.isCityLocationValid(city: playerCity.value)
         if alternateLocation {
             message = "Your events, leagues and venues will be filtered by your city. You can change your city by editing your profile, or enable location access for live updates."
         }
