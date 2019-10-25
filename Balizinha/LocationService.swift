@@ -104,7 +104,7 @@ class LocationService: NSObject {
         }
         
         let alert: UIAlertController = UIAlertController(title: "Could not access GPS", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Disable Location", style: alternateLocation ? .default : .cancel, handler: {[weak self] action in
+        alert.addAction(UIAlertAction(title: "Disable Filtering", style: alternateLocation ? .default : .cancel, handler: {[weak self] action in
             // disable location popup for the future, and turn on global view
             DefaultsManager.shared.setValue(true, forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue)
             DefaultsManager.shared.setValue(false, forKey: DefaultsKey.shouldFilterNearbyEvents.rawValue)
