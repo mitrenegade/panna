@@ -111,7 +111,7 @@ class SplashViewController: UIViewController {
             
             // on first login, downloadFacebookPhoto gets skipped the first time because player has not been created yet
             if isFirstLogin, AuthService.shared.hasFacebookProvider {
-                PlayerService.shared.current.value = player
+                PlayerService.shared.current.accept(player)
                 FacebookService.downloadFacebookInfo(completion: { (image, name, error) in
                     if let error = error as NSError?, error.code == 400 {
                         print("error \(error)")

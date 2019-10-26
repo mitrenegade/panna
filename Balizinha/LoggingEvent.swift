@@ -99,4 +99,9 @@ enum LoggingEvent: String {
     // feed item clicks
     case FeedItemClicked
     case FeedItemChatViewed
+    
+    // location
+    case ToggleLocationFiltering
+    case AlternateLocationForFiltering
+    case GoToLocationPermissionSettings
 }

@@ -381,6 +381,7 @@ extension AccountViewController: ToggleCellDelegate {
             }
         } else if toggle.superview?.superview is LocationSettingCell {
             LocationService.shared.shouldFilterNearbyEvents = isOn
+            LoggingService.shared.log(event: .ToggleLocationFiltering, info: ["filtering": isOn, "source": "accountSettings"])
             self.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
 
             if isOn {

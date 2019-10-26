@@ -331,14 +331,13 @@ extension PlayerInfoViewController: CityHelperDelegate {
         DispatchQueue.main.async { [weak self] in
             self?.hideLoadingIndicator()
             if let city = city {
-                self?.player?.city = city.shortString
-                self?.player?.cityId = city.firebaseKey
+                PlayerService.shared.updateCityAndNotify(city: city)
                 self?.inputCity.text = city.shortString
             }
         }
     }
     
     func didFailSelectCity(with error: Error?) {
-        simpleAlert("Could not create city", defaultMessage: "There was an issue creating a city", error: error as? NSError)
+        simpleAlert("Could not create city", defaultMessage: "There was an issue creating a city", error: error as NSError?)
     }
 }

@@ -48,6 +48,9 @@ class LocationService: NSObject {
                 guard let lat = currentPlayerCity?.lat, let lon = currentPlayerCity?.lon else {
                     return nil
                 }
+                guard CityService.shared.isCityLocationValid(city: currentPlayerCity) else {
+                    return nil
+                }
                 let loc = CLLocation(latitude: lat, longitude: lon)
                 return loc
             }
@@ -85,30 +88,23 @@ class LocationService: NSObject {
         }
     }
 
-    // TODO: move this to a City extension?
-    func isCityLocationValid(city: City?) -> Bool {
-        guard let city = city, let lat = city.lat, let lon = city.lon else { return false }
-        guard lat != 0 && lon != 0 else { return false }
-        return city.verified == true
-    }
-
     // MARK: location
     func warnForLocationPermission(from controller: UIViewController?) {
         guard DefaultsManager.shared.value(forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue) as? Bool != true else {
             return
         }
-        let alternateLocation = isCityLocationValid(city: playerCity.value)
         var message: String = "Panna needs location access to find events near you. Please go to your phone settings to enable location access."
+        let alternateLocation = CityService.shared.isCityLocationValid(city: playerCity.value)
         if alternateLocation {
             message = "Your events, leagues and venues will be filtered by your city. You can change your city by editing your profile, or enable location access for live updates."
         }
         
         let alert: UIAlertController = UIAlertController(title: "Could not access GPS", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Disable Location", style: alternateLocation ? .default : .cancel, handler: {[weak self] action in
+        alert.addAction(UIAlertAction(title: "Disable Filtering", style: alternateLocation ? .default : .cancel, handler: {[weak self] action in
             // disable location popup for the future, and turn on global view
-            DefaultsManager.shared.setValue(true, forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue)
-            DefaultsManager.shared.setValue(false, forKey: DefaultsKey.shouldFilterNearbyEvents.rawValue)
-            
+            self?.shouldFilterNearbyEvents = false
+            LoggingService.shared.log(event: .ToggleLocationFiltering, info: ["filtering": false, "source": "locationPermissionWarning"])
+
             // refresh map
             self?.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
             self?.notify(NotificationType.LocationOptionsChanged, object: nil, userInfo: nil)
@@ -116,11 +112,13 @@ class LocationService: NSObject {
         if let url = URL(string: UIApplication.openSettingsURLString) {
             alert.addAction(UIAlertAction(title: "Go to Settings", style: .default, handler: { (action) -> Void in
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                LoggingService.shared.log(event: .GoToLocationPermissionSettings)
             }))
         }
         if alternateLocation {
             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) -> Void in
                 // close
+                LoggingService.shared.log(event: .AlternateLocationForFiltering)
             }))
         }
         if let controller = controller {
@@ -146,16 +144,16 @@ class LocationService: NSObject {
 extension LocationService: CLLocationManagerDelegate {
     internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse || status == .authorizedAlways {
-            print("location status changed")
+            // print("location status changed")
             locationManager.startUpdatingLocation()
         }
         else if status == .denied {
             warnForLocationPermission(from: nil)
-            print("Authorization is not available")
+            // print("Authorization is not available")
             locationState.accept(.denied)
         }
         else {
-            print("status unknown")
+            // print("status unknown")
         }
     }
     
@@ -165,7 +163,11 @@ extension LocationService: CLLocationManagerDelegate {
             playerService.current.value?.lon = location.coordinate.longitude
             playerService.current.value?.lastLocationTimestamp = Date()
 
-            self.locationState.accept(.located(location))
+            if case .located = self.locationState.value {
+                // do nothing
+            } else {
+                self.locationState.accept(.located(location))
+            }
         }
     }
 }
@@ -178,7 +180,7 @@ extension LocationService {
         }
         set {
             DefaultsManager.shared.setValue(newValue, forKey: DefaultsKey.shouldFilterNearbyEvents.rawValue)
-            DefaultsManager.shared.setValue(false, forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue)
+            DefaultsManager.shared.setValue(!newValue, forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue)
         }
     }
 }
@@ -219,7 +221,7 @@ extension LocationService {
                 completion?(nil)
                 return
             }
-            print("Placemarks \(results)")
+            // print("Placemarks \(results)")
             completion?(results.first)
         }
     }

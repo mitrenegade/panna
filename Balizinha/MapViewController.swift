@@ -61,9 +61,8 @@ class MapViewController: EventsViewController {
 
         LocationService.shared.observableLocation
             .filterNil()
-            .take(1)
             .subscribe(onNext: {[weak self] location in
-                self?.refreshMap()
+                self?.refreshMap(location)
             }).disposed(by: disposeBag)
     }
     
@@ -99,8 +98,11 @@ class MapViewController: EventsViewController {
         refreshMap()
     }
     
-    func refreshMap() {
+    func refreshMap(_ location: CLLocation? = nil) {
         if viewModel.shouldShowMap {
+            if let location = location {
+                centerMapOnLocation(location: location, animated: true)
+            }
             let count = allEvents.count
             if allEvents.isEmpty {
                 // leave only 1 cell height on. the ratio is 3/7 of the frame height to start
