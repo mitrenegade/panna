@@ -144,16 +144,16 @@ class LocationService: NSObject {
 extension LocationService: CLLocationManagerDelegate {
     internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse || status == .authorizedAlways {
-            print("location status changed")
+            // print("location status changed")
             locationManager.startUpdatingLocation()
         }
         else if status == .denied {
             warnForLocationPermission(from: nil)
-            print("Authorization is not available")
+            // print("Authorization is not available")
             locationState.accept(.denied)
         }
         else {
-            print("status unknown")
+            // print("status unknown")
         }
     }
     
@@ -164,7 +164,7 @@ extension LocationService: CLLocationManagerDelegate {
             playerService.current.value?.lastLocationTimestamp = Date()
 
             if case .located = self.locationState.value {
-                print("Already have location; don't update map")
+                // do nothing
             } else {
                 self.locationState.accept(.located(location))
             }
@@ -221,7 +221,7 @@ extension LocationService {
                 completion?(nil)
                 return
             }
-            print("Placemarks \(results)")
+            // print("Placemarks \(results)")
             completion?(results.first)
         }
     }
