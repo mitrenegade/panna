@@ -161,7 +161,11 @@ extension LocationService: CLLocationManagerDelegate {
             playerService.current.value?.lon = location.coordinate.longitude
             playerService.current.value?.lastLocationTimestamp = Date()
 
-            self.locationState.accept(.located(location))
+            if case .located = self.locationState.value {
+                print("Already have location; don't update map")
+            } else {
+                self.locationState.accept(.located(location))
+            }
         }
     }
 }
