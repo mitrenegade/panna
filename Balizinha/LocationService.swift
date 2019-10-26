@@ -102,9 +102,9 @@ class LocationService: NSObject {
         let alert: UIAlertController = UIAlertController(title: "Could not access GPS", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Disable Filtering", style: alternateLocation ? .default : .cancel, handler: {[weak self] action in
             // disable location popup for the future, and turn on global view
-            DefaultsManager.shared.setValue(true, forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue)
-            DefaultsManager.shared.setValue(false, forKey: DefaultsKey.shouldFilterNearbyEvents.rawValue)
-            
+            self?.shouldFilterNearbyEvents = false
+            LoggingService.shared.log(event: .ToggleLocationFiltering, info: ["filtering": false, "source": "locationPermissionWarning"])
+
             // refresh map
             self?.notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
             self?.notify(NotificationType.LocationOptionsChanged, object: nil, userInfo: nil)
@@ -112,11 +112,13 @@ class LocationService: NSObject {
         if let url = URL(string: UIApplication.openSettingsURLString) {
             alert.addAction(UIAlertAction(title: "Go to Settings", style: .default, handler: { (action) -> Void in
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                LoggingService.shared.log(event: .GoToLocationPermissionSettings)
             }))
         }
         if alternateLocation {
             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) -> Void in
                 // close
+                LoggingService.shared.log(event: .AlternateLocationForFiltering)
             }))
         }
         if let controller = controller {
@@ -178,7 +180,7 @@ extension LocationService {
         }
         set {
             DefaultsManager.shared.setValue(newValue, forKey: DefaultsKey.shouldFilterNearbyEvents.rawValue)
-            DefaultsManager.shared.setValue(false, forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue)
+            DefaultsManager.shared.setValue(!newValue, forKey: DefaultsKey.locationPermissionDeniedWarningShown.rawValue)
         }
     }
 }
