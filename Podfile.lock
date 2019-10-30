@@ -1,5 +1,5 @@
 PODS:
-  - Balizinha (0.10.9):
+  - Balizinha (0.10.10):
     - Firebase
     - Firebase/Analytics
     - Firebase/Auth
@@ -56,10 +56,10 @@ PODS:
   - Firebase/Storage (6.6.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 3.4.0)
-  - FirebaseABTesting (3.1.1):
+  - FirebaseABTesting (3.1.2):
     - FirebaseAnalyticsInterop (~> 1.3)
     - FirebaseCore (~> 6.1)
-    - Protobuf (~> 3.8)
+    - Protobuf (>= 3.9.2, ~> 3.9)
   - FirebaseAnalytics (6.1.0):
     - FirebaseCore (~> 6.2)
     - FirebaseInstanceID (~> 4.2)
@@ -99,7 +99,7 @@ PODS:
     - FirebaseCore (~> 6.0)
     - GoogleUtilities/Environment (~> 6.0)
     - GoogleUtilities/UserDefaults (~> 6.0)
-  - FirebaseMessaging (4.1.4):
+  - FirebaseMessaging (4.1.7):
     - FirebaseAnalyticsInterop (~> 1.3)
     - FirebaseCore (~> 6.2)
     - FirebaseInstanceID (~> 4.1)
@@ -107,7 +107,7 @@ PODS:
     - GoogleUtilities/Environment (~> 6.2)
     - GoogleUtilities/Reachability (~> 6.2)
     - GoogleUtilities/UserDefaults (~> 6.2)
-    - Protobuf (~> 3.1)
+    - Protobuf (>= 3.9.2, ~> 3.9)
   - FirebaseRemoteConfig (4.2.1):
     - FirebaseABTesting (~> 3.0)
     - FirebaseCore (~> 6.1)
@@ -147,14 +147,14 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.2.4):
     - GoogleUtilities/Logger
-  - GTMSessionFetcher/Core (1.2.2)
+  - GTMSessionFetcher/Core (1.3.0)
   - leveldb-library (1.22)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
-  - Protobuf (3.9.0)
+  - Protobuf (3.10.0)
   - RACameraHelper (0.1.5)
   - RenderCloud (1.2.0)
   - RenderPay (0.2.1):
@@ -181,7 +181,7 @@ PODS:
   - Stripe (14.0.0)
 
 DEPENDENCIES:
-  - Balizinha (from `https://bitbucket.org/renderapps/balizinha-pod`, tag `0.10.9`)
+  - Balizinha (from `https://bitbucket.org/renderapps/balizinha-pod`, tag `0.10.10`)
   - Batch
   - Crashlytics (~> 3.10.7)
   - DateTools
@@ -241,7 +241,7 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Balizinha:
     :git: https://bitbucket.org/renderapps/balizinha-pod
-    :tag: 0.10.9
+    :tag: 0.10.10
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
     :tag: 0.1.5
@@ -255,7 +255,7 @@ EXTERNAL SOURCES:
 CHECKOUT OPTIONS:
   Balizinha:
     :git: https://bitbucket.org/renderapps/balizinha-pod
-    :tag: 0.10.9
+    :tag: 0.10.10
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
     :tag: 0.1.5
@@ -267,7 +267,7 @@ CHECKOUT OPTIONS:
     :tag: 0.2.1
 
 SPEC CHECKSUMS:
-  Balizinha: 2c220e1f5fe30735b38367b0f923400aec9b9b52
+  Balizinha: 194f20ed3cada5d14de11b185222e68ad4ebe659
   Batch: 9c598ff59877bfa8384ec6ae41274745faf3b5cb
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Crashlytics: 55e24fc23989680285a21cb1146578d9d18e432c
@@ -277,7 +277,7 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 7a1e411d46acc8834588eca437daf34de42e1d52
   FBSDKShareKit: 0e45916f4150da485928ae2a17ca021950b194f5
   Firebase: a2b5951f30ff38fd3b3bdae9c7d340f940fd3c51
-  FirebaseABTesting: 662e8de812ceb5d57ad66381f6402f4d28dc5c91
+  FirebaseABTesting: 0d10f3cdc3fa00f3f175b5b56c1003c8e888299f
   FirebaseAnalytics: 48414ae5cbf6976d8a2f7177e0466540e5ab33ce
   FirebaseAnalyticsInterop: d48b6ab67bcf016a05e55b71fc39c61c0cb6b7f3
   FirebaseAuth: e7f86c2dfc57281cd01f7da5e4b40e01e4510a4a
@@ -288,17 +288,17 @@ SPEC CHECKSUMS:
   FirebaseDatabase: f48e067716864be2b855cf716b927ef375d6cfa0
   FirebaseDynamicLinks: 5eee7e229ff8a5d56af1fca9f5a71115b7a2fe8b
   FirebaseInstanceID: 8b42755db950682e7de0d167bc6fb26a57b244af
-  FirebaseMessaging: 9483ac438b7b223c09dad8712310e9ee7d562c99
+  FirebaseMessaging: 5ab57080c83bc98c9961412e1dab379f4193d02a
   FirebaseRemoteConfig: ed74d16d7e5b19e77a4c3e3eee4fe363039b0834
   FirebaseStorage: b7c6d00997bc21d4465453bdcc5cc65513110fed
   GoogleAppMeasurement: 47285fa897e5a125df56b9ef8750a1d81e4598a8
   GoogleDataTransport: b0115dbdf1943c998628dca30800ddd263aaa166
   GoogleDataTransportCCTSupport: 3451e7d8ba19093e533362a6d78d6d9014c6a037
   GoogleUtilities: 64b5e3982b1b01bda26712affd5c523ef32563cf
-  GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
+  GTMSessionFetcher: 43b8b64263023d4f32caa0b40f4c8bfa3c5f36d8
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
+  Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
   RACameraHelper: 3c65397be7f39577ff14a605fb08e2e2c7b59045
   RenderCloud: a53f869bad56edc9476e5d92241e8ac112558686
   RenderPay: b9354fbe1b2523e88e1e1cba07ff96dd8939572f
@@ -308,6 +308,6 @@ SPEC CHECKSUMS:
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
 
-PODFILE CHECKSUM: eb1d6945710f3a8d62c89d95cb323626dcbb7efb
+PODFILE CHECKSUM: 953c31555ad2990b90abb7e20e1e5060dd42fd9f
 
 COCOAPODS: 1.7.2
