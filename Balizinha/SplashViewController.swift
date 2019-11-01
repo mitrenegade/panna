@@ -107,8 +107,10 @@ class SplashViewController: UIViewController {
             
             let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
             let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "unknown"
-            player.appVersion = "\(version) (\(build))"
-            
+            player.version = "\(version)"
+            player.build = "\(build)\(TESTING ? "t" : "")"
+            player.lastActiveTimestamp = Date()
+
             // on first login, downloadFacebookPhoto gets skipped the first time because player has not been created yet
             if isFirstLogin, AuthService.shared.hasFacebookProvider {
                 PlayerService.shared.current.accept(player)
