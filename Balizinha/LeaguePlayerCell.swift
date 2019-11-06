@@ -20,9 +20,9 @@ class LeaguePlayerCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        labelInitials.textColor = UIColor.cellText
+        labelInitials.textColor = PannaUI.cellText
         labelInitials.layer.borderWidth = 2
-        labelInitials.layer.borderColor = UIColor.cellBorder.cgColor
+        labelInitials.layer.borderColor = PannaUI.cellBorder.cgColor
         labelInitials.textAlignment = .center
     }
     

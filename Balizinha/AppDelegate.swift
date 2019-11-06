@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // GMSServices.provideAPIKey(TESTING ? GOOGLE_API_KEY_DEV : GOOGLE_API_KEY_PROD)
 
-        UINavigationBar.appearance().backgroundColor = UIColor.navBarTint
+        UINavigationBar.appearance().backgroundColor = PannaUI.navBarTint
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().tintColor = UIColor.white
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.montserratSemiBold(size: 20)]

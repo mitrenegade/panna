@@ -295,7 +295,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     fileprivate var leaguePhotoView: RAImageView?
     fileprivate lazy var photoHeaderView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 100))
-        view.backgroundColor = UIColor.mediumGreen
+        view.backgroundColor = PannaUI.iconBackground
         view.clipsToBounds = true
         let photoView = RAImageView(frame: CGRect(x: view.frame.size.width / 2 - 40, y: 10, width: 80, height: 80))
         photoView.layer.cornerRadius = 5
@@ -686,10 +686,10 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel(frame: CGRect(x: 16, y: 0, width: self.view.frame.size.width - 16, height: 40))
         let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 40))
-        view.backgroundColor = UIColor.mediumGreen
+        view.backgroundColor = PannaUI.tableHeaderBackground
         label.backgroundColor = UIColor.clear
         label.font = UIFont.montserratMedium(size: 18)
-        label.textColor = UIColor.offWhite
+        label.textColor = PannaUI.tableHeaderText
         view.clipsToBounds = true
 
         switch section {
@@ -1119,7 +1119,7 @@ extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigati
                 picker.sourceType = .savedPhotosAlbum
             }
             picker.navigationBar.isTranslucent = false
-            picker.navigationBar.barTintColor = UIColor.navBarTint
+            picker.navigationBar.barTintColor = PannaUI.navBarTint
         }
         
         self.present(picker, animated: true)
