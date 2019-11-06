@@ -1119,7 +1119,7 @@ extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigati
                 picker.sourceType = .savedPhotosAlbum
             }
             picker.navigationBar.isTranslucent = false
-            picker.navigationBar.barTintColor = UIColor.mediumBlue
+            picker.navigationBar.barTintColor = UIColor.navBarTint
         }
         
         self.present(picker, animated: true)
