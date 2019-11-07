@@ -76,7 +76,8 @@ class ShareService: NSObject {
         let content: ShareLinkContent = ShareLinkContent()
         if let link = link, let url = URL(string: link) { // TODO: this url doesn't render or forward correctly on Facebook. For facebook sharing, link to a dynamic website that redirects to the dynamic link in Safari
             content.contentURL = url
-            ShareDialog.show(from: controller, with: content, delegate: controller as? SharingDelegate)
+            let dialog = ShareDialog(fromViewController: controller, content: content, delegate: controller as? SharingDelegate)
+            dialog.show()
         }
         //        FirebaseImageService().eventPhotoUrl(for: event) { (url) in
         //            if let url = url {
