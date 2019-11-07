@@ -110,22 +110,27 @@ class LoginViewController: UIViewController {
     func handleFacebookUser() {
         let permissions = ["email", "public_profile"]
         LoginManager().logOut() // in case user has switched accounts
-        facebookLogin.logIn(permissions: permissions, from: self) { (result, error) in
+        facebookLogin.logIn(permissions: permissions, from: self) { [weak self] (result, error) in
             if error != nil {
                 print("Facebook login failed. Error \(String(describing: error))")
             } else if (result?.isCancelled)! {
                 print("Facebook login was cancelled.")
             } else {
                 print("Facebook login success: \(String(describing: result))")
-                let accessToken = AccessToken.current.tokenString
+                guard let accessToken = AccessToken.current?.tokenString else {
+                    self?.simpleAlert("Login failed", message: "Invalid token. Please try again.")
+                    return
+                }
                 
-                let credential = FacebookAuthProvider.credential(withAccessToken: accessToken!)
+                let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
                 firAuth.signIn(with: credential) { [weak self] (result, error) in
                     if let error = error as NSError? {
                         // TODO: handle this. will give an error for facebook email already exists as an email user
                         print("Login failed. \(String(describing: error))")
                         if error.code == 17012 {
                             self?.simpleAlert("Email already in use", message: "There is already an account with the email associated with your Facebook account. Please log in using the email option.")
+                        } else {
+                            self?.simpleAlert("Login failed", defaultMessage: "Login with your Facebook info failed.", error: error)
                         }
                     } else {
                         print("LoginLogout: LoginSuccess from facebook, results: \(String(describing: result))")
