@@ -51,7 +51,7 @@ class PlayerInfoViewController: UIViewController {
         self.refresh()
         
         self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.barTintColor = UIColor.mediumBlue
+        self.navigationController?.navigationBar.barTintColor = PannaUI.navBarTint
         
         cityHelper = CityHelper(inputField: inputCity, delegate: self)
     }
@@ -269,7 +269,7 @@ extension PlayerInfoViewController {
                 picker.sourceType = .savedPhotosAlbum
             }
             picker.navigationBar.isTranslucent = false
-            picker.navigationBar.barTintColor = UIColor.mediumBlue
+            picker.navigationBar.barTintColor = PannaUI.navBarTint
         }
 
         self.present(picker, animated: true)

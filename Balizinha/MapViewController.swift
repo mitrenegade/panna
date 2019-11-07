@@ -279,12 +279,12 @@ extension MapViewController {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 30))
-        view.backgroundColor = UIColor.mediumGray
+        view.backgroundColor = PannaUI.tableHeaderBackground
         let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: 30))
         label.backgroundColor = .clear
         view.addSubview(label)
         label.font = UIFont.montserratMedium(size: 18)
-        label.textColor = UIColor.offWhite
+        label.textColor = PannaUI.tableHeaderText
         view.clipsToBounds = true
         
         switch section {

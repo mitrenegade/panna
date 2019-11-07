@@ -31,7 +31,7 @@ class LeagueCell: UITableViewCell {
                     self?.icon.imageUrl = nil
                     self?.icon.image = UIImage(named: "crest30")?.withRenderingMode(.alwaysTemplate)
                     self?.icon.tintColor = UIColor.white
-                    self?.icon.backgroundColor = UIColor.darkGreen
+                    self?.icon.backgroundColor = PannaUI.iconBackground
                 }
             }
         }
