@@ -512,23 +512,23 @@ extension EventDisplayViewController {
 }
 
 // MARK: Sharing
-extension EventDisplayViewController: FBSDKSharingDelegate {
-    // MARK: - FBSDKSharingDelegate
-    func sharerDidCancel(_ sharer: FBSDKSharing!) {
-        print("User cancelled sharing.")
-    }
-    
-    func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable: Any]!) {
+extension EventDisplayViewController: SharingDelegate {
+    func sharer(_ sharer: Sharing, didCompleteWithResults results: [String : Any]) {
         let alert = UIAlertController(title: "Success", message: "Event shared!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         
         self.present(alert, animated: true, completion: nil)
     }
     
-    func sharer(_ sharer: FBSDKSharing!, didFailWithError error: Error!) {
+    func sharer(_ sharer: Sharing, didFailWithError error: Error) {
         print("Error: \(String(describing: error))")
         simpleAlert("Could not share", defaultMessage: "Event could not be shared at this time.", error: error as NSError?)
     }
+    
+    func sharerDidCancel(_ sharer: Sharing) {
+        print("User cancelled sharing.")
+    }
+    
 }
 
 extension EventDisplayViewController: PlayersScrollViewDelegate {

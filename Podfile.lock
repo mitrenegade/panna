@@ -13,22 +13,46 @@ PODS:
     - RxOptional
     - RxSwift
   - Batch (1.14.0)
-  - Bolts (1.9.0):
-    - Bolts/AppLinks (= 1.9.0)
-    - Bolts/Tasks (= 1.9.0)
-  - Bolts/AppLinks (1.9.0):
-    - Bolts/Tasks
-  - Bolts/Tasks (1.9.0)
   - Crashlytics (3.10.9):
     - Fabric (~> 1.7.13)
   - DateTools (2.0.0)
   - Fabric (1.7.13)
-  - FBSDKCoreKit (4.40.0):
-    - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.40.0):
-    - FBSDKCoreKit
-  - FBSDKShareKit (4.40.0):
-    - FBSDKCoreKit
+  - FacebookSDK (5.10.0):
+    - FacebookSDK/CoreKit (= 5.10.0)
+    - FacebookSDK/MarketingKit (= 5.10.0)
+  - FacebookSDK/CoreKit (5.10.0):
+    - FBSDKCoreKit (~> 5.0)
+  - FacebookSDK/LoginKit (5.10.0):
+    - FacebookSDK/CoreKit
+    - FBSDKLoginKit (~> 5.0)
+  - FacebookSDK/MarketingKit (5.10.0):
+    - FacebookSDK/CoreKit
+    - FBSDKMarketingKit (~> 5.0)
+  - FacebookSDK/PlacesKit (5.10.0):
+    - FacebookSDK/CoreKit
+    - FBSDKPlacesKit (~> 5.0)
+  - FacebookSDK/ShareKit (5.10.0):
+    - FacebookSDK/CoreKit
+    - FBSDKShareKit (~> 5.0)
+  - FBSDKCoreKit (5.8.0):
+    - FBSDKCoreKit/Basics (= 5.8.0)
+    - FBSDKCoreKit/Core (= 5.8.0)
+  - FBSDKCoreKit/Basics (5.8.0)
+  - FBSDKCoreKit/Core (5.8.0):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (5.8.0):
+    - FBSDKLoginKit/Login (= 5.8.0)
+  - FBSDKLoginKit/Login (5.8.0):
+    - FBSDKCoreKit (~> 5.0)
+  - FBSDKMarketingKit (5.9.0):
+    - FBSDKCoreKit (~> 5.5)
+  - FBSDKMessengerShareKit (1.3.2)
+  - FBSDKPlacesKit (5.3.0):
+    - FBSDKCoreKit (~> 5.0)
+  - FBSDKShareKit (5.8.0):
+    - FBSDKShareKit/Share (= 5.8.0)
+  - FBSDKShareKit/Share (5.8.0):
+    - FBSDKCoreKit (~> 5.0)
   - Firebase (6.6.0):
     - Firebase/Core (= 6.6.0)
   - Firebase/Analytics (6.6.0):
@@ -186,9 +210,11 @@ DEPENDENCIES:
   - Crashlytics (~> 3.10.7)
   - DateTools
   - Fabric (~> 1.7.11)
-  - FBSDKCoreKit (~> 4.40.0)
-  - FBSDKLoginKit (~> 4.40.0)
-  - FBSDKShareKit (~> 4.40.0)
+  - FacebookSDK
+  - FacebookSDK/LoginKit
+  - FacebookSDK/PlacesKit
+  - FacebookSDK/ShareKit
+  - FBSDKMessengerShareKit
   - Firebase/Core
   - Firebase/DynamicLinks
   - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.5`)
@@ -202,12 +228,15 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Batch
-    - Bolts
     - Crashlytics
     - DateTools
     - Fabric
+    - FacebookSDK
     - FBSDKCoreKit
     - FBSDKLoginKit
+    - FBSDKMarketingKit
+    - FBSDKMessengerShareKit
+    - FBSDKPlacesKit
     - FBSDKShareKit
     - Firebase
     - FirebaseABTesting
@@ -265,13 +294,16 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Balizinha: 32ae1b17e91b793f919d03cd378a6e0967686ce9
   Batch: 9c598ff59877bfa8384ec6ae41274745faf3b5cb
-  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Crashlytics: 55e24fc23989680285a21cb1146578d9d18e432c
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   Fabric: 25d0963b691fc97be566392243ff0ecef5a68338
-  FBSDKCoreKit: ae214474b25033399c131dc81d258e412582a2ba
-  FBSDKLoginKit: 7a1e411d46acc8834588eca437daf34de42e1d52
-  FBSDKShareKit: 0e45916f4150da485928ae2a17ca021950b194f5
+  FacebookSDK: 9b43cd3ff2b19f72227c0b90c688adda1f74d43c
+  FBSDKCoreKit: e7dcac0aabcfb09d0166998edd95fe3b05a0ce5d
+  FBSDKLoginKit: 1b0cf04df0370b37404213157b060d6666ede814
+  FBSDKMarketingKit: 9978074f24b325d3d4f479d90906daf23f80cf67
+  FBSDKMessengerShareKit: bdd14265f5845e6d1c95a128ab33705a68ca1c21
+  FBSDKPlacesKit: 0388766304ff7a89630bcc211db9f500d549f403
+  FBSDKShareKit: abc29e1bb4f9f59f679adf1ae191006d68455f96
   Firebase: a2b5951f30ff38fd3b3bdae9c7d340f940fd3c51
   FirebaseABTesting: 0d10f3cdc3fa00f3f175b5b56c1003c8e888299f
   FirebaseAnalytics: 48414ae5cbf6976d8a2f7177e0466540e5ab33ce
@@ -304,6 +336,6 @@ SPEC CHECKSUMS:
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
 
-PODFILE CHECKSUM: 55485918704787909446602a44284e8fb6deb881
+PODFILE CHECKSUM: 6eb4f209290f15389afe87d75f6b612bfa245c2b
 
 COCOAPODS: 1.8.4

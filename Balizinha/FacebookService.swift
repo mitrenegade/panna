@@ -14,14 +14,14 @@ class FacebookService: NSObject {
     static func downloadFacebookInfo(completion: ((UIImage?, String?, Error?)->Void)?) {
         guard let player = PlayerService.shared.current.value else { return }
         guard player.photoUrl == nil else { return }
-        FBSDKProfile.loadCurrentProfile(completion: { (profile, error) in
+        Profile.loadCurrentProfile(completion: { (profile, error) in
             guard let profile = profile else {
                 completion?(nil, nil, error)
                 return
             }
             
             // update photoUrl if it doesn't already exist
-            if let photoUrl = profile.imageURL(for: FBSDKProfilePictureMode.square, size: CGSize(width: 100, height: 100)) {
+            if let photoUrl = profile.imageURL(forMode: Profile.PictureMode.square, size: CGSize(width: 100, height: 100)) {
                 guard let data = try? Data(contentsOf: photoUrl) else { return }
                 guard let image = UIImage(data: data) else { return }
                 FirebaseImageService.uploadImage(image: image, type: .player, uid: player.id, completion: { (url) in

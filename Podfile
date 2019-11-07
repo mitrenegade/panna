@@ -13,9 +13,12 @@ target 'Panna' do
     pod 'Crashlytics', '~> 3.10.7'
     pod 'Fabric', '~>1.7.11'
 
-    pod 'FBSDKCoreKit', '~>4.40.0'
-    pod 'FBSDKLoginKit', '~>4.40.0'
-    pod 'FBSDKShareKit', '~>4.40.0'
+    pod 'FacebookSDK'
+    pod 'FacebookSDK/LoginKit'
+    pod 'FacebookSDK/ShareKit'
+    pod 'FacebookSDK/PlacesKit'
+
+    pod 'FBSDKMessengerShareKit'
     pod 'DateTools'
     pod 'Firebase/DynamicLinks'
     pod 'Firebase/Core'
