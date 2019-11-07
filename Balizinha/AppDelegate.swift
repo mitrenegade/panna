@@ -10,8 +10,6 @@ import UIKit
 import FirebaseDatabase
 import Firebase
 import FirebaseMessaging
-import FBSDKCoreKit
-import FBSDKLoginKit
 import Batch
 import Fabric
 import Crashlytics
@@ -20,6 +18,7 @@ import Stripe
 import RxOptional
 import Balizinha
 import RenderCloud
+import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -41,8 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         RenderAPIService.baseURL = URL(string: "https://us-central1-balizinha\(urlSuffix).cloudfunctions.net/")
 
         // Facebook
-        FBSDKAppEvents.activateApp()
-        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        AppEvents.activateApp()
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         // Background fetch
         application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
@@ -179,7 +178,7 @@ extension AppDelegate {
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: true), (components.scheme == "balizinha" || components.scheme == "panna") {
             return DeepLinkService.shared.handle(url: url)
         }
-        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+        return ApplicationDelegate.shared.application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {

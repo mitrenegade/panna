@@ -23,7 +23,7 @@ class LoginViewController: UIViewController {
 
     var shouldCancelInput: Bool = false
     
-    let facebookLogin = FBSDKLoginManager()
+    let facebookLogin = LoginManager()
     
     @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
     @IBOutlet weak var constraintTopOffset: NSLayoutConstraint!
@@ -108,16 +108,16 @@ class LoginViewController: UIViewController {
     }
     
     func handleFacebookUser() {
-        let permissions = ["email", "public_profile"/*, "user_photos", "user_hometown", "user_location"*/]
-        FBSDKLoginManager().logOut() // in case user has switched accounts
-        facebookLogin.logIn(withReadPermissions: permissions, from: self) { (result, error) in
+        let permissions = ["email", "public_profile"]
+        LoginManager().logOut() // in case user has switched accounts
+        facebookLogin.logIn(permissions: permissions, from: self) { (result, error) in
             if error != nil {
                 print("Facebook login failed. Error \(String(describing: error))")
             } else if (result?.isCancelled)! {
                 print("Facebook login was cancelled.")
             } else {
                 print("Facebook login success: \(String(describing: result))")
-                let accessToken = FBSDKAccessToken.current().tokenString
+                let accessToken = AccessToken.current.tokenString
                 
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken!)
                 firAuth.signIn(with: credential) { [weak self] (result, error) in
