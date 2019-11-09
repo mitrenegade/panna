@@ -37,6 +37,7 @@ class EventCell: UITableViewCell {
         // Initialization code
         self.eventLogo.layer.cornerRadius = self.eventLogo.frame.size.height / 2
         self.eventLogo.layer.borderWidth = 1.0
+        self.eventLogo.layer.borderColor = PannaUI.cellBorder.cgColor
         self.eventLogo.layer.masksToBounds = true
         self.eventLogo.contentMode = .scaleAspectFill
         
