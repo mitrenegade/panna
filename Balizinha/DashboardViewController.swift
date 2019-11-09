@@ -72,7 +72,6 @@ class DashboardViewController: UIViewController {
     
     private func setupLeagueSelector() {
         leaguePickerView.sizeToFit()
-        leaguePickerView.backgroundColor = .white
         leaguePickerView.delegate = self
         leaguePickerView.dataSource = self
         leagueInput.inputView = leaguePickerView
