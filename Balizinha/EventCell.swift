@@ -27,6 +27,7 @@ class EventCell: UITableViewCell {
     @IBOutlet var labelType: UILabel?
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var constraintButtonWidth: NSLayoutConstraint?
+    @IBOutlet weak var iconPlayers: UIImageView!
     
     var event: Balizinha.Event?
     weak var delegate: EventCellDelegate?
@@ -48,8 +49,12 @@ class EventCell: UITableViewCell {
 
         labelName.text = viewModel.titleLabel
         labelType?.text = viewModel.typeLabel
+        labelType?.textColor = PannaUI.cellText
         labelLocation.text = viewModel.placeLabel
         labelTimeDate.text = viewModel.timeDateLabel
+        
+        iconPlayers?.image = UIImage(named: "profile30")?.withRenderingMode(.alwaysTemplate)
+        iconPlayers?.tintColor = PannaUI.iconBackground
 
         viewModel.getEventPhoto() { [weak self] imageUrl, image in
             self?.eventLogo.imageUrl = imageUrl
