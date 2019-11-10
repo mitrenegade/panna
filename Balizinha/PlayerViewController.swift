@@ -84,7 +84,8 @@ class PlayerViewController: UIViewController {
                 else {
                     self?.photoView.layer.cornerRadius = 0
                     self?.photoView.imageUrl = nil
-                    self?.photoView.image = UIImage(named: "profile-img")
+                    self?.photoView.image = UIImage(named: "profile-img")?.withRenderingMode(.alwaysTemplate)
+                    self?.photoView.tintColor = PannaUI.profileTint
                 }
             }
         }
