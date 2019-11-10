@@ -60,7 +60,8 @@ class FirebaseModelIcon: UIView {
                 self?.labelName.isHidden = false
             } else {
                 imageView.imageUrl = nil
-                imageView.image = UIImage(named: "profile-img")
+                imageView.image = UIImage(named: "profile-img")?.withRenderingMode(.alwaysTemplate)
+                imageView.tintColor = PannaUI.profileTint
                 imageView.isHidden = false
                 self?.labelName.isHidden = true
             }

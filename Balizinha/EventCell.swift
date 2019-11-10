@@ -55,7 +55,7 @@ class EventCell: UITableViewCell {
         labelTimeDate.text = viewModel.timeDateLabel
         
         iconPlayers?.image = UIImage(named: "profile30")?.withRenderingMode(.alwaysTemplate)
-        iconPlayers?.tintColor = PannaUI.iconBackground
+        iconPlayers?.tintColor = PannaUI.profileTint
 
         viewModel.getEventPhoto() { [weak self] imageUrl, image in
             self?.eventLogo.imageUrl = imageUrl
