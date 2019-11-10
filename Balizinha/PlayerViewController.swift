@@ -22,10 +22,13 @@ class PlayerViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.refresh()
+        refresh()
         
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.barTintColor = PannaUI.navBarTint
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barTintColor = PannaUI.navBarTint
+        
+        photoView.image = UIImage(named: "profile-img")?.withRenderingMode(.alwaysTemplate)
+        photoView.tintColor = PannaUI.profileTint
     }
 
     override func viewWillAppear(_ animated: Bool) {

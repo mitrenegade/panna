@@ -47,12 +47,15 @@ class PlayerInfoViewController: UIViewController {
             self.navigationItem.rightBarButtonItem = nil
         }
         
-        self.setupInputs()
-        self.refresh()
+        setupInputs()
+        refresh()
         
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.barTintColor = PannaUI.navBarTint
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barTintColor = PannaUI.navBarTint
         
+        photoView.image = UIImage(named: "profile-img")?.withRenderingMode(.alwaysTemplate)
+        photoView.tintColor = PannaUI.profileTint
+
         cityHelper = CityHelper(inputField: inputCity, delegate: self)
     }
     
