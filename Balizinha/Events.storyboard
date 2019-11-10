@@ -601,19 +601,19 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FF0-Ha-CwZ">
                                                     <rect key="frame" x="85" y="19" width="41" height="18.5"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zRY-db-wWP">
                                                     <rect key="frame" x="85" y="37.5" width="41" height="15"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="12"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jUD-H0-oEj">
                                                     <rect key="frame" x="85" y="52.5" width="41" height="15"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="12"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="3OL-EL-UF1">
@@ -629,7 +629,7 @@
                                                                         <constraint firstAttribute="height" constant="17" id="GlO-Fi-nqB"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
-                                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" image="profile30" translatesAutoresizingMaskIntoConstraints="NO" id="L7y-Gv-tyR">
@@ -641,7 +641,6 @@
                                                                     </constraints>
                                                                 </imageView>
                                                             </subviews>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstItem="L7y-Gv-tyR" firstAttribute="centerY" secondItem="ygm-fa-Kwz" secondAttribute="centerY" id="6JW-nm-nOu"/>
                                                                 <constraint firstAttribute="trailing" secondItem="no5-6z-49z" secondAttribute="trailing" id="Ibb-7x-g97"/>
@@ -714,10 +713,10 @@
                                                 <constraint firstItem="zRY-db-wWP" firstAttribute="leading" secondItem="FF0-Ha-CwZ" secondAttribute="leading" id="os5-3L-g6l"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="btnAction" destination="6wC-Dq-etv" id="s3S-NA-kNf"/>
                                             <outlet property="eventLogo" destination="ORV-Tz-PEj" id="NtA-Ka-Nhc"/>
+                                            <outlet property="iconPlayers" destination="L7y-Gv-tyR" id="PqD-PF-fou"/>
                                             <outlet property="labelAttendance" destination="no5-6z-49z" id="L38-FN-CDk"/>
                                             <outlet property="labelFull" destination="Gk8-dw-6bf" id="Y0o-En-prg"/>
                                             <outlet property="labelLocation" destination="jUD-H0-oEj" id="cAd-6h-h00"/>

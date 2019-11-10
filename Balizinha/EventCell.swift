@@ -27,7 +27,7 @@ class EventCell: UITableViewCell {
     @IBOutlet var labelType: UILabel?
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var constraintButtonWidth: NSLayoutConstraint?
-    @IBOutlet weak var iconPlayers: UIImageView!
+    @IBOutlet weak var iconPlayers: UIImageView?
     
     var event: Balizinha.Event?
     weak var delegate: EventCellDelegate?
