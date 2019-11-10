@@ -50,7 +50,8 @@ class ActionCell: UITableViewCell {
                 }
                 else {
                     photoView.imageUrl = nil
-                    photoView.image = UIImage(named: "profile-img")
+                    photoView.image = UIImage(named: "profile-img")?.withRenderingMode(.alwaysTemplate)
+                    photoView.tintColor = PannaUI.profileTint
                 }
             }
         }

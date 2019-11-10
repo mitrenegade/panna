@@ -14,6 +14,11 @@ class FeedItemCell: ActionCell {
     @IBOutlet weak var constraintWidth: NSLayoutConstraint?
     @IBOutlet weak var labelDetails: UILabel?
 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        feedItemPhotoView?.image = UIImage(named: "profile-img")?.withRenderingMode(.alwaysTemplate)
+        feedItemPhotoView?.tintColor = PannaUI.profileTint
+    }
     func configure(with feedItem: FeedItem) {
         if let message = feedItem.message, !message.isEmpty {
             labelText.text = message
@@ -67,7 +72,8 @@ class FeedItemCell: ActionCell {
                     self?.feedItemPhotoView?.imageUrl = urlString
                 } else {
                     self?.feedItemPhotoView?.imageUrl = nil
-                    self?.feedItemPhotoView?.image = nil
+                    self?.feedItemPhotoView?.image = UIImage(named: "profile-img")?.withRenderingMode(.alwaysTemplate)
+                    self?.feedItemPhotoView?.tintColor = PannaUI.profileTint
                 }
             }
         }

@@ -21,6 +21,18 @@ class LeagueCell: UITableViewCell {
     @IBOutlet weak var labelTags: UILabel? // level and other status strings
     @IBOutlet weak var labelInfo: UILabel? // catch phrase
 
+    @IBOutlet weak var imageProfile: UIImageView!
+    @IBOutlet weak var imageCalendar: UIImageView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        imageProfile.image = UIImage(named: "profile-img")?.withRenderingMode(.alwaysTemplate)
+        imageProfile.tintColor = PannaUI.profileTint
+        imageCalendar.image = UIImage(named: "calendar30")?.withRenderingMode(.alwaysTemplate)
+        imageCalendar.tintColor = PannaUI.profileTint
+    }
+
     func configure(league: League) {
         icon.image = nil
         FirebaseImageService().leaguePhotoUrl(with: league.id) {[weak self] (url) in

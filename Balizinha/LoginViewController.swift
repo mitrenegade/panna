@@ -109,6 +109,7 @@ class LoginViewController: UIViewController {
     
     func handleFacebookUser() {
         let permissions = ["email", "public_profile"]
+
         LoginManager().logOut() // in case user has switched accounts
         facebookLogin.logIn(permissions: permissions, from: self) { [weak self] (result, error) in
             if error != nil {

@@ -6,7 +6,7 @@
 //  Copyright © 2016 Bobby Ren. All rights reserved.
 //
 
-import UIKit
+import Balizinha
 
 extension UIViewController {
     
@@ -38,7 +38,7 @@ extension UIViewController {
 extension UIAlertController {
     class func simpleAlert(_ title: String, message: String?, completion: (() -> Void)?) -> UIAlertController {
         let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.view.tintColor = UIColor.black
+        alert.view.tintColor = PannaUI.alertTint
         alert.addAction(UIAlertAction(title: "Close", style: .default, handler: { (action) -> Void in
             print("cancel")
             if completion != nil {

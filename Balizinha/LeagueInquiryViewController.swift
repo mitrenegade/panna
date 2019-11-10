@@ -28,7 +28,6 @@ class LeagueInquiryViewController: FeedbackViewController {
         navigationItem.title = "About Leagues"
 
         pickerView.sizeToFit()
-        pickerView.backgroundColor = .white
         pickerView.delegate = self
         pickerView.dataSource = self
         inputSubject.inputView = pickerView

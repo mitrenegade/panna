@@ -54,6 +54,8 @@ class DashboardViewController: UIViewController {
 
         // this log event only happens once per launch but shows when the user does open the dashboard
         LoggingService.shared.log(event: .DashboardTabClicked, info: nil)
+        
+        leagueInput.textColor = PannaUI.cellText
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -70,7 +72,6 @@ class DashboardViewController: UIViewController {
     
     private func setupLeagueSelector() {
         leaguePickerView.sizeToFit()
-        leaguePickerView.backgroundColor = .white
         leaguePickerView.delegate = self
         leaguePickerView.dataSource = self
         leagueInput.inputView = leaguePickerView

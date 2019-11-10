@@ -238,7 +238,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     func setupPickers() {
         for picker in [typePickerView, numberPickerView, datePickerView] {
             picker.sizeToFit()
-            picker.backgroundColor = .white
             picker.delegate = self
             picker.dataSource = self
         }
@@ -251,7 +250,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
 
         for picker in [startTimePickerView, endTimePickerView] {
             picker.sizeToFit()
-            picker.backgroundColor = .white
             picker.minuteInterval = 15
         }
 

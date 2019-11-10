@@ -63,7 +63,6 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
         }
 
         datePickerView.sizeToFit()
-        datePickerView.backgroundColor = .white
         datePickerView.delegate = self
         datePickerView.dataSource = self
     }
