@@ -67,7 +67,8 @@ class FeedItemCell: ActionCell {
                     self?.feedItemPhotoView?.imageUrl = urlString
                 } else {
                     self?.feedItemPhotoView?.imageUrl = nil
-                    self?.feedItemPhotoView?.image = nil
+                    self?.feedItemPhotoView?.image = UIImage(named: "profile-img")?.withRenderingMode(.alwaysTemplate)
+                    self?.feedItemPhotoView?.tintColor = PannaUI.profileTint
                 }
             }
         }
