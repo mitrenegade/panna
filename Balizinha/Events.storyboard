@@ -360,11 +360,10 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cancel/Delete Event" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6Y-1e-16g">
                                                     <rect key="frame" x="0.0" y="11.5" width="375" height="21"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="17"/>
-                                                    <color key="textColor" red="0.56833362580000002" green="0.31686857340000002" blue="0.28138893840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstItem="M6Y-1e-16g" firstAttribute="centerY" secondItem="vtb-py-ud0" secondAttribute="centerY" id="4ao-3m-WEL"/>
                                                 <constraint firstItem="M6Y-1e-16g" firstAttribute="leading" secondItem="vtb-py-ud0" secondAttribute="leading" id="LG5-UW-cGA"/>
