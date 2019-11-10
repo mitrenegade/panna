@@ -21,6 +21,7 @@ protocol EventDetailsDelegate: class {
 
 class EventDisplayViewController: UIViewController {
     
+    @IBOutlet weak var headerBackground: UIView?
     @IBOutlet weak var buttonClose: UIButton?
     @IBOutlet weak var buttonShare: UIButton?
     @IBOutlet weak var imageShare: UIImageView?
@@ -67,6 +68,10 @@ class EventDisplayViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationController?.isNavigationBarHidden = true
+        headerBackground?.backgroundColor = PannaUI.navBarTint
+        headerBackground?.alpha = 0.5
+        buttonClose?.setTitleColor(PannaUI.navBarButtonTint, for: .normal) 
+
         view.addSubview(activityOverlay)
 
         // Setup event details
@@ -86,7 +91,9 @@ class EventDisplayViewController: UIViewController {
         labelSpotsLeft.text = viewModel.spotsLeftLabelText
 
         imageShare?.image = UIImage(named: "share_icon")?.withRenderingMode(.alwaysTemplate)
+        imageShare?.tintColor = PannaUI.navBarButtonTint
         imageClone?.image = UIImage(named: "copy30")?.withRenderingMode(.alwaysTemplate)
+        imageClone?.tintColor = PannaUI.navBarButtonTint
 
         if let startTime = self.event?.startTime {
             self.labelDate.text = "\(self.event?.dateString(startTime) ?? "")\n\(self.event?.timeString(startTime) ?? "")"
