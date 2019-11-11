@@ -57,6 +57,10 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Panna needs bluetooth to accurately get your location to find events near you.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Panna needs bluetooth to accurately get your location to find events near you.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Panna needs camera access so you can take profile photos.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -99,9 +103,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Panna needs bluetooth to accurately get your location to find events near you.</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Panna needs bluetooth to accurately get your location to find events near you.</string>
 </dict>
 </plist>
