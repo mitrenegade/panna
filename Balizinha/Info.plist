@@ -99,5 +99,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Panna needs bluetooth to accurately get your location to find events near you.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Panna needs bluetooth to accurately get your location to find events near you.</string>
 </dict>
 </plist>
