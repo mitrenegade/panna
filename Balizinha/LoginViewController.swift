@@ -90,7 +90,9 @@ class LoginViewController: UIViewController {
             print("Invalid password")
             return
         }
+        activityOverlay.show()
         AuthService.shared.loginUser(email: email, password: password) { [weak self] (error) in
+            self?.activityOverlay.hide()
             if let error: NSError = error as NSError? {
                 print("Error: \(error)")
                 if error.code == 17009 {
