@@ -77,7 +77,7 @@ class MapViewController: EventsViewController {
         if AuthService.isAnonymous {
             showedTutorial = showTutorialIfNeeded()
         }
-        if !showedTutorial {
+        if !showedTutorial && PlayerService.shared.current.value != nil {
             // start location
             let _ = __once
         }

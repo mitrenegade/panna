@@ -20,6 +20,7 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var buttonSignup: UIButton!
     fileprivate let disposeBag = DisposeBag()
     
+    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
     var shouldCancelInput: Bool = false
 
     override func viewDidLoad() {
@@ -38,6 +39,8 @@ class SignupViewController: UIViewController {
         inputEmail.inputAccessoryView = keyboardNextButtonView
         inputPassword.inputAccessoryView = keyboardNextButtonView
         inputConfirmation.inputAccessoryView = keyboardNextButtonView
+        
+        view.addSubview(activityOverlay)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -51,11 +54,11 @@ class SignupViewController: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        activityOverlay.setup(frame: view.frame)
     }
-    
+
     @IBAction func didClickButton(_ button: UIButton) {
         if button == self.buttonSignup {
             self.createEmailUser()
@@ -76,14 +79,17 @@ class SignupViewController: UIViewController {
             return
         }
         
-        firAuth.createUser(withEmail: email, password: password) { (result, error) in
+        activityOverlay.show()
+        firAuth.createUser(withEmail: email, password: password) { [weak self] (result, error) in
             if let error = error as NSError? {
                 print("Error: \(error)")
-                self.simpleAlert("Could not sign up", defaultMessage: nil, error: error)
+                self?.activityOverlay.hide()
+                self?.simpleAlert("Could not sign up", defaultMessage: nil, error: error)
             }
             else {
                 print("createUser results: \(String(describing: result))")
                 AuthService.shared.loginUser(email: email, password: password, completion: { [weak self] (error) in
+                    self?.activityOverlay.hide()
                     if let error = error as NSError? {
                         self?.simpleAlert("Could not log in", defaultMessage: nil, error: error)
                     }

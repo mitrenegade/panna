@@ -28,6 +28,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
     @IBOutlet weak var constraintTopOffset: NSLayoutConstraint!
 
+    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -43,6 +45,8 @@ class LoginViewController: UIViewController {
         inputEmail.inputAccessoryView = keyboardNextButtonView
         inputPassword.inputAccessoryView = keyboardNextButtonView
 
+        view.addSubview(activityOverlay)
+
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -53,9 +57,9 @@ class LoginViewController: UIViewController {
         navigationController?.isNavigationBarHidden = true
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        activityOverlay.setup(frame: view.frame)
     }
 
     @IBAction func didClickButton(_ button: UIButton) {
@@ -86,7 +90,9 @@ class LoginViewController: UIViewController {
             print("Invalid password")
             return
         }
+        activityOverlay.show()
         AuthService.shared.loginUser(email: email, password: password) { [weak self] (error) in
+            self?.activityOverlay.hide()
             if let error: NSError = error as NSError? {
                 print("Error: \(error)")
                 if error.code == 17009 {
@@ -111,11 +117,14 @@ class LoginViewController: UIViewController {
         let permissions = ["email", "public_profile"]
 
         LoginManager().logOut() // in case user has switched accounts
+        activityOverlay.show()
         facebookLogin.logIn(permissions: permissions, from: self) { [weak self] (result, error) in
             if error != nil {
                 print("Facebook login failed. Error \(String(describing: error))")
+                self?.activityOverlay.hide()
             } else if (result?.isCancelled)! {
                 print("Facebook login was cancelled.")
+                self?.activityOverlay.hide()
             } else {
                 print("Facebook login success: \(String(describing: result))")
                 guard let accessToken = AccessToken.current?.tokenString else {
@@ -125,6 +134,7 @@ class LoginViewController: UIViewController {
                 
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
                 firAuth.signIn(with: credential) { [weak self] (result, error) in
+                    self?.activityOverlay.hide()
                     if let error = error as NSError? {
                         // TODO: handle this. will give an error for facebook email already exists as an email user
                         print("Login failed. \(String(describing: error))")
