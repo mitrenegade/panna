@@ -112,7 +112,6 @@ enum LoggingEvent: String {
 enum LoggingKey: String {
     case JoinEventClickedResult = "result"
     case JoinEventId = "eventId"
-    case JoinEventError = "error"
 }
 
 enum LoggingValue {

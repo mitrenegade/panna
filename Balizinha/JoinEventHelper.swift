@@ -63,7 +63,7 @@ class JoinEventHelper: NSObject {
                                 if let error = error as NSError? {
                                     self?.delegate?.stopActivityIndicator()
                                     self?.rootViewController?.simpleAlert("Could not join league", defaultMessage: "There was an error joining the league.", error: error)
-                                    LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.joinLeagueError.rawValue, LoggingKey.JoinEventError.rawValue: error.localizedDescription])
+                                    LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.joinLeagueError.rawValue], error: error)
                                 } else {
                                     LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.joinedLeague.rawValue])
                                     self?.notify(.PlayerLeaguesChanged, object: nil, userInfo: nil)
@@ -111,7 +111,7 @@ class JoinEventHelper: NSObject {
                     }
                 } else {
                     self?.delegate?.stopActivityIndicator()
-                    LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.chargeForEventError.rawValue, LoggingKey.JoinEventError.rawValue: error?.localizedDescription])
+                    LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.chargeForEventError.rawValue], error: error as NSError?)
                     self?.rootViewController?.simpleAlert("Could not load event", defaultMessage: "There was an error with this event.", error: error as NSError?)
                 }
             }
@@ -228,7 +228,7 @@ class JoinEventHelper: NSObject {
                     if let errorString = error.userInfo["error"] as? String {
                         errorMessage = "Error: \(errorString)"
                     }
-                    LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.paymentError.rawValue, LoggingKey.JoinEventError.rawValue: error.localizedDescription])
+                    LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.paymentError.rawValue], error: error)
                     self?.rootViewController?.simpleAlert("Could not join game", message: "There was an issue making a payment. \(errorMessage)")
                 } else {
                     self?.joinEvent(event, userId: current.id)
@@ -246,7 +246,7 @@ class JoinEventHelper: NSObject {
             DispatchQueue.main.async {
                 self?.delegate?.stopActivityIndicator()
                 if let error = error as NSError? {
-                    LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.joinEventError.rawValue, LoggingKey.JoinEventError.rawValue:error.localizedDescription])
+                    LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.joinEventError.rawValue], error: error)
                     self?.rootViewController?.simpleAlert("Could not join game", defaultMessage: "You were unable to join the game.", error: error)
                 } else {
                     self?.delegate?.didJoin(event)
