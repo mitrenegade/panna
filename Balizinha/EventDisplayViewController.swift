@@ -267,7 +267,7 @@ class EventDisplayViewController: UIViewController {
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
-            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingParam.JoinEventClicked.alertMessage.rawValue:title])
+            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.leaveEventPrompt.rawValue])
             return
         }
 
@@ -291,7 +291,7 @@ class EventDisplayViewController: UIViewController {
                 self.doJoinEvent(event)
             }))
             present(alert, animated: true, completion: nil)
-            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingParam.JoinEventClicked.alertMessage.rawValue:title])
+            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.nameNeeded.rawValue])
             return
         }
         
@@ -474,7 +474,7 @@ class EventDisplayViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: { _ in
             LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "Not now"])
         }))
-        LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingParam.JoinEventClicked.alertMessage.rawValue:message])
+        LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.joinPannaPrompt.rawValue])
         present(alert, animated: true, completion: nil)
     }
     
@@ -483,7 +483,7 @@ class EventDisplayViewController: UIViewController {
         guard let controller = nav.viewControllers.first as? OnboardingNameViewController else { return }
         controller.delegate = self
         controller.event = event
-        LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingParam.JoinEventClicked.alertMessage.rawValue:"prompt for anonymous join"])
+        LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.anonymousPlayerOnboarding.rawValue])
 
         present(nav, animated: true, completion: nil)
     }

@@ -109,9 +109,18 @@ enum LoggingEvent: String {
     case JoinEventClicked
 }
 
-enum LoggingParam {
-    enum JoinEventClicked: String {
-        case alertMessage
+enum LoggingKey: String {
+    case JoinEventClickedResult
+}
+
+enum LoggingValue {
+    enum JoinEventClickedResult: String {
+        case invalidPlayer
+        case leaveEventPrompt
+        case nameNeeded
+        case joinPannaPrompt
+        case anonymousPlayerOnboarding
         case success
     }
 }
+

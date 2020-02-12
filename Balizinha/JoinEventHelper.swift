@@ -88,8 +88,8 @@ class JoinEventHelper: NSObject {
     func shouldChargeForEvent() {
         guard let event = event else { return }
         guard let current = PlayerService.shared.current.value else {
-            let message = "Please update your player profile!"
-            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingParam.JoinEventClicked.alertMessage.rawValue:message])
+            let message = "There was an error. Please log in again."
+            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.invalidPlayer.rawValue])
             rootViewController?.simpleAlert("Could not load event", message: message)
             return
         }
