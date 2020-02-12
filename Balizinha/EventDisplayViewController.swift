@@ -255,6 +255,10 @@ class EventDisplayViewController: UIViewController {
     @IBAction func didClickShare(_ sender: Any?) {
         promptForShare()
     }
+
+    @IBAction func didClickWontJoin(_ sender: Any?) {
+        print("Won't join")
+    }
     
     @IBAction func didClickJoin(_ sender: Any?) {
         guard let event = event else { return }
