@@ -42,7 +42,7 @@ class EventDisplayViewController: UIViewController {
     
     @IBOutlet var constraintWidth: NSLayoutConstraint!
     @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
-    @IBOutlet weak var constraintButtonJoinHeight: NSLayoutConstraint!
+    @IBOutlet weak var constraintJoinViewHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintDetailHeight: NSLayoutConstraint!
     @IBOutlet var constraintPaymentHeight: NSLayoutConstraint?
     @IBOutlet var constraintActivityHeight: NSLayoutConstraint!
@@ -81,7 +81,7 @@ class EventDisplayViewController: UIViewController {
         guard let event = event else {
             imageShare?.isHidden = true
             buttonShare?.isHidden = true
-            constraintButtonJoinHeight.constant = 0
+            constraintJoinViewHeight.constant = 0
             return
         }
 
@@ -363,31 +363,31 @@ class EventDisplayViewController: UIViewController {
 
         if let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event.id {
             // anon user has joined an event
-            constraintButtonJoinHeight.constant = 30 // if refresh is called after joining
+            constraintJoinViewHeight.constant = 50 // if refresh is called after joining
             buttonJoin.isEnabled = true
             buttonJoin.alpha = 1
             buttonJoin.setTitle("Leave event", for: .normal)
         } else if let eventId = EventService.shared.featuredEventId, eventId == event.id {
             // anon user has an event invite but has not joined
             if event.isFull {
-                constraintButtonJoinHeight.constant = 0
+                constraintJoinViewHeight.constant = 0
             } else {
                 buttonJoin.isEnabled = true
                 buttonJoin.alpha = 1
             }
         } else if let player = PlayerService.shared.current.value {
             if event.containsPlayer(player) || event.userIsOrganizer() {
-                constraintButtonJoinHeight.constant = 0
+                constraintJoinViewHeight.constant = 0
             } else if event.isFull {
                 //            buttonJoin.isEnabled = false // may want to add waitlist functionality
                 //            buttonJoin.alpha = 0.5
-                constraintButtonJoinHeight.constant = 0
+                constraintJoinViewHeight.constant = 0
             } else {
                 buttonJoin.isEnabled = true
                 buttonJoin.alpha = 1
             }
         } else {
-            constraintButtonJoinHeight.constant = 0
+            constraintJoinViewHeight.constant = 0
         }
     }
     
