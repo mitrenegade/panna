@@ -267,6 +267,7 @@ class EventDisplayViewController: UIViewController {
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
+            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.leaveEventPrompt.rawValue])
             return
         }
 
@@ -280,7 +281,8 @@ class EventDisplayViewController: UIViewController {
         }
         
         guard current.name != nil else {
-            let alert = UIAlertController(title: "Please add your name", message: "Before joining a game, it'll be nice to know who you are. Update your profile now?", preferredStyle: .alert)
+            let title = "Please add your name"
+            let alert = UIAlertController(title: title, message: "Before joining a game, it'll be nice to know who you are. Update your profile now?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                 guard let url = URL(string: "panna://account/profile") else { return }
                 DeepLinkService.shared.handle(url: url)
@@ -289,6 +291,7 @@ class EventDisplayViewController: UIViewController {
                 self.doJoinEvent(event)
             }))
             present(alert, animated: true, completion: nil)
+            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.nameNeeded.rawValue])
             return
         }
         
@@ -462,7 +465,8 @@ class EventDisplayViewController: UIViewController {
     func promptForSignup() {
         guard PlayerService.shared.current.value == nil else { return }
 
-        let alert = UIAlertController(title: "Login or Sign up", message: "Before reserving a spot for this game, you need to join Panna Social Leagues.", preferredStyle: .alert)
+        let message =  "Before reserving a spot for this game, you need to join Panna Social Leagues."
+        let alert = UIAlertController(title: "Login or Sign up", message:message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             SplashViewController.shared?.goToSignupLogin()
             LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "OK"])
@@ -470,6 +474,7 @@ class EventDisplayViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: { _ in
             LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "Not now"])
         }))
+        LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.joinPannaPrompt.rawValue])
         present(alert, animated: true, completion: nil)
     }
     
@@ -478,7 +483,8 @@ class EventDisplayViewController: UIViewController {
         guard let controller = nav.viewControllers.first as? OnboardingNameViewController else { return }
         controller.delegate = self
         controller.event = event
-        
+        LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.anonymousPlayerOnboarding.rawValue])
+
         present(nav, animated: true, completion: nil)
     }
 
@@ -588,6 +594,7 @@ extension EventDisplayViewController: JoinEventDelegate {
             message = ""
         }
         simpleAlert(title, message: message, completion: {
+            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.success.rawValue, LoggingKey.JoinEventId.rawValue: event?.id ?? "UNKNOWN"])
         })
     }
 }

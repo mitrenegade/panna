@@ -64,7 +64,7 @@ class LoggingService: NSObject, LoggingProvider {
         log(event: event, message: nil, info: info, error: nil)
     }
 
-    func log(event: LoggingEvent, message: String?, info: [String: Any]?, error: NSError?) {
+    func log(event: LoggingEvent, message: String? = nil, info: [String: Any]?, error: NSError?) {
         var params: [String: Any] = info ?? [:]
         if let message = message {
             params["message"] = message
