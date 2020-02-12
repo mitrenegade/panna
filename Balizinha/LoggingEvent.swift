@@ -110,16 +110,32 @@ enum LoggingEvent: String {
 }
 
 enum LoggingKey: String {
-    case JoinEventClickedResult
+    case JoinEventClickedResult = "result"
+    case JoinEventId = "eventId"
+    case JoinEventError = "error"
 }
 
 enum LoggingValue {
     enum JoinEventClickedResult: String {
+        // alerts and warnings
         case invalidPlayer
         case leaveEventPrompt
         case nameNeeded
         case joinPannaPrompt
         case anonymousPlayerOnboarding
+        
+        // league
+        case joinedLeague
+        case joinLeagueError
+        
+        // whether payment was needed/went through
+        case chargeForEventError
+        case invalidEvent
+        case invalidPaymentAmount
+        case paymentError
+        case paymentNotRequired
+
+        case joinEventError
         case success
     }
 }

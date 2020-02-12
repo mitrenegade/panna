@@ -594,6 +594,7 @@ extension EventDisplayViewController: JoinEventDelegate {
             message = ""
         }
         simpleAlert(title, message: message, completion: {
+            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.success.rawValue, LoggingKey.JoinEventId.rawValue: event?.id ?? "UNKNOWN"])
         })
     }
 }
