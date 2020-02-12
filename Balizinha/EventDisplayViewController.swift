@@ -267,7 +267,7 @@ class EventDisplayViewController: UIViewController {
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
-            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.leaveEventPrompt.rawValue])
+            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.leaveEventPrompt.rawValue, LoggingKey.JoinEventId.rawValue:event.id])
             return
         }
 
@@ -291,7 +291,7 @@ class EventDisplayViewController: UIViewController {
                 self.doJoinEvent(event)
             }))
             present(alert, animated: true, completion: nil)
-            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.nameNeeded.rawValue])
+            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.nameNeeded.rawValue, LoggingKey.JoinEventId.rawValue:event.id])
             return
         }
         
@@ -474,7 +474,7 @@ class EventDisplayViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: { _ in
             LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "Not now"])
         }))
-        LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.joinPannaPrompt.rawValue])
+        LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.joinPannaPrompt.rawValue, LoggingKey.JoinEventId.rawValue:event?.id ?? "UNKNOWN"])
         present(alert, animated: true, completion: nil)
     }
     
@@ -483,7 +483,7 @@ class EventDisplayViewController: UIViewController {
         guard let controller = nav.viewControllers.first as? OnboardingNameViewController else { return }
         controller.delegate = self
         controller.event = event
-        LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.anonymousPlayerOnboarding.rawValue])
+        LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.anonymousPlayerOnboarding.rawValue, LoggingKey.JoinEventId.rawValue:event?.id ?? "UNKNOWN"])
 
         present(nav, animated: true, completion: nil)
     }
