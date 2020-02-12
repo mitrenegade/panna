@@ -15,8 +15,6 @@ import RenderCloud
 fileprivate var singleton: LoggingService?
 fileprivate var loggingRef: DatabaseReference?
 
-
-
 class LoggingService: NSObject, LoggingProvider {
     private lazy var __once: () = {
         // firRef is the global firebase ref
