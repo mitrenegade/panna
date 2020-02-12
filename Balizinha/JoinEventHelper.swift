@@ -88,7 +88,9 @@ class JoinEventHelper: NSObject {
     func shouldChargeForEvent() {
         guard let event = event else { return }
         guard let current = PlayerService.shared.current.value else {
-            rootViewController?.simpleAlert("Could not load event", message: "Please update your player profile!")
+            let message = "Please update your player profile!"
+            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingParam.JoinEventClicked.alertMessage.rawValue:message])
+            rootViewController?.simpleAlert("Could not load event", message: message)
             return
         }
         let params: [String: Any] = ["eventId": event.id, "userId": current.id]

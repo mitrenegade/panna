@@ -104,4 +104,14 @@ enum LoggingEvent: String {
     case ToggleLocationFiltering
     case AlternateLocationForFiltering
     case GoToLocationPermissionSettings
+    
+    // join events
+    case JoinEventClicked
+}
+
+enum LoggingParam {
+    enum JoinEventClicked: String {
+        case alertMessage
+        case success
+    }
 }
