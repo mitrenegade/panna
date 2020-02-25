@@ -26,6 +26,7 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var buttonShare: UIButton?
     @IBOutlet weak var imageShare: UIImageView?
     @IBOutlet weak var buttonJoin: UIButton!
+    @IBOutlet weak var buttonOptOut: UIButton?
     @IBOutlet weak var buttonClone: UIButton?
     @IBOutlet weak var imageClone: UIImageView?
     
@@ -256,7 +257,7 @@ class EventDisplayViewController: UIViewController {
         promptForShare()
     }
 
-    @IBAction func didClickWontJoin(_ sender: Any?) {
+    @IBAction func didClickOptOut(_ sender: Any?) {
         optOutOfEvent()
     }
     
@@ -434,6 +435,9 @@ class EventDisplayViewController: UIViewController {
         } else {
             constraintJoinViewHeight.constant = 0
         }
+        
+        buttonOptOut?.setTitle(viewModel.buttonOptOutTitle, for: .normal)
+        buttonOptOut?.isHidden = viewModel.buttonOptOutHidden
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

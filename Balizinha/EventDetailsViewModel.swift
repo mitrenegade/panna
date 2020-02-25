@@ -58,5 +58,19 @@ class EventDetailsViewModel: NSObject {
     
     var buttonCloseEnabled: Bool {
         return !buttonCloseHidden
-    }    
+    }
+    
+    var buttonOptOutTitle: String {
+        guard let player = PlayerService.shared.current.value, event.containsPlayer(player) else {
+            return "I can't make it!"
+        }
+        return "I'm not attending"
+    }
+
+    var buttonOptOutHidden: Bool {
+        guard let player = PlayerService.shared.current.value, event.containsPlayer(player) else {
+            return false
+        }
+        return true
+    }
 }

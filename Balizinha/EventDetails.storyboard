@@ -139,11 +139,11 @@ Type</string>
                                                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u5Q-g6-sys">
                                                                         <rect key="frame" x="0.0" y="30" width="375" height="33"/>
                                                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="15"/>
-                                                                        <state key="normal" title="I can't be there">
+                                                                        <state key="normal" title="Opt Out">
                                                                             <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         </state>
                                                                         <connections>
-                                                                            <action selector="didClickWontJoin:" destination="UdQ-h3-dPN" eventType="touchUpInside" id="BNs-nf-vA4"/>
+                                                                            <action selector="didClickOptOut:" destination="UdQ-h3-dPN" eventType="touchUpInside" id="OYF-Lh-LdG"/>
                                                                         </connections>
                                                                     </button>
                                                                 </subviews>
@@ -346,6 +346,7 @@ Type</string>
                         <outlet property="buttonClone" destination="TKW-am-X4m" id="eFt-XY-gd1"/>
                         <outlet property="buttonClose" destination="es6-Zc-zYz" id="M1O-kr-nne"/>
                         <outlet property="buttonJoin" destination="ls4-8L-qBB" id="3cJ-2A-wbX"/>
+                        <outlet property="buttonOptOut" destination="u5Q-g6-sys" id="YSz-9Z-0gj"/>
                         <outlet property="buttonShare" destination="hUX-Xd-fF5" id="dHz-02-Umm"/>
                         <outlet property="constraintActivityHeight" destination="oQi-1b-Zgc" id="cjl-bF-PAR"/>
                         <outlet property="constraintBottomOffset" destination="DsS-pX-QQD" id="c5J-Ax-TEb"/>
