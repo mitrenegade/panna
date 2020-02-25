@@ -257,7 +257,7 @@ class EventDisplayViewController: UIViewController {
     }
 
     @IBAction func didClickWontJoin(_ sender: Any?) {
-        print("Won't join")
+        optOutOfEvent()
     }
     
     @IBAction func didClickJoin(_ sender: Any?) {
@@ -337,6 +337,26 @@ class EventDisplayViewController: UIViewController {
             }
         }
     }
+    
+    func optOutOfEvent() {
+        // opting out is a way to decline the event without having joined it. If a user joins and leaves, the same status results and functionally is no different in the database.
+        guard let event = event, let player = PlayerService.shared.current.value else { return }
+        activityOverlay.show()
+        EventService.shared.leaveEvent(event, userId: player.id) { [weak self] (error) in
+            if let error = error as NSError? {
+                DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
+                    self?.simpleAlert("Error occurred while opting out", defaultMessage: "Your attendance for this game has not changed but you have not opted out.", error: error)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
+                    NotificationService.shared.removeNotificationForEvent(event)
+                }
+            }
+        }
+    }
+
     @IBAction func didClickClone(_ sender: Any?) {
         guard let event = event else { return }
         LoggingService.shared.log(event: .CloneButtonClicked, info: nil)
