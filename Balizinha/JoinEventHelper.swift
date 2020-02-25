@@ -234,7 +234,7 @@ class JoinEventHelper: NSObject {
                 LoggingKey.joinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.invalidPaymentAmount.rawValue,
                 LoggingKey.eventId.rawValue:event.id,
                 LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.helper.rawValue,
-                LoggingKey.joinEventAmountRequired.rawValue:amountRequired
+                LoggingKey.eventAmountRequired.rawValue:amountRequired
             ]
             LoggingService.shared.log(event: .JoinEventClicked, info: info)
 

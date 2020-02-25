@@ -267,6 +267,11 @@ class EventDisplayViewController: UIViewController {
             let title = "Leave \(event.name ?? "event")?"
             let alert = UIAlertController(title: title, message: "You are currently in the event as a guest. If you leave, you will have to sign in to join again.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                let info: [String: Any] = [
+                    LoggingKey.eventId.rawValue:event.id,
+                    LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.guest.rawValue
+                ]
+                LoggingService.shared.log(event: .LeaveEventClicked, info: info)
                 self.leaveGuestEvent()
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -352,6 +357,13 @@ class EventDisplayViewController: UIViewController {
         // opting out is a way to decline the event without having joined it. If a user joins and leaves, the same status results and functionally is no different in the database.
         guard let event = event, let player = PlayerService.shared.current.value else { return }
         activityOverlay.show()
+
+        let info: [String: Any] = [
+            LoggingKey.eventId.rawValue:event.id,
+            LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.optOut.rawValue
+        ]
+        LoggingService.shared.log(event: .OptOutEventClicked, info: info)
+
         EventService.shared.leaveEvent(event, userId: player.id) { [weak self] (error) in
             if let error = error as NSError? {
                 LoggingService.shared.log(event: .GuestEventLeft, info: ["eventId": event.id])
@@ -363,6 +375,8 @@ class EventDisplayViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
                     NotificationService.shared.removeNotificationForEvent(event)
+                    
+                    // TODO: update opt out
                 }
             }
         }
