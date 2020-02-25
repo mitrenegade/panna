@@ -107,15 +107,27 @@ enum LoggingEvent: String {
     
     // join events
     case JoinEventClicked
+    case LeaveEventClicked
+    case OptOutEventClicked
 }
 
 enum LoggingKey: String {
-    case JoinEventClickedResult = "result"
-    case JoinEventId = "eventId"
-    case JoinEventAmountRequired = "amount"
+    case joinEventSource
+    case joinEventClickedResult
+    case joinEventId
+    case joinEventAmountRequired
+    
+    case leaveEventSource
 }
 
 enum LoggingValue {
+    enum JoinEventSource: String {
+        case list
+        case detail
+        case onboarding
+        case helper // this makes it harder because helper is invoked from multiple sources so it's not really useful
+    }
+
     enum JoinEventClickedResult: String {
         // alerts and warnings
         case invalidPlayer

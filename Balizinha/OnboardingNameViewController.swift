@@ -227,7 +227,12 @@ extension OnboardingNameViewController: JoinEventDelegate {
             self.delegate?.didJoinAsGuest()
             self.dismiss(animated: true) {
             }
-            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.success.rawValue, LoggingKey.JoinEventId.rawValue: event.id])
+            let info: [String: String] = [
+                LoggingKey.joinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.success.rawValue,
+                LoggingKey.joinEventId.rawValue: event.id,
+                LoggingKey.joinEventSource.rawValue:LoggingValue.JoinEventSource.onboarding.rawValue
+            ]
+            LoggingService.shared.log(event: .JoinEventClicked, info: info)
         })
         LoggingService.shared.log(event: .GuestEventJoined, info: ["eventId": event.id])
     }

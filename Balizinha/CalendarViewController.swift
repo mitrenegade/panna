@@ -194,6 +194,7 @@ extension CalendarViewController: EventCellDelegate {
         if event.paymentRequired {
             let alert = UIAlertController(title: "Are you sure?", message: "You are leaving a game that you've already paid for.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Leave game", style: .default, handler: { (action) in
+                LoggingService.shared.log(event: .LeaveEventClicked, info: ["eventId": event.id])
                 self.leaveEvent(event)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
