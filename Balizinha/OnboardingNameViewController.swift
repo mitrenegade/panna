@@ -229,8 +229,8 @@ extension OnboardingNameViewController: JoinEventDelegate {
             }
             let info: [String: String] = [
                 LoggingKey.joinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.success.rawValue,
-                LoggingKey.joinEventId.rawValue: event.id,
-                LoggingKey.joinEventSource.rawValue:LoggingValue.JoinEventSource.onboarding.rawValue
+                LoggingKey.eventId.rawValue: event.id,
+                LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.onboarding.rawValue
             ]
             LoggingService.shared.log(event: .JoinEventClicked, info: info)
         })

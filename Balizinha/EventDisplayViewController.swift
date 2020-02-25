@@ -273,8 +273,8 @@ class EventDisplayViewController: UIViewController {
             present(alert, animated: true, completion: nil)
             let info: [String: String] = [
                 LoggingKey.joinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.leaveEventPrompt.rawValue,
-                LoggingKey.joinEventId.rawValue:event.id,
-                LoggingKey.joinEventSource.rawValue:LoggingValue.JoinEventSource.detail.rawValue
+                LoggingKey.eventId.rawValue:event.id,
+                LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.detail.rawValue
             ]
             LoggingService.shared.log(event: .JoinEventClicked, info: info)
             return
@@ -302,8 +302,8 @@ class EventDisplayViewController: UIViewController {
             present(alert, animated: true, completion: nil)
             let info: [String: String] = [
                 LoggingKey.joinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.nameNeeded.rawValue,
-                LoggingKey.joinEventId.rawValue:event.id,
-                LoggingKey.joinEventSource.rawValue:LoggingValue.JoinEventSource.detail.rawValue
+                LoggingKey.eventId.rawValue:event.id,
+                LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.detail.rawValue
             ]
             LoggingService.shared.log(event: .JoinEventClicked, info: info)
             return
@@ -511,8 +511,8 @@ class EventDisplayViewController: UIViewController {
         }))
         let info: [String: String] = [
             LoggingKey.joinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.joinPannaPrompt.rawValue,
-            LoggingKey.joinEventId.rawValue:event?.id ?? "UNKNOWN",
-            LoggingKey.joinEventSource.rawValue:LoggingValue.JoinEventSource.detail.rawValue
+            LoggingKey.eventId.rawValue:event?.id ?? "UNKNOWN",
+            LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.detail.rawValue
         ]
         LoggingService.shared.log(event: .JoinEventClicked, info: info)
         present(alert, animated: true, completion: nil)
@@ -525,8 +525,8 @@ class EventDisplayViewController: UIViewController {
         controller.event = event
         let info: [String: String] = [
             LoggingKey.joinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.anonymousPlayerOnboarding.rawValue,
-            LoggingKey.joinEventId.rawValue:event?.id ?? "UNKNOWN",
-            LoggingKey.joinEventSource.rawValue:LoggingValue.JoinEventSource.detail.rawValue
+            LoggingKey.eventId.rawValue:event?.id ?? "UNKNOWN",
+            LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.detail.rawValue
         ]
         LoggingService.shared.log(event: .JoinEventClicked, info: info)
 
@@ -641,8 +641,8 @@ extension EventDisplayViewController: JoinEventDelegate {
         simpleAlert(title, message: message, completion: {
             let info: [String: String] = [
                 LoggingKey.joinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.success.rawValue,
-                LoggingKey.joinEventId.rawValue:event?.id ?? "UNKNOWN",
-                LoggingKey.joinEventSource.rawValue:LoggingValue.JoinEventSource.detail.rawValue
+                LoggingKey.eventId.rawValue:event?.id ?? "UNKNOWN",
+                LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.detail.rawValue
             ]
             LoggingService.shared.log(event: .JoinEventClicked, info: info)
         })

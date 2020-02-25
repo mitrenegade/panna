@@ -345,8 +345,8 @@ extension EventsViewController: JoinEventDelegate {
         simpleAlert(title, message: message, completion: {
             let info: [String: String] = [
                 LoggingKey.joinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.success.rawValue,
-                LoggingKey.joinEventId.rawValue:event?.id ?? "UNKNOWN",
-                LoggingKey.joinEventSource.rawValue:LoggingValue.JoinEventSource.list.rawValue
+                LoggingKey.eventId.rawValue:event?.id ?? "UNKNOWN",
+                LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.list.rawValue
             ]
             LoggingService.shared.log(event: .JoinEventClicked, info: info)
         })

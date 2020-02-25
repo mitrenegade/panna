@@ -112,16 +112,16 @@ enum LoggingEvent: String {
 }
 
 enum LoggingKey: String {
-    case joinEventSource
+    case eventId
+    case joinLeaveEventSource
+
     case joinEventClickedResult
-    case joinEventId
     case joinEventAmountRequired
     
-    case leaveEventSource
 }
 
 enum LoggingValue {
-    enum JoinEventSource: String {
+    enum JoinLeaveEventSource: String {
         case list
         case detail
         case onboarding
