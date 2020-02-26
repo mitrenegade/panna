@@ -31,19 +31,19 @@ class EventDetailsViewModel: NSObject {
 
     var spotsLeftLabelText: String {
         guard PlayerService.shared.current.value != nil else {
-            return "\(event.numPlayers) are playing"
+            return "\(event.numPlayers()) are playing"
         }
         
         if event.isCancelled {
             return ""
         } else if event.isPast {
-            return "\(event.numPlayers) joined this event"
+            return "\(event.numPlayers()) joined this event"
         } else {
             if event.isFull {
                 return "Event is full"
             } else {
-                let spotsLeft = event.maxPlayers - event.numPlayers
-                return "\(event.numPlayers) are playing (\(spotsLeft) available)"
+                let spotsLeft = event.maxPlayers - event.numPlayers()
+                return "\(event.numPlayers()) are playing (\(spotsLeft) available)"
             }
         }
     }
@@ -61,16 +61,16 @@ class EventDetailsViewModel: NSObject {
     }
     
     var buttonOptOutTitle: String {
-        guard let player = PlayerService.shared.current.value, event.containsPlayer(player) else {
-            return "I can't make it!"
+        guard let player = PlayerService.shared.current.value, event.playerHasResponded(player) else {
+            return "Opt out of this game"
         }
-        return "I'm not attending"
+        return event.playerIsAttending(player) ? "" : "You are not attending"
     }
 
-    var buttonOptOutHidden: Bool {
-        guard let player = PlayerService.shared.current.value, event.containsPlayer(player) else {
-            return false
+    var buttonOptOutEnabled: Bool {
+        guard let player = PlayerService.shared.current.value, event.playerHasResponded(player) else {
+            return true
         }
-        return true
+        return !event.playerIsAttending(player)
     }
 }

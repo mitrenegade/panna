@@ -160,7 +160,7 @@ class EventDisplayViewController: UIViewController {
             return
         }
         
-        if !event.containsPlayer(player) && !event.userIsOrganizer() {
+        if !event.playerHasResponded(player) && !event.userIsOrganizer() {
             self.hideChat()
         }
         
@@ -222,7 +222,7 @@ class EventDisplayViewController: UIViewController {
     fileprivate func loadPlayers() {
         guard let event = event else { return }
         DispatchQueue.global().async {
-            let playerIds = EventService.shared.users(for: event)
+            let playerIds = EventService.shared.attendance(for: event.id)
             let dispatchGroup = DispatchGroup()
             var players: [Player] = []
             for id: String in playerIds {
@@ -422,7 +422,7 @@ class EventDisplayViewController: UIViewController {
                 buttonJoin.alpha = 1
             }
         } else if let player = PlayerService.shared.current.value {
-            if event.containsPlayer(player) || event.userIsOrganizer() {
+            if event.playerIsAttending(player) || event.userIsOrganizer() {
                 constraintJoinViewHeight.constant = 0
             } else if event.isFull {
                 //            buttonJoin.isEnabled = false // may want to add waitlist functionality
@@ -437,7 +437,7 @@ class EventDisplayViewController: UIViewController {
         }
         
         buttonOptOut?.setTitle(viewModel.buttonOptOutTitle, for: .normal)
-        buttonOptOut?.isHidden = viewModel.buttonOptOutHidden
+        buttonOptOut?.isEnabled = viewModel.buttonOptOutEnabled
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
