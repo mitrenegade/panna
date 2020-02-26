@@ -26,6 +26,7 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var buttonShare: UIButton?
     @IBOutlet weak var imageShare: UIImageView?
     @IBOutlet weak var buttonJoin: UIButton!
+    @IBOutlet weak var buttonOptOut: UIButton?
     @IBOutlet weak var buttonClone: UIButton?
     @IBOutlet weak var imageClone: UIImageView?
     
@@ -42,7 +43,7 @@ class EventDisplayViewController: UIViewController {
     
     @IBOutlet var constraintWidth: NSLayoutConstraint!
     @IBOutlet var constraintLocationHeight: NSLayoutConstraint!
-    @IBOutlet weak var constraintButtonJoinHeight: NSLayoutConstraint!
+    @IBOutlet weak var constraintJoinViewHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintDetailHeight: NSLayoutConstraint!
     @IBOutlet var constraintPaymentHeight: NSLayoutConstraint?
     @IBOutlet var constraintActivityHeight: NSLayoutConstraint!
@@ -81,7 +82,7 @@ class EventDisplayViewController: UIViewController {
         guard let event = event else {
             imageShare?.isHidden = true
             buttonShare?.isHidden = true
-            constraintButtonJoinHeight.constant = 0
+            constraintJoinViewHeight.constant = 0
             return
         }
 
@@ -159,7 +160,7 @@ class EventDisplayViewController: UIViewController {
             return
         }
         
-        if !event.containsPlayer(player) && !event.userIsOrganizer() {
+        if !event.playerHasResponded(player) && !event.userIsOrganizer() {
             self.hideChat()
         }
         
@@ -221,7 +222,7 @@ class EventDisplayViewController: UIViewController {
     fileprivate func loadPlayers() {
         guard let event = event else { return }
         DispatchQueue.global().async {
-            let playerIds = EventService.shared.users(for: event)
+            let playerIds = EventService.shared.attendance(for: event.id)
             let dispatchGroup = DispatchGroup()
             var players: [Player] = []
             for id: String in playerIds {
@@ -235,7 +236,8 @@ class EventDisplayViewController: UIViewController {
             }
             dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
                 for player in players {
-                    self?.playersScrollView.addPlayer(player: player)
+                    let attending = event.playerIsAttending(player)
+                    self?.playersScrollView.addPlayer(player: player, attending: attending)
                 }
                 DispatchQueue.main.async {
                     self?.playersScrollView.refresh()
@@ -255,6 +257,10 @@ class EventDisplayViewController: UIViewController {
     @IBAction func didClickShare(_ sender: Any?) {
         promptForShare()
     }
+
+    @IBAction func didClickOptOut(_ sender: Any?) {
+        optOutOfEvent()
+    }
     
     @IBAction func didClickJoin(_ sender: Any?) {
         guard let event = event else { return }
@@ -263,11 +269,21 @@ class EventDisplayViewController: UIViewController {
             let title = "Leave \(event.name ?? "event")?"
             let alert = UIAlertController(title: title, message: "You are currently in the event as a guest. If you leave, you will have to sign in to join again.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                let info: [String: Any] = [
+                    LoggingKey.eventId.rawValue:event.id,
+                    LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.guest.rawValue
+                ]
+                LoggingService.shared.log(event: .LeaveEventClicked, info: info)
                 self.leaveGuestEvent()
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
-            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.leaveEventPrompt.rawValue, LoggingKey.JoinEventId.rawValue:event.id])
+            let info: [String: String] = [
+                LoggingKey.joinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.leaveEventPrompt.rawValue,
+                LoggingKey.eventId.rawValue:event.id,
+                LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.detail.rawValue
+            ]
+            LoggingService.shared.log(event: .JoinEventClicked, info: info)
             return
         }
 
@@ -291,7 +307,12 @@ class EventDisplayViewController: UIViewController {
                 self.doJoinEvent(event)
             }))
             present(alert, animated: true, completion: nil)
-            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.nameNeeded.rawValue, LoggingKey.JoinEventId.rawValue:event.id])
+            let info: [String: String] = [
+                LoggingKey.joinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.nameNeeded.rawValue,
+                LoggingKey.eventId.rawValue:event.id,
+                LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.detail.rawValue
+            ]
+            LoggingService.shared.log(event: .JoinEventClicked, info: info)
             return
         }
         
@@ -333,6 +354,36 @@ class EventDisplayViewController: UIViewController {
             }
         }
     }
+    
+    func optOutOfEvent() {
+        // opting out is a way to decline the event without having joined it. If a user joins and leaves, the same status results and functionally is no different in the database.
+        guard let event = event, let player = PlayerService.shared.current.value else { return }
+        activityOverlay.show()
+
+        let info: [String: Any] = [
+            LoggingKey.eventId.rawValue:event.id,
+            LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.optOut.rawValue
+        ]
+        LoggingService.shared.log(event: .OptOutEventClicked, info: info)
+
+        EventService.shared.leaveEvent(event, userId: player.id) { [weak self] (error) in
+            if let error = error as NSError? {
+                LoggingService.shared.log(event: .GuestEventLeft, info: ["eventId": event.id])
+                DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
+                    self?.simpleAlert("Error occurred while opting out", defaultMessage: "Your attendance for this game has not changed but you have not opted out.", error: error)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self?.activityOverlay.hide()
+                    NotificationService.shared.removeNotificationForEvent(event)
+                    
+                    // TODO: update opt out
+                }
+            }
+        }
+    }
+
     @IBAction func didClickClone(_ sender: Any?) {
         guard let event = event else { return }
         LoggingService.shared.log(event: .CloneButtonClicked, info: nil)
@@ -359,32 +410,35 @@ class EventDisplayViewController: UIViewController {
 
         if let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event.id {
             // anon user has joined an event
-            constraintButtonJoinHeight.constant = 30 // if refresh is called after joining
+            constraintJoinViewHeight.constant = 50 // if refresh is called after joining
             buttonJoin.isEnabled = true
             buttonJoin.alpha = 1
             buttonJoin.setTitle("Leave event", for: .normal)
         } else if let eventId = EventService.shared.featuredEventId, eventId == event.id {
             // anon user has an event invite but has not joined
             if event.isFull {
-                constraintButtonJoinHeight.constant = 0
+                constraintJoinViewHeight.constant = 0
             } else {
                 buttonJoin.isEnabled = true
                 buttonJoin.alpha = 1
             }
         } else if let player = PlayerService.shared.current.value {
-            if event.containsPlayer(player) || event.userIsOrganizer() {
-                constraintButtonJoinHeight.constant = 0
+            if event.playerIsAttending(player) || event.userIsOrganizer() {
+                constraintJoinViewHeight.constant = 0
             } else if event.isFull {
                 //            buttonJoin.isEnabled = false // may want to add waitlist functionality
                 //            buttonJoin.alpha = 0.5
-                constraintButtonJoinHeight.constant = 0
+                constraintJoinViewHeight.constant = 0
             } else {
                 buttonJoin.isEnabled = true
                 buttonJoin.alpha = 1
             }
         } else {
-            constraintButtonJoinHeight.constant = 0
+            constraintJoinViewHeight.constant = 0
         }
+        
+        buttonOptOut?.setTitle(viewModel.buttonOptOutTitle, for: .normal)
+        buttonOptOut?.isEnabled = viewModel.buttonOptOutEnabled
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -474,7 +528,12 @@ class EventDisplayViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: { _ in
             LoggingService.shared.log(event: .SignupFromSharedEvent, info: ["action": "Not now"])
         }))
-        LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.joinPannaPrompt.rawValue, LoggingKey.JoinEventId.rawValue:event?.id ?? "UNKNOWN"])
+        let info: [String: String] = [
+            LoggingKey.joinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.joinPannaPrompt.rawValue,
+            LoggingKey.eventId.rawValue:event?.id ?? "UNKNOWN",
+            LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.detail.rawValue
+        ]
+        LoggingService.shared.log(event: .JoinEventClicked, info: info)
         present(alert, animated: true, completion: nil)
     }
     
@@ -483,7 +542,12 @@ class EventDisplayViewController: UIViewController {
         guard let controller = nav.viewControllers.first as? OnboardingNameViewController else { return }
         controller.delegate = self
         controller.event = event
-        LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.anonymousPlayerOnboarding.rawValue, LoggingKey.JoinEventId.rawValue:event?.id ?? "UNKNOWN"])
+        let info: [String: String] = [
+            LoggingKey.joinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.anonymousPlayerOnboarding.rawValue,
+            LoggingKey.eventId.rawValue:event?.id ?? "UNKNOWN",
+            LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.detail.rawValue
+        ]
+        LoggingService.shared.log(event: .JoinEventClicked, info: info)
 
         present(nav, animated: true, completion: nil)
     }
@@ -594,7 +658,12 @@ extension EventDisplayViewController: JoinEventDelegate {
             message = ""
         }
         simpleAlert(title, message: message, completion: {
-            LoggingService.shared.log(event: .JoinEventClicked, info: [LoggingKey.JoinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.success.rawValue, LoggingKey.JoinEventId.rawValue: event?.id ?? "UNKNOWN"])
+            let info: [String: String] = [
+                LoggingKey.joinEventClickedResult.rawValue:LoggingValue.JoinEventClickedResult.success.rawValue,
+                LoggingKey.eventId.rawValue:event?.id ?? "UNKNOWN",
+                LoggingKey.joinLeaveEventSource.rawValue:LoggingValue.JoinLeaveEventSource.detail.rawValue
+            ]
+            LoggingService.shared.log(event: .JoinEventClicked, info: info)
         })
     }
 }

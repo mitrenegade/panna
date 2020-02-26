@@ -26,7 +26,7 @@ class MockService: NSObject {
     static func mockEventService() -> EventService {
         let dict: [String: Any] = ["name": "Test event",
                                         "status": "active",
-                                        "startTime": (Date().timeIntervalSince1970 + Double(Int(arc4random_uniform(72)) * 3600))]
+                                        "startTime": (Date().timeIntervalSince1970 + 3600)] //Double(Int(arc4random_uniform(72)) * 3600))]
         let referenceSnapshot = MockDataSnapshot(exists: true,
                                                  key: "1",
                                                  value: dict,

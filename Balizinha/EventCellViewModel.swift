@@ -28,7 +28,7 @@ class EventCellViewModel: NSObject {
         self.event = event
         
         if let player = PlayerService.shared.current.value {
-            containsUser = event.containsPlayer(player)
+            containsUser = event.playerIsAttending(player)
         } else {
             containsUser = false
         }
@@ -126,7 +126,7 @@ class EventCellViewModel: NSObject {
                 if event.isFull {
                     return "Event full"
                 } else {
-                    let left = event.maxPlayers - event.numPlayers
+                    let left = event.maxPlayers - event.numPlayers()
                     return "\(left) spots left"
                 }
             }
@@ -158,7 +158,7 @@ class EventCellViewModel: NSObject {
     }
     
     var labelAttendanceText: String {
-        return "\(event.numPlayers)"
+        return "\(event.numPlayers())"
     }
     
     func getEventPhoto(_ completion: ((_ imageUrl: String?, _ image: UIImage?)->Void)?) {
