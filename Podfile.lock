@@ -17,41 +17,41 @@ PODS:
     - Fabric (~> 1.7.13)
   - DateTools (2.0.0)
   - Fabric (1.7.13)
-  - FacebookSDK (5.10.0):
-    - FacebookSDK/CoreKit (= 5.10.0)
-    - FacebookSDK/MarketingKit (= 5.10.0)
-  - FacebookSDK/CoreKit (5.10.0):
+  - FacebookSDK (5.15.1):
+    - FacebookSDK/CoreKit (= 5.15.1)
+    - FacebookSDK/MarketingKit (= 5.15.1)
+  - FacebookSDK/CoreKit (5.15.1):
     - FBSDKCoreKit (~> 5.0)
-  - FacebookSDK/LoginKit (5.10.0):
+  - FacebookSDK/LoginKit (5.15.1):
     - FacebookSDK/CoreKit
     - FBSDKLoginKit (~> 5.0)
-  - FacebookSDK/MarketingKit (5.10.0):
+  - FacebookSDK/MarketingKit (5.15.1):
     - FacebookSDK/CoreKit
     - FBSDKMarketingKit (~> 5.0)
-  - FacebookSDK/PlacesKit (5.10.0):
+  - FacebookSDK/PlacesKit (5.15.1):
     - FacebookSDK/CoreKit
     - FBSDKPlacesKit (~> 5.0)
-  - FacebookSDK/ShareKit (5.10.0):
+  - FacebookSDK/ShareKit (5.15.1):
     - FacebookSDK/CoreKit
     - FBSDKShareKit (~> 5.0)
-  - FBSDKCoreKit (5.8.0):
-    - FBSDKCoreKit/Basics (= 5.8.0)
-    - FBSDKCoreKit/Core (= 5.8.0)
-  - FBSDKCoreKit/Basics (5.8.0)
-  - FBSDKCoreKit/Core (5.8.0):
+  - FBSDKCoreKit (5.15.1):
+    - FBSDKCoreKit/Basics (= 5.15.1)
+    - FBSDKCoreKit/Core (= 5.15.1)
+  - FBSDKCoreKit/Basics (5.15.1)
+  - FBSDKCoreKit/Core (5.15.1):
     - FBSDKCoreKit/Basics
-  - FBSDKLoginKit (5.8.0):
-    - FBSDKLoginKit/Login (= 5.8.0)
-  - FBSDKLoginKit/Login (5.8.0):
+  - FBSDKLoginKit (5.15.1):
+    - FBSDKLoginKit/Login (= 5.15.1)
+  - FBSDKLoginKit/Login (5.15.1):
     - FBSDKCoreKit (~> 5.0)
-  - FBSDKMarketingKit (5.9.0):
+  - FBSDKMarketingKit (5.14.0):
     - FBSDKCoreKit (~> 5.5)
   - FBSDKMessengerShareKit (1.3.2)
-  - FBSDKPlacesKit (5.3.0):
+  - FBSDKPlacesKit (5.15.0):
     - FBSDKCoreKit (~> 5.0)
-  - FBSDKShareKit (5.8.0):
-    - FBSDKShareKit/Share (= 5.8.0)
-  - FBSDKShareKit/Share (5.8.0):
+  - FBSDKShareKit (5.15.1):
+    - FBSDKShareKit/Share (= 5.15.1)
+  - FBSDKShareKit/Share (5.15.1):
     - FBSDKCoreKit (~> 5.0)
   - Firebase (6.6.0):
     - Firebase/Core (= 6.6.0)
@@ -301,13 +301,13 @@ SPEC CHECKSUMS:
   Crashlytics: 55e24fc23989680285a21cb1146578d9d18e432c
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   Fabric: 25d0963b691fc97be566392243ff0ecef5a68338
-  FacebookSDK: 9b43cd3ff2b19f72227c0b90c688adda1f74d43c
-  FBSDKCoreKit: e7dcac0aabcfb09d0166998edd95fe3b05a0ce5d
-  FBSDKLoginKit: 1b0cf04df0370b37404213157b060d6666ede814
-  FBSDKMarketingKit: 9978074f24b325d3d4f479d90906daf23f80cf67
+  FacebookSDK: 40811aca4741187ac7e6b175f261edee4edfc58a
+  FBSDKCoreKit: 1d5acf7c9d7a2f92bb1a242dc60cae5b7adb91df
+  FBSDKLoginKit: f1ea8026a58b52d30c9f2e6a58ca7d813619fb83
+  FBSDKMarketingKit: b9dd220b38cc613c71d3eb626cd60bc8e938fbb4
   FBSDKMessengerShareKit: bdd14265f5845e6d1c95a128ab33705a68ca1c21
-  FBSDKPlacesKit: 0388766304ff7a89630bcc211db9f500d549f403
-  FBSDKShareKit: abc29e1bb4f9f59f679adf1ae191006d68455f96
+  FBSDKPlacesKit: 26d4033cb8cc8640f1e0eadb3635e7dd29c4d073
+  FBSDKShareKit: 259737eab3cc807087374553abdf588b3096ba55
   Firebase: a2b5951f30ff38fd3b3bdae9c7d340f940fd3c51
   FirebaseABTesting: 0d10f3cdc3fa00f3f175b5b56c1003c8e888299f
   FirebaseAnalytics: 48414ae5cbf6976d8a2f7177e0466540e5ab33ce

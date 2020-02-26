@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Facebook
         AppEvents.activateApp()
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-        
+
         // Background fetch
         application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
         
@@ -186,7 +186,7 @@ extension AppDelegate {
         if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url), let url = dynamicLink.url {
             return DeepLinkService.shared.handle(url: url)
         }
-        return false
+        return ApplicationDelegate.shared.application(app, open: url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String, annotation: options[.annotation])
     }
     
     // universal links
