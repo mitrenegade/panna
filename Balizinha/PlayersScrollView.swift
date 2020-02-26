@@ -34,10 +34,11 @@ class PlayersScrollView: UIView {
         icons.removeAll()
     }
     
-    func addPlayer(player: Player) {
+    func addPlayer(player: Player, attending: Bool = true) {
         guard icons[player.id] == nil else { return }
         let icon = PlayerIcon()
         icon.object = player
+        icon.alpha = attending ? 1 : 0.25
         icons[player.id] = icon
     }
     

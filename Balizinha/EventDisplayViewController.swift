@@ -236,7 +236,8 @@ class EventDisplayViewController: UIViewController {
             }
             dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
                 for player in players {
-                    self?.playersScrollView.addPlayer(player: player)
+                    let attending = event.playerIsAttending(player)
+                    self?.playersScrollView.addPlayer(player: player, attending: attending)
                 }
                 DispatchQueue.main.async {
                     self?.playersScrollView.refresh()

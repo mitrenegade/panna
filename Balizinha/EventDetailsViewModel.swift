@@ -71,6 +71,6 @@ class EventDetailsViewModel: NSObject {
         guard let player = PlayerService.shared.current.value, event.playerHasResponded(player) else {
             return true
         }
-        return !event.playerIsAttending(player)
+        return false
     }
 }
