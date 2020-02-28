@@ -15,10 +15,6 @@ import RenderCloud
 class ActionListViewController: ListViewController, LeagueList {
     var league: League?
 
-    override var refName: String {
-        return "actions"
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,8 +33,18 @@ class ActionListViewController: ListViewController, LeagueList {
     }
     
     override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
-        let action = Action(snapshot: snapshot)
+        let action = FeedItem(snapshot: snapshot)
         return action
+    }
+    
+    override func load(completion:(()->Void)? = nil) {
+        guard let league = league else { return }
+        FeedService.shared.loadFeedItems(for: league) { feedItems in
+            self.objects = feedItems.sorted(by: { (item0, item1) -> Bool in
+                return item0.createdAt ?? Date() > item1.createdAt ?? Date()
+            })
+            completion?()
+        }
     }
 }
 
@@ -47,11 +53,11 @@ extension ActionListViewController {
         // this uses a feedItemActionCell to display an action so that its eventName can be shown
         let cell = tableView.dequeueReusableCell(withIdentifier: "FeedItemActionCell", for: indexPath) as! FeedItemCell
         if indexPath.row < objects.count {
-            if let action = objects[indexPath.row] as? Action {
-                cell.configure(action: action)
-                let viewModel = ActionViewModel(action: action)
-                let eventName = viewModel.eventName
-                cell.labelDetails?.text = eventName
+            if let feedItem = objects[indexPath.row] as? FeedItem {
+                cell.configure(with: feedItem)
+//                let viewModel = ActionViewModel(action: action)
+//                let eventName = viewModel.eventName
+//                cell.labelDetails?.text = eventName
             }
         }
         return cell
