@@ -39,12 +39,23 @@ class ActionListViewController: ListViewController, LeagueList {
     
     override func load(completion:(()->Void)? = nil) {
         guard let league = league else { return }
-        FeedService.shared.loadFeedItems(for: league) { feedItems in
-            self.objects = feedItems.sorted(by: { (item0, item1) -> Bool in
+        var lastId: String? = nil
+        if let feedItem = self.objects.last as? FeedItem {
+            lastId = feedItem.id
+        }
+        FeedService.shared.loadFeedItems(for: league, lastId: lastId) { feedItems in
+            if lastId != nil {
+                self.objects.append(contentsOf: feedItems)
+            } else {
+                self.objects = feedItems
+            }
+                /*
+                .sorted(by: { (item0, item1) -> Bool in
                 guard let date0 = item0.createdAt else { return false }
                 guard let date1 = item1.createdAt else { return true }
                 return date0 > date1
-            })
+ */
+//            })
             completion?()
         }
     }
