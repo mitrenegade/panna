@@ -131,7 +131,7 @@ extension OnboardingNameViewController {
                 print("Results \(dict)")
                 PlayerService.shared.withId(id: userId, completion: { [weak self] (player) in
                     DispatchQueue.main.async {
-                        self?.didCreatePlayer(player: player)
+                        self?.didCreatePlayer(player: player as? Player)
                     }
                 })
             } else {

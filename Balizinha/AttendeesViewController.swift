@@ -37,7 +37,7 @@ class AttendeesViewController: UIViewController {
                 print("userIds \(userIds.count)")
                 for userId in userIds {
                     PlayerService.shared.withId(id: userId, completion: { [weak self] (player) in
-                        if let player = player {
+                        if let player = player as? Player {
                             self?.players[userId] = (player: player, expanded: false)
                             // TODO: sort by join date
                             self?.tableView.reloadData()

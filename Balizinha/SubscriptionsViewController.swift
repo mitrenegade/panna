@@ -80,7 +80,7 @@ class SubscriptionsViewController: UIViewController {
                 guard status == Membership.Status.organizer else { continue }
                 organizerCount += 1
                 LeagueService.shared.withId(id: leagueId, completion: { [weak self] (league) in
-                    if let league = league {
+                    if let league = league as? League {
                         self?.playerLeagues.append(league)
                         DispatchQueue.main.async {
                             self?.reloadTableData()
@@ -121,7 +121,7 @@ class SubscriptionsViewController: UIViewController {
             guard let leagueId = subscription.leagueId else { continue }
             group.enter()
             LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
-                if let league = league {
+                if let league = league as? League {
                     print("Loaded league \(leagueId)")
                     self?.leagues.append(league)
                     self?.subscriptionForLeague[leagueId] = subscription

@@ -83,7 +83,7 @@ class PlayerInfoViewController: UIViewController {
         if let cityId = player.cityId {
             VenueService.shared.withId(id: cityId) { [weak self] (city) in
                 DispatchQueue.main.async {
-                    if let city = city {
+                    if let city = city as? City {
                         self?.inputCity.text = city.shortString
                     } else if let city = player.city {
                         self?.inputCity.text = city

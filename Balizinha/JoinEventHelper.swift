@@ -46,7 +46,7 @@ class JoinEventHelper: NSObject {
             if membership == nil || membership == Membership.Status.none {
                 // prompt to join league
                 LeagueService.shared.withId(id: leagueId, completion: { [weak self] (league) in
-                    guard let league = league else {
+                    guard let league = league as? League else {
                         DispatchQueue.main.async {
                             self?.shouldChargeForEvent()
                         }

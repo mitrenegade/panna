@@ -97,7 +97,7 @@ class SplashViewController: UIViewController {
         // loads player from web or cache - don't use player.current yet
         let isFirstLogin = PlayerService.shared.current.value == nil
         PlayerService.shared.withId(id: user.uid) { (player) in
-            guard let player = player else {
+            guard let player = player as? Player else {
                 // player does not exist, save/create it.
                 // this should have been done on signup
                 PlayerService.shared.storeUserInfo()
@@ -310,7 +310,7 @@ class SplashViewController: UIViewController {
         guard let homeViewController = UIStoryboard(name: "EventDetails", bundle: nil).instantiateViewController(withIdentifier: "EventDisplayViewController") as? EventDisplayViewController else { return }
         EventService.shared.listenForEventUsers()
         EventService.shared.withId(id: eventId) { [weak self] (event) in
-            if let event = event, !event.isPast {
+            if let event = event as? Balizinha.Event, !event.isPast {
                 homeViewController.event = event
                 let nav = UINavigationController(rootViewController: homeViewController)
                 self?.present(nav, animated: true, completion: nil)
@@ -353,7 +353,7 @@ extension SplashViewController {
         guard let userInfo = notification?.userInfo, let eventId = userInfo["eventId"] as? String else { return }
         guard let controller = UIStoryboard(name: "EventDetails", bundle: nil).instantiateViewController(withIdentifier: "EventDisplayViewController") as? EventDisplayViewController else { return }
         EventService.shared.withId(id: eventId) { [weak self] (event) in
-            guard let event = event else { return }
+            guard let event = event as? Balizinha.Event else { return }
             guard !event.isPast else {
                 print("event is past, don't display")
                 return
@@ -372,7 +372,7 @@ extension SplashViewController {
         guard let userInfo = notification?.userInfo, let leagueId = userInfo["leagueId"] as? String else { return }
         guard let nav = UIStoryboard(name: "League", bundle: nil).instantiateViewController(withIdentifier: "LeagueNavigationController") as? UINavigationController, let controller = nav.viewControllers[0] as? LeagueViewController else { return }
         LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
-            guard let league = league else { return }
+            guard let league = league as? League else { return }
             controller.league = league
             
             if let homeViewController = self?.presentedViewController as? UITabBarController {

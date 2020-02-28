@@ -24,7 +24,7 @@ class FeedItemCell: ActionCell {
             labelText.text = message
             if feedItem.type == .chat, let userId = feedItem.userId {
                 PlayerService.shared.withId(id: userId, completion: { [weak self] (player) in
-                    if let name = player?.name {
+                    if let player = player as? Player, let name = player.name {
                         DispatchQueue.main.async {
                             if let self = self {
                                 self.labelText.text = "\(name) said: \(message)"

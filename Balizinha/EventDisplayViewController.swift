@@ -174,7 +174,7 @@ class EventDisplayViewController: UIViewController {
             } else if let leagueId = event.leagueId {
                 // if user is an organizer of the same league, allow them to clone
                 LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
-                    if let league = league {
+                    if let league = league as? League {
                         LeagueService.shared.players(for: league, completion: { (roster) in
                             if let status = roster[player.id], status == .organizer {
                                 DispatchQueue.main.async {
@@ -229,7 +229,7 @@ class EventDisplayViewController: UIViewController {
                 dispatchGroup.enter()
                 PlayerService.shared.withId(id: id, completion: {(player) in
                     dispatchGroup.leave()
-                    if let player = player {
+                    if let player = player as? Player {
                         players.append(player)
                     }
                 })

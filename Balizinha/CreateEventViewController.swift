@@ -194,7 +194,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
 
         if let leagueId = event.leagueId {
             LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
-                self?.league = league
+                self?.league = league as? League
                 // in case this takes time to load
                 self?.refreshLeaguePhoto()
             }
@@ -330,7 +330,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         if let venueId = DefaultsManager.shared.value(forKey: "organizerCachedVenueId") as? String {
             VenueService.shared.withId(id: venueId) { [weak self] (venue) in
-                self?.venue = venue
+                self?.venue = venue as? Venue
             }
         }
         if let type = DefaultsManager.shared.value(forKey: "organizerCachedType") as? String {
