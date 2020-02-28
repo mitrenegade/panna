@@ -41,7 +41,9 @@ class ActionListViewController: ListViewController, LeagueList {
         guard let league = league else { return }
         FeedService.shared.loadFeedItems(for: league) { feedItems in
             self.objects = feedItems.sorted(by: { (item0, item1) -> Bool in
-                return item0.createdAt ?? Date() > item1.createdAt ?? Date()
+                guard let date0 = item0.createdAt else { return false }
+                guard let date1 = item1.createdAt else { return true }
+                return date0 > date1
             })
             completion?()
         }
@@ -55,9 +57,6 @@ extension ActionListViewController {
         if indexPath.row < objects.count {
             if let feedItem = objects[indexPath.row] as? FeedItem {
                 cell.configure(with: feedItem)
-//                let viewModel = ActionViewModel(action: action)
-//                let eventName = viewModel.eventName
-//                cell.labelDetails?.text = eventName
             }
         }
         return cell

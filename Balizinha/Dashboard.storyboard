@@ -616,7 +616,7 @@
                                                         <constraint firstAttribute="width" constant="30" id="pp2-Uk-O9P"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P4u-WC-NCK">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P4u-WC-NCK">
                                                     <rect key="frame" x="54" y="6" width="313" height="27.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="27.5" id="hK6-sT-rcY"/>
@@ -625,7 +625,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CLi-YR-UDQ">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CLi-YR-UDQ">
                                                     <rect key="frame" x="310" y="41.5" width="57" height="10.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="27.5" id="yah-mN-2BH"/>
@@ -634,13 +634,21 @@
                                                     <color key="textColor" red="0.90518194439999999" green="0.3252323647" blue="0.24483221520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QFg-03-8l8">
+                                                    <rect key="frame" x="338" y="45" width="29" height="15"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="TvJ-2M-VXi" firstAttribute="leading" secondItem="700-0k-faS" secondAttribute="leading" constant="16" id="67H-v9-leJ"/>
                                                 <constraint firstItem="TvJ-2M-VXi" firstAttribute="top" secondItem="700-0k-faS" secondAttribute="top" constant="5" id="7TH-Aj-rj8"/>
                                                 <constraint firstAttribute="trailing" secondItem="CLi-YR-UDQ" secondAttribute="trailing" constant="8" id="8i3-VF-w7a"/>
                                                 <constraint firstItem="P4u-WC-NCK" firstAttribute="top" secondItem="700-0k-faS" secondAttribute="top" constant="6" id="Exu-4T-cJQ"/>
-                                                <constraint firstAttribute="bottom" secondItem="CLi-YR-UDQ" secondAttribute="bottom" constant="8" id="Hh4-hV-HYF"/>
+                                                <constraint firstAttribute="bottom" secondItem="CLi-YR-UDQ" secondAttribute="bottom" constant="24" id="Hh4-hV-HYF"/>
+                                                <constraint firstAttribute="trailing" secondItem="QFg-03-8l8" secondAttribute="trailing" constant="8" id="T0D-Iu-iLJ"/>
+                                                <constraint firstAttribute="bottom" secondItem="QFg-03-8l8" secondAttribute="bottom" id="XV6-Cc-cVu"/>
                                                 <constraint firstAttribute="trailing" secondItem="P4u-WC-NCK" secondAttribute="trailing" constant="8" id="Z1b-U2-aMN"/>
                                                 <constraint firstItem="CLi-YR-UDQ" firstAttribute="top" secondItem="P4u-WC-NCK" secondAttribute="bottom" constant="8" id="bTk-N8-rh1"/>
                                                 <constraint firstItem="P4u-WC-NCK" firstAttribute="leading" secondItem="TvJ-2M-VXi" secondAttribute="trailing" constant="8" id="yrg-Wp-4fD"/>
@@ -648,6 +656,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="constraintLabelHeight" destination="hK6-sT-rcY" id="IhD-PB-QHG"/>
+                                            <outlet property="labelDate" destination="QFg-03-8l8" id="qdr-pH-I6f"/>
                                             <outlet property="labelDetails" destination="CLi-YR-UDQ" id="XB7-vG-FyV"/>
                                             <outlet property="labelText" destination="P4u-WC-NCK" id="wDe-ZO-COA"/>
                                             <outlet property="photoView" destination="TvJ-2M-VXi" id="Zuf-oW-b9h"/>
