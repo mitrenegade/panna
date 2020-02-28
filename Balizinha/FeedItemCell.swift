@@ -45,9 +45,6 @@ class FeedItemCell: ActionCell {
         if let actionId = feedItem.actionId {
             ActionService().withId(id: actionId) { [weak self] (action) in
                 if let action = action {
-                    if action.eventId == "1540412131-260532" {
-                        print("Here")
-                    }
                     let viewModel = ActionViewModel(action: action)
                     let eventName = viewModel.eventName
                     

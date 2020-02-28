@@ -28,31 +28,42 @@ class ActionListViewController: ListViewController, LeagueList {
         LoggingService.shared.log(event: .DashboardViewLeagueActions, info: info)
     }
     
-    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
-        let action = FeedItem(snapshot: snapshot)
-        return action
-    }
-    
     override func load(completion:(()->Void)? = nil) {
         guard let league = league else { return }
-        var lastId: String? = nil
+        var lastKey: String? = nil
+        // stored order is in ascending key/timestamp
         if let feedItem = self.objects.last as? FeedItem {
-            lastId = feedItem.id
+            lastKey = feedItem.id
         }
-        FeedService.shared.loadFeedItems(for: league, lastId: lastId) { feedItems in
-            if lastId != nil {
-                self.objects.append(contentsOf: feedItems)
-            } else {
-                self.objects = feedItems
+        FeedService.shared.loadFeedItems(for: league, lastKey: lastKey, pageSize: 3) { [weak self] feedItemIds in
+            let group = DispatchGroup()
+            
+            var newFeedItems = [FeedItem]()
+            for id in feedItemIds {
+                if id == lastKey {
+                    continue
+                }
+                group.enter()
+                FeedService.shared.withId(id: id) { (feedItem) in
+                    if let feedItem = feedItem as? FeedItem {
+                        newFeedItems.append(feedItem)
+                    }
+                    group.leave()
+                }
             }
-                /*
-                .sorted(by: { (item0, item1) -> Bool in
-                guard let date0 = item0.createdAt else { return false }
-                guard let date1 = item1.createdAt else { return true }
-                return date0 > date1
- */
-//            })
-            completion?()
+            group.notify(queue: DispatchQueue.main) { [weak self] in
+                newFeedItems = newFeedItems.sorted(by: { (item0, item1) -> Bool in
+                    guard let date0 = item0.createdAt else { return true }
+                    guard let date1 = item1.createdAt else { return false }
+                    return date0 < date1
+                })
+                if lastKey == nil {
+                    self?.objects = newFeedItems
+                } else {
+                    self?.objects.append(contentsOf: newFeedItems)
+                }
+                completion?()
+            }
         }
     }
     
@@ -74,7 +85,8 @@ extension ActionListViewController {
         // this uses a feedItemActionCell to display an action so that its eventName can be shown
         if indexPath.row < objects.count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "FeedItemActionCell", for: indexPath) as! FeedItemCell
-            if let feedItem = objects[indexPath.row] as? FeedItem {
+            let reverseOrderIndex = objects.count - indexPath.row - 1
+            if let feedItem = objects[reverseOrderIndex] as? FeedItem {
                 cell.configure(with: feedItem)
             }
             return cell
