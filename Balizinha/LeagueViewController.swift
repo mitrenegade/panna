@@ -46,6 +46,8 @@ class LeagueViewController: UIViewController {
     // feed
     var feedItems: [FeedItem] = []
     var feedItemPhoto: UIImage?
+    fileprivate var beginningReached: Bool = false
+    fileprivate let pageSize: UInt = 4
     
     // camera
     let cameraHelper = CameraHelper()
@@ -165,15 +167,6 @@ class LeagueViewController: UIViewController {
         }
     }
     
-    func loadFeedItems() {
-        // use an observer so live updates can happen
-        guard let league = league else { return }
-        FeedService.shared.observeFeedItems(for: league) { [weak self] (feedItem) in
-            self?.feedItems.append(feedItem)
-            self?.tableView.reloadData()
-        }
-    }
-    
     func goToAddPlayers() {
         performSegue(withIdentifier: "toLeaguePlayers", sender: nil)
     }
@@ -202,6 +195,79 @@ class LeagueViewController: UIViewController {
     @objc func keyboardWillHide(_ notification: Notification) {
         constraintBottomOffset.constant = 0
     }
+    
+    fileprivate let sortFunc: ((FeedItem, FeedItem) -> Bool) = { item0, item1 in
+        guard let date0 = item0.createdAt else { return false }
+        guard let date1 = item1.createdAt else { return true }
+        return date0 > date1
+    }
+}
+
+// mark: - feedItems
+extension LeagueViewController {
+    func loadFeedItems() {
+        loadCached()
+        loadMore()
+    }
+
+    func load(completion:(()->Void)? = nil) {
+        guard let league = league else { return }
+        var lastKey: String? = nil
+        // stored order is in descending key/timestamp
+        if let feedItem = self.feedItems.last {
+            lastKey = feedItem.id
+        }
+        FeedService.shared.loadFeedItems(for: league, lastKey: lastKey, pageSize: pageSize) { [weak self] feedItemIds in
+            let group = DispatchGroup()
+            
+            var newFeedItems = [FeedItem]()
+            var processingCount = 0
+            for id in feedItemIds {
+                if id == lastKey {
+                    continue
+                }
+                processingCount += 1
+                group.enter()
+                FeedService.shared.withId(id: id) { (feedItem) in
+                    if let feedItem = feedItem as? FeedItem {
+                        newFeedItems.append(feedItem)
+                    }
+                    group.leave()
+                }
+            }
+            guard processingCount > 0 else {
+                self?.beginningReached = true
+                completion?()
+                return
+            }
+
+            group.notify(queue: DispatchQueue.main) { [weak self] in
+                // sort in descending order
+                guard let self = self else { return }
+                newFeedItems = newFeedItems.sorted(by: self.sortFunc)
+                if lastKey == nil {
+                    self.feedItems = newFeedItems
+                } else {
+                    self.feedItems.append(contentsOf: newFeedItems)
+                }
+                completion?()
+            }
+        }
+    }
+    
+    private func loadCached() {
+        guard let league = league else { return }
+        let items = FeedService.shared.feedItemsForLeague(league.id).sorted(by: self.sortFunc)
+        self.feedItems = items
+    }
+    
+    private func loadMore() {
+        activityOverlay.show()
+        load() { [weak self] in
+            self?.tableView.reloadData()
+            self?.activityOverlay.hide()
+        }
+    }
 }
 
 extension LeagueViewController: UITableViewDataSource {
@@ -215,7 +281,7 @@ extension LeagueViewController: UITableViewDataSource {
         case .info:
             return rows.count
         case .feed:
-            return feedItems.count
+            return feedItems.count + 1
         }
     }
     
@@ -273,13 +339,21 @@ extension LeagueViewController: UITableViewDataSource {
     
     fileprivate func feedIndex(for indexPath: IndexPath) -> Int? {
         let row = indexPath.row
-        let index = feedItems.count - row - 1
+        let index = row //feedItems.count - row - 1
         guard index < feedItems.count, index >= 0 else { return nil }
         return index
     }
     
     fileprivate func feedRow(for indexPath: IndexPath) -> UITableViewCell {
-        guard let index = feedIndex(for: indexPath) else { return UITableViewCell() }
+        guard let index = feedIndex(for: indexPath) else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LoadMoreCell", for: indexPath)
+            if beginningReached {
+                cell.textLabel?.text = "You have reached the beginning"
+            } else {
+                cell.textLabel?.text = "Click to load more"
+            }
+            return cell
+        }
 
         let feedItem = feedItems[index]
         let identifier: String
@@ -320,42 +394,45 @@ extension LeagueViewController: UITableViewDelegate {
             inputTag()
         }
         
-        if indexPath.section == sections.firstIndex(of: .feed), indexPath.row < feedItems.count, let index = feedIndex(for: indexPath) {
-            let feedItem = feedItems[index]
-            LoggingService.shared.log(event: .FeedItemClicked, info: ["type": feedItem.type.rawValue, "id": feedItem.id])
-            if let actionId = feedItem.actionId {
-                ActionService().withId(id: actionId) { [weak self] (action) in
-                    if let action = action, action.type == ActionType.chat {
-                        let viewModel = ActionViewModel(action: action)
-                        self?.simpleAlert(viewModel.displayDate, message: viewModel.displayString)
-                    } else {
-                        if let eventId = action?.eventId, let url = URL(string: "panna://events/\(eventId)") {
-                            // use internal deeplink for easy navigation to event
-                            DeepLinkService.shared.handle(url: url)
-                        }
-                    }
-                }
-            } else {
-                if feedItem.type == FeedItemType.chat, let userId = feedItem.userId {
-                    LoggingService.shared.log(event: .FeedItemChatViewed, info: ["id": feedItem.id])
-                    PlayerService.shared.withId(id: userId, completion: { [weak self] (player) in
-                        let displayMessage = feedItem.message ?? feedItem.defaultMessage
-                        DispatchQueue.main.async {
-                            if let player = player as? Player, let name = player.name {
-                                let title = "\(name) said:"
-                                self?.simpleAlert(title, message: displayMessage)
-                            } else {
-                                self?.simpleAlert("Chat message:", message: displayMessage)
+        if indexPath.section == sections.firstIndex(of: .feed) {
+            if indexPath.row == feedItems.count {
+                loadMore()
+            } else if indexPath.row < feedItems.count, let index = feedIndex(for: indexPath) {
+                let feedItem = feedItems[index]
+                LoggingService.shared.log(event: .FeedItemClicked, info: ["type": feedItem.type.rawValue, "id": feedItem.id])
+                if let actionId = feedItem.actionId {
+                    ActionService().withId(id: actionId) { [weak self] (action) in
+                        if let action = action, action.type == ActionType.chat {
+                            let viewModel = ActionViewModel(action: action)
+                            self?.simpleAlert(viewModel.displayDate, message: viewModel.displayString)
+                        } else {
+                            if let eventId = action?.eventId, let url = URL(string: "panna://events/\(eventId)") {
+                                // use internal deeplink for easy navigation to event
+                                DeepLinkService.shared.handle(url: url)
                             }
                         }
-                    })
-                } else if feedItem.type == FeedItemType.photo {
-                    // TODO
+                    }
+                } else {
+                    if feedItem.type == FeedItemType.chat, let userId = feedItem.userId {
+                        LoggingService.shared.log(event: .FeedItemChatViewed, info: ["id": feedItem.id])
+                        PlayerService.shared.withId(id: userId, completion: { [weak self] (player) in
+                            let displayMessage = feedItem.message ?? feedItem.defaultMessage
+                            DispatchQueue.main.async {
+                                if let player = player as? Player, let name = player.name {
+                                    let title = "\(name) said:"
+                                    self?.simpleAlert(title, message: displayMessage)
+                                } else {
+                                    self?.simpleAlert("Chat message:", message: displayMessage)
+                                }
+                            }
+                        })
+                    } else if feedItem.type == FeedItemType.photo {
+                        // TODO
+                    }
                 }
             }
         }
     }
-    
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard let index = feedIndex(for: indexPath) else { return }
