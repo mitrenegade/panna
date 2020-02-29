@@ -47,7 +47,6 @@ class LeagueViewController: UIViewController {
     var feedItems: [FeedItem] = []
     var feedItemPhoto: UIImage?
     fileprivate var beginningReached: Bool = false
-    fileprivate let pageSize: UInt = 4
     
     // camera
     let cameraHelper = CameraHelper()
@@ -217,7 +216,7 @@ extension LeagueViewController {
         if let feedItem = self.feedItems.last {
             lastKey = feedItem.id
         }
-        FeedService.shared.loadFeedItems(for: league, lastKey: lastKey, pageSize: pageSize) { [weak self] feedItemIds in
+        FeedService.shared.loadFeedItems(for: league, lastKey: lastKey) { [weak self] feedItemIds in
             let group = DispatchGroup()
             
             var newFeedItems = [FeedItem]()
