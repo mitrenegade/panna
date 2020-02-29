@@ -614,15 +614,7 @@ extension EventDisplayViewController: PlayersScrollViewDelegate {
         
         playerController.player = player
         self.navigationController?.pushViewController(playerController, animated: true)
-    }
-    
-    func goToAttendees() {
-        // open Attendees list. not used yet but can be used to view/edit attendances
-        if let nav = UIStoryboard(name: "Attendance", bundle: nil).instantiateInitialViewController() as? UINavigationController, let controller = nav.viewControllers[0] as? AttendeesViewController {
-            controller.event = event
-            present(nav, animated: true, completion: nil)
-        }
-    }
+    }    
 }
 
 extension EventDisplayViewController: JoinEventDelegate {

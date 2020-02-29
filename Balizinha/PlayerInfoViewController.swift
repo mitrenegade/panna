@@ -69,13 +69,9 @@ class PlayerInfoViewController: UIViewController {
                 DispatchQueue.main.async {
                     if let city = city as? City {
                         self?.inputCity.text = city.shortString
-                    } else if let city = player.city {
-                        self?.inputCity.text = city
                     }
                 }
             }
-        } else if let city = player.city {
-            self.inputCity.text = city
         }
         if let notes = player.info {
             self.inputNotes.text = notes
@@ -162,9 +158,6 @@ class PlayerInfoViewController: UIViewController {
             return
         }
         
-        if let text = self.inputCity.text, !text.isEmpty {
-            player.city = text
-        }
         if let text = inputNotes.text, !text.isEmpty {
             player.info = text
         }

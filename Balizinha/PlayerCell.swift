@@ -52,17 +52,13 @@ class PlayerCell: UITableViewCell {
             }
         }
         
-        if player.id == "oWNfx7Z4M9QVlOMfPJyH6hf8fh33" {
-            print("Here")
-        }
-        
         var detailText: String = ""
         if let email = player.email {
             detailText = detailText + "Email: \(email)\n"
         }
-        if let city = player.city {
-            detailText = detailText + "City: \(city)\n"
-        }
+//        if let city = player.city {
+//            detailText = detailText + "City: \(city)\n"
+//        }
         if let info = player.info {
             detailText = detailText + "Info: \(info)\n"
         }
