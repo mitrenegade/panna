@@ -48,7 +48,7 @@
                                                                 <color key="backgroundColor" red="0.24433648590000001" green="0.32035863399999998" blue="0.39528042079999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="rfV-G2-Hlb">
-                                                                <rect key="frame" x="12" y="122" width="351" height="50"/>
+                                                                <rect key="frame" x="12" y="126.5" width="351" height="48"/>
                                                                 <string key="text">Date
 Time</string>
                                                                 <fontDescription key="fontDescription" name="Montserrat-SemiBoldItalic" family="Montserrat" pointSize="20"/>
@@ -58,7 +58,7 @@ Time</string>
                                                                 <size key="shadowOffset" width="1" height="1"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0hR-vD-Xwe">
-                                                                <rect key="frame" x="12" y="180" width="351" height="62"/>
+                                                                <rect key="frame" x="12" y="182.5" width="351" height="59.5"/>
                                                                 <string key="text">Name
 Type</string>
                                                                 <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="25"/>
@@ -255,7 +255,7 @@ Type</string>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </view>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="share_icon" translatesAutoresizingMaskIntoConstraints="NO" id="m28-12-C4h">
-                                        <rect key="frame" x="337" y="5" width="30" height="30.000000000000114"/>
+                                        <rect key="frame" x="337" y="5" width="30" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="30" id="uuz-Vx-a1s"/>
                                         </constraints>

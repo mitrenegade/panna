@@ -24,6 +24,7 @@ class ActivityListViewController: ListViewController, LeagueList {
         navigationItem.title = "Activity"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))
 
+        loadCached()
         loadMore()
 
         let info: [String: Any] = ["leagueId": league?.id ?? ""]
@@ -63,19 +64,28 @@ class ActivityListViewController: ListViewController, LeagueList {
 
             group.notify(queue: DispatchQueue.main) { [weak self] in
                 // sort in descending order
-                newFeedItems = newFeedItems.sorted(by: { (item0, item1) -> Bool in
-                    guard let date0 = item0.createdAt else { return false }
-                    guard let date1 = item1.createdAt else { return true }
-                    return date0 > date1
-                })
+                guard let self = self else { return }
+                newFeedItems = newFeedItems.sorted(by: self.sortFunc)
                 if lastKey == nil {
-                    self?.objects = newFeedItems
+                    self.objects = newFeedItems
                 } else {
-                    self?.objects.append(contentsOf: newFeedItems)
+                    self.objects.append(contentsOf: newFeedItems)
                 }
                 completion?()
             }
         }
+    }
+    
+    private let sortFunc: ((FeedItem, FeedItem) -> Bool) = { item0, item1 in
+        guard let date0 = item0.createdAt else { return false }
+        guard let date1 = item1.createdAt else { return true }
+        return date0 > date1
+    }
+    
+    private func loadCached() {
+        guard let league = league else { return }
+        let items = FeedService.shared.feedItemsForLeague(league.id).sorted(by: self.sortFunc)
+        self.objects = items
     }
     
     private func loadMore() {
