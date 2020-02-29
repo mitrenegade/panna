@@ -1,5 +1,5 @@
 //
-//  ActionListViewController.swift
+//  ActivityListViewController.swift
 //  Balizinha Admin
 //
 //  Created by Bobby Ren on 2/3/18.
@@ -12,7 +12,7 @@ import FirebaseCore
 import FirebaseDatabase
 import RenderCloud
 
-class ActionListViewController: ListViewController, LeagueList {
+class ActivityListViewController: ListViewController, LeagueList {
     var league: League?
 
     override func viewDidLoad() {
@@ -76,7 +76,7 @@ class ActionListViewController: ListViewController, LeagueList {
     }
 }
 
-extension ActionListViewController {
+extension ActivityListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return objects.count + 1
     }
@@ -97,7 +97,7 @@ extension ActionListViewController {
     }
 }
 
-extension ActionListViewController {
+extension ActivityListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.row < self.objects.count else {
             loadMore()
@@ -111,7 +111,7 @@ extension ActionListViewController {
     }
 }
 
-extension ActionListViewController {
+extension ActivityListViewController {
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }

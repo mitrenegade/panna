@@ -593,10 +593,10 @@
             </objects>
             <point key="canvasLocation" x="716" y="-197"/>
         </scene>
-        <!--Action List View Controller-->
+        <!--Activity List View Controller-->
         <scene sceneID="xKB-1f-k5L">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="DIf-SO-r79" customClass="ActionListViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="DIf-SO-r79" customClass="ActivityListViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QAo-u9-7ed">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

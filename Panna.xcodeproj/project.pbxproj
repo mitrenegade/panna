@@ -115,7 +115,7 @@
 		8ED897562109FA5C0062D345 /* ActivityIndicatorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED897552109FA5B0062D345 /* ActivityIndicatorOverlay.swift */; };
 		8EDA009C1F6597060080F446 /* RemoteDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009B1F6597060080F446 /* RemoteDataService.swift */; };
 		8EDA009E1F6597BC0080F446 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009D1F6597BC0080F446 /* LoggingService.swift */; };
-		8EDBBB8322D980180018497C /* ActionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBBB8222D980170018497C /* ActionListViewController.swift */; };
+		8EDBBB8322D980180018497C /* ActivityListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBBB8222D980170018497C /* ActivityListViewController.swift */; };
 		8EDD13E91FEB78C10039F1A7 /* ShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD13E81FEB78C10039F1A7 /* ShareService.swift */; };
 		8EDD97A320E915B100D9A1A2 /* EventLeagueSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD97A220E915B100D9A1A2 /* EventLeagueSelectorViewController.swift */; };
 		8EDFB1BA1E3D3F00006DD187 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFB1B91E3D3F00006DD187 /* LocationService.swift */; };
@@ -319,7 +319,7 @@
 		8ED897552109FA5B0062D345 /* ActivityIndicatorOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorOverlay.swift; sourceTree = "<group>"; };
 		8EDA009B1F6597060080F446 /* RemoteDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteDataService.swift; sourceTree = "<group>"; };
 		8EDA009D1F6597BC0080F446 /* LoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
-		8EDBBB8222D980170018497C /* ActionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionListViewController.swift; sourceTree = "<group>"; };
+		8EDBBB8222D980170018497C /* ActivityListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityListViewController.swift; sourceTree = "<group>"; };
 		8EDD13E81FEB78C10039F1A7 /* ShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareService.swift; sourceTree = "<group>"; };
 		8EDD97A220E915B100D9A1A2 /* EventLeagueSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventLeagueSelectorViewController.swift; sourceTree = "<group>"; };
 		8EDFB1B91E3D3F00006DD187 /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -655,7 +655,7 @@
 				8E7A59FD22B891E900DDBB01 /* EventsListViewController.swift */,
 				8E7A5A0122B8963200DDBB01 /* EventPlayersViewController.swift */,
 				8E7A5A0322B8965700DDBB01 /* TeamsViewController.swift */,
-				8EDBBB8222D980170018497C /* ActionListViewController.swift */,
+				8EDBBB8222D980170018497C /* ActivityListViewController.swift */,
 				8E6EEF08230F7A02009D0AEA /* VenuesListViewController.swift */,
 			);
 			name = Dashboard;
@@ -1099,7 +1099,7 @@
 				8EB865FA208BE8440029079A /* PlayerLeaguesViewController.swift in Sources */,
 				8E7DCF1422A2DB7C00536ADA /* SubscriptionCell.swift in Sources */,
 				F2C0F1201CF3E8BB00CB98F1 /* EventsViewController.swift in Sources */,
-				8EDBBB8322D980180018497C /* ActionListViewController.swift in Sources */,
+				8EDBBB8322D980180018497C /* ActivityListViewController.swift in Sources */,
 				8E7A2FFE1F8329D8004EAE6A /* PromoCell.swift in Sources */,
 				8E6AE5451F8E5DBA0062DCF5 /* PaymentViewModel.swift in Sources */,
 				8EDD13E91FEB78C10039F1A7 /* ShareService.swift in Sources */,
