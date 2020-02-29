@@ -183,7 +183,7 @@ extension TeamsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerCell", for: indexPath) as! TeamPlayerCell // using leaguePlayerCell is fine
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TeamPlayerCell", for: indexPath) as! TeamPlayerCell // using leaguePlayerCell is fine
             cell.reset()
             if indexPath.row < players.count {
                 let player = players[indexPath.row]

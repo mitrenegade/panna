@@ -17,7 +17,6 @@
 		8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E4291E31B07900DB4B27 /* SplashViewController.swift */; };
 		8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E11E42B1E31B80800DB4B27 /* Main.storyboard */; };
 		8E16A59E1FECB34400D24D69 /* DeepLinkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E16A59D1FECB34400D24D69 /* DeepLinkService.swift */; };
-		8E17907C207B043F004FF5D2 /* PlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E17907B207B043F004FF5D2 /* PlayerCell.swift */; };
 		8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */; };
 		8E19A4A21E6C658600D301EC /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A11E6C658600D301EC /* String+Utils.swift */; };
 		8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A91E6C9C7500D301EC /* ExpandableMapViewController.swift */; };
@@ -212,7 +211,6 @@
 		8E11E4291E31B07900DB4B27 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		8E11E42B1E31B80800DB4B27 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8E16A59D1FECB34400D24D69 /* DeepLinkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkService.swift; sourceTree = "<group>"; };
-		8E17907B207B043F004FF5D2 /* PlayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCell.swift; sourceTree = "<group>"; };
 		8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerInfoViewController.swift; sourceTree = "<group>"; };
 		8E19A4A11E6C658600D301EC /* String+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Utils.swift"; sourceTree = "<group>"; };
 		8E19A4A91E6C9C7500D301EC /* ExpandableMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableMapViewController.swift; sourceTree = "<group>"; };
@@ -747,7 +745,6 @@
 				8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */,
 				8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */,
 				8E0F5684201598CD001E8909 /* OrganizerCell.swift */,
-				8E17907B207B043F004FF5D2 /* PlayerCell.swift */,
 				C69E4E822097543400F4D74B /* LeagueCell.swift */,
 				8E48AF7D20DFDA0C00D814BE /* LeagueTitleCell.swift */,
 				8E48AF7F20DFDE1700D814BE /* LeagueTagsCell.swift */,
@@ -1112,7 +1109,6 @@
 				8EE5FCD522B7528300F7FF68 /* LeaguePlayersListViewController.swift in Sources */,
 				8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */,
 				C6B7412720FAD88B00B0FA00 /* LeagueButtonCell.swift in Sources */,
-				8E17907C207B043F004FF5D2 /* PlayerCell.swift in Sources */,
 				F2F7C3C01CEE296A00350115 /* AccountViewController.swift in Sources */,
 				8EC799271E35AA02004ACC52 /* MapViewController.swift in Sources */,
 				8E214F8222E4F58A0093A385 /* PlayersListViewController.swift in Sources */,
