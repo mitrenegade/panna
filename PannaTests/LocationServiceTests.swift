@@ -46,13 +46,13 @@ class LocationServiceTests: XCTestCase {
             .subscribe(onNext: { (city) in
                 expectation.fulfill()
             }).disposed(by: self.disposeBag)
-        playerService.current.value = player // trigger city search
+        playerService.current.accept(player) // trigger city search
         wait(for: [expectation], timeout: 1)
     }
 
     func testUsesCityForLocationIfPlayerLocationDoesNotExist() {
         let player = Player(key: "abc", dict: ["name": "John", "cityId": "123"])
-        playerService.current.value = player // trigger city search
+        playerService.current.accept(player) // trigger city search
         let expectationCity = XCTestExpectation(description: "Observable location should first return player city's location")
         service.observableLocation
             .filterNil()
@@ -67,7 +67,7 @@ class LocationServiceTests: XCTestCase {
     
     func testReplacesCityLocationWithPlayerLocationWhenLocationIsFound() {
         let player = Player(key: "abc", dict: ["name": "John", "cityId": "123"])
-        playerService.current.value = player // trigger city search
+        playerService.current.accept(player) // trigger city search
 
         let loc = CLLocation(latitude: 75.1, longitude: -122.1)
         locationManager.mockLocation = loc
@@ -89,7 +89,7 @@ class LocationServiceTests: XCTestCase {
     
     func testReplacesPlayerLocationWithCityLocationWhenLocationIsLost() {
         let player = Player(key: "abc", dict: ["name": "John", "cityId": "123"])
-        playerService.current.value = player // trigger city search
+        playerService.current.accept(player) // trigger city search
         let expectationCity = XCTestExpectation(description: "Observable location should only return player city's location")
 
         let loc = CLLocation(latitude: 75.1, longitude: -122.1)
