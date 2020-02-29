@@ -24,7 +24,7 @@ class FeedItemCell: ActionCell {
             labelText.text = message
             if feedItem.type == .chat, let userId = feedItem.userId {
                 PlayerService.shared.withId(id: userId, completion: { [weak self] (player) in
-                    if let name = player?.name {
+                    if let player = player as? Player, let name = player.name {
                         DispatchQueue.main.async {
                             if let self = self {
                                 self.labelText.text = "\(name) said: \(message)"
@@ -40,6 +40,7 @@ class FeedItemCell: ActionCell {
         }
         labelText.sizeToFit()
         constraintLabelHeight.constant = max(27, labelText.frame.size.height)
+        labelDate?.text = feedItem.createdAt?.dateString()
 
         if let actionId = feedItem.actionId {
             ActionService().withId(id: actionId) { [weak self] (action) in
@@ -48,8 +49,11 @@ class FeedItemCell: ActionCell {
                     let eventName = viewModel.eventName
                     
                     self?.labelDetails?.text = eventName
+                    self?.labelDetails?.isHidden = false
                 }
             }
+        } else {
+            labelDetails?.isHidden = true
         }
 
         // load user profile

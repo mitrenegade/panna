@@ -531,10 +531,10 @@ Type</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedItemCell" id="67n-jM-mPB" customClass="FeedItemCell" customModule="Panna" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="524" width="375" height="39.5"/>
+                                        <rect key="frame" x="0.0" y="524" width="375" height="57.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="67n-jM-mPB" id="GCn-lb-uba">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="39.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="57.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="JEk-ZV-3I1" customClass="RAImageView" customModule="Panna" customModuleProvider="target">
@@ -553,24 +553,36 @@ Type</string>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PGW-GQ-QwI">
+                                                    <rect key="frame" x="310" y="30" width="57" height="27.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="27.5" id="u4M-1P-kiU"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="PGW-GQ-QwI" secondAttribute="trailing" constant="8" id="0Kd-7k-PhE"/>
                                                 <constraint firstItem="KCf-2G-IDk" firstAttribute="top" secondItem="GCn-lb-uba" secondAttribute="top" constant="6" id="2bk-ol-whv"/>
+                                                <constraint firstAttribute="bottom" secondItem="PGW-GQ-QwI" secondAttribute="bottom" id="7bc-Dj-wgc"/>
                                                 <constraint firstItem="JEk-ZV-3I1" firstAttribute="leading" secondItem="GCn-lb-uba" secondAttribute="leading" constant="16" id="80l-wV-dEO"/>
-                                                <constraint firstAttribute="bottom" secondItem="KCf-2G-IDk" secondAttribute="bottom" constant="6" id="BzO-Te-hKJ"/>
                                                 <constraint firstAttribute="trailing" secondItem="KCf-2G-IDk" secondAttribute="trailing" constant="8" id="E7q-NZ-PzZ"/>
                                                 <constraint firstItem="JEk-ZV-3I1" firstAttribute="top" secondItem="GCn-lb-uba" secondAttribute="top" constant="5" id="Myj-pv-jDO"/>
+                                                <constraint firstAttribute="bottom" secondItem="KCf-2G-IDk" secondAttribute="bottom" constant="24" id="lzB-vP-Glx"/>
                                                 <constraint firstItem="KCf-2G-IDk" firstAttribute="leading" secondItem="JEk-ZV-3I1" secondAttribute="trailing" constant="8" id="yqz-uX-9es"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="constraintLabelHeight" destination="vTw-LP-LaU" id="mA6-7y-pGV"/>
+                                            <outlet property="labelDate" destination="PGW-GQ-QwI" id="UDa-8F-qzC"/>
                                             <outlet property="labelText" destination="KCf-2G-IDk" id="4p1-o1-O1U"/>
                                             <outlet property="photoView" destination="JEk-ZV-3I1" id="sJD-Xl-xEP"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedItemActionCell" rowHeight="60" id="2Nx-uz-FLt" userLabel="FeedItemActionCell" customClass="FeedItemCell" customModule="Panna" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="563.5" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="581.5" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Nx-uz-FLt" id="sQa-ry-F33">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
@@ -621,7 +633,7 @@ Type</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedItemPhotoCell" rowHeight="260" id="dta-Gd-z3e" customClass="FeedItemCell" customModule="Panna" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="623.5" width="375" height="260"/>
+                                        <rect key="frame" x="0.0" y="641.5" width="375" height="260"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dta-Gd-z3e" id="eoM-3D-M2y">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="260"/>

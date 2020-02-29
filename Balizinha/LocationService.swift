@@ -64,7 +64,7 @@ class LocationService: NSObject {
             .subscribe(onNext: { [weak self] (player) in
                 guard let cityId = player.cityId else { return }
                 self?.cityService.withId(id: cityId) { [weak self] (city) in
-                    if let city = city {
+                    if let city = city as? City {
                         self?.playerCity.accept(city)
                     }
                 }

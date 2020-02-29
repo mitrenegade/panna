@@ -94,7 +94,7 @@ extension EventActivityViewController: UITableViewDataSource {
         if action.username == nil, let userId = action.userId {
             // lazily request for next time
             PlayerService.shared.withId(id: userId, completion: { player in
-                if let name = player?.name {
+                if let player = player as? Player, let name = player.name {
                     action.username = name
                 }
             })

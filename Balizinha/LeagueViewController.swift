@@ -150,7 +150,7 @@ class LeagueViewController: UIViewController {
             dispatchGroup.enter()
             print("Loading player id \(playerId)")
             PlayerService.shared.withId(id: playerId, completion: {[weak self] (player) in
-                if let player = player {
+                if let player = player as? Player {
                     print("Finished player id \(playerId)")
                     self?.players.append(player)
                 }
@@ -341,7 +341,7 @@ extension LeagueViewController: UITableViewDelegate {
                     PlayerService.shared.withId(id: userId, completion: { [weak self] (player) in
                         let displayMessage = feedItem.message ?? feedItem.defaultMessage
                         DispatchQueue.main.async {
-                            if let name = player?.name {
+                            if let player = player as? Player, let name = player.name {
                                 let title = "\(name) said:"
                                 self?.simpleAlert(title, message: displayMessage)
                             } else {
@@ -638,7 +638,7 @@ extension LeagueViewController {
         guard let userInfo = notification?.userInfo, let eventId = userInfo["eventId"] as? String else { return }
         guard let controller = UIStoryboard(name: "EventDetails", bundle: nil).instantiateViewController(withIdentifier: "EventDisplayViewController") as? EventDisplayViewController else { return }
         EventService.shared.withId(id: eventId) { [weak self] (event) in
-            guard let event = event else { return }
+            guard let event = event as? Event else { return }
             guard !event.isPast else {
                 print("event is past, don't display")
                 return

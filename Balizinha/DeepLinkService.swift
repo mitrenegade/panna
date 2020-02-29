@@ -144,7 +144,7 @@ class DeepLinkService: NSObject {
     fileprivate func loadAndShowEvent(_ eventId: String) {
         hasQueuedDeepLinkOnOpen = true
         EventService.shared.withId(id: eventId) { [weak self] event in
-            guard let event = event, !event.isPast else { return }
+            guard let event = event as? Event, !event.isPast else { return }
             EventService.shared.featuredEventId = eventId
             self?.notify(.DisplayFeaturedEvent, object: nil, userInfo: ["eventId": eventId])
             LoggingService.shared.log(event: LoggingEvent.DeepLinkForSharedEventOpened, info: ["eventId": eventId])

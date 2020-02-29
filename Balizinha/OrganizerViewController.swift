@@ -26,7 +26,7 @@ class OrganizerViewController: UIViewController {
         if let event = event, let ownerId = event.organizer {
             PlayerService.shared.withId(id: ownerId, completion: { (player) in
                 self.playerIcon.object = player
-                if let player = player {
+                if let player = player as? Player {
                     self.label.text = "Organizer: \(player.name ?? player.email ?? "")"
                 }
                 else {
