@@ -13,6 +13,8 @@ import FirebaseDatabase
 import RenderCloud
 
 class ActivityListViewController: ListViewController, LeagueList {
+    private let pageSize: UInt = 21
+    private var beginningReached: Bool = false
     var league: League?
 
     override func viewDidLoad() {
@@ -31,18 +33,20 @@ class ActivityListViewController: ListViewController, LeagueList {
     override func load(completion:(()->Void)? = nil) {
         guard let league = league else { return }
         var lastKey: String? = nil
-        // stored order is in ascending key/timestamp
+        // stored order is in descending key/timestamp
         if let feedItem = self.objects.last as? FeedItem {
             lastKey = feedItem.id
         }
-        FeedService.shared.loadFeedItems(for: league, lastKey: lastKey, pageSize: 3) { [weak self] feedItemIds in
+        FeedService.shared.loadFeedItems(for: league, lastKey: lastKey, pageSize: pageSize) { [weak self] feedItemIds in
             let group = DispatchGroup()
             
             var newFeedItems = [FeedItem]()
+            var processingCount = 0
             for id in feedItemIds {
                 if id == lastKey {
                     continue
                 }
+                processingCount += 1
                 group.enter()
                 FeedService.shared.withId(id: id) { (feedItem) in
                     if let feedItem = feedItem as? FeedItem {
@@ -51,11 +55,18 @@ class ActivityListViewController: ListViewController, LeagueList {
                     group.leave()
                 }
             }
+            guard processingCount > 0 else {
+                self?.beginningReached = true
+                completion?()
+                return
+            }
+
             group.notify(queue: DispatchQueue.main) { [weak self] in
+                // sort in descending order
                 newFeedItems = newFeedItems.sorted(by: { (item0, item1) -> Bool in
-                    guard let date0 = item0.createdAt else { return true }
-                    guard let date1 = item1.createdAt else { return false }
-                    return date0 < date1
+                    guard let date0 = item0.createdAt else { return false }
+                    guard let date1 = item1.createdAt else { return true }
+                    return date0 > date1
                 })
                 if lastKey == nil {
                     self?.objects = newFeedItems
@@ -85,13 +96,18 @@ extension ActivityListViewController {
         // this uses a feedItemActionCell to display an action so that its eventName can be shown
         if indexPath.row < objects.count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "FeedItemActionCell", for: indexPath) as! FeedItemCell
-            let reverseOrderIndex = objects.count - indexPath.row - 1
-            if let feedItem = objects[reverseOrderIndex] as? FeedItem {
+            let index = indexPath.row
+            if let feedItem = objects[index] as? FeedItem {
                 cell.configure(with: feedItem)
             }
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "LoadMoreCell", for: indexPath)
+            if beginningReached {
+                cell.textLabel?.text = "You have reached the beginning"
+            } else {
+                cell.textLabel?.text = "Click to load more"
+            }
             return cell
         }
     }
@@ -99,14 +115,16 @@ extension ActivityListViewController {
 
 extension ActivityListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        super.tableView(tableView, didSelectRowAt: indexPath)
         guard indexPath.row < self.objects.count else {
-            loadMore()
+            if !beginningReached {
+                loadMore()
+            }
             return
         }
         guard let action = objects[indexPath.row] as? Action, let eventId = action.eventId else { return }
-        print("Retrieving results for action \(action.id) with event \(eventId)")
         EventService().actions(for: nil, eventId: eventId) { (actions) in
-            print("done")
+            // no op
         }
     }
 }
