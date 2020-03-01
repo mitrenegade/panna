@@ -275,10 +275,10 @@
                                                 </constraints>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="NZB-Xn-KXH">
-                                                <rect key="frame" x="108" y="0.0" width="187" height="88"/>
+                                                <rect key="frame" x="108" y="0.0" width="235" height="88"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Name)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDq-wr-omR">
-                                                        <rect key="frame" x="0.0" y="0.0" width="187" height="43.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="235" height="43.5"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="43.5" id="G2S-Tf-j2h"/>
                                                         </constraints>
@@ -287,7 +287,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XaI-yd-trv">
-                                                        <rect key="frame" x="0.0" y="44.5" width="187" height="43.5"/>
+                                                        <rect key="frame" x="0.0" y="44.5" width="235" height="43.5"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="43.5" id="gD2-je-BeJ"/>
                                                         </constraints>
@@ -307,35 +307,13 @@
                                                     <constraint firstItem="GDq-wr-omR" firstAttribute="top" secondItem="NZB-Xn-KXH" secondAttribute="top" id="nZZ-kB-8n0"/>
                                                 </constraints>
                                             </stackView>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BIS-wX-UMt">
-                                                <rect key="frame" x="303" y="0.0" width="40" height="88"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="41q-Ga-sJ7">
-                                                        <rect key="frame" x="0.0" y="24" width="40" height="40"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="40" id="QvC-WS-gEB"/>
-                                                            <constraint firstAttribute="width" constant="40" id="mg4-rn-Lg6"/>
-                                                        </constraints>
-                                                        <state key="normal" image="map"/>
-                                                    </button>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="40" id="YZc-W9-Sie"/>
-                                                    <constraint firstItem="41q-Ga-sJ7" firstAttribute="centerY" secondItem="BIS-wX-UMt" secondAttribute="centerY" id="dvG-Px-3B3"/>
-                                                    <constraint firstItem="41q-Ga-sJ7" firstAttribute="leading" secondItem="BIS-wX-UMt" secondAttribute="leading" id="kZ3-KL-EDR"/>
-                                                </constraints>
-                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="RbJ-hK-QJc" firstAttribute="leading" secondItem="tnD-Zw-IM8" secondAttribute="leading" id="47M-lU-Ix0"/>
                                             <constraint firstAttribute="bottom" secondItem="RbJ-hK-QJc" secondAttribute="bottom" id="Mrv-qG-JvN"/>
                                             <constraint firstAttribute="bottom" secondItem="NZB-Xn-KXH" secondAttribute="bottom" id="Q83-ut-zDL"/>
-                                            <constraint firstAttribute="trailing" secondItem="BIS-wX-UMt" secondAttribute="trailing" id="VT0-HC-8Ee"/>
                                             <constraint firstItem="NZB-Xn-KXH" firstAttribute="top" secondItem="tnD-Zw-IM8" secondAttribute="top" id="fqQ-fv-ke5"/>
-                                            <constraint firstItem="BIS-wX-UMt" firstAttribute="top" secondItem="tnD-Zw-IM8" secondAttribute="top" id="hIk-xA-jch"/>
-                                            <constraint firstItem="BIS-wX-UMt" firstAttribute="leading" secondItem="NZB-Xn-KXH" secondAttribute="trailing" constant="8" id="kwA-MH-U2E"/>
-                                            <constraint firstAttribute="bottom" secondItem="BIS-wX-UMt" secondAttribute="bottom" id="qCH-h2-ffx"/>
                                             <constraint firstItem="NZB-Xn-KXH" firstAttribute="leading" secondItem="RbJ-hK-QJc" secondAttribute="trailing" constant="8" id="vrB-7g-fi5"/>
                                             <constraint firstItem="RbJ-hK-QJc" firstAttribute="top" secondItem="tnD-Zw-IM8" secondAttribute="top" id="y0N-ly-Z3y"/>
                                         </constraints>
@@ -549,7 +527,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="map" width="21.333333969116211" height="21.333333969116211"/>
         <image name="profile-img" width="256" height="256"/>
     </resources>
 </document>

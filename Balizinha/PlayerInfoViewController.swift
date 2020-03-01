@@ -62,6 +62,9 @@ class PlayerInfoViewController: UIViewController {
         photoView.tintColor = PannaUI.profileTint
 
         cityHelper = CityHelper(inputField: inputCity, delegate: self)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapVenue(_:)))
+        containerVenue.addGestureRecognizer(tap)
     }
 
     func refresh() {
@@ -108,6 +111,8 @@ class PlayerInfoViewController: UIViewController {
         guard let venueId = player?.baseVenueId else {
             print("No home")
             labelVenueName?.text = "Click to add a home venue"
+            venueImageView?.isHidden = true
+            labelVenueAddress?.isHidden = true
             return
         }
         VenueService.shared.withId(id: venueId) { [weak self] (venue) in
@@ -116,6 +121,10 @@ class PlayerInfoViewController: UIViewController {
                 self?.labelVenueAddress?.text = venue.shortString
             }
         }
+    }
+    
+    @objc func didTapVenue(_ sender: Any) {
+        print("Tapped venue")
     }
     
     func close() {
