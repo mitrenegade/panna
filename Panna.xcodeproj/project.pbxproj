@@ -17,9 +17,6 @@
 		8E11E42A1E31B07900DB4B27 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E4291E31B07900DB4B27 /* SplashViewController.swift */; };
 		8E11E42C1E31B80800DB4B27 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E11E42B1E31B80800DB4B27 /* Main.storyboard */; };
 		8E16A59E1FECB34400D24D69 /* DeepLinkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E16A59D1FECB34400D24D69 /* DeepLinkService.swift */; };
-		8E179078207B0324004FF5D2 /* Attendance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E179077207B0324004FF5D2 /* Attendance.storyboard */; };
-		8E17907A207B03C9004FF5D2 /* AttendeesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E179079207B03C9004FF5D2 /* AttendeesViewController.swift */; };
-		8E17907C207B043F004FF5D2 /* PlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E17907B207B043F004FF5D2 /* PlayerCell.swift */; };
 		8E19A49C1E6C61BA00D301EC /* PlayerInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */; };
 		8E19A4A21E6C658600D301EC /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A11E6C658600D301EC /* String+Utils.swift */; };
 		8E19A4AA1E6C9C7500D301EC /* ExpandableMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E19A4A91E6C9C7500D301EC /* ExpandableMapViewController.swift */; };
@@ -91,6 +88,7 @@
 		8E7F7D92225B07DE00AE4C0B /* UpgradeServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7016D3207AA8A200A4C28C /* UpgradeServiceTests.swift */; };
 		8E81A2D5226BBF2900EAA6EF /* Owner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E81A2D4226BBF2900EAA6EF /* Owner.storyboard */; };
 		8E81A2D7226BC1BF00EAA6EF /* OwnerEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E81A2D6226BC1BF00EAA6EF /* OwnerEventsViewController.swift */; };
+		8E97A802240B2DAE004E1ECA /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009D1F6597BC0080F446 /* LoggingService.swift */; };
 		8E9D41912138169300BEBA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E9D41902138169200BEBA79 /* GoogleService-Info.plist */; };
 		8E9D4193213816E400BEBA79 /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E9D4192213816E300BEBA79 /* GoogleService-Info-dev.plist */; };
 		8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */; };
@@ -214,9 +212,6 @@
 		8E11E4291E31B07900DB4B27 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		8E11E42B1E31B80800DB4B27 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8E16A59D1FECB34400D24D69 /* DeepLinkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkService.swift; sourceTree = "<group>"; };
-		8E179077207B0324004FF5D2 /* Attendance.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Attendance.storyboard; sourceTree = "<group>"; };
-		8E179079207B03C9004FF5D2 /* AttendeesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendeesViewController.swift; sourceTree = "<group>"; };
-		8E17907B207B043F004FF5D2 /* PlayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCell.swift; sourceTree = "<group>"; };
 		8E19A49B1E6C61BA00D301EC /* PlayerInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerInfoViewController.swift; sourceTree = "<group>"; };
 		8E19A4A11E6C658600D301EC /* String+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Utils.swift"; sourceTree = "<group>"; };
 		8E19A4A91E6C9C7500D301EC /* ExpandableMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableMapViewController.swift; sourceTree = "<group>"; };
@@ -456,7 +451,6 @@
 				8E19A4AF1E6C9CF200D301EC /* PaymentTypesViewController.swift */,
 				8E19A4AD1E6C9CB300D301EC /* EventActivityViewController.swift */,
 				8E54213D1E70CEF100AE4F3A /* ChatInputViewController.swift */,
-				8E179079207B03C9004FF5D2 /* AttendeesViewController.swift */,
 			);
 			name = "Event Details";
 			sourceTree = "<group>";
@@ -504,7 +498,6 @@
 				8EC7992A1E3635A0004ACC52 /* Events.storyboard */,
 				8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */,
 				8EC7992E1E3636A0004ACC52 /* EventDetails.storyboard */,
-				8E179077207B0324004FF5D2 /* Attendance.storyboard */,
 				C651AB892096D7FC0046B03C /* League.storyboard */,
 				8EF634782153198B00652833 /* Feedback.storyboard */,
 				C6B7D7B4221E0B8A00B58C72 /* Stripe.storyboard */,
@@ -753,7 +746,6 @@
 				8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */,
 				8E7CABFD1F8D8B8D0095084D /* PaymentCell.swift */,
 				8E0F5684201598CD001E8909 /* OrganizerCell.swift */,
-				8E17907B207B043F004FF5D2 /* PlayerCell.swift */,
 				C69E4E822097543400F4D74B /* LeagueCell.swift */,
 				8E48AF7D20DFDA0C00D814BE /* LeagueTitleCell.swift */,
 				8E48AF7F20DFDE1700D814BE /* LeagueTagsCell.swift */,
@@ -892,7 +884,6 @@
 				8EBD898622E0528600FD3B18 /* Player.storyboard in Resources */,
 				8E81A2D5226BBF2900EAA6EF /* Owner.storyboard in Resources */,
 				8E7256A11CDF793200C9E054 /* Assets.xcassets in Resources */,
-				8E179078207B0324004FF5D2 /* Attendance.storyboard in Resources */,
 				8E72569F1CDF793200C9E054 /* LoginSignup.storyboard in Resources */,
 				C651AB8A2096D7FC0046B03C /* League.storyboard in Resources */,
 				8E73980A1FF921E500D48BA0 /* Montserrat-SemiBold.ttf in Resources */,
@@ -1054,7 +1045,6 @@
 				8E1B00541FC2CC8B00420256 /* TutoriaPageViewController.swift in Sources */,
 				8E48AF7C20DFD62600D814BE /* ResizableTagView.swift in Sources */,
 				F2F7C3C21CEE2CDD00350115 /* PushTableViewCell.swift in Sources */,
-				8E17907A207B03C9004FF5D2 /* AttendeesViewController.swift in Sources */,
 				8EE5FCD722B86C3000F7FF68 /* ListViewController.swift in Sources */,
 				8EB29279212F77AA0007BAF8 /* PinpointViewController.swift in Sources */,
 				8EDFB1BA1E3D3F00006DD187 /* LocationService.swift in Sources */,
@@ -1120,7 +1110,6 @@
 				8EE5FCD522B7528300F7FF68 /* LeaguePlayersListViewController.swift in Sources */,
 				8E54213E1E70CEF100AE4F3A /* ChatInputViewController.swift in Sources */,
 				C6B7412720FAD88B00B0FA00 /* LeagueButtonCell.swift in Sources */,
-				8E17907C207B043F004FF5D2 /* PlayerCell.swift in Sources */,
 				F2F7C3C01CEE296A00350115 /* AccountViewController.swift in Sources */,
 				8EC799271E35AA02004ACC52 /* MapViewController.swift in Sources */,
 				8E214F8222E4F58A0093A385 /* PlayersListViewController.swift in Sources */,
@@ -1189,6 +1178,7 @@
 				8EEC554623523950000BC39F /* LoggingProvider.swift in Sources */,
 				8E7F7D92225B07DE00AE4C0B /* UpgradeServiceTests.swift in Sources */,
 				8EEC555B235548AB000BC39F /* MockLocationService.swift in Sources */,
+				8E97A802240B2DAE004E1ECA /* LoggingService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

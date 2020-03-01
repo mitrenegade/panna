@@ -50,16 +50,14 @@ class PlayerViewController: UIViewController {
         }
         
         if let cityId = player.cityId {
-            VenueService.shared.withId(id: cityId) { [weak self] (city) in
+            CityService.shared.withId(id: cityId) { [weak self] (city) in
                 DispatchQueue.main.async {
                     if let city = city as? City {
                         self?.cityLabel.text = city.shortString
-                    } else if let city = player.city {
-                        self?.cityLabel.text = city
                     }
                 }
             }
-        } else if let city = player.city {
+        } else if let city = player.dict["city"] as? String { // TODO: remove player.city as we transition to cityId
             self.cityLabel.text = city
         }
         else {

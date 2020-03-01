@@ -47,7 +47,6 @@ class PlayerInfoViewController: UIViewController {
             self.navigationItem.rightBarButtonItem = nil
         }
         
-        setupInputs()
         refresh()
         
         navigationController?.navigationBar.isTranslucent = false
@@ -58,22 +57,7 @@ class PlayerInfoViewController: UIViewController {
 
         cityHelper = CityHelper(inputField: inputCity, delegate: self)
     }
-    
-    func setupInputs() {
-        let keyboardDoneButtonView: UIToolbar = UIToolbar()
-        keyboardDoneButtonView.sizeToFit()
-        keyboardDoneButtonView.barStyle = UIBarStyle.black
-        keyboardDoneButtonView.tintColor = UIColor.white
-        let cancel: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelEditing))
-        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let saveButton: UIBarButtonItem = UIBarButtonItem(title: "Update", style: .done, target: self, action: #selector(save))
-        keyboardDoneButtonView.setItems([cancel, flex, saveButton], animated: true)
-        
-        self.inputName.inputAccessoryView = keyboardDoneButtonView
-        self.inputCity.inputAccessoryView = keyboardDoneButtonView
-        self.inputNotes.inputAccessoryView = keyboardDoneButtonView
-    }
-    
+
     func refresh() {
         guard let player = player else { return }
         
@@ -81,17 +65,13 @@ class PlayerInfoViewController: UIViewController {
             self.inputName.text = name
         }
         if let cityId = player.cityId {
-            VenueService.shared.withId(id: cityId) { [weak self] (city) in
+            CityService.shared.withId(id: cityId) { [weak self] (city) in
                 DispatchQueue.main.async {
                     if let city = city as? City {
                         self?.inputCity.text = city.shortString
-                    } else if let city = player.city {
-                        self?.inputCity.text = city
                     }
                 }
             }
-        } else if let city = player.city {
-            self.inputCity.text = city
         }
         if let notes = player.info {
             self.inputNotes.text = notes
@@ -178,36 +158,13 @@ class PlayerInfoViewController: UIViewController {
             return
         }
         
-        if let text = self.inputCity.text, !text.isEmpty {
-            player.city = text
-        }
         if let text = inputNotes.text, !text.isEmpty {
             player.info = text
         }
 
         close()
     }
-    
-    @objc func save() {
-        self.view.endEditing(true)
-        
-        player?.info = self.inputNotes.text
-        if currentInput == inputName, inputName.text?.isEmpty == false {
-            player?.name = inputName.text
-        } else if currentInput == inputCity {
-            // TODO: what happens if we click save when user is still selecting a city?
-        }
-    }
 
-    @objc func cancelEditing() {
-        self.view.endEditing(true)
-        inputNotes.resignFirstResponder()
-        
-        inputName.text = player?.name
-        inputCity.text = player?.city
-        inputNotes.text = player?.info
-    }
-    
     fileprivate func promptForPhotoOnce() {
         askedForPhoto = true
         let alert = UIAlertController(title: "Add a photo?", message: "Hey, including your picture will make it easier for the organizer and the other players to recognize you. Would you like to add a photo?", preferredStyle: .alert)
@@ -343,5 +300,9 @@ extension PlayerInfoViewController: CityHelperDelegate {
     
     func didFailSelectCity(with error: Error?) {
         simpleAlert("Could not create city", defaultMessage: "There was an issue creating a city", error: error as NSError?)
+    }
+    
+    func didCancelSelectCity() {
+        refresh()
     }
 }
