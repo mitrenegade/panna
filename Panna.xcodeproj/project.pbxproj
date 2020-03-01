@@ -88,6 +88,7 @@
 		8E7F7D92225B07DE00AE4C0B /* UpgradeServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7016D3207AA8A200A4C28C /* UpgradeServiceTests.swift */; };
 		8E81A2D5226BBF2900EAA6EF /* Owner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E81A2D4226BBF2900EAA6EF /* Owner.storyboard */; };
 		8E81A2D7226BC1BF00EAA6EF /* OwnerEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E81A2D6226BC1BF00EAA6EF /* OwnerEventsViewController.swift */; };
+		8E97A802240B2DAE004E1ECA /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA009D1F6597BC0080F446 /* LoggingService.swift */; };
 		8E9D41912138169300BEBA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E9D41902138169200BEBA79 /* GoogleService-Info.plist */; };
 		8E9D4193213816E400BEBA79 /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E9D4192213816E300BEBA79 /* GoogleService-Info-dev.plist */; };
 		8E9FED6E1FE0E5F600D983AE /* LocationSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9FED6D1FE0E5F600D983AE /* LocationSettingCell.swift */; };
@@ -1177,6 +1178,7 @@
 				8EEC554623523950000BC39F /* LoggingProvider.swift in Sources */,
 				8E7F7D92225B07DE00AE4C0B /* UpgradeServiceTests.swift in Sources */,
 				8EEC555B235548AB000BC39F /* MockLocationService.swift in Sources */,
+				8E97A802240B2DAE004E1ECA /* LoggingService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
