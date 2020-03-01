@@ -22,6 +22,12 @@ class PlayerInfoViewController: UIViewController {
     @IBOutlet weak var inputNotes: UITextView!
     @IBOutlet weak var photoView: RAImageView!
     @IBOutlet weak var buttonLeague: UIButton!
+    
+    // home venue
+    @IBOutlet weak var containerVenue: UIView!
+    @IBOutlet weak var labelVenueName: UILabel?
+    @IBOutlet weak var labelVenueAddress: UILabel?
+    @IBOutlet weak var venueImageView: RAImageView?
 
     var cityHelper: CityHelper?
     
@@ -77,6 +83,7 @@ class PlayerInfoViewController: UIViewController {
             self.inputNotes.text = notes
         }
         self.refreshPhoto()
+        self.refreshVenue()
     }
     
     func refreshPhoto() {
@@ -93,6 +100,20 @@ class PlayerInfoViewController: UIViewController {
                     self?.photoView.tintColor = PannaUI.profileTint
                     self?.buttonPhoto.setTitle("Add Photo", for: .normal)
                 }
+            }
+        }
+    }
+    
+    func refreshVenue() {
+        guard let venueId = player?.baseVenueId else {
+            print("No home")
+            labelVenueName?.text = "Click to add a home venue"
+            return
+        }
+        VenueService.shared.withId(id: venueId) { [weak self] (venue) in
+            if let venue = venue as? Venue {
+                self?.labelVenueName?.text = venue.name
+                self?.labelVenueAddress?.text = venue.shortString
             }
         }
     }
