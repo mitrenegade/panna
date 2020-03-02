@@ -24,10 +24,13 @@ class PlayerInfoViewController: UIViewController {
     @IBOutlet weak var buttonLeague: UIButton!
     
     // home venue
-    @IBOutlet weak var containerVenue: UIView!
+    @IBOutlet weak var containerVenue: UIView?
     @IBOutlet weak var labelVenueName: UILabel?
     @IBOutlet weak var labelVenueAddress: UILabel?
     @IBOutlet weak var venueImageView: RAImageView?
+    
+    @IBOutlet weak var containerAddVenue: UIView?
+    @IBOutlet weak var buttonAddVenue: UIButton?
 
     var cityHelper: CityHelper?
     
@@ -64,7 +67,7 @@ class PlayerInfoViewController: UIViewController {
         cityHelper = CityHelper(inputField: inputCity, delegate: self)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTapVenue(_:)))
-        containerVenue.addGestureRecognizer(tap)
+        containerVenue?.addGestureRecognizer(tap)
     }
 
     func refresh() {
@@ -109,12 +112,15 @@ class PlayerInfoViewController: UIViewController {
     
     func refreshVenue() {
         guard let venueId = player?.baseVenueId else {
-            print("No home")
-            labelVenueName?.text = "Click to add a home venue"
-            venueImageView?.isHidden = true
-            labelVenueAddress?.isHidden = true
+//            labelVenueName?.text = "Click to add a home venue"
+//            venueImageView?.isHidden = true
+//            labelVenueAddress?.isHidden = true
+            containerVenue?.isHidden = true
+            containerAddVenue?.isHidden = false
             return
         }
+        containerVenue?.isHidden = true
+        containerAddVenue?.isHidden = false
         VenueService.shared.withId(id: venueId) { [weak self] (venue) in
             if let venue = venue as? Venue {
                 self?.labelVenueName?.text = venue.name
@@ -123,7 +129,7 @@ class PlayerInfoViewController: UIViewController {
         }
     }
     
-    @objc func didTapVenue(_ sender: Any) {
+    @objc @IBAction func didTapVenue(_ sender: Any) {
         print("Tapped venue")
     }
     

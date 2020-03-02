@@ -282,7 +282,7 @@
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="43.5" id="G2S-Tf-j2h"/>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="18"/>
+                                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="15"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
@@ -291,7 +291,7 @@
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="43.5" id="gD2-je-BeJ"/>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
+                                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
@@ -318,8 +318,41 @@
                                             <constraint firstItem="RbJ-hK-QJc" firstAttribute="top" secondItem="tnD-Zw-IM8" secondAttribute="top" id="y0N-ly-Z3y"/>
                                         </constraints>
                                     </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DSo-r6-Tga">
+                                        <rect key="frame" x="0.0" y="209" width="343" height="40"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yxO-1g-LAi">
+                                                <rect key="frame" x="0.0" y="0.0" width="303" height="40"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
+                                                <state key="normal" title="Click to add a home venue">
+                                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="didTapVenue:" destination="doi-kI-W3c" eventType="touchUpInside" id="gTD-Ty-BFb"/>
+                                                </connections>
+                                            </button>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plusIcon30" translatesAutoresizingMaskIntoConstraints="NO" id="5gz-nD-hzB">
+                                                <rect key="frame" x="308" y="5" width="30" height="30"/>
+                                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="KDB-2s-yAV"/>
+                                                    <constraint firstAttribute="width" constant="30" id="swU-X8-cYO"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="yxO-1g-LAi" secondAttribute="bottom" id="GcL-YG-mix"/>
+                                            <constraint firstAttribute="height" constant="40" id="J3L-G8-tji"/>
+                                            <constraint firstAttribute="trailing" secondItem="5gz-nD-hzB" secondAttribute="trailing" constant="5" id="Ydd-Zh-O1p"/>
+                                            <constraint firstItem="yxO-1g-LAi" firstAttribute="leading" secondItem="DSo-r6-Tga" secondAttribute="leading" id="g4Z-aT-nco"/>
+                                            <constraint firstItem="yxO-1g-LAi" firstAttribute="top" secondItem="DSo-r6-Tga" secondAttribute="top" id="j5n-RI-bvH"/>
+                                            <constraint firstItem="5gz-nD-hzB" firstAttribute="leading" secondItem="yxO-1g-LAi" secondAttribute="trailing" constant="5" id="oNm-q2-j2Y"/>
+                                            <constraint firstItem="5gz-nD-hzB" firstAttribute="top" secondItem="DSo-r6-Tga" secondAttribute="top" constant="5" id="uhr-0n-lpJ"/>
+                                        </constraints>
+                                    </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qh9-5D-9kU">
-                                        <rect key="frame" x="0.0" y="209" width="343" height="26"/>
+                                        <rect key="frame" x="0.0" y="257" width="343" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="26" id="aeN-Hq-UGm"/>
                                         </constraints>
@@ -328,7 +361,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ABq-3e-Urr">
-                                        <rect key="frame" x="0.0" y="243" width="343" height="262"/>
+                                        <rect key="frame" x="0.0" y="291" width="343" height="214"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -394,7 +427,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="buttonAddVenue" destination="yxO-1g-LAi" id="XFu-Ro-6yC"/>
                         <outlet property="buttonPhoto" destination="XAo-AL-O26" id="WdU-jy-SDV"/>
+                        <outlet property="containerAddVenue" destination="DSo-r6-Tga" id="f3j-Dv-8sK"/>
                         <outlet property="containerVenue" destination="tnD-Zw-IM8" id="Mtw-V3-9Bg"/>
                         <outlet property="inputCity" destination="FlA-eP-4TG" id="lgX-O3-efa"/>
                         <outlet property="inputName" destination="c0o-pC-RKU" id="omt-ew-Acr"/>
@@ -407,7 +442,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F0q-J5-pK7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1359" y="-510"/>
+            <point key="canvasLocation" x="1357.5999999999999" y="-510.49475262368821"/>
         </scene>
         <!--Player View Controller-->
         <scene sceneID="qlb-YM-5Pd">
@@ -527,6 +562,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="plusIcon30" width="30" height="30"/>
         <image name="profile-img" width="256" height="256"/>
     </resources>
 </document>
