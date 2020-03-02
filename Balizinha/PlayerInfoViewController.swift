@@ -120,8 +120,8 @@ class PlayerInfoViewController: UIViewController {
                 containerAddVenue?.isHidden = false
                 return
             }
-            containerVenue?.isHidden = true
-            containerAddVenue?.isHidden = false
+            containerVenue?.isHidden = false
+            containerAddVenue?.isHidden = true
             VenueService.shared.withId(id: venueId) { [weak self] (venue) in
                 if let venue = venue as? Venue {
                     self?.currentVenue = venue
@@ -366,6 +366,7 @@ extension PlayerInfoViewController: VenuesListDelegate {
     func didSelectVenue(_ venue: Venue) {
         currentVenue = venue
         player?.baseVenueId = venue.id
+        refreshVenueOptions()
         navigationController?.popToViewController(self, animated: true)
     }
     
