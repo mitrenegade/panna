@@ -38,7 +38,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     }
 
     private var options: [Options]!
-    var eventTypes: [Balizinha.Event.EventType] = [.other, .event3v3, .event5v5, .event7v7, .event11v11, .group, .social]
+    var eventTypes: [Balizinha.Event.EventType] = [.other, .event3v3, .event4v4, .event5v5, .event6v6, .event7v7, .event11v11, .group, .social]
     
     var currentField : UITextField?
     var currentTextView : UITextView?
@@ -467,7 +467,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         else {
             activityOverlay.show()
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .event3v3, venue: venue, startTime: start, endTime: end, recurrence: self.recurrence, recurrenceEndDate: self.recurrenceDate, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .other, venue: venue, startTime: start, endTime: end, recurrence: self.recurrence, recurrenceEndDate: self.recurrenceDate, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.activityOverlay.hide()
