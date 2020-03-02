@@ -218,6 +218,16 @@
             </objects>
             <point key="canvasLocation" x="604" y="-514.09295352323841"/>
         </scene>
+        <!--VenuesListViewController-->
+        <scene sceneID="tFU-Ha-wvQ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Venues" referencedIdentifier="VenuesListViewController" id="HXu-5s-mAJ" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Cje-C6-T2G"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R3D-vD-ugr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1961" y="-926"/>
+        </scene>
         <!--Feedback-->
         <scene sceneID="aCb-vH-NlI">
             <objects>
@@ -438,6 +448,7 @@
                         <outlet property="labelVenueName" destination="GDq-wr-omR" id="DUy-5H-vvi"/>
                         <outlet property="photoView" destination="0RW-JB-g2Y" id="qVO-gk-2Hq"/>
                         <outlet property="venueImageView" destination="RbJ-hK-QJc" id="u5e-x0-S3D"/>
+                        <segue destination="HXu-5s-mAJ" kind="show" identifier="toVenues" id="wfz-Wg-QON"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F0q-J5-pK7" userLabel="First Responder" sceneMemberID="firstResponder"/>

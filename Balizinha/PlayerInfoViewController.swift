@@ -24,6 +24,7 @@ class PlayerInfoViewController: UIViewController {
     @IBOutlet weak var buttonLeague: UIButton!
     
     // home venue
+    fileprivate var currentVenue: Venue?
     @IBOutlet weak var containerVenue: UIView?
     @IBOutlet weak var labelVenueName: UILabel?
     @IBOutlet weak var labelVenueAddress: UILabel?
@@ -74,7 +75,7 @@ class PlayerInfoViewController: UIViewController {
         guard let player = player else { return }
         
         if let name = player.name {
-            self.inputName.text = name
+            inputName.text = name
         }
         if let cityId = player.cityId {
             CityService.shared.withId(id: cityId) { [weak self] (city) in
@@ -86,10 +87,10 @@ class PlayerInfoViewController: UIViewController {
             }
         }
         if let notes = player.info {
-            self.inputNotes.text = notes
+            inputNotes.text = notes
         }
-        self.refreshPhoto()
-        self.refreshVenue()
+        refreshPhoto()
+        refreshVenueOptions()
     }
     
     func refreshPhoto() {
@@ -110,27 +111,33 @@ class PlayerInfoViewController: UIViewController {
         }
     }
     
-    func refreshVenue() {
-        guard let venueId = player?.baseVenueId else {
-//            labelVenueName?.text = "Click to add a home venue"
-//            venueImageView?.isHidden = true
-//            labelVenueAddress?.isHidden = true
+    func refreshVenueOptions() {
+        if let venue = currentVenue {
+            refreshVenue(venue)
+        } else {
+            guard let venueId = player?.baseVenueId else {
+                containerVenue?.isHidden = true
+                containerAddVenue?.isHidden = false
+                return
+            }
             containerVenue?.isHidden = true
             containerAddVenue?.isHidden = false
-            return
-        }
-        containerVenue?.isHidden = true
-        containerAddVenue?.isHidden = false
-        VenueService.shared.withId(id: venueId) { [weak self] (venue) in
-            if let venue = venue as? Venue {
-                self?.labelVenueName?.text = venue.name
-                self?.labelVenueAddress?.text = venue.shortString
+            VenueService.shared.withId(id: venueId) { [weak self] (venue) in
+                if let venue = venue as? Venue {
+                    self?.currentVenue = venue
+                    self?.refreshVenue(venue)
+                }
             }
         }
     }
     
+    func refreshVenue(_ venue: Venue) {
+        labelVenueName?.text = venue.name
+        labelVenueAddress?.text = venue.shortString
+    }
+    
     @objc @IBAction func didTapVenue(_ sender: Any) {
-        print("Tapped venue")
+        performSegue(withIdentifier: "toVenues", sender: sender)
     }
     
     func close() {
@@ -340,5 +347,32 @@ extension PlayerInfoViewController: CityHelperDelegate {
     
     func didCancelSelectCity() {
         refresh()
+    }
+}
+
+// venues
+extension PlayerInfoViewController: VenuesListDelegate {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toVenues" {
+            let venuesController = segue.destination as? VenuesListViewController
+            venuesController?.delegate = self
+        }
+    }
+
+    func didCancelSelection() {
+        // no op
+    }
+
+    func didSelectVenue(_ venue: Venue) {
+        currentVenue = venue
+        player?.baseVenueId = venue.id
+        navigationController?.popToViewController(self, animated: true)
+    }
+    
+    func didCreateVenue(_ venue: Venue) {
+        currentVenue = venue
+        player?.baseVenueId = venue.id
+        refreshVenueOptions()
+        navigationController?.popToViewController(self, animated: true)
     }
 }
