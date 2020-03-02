@@ -120,12 +120,15 @@ class PlayerInfoViewController: UIViewController {
                 containerAddVenue?.isHidden = false
                 return
             }
-            containerVenue?.isHidden = false
-            containerAddVenue?.isHidden = true
             VenueService.shared.withId(id: venueId) { [weak self] (venue) in
                 if let venue = venue as? Venue {
+                    self?.containerVenue?.isHidden = false
+                    self?.containerAddVenue?.isHidden = true
                     self?.currentVenue = venue
                     self?.refreshVenue(venue)
+                } else {
+                    self?.containerVenue?.isHidden = true
+                    self?.containerAddVenue?.isHidden = false
                 }
             }
         }
