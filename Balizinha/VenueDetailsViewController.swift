@@ -17,6 +17,14 @@ class VenueDetailsViewController: UIViewController {
     @IBOutlet weak var buttonAddPhoto: UIButton?
     var existingVenue: Venue? // nil if new venue
     
+    // TODO: only name should be settable. how to prevent others from being changed?
+    var name: String?
+    var street: String?
+    var city: String?
+    var state: String?
+    var lat: Double?
+    var lon: Double?
+
     var selectedPhoto: UIImage?
 
     // camera
@@ -24,7 +32,7 @@ class VenueDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        inputName.text = existingVenue?.name
+        inputName.text = existingVenue?.name ?? name
         
         refreshPhoto()
         cameraHelper.delegate = self
@@ -47,26 +55,78 @@ class VenueDetailsViewController: UIViewController {
     }
     
     @objc func didClickSave(_ sender: Any?) {
-        if let venue = existingVenue, let photo = selectedPhoto {
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
-            })
-
-            FirebaseImageService.uploadImage(image: photo, type: .venue, uid: venue.id, progressHandler: { (percent) in
-                alert.title = "Upload progress: \(Int(percent*100))%"
-            }) { [weak self] (url) in
-                if let url = url {
+        if let venue = existingVenue {
+            venue.name = inputName?.text
+            venue.street = street
+            venue.city = city
+            venue.state = state
+            venue.lat = lat
+            venue.lon = lon
+            if let photo = selectedPhoto {
+                uploadPhoto(photo, for: venue) { url in
                     venue.photoUrl = url
-                    self?.refreshPhoto()
-                }
-                // dismiss
-                alert.dismiss(animated: true) {
-                    self?.dismiss(animated: true, completion: nil)
+                    self.refreshPhoto()
                 }
             }
         } else {
-            // TODO: save name and photo to a created venue
+            // create venue
+            // TODO: check if venue exists within some distance.
+            // TODO: if new venue, create a venue and add venueId to the event
+            guard let player = PlayerService.shared.current.value else { return }
+            if let venue = existingVenue {
+                if let photo = selectedPhoto {
+                    uploadPhoto(photo, for: venue) { url in
+                        venue.photoUrl = url
+                        self.refreshPhoto()
+                    }
+                }
+                // TODO
+//                delegate?.didSelect(venue: venue)
+            } else {
+                // TODO
+//                activityOverlay.show()
+                VenueService.shared.createVenue(userId: player.id, type:.unknown, name: name, street: street, city: city, state: state, lat: lat, lon: lon, placeId: nil) { [weak self] (venue, error) in
+                    guard let venue = venue else {
+                        self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error as? NSError)
+                        return
+                    }
+                    if let photo = self?.selectedPhoto {
+                        self?.uploadPhoto(photo, for: venue) { url in
+                            venue.photoUrl = url
+                            DispatchQueue.main.async {
+                                self?.refreshPhoto()
+                                // TODO
+//                                self?.activityOverlay.hide()
+//                                self?.delegate.didSelect(venue: venue)
+                            }
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self?.refreshPhoto()
+                            // TODO
+//                            self?.activityOverlay.hide()
+//                            self?.delegate.didSelect(venue: venue)
+                        }
+                    }
+                }
+            }
         }
+    }
+    
+    func uploadPhoto(_ photo: UIImage, for venue: Venue, completion:@escaping ((String?)->Void)) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
+        })
+
+        FirebaseImageService.uploadImage(image: photo, type: .venue, uid: venue.id, progressHandler: { (percent) in
+            alert.title = "Upload progress: \(Int(percent*100))%"
+        }) { (url) in
+            // dismiss
+            alert.dismiss(animated: true) {
+                completion(url)
+            }
+        }
+
     }
 }
 
