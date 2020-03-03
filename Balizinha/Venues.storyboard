@@ -397,6 +397,9 @@
                                 <state key="normal" title="Click to add image">
                                     <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
                                 </state>
+                                <connections>
+                                    <action selector="didClickButton:" destination="n6m-7P-mgO" eventType="touchUpInside" id="MJR-gg-hR7"/>
+                                </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5qF-Pn-IRT" customClass="RAImageView" customModule="Panna" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="62" width="414" height="692"/>
@@ -420,6 +423,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Ukp-EU-V4H"/>
                     <connections>
+                        <outlet property="buttonAddPhoto" destination="gXL-Df-hPr" id="mrQ-H4-Zwc"/>
                         <outlet property="inputName" destination="ivz-Np-yeW" id="Meo-K4-Juh"/>
                         <outlet property="photoView" destination="5qF-Pn-IRT" id="48W-h4-2Ow"/>
                     </connections>

@@ -151,6 +151,7 @@ extension PinpointViewController: MKMapViewDelegate {
     }
     
     @IBAction func didClickEdit(_ sender: Any) {
+        /*
         let alert = UIAlertController(title: "Venue Options", message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Edit name", style: .default, handler: { (action) in
             self.editName()
@@ -168,6 +169,8 @@ extension PinpointViewController: MKMapViewDelegate {
             alert.popoverPresentationController?.sourceRect = buttonEdit.frame
         }
         present(alert, animated: true, completion: nil)
+        */
+        performSegue(withIdentifier: "toEditVenue", sender: nil)
     }
     
     fileprivate func editName() {
@@ -188,5 +191,11 @@ extension PinpointViewController: MKMapViewDelegate {
             LoggingService.shared.log(event: .EditVenueName, info: ["saved": false])
         }))
         self.present(alert, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toEditVenue", let controller = segue.destination as? VenueEditViewController {
+            controller.venue = existingVenue
+        }
     }
 }
