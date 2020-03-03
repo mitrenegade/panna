@@ -113,14 +113,17 @@ class PlayerInfoViewController: UIViewController {
     
     func refreshVenueOptions() {
         if let venue = currentVenue {
+            containerVenue?.isHidden = false
+            containerAddVenue?.isHidden = true
             refreshVenue(venue)
         } else {
+            containerVenue?.isHidden = true
+            containerAddVenue?.isHidden = false
             guard let venueId = player?.baseVenueId else {
-                containerVenue?.isHidden = true
-                containerAddVenue?.isHidden = false
-                buttonAddVenue?.setTitle("Loading...", for: .normal)
+                buttonAddVenue?.setTitle("Click to select home venue", for: .normal)
                 return
             }
+            buttonAddVenue?.setTitle("Loading...", for: .normal)
             VenueService.shared.withId(id: venueId) { [weak self] (venue) in
                 if let venue = venue as? Venue {
                     self?.containerVenue?.isHidden = false

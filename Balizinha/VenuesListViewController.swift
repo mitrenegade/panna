@@ -67,6 +67,7 @@ class VenuesListViewController: SearchableListViewController {
 extension VenuesListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "VenueCell", for: indexPath) as? VenueCell else { return UITableViewCell() }
+        cell.delegate = self
         if indexPath.row < venues.count {
             let venue = venues[indexPath.row]
             cell.configure(with: venue)
@@ -80,9 +81,6 @@ extension VenuesListViewController {
         guard indexPath.row < venues.count else { return }
         let venue = venues[indexPath.row]
         
-        // TODO: if creating/editing event, set event's venue
-        // if viewing/editing venue, go to venue creation page
-        //performSegue(withIdentifier: "toLocationSearch", sender: venue)
         delegate?.didSelectVenue(venue)
     }
 }
@@ -122,6 +120,9 @@ extension VenuesListViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toLocationSearch", let controller = segue.destination as? PlaceSearchViewController {
             controller.delegate = self
+            if let venue = sender as? Venue {
+                controller.currentVenue = venue
+            }
         }
     }
 }
@@ -134,5 +135,17 @@ extension VenuesListViewController: PlaceSelectDelegate {
             self?.activityOverlay.hide()
         }
         navigationController?.popToViewController(self, animated: true)
+    }
+}
+
+extension VenuesListViewController: VenueCellDelegate {
+    func didClickMap(_ venue: Venue) {
+        MapService.goToMapLocation(venue: venue)
+    }
+    
+    func didClickEdit(_ venue: Venue) {
+        // show venue details
+        // if viewing/editing venue, go to venue creation page
+        performSegue(withIdentifier: "toLocationSearch", sender: venue)
     }
 }

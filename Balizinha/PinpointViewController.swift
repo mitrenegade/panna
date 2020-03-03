@@ -25,8 +25,6 @@ class PinpointViewController: UIViewController {
     private (set) var lon: Double?
     fileprivate var nameLocked: Bool = false
     
-    @IBOutlet weak var buttonEdit: UIButton!
-    
     fileprivate var externalSource: Bool = true
     var searchPlace: MKPlacemark? {
         didSet {
@@ -95,6 +93,8 @@ class PinpointViewController: UIViewController {
                 #endif
                 self?.currentLocation = location.coordinate
             }).disposed(by: disposeBag)
+            
+            labelPlaceName.text = "Move the map to pick your venue"
         }
     }
     
@@ -148,26 +148,6 @@ extension PinpointViewController: MKMapViewDelegate {
                 self?.refreshLabel()
             })
         }
-    }
-    
-    @IBAction func didClickEdit(_ sender: Any) {
-        let alert = UIAlertController(title: "Venue Options", message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Edit name", style: .default, handler: { (action) in
-            self.editName()
-        }))
-        let title = nameLocked ? "Unlock name" : "Lock name"
-        alert.addAction(UIAlertAction(title: title, style: .default, handler: { (action) in
-            self.nameLocked = !self.nameLocked
-            LoggingService.shared.log(event: .LockVenueName, info: ["locked": self.nameLocked])
-        }))
-        alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
-        })
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
-        {
-            alert.popoverPresentationController?.sourceView = self.view
-            alert.popoverPresentationController?.sourceRect = buttonEdit.frame
-        }
-        present(alert, animated: true, completion: nil)
     }
     
     fileprivate func editName() {
