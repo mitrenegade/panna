@@ -64,6 +64,8 @@ class PlaceSearchViewController: UIViewController {
             controller.state = pinpointController?.state
             controller.lat = pinpointController?.lat
             controller.lon = pinpointController?.lon
+            
+            controller.delegate = self
         }
     }
 }
@@ -123,5 +125,11 @@ extension PlaceSearchViewController: PlaceResultsDelegate {
             info = ["searchTerm": searchTerm]
         }
         LoggingService.shared.log(event: .SearchForVenue, info: info)
+    }
+}
+
+extension PlaceSearchViewController: VenueDetailsDelegate {
+    func didFinishUpdatingVenue(_ venue: Venue?) {
+        delegate?.didSelect(venue: venue)
     }
 }

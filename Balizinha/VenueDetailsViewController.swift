@@ -10,6 +10,10 @@ import UIKit
 import Balizinha
 import RACameraHelper
 
+protocol VenueDetailsDelegate {
+    func didFinishUpdatingVenue(_ venue: Venue?)
+}
+
 class VenueDetailsViewController: UIViewController {
 
     @IBOutlet weak var photoView: RAImageView!
@@ -29,6 +33,8 @@ class VenueDetailsViewController: UIViewController {
 
     // camera
     let cameraHelper = CameraHelper()
+    
+    var delegate: VenueDetailsDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +72,7 @@ class VenueDetailsViewController: UIViewController {
                 uploadPhoto(photo, for: venue) { url in
                     venue.photoUrl = url
                     self.refreshPhoto()
+                    self.delegate?.didFinishUpdatingVenue(venue)
                 }
             }
         } else {
@@ -77,7 +84,7 @@ class VenueDetailsViewController: UIViewController {
 //                activityOverlay.show()
             VenueService.shared.createVenue(userId: player.id, type:.unknown, name: name, street: street, city: city, state: state, lat: lat, lon: lon, placeId: nil) { [weak self] (venue, error) in
                 guard let venue = venue else {
-                    self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error as? NSError)
+                    self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error as NSError?)
                     return
                 }
                 if let photo = self?.selectedPhoto {
@@ -87,7 +94,7 @@ class VenueDetailsViewController: UIViewController {
                             self?.refreshPhoto()
                             // TODO
 //                                self?.activityOverlay.hide()
-//                                self?.delegate.didSelect(venue: venue)
+                            self?.delegate?.didFinishUpdatingVenue(venue)
                         }
                     }
                 } else {
@@ -95,7 +102,7 @@ class VenueDetailsViewController: UIViewController {
                         self?.refreshPhoto()
                         // TODO
 //                            self?.activityOverlay.hide()
-//                            self?.delegate.didSelect(venue: venue)
+                        self?.delegate?.didFinishUpdatingVenue(venue)
                     }
                 }
             }
@@ -103,12 +110,13 @@ class VenueDetailsViewController: UIViewController {
     }
     
     func uploadPhoto(_ photo: UIImage, for venue: Venue, completion:@escaping ((String?)->Void)) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Uploading photo", message: "Upload progress: 0%", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
         })
+        self.present(alert, animated: true)
 
         FirebaseImageService.uploadImage(image: photo, type: .venue, uid: venue.id, progressHandler: { (percent) in
-            alert.title = "Upload progress: \(Int(percent*100))%"
+            alert.message = "Upload progress: \(Int(percent*100))%"
         }) { (url) in
             // dismiss
             alert.dismiss(animated: true) {
