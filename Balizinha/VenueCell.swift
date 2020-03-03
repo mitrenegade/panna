@@ -27,6 +27,7 @@ class VenueCell: UITableViewCell {
         // TODO: load venue image
         if let url = venue.photoUrl {
             photoView?.imageUrl = url
+            photoView?.isHidden = false
         } else {
             photoView?.isHidden = true
         }

@@ -22,6 +22,16 @@ class PlayerInfoViewController: UIViewController {
     @IBOutlet weak var inputNotes: UITextView!
     @IBOutlet weak var photoView: RAImageView!
     @IBOutlet weak var buttonLeague: UIButton!
+    
+    // home venue
+    fileprivate var currentVenue: Venue?
+    @IBOutlet weak var containerVenue: UIView?
+    @IBOutlet weak var labelVenueName: UILabel?
+    @IBOutlet weak var labelVenueAddress: UILabel?
+    @IBOutlet weak var venueImageView: RAImageView?
+    
+    @IBOutlet weak var containerAddVenue: UIView?
+    @IBOutlet weak var buttonAddVenue: UIButton?
 
     var cityHelper: CityHelper?
     
@@ -56,13 +66,16 @@ class PlayerInfoViewController: UIViewController {
         photoView.tintColor = PannaUI.profileTint
 
         cityHelper = CityHelper(inputField: inputCity, delegate: self)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapVenue(_:)))
+        containerVenue?.addGestureRecognizer(tap)
     }
 
     func refresh() {
         guard let player = player else { return }
         
         if let name = player.name {
-            self.inputName.text = name
+            inputName.text = name
         }
         if let cityId = player.cityId {
             CityService.shared.withId(id: cityId) { [weak self] (city) in
@@ -74,9 +87,10 @@ class PlayerInfoViewController: UIViewController {
             }
         }
         if let notes = player.info {
-            self.inputNotes.text = notes
+            inputNotes.text = notes
         }
-        self.refreshPhoto()
+        refreshPhoto()
+        refreshVenueOptions()
     }
     
     func refreshPhoto() {
@@ -95,6 +109,46 @@ class PlayerInfoViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func refreshVenueOptions() {
+        if let venue = currentVenue {
+            refreshVenue(venue)
+        } else {
+            guard let venueId = player?.baseVenueId else {
+                containerVenue?.isHidden = true
+                containerAddVenue?.isHidden = false
+                buttonAddVenue?.setTitle("Loading...", for: .normal)
+                return
+            }
+            VenueService.shared.withId(id: venueId) { [weak self] (venue) in
+                if let venue = venue as? Venue {
+                    self?.containerVenue?.isHidden = false
+                    self?.containerAddVenue?.isHidden = true
+                    self?.currentVenue = venue
+                    self?.refreshVenue(venue)
+                } else {
+                    self?.containerVenue?.isHidden = true
+                    self?.containerAddVenue?.isHidden = false
+                    self?.buttonAddVenue?.setTitle("Click to select home venue", for: .normal)
+                }
+            }
+        }
+    }
+    
+    func refreshVenue(_ venue: Venue) {
+        labelVenueName?.text = venue.name
+        labelVenueAddress?.text = venue.shortString
+        if let url = venue.photoUrl {
+            venueImageView?.imageUrl = url
+            venueImageView?.isHidden = false
+        } else {
+            venueImageView?.isHidden = true
+        }
+    }
+    
+    @objc @IBAction func didTapVenue(_ sender: Any) {
+        performSegue(withIdentifier: "toVenues", sender: sender)
     }
     
     func close() {
@@ -304,5 +358,33 @@ extension PlayerInfoViewController: CityHelperDelegate {
     
     func didCancelSelectCity() {
         refresh()
+    }
+}
+
+// venues
+extension PlayerInfoViewController: VenuesListDelegate {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toVenues" {
+            let venuesController = segue.destination as? VenuesListViewController
+            venuesController?.delegate = self
+        }
+    }
+
+    func didCancelSelection() {
+        // no op
+    }
+
+    func didSelectVenue(_ venue: Venue) {
+        currentVenue = venue
+        player?.baseVenueId = venue.id
+        refreshVenueOptions()
+        navigationController?.popToViewController(self, animated: true)
+    }
+    
+    func didCreateVenue(_ venue: Venue) {
+        currentVenue = venue
+        player?.baseVenueId = venue.id
+        refreshVenueOptions()
+        navigationController?.popToViewController(self, animated: true)
     }
 }
