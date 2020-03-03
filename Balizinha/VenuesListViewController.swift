@@ -81,9 +81,6 @@ extension VenuesListViewController {
         guard indexPath.row < venues.count else { return }
         let venue = venues[indexPath.row]
         
-        // TODO: if creating/editing event, set event's venue
-        // if viewing/editing venue, go to venue creation page
-        //performSegue(withIdentifier: "toLocationSearch", sender: venue)
         delegate?.didSelectVenue(venue)
     }
 }
@@ -123,6 +120,9 @@ extension VenuesListViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toLocationSearch", let controller = segue.destination as? PlaceSearchViewController {
             controller.delegate = self
+            if let venue = sender as? Venue {
+                controller.currentVenue = venue
+            }
         }
     }
 }
@@ -145,6 +145,7 @@ extension VenuesListViewController: VenueCellDelegate {
     
     func didClickEdit(_ venue: Venue) {
         // show venue details
-        print("Edit venue")
+        // if viewing/editing venue, go to venue creation page
+        performSegue(withIdentifier: "toLocationSearch", sender: venue)
     }
 }

@@ -81,10 +81,10 @@
                                                             </constraints>
                                                         </imageView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="YQn-x0-eJ9">
-                                                            <rect key="frame" x="108" y="0.0" width="216" height="88"/>
+                                                            <rect key="frame" x="108" y="0.0" width="168" height="88"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Name)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="625-fH-mXJ">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="216" height="43.5"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="168" height="43.5"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="30" id="sHm-5x-9wt"/>
                                                                     </constraints>
@@ -93,7 +93,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K09-ZA-F5a">
-                                                                    <rect key="frame" x="0.0" y="44.5" width="216" height="43.5"/>
+                                                                    <rect key="frame" x="0.0" y="44.5" width="168" height="43.5"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="30" id="uj0-aX-QDj"/>
                                                                     </constraints>
@@ -114,7 +114,7 @@
                                                             </constraints>
                                                         </stackView>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I3L-Ca-A2d">
-                                                            <rect key="frame" x="332" y="0.0" width="40" height="88"/>
+                                                            <rect key="frame" x="284" y="0.0" width="40" height="88"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6f5-nk-oX2">
                                                                     <rect key="frame" x="0.0" y="24" width="40" height="40"/>
@@ -134,18 +134,40 @@
                                                                 <constraint firstItem="6f5-nk-oX2" firstAttribute="leading" secondItem="I3L-Ca-A2d" secondAttribute="leading" id="Z7L-e7-tMw"/>
                                                             </constraints>
                                                         </view>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TaZ-4K-1TH">
+                                                            <rect key="frame" x="332" y="0.0" width="40" height="88"/>
+                                                            <subviews>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZEK-zI-a1i">
+                                                                    <rect key="frame" x="0.0" y="24" width="40" height="40"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="40" id="RrI-XJ-Nai"/>
+                                                                        <constraint firstAttribute="height" constant="40" id="cqF-dA-Tbe"/>
+                                                                    </constraints>
+                                                                    <state key="normal" image="edit"/>
+                                                                    <connections>
+                                                                        <action selector="didClickEdit:" destination="ucR-Zi-uCa" eventType="touchUpInside" id="aiL-QW-ahb"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="40" id="IhW-gm-M84"/>
+                                                                <constraint firstItem="ZEK-zI-a1i" firstAttribute="centerY" secondItem="TaZ-4K-1TH" secondAttribute="centerY" id="LN7-ib-efo"/>
+                                                                <constraint firstItem="ZEK-zI-a1i" firstAttribute="leading" secondItem="TaZ-4K-1TH" secondAttribute="leading" id="dQh-Et-PDl"/>
+                                                            </constraints>
+                                                        </view>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstItem="YQn-x0-eJ9" firstAttribute="top" secondItem="7Kd-fz-YY9" secondAttribute="top" id="GJl-Z1-tO7"/>
                                                         <constraint firstAttribute="bottom" secondItem="RT1-YV-0yG" secondAttribute="bottom" id="dHE-Iy-WXH"/>
                                                         <constraint firstItem="RT1-YV-0yG" firstAttribute="top" secondItem="7Kd-fz-YY9" secondAttribute="top" id="iOC-dz-Z8S"/>
-                                                        <constraint firstAttribute="trailing" secondItem="I3L-Ca-A2d" secondAttribute="trailing" id="jIa-fV-m0C"/>
                                                         <constraint firstAttribute="bottom" secondItem="YQn-x0-eJ9" secondAttribute="bottom" id="l8M-XU-VfX"/>
                                                         <constraint firstAttribute="bottom" secondItem="I3L-Ca-A2d" secondAttribute="bottom" id="ms3-rk-CxR"/>
                                                         <constraint firstItem="I3L-Ca-A2d" firstAttribute="leading" secondItem="YQn-x0-eJ9" secondAttribute="trailing" constant="8" id="qFh-rj-weq"/>
                                                         <constraint firstItem="YQn-x0-eJ9" firstAttribute="leading" secondItem="RT1-YV-0yG" secondAttribute="trailing" constant="8" id="rjt-Gf-Tyv"/>
+                                                        <constraint firstItem="TaZ-4K-1TH" firstAttribute="top" secondItem="7Kd-fz-YY9" secondAttribute="top" id="sBD-VZ-pgH"/>
                                                         <constraint firstItem="RT1-YV-0yG" firstAttribute="leading" secondItem="7Kd-fz-YY9" secondAttribute="leading" id="tNA-WA-uCA"/>
+                                                        <constraint firstAttribute="bottom" secondItem="TaZ-4K-1TH" secondAttribute="bottom" id="uy7-ol-UKF"/>
                                                         <constraint firstItem="I3L-Ca-A2d" firstAttribute="top" secondItem="7Kd-fz-YY9" secondAttribute="top" id="xmT-cc-gyv"/>
                                                     </constraints>
                                                 </stackView>
@@ -161,6 +183,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="addressLabel" destination="K09-ZA-F5a" id="VTu-Ej-CHX"/>
+                                            <outlet property="buttonEdit" destination="ZEK-zI-a1i" id="3d7-h0-Zsx"/>
                                             <outlet property="buttonMap" destination="6f5-nk-oX2" id="QNX-OL-bPx"/>
                                             <outlet property="nameLabel" destination="625-fH-mXJ" id="z6V-bZ-DcC"/>
                                             <outlet property="photoView" destination="RT1-YV-0yG" id="9Bp-DE-dxk"/>
@@ -368,7 +391,7 @@
                         <outlet property="labelPlaceName" destination="mKY-qS-5zt" id="Jsd-LE-E53"/>
                         <outlet property="mapView" destination="cLn-sW-Z2n" id="m4c-TX-gsA"/>
                         <outlet property="pinView" destination="Cys-zB-3P7" id="aId-97-uwN"/>
-                        <segue destination="n6m-7P-mgO" kind="show" id="lFs-ob-lbR"/>
+                        <segue destination="n6m-7P-mgO" kind="show" identifier="toEditVenue" id="lFs-ob-lbR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dd8-Bc-C8k" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -434,7 +457,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="edit" width="170.66667175292969" height="170.66667175292969"/>
+        <image name="edit" width="30" height="30"/>
         <image name="location40" width="40" height="40"/>
         <image name="map" width="21.333333969116211" height="21.333333969116211"/>
     </resources>

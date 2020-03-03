@@ -15,7 +15,7 @@ class VenueEditViewController: UIViewController {
     @IBOutlet weak var photoView: RAImageView!
     @IBOutlet weak var inputName: UITextField!
     @IBOutlet weak var buttonAddPhoto: UIButton?
-    var venue: Venue?
+    var venue: Venue? // nil if new venue
     
     var selectedPhoto: UIImage?
 
@@ -24,21 +24,47 @@ class VenueEditViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let venue = venue else { return }
-        inputName.text = venue.name
+        inputName.text = venue?.name
         
-        if let url = venue.photoUrl {
-            photoView?.imageUrl = url
-            buttonAddPhoto?.isHidden = true
-        } else {
-            photoView?.imageUrl = nil
-            buttonAddPhoto?.isHidden = false
-        }
+        refreshPhoto()
         cameraHelper.delegate = self
     }
     
     @IBAction func didClickButton(_ sender: Any) {
         cameraHelper.takeOrSelectPhoto(from: self, fromView: buttonAddPhoto)
+    }
+    
+    func refreshPhoto() {
+        if let url = venue?.photoUrl {
+            photoView?.imageUrl = url
+        } else if let photo = selectedPhoto {
+            photoView?.image = photo
+        } else {
+            photoView?.imageUrl = nil
+        }
+    }
+    
+    func save() {
+        if let venue = venue, let photo = selectedPhoto {
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
+            })
+
+            FirebaseImageService.uploadImage(image: photo, type: .venue, uid: venue.id, progressHandler: { (percent) in
+                alert.title = "Upload progress: \(Int(percent*100))%"
+            }) { [weak self] (url) in
+                if let url = url {
+                    venue.photoUrl = url
+                    self?.refreshPhoto()
+                }
+                // dismiss
+                alert.dismiss(animated: true) {
+                    self?.dismiss(animated: true, completion: nil)
+                }
+            }
+        } else {
+            // TODO: save name and photo to a created venue
+        }
     }
 }
 
@@ -60,8 +86,8 @@ extension VenueEditViewController: CameraHelperDelegate {
         let height = width / image.size.width * image.size.height
         let size = CGSize(width: width, height: height)
         let resized = FirebaseImageService.resizeImage(image: image, newSize: size)
-        buttonAddPhoto?.setImage(resized, for: .normal)
-        selectedPhoto = selected
+        selectedPhoto = resized
+        refreshPhoto()
         dismiss(animated: true, completion: nil)
     }
 }
