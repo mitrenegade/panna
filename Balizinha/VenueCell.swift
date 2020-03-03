@@ -31,7 +31,6 @@ class VenueCell: UITableViewCell {
         nameLabel.text = venue.name
         addressLabel.text = venue.shortString ?? nil
         
-        // TODO: load venue image
         if let url = venue.photoUrl {
             photoView?.imageUrl = url
             photoView?.isHidden = false
