@@ -9,14 +9,21 @@
 import UIKit
 import Balizinha
 
+protocol VenueCellDelegate {
+    func didClickMap(_ venue: Venue)
+    func didClickEdit(_ venue: Venue)
+}
+
 class VenueCell: UITableViewCell {
     @IBOutlet weak var photoView: RAImageView?
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var buttonMap: UIButton?
-    
+    @IBOutlet weak var buttonEdit: UIButton?
+
     var venue: Venue?
     weak var presenter: UIViewController?
+    var delegate: VenueCellDelegate?
 
     func configure(with venue: Venue?) {
         guard let venue = venue else { return }
@@ -37,7 +44,13 @@ class VenueCell: UITableViewCell {
     }
     
     @IBAction func didClickMap(_ sender: UIButton?) {
-        MapService.goToMapLocation(venue: venue)
+        guard let venue = venue else { return }
+        delegate?.didClickMap(venue)
+    }
+    
+    @IBAction func didClickEdit(_ sender: UIButton?) {
+        guard let venue = venue else { return }
+        delegate?.didClickEdit(venue)
     }
 }
 

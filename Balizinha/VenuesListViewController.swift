@@ -67,6 +67,7 @@ class VenuesListViewController: SearchableListViewController {
 extension VenuesListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "VenueCell", for: indexPath) as? VenueCell else { return UITableViewCell() }
+        cell.delegate = self
         if indexPath.row < venues.count {
             let venue = venues[indexPath.row]
             cell.configure(with: venue)
@@ -134,5 +135,16 @@ extension VenuesListViewController: PlaceSelectDelegate {
             self?.activityOverlay.hide()
         }
         navigationController?.popToViewController(self, animated: true)
+    }
+}
+
+extension VenuesListViewController: VenueCellDelegate {
+    func didClickMap(_ venue: Venue) {
+        MapService.goToMapLocation(venue: venue)
+    }
+    
+    func didClickEdit(_ venue: Venue) {
+        // show venue details
+        print("Edit venue")
     }
 }
