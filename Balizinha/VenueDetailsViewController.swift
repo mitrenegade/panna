@@ -73,40 +73,29 @@ class VenueDetailsViewController: UIViewController {
             // TODO: check if venue exists within some distance.
             // TODO: if new venue, create a venue and add venueId to the event
             guard let player = PlayerService.shared.current.value else { return }
-            if let venue = existingVenue {
-                if let photo = selectedPhoto {
-                    uploadPhoto(photo, for: venue) { url in
-                        venue.photoUrl = url
-                        self.refreshPhoto()
-                    }
-                }
-                // TODO
-//                delegate?.didSelect(venue: venue)
-            } else {
-                // TODO
+            // TODO
 //                activityOverlay.show()
-                VenueService.shared.createVenue(userId: player.id, type:.unknown, name: name, street: street, city: city, state: state, lat: lat, lon: lon, placeId: nil) { [weak self] (venue, error) in
-                    guard let venue = venue else {
-                        self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error as? NSError)
-                        return
-                    }
-                    if let photo = self?.selectedPhoto {
-                        self?.uploadPhoto(photo, for: venue) { url in
-                            venue.photoUrl = url
-                            DispatchQueue.main.async {
-                                self?.refreshPhoto()
-                                // TODO
-//                                self?.activityOverlay.hide()
-//                                self?.delegate.didSelect(venue: venue)
-                            }
-                        }
-                    } else {
+            VenueService.shared.createVenue(userId: player.id, type:.unknown, name: name, street: street, city: city, state: state, lat: lat, lon: lon, placeId: nil) { [weak self] (venue, error) in
+                guard let venue = venue else {
+                    self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error as? NSError)
+                    return
+                }
+                if let photo = self?.selectedPhoto {
+                    self?.uploadPhoto(photo, for: venue) { url in
+                        venue.photoUrl = url
                         DispatchQueue.main.async {
                             self?.refreshPhoto()
                             // TODO
+//                                self?.activityOverlay.hide()
+//                                self?.delegate.didSelect(venue: venue)
+                        }
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self?.refreshPhoto()
+                        // TODO
 //                            self?.activityOverlay.hide()
 //                            self?.delegate.didSelect(venue: venue)
-                        }
                     }
                 }
             }
