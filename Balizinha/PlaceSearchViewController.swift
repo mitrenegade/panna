@@ -37,8 +37,8 @@ class PlaceSearchViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = cancelButton
         
         let button2 = UIButton(type: .custom)
-        button2.setTitle("Save", for: .normal)
-        button2.addTarget(self, action: #selector(selectLocation), for: .touchUpInside)
+        button2.setTitle("Next", for: .normal)
+        button2.addTarget(self, action: #selector(editNameAndPhoto), for: .touchUpInside)
         let saveButton = UIBarButtonItem(customView: button2)
         self.navigationItem.rightBarButtonItem = saveButton
     }
@@ -56,6 +56,8 @@ class PlaceSearchViewController: UIViewController {
         if segue.identifier == "embedMap", let controller = segue.destination as? PinpointViewController {
             controller.existingVenue = currentVenue
             pinpointController = controller
+        } else if segue.identifier == "toVenueDetails", let controller = segue.destination as? VenueDetailsViewController {
+            controller.existingVenue = currentVenue
         }
     }
 }
@@ -90,6 +92,10 @@ extension PlaceSearchViewController {
         definesPresentationContext = true
     }
     
+    @objc func editNameAndPhoto() {
+        performSegue(withIdentifier: "toEditVenue", sender: nil)
+
+    }
     @objc func selectLocation() {
         // user saved the location poinpointed on map
         // TODO: check if venue exists within some distance.

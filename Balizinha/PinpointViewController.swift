@@ -25,8 +25,6 @@ class PinpointViewController: UIViewController {
     private (set) var lon: Double?
     fileprivate var nameLocked: Bool = false
     
-    @IBOutlet weak var buttonEdit: UIButton!
-    
     fileprivate var externalSource: Bool = true
     var searchPlace: MKPlacemark? {
         didSet {
@@ -95,6 +93,8 @@ class PinpointViewController: UIViewController {
                 #endif
                 self?.currentLocation = location.coordinate
             }).disposed(by: disposeBag)
+            
+            labelPlaceName.text = "Move the map to pick your venue"
         }
     }
     
@@ -150,29 +150,6 @@ extension PinpointViewController: MKMapViewDelegate {
         }
     }
     
-    @IBAction func didClickEdit(_ sender: Any) {
-        /*
-        let alert = UIAlertController(title: "Venue Options", message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Edit name", style: .default, handler: { (action) in
-            self.editName()
-        }))
-        let title = nameLocked ? "Unlock name" : "Lock name"
-        alert.addAction(UIAlertAction(title: title, style: .default, handler: { (action) in
-            self.nameLocked = !self.nameLocked
-            LoggingService.shared.log(event: .LockVenueName, info: ["locked": self.nameLocked])
-        }))
-        alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
-        })
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
-        {
-            alert.popoverPresentationController?.sourceView = self.view
-            alert.popoverPresentationController?.sourceRect = buttonEdit.frame
-        }
-        present(alert, animated: true, completion: nil)
-        */
-        performSegue(withIdentifier: "toEditVenue", sender: nil)
-    }
-    
     fileprivate func editName() {
         let alert = UIAlertController(title: "What should this venue be called?", message: nil, preferredStyle: .alert)
         alert.addTextField { (textField : UITextField!) -> Void in
@@ -191,11 +168,5 @@ extension PinpointViewController: MKMapViewDelegate {
             LoggingService.shared.log(event: .EditVenueName, info: ["saved": false])
         }))
         self.present(alert, animated: true)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toEditVenue", let controller = segue.destination as? VenueEditViewController {
-            controller.venue = existingVenue
-        }
     }
 }

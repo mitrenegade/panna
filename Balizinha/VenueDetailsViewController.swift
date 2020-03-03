@@ -1,5 +1,5 @@
 //
-//  VenueEditViewController.swift
+//  VenueDetailsViewController.swift
 //  Panna
 //
 //  Created by Bobby Ren on 3/2/20.
@@ -10,12 +10,12 @@ import UIKit
 import Balizinha
 import RACameraHelper
 
-class VenueEditViewController: UIViewController {
+class VenueDetailsViewController: UIViewController {
 
     @IBOutlet weak var photoView: RAImageView!
     @IBOutlet weak var inputName: UITextField!
     @IBOutlet weak var buttonAddPhoto: UIButton?
-    var venue: Venue? // nil if new venue
+    var existingVenue: Venue? // nil if new venue
     
     var selectedPhoto: UIImage?
 
@@ -24,10 +24,12 @@ class VenueEditViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        inputName.text = venue?.name
+        inputName.text = existingVenue?.name
         
         refreshPhoto()
         cameraHelper.delegate = self
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(didClickSave(_:)))
     }
     
     @IBAction func didClickButton(_ sender: Any) {
@@ -35,7 +37,7 @@ class VenueEditViewController: UIViewController {
     }
     
     func refreshPhoto() {
-        if let url = venue?.photoUrl {
+        if let url = existingVenue?.photoUrl {
             photoView?.imageUrl = url
         } else if let photo = selectedPhoto {
             photoView?.image = photo
@@ -44,8 +46,8 @@ class VenueEditViewController: UIViewController {
         }
     }
     
-    func save() {
-        if let venue = venue, let photo = selectedPhoto {
+    @objc func didClickSave(_ sender: Any?) {
+        if let venue = existingVenue, let photo = selectedPhoto {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
             })
@@ -69,7 +71,7 @@ class VenueEditViewController: UIViewController {
 }
 
 // MARK: Camera
-extension VenueEditViewController: CameraHelperDelegate {
+extension VenueDetailsViewController: CameraHelperDelegate {
     func didCancelSelection() {
         print("Did not edit image")
         dismiss(animated: true, completion: nil)
