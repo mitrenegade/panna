@@ -118,6 +118,7 @@ class PlayerInfoViewController: UIViewController {
             guard let venueId = player?.baseVenueId else {
                 containerVenue?.isHidden = true
                 containerAddVenue?.isHidden = false
+                buttonAddVenue?.setTitle("Loading...", for: .normal)
                 return
             }
             VenueService.shared.withId(id: venueId) { [weak self] (venue) in
@@ -129,6 +130,7 @@ class PlayerInfoViewController: UIViewController {
                 } else {
                     self?.containerVenue?.isHidden = true
                     self?.containerAddVenue?.isHidden = false
+                    self?.buttonAddVenue?.setTitle("Click to select home venue", for: .normal)
                 }
             }
         }
@@ -137,6 +139,12 @@ class PlayerInfoViewController: UIViewController {
     func refreshVenue(_ venue: Venue) {
         labelVenueName?.text = venue.name
         labelVenueAddress?.text = venue.shortString
+        if let url = venue.photoUrl {
+            venueImageView?.imageUrl = url
+            venueImageView?.isHidden = false
+        } else {
+            venueImageView?.isHidden = true
+        }
     }
     
     @objc @IBAction func didTapVenue(_ sender: Any) {
