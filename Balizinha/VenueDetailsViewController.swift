@@ -47,14 +47,14 @@ class VenueDetailsViewController: UIViewController {
     }
     
     @IBAction func didClickButton(_ sender: Any) {
-        cameraHelper.takeOrSelectPhoto(from: self, fromView: buttonAddPhoto)
+        cameraHelper.takeOrSelectPhoto(from: self, fromView: buttonAddPhoto, frontFacing: false)
     }
     
     func refreshPhoto() {
-        if let url = existingVenue?.photoUrl {
-            photoView?.imageUrl = url
-        } else if let photo = selectedPhoto {
+        if let photo = selectedPhoto {
             photoView?.image = photo
+        } else if let url = existingVenue?.photoUrl {
+            photoView?.imageUrl = url
         } else {
             photoView?.imageUrl = nil
         }
@@ -130,12 +130,11 @@ class VenueDetailsViewController: UIViewController {
 // MARK: Camera
 extension VenueDetailsViewController: CameraHelperDelegate {
     func didCancelSelection() {
-        print("Did not edit image")
-        dismiss(animated: true, completion: nil)
+        // did not make a choice on the alert. does not need any action
     }
     
     func didCancelPicker() {
-        print("Did not select image")
+        // did not pick a photo from the presented picker, which needs to be dismissed
         dismiss(animated: true, completion: nil)
     }
     

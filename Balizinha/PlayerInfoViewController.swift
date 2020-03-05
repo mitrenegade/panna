@@ -8,6 +8,7 @@
 
 import UIKit
 import Balizinha
+import RACameraHelper
 
 protocol PlayerDelegate: class {
     func didUpdatePlayer(player: Player)
@@ -40,8 +41,10 @@ class PlayerInfoViewController: UIViewController {
     weak var delegate: PlayerDelegate?
     var isCreatingPlayer = false
     
+    // camera
+    let cameraHelper = CameraHelper()
     fileprivate var askedForPhoto = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -58,7 +61,8 @@ class PlayerInfoViewController: UIViewController {
         }
         
         refresh()
-        
+        cameraHelper.delegate = self
+
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barTintColor = PannaUI.navBarTint
         
@@ -179,24 +183,7 @@ class PlayerInfoViewController: UIViewController {
     }
 
     @IBAction func didClickAddPhoto(_ sender: AnyObject?) {
-        self.view.endEditing(true)
-        let alert = UIAlertController(title: "Select image", message: nil, preferredStyle: .actionSheet)
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action) in
-                self.selectPhoto(camera: true)
-            }))
-        }
-        alert.addAction(UIAlertAction(title: "Photo album", style: .default, handler: { (action) in
-            self.selectPhoto(camera: false)
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) in
-        })
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
-        {
-            alert.popoverPresentationController?.sourceView = self.view
-            alert.popoverPresentationController?.sourceRect = buttonPhoto.frame
-        }
-        self.present(alert, animated: true, completion: nil)
+        cameraHelper.takeOrSelectPhoto(from: self, fromView: photoView, frontFacing: true)
     }
 
     @IBAction func didClickSave(_ sender: AnyObject?) {
@@ -262,47 +249,31 @@ extension PlayerInfoViewController: UITextFieldDelegate {
 
 // MARK: Camera
 // photo
-extension PlayerInfoViewController {
+extension PlayerInfoViewController: CameraHelperDelegate {
     override var prefersStatusBarHidden: Bool {
         return false
     }                   
-    func selectPhoto(camera: Bool) {
-        self.view.endEditing(true)
-        
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        picker.allowsEditing = true
 
-        picker.view.backgroundColor = .blue
-
-        if camera, UIImagePickerController.isSourceTypeAvailable(.camera) {
-            picker.sourceType = .camera
-            picker.cameraCaptureMode = .photo
-            picker.showsCameraControls = true
-        } else {
-            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-                picker.sourceType = .photoLibrary
-            }
-            else {
-                picker.sourceType = .savedPhotosAlbum
-            }
-            picker.navigationBar.isTranslucent = false
-            picker.navigationBar.barTintColor = PannaUI.navBarTint
-        }
-
-        self.present(picker, animated: true)
+    func didCancelSelection() {
+        // did not make a choice on the alert. does not need any action
+        // FIXME: this is the same delegate call as VenuesListDelegate
     }
     
-    func didTakePhoto(image: UIImage) {
+    func didCancelPicker() {
+        // did not pick a photo from the presented picker, which needs to be dismissed
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func didSelectPhoto(selected: UIImage?) {
         guard let id = self.player?.id else {
             self.simpleAlert("Invalid info", message: "We could not save your photo because your user is invalid. Please log out and log back in.")
             return
         }
+        guard let image = selected, let smallerImage = FirebaseImageService.resizeImageForProfile(image: image) else { return }
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .cancel) { (action) in
         })
-        let smallerImage = FirebaseImageService.resizeImageForProfile(image: image)
-        FirebaseImageService.uploadImage(image: smallerImage ?? image, type: .player, uid: id, progressHandler: { (percent) in
+        FirebaseImageService.uploadImage(image: smallerImage, type: .player, uid: id, progressHandler: { (percent) in
             alert.title = "Upload progress: \(Int(percent*100))%"
         }) { (url) in
             if let url = url {
@@ -317,27 +288,10 @@ extension PlayerInfoViewController {
         self.photoView.image = image
         self.photoView.layer.cornerRadius = self.photoView.frame.size.width / 2
         
-        self.dismissCamera {
+        self.dismiss(animated: true) {
             self.present(alert, animated: true, completion: nil)
         }
     }
-    
-    func dismissCamera(completion: (()->Void)? = nil) {
-        self.dismiss(animated: true, completion: completion)
-    }
-}
-
-extension PlayerInfoViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let img = info[UIImagePickerController.InfoKey.editedImage] ?? info[UIImagePickerController.InfoKey.originalImage]
-        guard let photo = img as? UIImage else { return }
-        self.didTakePhoto(image: photo)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.dismissCamera()
-    }
-    
 }
 
 extension PlayerInfoViewController: CityHelperDelegate {
@@ -371,10 +325,6 @@ extension PlayerInfoViewController: VenuesListDelegate {
             let venuesController = segue.destination as? VenuesListViewController
             venuesController?.delegate = self
         }
-    }
-
-    func didCancelSelection() {
-        // no op
     }
 
     func didSelectVenue(_ venue: Venue) {
