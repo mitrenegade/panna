@@ -227,15 +227,15 @@
             </objects>
             <point key="canvasLocation" x="904.79999999999995" y="160.56971514242881"/>
         </scene>
-        <!--TutorialPage1-->
+        <!--TutorialPage2-->
         <scene sceneID="q2y-Q9-mu1">
             <objects>
-                <viewController storyboardIdentifier="TutorialPage1" title="TutorialPage1" id="l5o-8e-LdC" customClass="TutoriaPageViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TutorialPage2" title="TutorialPage2" id="l5o-8e-LdC" customClass="TutoriaPageViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="y8a-K2-T7u">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign up to join games" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="4Nj-DS-hDv">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RSVP for games" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="4Nj-DS-hDv">
                                 <rect key="frame" x="16" y="0.0" width="343" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="OcW-WF-d08"/>
@@ -298,17 +298,17 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Utv-EN-4GW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1551" y="161"/>
+            <point key="canvasLocation" x="2242" y="188"/>
         </scene>
-        <!--TutorialPage2-->
+        <!--TutorialPage1-->
         <scene sceneID="LcX-NC-MzV">
             <objects>
-                <viewController storyboardIdentifier="TutorialPage2" title="TutorialPage2" id="RCi-LT-T8o" customClass="TutoriaPageViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TutorialPage1" title="TutorialPage1" id="RCi-LT-T8o" userLabel="TutorialPage1" customClass="TutoriaPageViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yvn-0f-5JD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a home venue" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zIa-46-Jap">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create your profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zIa-46-Jap">
                                 <rect key="frame" x="16" y="0.0" width="343" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="l2k-VU-5P9"/>
@@ -317,7 +317,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can select a home venue and opt in to event notifications there" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="rsc-6m-r0c">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set up a player profile, including a home venue for your events." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="rsc-6m-r0c">
                                 <rect key="frame" x="16" y="58" width="343" height="114"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="114" id="TBS-RM-bfz"/>
@@ -334,7 +334,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="mAe-BU-e2T" secondAttribute="height" multiplier="1:1" id="Xm9-GK-UWs"/>
-                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="vm7-Rg-bGl"/>
+                                            <constraint firstAttribute="width" constant="250" id="vm7-Rg-bGl"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
@@ -371,12 +371,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="56y-ii-XiA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2185" y="200"/>
+            <point key="canvasLocation" x="1601" y="189"/>
         </scene>
         <!--TutorialPage3-->
         <scene sceneID="yQ7-SP-1J3">
             <objects>
-                <viewController storyboardIdentifier="TutorialPage3" title="TutorialPage2" id="Vex-CW-FEx" userLabel="TutorialPage3" customClass="TutoriaPageViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TutorialPage3" title="TutorialPage3" id="Vex-CW-FEx" userLabel="TutorialPage3" customClass="TutoriaPageViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tFR-Zh-DKi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -390,7 +390,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please give Balizinha access to your GPS in order to find games near you!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ooh-d9-ZfB">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please give Panna access to your GPS in order to find games near you!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ooh-d9-ZfB">
                                 <rect key="frame" x="16" y="58" width="343" height="114"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="114" id="VlN-rt-OMS"/>
@@ -407,7 +407,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="FX7-6i-Rfv" secondAttribute="height" multiplier="1:1" id="R6b-RM-D4j"/>
-                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="nVS-u2-dHo"/>
+                                            <constraint firstAttribute="width" constant="250" id="nVS-u2-dHo"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
@@ -450,7 +450,7 @@
     <resources>
         <image name="tutorialDetails" width="739" height="493"/>
         <image name="tutorialMap" width="259.5" height="260.5"/>
-        <image name="tutorialPermission" width="300" height="300"/>
-        <image name="tutorialVenue" width="350.66665649414062" height="345.33334350585938"/>
+        <image name="tutorialPermission" width="178.66667175292969" height="146.66667175292969"/>
+        <image name="tutorialVenue" width="218" height="210.66667175292969"/>
     </resources>
 </document>
