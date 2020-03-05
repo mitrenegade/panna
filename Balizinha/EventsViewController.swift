@@ -19,7 +19,7 @@ class EventsViewController: UIViewController {
     var service = EventService.shared
     var joinHelper = JoinEventHelper()
     var sortedEvents: [Balizinha.Event.EventType: [Balizinha.Event]] = [:]
-    let eventOrder: [Balizinha.Event.EventType] = [.event3v3, .event5v5, .event7v7, .event11v11, .group, .social, .other]
+    let eventOrder: [Balizinha.Event.EventType] = [.event3v3, .event4v4, .event5v5, .event6v6, .event7v7, .event11v11, .group, .social, .other]
     private var _allEvents: [Balizinha.Event] = []
     
     // getter to keep event read synchronous
@@ -141,7 +141,7 @@ class EventsViewController: UIViewController {
         filteredEvents = doFilter(filteredEvents)
         
         // 3: Organize events by type
-        sortedEvents = [.event3v3: [], .event5v5: [], .event7v7: [], .event11v11: [], .group: [], .social: [], .other: []]
+        sortedEvents = [.event3v3: [], .event4v4: [], .event5v5: [], .event6v6: [], .event7v7: [], .event11v11: [], .group: [], .social: [], .other: []]
         
         for event in filteredEvents {
             if eventOrder.contains(event.type) {
