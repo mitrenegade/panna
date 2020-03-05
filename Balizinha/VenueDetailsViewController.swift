@@ -130,13 +130,12 @@ class VenueDetailsViewController: UIViewController {
 // MARK: Camera
 extension VenueDetailsViewController: CameraHelperDelegate {
     func didCancelSelection() {
-        print("Did not edit image")
-        navigationController?.popToViewController(self, animated: true)
+        // did not make a choice on the alert. does not need any action
     }
     
     func didCancelPicker() {
-        print("Did not select image")
-        navigationController?.popToViewController(self, animated: true)
+        // did not pick a photo from the presented picker, which needs to be dismissed
+        dismiss(animated: true, completion: nil)
     }
     
     func didSelectPhoto(selected: UIImage?) {
