@@ -23,6 +23,8 @@ class MapViewController: EventsViewController {
     var tutorialController: TutorialViewController?
     var tutorialView: UIView?
     
+    let defaults: DefaultsProvider = DefaultsManager.shared
+
     // MARK: filtered events
     var filteredEventIds: [String] = []
     var filteredEvents: [Balizinha.Event] {
