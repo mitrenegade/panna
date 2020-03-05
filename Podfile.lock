@@ -217,7 +217,7 @@ DEPENDENCIES:
   - FBSDKMessengerShareKit
   - Firebase/Core
   - Firebase/DynamicLinks
-  - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.5`)
+  - RACameraHelper (from `../RACameraHelper`)
   - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`, tag `1.2.0`)"
   - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`, tag `0.2.1`)"
   - RxCocoa
@@ -272,8 +272,7 @@ EXTERNAL SOURCES:
     :git: https://bitbucket.org/renderapps/balizinha-pod
     :tag: 1.1.0
   RACameraHelper:
-    :git: https://github.com/bobbyren/RACameraHelper
-    :tag: 0.1.5
+    :path: "../RACameraHelper"
   RenderCloud:
     :git: "git@bitbucket.org:renderapps/RenderCloud.git"
     :tag: 1.2.0
@@ -285,9 +284,6 @@ CHECKOUT OPTIONS:
   Balizinha:
     :git: https://bitbucket.org/renderapps/balizinha-pod
     :tag: 1.1.0
-  RACameraHelper:
-    :git: https://github.com/bobbyren/RACameraHelper
-    :tag: 0.1.5
   RenderCloud:
     :git: "git@bitbucket.org:renderapps/RenderCloud.git"
     :tag: 1.2.0
@@ -340,6 +336,6 @@ SPEC CHECKSUMS:
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
 
-PODFILE CHECKSUM: 15cb5ff2828884f035f3e71eed3f5a1fabeb7954
+PODFILE CHECKSUM: 76c7cf363aecf8c7ee312f66cf78febf320a1d76
 
 COCOAPODS: 1.8.4
