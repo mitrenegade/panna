@@ -9,7 +9,7 @@ target 'Panna' do
     pod 'RenderCloud', :git => 'git@bitbucket.org:renderapps/RenderCloud.git', :tag=>'1.2.0'
 
     pod 'RACameraHelper', :git => 'https://github.com/bobbyren/RACameraHelper', :tag => '0.1.6'
-    pod 'RACameraHelper', :path => '../RACameraHelper'
+#    pod 'RACameraHelper', :path => '../RACameraHelper'
 
     pod 'Crashlytics', '~> 3.10.7'
     pod 'Fabric', '~>1.7.11'
