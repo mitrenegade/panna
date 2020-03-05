@@ -184,17 +184,16 @@
                                 <rect key="frame" x="0.0" y="180" width="375" height="487"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tutorialMap" translatesAutoresizingMaskIntoConstraints="NO" id="mVV-OA-jKU">
-                                        <rect key="frame" x="62.5" y="118.5" width="250" height="250"/>
+                                        <rect key="frame" x="19" y="75" width="337.5" height="337.5"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="mVV-OA-jKU" secondAttribute="height" multiplier="1:1" id="FSz-FJ-3UT"/>
-                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="wgV-FS-Fhz"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="mVV-OA-jKU" firstAttribute="width" secondItem="EFg-Gh-PGP" secondAttribute="width" multiplier="0.666667" id="3rF-Ea-gQb"/>
+                                    <constraint firstItem="mVV-OA-jKU" firstAttribute="width" secondItem="EFg-Gh-PGP" secondAttribute="width" multiplier="0.9" id="3rF-Ea-gQb"/>
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="mVV-OA-jKU" secondAttribute="bottom" id="IN6-sl-4YI"/>
                                     <constraint firstItem="mVV-OA-jKU" firstAttribute="centerY" secondItem="EFg-Gh-PGP" secondAttribute="centerY" id="Ro0-ie-vRY"/>
                                     <constraint firstItem="mVV-OA-jKU" firstAttribute="top" relation="greaterThanOrEqual" secondItem="EFg-Gh-PGP" secondAttribute="top" id="f4p-uc-QCN"/>
@@ -258,10 +257,9 @@
                                 <rect key="frame" x="0.0" y="180" width="375" height="487"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tutorialDetails" translatesAutoresizingMaskIntoConstraints="NO" id="eEd-P9-7wO">
-                                        <rect key="frame" x="62.5" y="118.5" width="250" height="250"/>
+                                        <rect key="frame" x="19" y="75" width="337.5" height="337.5"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="GDy-2H-R6j"/>
                                             <constraint firstAttribute="width" secondItem="eEd-P9-7wO" secondAttribute="height" multiplier="1:1" id="oFc-Mv-AKn"/>
                                         </constraints>
                                     </imageView>
@@ -271,7 +269,7 @@
                                     <constraint firstItem="eEd-P9-7wO" firstAttribute="centerY" secondItem="AH9-AM-lXh" secondAttribute="centerY" id="9M1-tB-xkQ"/>
                                     <constraint firstItem="eEd-P9-7wO" firstAttribute="top" relation="greaterThanOrEqual" secondItem="AH9-AM-lXh" secondAttribute="top" id="RlR-fm-iaM"/>
                                     <constraint firstItem="eEd-P9-7wO" firstAttribute="centerX" secondItem="AH9-AM-lXh" secondAttribute="centerX" id="eKH-eh-Qmf"/>
-                                    <constraint firstItem="eEd-P9-7wO" firstAttribute="width" secondItem="AH9-AM-lXh" secondAttribute="width" multiplier="0.666667" id="eNO-Ig-ZcO"/>
+                                    <constraint firstItem="eEd-P9-7wO" firstAttribute="width" secondItem="AH9-AM-lXh" secondAttribute="width" multiplier="0.9" id="eNO-Ig-ZcO"/>
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="eEd-P9-7wO" secondAttribute="bottom" id="jGe-4d-RJV"/>
                                 </constraints>
                             </view>
@@ -332,11 +330,10 @@
                                 <rect key="frame" x="0.0" y="180" width="375" height="487"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tutorialVenue" translatesAutoresizingMaskIntoConstraints="NO" id="mAe-BU-e2T">
-                                        <rect key="frame" x="62.5" y="118.5" width="250" height="250"/>
+                                        <rect key="frame" x="19" y="75" width="337.5" height="337.5"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="mAe-BU-e2T" secondAttribute="height" multiplier="1:1" id="Xm9-GK-UWs"/>
-                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="vm7-Rg-bGl"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
@@ -345,7 +342,7 @@
                                     <constraint firstItem="mAe-BU-e2T" firstAttribute="centerX" secondItem="IEj-l7-ceY" secondAttribute="centerX" id="0HT-aP-Gz8"/>
                                     <constraint firstItem="mAe-BU-e2T" firstAttribute="centerY" secondItem="IEj-l7-ceY" secondAttribute="centerY" id="D19-hn-qt1"/>
                                     <constraint firstItem="mAe-BU-e2T" firstAttribute="top" relation="greaterThanOrEqual" secondItem="IEj-l7-ceY" secondAttribute="top" id="FK1-uf-UZy"/>
-                                    <constraint firstItem="mAe-BU-e2T" firstAttribute="width" secondItem="IEj-l7-ceY" secondAttribute="width" multiplier="0.666667" id="nxV-yy-taH"/>
+                                    <constraint firstItem="mAe-BU-e2T" firstAttribute="width" secondItem="IEj-l7-ceY" secondAttribute="width" multiplier="0.9" id="nxV-yy-taH"/>
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="mAe-BU-e2T" secondAttribute="bottom" id="zoV-no-4nr"/>
                                 </constraints>
                             </view>
@@ -406,11 +403,10 @@
                                 <rect key="frame" x="0.0" y="180" width="375" height="487"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tutorialPermission" translatesAutoresizingMaskIntoConstraints="NO" id="FX7-6i-Rfv">
-                                        <rect key="frame" x="62.5" y="118.5" width="250" height="250"/>
+                                        <rect key="frame" x="19" y="75" width="337.5" height="337.5"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="FX7-6i-Rfv" secondAttribute="height" multiplier="1:1" id="R6b-RM-D4j"/>
-                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="nVS-u2-dHo"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
@@ -420,7 +416,7 @@
                                     <constraint firstItem="FX7-6i-Rfv" firstAttribute="top" relation="greaterThanOrEqual" secondItem="hXR-ii-1n8" secondAttribute="top" id="Wnb-aY-IvP"/>
                                     <constraint firstItem="FX7-6i-Rfv" firstAttribute="centerX" secondItem="hXR-ii-1n8" secondAttribute="centerX" id="cOX-QU-lTk"/>
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="FX7-6i-Rfv" secondAttribute="bottom" id="pmJ-Ef-12N"/>
-                                    <constraint firstItem="FX7-6i-Rfv" firstAttribute="width" secondItem="hXR-ii-1n8" secondAttribute="width" multiplier="0.666667" id="tlY-Pt-Pa1"/>
+                                    <constraint firstItem="FX7-6i-Rfv" firstAttribute="width" secondItem="hXR-ii-1n8" secondAttribute="width" multiplier="0.9" id="tlY-Pt-Pa1"/>
                                 </constraints>
                             </view>
                         </subviews>
