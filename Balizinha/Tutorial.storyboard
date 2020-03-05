@@ -155,7 +155,7 @@
         <!--TutorialPage0-->
         <scene sceneID="q8m-eB-9jD">
             <objects>
-                <viewController storyboardIdentifier="TutorialPage0" title="TutorialPage0" id="CgU-Ed-zg9" customClass="TutoriaPageViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TutorialPage0" title="TutorialPage0" id="CgU-Ed-zg9" userLabel="TutorialPage0" customClass="TutoriaPageViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ewP-nR-H3g">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -227,10 +227,83 @@
             </objects>
             <point key="canvasLocation" x="904.79999999999995" y="160.56971514242881"/>
         </scene>
+        <!--TutorialPage1-->
+        <scene sceneID="BUj-XS-xmQ">
+            <objects>
+                <viewController storyboardIdentifier="TutorialPage1" title="TutorialPage1" id="DGN-mW-eLF" userLabel="TutorialPage1" customClass="TutoriaPageViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5Aw-8i-Fpt">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create your profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Esn-XK-gtd">
+                                <rect key="frame" x="16" y="0.0" width="343" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Xnk-sy-5PL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="30"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set up a player profile, including a home venue for your events." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bd7-yf-h0c">
+                                <rect key="frame" x="16" y="58" width="343" height="114"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="114" id="GNr-0H-mXr"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hFj-Pg-Dh1">
+                                <rect key="frame" x="0.0" y="180" width="375" height="487"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tutorialVenue" translatesAutoresizingMaskIntoConstraints="NO" id="2Hk-pI-DqG">
+                                        <rect key="frame" x="19" y="75" width="337.5" height="337.5"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="2Hk-pI-DqG" secondAttribute="height" multiplier="1:1" id="hqA-tJ-wQW"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="2Hk-pI-DqG" secondAttribute="bottom" id="8Gv-TT-ke1"/>
+                                    <constraint firstItem="2Hk-pI-DqG" firstAttribute="width" secondItem="hFj-Pg-Dh1" secondAttribute="width" multiplier="0.9" id="Ceq-8Q-LEV"/>
+                                    <constraint firstItem="2Hk-pI-DqG" firstAttribute="centerX" secondItem="hFj-Pg-Dh1" secondAttribute="centerX" id="Nlg-sM-zKj"/>
+                                    <constraint firstItem="2Hk-pI-DqG" firstAttribute="top" relation="greaterThanOrEqual" secondItem="hFj-Pg-Dh1" secondAttribute="top" id="Ohd-XR-V9n"/>
+                                    <constraint firstItem="2Hk-pI-DqG" firstAttribute="centerY" secondItem="hFj-Pg-Dh1" secondAttribute="centerY" id="yzV-Ny-9jp"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hFj-Pg-Dh1" firstAttribute="bottom" secondItem="HMU-5g-exG" secondAttribute="bottom" id="DtX-gy-Zqv"/>
+                            <constraint firstItem="hFj-Pg-Dh1" firstAttribute="leading" secondItem="HMU-5g-exG" secondAttribute="leading" id="KJb-XR-ycg"/>
+                            <constraint firstItem="HMU-5g-exG" firstAttribute="trailing" secondItem="bd7-yf-h0c" secondAttribute="trailing" constant="16" id="MdH-6g-xZe"/>
+                            <constraint firstItem="bd7-yf-h0c" firstAttribute="leading" secondItem="HMU-5g-exG" secondAttribute="leading" constant="16" id="Pna-rw-TZS"/>
+                            <constraint firstItem="hFj-Pg-Dh1" firstAttribute="top" secondItem="bd7-yf-h0c" secondAttribute="bottom" constant="8" id="RCu-m4-3Vx"/>
+                            <constraint firstItem="HMU-5g-exG" firstAttribute="trailing" secondItem="Esn-XK-gtd" secondAttribute="trailing" constant="16" id="V8E-rc-UtO"/>
+                            <constraint firstItem="Esn-XK-gtd" firstAttribute="top" secondItem="HMU-5g-exG" secondAttribute="top" id="bwK-4L-oTw"/>
+                            <constraint firstItem="bd7-yf-h0c" firstAttribute="top" secondItem="Esn-XK-gtd" secondAttribute="bottom" constant="8" id="daq-wf-4fP"/>
+                            <constraint firstItem="Esn-XK-gtd" firstAttribute="leading" secondItem="HMU-5g-exG" secondAttribute="leading" constant="16" id="iJt-hZ-iZ3"/>
+                            <constraint firstItem="hFj-Pg-Dh1" firstAttribute="trailing" secondItem="HMU-5g-exG" secondAttribute="trailing" id="p9H-go-TQt"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="HMU-5g-exG"/>
+                    </view>
+                    <connections>
+                        <outlet property="containerView" destination="hFj-Pg-Dh1" id="1pA-dR-SAp"/>
+                        <outlet property="imageView" destination="2Hk-pI-DqG" id="ief-1w-Dby"/>
+                        <outlet property="labelSubtitle" destination="bd7-yf-h0c" id="QKu-oG-m8H"/>
+                        <outlet property="labelTitle" destination="Esn-XK-gtd" id="8ie-Cy-Q7K"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JqU-t3-xxE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1601" y="189"/>
+        </scene>
         <!--TutorialPage2-->
         <scene sceneID="q2y-Q9-mu1">
             <objects>
-                <viewController storyboardIdentifier="TutorialPage2" title="TutorialPage2" id="l5o-8e-LdC" customClass="TutoriaPageViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TutorialPage2" title="TutorialPage2" id="l5o-8e-LdC" userLabel="TutorialPage2" customClass="TutoriaPageViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="y8a-K2-T7u">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -299,79 +372,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Utv-EN-4GW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2242" y="188"/>
-        </scene>
-        <!--TutorialPage1-->
-        <scene sceneID="LcX-NC-MzV">
-            <objects>
-                <viewController storyboardIdentifier="TutorialPage1" title="TutorialPage1" id="RCi-LT-T8o" userLabel="TutorialPage1" customClass="TutoriaPageViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="yvn-0f-5JD">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create your profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zIa-46-Jap">
-                                <rect key="frame" x="16" y="0.0" width="343" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="l2k-VU-5P9"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="30"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set up a player profile, including a home venue for your events." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="rsc-6m-r0c">
-                                <rect key="frame" x="16" y="58" width="343" height="114"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="114" id="TBS-RM-bfz"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IEj-l7-ceY">
-                                <rect key="frame" x="0.0" y="180" width="375" height="487"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tutorialVenue" translatesAutoresizingMaskIntoConstraints="NO" id="mAe-BU-e2T">
-                                        <rect key="frame" x="19" y="75" width="337.5" height="337.5"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="mAe-BU-e2T" secondAttribute="height" multiplier="1:1" id="Xm9-GK-UWs"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="mAe-BU-e2T" firstAttribute="centerX" secondItem="IEj-l7-ceY" secondAttribute="centerX" id="0HT-aP-Gz8"/>
-                                    <constraint firstItem="mAe-BU-e2T" firstAttribute="centerY" secondItem="IEj-l7-ceY" secondAttribute="centerY" id="D19-hn-qt1"/>
-                                    <constraint firstItem="mAe-BU-e2T" firstAttribute="top" relation="greaterThanOrEqual" secondItem="IEj-l7-ceY" secondAttribute="top" id="FK1-uf-UZy"/>
-                                    <constraint firstItem="mAe-BU-e2T" firstAttribute="width" secondItem="IEj-l7-ceY" secondAttribute="width" multiplier="0.9" id="nxV-yy-taH"/>
-                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="mAe-BU-e2T" secondAttribute="bottom" id="zoV-no-4nr"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="IEj-l7-ceY" firstAttribute="top" secondItem="rsc-6m-r0c" secondAttribute="bottom" constant="8" id="5GV-X6-1Ch"/>
-                            <constraint firstItem="zIa-46-Jap" firstAttribute="top" secondItem="55F-2Q-m2R" secondAttribute="top" id="81g-7O-YfY"/>
-                            <constraint firstItem="55F-2Q-m2R" firstAttribute="trailing" secondItem="rsc-6m-r0c" secondAttribute="trailing" constant="16" id="8Nw-bg-DcR"/>
-                            <constraint firstItem="rsc-6m-r0c" firstAttribute="leading" secondItem="55F-2Q-m2R" secondAttribute="leading" constant="16" id="Rhq-tv-xOW"/>
-                            <constraint firstItem="IEj-l7-ceY" firstAttribute="bottom" secondItem="55F-2Q-m2R" secondAttribute="bottom" id="SoD-s0-JpQ"/>
-                            <constraint firstItem="zIa-46-Jap" firstAttribute="leading" secondItem="55F-2Q-m2R" secondAttribute="leading" constant="16" id="d0L-w3-gu2"/>
-                            <constraint firstItem="55F-2Q-m2R" firstAttribute="trailing" secondItem="zIa-46-Jap" secondAttribute="trailing" constant="16" id="dXi-N3-WXh"/>
-                            <constraint firstItem="IEj-l7-ceY" firstAttribute="trailing" secondItem="55F-2Q-m2R" secondAttribute="trailing" id="ruF-fg-Y6b"/>
-                            <constraint firstItem="IEj-l7-ceY" firstAttribute="leading" secondItem="55F-2Q-m2R" secondAttribute="leading" id="uRD-sE-qsc"/>
-                            <constraint firstItem="rsc-6m-r0c" firstAttribute="top" secondItem="zIa-46-Jap" secondAttribute="bottom" constant="8" id="y8k-rB-aWo"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="55F-2Q-m2R"/>
-                    </view>
-                    <connections>
-                        <outlet property="containerView" destination="IEj-l7-ceY" id="pIh-zH-Iky"/>
-                        <outlet property="imageView" destination="mAe-BU-e2T" id="uQ3-2X-sQF"/>
-                        <outlet property="labelSubtitle" destination="rsc-6m-r0c" id="vEI-qn-szl"/>
-                        <outlet property="labelTitle" destination="zIa-46-Jap" id="f13-9v-qB0"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="56y-ii-XiA" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1601" y="189"/>
         </scene>
         <!--TutorialPage3-->
         <scene sceneID="yQ7-SP-1J3">
