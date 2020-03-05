@@ -84,7 +84,7 @@ class TutorialViewController: UIViewController {
     }
 
     fileprivate class func pageAt(_ page: Int) -> UIViewController {
-        let identifiers = ["TutorialPage0", "TutorialPage1", "TutorialPage2"]
+        let identifiers = ["TutorialPage0", "TutorialPage1", "TutorialPage2", "TutorialPage3"]
         guard page < identifiers.count else { return UIViewController() }
 
         let tutorialPage = UIStoryboard(name: "Tutorial", bundle: nil).instantiateViewController(withIdentifier: identifiers[page])
