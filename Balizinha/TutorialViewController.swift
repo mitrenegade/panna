@@ -92,7 +92,7 @@ class TutorialViewController: UIViewController {
     }
     
     private(set) lazy var orderedViewControllers: [UIViewController] = {
-        return [TutorialViewController.pageAt(0), TutorialViewController.pageAt(1), TutorialViewController.pageAt(2)]
+        return [TutorialViewController.pageAt(0), TutorialViewController.pageAt(1), TutorialViewController.pageAt(2), TutorialViewController.pageAt(1), TutorialViewController.pageAt(3)]
     }()
     
     func refreshButtons() {
