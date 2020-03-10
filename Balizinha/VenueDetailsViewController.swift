@@ -16,8 +16,8 @@ protocol VenueDetailsDelegate {
 
 class VenueDetailsViewController: UIViewController {
 
-    @IBOutlet weak var photoView: RAImageView!
-    @IBOutlet weak var inputName: UITextField!
+    @IBOutlet weak var tableView: UITableView!
+    
     @IBOutlet weak var buttonAddPhoto: UIButton?
     var existingVenue: Venue? // nil if new venue
     
@@ -37,17 +37,20 @@ class VenueDetailsViewController: UIViewController {
     let cameraHelper = CameraHelper()
     
     var delegate: VenueDetailsDelegate?
+    var tableManager: VenueDetailsTableManager?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        inputName.text = existingVenue?.name ?? name
         
-        refreshPhoto()
         cameraHelper.delegate = self
 
         view.addSubview(activityOverlay)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(didClickSave(_:)))
+        
+        tableManager = VenueDetailsTableManager(venue: existingVenue)
+        tableView.dataSource = tableManager
+        tableView.delegate = tableManager
     }
     
     override func viewDidLayoutSubviews() {
@@ -59,19 +62,9 @@ class VenueDetailsViewController: UIViewController {
         view.endEditing(true)
         cameraHelper.takeOrSelectPhoto(from: self, fromView: buttonAddPhoto, frontFacing: false)
     }
-    
-    func refreshPhoto() {
-        if let photo = selectedPhoto {
-            photoView?.image = photo
-        } else if let url = existingVenue?.photoUrl {
-            photoView?.imageUrl = url
-        } else {
-            photoView?.imageUrl = nil
-        }
-    }
-    
+
     @objc func didClickSave(_ sender: Any?) {
-        if let text = inputName.text {
+        if let text = tableManager?.inputName?.text {
             name = text
         }
         view.endEditing(true)
@@ -89,11 +82,11 @@ class VenueDetailsViewController: UIViewController {
             if let photo = selectedPhoto {
                 uploadPhoto(photo, for: venue) { [weak self] url in
                     venue.photoUrl = url
-                    self?.refreshPhoto()
                     DispatchQueue.main.async {
+                        self?.tableView.reloadData()
                         self?.activityOverlay.hide()
+//                    self.tableManager?.venue = venue // TODO: Does this need to be set too
                         self?.delegate?.didFinishUpdatingVenue(venue)
-                        self?.navigationItem.rightBarButtonItem?.isEnabled = true
                     }
                 }
             } else {
@@ -118,15 +111,15 @@ class VenueDetailsViewController: UIViewController {
                     self?.uploadPhoto(photo, for: venue) { url in
                         venue.photoUrl = url
                         DispatchQueue.main.async {
-                            self?.refreshPhoto()
                             self?.activityOverlay.hide()
+                            self?.tableView.reloadData()
                             self?.navigationItem.rightBarButtonItem?.isEnabled = true
                             self?.delegate?.didFinishUpdatingVenue(venue)
                         }
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self?.refreshPhoto()
+                        self?.tableView.reloadData()
                         self?.activityOverlay.hide()
                         self?.navigationItem.rightBarButtonItem?.isEnabled = true
                         self?.delegate?.didFinishUpdatingVenue(venue)
@@ -172,7 +165,7 @@ extension VenueDetailsViewController: CameraHelperDelegate {
         let size = CGSize(width: width, height: height)
         let resized = FirebaseImageService.resizeImage(image: image, newSize: size)
         selectedPhoto = resized
-        refreshPhoto()
+        tableView.reloadData()
         dismiss(animated: true, completion: nil)
     }
 }
