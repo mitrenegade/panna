@@ -30,16 +30,16 @@ class NotificationService: NSObject {
     // LOCAL NOTIFICAITONS
     func refreshNotifications(_ events: [Balizinha.Event]?) {
         // store reference to events in case notifications are toggled
-        self.scheduledEvents = events
+        scheduledEvents = events
         
         // remove old notifications
-        self.clearAllNotifications()
+        clearAllNotifications()
         let userReceivesNotifications = PlayerService.shared.current.value?.notificationsEnabled ?? false
         guard userReceivesNotifications else { return }
         guard let events = events else { return }
         // reschedule event notifications
         for event in events {
-            self.scheduleNotificationForEvent(event)
+            scheduleNotificationForEvent(event)
         }
         
     }
@@ -96,7 +96,7 @@ class NotificationService: NSObject {
     
     func removeNotificationForEvent(_ event: Balizinha.Event) {
         let identifier = "EventReminder\(event.id)"
-        self.removeNotification(id: identifier)
+        removeNotification(id: identifier)
     }
 
     func clearAllNotifications() {
@@ -148,12 +148,12 @@ extension NotificationService {
 
                 if result, !AuthService.isAnonymous {
                     //
-                    PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
+                    PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { [weak self] (player) in
                         // store the fcm token on the player object
-                        self.storeFCMToken()
+                        self?.storeFCMToken()
 
                         // first time - refresh topics
-                        self.refreshAllPlayerTopicsOnce()
+                        self?.refreshAllPlayerTopicsOnce()
                     }).disposed(by: self.disposeBag)
                 } else {
                     self.pushRequestFailed = true
@@ -183,14 +183,16 @@ extension NotificationService {
         }
         let params: [String: Any] = ["userId": player.id, "pushEnabled": enabled]
         RenderAPIService().cloudFunction(functionName: "updateUserNotificationsEnabled", params: params) { (result, error) in
-            print("Result \(String(describing: result)) error \(String(describing: error))")
+            var userInfo: [String: Any] = ["value": enabled]
+            if let error = error {
+                userInfo["error"] = error.localizedDescription
+            }
+            LoggingService.shared.log(event: LoggingEvent.PushNotificationsToggled, info: userInfo)
             completion?(error)
         }
-
-        LoggingService.shared.log(event: LoggingEvent.PushNotificationsToggled, info: ["value": enabled])
         
         // toggle/reschedule events
-        self.refreshNotifications(self.scheduledEvents)
+        refreshNotifications(scheduledEvents)
     }
 }
 
