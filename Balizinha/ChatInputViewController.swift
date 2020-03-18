@@ -10,7 +10,7 @@ import UIKit
 import Balizinha
 
 class ChatInputViewController: UIViewController {
-    @IBOutlet var inputText: UITextField!
+    @IBOutlet var inputText: UITextView!
     @IBOutlet var buttonSend: UIButton!
     
     var event: Balizinha.Event?
