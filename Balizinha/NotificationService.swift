@@ -39,7 +39,8 @@ class NotificationService: NSObject {
         guard let events = events else { return }
         // reschedule event notifications
         for event in events {
-            scheduleNotificationForEvent(event)
+            scheduleReminderForUpcomingEvent(event)
+            scheduleNextReminderAfterEvent(event)
         }
         
     }
@@ -74,7 +75,7 @@ class NotificationService: NSObject {
         return "\(nameString) \(timeString)"
     }
     
-    func scheduleNotificationForEvent(_ event: Balizinha.Event) {
+    func scheduleReminderForUpcomingEvent(_ event: Balizinha.Event) {
         //create local notification
         guard let startTime = event.startTime else { return }
         let interval = SettingsService.eventReminderInterval
@@ -93,7 +94,27 @@ class NotificationService: NSObject {
         let request = UNNotificationRequest(identifier: "EventReminder\(event.id)", content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
-    
+
+    func scheduleNextReminderAfterEvent(_ event: Balizinha.Event) {
+        //create local notification
+        guard let startTime = event.startTime else { return }
+        let interval = SettingsService.eventReminderInterval
+        let content = UNMutableNotificationContent()
+        let message = "Hope you can join for the next event."
+        content.title = NSString.localizedUserNotificationString(forKey: "Thanks for coming!", arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
+        content.userInfo = ["type": "nextEventReminder", "eventId": event.id]
+        
+        // Configure the trigger
+        let date = startTime.addingTimeInterval(-1 * interval)
+        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        
+        // Create the request object.
+        let request = UNNotificationRequest(identifier: "EventReminder\(event.id)", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+
     func removeNotificationForEvent(_ event: Balizinha.Event) {
         let identifier = "EventReminder\(event.id)"
         removeNotification(id: identifier)
