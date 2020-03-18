@@ -97,27 +97,29 @@ class NotificationService: NSObject {
 
     func scheduleNextReminderAfterEvent(_ event: Balizinha.Event) {
         //create local notification
-        guard let startTime = event.startTime else { return }
-        let interval = SettingsService.eventReminderInterval
+        guard let endTime = event.endTime else { return }
+        let interval = SettingsService.eventPromptInterval
         let content = UNMutableNotificationContent()
         let message = "Hope you can join for the next event."
         content.title = NSString.localizedUserNotificationString(forKey: "Thanks for coming!", arguments: nil)
         content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
-        content.userInfo = ["type": "nextEventReminder", "eventId": event.id]
+        content.userInfo = ["type": "nextEventPrompt", "eventId": event.id]
         
         // Configure the trigger
-        let date = startTime.addingTimeInterval(-1 * interval)
+        let date = endTime.addingTimeInterval(interval)
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
         // Create the request object.
-        let request = UNNotificationRequest(identifier: "EventReminder\(event.id)", content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: "NextEventPrompt\(event.id)", content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 
-    func removeNotificationForEvent(_ event: Balizinha.Event) {
+    func removeNotificationsForEvent(_ event: Balizinha.Event) {
         let identifier = "EventReminder\(event.id)"
         removeNotification(id: identifier)
+        let identifier2 = "NextEventPrompt\(event.id)"
+        removeNotification(id: identifier2)
     }
 
     func clearAllNotifications() {
