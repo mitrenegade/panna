@@ -237,7 +237,7 @@ extension CalendarViewController: EventCellDelegate {
             } else {
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
-                    NotificationService.shared.removeNotificationForEvent(event)
+                    NotificationService.shared.removeNotificationsForEvent(event)
                 }
             }
         }

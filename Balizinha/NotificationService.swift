@@ -30,16 +30,17 @@ class NotificationService: NSObject {
     // LOCAL NOTIFICAITONS
     func refreshNotifications(_ events: [Balizinha.Event]?) {
         // store reference to events in case notifications are toggled
-        self.scheduledEvents = events
+        scheduledEvents = events
         
         // remove old notifications
-        self.clearAllNotifications()
+        clearAllNotifications()
         let userReceivesNotifications = PlayerService.shared.current.value?.notificationsEnabled ?? false
         guard userReceivesNotifications else { return }
         guard let events = events else { return }
         // reschedule event notifications
         for event in events {
-            self.scheduleNotificationForEvent(event)
+            scheduleReminderForUpcomingEvent(event)
+            scheduleNextReminderAfterEvent(event)
         }
         
     }
@@ -74,10 +75,16 @@ class NotificationService: NSObject {
         return "\(nameString) \(timeString)"
     }
     
-    func scheduleNotificationForEvent(_ event: Balizinha.Event) {
+    func scheduleReminderForUpcomingEvent(_ event: Balizinha.Event) {
         //create local notification
         guard let startTime = event.startTime else { return }
-        let interval = SettingsService.eventReminderInterval
+        var interval = SettingsService.eventReminderInterval
+        var date = startTime.addingTimeInterval(-1 * interval)
+        if date.timeIntervalSinceNow < 0 {
+            interval = SettingsService.eventReminderIntervalShort
+            date = startTime.addingTimeInterval(-1 * interval)
+        }
+
         let content = UNMutableNotificationContent()
         let message = eventReminderString(event, interval: interval)
         content.title = NSString.localizedUserNotificationString(forKey: "Are you ready?", arguments: nil)
@@ -85,7 +92,6 @@ class NotificationService: NSObject {
         content.userInfo = ["type": "eventReminder", "eventId": event.id]
         
         // Configure the trigger
-        let date = startTime.addingTimeInterval(-1 * interval)
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
@@ -93,10 +99,32 @@ class NotificationService: NSObject {
         let request = UNNotificationRequest(identifier: "EventReminder\(event.id)", content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
-    
-    func removeNotificationForEvent(_ event: Balizinha.Event) {
+
+    func scheduleNextReminderAfterEvent(_ event: Balizinha.Event) {
+        //create local notification
+        guard let endTime = event.endTime else { return }
+        let interval = SettingsService.eventPromptInterval
+        let content = UNMutableNotificationContent()
+        let message = "Hope you can join for the next event."
+        content.title = NSString.localizedUserNotificationString(forKey: "Thanks for coming!", arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
+        content.userInfo = ["type": "nextEventPrompt", "eventId": event.id]
+        
+        // Configure the trigger
+        let date = endTime.addingTimeInterval(interval)
+        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        
+        // Create the request object.
+        let request = UNNotificationRequest(identifier: "NextEventPrompt\(event.id)", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+
+    func removeNotificationsForEvent(_ event: Balizinha.Event) {
         let identifier = "EventReminder\(event.id)"
-        self.removeNotification(id: identifier)
+        removeNotification(id: identifier)
+        let identifier2 = "NextEventPrompt\(event.id)"
+        removeNotification(id: identifier2)
     }
 
     func clearAllNotifications() {
@@ -148,12 +176,12 @@ extension NotificationService {
 
                 if result, !AuthService.isAnonymous {
                     //
-                    PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { (player) in
+                    PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { [weak self] (player) in
                         // store the fcm token on the player object
-                        self.storeFCMToken()
+                        self?.storeFCMToken()
 
                         // first time - refresh topics
-                        self.refreshAllPlayerTopicsOnce()
+                        self?.refreshAllPlayerTopicsOnce()
                     }).disposed(by: self.disposeBag)
                 } else {
                     self.pushRequestFailed = true
@@ -183,14 +211,16 @@ extension NotificationService {
         }
         let params: [String: Any] = ["userId": player.id, "pushEnabled": enabled]
         RenderAPIService().cloudFunction(functionName: "updateUserNotificationsEnabled", params: params) { (result, error) in
-            print("Result \(String(describing: result)) error \(String(describing: error))")
+            var userInfo: [String: Any] = ["value": enabled]
+            if let error = error {
+                userInfo["error"] = error.localizedDescription
+            }
+            LoggingService.shared.log(event: LoggingEvent.PushNotificationsToggled, info: userInfo)
             completion?(error)
         }
-
-        LoggingService.shared.log(event: LoggingEvent.PushNotificationsToggled, info: ["value": enabled])
         
         // toggle/reschedule events
-        self.refreshNotifications(self.scheduledEvents)
+        refreshNotifications(scheduledEvents)
     }
 }
 

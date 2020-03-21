@@ -345,7 +345,7 @@ class EventDisplayViewController: UIViewController {
             } else {
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
-                    NotificationService.shared.removeNotificationForEvent(event)
+                    NotificationService.shared.removeNotificationsForEvent(event)
                 }
                 DefaultsManager.shared.setValue(nil, forKey: DefaultsKey.guestEventId.rawValue)
                 // keep guestPlayerName in defaults
@@ -376,7 +376,7 @@ class EventDisplayViewController: UIViewController {
             } else {
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
-                    NotificationService.shared.removeNotificationForEvent(event)
+                    NotificationService.shared.removeNotificationsForEvent(event)
                     
                     // TODO: update opt out
                 }

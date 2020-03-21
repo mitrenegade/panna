@@ -310,7 +310,8 @@ class JoinEventHelper: NSObject {
                 }
             }
         }
-        NotificationService.shared.scheduleNotificationForEvent(event)
+        NotificationService.shared.scheduleReminderForUpcomingEvent(event)
+        NotificationService.shared.scheduleNextReminderAfterEvent(event)
     }
 
 }
