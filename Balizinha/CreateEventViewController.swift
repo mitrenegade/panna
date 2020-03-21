@@ -460,7 +460,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                 dict["venueId"] = venueId
             }
             if let url = Balizinha.Event.validUrl(videoUrl) {
-                dict["videoUrl"] = url
+                dict["videoUrl"] = url.absoluteString
             }
             event.dict = dict
             event.firebaseRef?.updateChildValues(dict) // update all these values without multiple update calls
@@ -487,7 +487,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         else {
             activityOverlay.show()
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .other, venue: venue, startTime: start, endTime: end, recurrence: self.recurrence, recurrenceEndDate: self.recurrenceDate, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
+            let url: String? = Balizinha.Event.validUrl(videoUrl)?.absoluteString
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .other, venue: venue, startTime: start, endTime: end, recurrence: self.recurrence, recurrenceEndDate: self.recurrenceDate, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, videoUrl: url, completion: { [weak self] (event, error) in
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.activityOverlay.hide()
@@ -1045,8 +1046,9 @@ extension CreateEventViewController: UITextFieldDelegate {
             if let event = eventToEdit, let old = oldName, let newName = textField.text {
                 LoggingService.shared.log(event: .RenameEvent, info: ["oldName": old, "newName": newName, "eventId": event.id])
             }
-        }
-        else if textField == self.amountField, let newAmount = EventService.amountNumber(from: textField.text) {
+        } else if textField == self.videoUrlField {
+            self.videoUrl = textField.text
+        } else if textField == self.amountField, let newAmount = EventService.amountNumber(from: textField.text) {
             var title = "Payment amount"
             var shouldShow = false
             if newAmount.doubleValue < 1 {
