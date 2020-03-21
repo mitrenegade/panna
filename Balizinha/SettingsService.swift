@@ -34,6 +34,7 @@ class SettingsService: NSObject {
 
         // feature values
         case eventReminderInterval
+        case eventReminderIntervalShort
         case eventPromptInterval
 
         // experiments
@@ -46,6 +47,7 @@ class SettingsService: NSObject {
                                           SettingsKey.useGetAvailableEvents.rawValue: false,
                                           SettingsKey.paymentRequired.rawValue: true,
                                           SettingsKey.eventReminderInterval.rawValue: 7200,
+                                          SettingsKey.eventReminderIntervalShort.rawValue: 15 * 60,
                                           SettingsKey.eventPromptInterval.rawValue: 30 * 60,
                                           SettingsKey.organizerDashboard.rawValue: true
                                         ]
@@ -161,6 +163,10 @@ extension SettingsService {
     
     class var eventReminderInterval: TimeInterval {
         return shared.featureValue(.eventReminderInterval).numberValue?.doubleValue ?? (defaults[SettingsKey.eventReminderInterval.rawValue] as! TimeInterval)
+    }
+
+    class var eventReminderIntervalShort: TimeInterval {
+        return shared.featureValue(.eventReminderIntervalShort).numberValue?.doubleValue ?? (defaults[SettingsKey.eventReminderIntervalShort.rawValue] as! TimeInterval)
     }
 
     class var eventPromptInterval: TimeInterval {

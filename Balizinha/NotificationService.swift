@@ -86,7 +86,11 @@ class NotificationService: NSObject {
         content.userInfo = ["type": "eventReminder", "eventId": event.id]
         
         // Configure the trigger
-        let date = startTime.addingTimeInterval(-1 * interval)
+        var date = startTime.addingTimeInterval(-1 * interval)
+        if date.timeIntervalSinceNow < 0 {
+            let shortInterval = SettingsService.eventReminderIntervalShort
+            date = startTime.addingTimeInterval(-1 * shortInterval)
+        }
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
