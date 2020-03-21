@@ -442,10 +442,11 @@ City, State</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tng-qL-9oQ">
-                                                <rect key="frame" x="264" y="19" width="120" height="30"/>
+                                                <rect key="frame" x="264" y="18" width="120" height="32"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="120" id="QWf-PD-is2"/>
                                                 </constraints>
+                                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
                                                 <state key="normal" title="Open in Maps"/>
                                                 <connections>
                                                     <action selector="didClickButtonDirections:" destination="heN-tZ-ESE" eventType="touchUpInside" id="Iep-bY-Z7N"/>
