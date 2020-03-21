@@ -285,20 +285,8 @@ extension NotificationService: UNUserNotificationCenterDelegate {
         
         // analytics
         LoggingService.shared.log(event: LoggingEvent.PushNotificationReceived, info: ["inApp": true])
-        
-        // Change this to your preferred presentation option
-        if let type = userInfo["type"] as? String {
-            switch LocalNotificationType(rawValue: type) {
-            case .videoLinkReminder:
-                // handle a video link
-                if let urlString = userInfo["url"] as? String, let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }
-                break
-            default:
-                break
-            }
-        }
+        handle(notification: userInfo)
+
         completionHandler([])
     }
 
@@ -354,23 +342,36 @@ extension NotificationService {
     func handle(notification: [AnyHashable: Any]) {
         guard let type = notification["type"] as? String else { return }
         if let actionType = ActionType(rawValue: type) {
-            // handle supported actions
+            // handle supported actions from a remote notification
             switch actionType {
             case .chat, .joinEvent, .createEvent:
                 if let eventId = notification["eventId"] {
                     notify(.DisplayFeaturedEvent, object: nil, userInfo: ["eventId": eventId])
                 }
+            case .cancelEvent:
+                // handle event cancellation
+                notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
             default:
                 break
             }
-        } else if type == "leagueChat" {
+        } else if type == "leagueChat" { // actionType?
             // handle league chat
             if let leagueId = notification["leagueId"] {
                 notify(.DisplayFeaturedLeague, object: nil, userInfo: ["leagueId": leagueId])
             }
-        } else if type == "cancelEvent" {
-            // handle event cancellation
-            notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
+        } else if let localNotificationType = LocalNotificationType(rawValue: type) {
+            switch localNotificationType {
+            case .videoLinkReminder:
+                // handle a video link
+                // TODO: should prompt user whether they want to or not, but if they're in Panna, it's fine.
+                // TODO: needs to find the top viewController
+                if let urlString = notification["url"] as? String, let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+                break
+            default:
+                break
+            }
         }
     }
 }
