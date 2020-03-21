@@ -38,7 +38,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="879"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="0jY-Pb-FYr">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="922"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="914"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ClT-A8-fRn">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
@@ -96,12 +96,12 @@ Type</string>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fLM-ZG-x8G">
                                                         <rect key="frame" x="0.0" y="350" width="375" height="50"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join via video" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Db-Hk-Ytu">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join via video" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Db-Hk-Ytu">
                                                                 <rect key="frame" x="8" y="0.0" width="359" height="50"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="W1W-hw-ZjK"/>
                                                                 </constraints>
-                                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
                                                                 <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -134,19 +134,10 @@ Type</string>
                                                         </connections>
                                                     </containerView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Cud-JT-xi7">
-                                                        <rect key="frame" x="0.0" y="440" width="375" height="92"/>
+                                                        <rect key="frame" x="0.0" y="440" width="375" height="63"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mII-0a-gcT">
-                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="21"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="21" id="gle-xD-bte"/>
-                                                                </constraints>
-                                                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
                                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h8K-d9-367">
-                                                                <rect key="frame" x="0.0" y="29" width="375" height="63"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="63"/>
                                                                 <subviews>
                                                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ls4-8L-qBB">
                                                                         <rect key="frame" x="8" y="0.0" width="359" height="30"/>
@@ -193,7 +184,7 @@ Type</string>
                                                         </subviews>
                                                     </stackView>
                                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y7x-2l-MZf" userLabel="detailView">
-                                                        <rect key="frame" x="0.0" y="532" width="375" height="100"/>
+                                                        <rect key="frame" x="0.0" y="503" width="375" height="100"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FCt-eO-A2r" userLabel="Label Info">
                                                                 <rect key="frame" x="8" y="0.0" width="359" height="100"/>
@@ -212,7 +203,7 @@ Type</string>
                                                         </constraints>
                                                     </view>
                                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nBh-qV-Eg0" userLabel="Container View - organizer">
-                                                        <rect key="frame" x="0.0" y="632" width="375" height="50"/>
+                                                        <rect key="frame" x="0.0" y="603" width="375" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="86n-tI-D7g"/>
                                                         </constraints>
@@ -220,8 +211,31 @@ Type</string>
                                                             <segue destination="z1j-ZZ-quw" kind="embed" identifier="EmbedOrganizer" id="3At-1D-E4N"/>
                                                         </connections>
                                                     </containerView>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tTT-8S-nWE" userLabel="View - Player spots">
+                                                        <rect key="frame" x="0.0" y="653" width="375" height="21"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mII-0a-gcT">
+                                                                <rect key="frame" x="8" y="0.0" width="359" height="21"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="21" id="gle-xD-bte"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstItem="mII-0a-gcT" firstAttribute="top" secondItem="tTT-8S-nWE" secondAttribute="top" id="BS8-0U-OWQ"/>
+                                                            <constraint firstAttribute="bottom" secondItem="mII-0a-gcT" secondAttribute="bottom" id="Hws-D8-WUV"/>
+                                                            <constraint firstItem="mII-0a-gcT" firstAttribute="top" secondItem="tTT-8S-nWE" secondAttribute="top" id="UYH-z3-FVq"/>
+                                                            <constraint firstItem="mII-0a-gcT" firstAttribute="leading" secondItem="tTT-8S-nWE" secondAttribute="leading" constant="8" id="Za9-CU-FTU"/>
+                                                            <constraint firstAttribute="trailing" secondItem="mII-0a-gcT" secondAttribute="trailing" constant="8" id="aPm-KO-ftK"/>
+                                                            <constraint firstAttribute="bottom" secondItem="mII-0a-gcT" secondAttribute="bottom" id="gwV-fH-zH1"/>
+                                                        </constraints>
+                                                    </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="06g-fB-xjS" customClass="PlayersScrollView" customModule="Panna" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="682" width="375" height="40"/>
+                                                        <rect key="frame" x="0.0" y="674" width="375" height="40"/>
                                                         <subviews>
                                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="drW-2R-f8Q">
                                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
@@ -242,7 +256,7 @@ Type</string>
                                                         </connections>
                                                     </view>
                                                     <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="do0-We-LXv" userLabel="Container View - chat">
-                                                        <rect key="frame" x="0.0" y="722" width="375" height="200"/>
+                                                        <rect key="frame" x="0.0" y="714" width="375" height="200"/>
                                                         <color key="backgroundColor" red="0.63972192999999999" green="0.70638650660000002" blue="0.67304807899999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="200" id="oQi-1b-Zgc"/>
@@ -388,6 +402,7 @@ Type</string>
                         <outlet property="constraintWidth" destination="xz0-mV-4uu" id="err-g8-t3N"/>
                         <outlet property="containerChatInput" destination="f72-yV-K2b" id="a8s-qG-HAG"/>
                         <outlet property="containerShare" destination="nNh-T3-3nB" id="D9i-8K-wXT"/>
+                        <outlet property="containerVideoLink" destination="fLM-ZG-x8G" id="ZOp-M9-NN4"/>
                         <outlet property="headerBackground" destination="2Xo-tp-aAI" id="gQ5-5p-ElS"/>
                         <outlet property="imageClone" destination="MbG-Zi-6KK" id="jOq-oU-36d"/>
                         <outlet property="imageShare" destination="m28-12-C4h" id="HPl-2N-Poi"/>
