@@ -38,7 +38,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="879"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="0jY-Pb-FYr">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="872"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="922"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ClT-A8-fRn">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
@@ -93,8 +93,39 @@ Type</string>
                                                             <segue destination="heN-tZ-ESE" kind="embed" identifier="EmbedLocation" id="v2I-Ol-ZXP"/>
                                                         </connections>
                                                     </containerView>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fLM-ZG-x8G">
+                                                        <rect key="frame" x="0.0" y="350" width="375" height="50"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join via video" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Db-Hk-Ytu">
+                                                                <rect key="frame" x="8" y="0.0" width="359" height="50"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="50" id="W1W-hw-ZjK"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8E7-c6-3wy">
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                                                <connections>
+                                                                    <action selector="didClickVideoLink:" destination="UdQ-h3-dPN" eventType="touchUpInside" id="S3D-41-M61"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstItem="8E7-c6-3wy" firstAttribute="leading" secondItem="fLM-ZG-x8G" secondAttribute="leading" id="5gK-LP-KL6"/>
+                                                            <constraint firstItem="9Db-Hk-Ytu" firstAttribute="top" secondItem="fLM-ZG-x8G" secondAttribute="top" id="ELI-1L-F0H"/>
+                                                            <constraint firstAttribute="trailing" secondItem="8E7-c6-3wy" secondAttribute="trailing" id="MjP-6U-RGS"/>
+                                                            <constraint firstAttribute="bottom" secondItem="8E7-c6-3wy" secondAttribute="bottom" id="drX-qQ-9Ap"/>
+                                                            <constraint firstAttribute="trailing" secondItem="9Db-Hk-Ytu" secondAttribute="trailing" constant="8" id="iuj-xy-rUt"/>
+                                                            <constraint firstItem="9Db-Hk-Ytu" firstAttribute="leading" secondItem="fLM-ZG-x8G" secondAttribute="leading" constant="8" id="lYY-Xt-Exc"/>
+                                                            <constraint firstAttribute="bottom" secondItem="9Db-Hk-Ytu" secondAttribute="bottom" id="u1K-6u-Hs3"/>
+                                                            <constraint firstItem="8E7-c6-3wy" firstAttribute="top" secondItem="fLM-ZG-x8G" secondAttribute="top" id="voT-4o-nWy"/>
+                                                        </constraints>
+                                                    </view>
                                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nNh-T3-3nB" userLabel="Container View - payment">
-                                                        <rect key="frame" x="0.0" y="350" width="375" height="40"/>
+                                                        <rect key="frame" x="0.0" y="400" width="375" height="40"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="j2B-AI-8En"/>
                                                         </constraints>
@@ -103,7 +134,7 @@ Type</string>
                                                         </connections>
                                                     </containerView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Cud-JT-xi7">
-                                                        <rect key="frame" x="0.0" y="390" width="375" height="92"/>
+                                                        <rect key="frame" x="0.0" y="440" width="375" height="92"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mII-0a-gcT">
                                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="21"/>
@@ -162,7 +193,7 @@ Type</string>
                                                         </subviews>
                                                     </stackView>
                                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y7x-2l-MZf" userLabel="detailView">
-                                                        <rect key="frame" x="0.0" y="482" width="375" height="100"/>
+                                                        <rect key="frame" x="0.0" y="532" width="375" height="100"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FCt-eO-A2r" userLabel="Label Info">
                                                                 <rect key="frame" x="8" y="0.0" width="359" height="100"/>
@@ -181,7 +212,7 @@ Type</string>
                                                         </constraints>
                                                     </view>
                                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nBh-qV-Eg0" userLabel="Container View - organizer">
-                                                        <rect key="frame" x="0.0" y="582" width="375" height="50"/>
+                                                        <rect key="frame" x="0.0" y="632" width="375" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="86n-tI-D7g"/>
                                                         </constraints>
@@ -190,7 +221,7 @@ Type</string>
                                                         </connections>
                                                     </containerView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="06g-fB-xjS" customClass="PlayersScrollView" customModule="Panna" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="632" width="375" height="40"/>
+                                                        <rect key="frame" x="0.0" y="682" width="375" height="40"/>
                                                         <subviews>
                                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="drW-2R-f8Q">
                                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
@@ -211,7 +242,7 @@ Type</string>
                                                         </connections>
                                                     </view>
                                                     <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="do0-We-LXv" userLabel="Container View - chat">
-                                                        <rect key="frame" x="0.0" y="672" width="375" height="200"/>
+                                                        <rect key="frame" x="0.0" y="722" width="375" height="200"/>
                                                         <color key="backgroundColor" red="0.63972192999999999" green="0.70638650660000002" blue="0.67304807899999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="200" id="oQi-1b-Zgc"/>
@@ -364,6 +395,7 @@ Type</string>
                         <outlet property="labelInfo" destination="FCt-eO-A2r" id="BzG-yc-KQU"/>
                         <outlet property="labelSpotsLeft" destination="mII-0a-gcT" id="wlb-cf-rnn"/>
                         <outlet property="labelType" destination="0hR-vD-Xwe" id="xnW-kG-Kd7"/>
+                        <outlet property="labelVideoLink" destination="9Db-Hk-Ytu" id="WwZ-hp-cyp"/>
                         <outlet property="playersScrollView" destination="06g-fB-xjS" id="u4B-7L-OPJ"/>
                         <outlet property="scrollView" destination="v5N-mi-Yah" id="WkI-ml-Q0s"/>
                         <outlet property="sportImageView" destination="E75-s4-H12" id="4Xl-f8-tSR"/>

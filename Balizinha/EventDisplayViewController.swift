@@ -58,7 +58,11 @@ class EventDisplayViewController: UIViewController {
     @IBOutlet weak var containerShare: UIView!
     @IBOutlet weak var containerPayment: UIView!
     @IBOutlet weak var containerChatInput: UIView!
-    
+
+    // video link
+    @IBOutlet weak var containerVideoLink: UIView?
+    @IBOutlet weak var labelVideoLink: UILabel?
+
     @IBOutlet weak var activityView: UIView!
     weak var delegate: EventDetailsDelegate?
     
@@ -198,6 +202,11 @@ class EventDisplayViewController: UIViewController {
 //                })
 //            }
 //        }
+        
+        containerVideoLink?.isHidden = event.validVideoUrl == nil
+        if let urlString = event.validVideoUrl?.absoluteString {
+            labelVideoLink?.text = "Join via video: \(urlString)"
+        }
     }
     
     func handleGuestEvent() {
@@ -388,6 +397,19 @@ class EventDisplayViewController: UIViewController {
         guard let event = event else { return }
         LoggingService.shared.log(event: .CloneButtonClicked, info: nil)
         delegate?.didClone(event: event)
+    }
+    
+    @IBAction func didClickVideoLink(_ sender: Any?) {
+        guard let url = event?.validVideoUrl, UIApplication.shared.canOpenURL(url) else { return }
+        let title = "Open video link?"
+        let alert = UIAlertController(title: title, message: "Do you want to join the event via video using the provided link: \(url.absoluteString)", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Go", style: .default, handler: { (action) in
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "Later", style: .cancel, handler: { (action) in
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func close() {
