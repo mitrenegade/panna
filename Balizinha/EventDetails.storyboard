@@ -388,6 +388,7 @@ Type</string>
                         <outlet property="constraintWidth" destination="xz0-mV-4uu" id="err-g8-t3N"/>
                         <outlet property="containerChatInput" destination="f72-yV-K2b" id="a8s-qG-HAG"/>
                         <outlet property="containerShare" destination="nNh-T3-3nB" id="D9i-8K-wXT"/>
+                        <outlet property="containerVideoLink" destination="fLM-ZG-x8G" id="ZOp-M9-NN4"/>
                         <outlet property="headerBackground" destination="2Xo-tp-aAI" id="gQ5-5p-ElS"/>
                         <outlet property="imageClone" destination="MbG-Zi-6KK" id="jOq-oU-36d"/>
                         <outlet property="imageShare" destination="m28-12-C4h" id="HPl-2N-Poi"/>
