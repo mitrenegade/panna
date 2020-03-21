@@ -56,6 +56,7 @@ class VenueDetailsViewController: UIViewController {
     }
 
     @IBAction func didClickButton(_ sender: Any) {
+        view.endEditing(true)
         cameraHelper.takeOrSelectPhoto(from: self, fromView: buttonAddPhoto, frontFacing: false)
     }
     
@@ -71,8 +72,11 @@ class VenueDetailsViewController: UIViewController {
     
     @objc func didClickSave(_ sender: Any?) {
         if let text = inputName.text {
-            name = inputName.text
+            name = text
         }
+        view.endEditing(true)
+        
+        navigationItem.rightBarButtonItem?.isEnabled = false
 
         activityOverlay.show()
         if let venue = existingVenue {
@@ -89,11 +93,13 @@ class VenueDetailsViewController: UIViewController {
                     DispatchQueue.main.async {
                         self?.activityOverlay.hide()
                         self?.delegate?.didFinishUpdatingVenue(venue)
+                        self?.navigationItem.rightBarButtonItem?.isEnabled = true
                     }
                 }
             } else {
                 activityOverlay.hide()
                 delegate?.didFinishUpdatingVenue(venue)
+                navigationItem.rightBarButtonItem?.isEnabled = true
             }
         } else {
             // create venue
@@ -104,6 +110,8 @@ class VenueDetailsViewController: UIViewController {
             VenueService.shared.createVenue(userId: player.id, type:.unknown, name: name, street: street, city: city, state: state, lat: lat, lon: lon, placeId: nil) { [weak self] (venue, error) in
                 guard let venue = venue else {
                     self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error as NSError?)
+                    self?.activityOverlay.hide()
+                    self?.navigationItem.rightBarButtonItem?.isEnabled = true
                     return
                 }
                 if let photo = self?.selectedPhoto {
@@ -112,6 +120,7 @@ class VenueDetailsViewController: UIViewController {
                         DispatchQueue.main.async {
                             self?.refreshPhoto()
                             self?.activityOverlay.hide()
+                            self?.navigationItem.rightBarButtonItem?.isEnabled = true
                             self?.delegate?.didFinishUpdatingVenue(venue)
                         }
                     }
@@ -119,6 +128,7 @@ class VenueDetailsViewController: UIViewController {
                     DispatchQueue.main.async {
                         self?.refreshPhoto()
                         self?.activityOverlay.hide()
+                        self?.navigationItem.rightBarButtonItem?.isEnabled = true
                         self?.delegate?.didFinishUpdatingVenue(venue)
                     }
                 }
