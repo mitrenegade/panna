@@ -19,6 +19,12 @@ import RenderCloud
 
 let gcmMessageIDKey = "gcm.message_id"
 
+enum LocalNotificationType: String {
+    case eventReminder
+    case nextEventPrompt
+    case videoLinkReminder
+}
+
 @available(iOS 10.0, *)
 class NotificationService: NSObject {
     var scheduledEvents: [Balizinha.Event]?
@@ -88,7 +94,7 @@ class NotificationService: NSObject {
         let message = eventReminderString(event, interval: interval)
         content.title = NSString.localizedUserNotificationString(forKey: "Are you ready?", arguments: nil)
         content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
-        content.userInfo = ["type": "eventReminder", "eventId": event.id]
+        content.userInfo = ["type": LocalNotificationType.eventReminder.rawValue, "eventId": event.id]
         
         // Configure the trigger
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
@@ -107,7 +113,7 @@ class NotificationService: NSObject {
         let message = "Hope you can join for the next event."
         content.title = NSString.localizedUserNotificationString(forKey: "Thanks for coming!", arguments: nil)
         content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
-        content.userInfo = ["type": "nextEventPrompt", "eventId": event.id]
+        content.userInfo = ["type": LocalNotificationType.nextEventPrompt.rawValue, "eventId": event.id]
         
         // Configure the trigger
         let date = endTime.addingTimeInterval(interval)
@@ -129,7 +135,7 @@ class NotificationService: NSObject {
         let message = "Event starting at \(url.absoluteString)"
         content.title = NSString.localizedUserNotificationString(forKey: "Join video link?", arguments: nil)
         content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
-        content.userInfo = ["type": "videoLinkReminder", "eventId": event.id]
+        content.userInfo = ["type": LocalNotificationType.videoLinkReminder.rawValue, "eventId": event.id, "url":url.absoluteString]
         
         // Configure the trigger
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
@@ -281,9 +287,21 @@ extension NotificationService: UNUserNotificationCenterDelegate {
         LoggingService.shared.log(event: LoggingEvent.PushNotificationReceived, info: ["inApp": true])
         
         // Change this to your preferred presentation option
+        if let type = userInfo["type"] as? String {
+            switch LocalNotificationType(rawValue: type) {
+            case .videoLinkReminder:
+                // handle a video link
+                if let urlString = userInfo["url"] as? String, let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+                break
+            default:
+                break
+            }
+        }
         completionHandler([])
     }
-    
+
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
