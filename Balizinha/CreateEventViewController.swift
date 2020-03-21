@@ -29,6 +29,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         case name = "Name"
         case type = "Event Type"
         case venue = "Venue"
+        case videoUrl = "Video Conference"
         case day = "Day"
         case start = "Start Time"
         case end = "End Time"
@@ -46,6 +47,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var name: String?
     var type : Balizinha.Event.EventType?
     var venue: Venue?
+    var videoUrl: String?
     var eventDate : Date? {
         didSet {
             if let eventDate = eventDate, let startTime = startTime {
@@ -78,6 +80,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var startField: UITextField?
     var endField: UITextField?
     var maxPlayersField: UITextField?
+    var videoUrlField: UITextField?
     var descriptionTextView : UITextView?
     var amountField: UITextField?
     var paymentSwitch: UISwitch?
@@ -124,7 +127,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.navigationItem.title = "Edit Event"
         }
         
-        options = [.name, .type, .venue, .day, .start, .end, .recurrence, .players]
+        options = [.name, .type, .venue, .videoUrl, .day, .start, .end, .recurrence, .players]
         if SettingsService.paymentRequired() {
             options.append(.payment)
         }
@@ -192,6 +195,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                 }
             }
         }
+        videoUrl = event.validVideoUrl?.absoluteString
 
         if let leagueId = event.leagueId {
             LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
@@ -368,22 +372,32 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         self.done()
         self.info = self.descriptionTextView?.text ?? eventToEdit?.info
         
-        guard let venue = venue else {
-            self.simpleAlert("Invalid selection", message: "Please select a venue")
+        // either venue or video url must exist
+        if Balizinha.Event.validUrl(videoUrl) == nil && venue == nil {
+            self.simpleAlert("Invalid selection", message: "Please select a venue or add a video link")
             return
         }
-        guard let venueName = venue.name ?? venue.street else {
-            self.simpleAlert("Invalid selection", message: "Invalid name for selected venue")
-            return
+        var venueName: String?
+        var city: String?
+        var state: String?
+        if let venue = venue {
+            guard let newName = venue.name ?? venue.street else {
+                self.simpleAlert("Invalid selection", message: "Invalid name for selected venue")
+                return
+            }
+            guard let newCity = venue.city else {
+                self.simpleAlert("Invalid selection", message: "Invalid city for selected venue")
+                return
+            }
+            guard let newState = venue.state else {
+                self.simpleAlert("Invalid selection", message: "Invalid state for selected venue")
+                return
+            }
+            venueName = newName
+            city = newCity
+            state = newState
         }
-        guard let city = venue.city else {
-            self.simpleAlert("Invalid selection", message: "Invalid city for selected venue")
-            return
-        }
-        guard let state = venue.state else {
-            self.simpleAlert("Invalid selection", message: "Invalid state for selected venue")
-            return
-        }
+
         guard let eventDate = self.eventDate else {
             self.simpleAlert("Invalid selection", message: "Please select the event date")
             return
@@ -422,7 +436,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         self.startTime = start
         self.endTime = end
-
+        
         if let event = self.eventToEdit, var dict = event.dict {
             // event already exists: update/edit info
             dict["name"] = self.name ?? "Balizinha"
@@ -430,8 +444,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             dict["city"] = city
             dict["state"] = state
             dict["place"] = venueName
-            dict["lat"] = venue.lat
-            dict["lon"] = venue.lon
+            dict["lat"] = venue?.lat
+            dict["lon"] = venue?.lon
             dict["maxPlayers"] = maxPlayers
             dict["info"] = self.info
             dict["paymentRequired"] = self.paymentRequired
@@ -442,7 +456,12 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             if let date = recurrenceDate {
                 dict["recurrenceEndDate"] = date.timeIntervalSince1970
             }
-            dict["venueId"] = venue.id
+            if let venueId = venue?.id {
+                dict["venueId"] = venueId
+            }
+            if let url = Balizinha.Event.validUrl(videoUrl) {
+                dict["videoUrl"] = url.absoluteString
+            }
             event.dict = dict
             event.firebaseRef?.updateChildValues(dict) // update all these values without multiple update calls
 
@@ -468,7 +487,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         else {
             activityOverlay.show()
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .other, venue: venue, startTime: start, endTime: end, recurrence: self.recurrence, recurrenceEndDate: self.recurrenceDate, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, completion: { [weak self] (event, error) in
+            let url: String? = Balizinha.Event.validUrl(videoUrl)?.absoluteString
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .other, venue: venue, startTime: start, endTime: end, recurrence: self.recurrence, recurrenceEndDate: self.recurrenceDate, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, videoUrl: url, completion: { [weak self] (event, error) in
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.activityOverlay.hide()
@@ -565,7 +585,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         case Sections.details.rawValue:
             let cell : DetailCell
             switch options[indexPath.row] {
-            case .venue, .name:
+            case .venue, .name, .videoUrl:
                 cell = tableView.dequeueReusableCell(withIdentifier: "cityCell", for: indexPath) as! DetailCell
                 cell.valueTextField.delegate = self
                 cell.valueTextField.inputAccessoryView = nil
@@ -580,6 +600,12 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     self.nameField = cell.valueTextField
                     self.nameField?.text = name
                     self.nameField?.isUserInteractionEnabled = true
+                } else if options[indexPath.row] == .videoUrl {
+                    cell.valueTextField.placeholder = "Click to add a url"
+                    self.videoUrlField = cell.valueTextField
+                    self.videoUrlField?.text = videoUrl
+                    self.videoUrlField?.isUserInteractionEnabled = true
+                    self.videoUrlField?.keyboardType = .URL
                 }
             case .payment:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentToggleCell", for: indexPath) as! ToggleCell
@@ -1020,8 +1046,9 @@ extension CreateEventViewController: UITextFieldDelegate {
             if let event = eventToEdit, let old = oldName, let newName = textField.text {
                 LoggingService.shared.log(event: .RenameEvent, info: ["oldName": old, "newName": newName, "eventId": event.id])
             }
-        }
-        else if textField == self.amountField, let newAmount = EventService.amountNumber(from: textField.text) {
+        } else if textField == self.videoUrlField {
+            self.videoUrl = textField.text
+        } else if textField == self.amountField, let newAmount = EventService.amountNumber(from: textField.text) {
             var title = "Payment amount"
             var shouldShow = false
             if newAmount.doubleValue < 1 {
