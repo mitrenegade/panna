@@ -29,6 +29,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         case name = "Name"
         case type = "Event Type"
         case venue = "Venue"
+        case videoUrl = "Video Conference"
         case day = "Day"
         case start = "Start Time"
         case end = "End Time"
@@ -46,6 +47,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var name: String?
     var type : Balizinha.Event.EventType?
     var venue: Venue?
+    var videoUrl: String?
     var eventDate : Date? {
         didSet {
             if let eventDate = eventDate, let startTime = startTime {
@@ -78,6 +80,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     var startField: UITextField?
     var endField: UITextField?
     var maxPlayersField: UITextField?
+    var videoUrlField: UITextField?
     var descriptionTextView : UITextView?
     var amountField: UITextField?
     var paymentSwitch: UISwitch?
@@ -124,7 +127,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             self.navigationItem.title = "Edit Event"
         }
         
-        options = [.name, .type, .venue, .day, .start, .end, .recurrence, .players]
+        options = [.name, .type, .venue, .videoUrl, .day, .start, .end, .recurrence, .players]
         if SettingsService.paymentRequired() {
             options.append(.payment)
         }
@@ -192,6 +195,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                 }
             }
         }
+        videoUrl = event.validVideoUrl?.absoluteString
 
         if let leagueId = event.leagueId {
             LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
@@ -565,7 +569,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         case Sections.details.rawValue:
             let cell : DetailCell
             switch options[indexPath.row] {
-            case .venue, .name:
+            case .venue, .name, .videoUrl:
                 cell = tableView.dequeueReusableCell(withIdentifier: "cityCell", for: indexPath) as! DetailCell
                 cell.valueTextField.delegate = self
                 cell.valueTextField.inputAccessoryView = nil
@@ -580,6 +584,12 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
                     self.nameField = cell.valueTextField
                     self.nameField?.text = name
                     self.nameField?.isUserInteractionEnabled = true
+                } else if options[indexPath.row] == .videoUrl {
+                    cell.valueTextField.placeholder = "Click to add a url"
+                    self.videoUrlField = cell.valueTextField
+                    self.videoUrlField?.text = videoUrl
+                    self.videoUrlField?.isUserInteractionEnabled = true
+                    self.videoUrlField?.keyboardType = .URL
                 }
             case .payment:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentToggleCell", for: indexPath) as! ToggleCell
