@@ -372,22 +372,32 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         self.done()
         self.info = self.descriptionTextView?.text ?? eventToEdit?.info
         
-        guard let venue = venue else {
-            self.simpleAlert("Invalid selection", message: "Please select a venue")
+        // either venue or video url must exist
+        if Balizinha.Event.validUrl(videoUrl) == nil && venue == nil {
+            self.simpleAlert("Invalid selection", message: "Please select a venue or add a video link")
             return
         }
-        guard let venueName = venue.name ?? venue.street else {
-            self.simpleAlert("Invalid selection", message: "Invalid name for selected venue")
-            return
+        var venueName: String?
+        var city: String?
+        var state: String?
+        if let venue = venue {
+            guard let newName = venue.name ?? venue.street else {
+                self.simpleAlert("Invalid selection", message: "Invalid name for selected venue")
+                return
+            }
+            guard let newCity = venue.city else {
+                self.simpleAlert("Invalid selection", message: "Invalid city for selected venue")
+                return
+            }
+            guard let newState = venue.state else {
+                self.simpleAlert("Invalid selection", message: "Invalid state for selected venue")
+                return
+            }
+            venueName = newName
+            city = newCity
+            state = newState
         }
-        guard let city = venue.city else {
-            self.simpleAlert("Invalid selection", message: "Invalid city for selected venue")
-            return
-        }
-        guard let state = venue.state else {
-            self.simpleAlert("Invalid selection", message: "Invalid state for selected venue")
-            return
-        }
+
         guard let eventDate = self.eventDate else {
             self.simpleAlert("Invalid selection", message: "Please select the event date")
             return
@@ -426,7 +436,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         self.startTime = start
         self.endTime = end
-
+        
         if let event = self.eventToEdit, var dict = event.dict {
             // event already exists: update/edit info
             dict["name"] = self.name ?? "Balizinha"
@@ -434,8 +444,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             dict["city"] = city
             dict["state"] = state
             dict["place"] = venueName
-            dict["lat"] = venue.lat
-            dict["lon"] = venue.lon
+            dict["lat"] = venue?.lat
+            dict["lon"] = venue?.lon
             dict["maxPlayers"] = maxPlayers
             dict["info"] = self.info
             dict["paymentRequired"] = self.paymentRequired
@@ -446,7 +456,12 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             if let date = recurrenceDate {
                 dict["recurrenceEndDate"] = date.timeIntervalSince1970
             }
-            dict["venueId"] = venue.id
+            if let venueId = venue?.id {
+                dict["venueId"] = venueId
+            }
+            if let url = Balizinha.Event.validUrl(videoUrl) {
+                dict["videoUrl"] = url
+            }
             event.dict = dict
             event.firebaseRef?.updateChildValues(dict) // update all these values without multiple update calls
 
