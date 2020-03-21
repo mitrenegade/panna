@@ -78,7 +78,13 @@ class NotificationService: NSObject {
     func scheduleReminderForUpcomingEvent(_ event: Balizinha.Event) {
         //create local notification
         guard let startTime = event.startTime else { return }
-        let interval = SettingsService.eventReminderInterval
+        var interval = SettingsService.eventReminderInterval
+        var date = startTime.addingTimeInterval(-1 * interval)
+        if date.timeIntervalSinceNow < 0 {
+            interval = SettingsService.eventReminderIntervalShort
+            date = startTime.addingTimeInterval(-1 * interval)
+        }
+
         let content = UNMutableNotificationContent()
         let message = eventReminderString(event, interval: interval)
         content.title = NSString.localizedUserNotificationString(forKey: "Are you ready?", arguments: nil)
@@ -86,11 +92,6 @@ class NotificationService: NSObject {
         content.userInfo = ["type": "eventReminder", "eventId": event.id]
         
         // Configure the trigger
-        var date = startTime.addingTimeInterval(-1 * interval)
-        if date.timeIntervalSinceNow < 0 {
-            let shortInterval = SettingsService.eventReminderIntervalShort
-            date = startTime.addingTimeInterval(-1 * shortInterval)
-        }
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
