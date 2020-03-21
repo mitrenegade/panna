@@ -178,19 +178,20 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         paymentRequired = event.paymentRequired
         recurrence = event.recurrence
         recurrenceDate = event.recurrenceEndDate
+        
         amount = event.amount
 
         // this causes it to lock up. for now, a cloned event doesn't have to copy the venue
-//        if let venueId = event.venueId {
-//            placeField?.placeholder = "Loading..."
-//            VenueService.shared.withId(id: venueId) { [weak self] (result) in
-//                if let clonedVenue = result {
-//                    DispatchQueue.main.async { [weak self] in
-//                        self?.didSelectVenue(clonedVenue)
-//                    }
-//                }
-//            }
-//        }
+        if let venueId = event.venueId {
+            placeField?.placeholder = "Loading..."
+            VenueService.shared.withId(id: venueId) { [weak self] (result) in
+                if let clonedVenue = result as? Venue {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.didSelectVenue(clonedVenue)
+                    }
+                }
+            }
+        }
 
         if let leagueId = event.leagueId {
             LeagueService.shared.withId(id: leagueId) { [weak self] (league) in
