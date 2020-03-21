@@ -39,8 +39,7 @@ class NotificationService: NSObject {
         guard let events = events else { return }
         // reschedule event notifications
         for event in events {
-            scheduleReminderForUpcomingEvent(event)
-            scheduleNextReminderAfterEvent(event)
+            scheduleLocalNotifications(for: event)
         }
         
     }
@@ -69,13 +68,13 @@ class NotificationService: NSObject {
         }
     }
     
-    func eventReminderString(_ event: Balizinha.Event, interval: TimeInterval) -> String {
+    internal func eventReminderString(_ event: Balizinha.Event, interval: TimeInterval) -> String {
         let nameString: String = nameStringForEventReminder(event)
         let timeString: String = timeStringForEventReminder(event, interval: interval)
         return "\(nameString) \(timeString)"
     }
     
-    func scheduleReminderForUpcomingEvent(_ event: Balizinha.Event) {
+    private func scheduleReminderForUpcomingEvent(_ event: Balizinha.Event) {
         //create local notification
         guard let startTime = event.startTime else { return }
         var interval = SettingsService.eventReminderInterval
@@ -100,7 +99,7 @@ class NotificationService: NSObject {
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 
-    func scheduleNextReminderAfterEvent(_ event: Balizinha.Event) {
+    private func scheduleNextReminderAfterEvent(_ event: Balizinha.Event) {
         //create local notification
         guard let endTime = event.endTime else { return }
         let interval = SettingsService.eventPromptInterval
@@ -119,12 +118,41 @@ class NotificationService: NSObject {
         let request = UNNotificationRequest(identifier: "NextEventPrompt\(event.id)", content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
+    
+    private func scheduleVideoLinkReminder(_ event: Balizinha.Event) {
+        guard let url = event.validVideoUrl else { return }
+        //create local notification which opens the video
+        guard let startTime = event.startTime else { return }
+        let date = Date() + 5
+
+        let content = UNMutableNotificationContent()
+        let message = "Event starting at \(url.absoluteString)"
+        content.title = NSString.localizedUserNotificationString(forKey: "Join video link?", arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
+        content.userInfo = ["type": "videoLinkReminder", "eventId": event.id]
+        
+        // Configure the trigger
+        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        
+        // Create the request object.
+        let request = UNNotificationRequest(identifier: "VideoLink\(event.id)", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+
+    func scheduleLocalNotifications(for event: Balizinha.Event) {
+        scheduleReminderForUpcomingEvent(event)
+        scheduleNextReminderAfterEvent(event)
+        scheduleVideoLinkReminder(event)
+    }
 
     func removeNotificationsForEvent(_ event: Balizinha.Event) {
         let identifier = "EventReminder\(event.id)"
         removeNotification(id: identifier)
         let identifier2 = "NextEventPrompt\(event.id)"
         removeNotification(id: identifier2)
+        let identifier3 = "VideoLinkPrompt\(event.id)"
+        removeNotification(id: identifier3)
     }
 
     func clearAllNotifications() {
