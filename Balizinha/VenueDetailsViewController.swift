@@ -30,6 +30,8 @@ class VenueDetailsViewController: UIViewController {
     var lon: Double?
 
     var selectedPhoto: UIImage?
+    
+    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
     // camera
     let cameraHelper = CameraHelper()
@@ -42,10 +44,17 @@ class VenueDetailsViewController: UIViewController {
         
         refreshPhoto()
         cameraHelper.delegate = self
-        
+
+        view.addSubview(activityOverlay)
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(didClickSave(_:)))
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        activityOverlay.setup(frame: view.frame)
+    }
+
     @IBAction func didClickButton(_ sender: Any) {
         cameraHelper.takeOrSelectPhoto(from: self, fromView: buttonAddPhoto, frontFacing: false)
     }
@@ -61,27 +70,37 @@ class VenueDetailsViewController: UIViewController {
     }
     
     @objc func didClickSave(_ sender: Any?) {
+        if let text = inputName.text {
+            name = inputName.text
+        }
+
+        activityOverlay.show()
         if let venue = existingVenue {
-            venue.name = inputName?.text
+            venue.name = name
             venue.street = street
             venue.city = city
             venue.state = state
             venue.lat = lat
             venue.lon = lon
             if let photo = selectedPhoto {
-                uploadPhoto(photo, for: venue) { url in
+                uploadPhoto(photo, for: venue) { [weak self] url in
                     venue.photoUrl = url
-                    self.refreshPhoto()
-                    self.delegate?.didFinishUpdatingVenue(venue)
+                    self?.refreshPhoto()
+                    DispatchQueue.main.async {
+                        self?.activityOverlay.hide()
+                        self?.delegate?.didFinishUpdatingVenue(venue)
+                    }
                 }
+            } else {
+                activityOverlay.hide()
+                delegate?.didFinishUpdatingVenue(venue)
             }
         } else {
             // create venue
             // TODO: check if venue exists within some distance.
             // TODO: if new venue, create a venue and add venueId to the event
             guard let player = PlayerService.shared.current.value else { return }
-            // TODO
-//                activityOverlay.show()
+            activityOverlay.show()
             VenueService.shared.createVenue(userId: player.id, type:.unknown, name: name, street: street, city: city, state: state, lat: lat, lon: lon, placeId: nil) { [weak self] (venue, error) in
                 guard let venue = venue else {
                     self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error as NSError?)
@@ -92,16 +111,14 @@ class VenueDetailsViewController: UIViewController {
                         venue.photoUrl = url
                         DispatchQueue.main.async {
                             self?.refreshPhoto()
-                            // TODO
-//                                self?.activityOverlay.hide()
+                            self?.activityOverlay.hide()
                             self?.delegate?.didFinishUpdatingVenue(venue)
                         }
                     }
                 } else {
                     DispatchQueue.main.async {
                         self?.refreshPhoto()
-                        // TODO
-//                            self?.activityOverlay.hide()
+                        self?.activityOverlay.hide()
                         self?.delegate?.didFinishUpdatingVenue(venue)
                     }
                 }
