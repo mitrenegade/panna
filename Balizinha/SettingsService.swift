@@ -80,6 +80,7 @@ class SettingsService: NSObject {
                     print("Settings: * featureAvailable useGetAvailableEvents \(SettingsService.usesGetAvailableEvents())")
                     print("Settings: * eventFilterRadius \(SettingsService.eventFilterRadius)")
                     print("Settings: * organizerDashboard \(SettingsService.showOrganizerDashboard)")
+                    print("Settings: * useVideoLink \(SettingsService.useVideoLink)")
                     self.recordExperimentGroups()
                     observer.onNext("done")
                 }
