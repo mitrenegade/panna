@@ -129,7 +129,7 @@ class NotificationService: NSObject {
         guard let url = event.validVideoUrl else { return }
         //create local notification which opens the video
         guard let startTime = event.startTime else { return }
-        let date = Date() + 5
+        let date = startTime // Date() + 5
 
         let content = UNMutableNotificationContent()
         let message = "Event starting at \(url.absoluteString)"
@@ -366,6 +366,7 @@ extension NotificationService {
                 // TODO: should prompt user whether they want to or not, but if they're in Panna, it's fine.
                 // TODO: needs to find the top viewController
                 if let urlString = notification["url"] as? String, let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
+                    LoggingService.shared.log(event: LoggingEvent.ClickOnVideoLinkNotification, info: ["eventId": notification["eventId"] as? String ?? ""])
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
                 break
