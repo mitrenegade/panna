@@ -50,11 +50,15 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
         keyboardDoneButtonView.tintColor = UIColor.red
         let save: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(done))
         let cancel: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelRecurrence))
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
+        label.text = "Select an end date"
+        label.textAlignment = .center
+        let labelItem = UIBarButtonItem(customView: label)
         let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         save.tintColor = UIColor(red: 62.0/255.0, green: 82.0/255.0, blue: 101.0/255.0, alpha: 1)
         cancel.tintColor = UIColor(red: 62.0/255.0, green: 82.0/255.0, blue: 101.0/255.0, alpha: 1)
 
-        keyboardDoneButtonView.setItems([cancel, flex, save], animated: true)
+        keyboardDoneButtonView.setItems([cancel, flex, labelItem, flex, save], animated: true)
 
         recurrenceField.inputView = datePickerView
         recurrenceField.inputAccessoryView = keyboardDoneButtonView
@@ -139,7 +143,7 @@ class RecurrenceToggleCell: ToggleCell, UIPickerViewDelegate, UIPickerViewDataSo
     
     func promptForDate() {
         generatePickerDates()
-        recurrenceField.becomeFirstResponder()
+        self.recurrenceField.becomeFirstResponder()
     }
     
     @objc func done() {
