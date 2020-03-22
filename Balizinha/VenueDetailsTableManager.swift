@@ -161,6 +161,6 @@ extension VenueDetailsTableManager: UIPickerViewDataSource, UIPickerViewDelegate
         guard pickerView == self.typePickerView else { return }
         let types = Venue.SpaceType.allCases
         currentType = types[row]
-        tableView?.reloadData()
+        inputType?.text = (currentType?.rawValue ?? Venue.SpaceType.unknown.rawValue).capitalized
     }
 }
