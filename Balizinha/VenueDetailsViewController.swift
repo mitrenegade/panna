@@ -30,6 +30,7 @@ class VenueDetailsViewController: UIViewController {
     var lon: Double?
 
     var selectedPhoto: UIImage?
+    var selectedType: String?
     
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
@@ -48,10 +49,8 @@ class VenueDetailsViewController: UIViewController {
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(didClickSave(_:)))
         
-        tableManager = VenueDetailsTableManager(venue: existingVenue)
+        tableManager = VenueDetailsTableManager(venue: existingVenue, tableView: tableView)
         tableManager?.delegate = self
-        tableView.dataSource = tableManager
-        tableView.delegate = tableManager
     }
     
     override func viewDidLayoutSubviews() {
@@ -75,6 +74,9 @@ class VenueDetailsViewController: UIViewController {
             venue.state = state
             venue.lat = lat
             venue.lon = lon
+            if let typeString = selectedType, let type = Venue.SpaceType(rawValue: typeString) {
+                venue.type = type
+            }
             if let photo = selectedPhoto {
                 uploadPhoto(photo, for: venue) { [weak self] url in
                     venue.photoUrl = url
@@ -96,7 +98,8 @@ class VenueDetailsViewController: UIViewController {
             // TODO: if new venue, create a venue and add venueId to the event
             guard let player = PlayerService.shared.current.value else { return }
             activityOverlay.show()
-            VenueService.shared.createVenue(userId: player.id, type:.unknown, name: name, street: street, city: city, state: state, lat: lat, lon: lon, placeId: nil) { [weak self] (venue, error) in
+            let type = Venue.SpaceType(rawValue: selectedType ?? "") ?? .unknown
+            VenueService.shared.createVenue(userId: player.id, type:type, name: name, street: street, city: city, state: state, lat: lat, lon: lon, placeId: nil) { [weak self] (venue, error) in
                 guard let venue = venue else {
                     self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error as NSError?)
                     self?.activityOverlay.hide()
@@ -148,6 +151,11 @@ extension VenueDetailsViewController: VenueDetailsTableManagerDelegate {
     func selectPhoto() {
         view.endEditing(true)
         cameraHelper.takeOrSelectPhoto(from: self, fromView: buttonAddPhoto, frontFacing: false)
+    }
+    
+    func didSelectType(_ type: Venue.SpaceType?) {
+        selectedType = type?.rawValue ?? existingVenue?.type.rawValue
+        tableView.reloadData()
     }
 }
 

@@ -11,13 +11,16 @@ import Balizinha
 
 protocol VenueDetailsTableManagerDelegate {
     func selectPhoto()
+    func didSelectType(_ type: Venue.SpaceType?)
 }
 
-class VenueDetailsTableManager: NSObject, UITableViewDataSource, UITableViewDelegate {
+class VenueDetailsTableManager: NSObject {
 
     var inputName: UITextField?
     var inputType: UITextField?
-    var typePickerView: UIPickerView = UIPickerView()
+    private let typePickerView: UIPickerView = UIPickerView()
+    private let keyboardDoneButtonView = UIToolbar()
+    weak var tableView: UITableView?
 
     private enum Row: Int, CaseIterable {
         case photo = 0
@@ -29,16 +32,43 @@ class VenueDetailsTableManager: NSObject, UITableViewDataSource, UITableViewDele
     var delegate: VenueDetailsTableManagerDelegate?
     var currentType: Venue.SpaceType?
 
-    init(venue: Venue?) {
+    init(venue: Venue?, tableView: UITableView?) {
         self.venue = venue
-        
+        self.tableView = tableView
+
         super.init()
-        
+        tableView?.dataSource = self
+        tableView?.delegate = self
+        setupPicker()
+    }
+    
+    func setupPicker() {
         typePickerView.sizeToFit()
         typePickerView.delegate = self
         typePickerView.dataSource = self
+
+        keyboardDoneButtonView.sizeToFit()
+        keyboardDoneButtonView.barStyle = UIBarStyle.default
+        keyboardDoneButtonView.tintColor = UIColor.white
+        let save: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneSelectingType))
+        let cancel: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelSelectingType))
+
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        keyboardDoneButtonView.setItems([cancel, flex, save], animated: true)
+    }
+    
+    @objc func doneSelectingType() {
+        tableView?.endEditing(true)
+        delegate?.didSelectType(currentType)
     }
 
+    @objc func cancelSelectingType() {
+        currentType = nil
+        doneSelectingType()
+    }
+}
+
+extension VenueDetailsTableManager: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Row.allCases.count
     }
@@ -65,6 +95,7 @@ class VenueDetailsTableManager: NSObject, UITableViewDataSource, UITableViewDele
                 cell.valueTextField.placeholder = "Select venue type"
                 inputType = cell.valueTextField
                 inputType?.inputView = typePickerView
+                inputType?.inputAccessoryView = keyboardDoneButtonView
                 inputType?.delegate = self
                 return cell
             }
@@ -114,9 +145,10 @@ extension VenueDetailsTableManager: UIPickerViewDataSource, UIPickerViewDelegate
         //print("Reloaded components")
         let types = Venue.SpaceType.allCases
         if types[row] == .unknown {
-            return "Select event type"
+            return "Select Venue type"
         }
-        return "\(types[row].rawValue)"
+        let type: String = types[row].rawValue
+        return "\(type.capitalized)"
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {

@@ -271,21 +271,21 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaceCell" textLabel="ogE-ml-m0k" detailTextLabel="Jax-su-sBP" style="IBUITableViewCellStyleSubtitle" id="bYE-iw-Fn2">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="54.5"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="57.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bYE-iw-Fn2" id="ac5-Uz-m4q">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="54.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="57.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ogE-ml-m0k">
-                                                    <rect key="frame" x="20" y="11" width="32" height="20"/>
+                                                    <rect key="frame" x="20" y="8" width="36" height="21"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jax-su-sBP">
-                                                    <rect key="frame" x="20" y="31" width="41" height="14"/>
+                                                    <rect key="frame" x="20" y="32" width="47.5" height="15"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                                     <nil key="textColor"/>
@@ -337,7 +337,7 @@
                                 </connections>
                             </mapView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="location40" translatesAutoresizingMaskIntoConstraints="NO" id="Cys-zB-3P7">
-                                <rect key="frame" x="167" y="344" width="80" height="80"/>
+                                <rect key="frame" x="187" y="364" width="40" height="40"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wca-yM-sDJ">
                                 <rect key="frame" x="8" y="724" width="398" height="76"/>
@@ -408,7 +408,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a photo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LTj-wW-zfJ">
-                                                            <rect key="frame" x="16" y="40" width="94.5" height="20"/>
+                                                            <rect key="frame" x="16" y="39.5" width="105.5" height="21"/>
                                                             <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -453,13 +453,13 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j18-6h-ecV">
-                                                            <rect key="frame" x="16" y="15" width="42" height="20"/>
+                                                            <rect key="frame" x="16" y="14.5" width="46.5" height="21"/>
                                                             <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zpz-9C-HQT">
-                                                            <rect key="frame" x="66" y="3" width="317" height="43.5"/>
+                                                            <rect key="frame" x="70.5" y="3" width="312.5" height="43.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="43" id="Dct-zI-iR6"/>
                                                             </constraints>
@@ -499,13 +499,13 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H78-4R-wfa">
-                                                            <rect key="frame" x="16" y="15" width="42" height="20"/>
+                                                            <rect key="frame" x="16" y="14.5" width="46.5" height="21"/>
                                                             <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RUK-3Q-ZdA">
-                                                            <rect key="frame" x="66" y="3" width="298" height="43.5"/>
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RUK-3Q-ZdA">
+                                                            <rect key="frame" x="70.5" y="3" width="293.5" height="43.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="43" id="aGj-wK-zKG"/>
                                                             </constraints>
