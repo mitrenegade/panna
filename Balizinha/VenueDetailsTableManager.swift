@@ -11,7 +11,6 @@ import Balizinha
 
 protocol VenueDetailsTableManagerDelegate {
     func selectPhoto()
-    func didSelectType(_ type: Venue.SpaceType?)
 }
 
 class VenueDetailsTableManager: NSObject {
@@ -40,6 +39,8 @@ class VenueDetailsTableManager: NSObject {
         tableView?.dataSource = self
         tableView?.delegate = self
         setupPicker()
+        
+        currentType = venue?.type
     }
     
     func setupPicker() {
@@ -59,11 +60,11 @@ class VenueDetailsTableManager: NSObject {
     
     @objc func doneSelectingType() {
         tableView?.endEditing(true)
-        delegate?.didSelectType(currentType)
+        tableView?.reloadData()
     }
 
     @objc func cancelSelectingType() {
-        currentType = nil
+        currentType = venue?.type
         doneSelectingType()
     }
 }
@@ -91,7 +92,7 @@ extension VenueDetailsTableManager: UITableViewDataSource, UITableViewDelegate {
             case .type:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "typeCell", for: indexPath) as! DetailCell
                 cell.labelAttribute.text = "Type"
-                cell.valueTextField.text = venue?.type.rawValue
+                cell.valueTextField.text = currentType?.rawValue.capitalized
                 cell.valueTextField.placeholder = "Select venue type"
                 inputType = cell.valueTextField
                 inputType?.inputView = typePickerView
@@ -111,11 +112,7 @@ extension VenueDetailsTableManager: UITableViewDataSource, UITableViewDelegate {
         case .photo:
             delegate?.selectPhoto()
             break
-        case .name:
-            break
-        case .type:
-            typePickerView.reloadAllComponents()
-            
+        case .name, .type:
             break
         default:
             break
@@ -124,6 +121,14 @@ extension VenueDetailsTableManager: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension VenueDetailsTableManager: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == inputType {
+            typePickerView.reloadAllComponents()
+            if let type = currentType, let index = Venue.SpaceType.allCases.firstIndex(of: type) {
+                typePickerView.selectRow(index, inComponent: 0, animated: true)
+            }
+        }
+    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.endEditing(true)
         return true
@@ -153,8 +158,9 @@ extension VenueDetailsTableManager: UIPickerViewDataSource, UIPickerViewDelegate
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         // let user pick more dates and click done
-        guard pickerView != self.typePickerView else { return }
+        guard pickerView == self.typePickerView else { return }
         let types = Venue.SpaceType.allCases
         currentType = types[row]
+        tableView?.reloadData()
     }
 }
