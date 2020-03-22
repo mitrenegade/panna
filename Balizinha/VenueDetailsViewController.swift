@@ -170,6 +170,7 @@ extension VenueDetailsViewController: CameraHelperDelegate {
         let size = CGSize(width: width, height: height)
         let resized = FirebaseImageService.resizeImage(image: image, newSize: size)
         selectedPhoto = resized
+        tableManager?.selectedPhoto = resized
         tableView.reloadData()
         dismiss(animated: true, completion: nil)
     }
