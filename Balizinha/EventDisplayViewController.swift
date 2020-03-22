@@ -203,7 +203,7 @@ class EventDisplayViewController: UIViewController {
 //            }
 //        }
         
-        containerVideoLink?.isHidden = event.validVideoUrl == nil
+        containerVideoLink?.isHidden = event.validVideoUrl == nil || !SettingsService.useVideoLink
         if let urlString = event.validVideoUrl?.absoluteString {
             labelVideoLink?.text = "Join via video: \(urlString)"
         }
@@ -400,6 +400,7 @@ class EventDisplayViewController: UIViewController {
     }
     
     @IBAction func didClickVideoLink(_ sender: Any?) {
+        LoggingService.shared.log(event: LoggingEvent.ClickOnVideoLink, info: ["eventId": event?.id ?? ""])
         guard let url = event?.validVideoUrl, UIApplication.shared.canOpenURL(url) else { return }
         let title = "Open video link?"
         let alert = UIAlertController(title: title, message: "Do you want to join the event via video using the provided link: \(url.absoluteString)", preferredStyle: .alert)

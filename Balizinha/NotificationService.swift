@@ -19,6 +19,12 @@ import RenderCloud
 
 let gcmMessageIDKey = "gcm.message_id"
 
+enum LocalNotificationType: String {
+    case eventReminder
+    case nextEventPrompt
+    case videoLinkReminder
+}
+
 @available(iOS 10.0, *)
 class NotificationService: NSObject {
     var scheduledEvents: [Balizinha.Event]?
@@ -39,8 +45,7 @@ class NotificationService: NSObject {
         guard let events = events else { return }
         // reschedule event notifications
         for event in events {
-            scheduleReminderForUpcomingEvent(event)
-            scheduleNextReminderAfterEvent(event)
+            scheduleLocalNotifications(for: event)
         }
         
     }
@@ -69,13 +74,13 @@ class NotificationService: NSObject {
         }
     }
     
-    func eventReminderString(_ event: Balizinha.Event, interval: TimeInterval) -> String {
+    internal func eventReminderString(_ event: Balizinha.Event, interval: TimeInterval) -> String {
         let nameString: String = nameStringForEventReminder(event)
         let timeString: String = timeStringForEventReminder(event, interval: interval)
         return "\(nameString) \(timeString)"
     }
     
-    func scheduleReminderForUpcomingEvent(_ event: Balizinha.Event) {
+    private func scheduleReminderForUpcomingEvent(_ event: Balizinha.Event) {
         //create local notification
         guard let startTime = event.startTime else { return }
         var interval = SettingsService.eventReminderInterval
@@ -89,7 +94,7 @@ class NotificationService: NSObject {
         let message = eventReminderString(event, interval: interval)
         content.title = NSString.localizedUserNotificationString(forKey: "Are you ready?", arguments: nil)
         content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
-        content.userInfo = ["type": "eventReminder", "eventId": event.id]
+        content.userInfo = ["type": LocalNotificationType.eventReminder.rawValue, "eventId": event.id]
         
         // Configure the trigger
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
@@ -100,7 +105,7 @@ class NotificationService: NSObject {
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 
-    func scheduleNextReminderAfterEvent(_ event: Balizinha.Event) {
+    private func scheduleNextReminderAfterEvent(_ event: Balizinha.Event) {
         //create local notification
         guard let endTime = event.endTime else { return }
         let interval = SettingsService.eventPromptInterval
@@ -108,7 +113,7 @@ class NotificationService: NSObject {
         let message = "Hope you can join for the next event."
         content.title = NSString.localizedUserNotificationString(forKey: "Thanks for coming!", arguments: nil)
         content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
-        content.userInfo = ["type": "nextEventPrompt", "eventId": event.id]
+        content.userInfo = ["type": LocalNotificationType.nextEventPrompt.rawValue, "eventId": event.id]
         
         // Configure the trigger
         let date = endTime.addingTimeInterval(interval)
@@ -119,12 +124,41 @@ class NotificationService: NSObject {
         let request = UNNotificationRequest(identifier: "NextEventPrompt\(event.id)", content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
+    
+    private func scheduleVideoLinkReminder(_ event: Balizinha.Event) {
+        guard let url = event.validVideoUrl else { return }
+        //create local notification which opens the video
+        guard let startTime = event.startTime else { return }
+        let date = startTime // Date() + 5
+
+        let content = UNMutableNotificationContent()
+        let message = "Event starting at \(url.absoluteString)"
+        content.title = NSString.localizedUserNotificationString(forKey: "Join video link?", arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
+        content.userInfo = ["type": LocalNotificationType.videoLinkReminder.rawValue, "eventId": event.id, "url":url.absoluteString]
+        
+        // Configure the trigger
+        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        
+        // Create the request object.
+        let request = UNNotificationRequest(identifier: "VideoLink\(event.id)", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+
+    func scheduleLocalNotifications(for event: Balizinha.Event) {
+        scheduleReminderForUpcomingEvent(event)
+        scheduleNextReminderAfterEvent(event)
+        scheduleVideoLinkReminder(event)
+    }
 
     func removeNotificationsForEvent(_ event: Balizinha.Event) {
         let identifier = "EventReminder\(event.id)"
         removeNotification(id: identifier)
         let identifier2 = "NextEventPrompt\(event.id)"
         removeNotification(id: identifier2)
+        let identifier3 = "VideoLinkPrompt\(event.id)"
+        removeNotification(id: identifier3)
     }
 
     func clearAllNotifications() {
@@ -251,11 +285,11 @@ extension NotificationService: UNUserNotificationCenterDelegate {
         
         // analytics
         LoggingService.shared.log(event: LoggingEvent.PushNotificationReceived, info: ["inApp": true])
-        
-        // Change this to your preferred presentation option
+        handle(notification: userInfo)
+
         completionHandler([])
     }
-    
+
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -308,23 +342,37 @@ extension NotificationService {
     func handle(notification: [AnyHashable: Any]) {
         guard let type = notification["type"] as? String else { return }
         if let actionType = ActionType(rawValue: type) {
-            // handle supported actions
+            // handle supported actions from a remote notification
             switch actionType {
             case .chat, .joinEvent, .createEvent:
                 if let eventId = notification["eventId"] {
                     notify(.DisplayFeaturedEvent, object: nil, userInfo: ["eventId": eventId])
                 }
+            case .cancelEvent:
+                // handle event cancellation
+                notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
             default:
                 break
             }
-        } else if type == "leagueChat" {
+        } else if type == "leagueChat" { // actionType?
             // handle league chat
             if let leagueId = notification["leagueId"] {
                 notify(.DisplayFeaturedLeague, object: nil, userInfo: ["leagueId": leagueId])
             }
-        } else if type == "cancelEvent" {
-            // handle event cancellation
-            notify(NotificationType.EventsChanged, object: nil, userInfo: nil)
+        } else if let localNotificationType = LocalNotificationType(rawValue: type) {
+            switch localNotificationType {
+            case .videoLinkReminder:
+                // handle a video link
+                // TODO: should prompt user whether they want to or not, but if they're in Panna, it's fine.
+                // TODO: needs to find the top viewController
+                if let urlString = notification["url"] as? String, let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
+                    LoggingService.shared.log(event: LoggingEvent.ClickOnVideoLinkNotification, info: ["eventId": notification["eventId"] as? String ?? ""])
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+                break
+            default:
+                break
+            }
         }
     }
 }

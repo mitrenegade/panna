@@ -31,6 +31,7 @@ class SettingsService: NSObject {
         case useGetAvailableEvents
         case ownerAccountSettings
         case organizerDashboard
+        case useVideoLink
 
         // feature values
         case eventReminderInterval
@@ -49,7 +50,8 @@ class SettingsService: NSObject {
                                           SettingsKey.eventReminderInterval.rawValue: 7200,
                                           SettingsKey.eventReminderIntervalShort.rawValue: 15 * 60,
                                           SettingsKey.eventPromptInterval.rawValue: 30 * 60,
-                                          SettingsKey.organizerDashboard.rawValue: true
+                                          SettingsKey.organizerDashboard.rawValue: true,
+                                          SettingsKey.useVideoLink.rawValue: true
                                         ]
 
     static var shared: SettingsService {
@@ -78,6 +80,7 @@ class SettingsService: NSObject {
                     print("Settings: * featureAvailable useGetAvailableEvents \(SettingsService.usesGetAvailableEvents())")
                     print("Settings: * eventFilterRadius \(SettingsService.eventFilterRadius)")
                     print("Settings: * organizerDashboard \(SettingsService.showOrganizerDashboard)")
+                    print("Settings: * useVideoLink \(SettingsService.useVideoLink)")
                     self.recordExperimentGroups()
                     observer.onNext("done")
                 }
@@ -139,6 +142,10 @@ extension SettingsService {
         return false // shared.featureAvailable(.ownerAccountSettings)
     }
     
+    class var useVideoLink: Bool {
+        return shared.featureAvailable(.useVideoLink)
+    }
+
     // remote values
     class var eventFilterRadius: Double {
         let value = shared.featureValue(.eventRadius)

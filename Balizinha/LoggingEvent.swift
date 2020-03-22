@@ -109,6 +109,10 @@ enum LoggingEvent: String {
     case JoinEventClicked
     case LeaveEventClicked
     case OptOutEventClicked
+    
+    // video link
+    case ClickOnVideoLink
+    case ClickOnVideoLinkNotification
 }
 
 enum LoggingKey: String {
