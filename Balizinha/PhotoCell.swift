@@ -1,5 +1,5 @@
 //
-//  EventPhotoCell.swift
+//  PhotoCell.swift
 //  Balizinha
 //
 //  Created by Bobby Ren on 3/17/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EventPhotoCell: UITableViewCell {
+class PhotoCell: UITableViewCell {
     
     @IBOutlet var labelText: UILabel!
     @IBOutlet var photoView: RAImageView!

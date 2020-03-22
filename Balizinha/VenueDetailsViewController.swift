@@ -16,8 +16,8 @@ protocol VenueDetailsDelegate {
 
 class VenueDetailsViewController: UIViewController {
 
-    @IBOutlet weak var photoView: RAImageView!
-    @IBOutlet weak var inputName: UITextField!
+    @IBOutlet weak var tableView: UITableView!
+    
     @IBOutlet weak var buttonAddPhoto: UIButton?
     var existingVenue: Venue? // nil if new venue
     
@@ -37,17 +37,19 @@ class VenueDetailsViewController: UIViewController {
     let cameraHelper = CameraHelper()
     
     var delegate: VenueDetailsDelegate?
+    var tableManager: VenueDetailsTableManager?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        inputName.text = existingVenue?.name ?? name
         
-        refreshPhoto()
         cameraHelper.delegate = self
 
         view.addSubview(activityOverlay)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(didClickSave(_:)))
+        
+        tableManager = VenueDetailsTableManager(venue: existingVenue, tableView: tableView)
+        tableManager?.delegate = self
     }
     
     override func viewDidLayoutSubviews() {
@@ -55,23 +57,8 @@ class VenueDetailsViewController: UIViewController {
         activityOverlay.setup(frame: view.frame)
     }
 
-    @IBAction func didClickButton(_ sender: Any) {
-        view.endEditing(true)
-        cameraHelper.takeOrSelectPhoto(from: self, fromView: buttonAddPhoto, frontFacing: false)
-    }
-    
-    func refreshPhoto() {
-        if let photo = selectedPhoto {
-            photoView?.image = photo
-        } else if let url = existingVenue?.photoUrl {
-            photoView?.imageUrl = url
-        } else {
-            photoView?.imageUrl = nil
-        }
-    }
-    
     @objc func didClickSave(_ sender: Any?) {
-        if let text = inputName.text {
+        if let text = tableManager?.inputName?.text {
             name = text
         }
         view.endEditing(true)
@@ -86,14 +73,16 @@ class VenueDetailsViewController: UIViewController {
             venue.state = state
             venue.lat = lat
             venue.lon = lon
+            if let type = tableManager?.currentType {
+                venue.type = type
+            }
             if let photo = selectedPhoto {
                 uploadPhoto(photo, for: venue) { [weak self] url in
                     venue.photoUrl = url
-                    self?.refreshPhoto()
                     DispatchQueue.main.async {
+                        self?.tableView.reloadData()
                         self?.activityOverlay.hide()
                         self?.delegate?.didFinishUpdatingVenue(venue)
-                        self?.navigationItem.rightBarButtonItem?.isEnabled = true
                     }
                 }
             } else {
@@ -107,7 +96,8 @@ class VenueDetailsViewController: UIViewController {
             // TODO: if new venue, create a venue and add venueId to the event
             guard let player = PlayerService.shared.current.value else { return }
             activityOverlay.show()
-            VenueService.shared.createVenue(userId: player.id, type:.unknown, name: name, street: street, city: city, state: state, lat: lat, lon: lon, placeId: nil) { [weak self] (venue, error) in
+            let type = tableManager?.currentType ?? .unknown
+            VenueService.shared.createVenue(userId: player.id, type:type, name: name, street: street, city: city, state: state, lat: lat, lon: lon, placeId: nil) { [weak self] (venue, error) in
                 guard let venue = venue else {
                     self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error as NSError?)
                     self?.activityOverlay.hide()
@@ -118,15 +108,15 @@ class VenueDetailsViewController: UIViewController {
                     self?.uploadPhoto(photo, for: venue) { url in
                         venue.photoUrl = url
                         DispatchQueue.main.async {
-                            self?.refreshPhoto()
                             self?.activityOverlay.hide()
+                            self?.tableView.reloadData()
                             self?.navigationItem.rightBarButtonItem?.isEnabled = true
                             self?.delegate?.didFinishUpdatingVenue(venue)
                         }
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self?.refreshPhoto()
+                        self?.tableView.reloadData()
                         self?.activityOverlay.hide()
                         self?.navigationItem.rightBarButtonItem?.isEnabled = true
                         self?.delegate?.didFinishUpdatingVenue(venue)
@@ -154,6 +144,14 @@ class VenueDetailsViewController: UIViewController {
     }
 }
 
+// MARK: VenueDetailsTableManagerDelegate
+extension VenueDetailsViewController: VenueDetailsTableManagerDelegate {
+    func selectPhoto() {
+        view.endEditing(true)
+        cameraHelper.takeOrSelectPhoto(from: self, fromView: buttonAddPhoto, frontFacing: false)
+    }
+}
+
 // MARK: Camera
 extension VenueDetailsViewController: CameraHelperDelegate {
     func didCancelSelection() {
@@ -172,7 +170,7 @@ extension VenueDetailsViewController: CameraHelperDelegate {
         let size = CGSize(width: width, height: height)
         let resized = FirebaseImageService.resizeImage(image: image, newSize: size)
         selectedPhoto = resized
-        refreshPhoto()
+        tableView.reloadData()
         dismiss(animated: true, completion: nil)
     }
 }

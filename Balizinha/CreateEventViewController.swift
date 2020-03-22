@@ -578,7 +578,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
         
         switch indexPath.section {
         case Sections.photo.rawValue:
-            let cell: EventPhotoCell = tableView.dequeueReusableCell(withIdentifier: "EventPhotoCell", for: indexPath) as! EventPhotoCell
+            let cell: PhotoCell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as! PhotoCell
             if let photo = newEventImage {
                 cell.photo = photo
             } else if let url = currentEventUrl {
@@ -768,7 +768,7 @@ extension CreateEventViewController: UITableViewDataSource, UITableViewDelegate 
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             })
             
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad), let cell = self.tableView.cellForRow(at: indexPath) as? EventPhotoCell {
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad), let cell = self.tableView.cellForRow(at: indexPath) as? PhotoCell {
                 alert.popoverPresentationController?.sourceView = cell
                 alert.popoverPresentationController?.sourceRect = cell.imagePlus.frame
             }
