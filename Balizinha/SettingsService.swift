@@ -31,6 +31,7 @@ class SettingsService: NSObject {
         case useGetAvailableEvents
         case ownerAccountSettings
         case organizerDashboard
+        case useVideoLink
 
         // feature values
         case eventReminderInterval
@@ -49,7 +50,8 @@ class SettingsService: NSObject {
                                           SettingsKey.eventReminderInterval.rawValue: 7200,
                                           SettingsKey.eventReminderIntervalShort.rawValue: 15 * 60,
                                           SettingsKey.eventPromptInterval.rawValue: 30 * 60,
-                                          SettingsKey.organizerDashboard.rawValue: true
+                                          SettingsKey.organizerDashboard.rawValue: true,
+                                          SettingsKey.useVideoLink.rawValue: true
                                         ]
 
     static var shared: SettingsService {
@@ -139,6 +141,10 @@ extension SettingsService {
         return false // shared.featureAvailable(.ownerAccountSettings)
     }
     
+    class var useVideoLink: Bool {
+        return shared.featureAvailable(.useVideoLink)
+    }
+
     // remote values
     class var eventFilterRadius: Double {
         let value = shared.featureValue(.eventRadius)

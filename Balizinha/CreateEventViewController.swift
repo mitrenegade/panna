@@ -131,6 +131,9 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         if SettingsService.paymentRequired() {
             options.append(.payment)
         }
+        if !SettingsService.useVideoLink, let index = options.firstIndex(of: .videoUrl) {
+            options.remove(at: index)
+        }
         // TODO: make recurrence feature flagged
         
         self.tableView.rowHeight = UITableView.automaticDimension

@@ -203,7 +203,7 @@ class EventDisplayViewController: UIViewController {
 //            }
 //        }
         
-        containerVideoLink?.isHidden = event.validVideoUrl == nil
+        containerVideoLink?.isHidden = event.validVideoUrl == nil || !SettingsService.useVideoLink
         if let urlString = event.validVideoUrl?.absoluteString {
             labelVideoLink?.text = "Join via video: \(urlString)"
         }
