@@ -49,6 +49,7 @@ class VenueDetailsViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(didClickSave(_:)))
         
         tableManager = VenueDetailsTableManager(venue: existingVenue)
+        tableManager?.delegate = self
         tableView.dataSource = tableManager
         tableView.delegate = tableManager
     }
@@ -56,11 +57,6 @@ class VenueDetailsViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         activityOverlay.setup(frame: view.frame)
-    }
-
-    @IBAction func didClickButton(_ sender: Any) {
-        view.endEditing(true)
-        cameraHelper.takeOrSelectPhoto(from: self, fromView: buttonAddPhoto, frontFacing: false)
     }
 
     @objc func didClickSave(_ sender: Any?) {
@@ -144,6 +140,14 @@ class VenueDetailsViewController: UIViewController {
             }
         }
 
+    }
+}
+
+// MARK: VenueDetailsTableManagerDelegate
+extension VenueDetailsViewController: VenueDetailsTableManagerDelegate {
+    func selectPhoto() {
+        view.endEditing(true)
+        cameraHelper.takeOrSelectPhoto(from: self, fromView: buttonAddPhoto, frontFacing: false)
     }
 }
 
