@@ -311,6 +311,7 @@
 		8EC7992A1E3635A0004ACC52 /* Events.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Events.storyboard; sourceTree = "<group>"; };
 		8EC7992C1E3635A8004ACC52 /* Calendar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Calendar.storyboard; sourceTree = "<group>"; };
 		8EC7992E1E3636A0004ACC52 /* EventDetails.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = EventDetails.storyboard; sourceTree = "<group>"; };
+		8ECA808E242B38380044C59B /* Location.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Location.gpx; sourceTree = "<group>"; };
 		8ECD58E01CDF853500AD2B13 /* Splash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Splash.storyboard; sourceTree = "<group>"; };
 		8ECD58E41CDFB7F500AD2B13 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
 		8ECD58E61CDFBF6B00AD2B13 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -540,6 +541,7 @@
 		8E72568D1CDF793100C9E054 = {
 			isa = PBXGroup;
 			children = (
+				8ECA808E242B38380044C59B /* Location.gpx */,
 				8E7256981CDF793200C9E054 /* Balizinha */,
 				8E7F7D8822592C9100AE4C0B /* PannaTests */,
 				8E7256971CDF793100C9E054 /* Products */,
