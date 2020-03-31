@@ -62,6 +62,7 @@ class EventDisplayViewController: UIViewController {
     // video link
     @IBOutlet weak var containerVideoLink: UIView?
     @IBOutlet weak var labelVideoLink: UILabel?
+    @IBOutlet weak var buttonVideoLink: UIButton?
 
     @IBOutlet weak var activityView: UIView!
     weak var delegate: EventDetailsDelegate?
@@ -90,7 +91,16 @@ class EventDisplayViewController: UIViewController {
             return
         }
 
-        let viewModel = EventDetailsViewModel(event: event)
+        guard let player = PlayerService.shared.current.value else {
+            imageShare?.isHidden = true
+            buttonShare?.isHidden = true
+            imageClone?.isHidden = true
+            buttonClone?.isHidden = true
+            
+            self.hideChat()
+            return
+        }
+        let viewModel = EventDetailsViewModel(event: event, player: player)
 
         labelType.text = viewModel.labelTitleText
         labelSpotsLeft.text = viewModel.spotsLeftLabelText
@@ -154,16 +164,6 @@ class EventDisplayViewController: UIViewController {
             handleGuestEvent()
         }
 
-        guard let player = PlayerService.shared.current.value else {
-            imageShare?.isHidden = true
-            buttonShare?.isHidden = true
-            imageClone?.isHidden = true
-            buttonClone?.isHidden = true
-            
-            self.hideChat()
-            return
-        }
-        
         if !event.playerHasResponded(player) && !event.userIsOrganizer() {
             self.hideChat()
         }
@@ -203,15 +203,15 @@ class EventDisplayViewController: UIViewController {
 //            }
 //        }
         
-        containerVideoLink?.isHidden = event.validVideoUrl == nil || !SettingsService.useVideoLink
-        if let urlString = event.validVideoUrl?.absoluteString {
-            labelVideoLink?.text = "Join via video: \(urlString)"
-        }
+        // MARK: videoLink
+        containerVideoLink?.isHidden = viewModel.videoLinkHidden
+        buttonVideoLink?.isEnabled = viewModel.isVideoLinkButtonEnabled
+        labelVideoLink?.text = viewModel.videoLinkLabel
     }
     
     func handleGuestEvent() {
         guard let event = event else { return }
-        let viewModel = EventDetailsViewModel(event: event)
+        let viewModel = EventDetailsViewModel(event: event, player: nil)
         buttonClose?.isHidden = viewModel.buttonCloseHidden
         buttonClose?.isEnabled = viewModel.buttonCloseEnabled
     }
@@ -428,7 +428,7 @@ class EventDisplayViewController: UIViewController {
     @objc func refreshJoin() {
         activityOverlay.hide()
         guard let event = event else { return }
-        let viewModel = EventDetailsViewModel(event: event)
+        let viewModel = EventDetailsViewModel(event: event, player: PlayerService.shared.current.value)
         labelSpotsLeft.text = viewModel.spotsLeftLabelText
 
         if let eventId = DefaultsManager.shared.value(forKey: DefaultsKey.guestEventId.rawValue) as? String, eventId == event.id {
