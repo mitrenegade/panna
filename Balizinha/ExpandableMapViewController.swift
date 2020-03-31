@@ -36,51 +36,54 @@ class ExpandableMapViewController: UIViewController {
         if let venueId = event?.venueId {
             configureForRemoteVenue(venueId)
         } else if let event = event {
-            configureVenueInfo(event)
+            configureVenueInfo(nil)
         }
     }
     
     private func configureForRemoteVenue(_ venueId: String) {
         updateLocationLabel("Loading...")
         VenueService.shared.withId(id: venueId) { [weak self] (result) in
+            guard let self = self else { return }
             if let venue = result as? Venue {
-                if venue.isRemote, let self = self {
+                if venue.isRemote {
                     self.updateLocationLabel(venue.name ?? "Location: Remote")
                     // hide map and disable expansion
                     self.shouldShowMap = false
                     self.buttonExpand.isHidden = true
-                    self.buttonDirections.isHidden = true
+                    self.buttonDirections?.isHidden = true
                     self.mapView.isHidden = true
                     self.delegate?.componentHeightChanged(controller: self, newHeight: self.HEIGHT_NO_LOCATION)
                 } else {
-                    self?.updateLocationLabel(venue.name ?? venue.city ?? venue.latLonString ?? "Location TBA")
+                    self.configureVenueInfo(venue)
                 }
             } else {
-                self?.updateLocationLabel("Location TBA")
+                self.configureVenueInfo(nil)
             }
         }
     }
     
-    private func configureVenueInfo(_ event: Balizinha.Event) {
-        if let place = event.place, let locationString = event.locationString {
+    private func configureVenueInfo(_ venue: Venue?) {
+        if let venueName = venue?.name {
+            updateLocationLabel(venueName)
+        } else if let place = event?.place, let locationString = event?.locationString {
             updateLocationLabel("\(place)\n\(locationString)")
         }
-        else if let place = event.place {
+        else if let place = event?.place {
             updateLocationLabel(place)
         }
         else {
-            updateLocationLabel(event.locationString ?? "Location TBA")
+            updateLocationLabel(event?.locationString ?? "Location TBA")
         }
         
-        if let lat = event.lat, let lon = event.lon {
+        if let lat = event?.lat, let lon = event?.lon {
             let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat, longitude: lon), span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
             mapView.setRegion(region, animated: false)
             
             let annotation = MKPointAnnotation()
             let coordinate = CLLocationCoordinate2DMake(lat, lon)
             annotation.coordinate = coordinate
-            annotation.title = event.name
-            annotation.subtitle = event.locationString
+            annotation.title = event?.name
+            annotation.subtitle = event?.locationString
             mapView.addAnnotation(annotation)
         }
         
