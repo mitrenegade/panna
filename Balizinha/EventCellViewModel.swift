@@ -12,7 +12,8 @@ import Balizinha
 typealias EventStatus = (isPast: Bool, userIsOwner: Bool, userJoined: Bool)
 
 class EventCellViewModel: NSObject {
-    var event: Balizinha.Event
+    let event: Balizinha.Event
+    private var venue: Venue?
 
     private var containsUser: Bool = false
     private var status: (Bool, Bool, Bool, Bool) {
@@ -32,6 +33,16 @@ class EventCellViewModel: NSObject {
         } else {
             containsUser = false
         }
+        
+        super.init()
+
+        if let venueId = event.venueId {
+            VenueService.shared.withId(id: venueId) { [weak self] (result) in
+                if let venue = result as? Venue {
+                    self?.venue = venue
+                }
+            }
+        }
     }
     var titleLabel: String {
         let name = event.name ?? "Balizinha"
@@ -48,6 +59,9 @@ class EventCellViewModel: NSObject {
     }
     
     var placeLabel: String {
+        if let venue = venue, venue.isRemote {
+            return venue.name ?? "Location: Remote"
+        }
         return event.place ?? "Location TBD"
     }
     

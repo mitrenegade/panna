@@ -33,25 +33,46 @@ class ExpandableMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let text: String
-        if let place = event?.place, let locationString = event?.locationString {
-            text = "\(place)\n\(locationString)"
+        if let venueId = event?.venueId {
+            configureForRemoteVenue(venueId)
+        } else if let event = event {
+            configureVenueInfo(event)
         }
-        else if let place = event?.place {
-            text = "\(place)"
+    }
+    
+    private func configureForRemoteVenue(_ venueId: String) {
+        updateLocationLabel("Loading...")
+        VenueService.shared.withId(id: venueId) { [weak self] (result) in
+            if let venue = result as? Venue {
+                if venue.isRemote, let self = self {
+                    self.updateLocationLabel(venue.name ?? "Location: Remote")
+                    // hide map and disable expansion
+                    self.shouldShowMap = false
+                    self.buttonExpand.isHidden = true
+                    self.buttonDirections.isHidden = true
+                    self.mapView.isHidden = true
+                    self.delegate?.componentHeightChanged(controller: self, newHeight: self.HEIGHT_NO_LOCATION)
+                } else {
+                    self?.updateLocationLabel(venue.name ?? venue.city ?? venue.latLonString ?? "Location TBA")
+                }
+            } else {
+                self?.updateLocationLabel("Location TBA")
+            }
+        }
+    }
+    
+    private func configureVenueInfo(_ event: Balizinha.Event) {
+        if let place = event.place, let locationString = event.locationString {
+            updateLocationLabel("\(place)\n\(locationString)")
+        }
+        else if let place = event.place {
+            updateLocationLabel(place)
         }
         else {
-            text = event?.locationString ?? "Location TBA"
+            updateLocationLabel(event.locationString ?? "Location TBA")
         }
         
-        let string = NSMutableAttributedString(string:text, attributes:[NSAttributedString.Key.font: UIFont.montserratMedium(size: 15)])
-        if let locationString = event?.locationString {
-            let range = (text as NSString).range(of: locationString)
-            string.addAttributes([NSAttributedString.Key.font : UIFont.montserrat(size: 14)], range: range)
-        }
-        labelLocation.attributedText = string
-        
-        if let event = event, let lat = event.lat, let lon = event.lon {
+        if let lat = event.lat, let lon = event.lon {
             let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat, longitude: lon), span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
             mapView.setRegion(region, animated: false)
             
@@ -71,6 +92,15 @@ class ExpandableMapViewController: UIViewController {
             mapView.isHidden = true
             delegate?.componentHeightChanged(controller: self, newHeight: HEIGHT_NO_LOCATION)
         }
+    }
+    
+    private func updateLocationLabel(_ text: String) {
+        let string = NSMutableAttributedString(string:text, attributes:[NSAttributedString.Key.font: UIFont.montserratMedium(size: 15)])
+        if let locationString = event?.locationString {
+            let range = (text as NSString).range(of: locationString)
+            string.addAttributes([NSAttributedString.Key.font : UIFont.montserrat(size: 14)], range: range)
+        }
+        labelLocation.attributedText = string
     }
 
     @IBAction func didClickButtonExpand(_ sender: Any?) {
