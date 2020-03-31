@@ -83,7 +83,7 @@ class EventDetailsViewModel: NSObject {
     
     var isVideoLinkButtonEnabled: Bool {
         guard let player = player else { return false }
-        return event.playerHasResponded(player)
+        return event.playerIsAttending(player)
     }
     
     var videoLinkLabel: String {
