@@ -20,6 +20,8 @@ class VenueDetailsTableManager: NSObject {
     private let typePickerView: UIPickerView = UIPickerView()
     private let keyboardDoneButtonView = UIToolbar()
     weak var tableView: UITableView?
+    
+    var selectedPhoto: UIImage?
 
     private enum Row: Int, CaseIterable {
         case photo = 0
@@ -80,6 +82,10 @@ extension VenueDetailsTableManager: UITableViewDataSource, UITableViewDelegate {
             case .photo:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as! PhotoCell
                 cell.url = venue?.photoUrl
+                if let photo = selectedPhoto {
+                    cell.photo = photo
+                    cell.labelText.isHidden = true
+                }
                 return cell
             case .name:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell", for: indexPath) as! DetailCell
