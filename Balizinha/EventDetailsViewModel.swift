@@ -11,12 +11,14 @@ import Balizinha
 
 class EventDetailsViewModel: NSObject {
     let event: Balizinha.Event
+    var player: Player?
     var userType: UserType? // used only to determine isAnonymous for guest users
     let defaults: DefaultsProvider
-    init(event: Balizinha.Event, user: UserType? = AuthService.currentUser, defaults: DefaultsProvider = DefaultsManager.shared) {
+    init(event: Balizinha.Event, user: UserType? = AuthService.currentUser, defaults: DefaultsProvider = DefaultsManager.shared, player: Player?) {
         self.event = event
         userType = user
         self.defaults = defaults
+        self.player = player
     }
     
     var labelTitleText: String {
@@ -72,5 +74,23 @@ class EventDetailsViewModel: NSObject {
             return true
         }
         return false
+    }
+    
+    // MARK: - Videolink
+    var videoLinkHidden: Bool {
+        return event.validVideoUrl == nil || !SettingsService.useVideoLink
+    }
+    
+    var isVideoLinkButtonEnabled: Bool {
+        guard let player = player else { return false }
+        return event.playerIsAttending(player)
+    }
+    
+    var videoLinkLabel: String {
+        guard isVideoLinkButtonEnabled else { return "Join to see video link" }
+        if let urlString = event.validVideoUrl?.absoluteString {
+            return "Join via video: \(urlString)"
+        }
+        return ""
     }
 }
