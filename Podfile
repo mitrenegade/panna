@@ -3,12 +3,12 @@ platform :ios, '10.0'
 use_frameworks!
 
 target 'Panna' do
-#    pod 'Balizinha', :git => 'https://bitbucket.org/renderapps/balizinha-pod', :tag => '1.1.1'
-    pod 'Balizinha', :path => '../balizinha-pod'
+    pod 'Balizinha', :git => 'https://bitbucket.org/renderapps/balizinha-pod', :tag => '1.1.1'
+#    pod 'Balizinha', :path => '../balizinha-pod'
     pod 'RenderPay', :git => 'git@bitbucket.org:renderapps/renderpay.git', :tag=>'0.2.1'
     pod 'RenderCloud', :git => 'git@bitbucket.org:renderapps/RenderCloud.git', :tag=>'1.2.0'
 
-    pod 'RACameraHelper', :git => 'https://github.com/bobbyren/RACameraHelper', :tag => '0.1.6'
+    pod 'RACameraHelper', :git => 'https://github.com/bobbyren/RACameraHelper', :tag => '0.1.7'
 #    pod 'RACameraHelper', :path => '../RACameraHelper'
 
     pod 'Crashlytics', '~> 3.10.7'

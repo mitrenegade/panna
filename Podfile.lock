@@ -179,7 +179,7 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.11.4)
-  - RACameraHelper (0.1.6)
+  - RACameraHelper (0.1.7)
   - RenderCloud (1.2.0)
   - RenderPay (0.2.1):
     - Firebase
@@ -205,7 +205,7 @@ PODS:
   - Stripe (14.0.0)
 
 DEPENDENCIES:
-  - Balizinha (from `../balizinha-pod`)
+  - Balizinha (from `https://bitbucket.org/renderapps/balizinha-pod`, tag `1.1.1`)
   - Batch
   - Crashlytics (~> 3.10.7)
   - DateTools
@@ -217,7 +217,7 @@ DEPENDENCIES:
   - FBSDKMessengerShareKit
   - Firebase/Core
   - Firebase/DynamicLinks
-  - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.6`)
+  - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.7`)
   - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`, tag `1.2.0`)"
   - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`, tag `0.2.1`)"
   - RxCocoa
@@ -269,10 +269,11 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   Balizinha:
-    :path: "../balizinha-pod"
+    :git: https://bitbucket.org/renderapps/balizinha-pod
+    :tag: 1.1.1
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
-    :tag: 0.1.6
+    :tag: 0.1.7
   RenderCloud:
     :git: "git@bitbucket.org:renderapps/RenderCloud.git"
     :tag: 1.2.0
@@ -281,9 +282,12 @@ EXTERNAL SOURCES:
     :tag: 0.2.1
 
 CHECKOUT OPTIONS:
+  Balizinha:
+    :git: https://bitbucket.org/renderapps/balizinha-pod
+    :tag: 1.1.1
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
-    :tag: 0.1.6
+    :tag: 0.1.7
   RenderCloud:
     :git: "git@bitbucket.org:renderapps/RenderCloud.git"
     :tag: 1.2.0
@@ -327,7 +331,7 @@ SPEC CHECKSUMS:
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
-  RACameraHelper: dc96900bfbc38951824e1365afa3fdb87bc37efd
+  RACameraHelper: ff26db7c2d0dc2249905113870361193d2dd2374
   RenderCloud: a53f869bad56edc9476e5d92241e8ac112558686
   RenderPay: b9354fbe1b2523e88e1e1cba07ff96dd8939572f
   RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
@@ -336,6 +340,6 @@ SPEC CHECKSUMS:
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
 
-PODFILE CHECKSUM: 4f268c7df25e9726ac2cfa364127a3ee5c2ff1e2
+PODFILE CHECKSUM: 74b556ba956579c2c6838e60018a851870e45f8c
 
 COCOAPODS: 1.8.4
