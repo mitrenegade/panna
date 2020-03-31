@@ -25,7 +25,7 @@ class EventCellViewModel: NSObject {
     private let _isActive = true
     private let _containsUser = true
 
-    init(event: Balizinha.Event) {
+    init(event: Balizinha.Event, venueLoadCompletion: ((_ placeLabel: String?)->Void)? = nil) {
         self.event = event
         
         if let player = PlayerService.shared.current.value {
@@ -41,6 +41,7 @@ class EventCellViewModel: NSObject {
                 if let venue = result as? Venue {
                     self?.venue = venue
                 }
+                venueLoadCompletion?(self?.placeLabel)
             }
         }
     }
