@@ -202,11 +202,6 @@ class EventDisplayViewController: UIViewController {
 //                })
 //            }
 //        }
-        
-        // MARK: videoLink
-        containerVideoLink?.isHidden = viewModel.videoLinkHidden
-        buttonVideoLink?.isEnabled = viewModel.isVideoLinkButtonEnabled
-        labelVideoLink?.text = viewModel.videoLinkLabel
     }
     
     func handleGuestEvent() {
@@ -386,8 +381,9 @@ class EventDisplayViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
                     NotificationService.shared.removeNotificationsForEvent(event)
-                    
-                    // TODO: update opt out
+
+                    // update opt out button
+                    self?.refreshJoin()
                 }
             }
         }
@@ -460,8 +456,14 @@ class EventDisplayViewController: UIViewController {
             constraintJoinViewHeight.constant = 0
         }
         
+        // opt out
         buttonOptOut?.setTitle(viewModel.buttonOptOutTitle, for: .normal)
         buttonOptOut?.isEnabled = viewModel.buttonOptOutEnabled
+        
+        // videoLink
+        containerVideoLink?.isHidden = viewModel.videoLinkHidden
+        buttonVideoLink?.isEnabled = viewModel.isVideoLinkButtonEnabled
+        labelVideoLink?.text = viewModel.videoLinkLabel
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
