@@ -388,17 +388,20 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                 self.simpleAlert("Invalid selection", message: "Invalid name for selected venue")
                 return
             }
-            guard let newCity = venue.city else {
-                self.simpleAlert("Invalid selection", message: "Invalid city for selected venue")
-                return
-            }
-            guard let newState = venue.state else {
-                self.simpleAlert("Invalid selection", message: "Invalid state for selected venue")
-                return
-            }
             venueName = newName
-            city = newCity
-            state = newState
+            
+            if !venue.isRemote {
+                guard let newCity = venue.city else {
+                    self.simpleAlert("Invalid selection", message: "Invalid city for selected venue")
+                    return
+                }
+                guard let newState = venue.state else {
+                    self.simpleAlert("Invalid selection", message: "Invalid state for selected venue")
+                    return
+                }
+                    city = newCity
+                    state = newState
+            }
         }
 
         guard let eventDate = self.eventDate else {

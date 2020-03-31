@@ -205,7 +205,7 @@ PODS:
   - Stripe (14.0.0)
 
 DEPENDENCIES:
-  - Balizinha (from `https://bitbucket.org/renderapps/balizinha-pod`, tag `1.1.1`)
+  - Balizinha (from `../balizinha-pod`)
   - Batch
   - Crashlytics (~> 3.10.7)
   - DateTools
@@ -269,8 +269,7 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   Balizinha:
-    :git: https://bitbucket.org/renderapps/balizinha-pod
-    :tag: 1.1.1
+    :path: "../balizinha-pod"
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
     :tag: 0.1.7
@@ -282,9 +281,6 @@ EXTERNAL SOURCES:
     :tag: 0.2.1
 
 CHECKOUT OPTIONS:
-  Balizinha:
-    :git: https://bitbucket.org/renderapps/balizinha-pod
-    :tag: 1.1.1
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
     :tag: 0.1.7
@@ -340,6 +336,6 @@ SPEC CHECKSUMS:
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
 
-PODFILE CHECKSUM: 74b556ba956579c2c6838e60018a851870e45f8c
+PODFILE CHECKSUM: 0e2bceaefc47ece079617916ce5c884f3e703ce0
 
 COCOAPODS: 1.8.4

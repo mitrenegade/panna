@@ -33,33 +33,57 @@ class ExpandableMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let text: String
-        if let place = event?.place, let locationString = event?.locationString {
-            text = "\(place)\n\(locationString)"
+        if let venueId = event?.venueId {
+            configureForRemoteVenue(venueId)
+        } else if let event = event {
+            configureVenueInfo(nil)
+        }
+    }
+    
+    private func configureForRemoteVenue(_ venueId: String) {
+        updateLocationLabel("Loading...")
+        VenueService.shared.withId(id: venueId) { [weak self] (result) in
+            guard let self = self else { return }
+            if let venue = result as? Venue {
+                if venue.isRemote {
+                    self.updateLocationLabel(venue.name ?? "Location: Remote")
+                    // hide map and disable expansion
+                    self.shouldShowMap = false
+                    self.buttonExpand.isHidden = true
+                    self.buttonDirections?.isHidden = true
+                    self.mapView.isHidden = true
+                    self.delegate?.componentHeightChanged(controller: self, newHeight: self.HEIGHT_NO_LOCATION)
+                } else {
+                    self.configureVenueInfo(venue)
+                }
+            } else {
+                self.configureVenueInfo(nil)
+            }
+        }
+    }
+    
+    private func configureVenueInfo(_ venue: Venue?) {
+        if let venueName = venue?.name {
+            updateLocationLabel(venueName)
+        } else if let place = event?.place, let locationString = event?.locationString {
+            updateLocationLabel("\(place)\n\(locationString)")
         }
         else if let place = event?.place {
-            text = "\(place)"
+            updateLocationLabel(place)
         }
         else {
-            text = event?.locationString ?? "Location TBA"
+            updateLocationLabel(event?.locationString ?? "Location TBA")
         }
         
-        let string = NSMutableAttributedString(string:text, attributes:[NSAttributedString.Key.font: UIFont.montserratMedium(size: 15)])
-        if let locationString = event?.locationString {
-            let range = (text as NSString).range(of: locationString)
-            string.addAttributes([NSAttributedString.Key.font : UIFont.montserrat(size: 14)], range: range)
-        }
-        labelLocation.attributedText = string
-        
-        if let event = event, let lat = event.lat, let lon = event.lon {
+        if let lat = event?.lat, let lon = event?.lon {
             let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat, longitude: lon), span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
             mapView.setRegion(region, animated: false)
             
             let annotation = MKPointAnnotation()
             let coordinate = CLLocationCoordinate2DMake(lat, lon)
             annotation.coordinate = coordinate
-            annotation.title = event.name
-            annotation.subtitle = event.locationString
+            annotation.title = event?.name
+            annotation.subtitle = event?.locationString
             mapView.addAnnotation(annotation)
         }
         
@@ -71,6 +95,15 @@ class ExpandableMapViewController: UIViewController {
             mapView.isHidden = true
             delegate?.componentHeightChanged(controller: self, newHeight: HEIGHT_NO_LOCATION)
         }
+    }
+    
+    private func updateLocationLabel(_ text: String) {
+        let string = NSMutableAttributedString(string:text, attributes:[NSAttributedString.Key.font: UIFont.montserratMedium(size: 15)])
+        if let locationString = event?.locationString {
+            let range = (text as NSString).range(of: locationString)
+            string.addAttributes([NSAttributedString.Key.font : UIFont.montserrat(size: 14)], range: range)
+        }
+        labelLocation.attributedText = string
     }
 
     @IBAction func didClickButtonExpand(_ sender: Any?) {

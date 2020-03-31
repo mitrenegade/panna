@@ -28,7 +28,6 @@ class SettingsService: NSObject {
         case organizerPayment
         case ownerPayment
         case maps
-        case useGetAvailableEvents
         case ownerAccountSettings
         case organizerDashboard
         case useVideoLink
@@ -45,7 +44,6 @@ class SettingsService: NSObject {
     static let defaults: [String: Any] = [SettingsKey.newestVersionIOS.rawValue: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.1.0",
                                           SettingsKey.eventRadius.rawValue: EVENT_RADIUS_MILES_DEFAULT,
                                           SettingsKey.softUpgradeInterval.rawValue: SOFT_UPGRADE_INTERVAL_DEFAULT,
-                                          SettingsKey.useGetAvailableEvents.rawValue: false,
                                           SettingsKey.paymentRequired.rawValue: true,
                                           SettingsKey.eventReminderInterval.rawValue: 7200,
                                           SettingsKey.eventReminderIntervalShort.rawValue: 15 * 60,
@@ -77,7 +75,6 @@ class SettingsService: NSObject {
                     print("Settings: * featureAvailable maps \(SettingsService.shared.usesMaps)")
                     print("Settings: * showPreview \(SettingsService.shared.featureExperiment(.showPreview)) testGroup \(SettingsService.showPreviewTestGroup())")
                     print("Settings: * newestVersion \(SettingsService.newestVersion)")
-                    print("Settings: * featureAvailable useGetAvailableEvents \(SettingsService.usesGetAvailableEvents())")
                     print("Settings: * eventFilterRadius \(SettingsService.eventFilterRadius)")
                     print("Settings: * organizerDashboard \(SettingsService.showOrganizerDashboard)")
                     print("Settings: * useVideoLink \(SettingsService.useVideoLink)")
@@ -124,10 +121,6 @@ extension SettingsService {
     
     class func ownerPaymentRequired() -> Bool {
         return shared.featureAvailable(.ownerPayment)
-    }
-
-    class func usesGetAvailableEvents() -> Bool {
-        return shared.featureAvailable(.useGetAvailableEvents)
     }
 
     @objc var usesMaps: Bool {

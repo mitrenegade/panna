@@ -31,6 +31,7 @@ class EventCell: UITableViewCell {
     
     var event: Balizinha.Event?
     weak var delegate: EventCellDelegate?
+    var viewModel: EventCellViewModel?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -46,7 +47,9 @@ class EventCell: UITableViewCell {
 
     func setupWithEvent(_ event: Balizinha.Event) {
         self.event = event
-        let viewModel = EventCellViewModel(event: event)
+        let viewModel = EventCellViewModel(event: event) { [weak self] placeLabel in
+            self?.labelLocation.text = placeLabel
+        }
 
         labelName.text = viewModel.titleLabel
         labelType?.text = viewModel.typeLabel
@@ -72,13 +75,13 @@ class EventCell: UITableViewCell {
         labelAttendance.text = viewModel.labelAttendanceText
         
         constraintButtonWidth?.constant = viewModel.buttonWidth
+        self.viewModel = viewModel
     }
 
     @IBAction func didTapButton(_ sender: AnyObject) {
         print("Tapped Cancel/Join")
         guard let event = self.event else { return }
 
-        let viewModel = EventCellViewModel(event: event)
-        viewModel.handleButtonTap(delegate: delegate)
+        viewModel?.handleButtonTap(delegate: delegate)
     }
 }
