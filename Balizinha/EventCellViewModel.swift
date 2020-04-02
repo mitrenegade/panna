@@ -55,8 +55,7 @@ class EventCellViewModel: NSObject {
     }
     
     var typeLabel: String {
-        let type = event.type.rawValue
-        return "(\(type))"
+        return event.typeString
     }
     
     var placeLabel: String {

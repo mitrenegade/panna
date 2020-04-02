@@ -23,7 +23,7 @@ class EventDetailsViewModel: NSObject {
     
     var labelTitleText: String {
         let name = event.name ?? "Balizinha"
-        let type = event.type.rawValue
+        let type = event.typeString
         var title = "\(name)\n\(type)"
         if event.isCancelled {
             title = "\(name)\n🚫 (CANCELLED)\n\(type)"

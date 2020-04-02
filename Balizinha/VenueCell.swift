@@ -31,7 +31,7 @@ class VenueCell: UITableViewCell {
         self.venue = venue
         nameLabel.text = venue.name
         addressLabel.text = venue.shortString
-        typeLabel.text = "\(venue.type)"
+        typeLabel.text = venue.typeString
         if venue.isRemote {
             typeLabel.isHidden = true
         }

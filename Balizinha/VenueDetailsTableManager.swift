@@ -42,7 +42,7 @@ class VenueDetailsTableManager: NSObject {
         tableView?.delegate = self
         setupPicker()
         
-        currentType = venue?.type
+        currentType = nil
     }
     
     func setupPicker() {
@@ -66,7 +66,7 @@ class VenueDetailsTableManager: NSObject {
     }
 
     @objc func cancelSelectingType() {
-        currentType = venue?.type
+        currentType = nil
         doneSelectingType()
     }
 }
@@ -98,7 +98,7 @@ extension VenueDetailsTableManager: UITableViewDataSource, UITableViewDelegate {
             case .type:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "typeCell", for: indexPath) as! DetailCell
                 cell.labelAttribute.text = "Type"
-                cell.valueTextField.text = currentType?.rawValue.capitalized
+                cell.valueTextField.text = currentType?.rawValue.capitalized ?? venue?.typeString
                 cell.valueTextField.placeholder = "Select venue type"
                 inputType = cell.valueTextField
                 inputType?.inputView = typePickerView
