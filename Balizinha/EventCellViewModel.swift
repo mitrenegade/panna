@@ -55,13 +55,12 @@ class EventCellViewModel: NSObject {
     }
     
     var typeLabel: String {
-        let type = event.type.rawValue
-        return "(\(type))"
+        return event.typeString
     }
     
     var placeLabel: String {
         if let venue = venue, venue.isRemote {
-            return venue.name ?? "Location: Remote"
+            return venue.name ?? venue.shortString
         }
         return event.place ?? "Location TBD"
     }
