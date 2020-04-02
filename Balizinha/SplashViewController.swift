@@ -144,12 +144,12 @@ class SplashViewController: UIViewController {
                 }
             }
 
-            LeagueService.shared.leagueMemberships(for: player, completion: { [weak self] _ in
+            LeagueService.shared.getOwnerLeagueIds(for: player) { [weak self] (results) in
                 // causes _playerLeagues to exist, so homeViewController can determine whether user is an owner/organizer
                 DispatchQueue.main.async {
                     self?.goToMain()
                 }
-            })
+            }
         }
     
         // notifications
@@ -203,7 +203,7 @@ class SplashViewController: UIViewController {
         let storyboardName = "Main"
         var sceneId = "PlayerModeTabBarController"
         if SettingsService.showOrganizerDashboard {
-            if LeagueService.shared.playerIsOrganizerForAnyLeague() {
+            if LeagueService.shared.playerIsOwnerForAnyLeague() {
                 sceneId = "OwnerModeTabBarController"
             }
         }

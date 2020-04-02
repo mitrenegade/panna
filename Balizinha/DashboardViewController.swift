@@ -29,8 +29,6 @@ class DashboardViewController: UIViewController {
     var pickerRow: Int = 0
     let leagueInput: UITextField = UITextField()
     
-    private var loaded: Bool = false
-
     private let disposeBag = DisposeBag()
     
     var league: League? {
@@ -46,11 +44,7 @@ class DashboardViewController: UIViewController {
         title = "Dashboard"
         
         setupLeagueSelector()
-        LeagueService.shared.getLeagues { [weak self] (leagues) in
-            self?.loaded = true
-            self?.refreshLeagues()
-            self?.loadCachedLeague()
-        }
+        self.refreshLeagues()
 
         // this log event only happens once per launch but shows when the user does open the dashboard
         LoggingService.shared.log(event: .DashboardTabClicked, info: nil)
@@ -94,15 +88,25 @@ class DashboardViewController: UIViewController {
         if AIRPLANE_MODE {
             leagues = [MockService.mockLeague()]
         } else {
-            leagues = LeagueService.shared.ownerLeagues.sorted(by: { (l1, l2) -> Bool in
-                guard let name1 = l1.name?.lowercased() else { return true }
-                guard let name2 = l2.name?.lowercased() else { return false }
-                return name1 < name2
+            LeagueService.shared.getOwnerLeagues(completion: { [weak self] results in
+                self?.leagues = results.sorted(by: { (l1, l2) -> Bool in
+                    guard let name1 = l1.name?.lowercased() else { return true }
+                    guard let name2 = l2.name?.lowercased() else { return false }
+                    return name1 < name2
+                })
+                self?.loadCachedLeague()
             })
         }
     }
     
     func loadCachedLeague() {
+        if leagues.count == 1 {
+            league = leagues.first
+            pickerRow = 0
+            saveInput()
+            return
+        }
+
         if let leagueId = DefaultsManager.shared.value(forKey: "DashboardLeagueId") as? String {
             league = leagues.first(where: { (l) -> Bool in
                 return l.id == leagueId
@@ -169,10 +173,19 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueSelectorCell", for: indexPath)
             if let league = league {
                 cell.textLabel?.text = league.name ?? "Unnamed league"
-                cell.detailTextLabel?.text = "Click to switch leagues"
+                if leagues.count == 1 {
+                    cell.detailTextLabel?.text = nil
+                } else {
+                    cell.detailTextLabel?.text = "Click to switch leagues"
+                }
             } else {
-                cell.textLabel?.text = "Click to select a league"
-                cell.detailTextLabel?.text = nil
+                if leagues.count == 1 {
+                    cell.textLabel?.text = "Loading..."
+                    cell.detailTextLabel?.text = nil
+                } else {
+                    cell.textLabel?.text = "Click to select a league"
+                    cell.detailTextLabel?.text = nil
+                }
             }
             return cell
         } else {
@@ -193,6 +206,8 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         if row == 0 {
             if leagues.isEmpty {
                 refreshLeagues()
+            } else if leagues.count == 1 {
+                return
             } else {
                 selectLeague(showPrompt: false)
             }
