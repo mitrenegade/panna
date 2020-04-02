@@ -18,6 +18,7 @@ class VenueCell: UITableViewCell {
     @IBOutlet weak var photoView: RAImageView?
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var buttonMap: UIButton?
     @IBOutlet weak var buttonEdit: UIButton?
 
@@ -30,6 +31,10 @@ class VenueCell: UITableViewCell {
         self.venue = venue
         nameLabel.text = venue.name
         addressLabel.text = venue.shortString
+        typeLabel.text = "\(venue.type)"
+        if venue.isRemote {
+            typeLabel.isHidden = true
+        }
         
         if let url = venue.photoUrl {
             photoView?.imageUrl = url
