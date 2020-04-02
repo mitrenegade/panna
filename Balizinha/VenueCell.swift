@@ -29,7 +29,7 @@ class VenueCell: UITableViewCell {
         guard let venue = venue else { return }
         self.venue = venue
         nameLabel.text = venue.name
-        addressLabel.text = venue.shortString ?? nil
+        addressLabel.text = venue.shortString
         
         if let url = venue.photoUrl {
             photoView?.imageUrl = url

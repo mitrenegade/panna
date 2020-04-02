@@ -104,7 +104,7 @@ extension VenuesListViewController {
             let nameMatch = venue.name?.lowercased().contains(currentSearch) ?? false
             let idMatch = venue.id.lowercased().contains(currentSearch)
             let streetMatch = venue.street?.lowercased().contains(currentSearch) ?? false
-            let cityStateMatch = venue.shortString?.lowercased().contains(currentSearch) ?? false
+            let cityStateMatch = venue.shortString.lowercased().contains(currentSearch)
             return nameMatch || idMatch || streetMatch || cityStateMatch
         }
     }

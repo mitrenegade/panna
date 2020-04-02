@@ -17,9 +17,9 @@ class MapService {
         if let place = venue.name {
             query = "\(query) \(place)"
         }
-        if let shortString = venue.shortString {
+        if !venue.shortString.isEmpty {
             // open using city, state
-            query = "\(query) \(shortString)"
+            query = "\(query) \(venue.shortString)"
         }
         queryParams["query"] = query
         if let placeId = venue.placeId {

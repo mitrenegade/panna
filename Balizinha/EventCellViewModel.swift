@@ -61,7 +61,7 @@ class EventCellViewModel: NSObject {
     
     var placeLabel: String {
         if let venue = venue, venue.isRemote {
-            return venue.name ?? "Location: Remote"
+            return venue.name ?? venue.shortString
         }
         return event.place ?? "Location TBD"
     }
