@@ -192,7 +192,7 @@ class NotificationService: NSObject {
         print("PUSH: generating player topics for user \(player.id)")
         refreshedPlayerTopics = true
         let params: [String: Any] = ["userId": player.id]
-        RenderAPIService().cloudFunction(functionName: "refreshAllPlayerTopics", params: params) { (result, error) in
+        Globals.apiService.cloudFunction(functionName: "refreshAllPlayerTopics", params: params) { (result, error) in
             print("Result \(String(describing: result)) error \(String(describing: error))")
         }
     }
@@ -245,7 +245,7 @@ extension NotificationService {
             return
         }
         let params: [String: Any] = ["userId": player.id, "pushEnabled": enabled]
-        RenderAPIService().cloudFunction(functionName: "updateUserNotificationsEnabled", params: params) { (result, error) in
+        Globals.apiService.cloudFunction(functionName: "updateUserNotificationsEnabled", params: params) { (result, error) in
             var userInfo: [String: Any] = ["value": enabled]
             if let error = error {
                 userInfo["error"] = error.localizedDescription

@@ -114,7 +114,7 @@ class JoinEventHelper: NSObject {
         }
         let params: [String: Any] = ["eventId": event.id, "userId": current.id]
         delegate?.startActivityIndicator()
-        RenderAPIService().cloudFunction(functionName: "shouldChargeForEvent", method: "POST", params: params) { [weak self] (result, error) in
+        Globals.apiService.cloudFunction(functionName: "shouldChargeForEvent", method: "POST", params: params) { [weak self] (result, error) in
             DispatchQueue.main.async {
                 if let dict = result as? [String: Any] {
                     let paymentRequired = dict["paymentRequired"] as? Bool ?? false

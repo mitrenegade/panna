@@ -23,7 +23,7 @@ class ChatService: NSObject {
     
     fileprivate class func post(userId: String, eventId: String, message: String) {
         let params: [String: Any] = ["type": ActionType.chat.rawValue, "eventId": eventId, "userId": userId, "message": message]
-        RenderAPIService().cloudFunction(functionName: "postChat", params: params) { (result, error) in
+        Globals.apiService.cloudFunction(functionName: "postChat", params: params) { (result, error) in
             print("Result \(String(describing: result)) error \(String(describing: error))")
         }
     }

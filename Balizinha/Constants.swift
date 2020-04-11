@@ -126,7 +126,9 @@ extension UIFont {
 }
 
 class Globals {
-    static var stripeConnectService: StripeConnectService = StripeConnectService(clientId: TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD)
-    static var stripePaymentService: StripePaymentService = StripePaymentService(apiService: RenderAPIService())
+    static var apiService = RenderAPIService(baseUrl: TESTING ? "https://us-central1-balizinha-dev.cloudfunctions.net/" : "https://us-central1-balizinha-c9cd7.cloudfunctions.net/",
+                                             baseRef: firRef)
+    static var stripeConnectService: StripeConnectService = StripeConnectService(clientId: TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD, apiService: Globals.apiService, baseRef: firRef)
+    static var stripePaymentService: StripePaymentService = StripePaymentService(apiService: Globals.apiService)
 }
 

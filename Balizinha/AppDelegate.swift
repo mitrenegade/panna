@@ -37,8 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let path = filePath, let fileopts = FirebaseOptions.init(contentsOfFile: path) {
             FirebaseApp.configure(options: fileopts)
         }
-        let urlSuffix = TESTING ? "-dev" : "-c9cd7"
-        RenderAPIService.baseURL = URL(string: "https://us-central1-balizinha\(urlSuffix).cloudfunctions.net/")
 
         // Facebook
         AppEvents.activateApp()

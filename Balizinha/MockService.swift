@@ -33,7 +33,7 @@ class MockService: NSObject {
                                                  ref: nil)
         let reference = MockDatabaseReference(snapshot: referenceSnapshot)
         let apiService = MockCloudAPIService(uniqueId: "abc", results: ["success": true])
-        return EventService(reference: reference, apiService: apiService)
+        return EventService(apiService: apiService)
     }
     
     static func mockCityService() -> CityService {
@@ -46,6 +46,6 @@ class MockService: NSObject {
                                                  ref: nil)
         let reference = MockDatabaseReference(snapshot: referenceSnapshot)
         let apiService = MockCloudAPIService(uniqueId: "abc", results: ["success": true])
-        return CityService(reference: reference, apiService: apiService)
+        return CityService(apiService: apiService)
     }
 }

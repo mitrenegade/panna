@@ -87,7 +87,7 @@ class FeedbackViewController: UIViewController {
         cancelInput()
         
         activityOverlay.show()
-        RenderAPIService().cloudFunction(functionName: "submitFeedback", method: "POST", params: params) { [weak self] (result, error) in
+        Globals.apiService.cloudFunction(functionName: "submitFeedback", method: "POST", params: params) { [weak self] (result, error) in
             print("Feedback result \(String(describing: result)) error \(String(describing: error))")
             DispatchQueue.main.async {
                 self?.activityOverlay.hide()
