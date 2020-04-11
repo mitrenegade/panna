@@ -19,6 +19,7 @@ import RxOptional
 import Balizinha
 import RenderCloud
 import FBSDKCoreKit
+import RenderPay
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
