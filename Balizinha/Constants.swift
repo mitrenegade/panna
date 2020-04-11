@@ -10,7 +10,7 @@ import UIKit
 import Foundation
 import FirebaseDatabase
 import FirebaseAuth
-import RenderPay
+import PannaPay
 import RenderCloud
 
 var TESTING = true

@@ -10,6 +10,7 @@ import UIKit
 import FirebaseDatabase
 import Balizinha
 import RenderCloud
+import PannaPay
 
 fileprivate var singleton: RemoteDataService?
 fileprivate var loggingRef: DatabaseReference?

@@ -10,6 +10,7 @@ import UIKit
 import FirebaseDatabase
 import RenderCloud
 import Balizinha
+import PannaPay
 
 fileprivate var singleton: PromotionService?
 

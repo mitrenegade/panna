@@ -13,6 +13,7 @@ import RxSwift
 import Balizinha
 import RenderPay
 import RenderCloud
+import PannaPay
 
 class PaymentCell: UITableViewCell {
 
@@ -45,9 +46,9 @@ class PaymentCell: UITableViewCell {
             print("Working payment source \(paymentSource)")
             
             // call savePaymentInfo only on change
-            let sourceId = paymentSource.stripeID
+            let sourceId = paymentSource.id
             if sourceId != paymentService.storedPaymentSource {
-                paymentService.savePaymentInfo(userId: player.id, source: paymentSource.stripeID, last4: paymentSource.cardDetails?.last4 ?? "", label: paymentSource.label)
+                paymentService.savePaymentInfo(userId: player.id, source: paymentSource.id, last4: paymentSource.last4 ?? "", label: paymentSource.label)
             }
         case .loading, .noCustomer, .noPaymentMethod, .needsRefresh:
             return

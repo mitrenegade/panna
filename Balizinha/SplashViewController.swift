@@ -13,7 +13,6 @@ import Crashlytics
 import FirebaseDatabase
 import FirebaseAuth
 import Balizinha
-import RenderPay
 
 class SplashViewController: UIViewController {
     var handle: AuthStateDidChangeListenerHandle?

@@ -9,7 +9,6 @@
 import UIKit
 import FBSDKLoginKit
 import Balizinha
-import RenderPay
 import RenderCloud
 import RxSwift
 import RxCocoa

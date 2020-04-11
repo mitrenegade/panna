@@ -10,6 +10,7 @@ import UIKit
 import Balizinha
 import RxSwift
 import RenderCloud
+import PannaPay
 
 protocol OnboardingDelegate: class {
     func didJoinAsGuest()
