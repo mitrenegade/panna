@@ -4,15 +4,13 @@ use_frameworks!
 
 target 'Panna' do
     # local development
-    pod 'Balizinha', :path => '../balizinha-pod'
-    pod 'RenderCloud', :path => '../RenderCloud'
-    pod 'RenderPay', :path => '../RenderPay'
-#    pod 'PannaPay', :path => '../PannaPay'
+#    pod 'Balizinha', :path => '../balizinha-pod'
+#    pod 'RenderCloud', :path => '../RenderCloud'
+#    pod 'RenderPay', :path => '../RenderPay'
 
-#    pod 'Balizinha', :git => 'git@bitbucket.org:renderapps/balizinha-pod.git'
-#    pod 'RenderPay', :git => 'git@bitbucket.org:renderapps/renderpay.git'
-#    pod 'RenderCloud', :git => 'git@bitbucket.org:renderapps/RenderCloud.git'
-#    pod 'PannaPay', :git => 'git@bitbucket.org:renderapps/PannaPay.git'
+    pod 'Balizinha', :git => 'git@bitbucket.org:renderapps/balizinha-pod.git'
+    pod 'RenderPay', :git => 'git@bitbucket.org:renderapps/renderpay.git'
+    pod 'RenderCloud', :git => 'git@bitbucket.org:renderapps/RenderCloud.git'
 
     pod 'RACameraHelper', :git => 'https://github.com/bobbyren/RACameraHelper', :tag => '0.1.7'
 #    pod 'RACameraHelper', :path => '../RACameraHelper'
