@@ -13,6 +13,7 @@ import RxSwift
 import Balizinha
 import RenderPay
 import RenderCloud
+import RenderPay
 
 class PaymentCell: UITableViewCell {
 
@@ -27,7 +28,7 @@ class PaymentCell: UITableViewCell {
     fileprivate var disposeBag = DisposeBag()
     
     override func awakeFromNib() {
-        paymentService = Globals.stripePaymentService
+        paymentService = PannaServiceManager.stripePaymentService
         paymentService.statusObserver.distinctUntilChanged({$0 == $1}).subscribe(onNext: { [weak self] status in
             self?.viewModel = PaymentViewModel(status: status, privacy: true)
             self?.refreshPayment(status)
@@ -45,9 +46,9 @@ class PaymentCell: UITableViewCell {
             print("Working payment source \(paymentSource)")
             
             // call savePaymentInfo only on change
-            let sourceId = paymentSource.stripeID
+            let sourceId = paymentSource.id
             if sourceId != paymentService.storedPaymentSource {
-                paymentService.savePaymentInfo(userId: player.id, source: paymentSource.stripeID, last4: paymentSource.cardDetails?.last4 ?? "", label: paymentSource.label)
+                paymentService.savePaymentInfo(userId: player.id, source: paymentSource.id, last4: paymentSource.last4 ?? "", label: paymentSource.label)
             }
         case .loading, .noCustomer, .noPaymentMethod, .needsRefresh:
             return

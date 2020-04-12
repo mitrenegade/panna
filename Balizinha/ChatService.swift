@@ -10,6 +10,7 @@ import UIKit
 import FirebaseDatabase
 import Balizinha
 import RenderCloud
+import RenderPay
 
 class ChatService: NSObject {
     class func createChat(eventId: String, message: String) {
@@ -22,7 +23,7 @@ class ChatService: NSObject {
     
     fileprivate class func post(userId: String, eventId: String, message: String) {
         let params: [String: Any] = ["type": ActionType.chat.rawValue, "eventId": eventId, "userId": userId, "message": message]
-        RenderAPIService().cloudFunction(functionName: "postChat", params: params) { (result, error) in
+        PannaServiceManager.apiService.cloudFunction(functionName: "postChat", params: params) { (result, error) in
             print("Result \(String(describing: result)) error \(String(describing: error))")
         }
     }

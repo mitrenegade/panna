@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import Balizinha
 import RenderCloud
+import RenderPay
 
 protocol CreateEventDelegate: class {
     func eventsDidChange()
@@ -1190,7 +1191,7 @@ extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigati
         self.present(alert, animated: true, completion: nil)
         
         let resized = FirebaseImageService.resizeImageForEvent(image: photo) ?? photo
-        let id = event?.id ?? RenderAPIService().uniqueId()
+        let id = event?.id ?? PannaServiceManager.apiService.uniqueId()
         FirebaseImageService.uploadImage(image: resized, type: .event, uid: id, progressHandler: { (percent) in
             alert.title = "Progress: \(Int(percent*100))%"
         }, completion: { (url) in

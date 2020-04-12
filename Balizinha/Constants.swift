@@ -13,7 +13,7 @@ import FirebaseAuth
 import RenderPay
 import RenderCloud
 
-var TESTING = false
+var TESTING = true
 var AIRPLANE_MODE = false
 
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -123,10 +123,5 @@ extension UIFont {
     class func montserratLight(size: CGFloat) -> UIFont {
         return UIFont(name: "Montserrat-Light", size: size) ?? UIFont.systemFont(ofSize:size)
     }
-}
-
-class Globals {
-    static var stripeConnectService: StripeConnectService = StripeConnectService(clientId: TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD)
-    static var stripePaymentService: StripePaymentService = StripePaymentService(apiService: RenderAPIService())
 }
 

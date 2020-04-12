@@ -16,9 +16,10 @@ import Crashlytics
 import RxSwift
 import Stripe
 import RxOptional
-import Balizinha
 import RenderCloud
 import FBSDKCoreKit
+import RenderPay
+import Balizinha
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -36,8 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let path = filePath, let fileopts = FirebaseOptions.init(contentsOfFile: path) {
             FirebaseApp.configure(options: fileopts)
         }
-        let urlSuffix = TESTING ? "-dev" : "-c9cd7"
-        RenderAPIService.baseURL = URL(string: "https://us-central1-balizinha\(urlSuffix).cloudfunctions.net/")
 
         // Facebook
         AppEvents.activateApp()
@@ -46,9 +45,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Background fetch
         application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
         
-        let STRIPE_KEY = TESTING ? STRIPE_KEY_DEV : STRIPE_KEY_PROD
-        STPPaymentConfiguration.shared().publishableKey = STRIPE_KEY
-
         let _ = SettingsService.shared
 
         // handle any deeplink
@@ -65,6 +61,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Messaging service delegate - for data messages
         Messaging.messaging().delegate = NotificationService.shared
 
+        // Balizinha services
+        
+        PannaServiceManager.configure(baseUrl: TESTING ? "https://us-central1-balizinha-dev.cloudfunctions.net/" : "https://us-central1-balizinha-c9cd7.cloudfunctions.net/",
+                                      baseRef: firRef,
+                                      stripeClientId: TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD);
         let _ = LeagueService.shared
         
         // GMSServices.provideAPIKey(TESTING ? GOOGLE_API_KEY_DEV : GOOGLE_API_KEY_PROD)

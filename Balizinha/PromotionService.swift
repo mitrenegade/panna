@@ -10,6 +10,7 @@ import UIKit
 import FirebaseDatabase
 import RenderCloud
 import Balizinha
+import RenderPay
 
 fileprivate var singleton: PromotionService?
 
@@ -33,7 +34,7 @@ class PromotionService: NSObject {
     // service protocols
     fileprivate let ref: Reference
     fileprivate let apiService: CloudAPIService
-    public init(reference: Reference = firRef, apiService: CloudAPIService = RenderAPIService()) {
+    public init(reference: Reference = firRef, apiService: CloudAPIService = PannaServiceManager.apiService) {
         ref = reference
         self.apiService = apiService
         super.init()

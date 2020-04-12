@@ -1,17 +1,7 @@
 PODS:
-  - Balizinha (1.1.3):
-    - Firebase
-    - Firebase/Analytics
-    - Firebase/Auth
-    - Firebase/Core
-    - Firebase/Database
-    - Firebase/Messaging
-    - Firebase/RemoteConfig
-    - Firebase/Storage
+  - Balizinha (1.2.0):
     - RenderCloud
-    - RxCocoa
-    - RxOptional
-    - RxSwift
+    - RenderPay
   - Batch (1.14.0)
   - Crashlytics (3.10.9):
     - Fabric (~> 1.7.13)
@@ -55,8 +45,6 @@ PODS:
     - FBSDKCoreKit (~> 5.0)
   - Firebase (6.6.0):
     - Firebase/Core (= 6.6.0)
-  - Firebase/Analytics (6.6.0):
-    - Firebase/Core
   - Firebase/Auth (6.6.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.2.2)
@@ -180,19 +168,19 @@ PODS:
   - nanopb/encode (0.3.901)
   - Protobuf (3.11.4)
   - RACameraHelper (0.1.7)
-  - RenderCloud (1.2.0)
-  - RenderPay (0.2.1):
+  - RenderCloud (2.0.1):
     - Firebase
     - Firebase/Auth
     - Firebase/Core
     - Firebase/Database
     - Firebase/RemoteConfig
     - Firebase/Storage
+  - RenderPay (1.0.1):
     - RenderCloud
     - RxCocoa
     - RxOptional
     - RxSwift
-    - Stripe
+    - Stripe (~> 14.0)
   - RxCocoa (5.0.0):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
@@ -205,7 +193,7 @@ PODS:
   - Stripe (14.0.0)
 
 DEPENDENCIES:
-  - Balizinha (from `https://bitbucket.org/renderapps/balizinha-pod`, tag `1.1.3`)
+  - Balizinha (from `../balizinha-pod`)
   - Batch
   - Crashlytics (~> 3.10.7)
   - DateTools
@@ -217,9 +205,10 @@ DEPENDENCIES:
   - FBSDKMessengerShareKit
   - Firebase/Core
   - Firebase/DynamicLinks
+  - Firebase/Messaging
   - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.7`)
-  - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`, tag `1.2.0`)"
-  - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`, tag `0.2.1`)"
+  - RenderCloud (from `../RenderCloud`)
+  - RenderPay (from `../RenderPay`)
   - RxCocoa
   - RxOptional
   - RxSwift
@@ -269,34 +258,22 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   Balizinha:
-    :git: https://bitbucket.org/renderapps/balizinha-pod
-    :tag: 1.1.3
+    :path: "../balizinha-pod"
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
     :tag: 0.1.7
   RenderCloud:
-    :git: "git@bitbucket.org:renderapps/RenderCloud.git"
-    :tag: 1.2.0
+    :path: "../RenderCloud"
   RenderPay:
-    :git: "git@bitbucket.org:renderapps/renderpay.git"
-    :tag: 0.2.1
+    :path: "../RenderPay"
 
 CHECKOUT OPTIONS:
-  Balizinha:
-    :git: https://bitbucket.org/renderapps/balizinha-pod
-    :tag: 1.1.3
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
     :tag: 0.1.7
-  RenderCloud:
-    :git: "git@bitbucket.org:renderapps/RenderCloud.git"
-    :tag: 1.2.0
-  RenderPay:
-    :git: "git@bitbucket.org:renderapps/renderpay.git"
-    :tag: 0.2.1
 
 SPEC CHECKSUMS:
-  Balizinha: 223c46599c7a04fb80c744beeb5e01e7e311a3b0
+  Balizinha: cad622ade7ee43b3f2c6f5ad7a6713530212161b
   Batch: 9c598ff59877bfa8384ec6ae41274745faf3b5cb
   Crashlytics: 55e24fc23989680285a21cb1146578d9d18e432c
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
@@ -332,14 +309,14 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   RACameraHelper: ff26db7c2d0dc2249905113870361193d2dd2374
-  RenderCloud: a53f869bad56edc9476e5d92241e8ac112558686
-  RenderPay: b9354fbe1b2523e88e1e1cba07ff96dd8939572f
+  RenderCloud: 6994a8f41fcacfcd758d294316003403294c93f4
+  RenderPay: 30c0bdacc803cf108892c8be8e7761f7b8fdbfb4
   RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
   RxOptional: 9904e2219d59260c3c171273d475b2126de187e8
   RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
 
-PODFILE CHECKSUM: bec5b602bd7841cde0c4084e9e2edff64172ea23
+PODFILE CHECKSUM: c59e5703a4f3a55c76008f679401459caeda4d41
 
 COCOAPODS: 1.8.4

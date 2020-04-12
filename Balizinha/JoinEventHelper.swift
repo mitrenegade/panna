@@ -11,8 +11,10 @@ import Stripe
 import Balizinha
 import RenderPay
 import RenderCloud
+import RenderPay
 import RxSwift
 import RxCocoa
+import RenderPay
 
 protocol JoinEventDelegate: class {
     func startActivityIndicator()
@@ -29,7 +31,7 @@ class JoinEventHelper: NSObject {
     private var disposeBag: DisposeBag = DisposeBag()
     var amountRequired: Double = 0
 
-    init(paymentService: StripePaymentService = Globals.stripePaymentService) {
+    init(paymentService: StripePaymentService = PannaServiceManager.stripePaymentService) {
         self.paymentService = paymentService
     }
 
@@ -112,7 +114,7 @@ class JoinEventHelper: NSObject {
         }
         let params: [String: Any] = ["eventId": event.id, "userId": current.id]
         delegate?.startActivityIndicator()
-        RenderAPIService().cloudFunction(functionName: "shouldChargeForEvent", method: "POST", params: params) { [weak self] (result, error) in
+        PannaServiceManager.apiService.cloudFunction(functionName: "shouldChargeForEvent", method: "POST", params: params) { [weak self] (result, error) in
             DispatchQueue.main.async {
                 if let dict = result as? [String: Any] {
                     let paymentRequired = dict["paymentRequired"] as? Bool ?? false
