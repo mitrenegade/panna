@@ -61,8 +61,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Messaging service delegate - for data messages
         Messaging.messaging().delegate = NotificationService.shared
 
+        let STRIPE_KEY = TESTING ? STRIPE_KEY_DEV : STRIPE_KEY_PROD
+        STPPaymentConfiguration.shared().publishableKey = STRIPE_KEY
+
         // Balizinha services
-        
         PannaServiceManager.configure(baseUrl: TESTING ? "https://us-central1-balizinha-dev.cloudfunctions.net/" : "https://us-central1-balizinha-c9cd7.cloudfunctions.net/",
                                       baseRef: firRef,
                                       stripeClientId: TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD);
