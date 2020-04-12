@@ -34,7 +34,7 @@ class LoggingService: NSObject, LoggingProvider {
 
     fileprivate func writeLog(event: LoggingEvent, info: [String: Any]?) {
         let eventString = event.rawValue
-        let id = Globals.apiService.uniqueId()
+        let id = PannaServiceManager.apiService.uniqueId()
         guard let ref = loggingRef?.child(eventString).child(id) else { return }
         var params = info ?? [:]
         params["timestamp"] = Date().timeIntervalSince1970

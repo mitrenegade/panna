@@ -44,7 +44,7 @@ class ShareService: NSObject {
             share(from: controller, message: "Are you up for playing pickup with us? Join the event here: \(link)")
         } else {
             // for old events, generate a link and attempt to share it. remove this in 1.0.7
-            Globals.apiService.cloudFunction(functionName: "generateShareLink", params: ["type": "events", "id": event.id]) { [weak self] (result, error) in
+            PannaServiceManager.apiService.cloudFunction(functionName: "generateShareLink", params: ["type": "events", "id": event.id]) { [weak self] (result, error) in
                 DispatchQueue.main.async {
                     if let result = result as? [String: Any], let link = result["shareLink"] as? String {
                         self?.share(from: controller, message: "Are you up for playing pickup with us? Join the event here: \(link)")
@@ -61,7 +61,7 @@ class ShareService: NSObject {
             share(from: controller, message: "Join my league and play some pickup: \(link)")
         } else {
             // for old events, generate a link and attempt to share it. remove this in 1.0.7
-            Globals.apiService.cloudFunction(functionName: "generateShareLink", params: ["type": "leagues", "id": league.id]) { [weak self] (result, error) in
+            PannaServiceManager.apiService.cloudFunction(functionName: "generateShareLink", params: ["type": "leagues", "id": league.id]) { [weak self] (result, error) in
                 DispatchQueue.main.async {
                     if let result = result as? [String: Any], let link = result["shareLink"] as? String {
                         self?.share(from: controller, message: "Join my league and play some pickup: \(link)")

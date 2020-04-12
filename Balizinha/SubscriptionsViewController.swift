@@ -22,7 +22,7 @@ import RenderCloud
 import RenderPay
 
 class SubscriptionsViewController: UIViewController {
-    let service: StripePaymentService = StripePaymentService(apiService: Globals.apiService)
+    let service: StripePaymentService = StripePaymentService(apiService: PannaServiceManager.apiService)
     
     @IBOutlet weak var tableView: UITableView!
     var isLoading: Bool = true

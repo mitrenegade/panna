@@ -28,7 +28,7 @@ class PaymentCell: UITableViewCell {
     fileprivate var disposeBag = DisposeBag()
     
     override func awakeFromNib() {
-        paymentService = Globals.stripePaymentService
+        paymentService = PannaServiceManager.stripePaymentService
         paymentService.statusObserver.distinctUntilChanged({$0 == $1}).subscribe(onNext: { [weak self] status in
             self?.viewModel = PaymentViewModel(status: status, privacy: true)
             self?.refreshPayment(status)

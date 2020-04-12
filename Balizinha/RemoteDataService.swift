@@ -43,7 +43,7 @@ class RemoteDataService: NSObject {
     }
     
     func post(userId: String, message: String) {
-        let id = Globals.apiService.uniqueId()
+        let id = PannaServiceManager.apiService.uniqueId()
         guard let ref = loggingRef?.child(userId).child(id) else { return }
         let params: [AnyHashable: Any] = ["message": message, "unread": true]
         ref.updateChildValues(params)

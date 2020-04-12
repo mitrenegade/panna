@@ -34,7 +34,7 @@ class PromotionService: NSObject {
     // service protocols
     fileprivate let ref: Reference
     fileprivate let apiService: CloudAPIService
-    public init(reference: Reference = firRef, apiService: CloudAPIService = Globals.apiService) {
+    public init(reference: Reference = firRef, apiService: CloudAPIService = PannaServiceManager.apiService) {
         ref = reference
         self.apiService = apiService
         super.init()

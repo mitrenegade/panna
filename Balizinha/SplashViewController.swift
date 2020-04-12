@@ -126,8 +126,8 @@ class SplashViewController: UIViewController {
             }
             
             // start loading stripe account info
-            Globals.stripeConnectService.startListeningForAccount(userId: player.id)
-            Globals.stripePaymentService.startListeningForAccount(userId: player.id)
+            PannaServiceManager.stripeConnectService.startListeningForAccount(userId: player.id)
+            PannaServiceManager.stripePaymentService.startListeningForAccount(userId: player.id)
             
             if AuthService.shared.hasFacebookProvider {
                 FacebookService.downloadFacebookInfo { (image, name, error) in
@@ -167,7 +167,7 @@ class SplashViewController: UIViewController {
             self.goToSignupLogin()
         }
         
-        Globals.stripePaymentService.resetOnLogout()
+        PannaServiceManager.stripePaymentService.resetOnLogout()
         OrganizerService.resetOnLogout()
         
         LeagueService.shared.resetOnLogout()
