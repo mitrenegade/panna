@@ -404,6 +404,13 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
                     state = newState
             }
         }
+        
+        if let urlString = videoUrl {
+            if Balizinha.Event.validUrl(urlString) == nil {
+                self.simpleAlert("Invalid video link", message: "Please check that you have entered the correct url.")
+                return
+            }
+        }
 
         guard let eventDate = self.eventDate else {
             self.simpleAlert("Invalid selection", message: "Please select the event date")
