@@ -11,7 +11,7 @@ import FirebaseDatabase
 import FirebaseAnalytics
 import Balizinha
 import RenderCloud
-import PannaPay
+import RenderPay
 
 fileprivate var singleton: LoggingService?
 fileprivate var loggingRef: DatabaseReference?

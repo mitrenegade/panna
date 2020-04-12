@@ -10,7 +10,7 @@ import UIKit
 import FirebaseDatabase
 import Balizinha
 import RenderCloud
-import PannaPay
+import RenderPay
 
 class ChatService: NSObject {
     class func createChat(eventId: String, message: String) {

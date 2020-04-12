@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import Balizinha
 import RenderCloud
-import PannaPay
+import RenderPay
 
 protocol CreateEventDelegate: class {
     func eventsDidChange()

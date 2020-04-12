@@ -11,10 +11,10 @@ import Stripe
 import Balizinha
 import RenderPay
 import RenderCloud
-import PannaPay
+import RenderPay
 import RxSwift
 import RxCocoa
-import PannaPay
+import RenderPay
 
 protocol JoinEventDelegate: class {
     func startActivityIndicator()

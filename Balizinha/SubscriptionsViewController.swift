@@ -19,7 +19,7 @@
 import UIKit
 import Balizinha
 import RenderCloud
-import PannaPay
+import RenderPay
 
 class SubscriptionsViewController: UIViewController {
     let service: StripePaymentService = StripePaymentService(apiService: Globals.apiService)

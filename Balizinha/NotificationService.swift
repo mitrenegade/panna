@@ -16,7 +16,7 @@ import RxSwift
 import RxOptional
 import Balizinha
 import RenderCloud
-import PannaPay
+import RenderPay
 
 let gcmMessageIDKey = "gcm.message_id"
 

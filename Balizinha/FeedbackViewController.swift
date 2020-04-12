@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import Balizinha
 import RenderCloud
-import PannaPay
+import RenderPay
 
 class FeedbackViewController: UIViewController {
 

@@ -11,7 +11,7 @@ import MessageUI
 import Balizinha
 import FBSDKShareKit
 import RenderCloud
-import PannaPay
+import RenderPay
 
 enum ShareMethod: String {
     case copy

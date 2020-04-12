@@ -10,7 +10,7 @@ import UIKit
 import Foundation
 import FirebaseDatabase
 import FirebaseAuth
-import PannaPay
+import RenderPay
 import RenderCloud
 
 var TESTING = true
@@ -128,7 +128,7 @@ extension UIFont {
 class Globals {
     static var apiService = RenderAPIService(baseUrl: TESTING ? "https://us-central1-balizinha-dev.cloudfunctions.net/" : "https://us-central1-balizinha-c9cd7.cloudfunctions.net/",
                                              baseRef: firRef)
-    static var stripeConnectService: StripeConnectService = StripeConnectService(clientId: TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD, apiService: Globals.apiService, baseRef: firRef)
+    static var stripeConnectService: StripeConnectService = StripeConnectService(clientId: TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD, apiService: Globals.apiService)
     static var stripePaymentService: StripePaymentService = StripePaymentService(apiService: Globals.apiService)
 }
 

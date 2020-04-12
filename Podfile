@@ -7,7 +7,7 @@ target 'Panna' do
     pod 'Balizinha', :path => '../balizinha-pod'
     pod 'RenderCloud', :path => '../RenderCloud'
     pod 'RenderPay', :path => '../RenderPay'
-    pod 'PannaPay', :path => '../PannaPay'
+#    pod 'PannaPay', :path => '../PannaPay'
 
 #    pod 'Balizinha', :git => 'git@bitbucket.org:renderapps/balizinha-pod.git'
 #    pod 'RenderPay', :git => 'git@bitbucket.org:renderapps/renderpay.git'
@@ -29,6 +29,7 @@ target 'Panna' do
     pod 'DateTools'
     pod 'Firebase/DynamicLinks'
     pod 'Firebase/Core'
+    pod 'Firebase/Messaging'
 
     pod 'Batch'
 

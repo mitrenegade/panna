@@ -13,7 +13,7 @@ import RxSwift
 import Balizinha
 import RenderPay
 import RenderCloud
-import PannaPay
+import RenderPay
 
 class PaymentCell: UITableViewCell {
 
