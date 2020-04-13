@@ -405,8 +405,11 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             }
         }
         
+        var newVideoUrl: String? = nil//Balizinha.Event.validUrl(videoUrl)?.absoluteString
         if let urlString = videoUrl {
-            if Balizinha.Event.validUrl(urlString) == nil {
+            if let url = Balizinha.Event.validUrl(urlString) {
+                newVideoUrl = url.absoluteString
+            } else {
                 self.simpleAlert("Invalid video link", message: "Please check that you have entered the correct url.")
                 return
             }
@@ -473,9 +476,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
             if let venueId = venue?.id {
                 dict["venueId"] = venueId
             }
-            if let url = Balizinha.Event.validUrl(videoUrl) {
-                dict["videoUrl"] = url.absoluteString
-            }
+            dict["videoUrl"] = newVideoUrl
             event.dict = dict
             event.firebaseRef?.updateChildValues(dict) // update all these values without multiple update calls
 
@@ -501,8 +502,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         else {
             activityOverlay.show()
-            let url: String? = Balizinha.Event.validUrl(videoUrl)?.absoluteString
-            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .other, venue: venue, startTime: start, endTime: end, recurrence: self.recurrence, recurrenceEndDate: self.recurrenceDate, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, videoUrl: url, completion: { [weak self] (event, error) in
+            EventService.shared.createEvent(self.name ?? "Balizinha", type: self.type ?? .other, venue: venue, startTime: start, endTime: end, recurrence: self.recurrence, recurrenceEndDate: self.recurrenceDate, maxPlayers: maxPlayers, info: self.info, paymentRequired: self.paymentRequired, amount: self.amount, leagueId: league?.id, videoUrl: newVideoUrl, completion: { [weak self] (event, error) in
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.activityOverlay.hide()
