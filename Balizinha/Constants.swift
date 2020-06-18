@@ -13,7 +13,7 @@ import FirebaseAuth
 import RenderPay
 import RenderCloud
 
-var TESTING = false
+var TESTING = true
 var AIRPLANE_MODE = false
 
 enum UserSettings: String {
