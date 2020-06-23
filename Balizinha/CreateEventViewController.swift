@@ -406,7 +406,7 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
         
         var newVideoUrl: String? = nil//Balizinha.Event.validUrl(videoUrl)?.absoluteString
-        if let urlString = videoUrl {
+        if let urlString = videoUrl, !urlString.isEmpty {
             if let url = Balizinha.Event.validUrl(urlString) {
                 newVideoUrl = url.absoluteString
             } else {

@@ -147,5 +147,9 @@ extension VenuesListViewController: VenueCellDelegate {
         // show venue details
         // if viewing/editing venue, go to venue creation page
         performSegue(withIdentifier: "toLocationSearch", sender: venue)
+        
+        // logging
+        let info = ["venueId": venue.id]
+        LoggingService.shared.log(event: .EditVenue, info: info)
     }
 }
