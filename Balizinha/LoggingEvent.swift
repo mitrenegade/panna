@@ -90,6 +90,7 @@ enum LoggingEvent: String {
     case ShowVenueLocationOnMap
     case FilterVenueBySearchTerm
     case CreateVenueStarted
+    case EditVenue
     
     // recurring events
     case RecurringEventToggled
