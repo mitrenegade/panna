@@ -196,10 +196,19 @@ class PlayerInfoViewController: UIViewController {
         
         if let text = self.inputName.text, text.count > 0 {
             player.name = text
-        }
-        else if isCreatingPlayer {
+        } else if isCreatingPlayer {
             self.simpleAlert("Please enter a name", message: "Our players would like to know what to call you.")
             return
+        }
+        
+        if isCreatingPlayer {
+            if cityHelper?.currentCityId == nil {
+                // on signup, must enter city
+                self.simpleAlert("Please select your city", message: "Pick or add a city so you can find nearby events.")
+            } else {
+                // make sure city updates - might not if user clicks "Save"
+                player.cityId = cityHelper?.currentCityId
+            }
         }
         
         if let text = inputNotes.text, !text.isEmpty {
