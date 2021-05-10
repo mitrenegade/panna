@@ -37,6 +37,8 @@ target 'Panna' do
     pod 'RxCocoa'
     pod 'RxOptional'
 
+    pod 'RealmSwift'
+
     target 'PannaTests' do
        inherit! :search_paths
     end
