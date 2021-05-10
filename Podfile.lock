@@ -227,7 +227,7 @@ DEPENDENCIES:
   - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.7`)
   - RealmSwift
   - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`)"
-  - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`)"
+  - RenderPay (from `../RenderPay`)
   - RxCocoa
   - RxOptional
   - RxSwift
@@ -283,7 +283,7 @@ EXTERNAL SOURCES:
   RenderCloud:
     :git: "git@bitbucket.org:renderapps/RenderCloud.git"
   RenderPay:
-    :git: "git@bitbucket.org:renderapps/renderpay.git"
+    :path: "../RenderPay"
 
 CHECKOUT OPTIONS:
   Balizinha:
@@ -295,9 +295,6 @@ CHECKOUT OPTIONS:
   RenderCloud:
     :commit: 2578b09325faaa55466469fa5046dea5e6af7ea1
     :git: "git@bitbucket.org:renderapps/RenderCloud.git"
-  RenderPay:
-    :commit: 85aff7b43c386cdffd791c6d577121dce8596bdf
-    :git: "git@bitbucket.org:renderapps/renderpay.git"
 
 SPEC CHECKSUMS:
   Balizinha: e13b6b7cf72ed3f4182c0a60001606f389eb0adb
@@ -343,6 +340,6 @@ SPEC CHECKSUMS:
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
   Stripe: 25c07000e7e86ffc53da0e41a5dd1bce30470fe0
 
-PODFILE CHECKSUM: 34650460df94c85ee9d184d58131c142109fdae5
+PODFILE CHECKSUM: 1ee7df69d4ce45511c6701e7ee5fd89b2a76b715
 
 COCOAPODS: 1.10.1

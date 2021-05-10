@@ -6,10 +6,10 @@ target 'Panna' do
     # local development
 #    pod 'Balizinha', :path => '../balizinha-pod'
 #    pod 'RenderCloud', :path => '../RenderCloud'
-#    pod 'RenderPay', :path => '../RenderPay'
+    pod 'RenderPay', :path => '../RenderPay'
 
     pod 'Balizinha', :git => 'git@bitbucket.org:renderapps/balizinha-pod.git'
-    pod 'RenderPay', :git => 'git@bitbucket.org:renderapps/renderpay.git'
+#    pod 'RenderPay', :git => 'git@bitbucket.org:renderapps/renderpay.git'
     pod 'RenderCloud', :git => 'git@bitbucket.org:renderapps/RenderCloud.git'
 
     pod 'RACameraHelper', :git => 'https://github.com/bobbyren/RACameraHelper', :tag => '0.1.7'
